@@ -1,0 +1,5 @@
+// Import QGDS Global styles, these are inherited by all components
+// https: //developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Inheritance#properties_that_inherit_by_default
+@use "tokens";
+@use "functions";
+@use "palettes";
