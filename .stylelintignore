@@ -1,0 +1,18 @@
+# Build outputs
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Coverage
+coverage/
+
+# JavaScript/TypeScript files
+*.js
+*.ts
+*.mjs
+
+# Cache
+.vite/
+.cache/

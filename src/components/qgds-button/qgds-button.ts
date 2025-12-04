@@ -5,8 +5,8 @@ import { customElement, property } from "lit/decorators.js";
 // If your vite config's `?inline` import truly provides a string, this is correct.
 import componentCSS from "./qgds-button.css?inline";
 
-console.log("Type of componentCSS:", typeof componentCSS);
-console.log("Value of componentCSS:", componentCSS);
+// console.log("Type of componentCSS:", typeof componentCSS);
+// console.log("Value of componentCSS:", componentCSS);
 
 // Define types for properties to ensure type safety and better autocompletion
 type ButtonVariant = "default" | "bold" | "strong" | "dark" | "alt" | "tint";

@@ -4,7 +4,7 @@ $palettes: bright, tint, alt, bold, strong, dark;
 $states: (
   "": default,
   ":hover": hover,
-  ":active": active
+  ":active": active,
 ); // Note: ':hover' and ':active' are pseudo-classes on the *button*
 
 $props: background, text, border;
@@ -20,12 +20,12 @@ $props: background, text, border;
     //    Example: <div palette="bold"> <button></button> </div> -> div[palette="bold"] button:hover
     [palette="#{$palette}"] button#{$pseudo} {
       @each $prop in $props {
-        --#{$prop}: var(--palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
-          #{
- // Fallback values: can add a map if needed
-          if($prop ==background or $prop ==border, #09549f, #ffffff)
-        });
+        --#{$prop}: var(
+          --palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
+          #{// Fallback values: can add a map if needed
+          if($prop == background or $prop == border, #09549f, #fff)}
+        );
+      }
     }
   }
-}
 }
