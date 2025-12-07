@@ -1,0 +1,30 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "scss/at-mixin-argumentless-call-parentheses": "always",
+    "selector-type-no-unknown": [
+      true,
+      {
+        "ignore": ["custom-elements"]
+      }
+    ],
+    "scss/at-rule-no-unknown": true,
+    "color-function-notation": "modern",
+    "alpha-value-notation": "number",
+    "import-notation": "string",
+    "scss/load-no-partial-leading-underscore": true,
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["part"]
+      }
+    ]
+  },
+  "ignoreFiles": [
+    "dist/**/*",
+    "node_modules/**/*",
+    "coverage/**/*",
+    "**/*.js",
+    "**/*.ts"
+  ]
+}
