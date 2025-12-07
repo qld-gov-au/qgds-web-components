@@ -1,0 +1,17 @@
+:root {
+  --border-radius: 0.25rem;
+  --text-decoration: none;
+  --text-decoration-hover: underline;
+  --qgds-font-family:
+    "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --shadow-default: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+}
+
+html {
+  all: unset;
+  box-sizing: border-box;
+  font-family: var(--qgds-font-family);
+  line-height: 1;
+  font-size: 1rem;
+}

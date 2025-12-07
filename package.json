@@ -11,7 +11,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "http-server dist -p 8090"
+    "serve": "http-server dist -p 8090",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
@@ -21,7 +23,17 @@
     "sass": "^1.70.0",
     "typescript": "^5.0.0",
     "vite": "^5.0.0",
-    "vite-plugin-static-copy": "^3.1.4"
+    "vite-plugin-static-copy": "^3.1.4",
+    "storybook": "^10.1.2",
+    "@storybook/web-components-vite": "^10.1.2",
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-vitest": "^10.1.2",
+    "@storybook/addon-a11y": "^10.1.2",
+    "@storybook/addon-docs": "^10.1.2",
+    "vitest": "^4.0.14",
+    "playwright": "^1.57.0",
+    "@vitest/browser-playwright": "^4.0.14",
+    "@vitest/coverage-v8": "^4.0.14"
   },
   "author": "",
   "license": "ISC",
