@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+
+# Validate commit message follows conventional commits format
+# Similar to Bootstrap's commit message validation
+
+commit_msg=$(cat "$1")
+commit_regex='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.+\))?: .{1,}'
+
+if ! echo "$commit_msg" | grep -qE "$commit_regex"; then
+    echo "ERROR: Invalid commit message format"
+    echo ""
+    echo "Commit messages must follow the conventional commits format:"
+    echo "  <type>(<scope>): <subject>"
+    echo ""
+    echo "Types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+    echo ""
+    echo "Example: feat(button): add new primary button variant"
+    echo "Example: fix: resolve navigation issue"
+    exit 1
+fi
