@@ -20,13 +20,12 @@ $props: background, text, border;
     // 2. The 'palette' attribute is on a parent container, AND its descendant <button> is in the specified state.
     //    Example: <div palette="bold"> <button></button> </div> -> div[palette="bold"] button:hover
     [palette="#{$palette}"] button#{$pseudo} {
-        @each $prop in $props {
-          --#{$prop}: var(
-            --palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
-            #{// Fallback values: can add a map if needed
-            if($prop ==background or $prop ==border, #09549f, #ffffff)}
-          );
-        }
+      @each $prop in $props {
+        --#{$prop}: var(
+          --palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
+          #{// Fallback values: can add a map if needed
+          if($prop == background or $prop == border, #09549f, #fff)}
+        );
       }
     }
   }
