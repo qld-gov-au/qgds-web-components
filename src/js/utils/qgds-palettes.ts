@@ -8,7 +8,7 @@ export const paletteVariants = [
 ];
 
 export function PaletteBackgrounds() {
-  let mappedStyles = paletteVariants.map(
+  const mappedStyles = paletteVariants.map(
     (variant) => `
       :host([${variant}]) {
         background-color: var(--palette-${variant}-background);
