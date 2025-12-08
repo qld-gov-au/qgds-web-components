@@ -1,0 +1,30 @@
+@use "../qgds-tokens";
+
+@mixin css() {
+  :root,
+  [data-qgds-theme="light"] {
+    @extend %qgds-color-palette-light-global;
+    @extend %qgds-color-palette-light-bright;
+  }
+
+  .bright {
+    @extend %qgds-color-palette-light-bright;
+  }
+
+  .tint {
+    @extend %qgds-color-palette-light-tint;
+  }
+
+  .alt {
+    @extend %qgds-color-palette-light-alt;
+  }
+
+  .bold {
+    @extend %qgds-color-palette-light-bold;
+  }
+
+  // [data-qgds-theme="dark"] {
+  //   @extend %qgds-color-palette-dark-global;
+  //   @extend %qgds-color-palette-dark-bright; // weird huh?
+  // }
+}

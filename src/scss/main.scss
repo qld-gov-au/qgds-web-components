@@ -1,5 +1,26 @@
 // Import QGDS Global styles, these are inherited by all components
 // https: //developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Inheritance#properties_that_inherit_by_default
-@use "tokens";
-@use "functions";
-@use "palettes";
+
+// Ordering of styles should in general follow ITCSS principles. https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture
+// Component styles should not be placed in global CSS.
+
+@use "base/animations";
+@use "base/elements";
+@use "base/globals";
+@use "base/palettes";
+@use "utilities";
+
+@layer base, components, utilities; /* Defines named layers and their order */
+
+@layer base {
+  @include globals.css();
+  @include animations.css();
+  @include elements.css();
+  @include palettes.css();
+}
+
+// @layer components - Loaded Component styles will be scoped here
+
+@layer utilities {
+  @include utilities.css();
+}

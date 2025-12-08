@@ -4,28 +4,30 @@ $palettes: bright, tint, alt, bold, strong, dark;
 $states: (
   "": default,
   ":hover": hover,
-  ":active": active
+  ":active": active,
 ); // Note: ':hover' and ':active' are pseudo-classes on the *button*
 
 $props: background, text, border;
 
-@each $palette in $palettes {
-  @each $pseudo, $state in $states {
-    // Combined selector to cover the two remaining scenarios:
-    // 1. The 'palette' attribute is on the <button> element itself, AND the button is in the specified state.
-    //    Example: <button palette="bold"></button> -> button[palette="bold"]:hover
-    button[palette="#{$palette}"]#{$pseudo},
+@layer components {
+  @each $palette in $palettes {
+    @each $pseudo, $state in $states {
+      // Combined selector to cover the two remaining scenarios:
+      // 1. The 'palette' attribute is on the <button> element itself, AND the button is in the specified state.
+      //    Example: <button palette="bold"></button> -> button[palette="bold"]:hover
+      button[palette="#{$palette}"]#{$pseudo},
 
     // 2. The 'palette' attribute is on a parent container, AND its descendant <button> is in the specified state.
     //    Example: <div palette="bold"> <button></button> </div> -> div[palette="bold"] button:hover
     [palette="#{$palette}"] button#{$pseudo} {
-      @each $prop in $props {
-        --#{$prop}: var(--palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
-          #{
- // Fallback values: can add a map if needed
-          if($prop ==background or $prop ==border, #09549f, #ffffff)
-        });
+        @each $prop in $props {
+          --#{$prop}: var(
+            --palette-#{$palette}-action-button-primary-#{$state}-#{$prop},
+            #{// Fallback values: can add a map if needed
+            if($prop ==background or $prop ==border, #09549f, #ffffff)}
+          );
+        }
+      }
     }
   }
-}
 }
