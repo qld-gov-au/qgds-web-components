@@ -15,17 +15,3 @@
   --button-text-decoration: none;
   --button-text-decoration-hover: underline;
 }
-
-button,
-a {
-  all: unset;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
