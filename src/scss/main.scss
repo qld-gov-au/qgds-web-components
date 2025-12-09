@@ -3,3 +3,36 @@
 @use "tokens";
 @use "functions";
 @use "palettes";
+
+
+// Below are global styles applied to the entire document
+// These are just placeholder styles, can be customized as needed
+
+:root {
+    --border-radius: 0.25rem;
+    --text-decoration: none;
+    --text-decoration-hover: underline;
+    --qgds-font-family:
+    "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html {
+    all: unset;
+    box-sizing: border-box;
+    font-family: var(--qgds-font-family);
+    line-height: 1;
+    font-size: 1rem;
+}
+button,
+a {
+  all: unset;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

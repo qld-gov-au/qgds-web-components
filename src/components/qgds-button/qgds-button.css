@@ -1,117 +1,17 @@
 :host {
+  display: inline-flex;
+  font-family: var(--qgds-font-family);
+  
+  --button-background: #007bff;
+  --button-text: #ffffff;
+  --button-border-color: #007bff; 
+  --palette-primary-background: pink;
+  --palette-primary-text: black;
+  --button-disabled-background: #cccccc;
+  --button-disabled-text: #666666;
+  --button-disabled-border-color: #999999;
   --border-radius: 4px;
-}
-
-:host-context([palette="strong"]) {
-  --button-background: var(--palette-strong-action-button-primary-default-background);
-  --button-text: var(--palette-strong-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-strong-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-strong-action-button-primary-default-border);
-  --button-hover-background: var(--palette-strong-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-strong-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-strong-action-button-primary-hover-border);
-  --button-active-background: var(--palette-strong-action-button-primary-active-background);
-  --button-active-text: var(--palette-strong-action-button-primary-active-text);
-  --button-active-border: var(--palette-strong-action-button-primary-active-border);
-  --button-focus-background: var(--palette-strong-action-button-primary-default-border);
-  --button-focus-text: var(--palette-strong-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-strong-action-button-primary-active-border);
-}
-
-:host-context([palette="dark"]) {
-  --button-background: var(--palette-dark-action-button-primary-default-background);
-  --button-text: var(--palette-dark-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-dark-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-dark-action-button-primary-default-border);
-  --button-hover-background: var(--palette-dark-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-dark-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-dark-action-button-primary-hover-border);
-  --button-active-background: var(--palette-dark-action-button-primary-active-background);
-  --button-active-text: var(--palette-dark-action-button-primary-active-text);
-  --button-active-border: var(--palette-dark-action-button-primary-active-border);
-  --button-focus-background: var(--palette-dark-action-button-primary-default-border);
-  --button-focus-text: var(--palette-dark-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-dark-action-button-primary-active-border);
-}
-
-:host-context([palette="bright"]) {
-  --button-background: var(--palette-bright-action-button-primary-default-background);
-  --button-text: var(--palette-bright-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-bright-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-bright-action-button-primary-default-border);
-  --button-hover-background: var(--palette-bright-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-bright-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-bright-action-button-primary-hover-border);
-  --button-active-background: var(--palette-bright-action-button-primary-active-background);
-  --button-active-text: var(--palette-bright-action-button-primary-active-text);
-  --button-active-border: var(--palette-bright-action-button-primary-active-border);
-  --button-focus-background: var(--palette-bright-action-button-primary-default-border);
-  --button-focus-text: var(--palette-bright-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-bright-action-button-primary-active-border);
-}
-
-:host-context([palette="alt"]) {
-  --button-background: var(--palette-alt-action-button-primary-default-background);
-  --button-text: var(--palette-alt-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-alt-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-alt-action-button-primary-default-border);
-  --button-hover-background: var(--palette-alt-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-alt-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-alt-action-button-primary-hover-border);
-  --button-active-background: var(--palette-alt-action-button-primary-active-background);
-  --button-active-text: var(--palette-alt-action-button-primary-active-text);
-  --button-active-border: var(--palette-alt-action-button-primary-active-border);
-  --button-focus-background: var(--palette-alt-action-button-primary-default-border);
-  --button-focus-text: var(--palette-alt-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-alt-action-button-primary-active-border);
-}
-
-:host-context([palette="bold"]) {
-  --button-background: var(--palette-bold-action-button-primary-default-background);
-  --button-text: var(--palette-bold-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-bold-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-bold-action-button-primary-default-border);
-  --button-hover-background: var(--palette-bold-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-bold-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-bold-action-button-primary-hover-border);
-  --button-active-background: var(--palette-bold-action-button-primary-active-background);
-  --button-active-text: var(--palette-alt-action-button-primary-active-text);
-  --button-active-border: var(--palette-alt-action-button-primary-active-border);
-  --button-focus-background: var(--palette-alt-action-button-primary-default-border);
-  --button-focus-text: var(--palette-alt-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-alt-action-button-primary-active-border);
-}
-
-:host-context([palette="tint"]) {
-  --button-background: var(--palette-tint-action-button-primary-default-background);
-  --button-text: var(--palette-tint-action-button-primary-default-text);
-  --button-text-decoration: var(--palette-tint-action-button-primary-default-text-decoration);
-  --button-border-color: var(--palette-tint-action-button-primary-default-border);
-  --button-hover-background: var(--palette-tint-action-button-primary-hover-background);
-  --button-hover-text: var(--palette-tint-action-button-primary-hover-text);
-  --button-hover-border: var(--palette-tint-action-button-primary-hover-border);
-  --button-active-background: var(--palette-tint-action-button-primary-active-background);
-  --button-active-text: var(--palette-tint-action-button-primary-active-text);
-  --button-active-border: var(--palette-tint-action-button-primary-active-border);
-  --button-focus-background: var(--palette-tint-action-button-primary-default-border);
-  --button-focus-text: var(--palette-tint-action-button-primary-hover-border);
-  --button-focus-border: var(--palette-tint-action-button-primary-active-border);
-}
-
-@media (prefers-color-scheme: dark) {
-  [palette] {
-    --button-background: var(--palette-dark-action-button-primary-default-background);
-    --button-text: var(--palette-dark-action-button-primary-default-text);
-    --button-text-decoration: var(--palette-dark-action-button-primary-default-text-decoration);
-    --button-border-color: var(--palette-dark-action-button-primary-default-border);
-    --button-hover-background: var(--palette-dark-action-button-primary-hover-background);
-    --button-hover-text: var(--palette-dark-action-button-primary-hover-text);
-    --button-hover-border: var(--palette-dark-action-button-primary-hover-border);
-    --button-active-background: var(--palette-dark-action-button-primary-active-background);
-    --button-active-text: var(--palette-dark-action-button-primary-active-text);
-    --button-active-border: var(--palette-dark-action-button-primary-active-border);
-    --button-focus-background: var(--palette-dark-action-button-primary-default-border);
-    --button-focus-text: var(--palette-dark-action-button-primary-hover-border);
-    --button-focus-border: var(--palette-dark-action-button-primary-active-border);
-  }
+  --button-border-width: 2px;
+  --button-text-decoration: none;
+  --button-text-decoration-hover: underline;
 }
