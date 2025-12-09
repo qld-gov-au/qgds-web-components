@@ -3,13 +3,13 @@
   font-family: var(--qgds-font-family);
   
   --button-background: #007bff;
-  --button-text: #ffffff;
+  --button-text: #fff;
   --button-border-color: #007bff; 
   --palette-primary-background: pink;
   --palette-primary-text: black;
-  --button-disabled-background: #cccccc;
-  --button-disabled-text: #666666;
-  --button-disabled-border-color: #999999;
+  --button-disabled-background: #ccc;
+  --button-disabled-text: #666;
+  --button-disabled-border-color: #999;
   --border-radius: 4px;
   --button-border-width: 2px;
   --button-text-decoration: none;
