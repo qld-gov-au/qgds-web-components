@@ -18,6 +18,7 @@ export default tseslint.config(
       '**/*.config.js',
       '**/*.config.ts',
       '**/_archive/**',
+      '**/.storybook/**',
     ],
   },
 
