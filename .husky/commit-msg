@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+# Validate commit message follows conventional commits format
+# Similar to Bootstrap's commit message validation
+
+commit_msg=$(cat "$1")
+commit_regex='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test|BREAKING CHANGE)(\(.+\))?!?: .{1,}$'
+
+if ! echo "$commit_msg" | grep -qE "$commit_regex"; then
+    echo "ERROR: Invalid commit message format"
+    echo ""
+    echo "Commit messages must follow the conventional commits format:"
+    echo "  <type>(<scope>): <subject>"
+    echo "  <type>(<scope>)!: <subject>"
+    echo "  BREAKING CHANGE: <subject>  (breaking change)"
+    echo ""
+    echo "Types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+    echo ""
+    echo "Examples:"
+    echo "  feat(button): add new primary button variant"
+    echo "  fix: resolve navigation issue"
+    echo "  feat(tokens)!: update color token naming convention"
+    echo "  BREAKING CHANGE: remove deprecated size prop from Button component"
+    exit 1
+fi

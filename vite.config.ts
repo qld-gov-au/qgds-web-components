@@ -77,6 +77,34 @@ export default defineConfig({
   },
   test: {
     projects: [
+      // Unit tests project
+      {
+        test: {
+          name: "unit",
+          include: ["src/**/*.test.ts"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({}),
+            instances: [
+              {
+                browser: "chromium",
+              },
+            ],
+          },
+          coverage: {
+            provider: "v8",
+            reporter: ["text", "json", "html"],
+            include: ["src/**/*.ts"],
+            exclude: [
+              "src/**/*.test.ts",
+              "src/**/*.stories.ts",
+              "src/**/*.d.ts",
+            ],
+          },
+        },
+      },
+      // Storybook tests project
       {
         extends: true,
         plugins: [

@@ -13,7 +13,7 @@
     --text-decoration: none;
     --text-decoration-hover: underline;
     --qgds-font-family:
-    "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    "Nunito Sans", "Helvetica Neue", helvetica, arial, sans-serif;
 }
 
 html {
@@ -23,6 +23,7 @@ html {
     line-height: 1;
     font-size: 1rem;
 }
+
 button,
 a {
   all: unset;
