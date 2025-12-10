@@ -26,5 +26,8 @@
   "somesass.scss.hover.documentation": true,
   "somesass.scss.links.enabled": true,
   "somesass.scss.selectionRanges.enabled": true,
-  "somesass.workspace.exclude": ["**/.git/**", "**/node_modules/**", "dist/"]
+  "somesass.workspace.exclude": ["**/.git/**", "**/node_modules/**", "dist/"],
+  "[scss]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode"
+  }
 }

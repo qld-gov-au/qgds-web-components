@@ -1,7 +1,9 @@
-// Import QGDS Global styles, these are inherited by all components
+// QGDS Global styles, these are inherited by all components
 // https: //developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Inheritance#properties_that_inherit_by_default
 
 // Ordering of styles should in general follow ITCSS principles. https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture
+// This file is for ordering and organising styles, do not write CSS directly here.
+// In order to output CSS within @layer scope, wrap it in a css() mixin and call that mixin here. (meta.load-css could also work).
 // Component styles should not be placed in global CSS.
 
 @use "base/animations";
