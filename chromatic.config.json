@@ -1,0 +1,9 @@
+{
+  "projectId": "PROJECT_ID",
+  "buildScriptName": "build-storybook",
+  "onlyChanged": true,
+  "exitZeroOnChanges": true,
+  "externals": ["dist/**", "build/**", "coverage/**"],
+  "skip": "dependabot/**",
+  "autoAcceptChanges": "main"
+}
