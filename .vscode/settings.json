@@ -1,0 +1,33 @@
+{
+  "editor.defaultFormatter": "prettier.prettier-vscode",
+  "somesass.css.codeAction.enabled": true,
+  "somesass.css.colors.enabled": true,
+  "somesass.css.completion.enabled": true,
+  "somesass.css.definition.enabled": true,
+  "somesass.css.diagnostics.enabled": true,
+  "somesass.css.documentSymbols.enabled": true,
+  "somesass.css.foldingRanges.enabled": true,
+  "somesass.css.highlights.enabled": true,
+  "somesass.css.hover.enabled": true,
+  "somesass.css.links.enabled": true,
+  "somesass.css.references.enabled": true,
+  "somesass.css.rename.enabled": true,
+  "somesass.css.selectionRanges.enabled": true,
+  "somesass.css.signatureHelp.enabled": true,
+  "somesass.css.workspaceSymbol.enabled": true,
+  "somesass.scss.colors.includeFromCurrentDocument": true,
+  "somesass.scss.completion.css": true,
+  "somesass.scss.completion.includeFromCurrentDocument": true,
+  "somesass.scss.completion.mixinStyle": "bracket",
+  "somesass.scss.completion.suggestFromUseOnly": true,
+  "somesass.scss.diagnostics.lint.enabled": true,
+  "somesass.scss.foldingRanges.enabled": true,
+  "somesass.scss.highlights.enabled": true,
+  "somesass.scss.hover.documentation": true,
+  "somesass.scss.links.enabled": true,
+  "somesass.scss.selectionRanges.enabled": true,
+  "somesass.workspace.exclude": ["**/.git/**", "**/node_modules/**", "dist/"],
+  "[scss]": {
+    "editor.defaultFormatter": "prettier.prettier-vscode"
+  }
+}

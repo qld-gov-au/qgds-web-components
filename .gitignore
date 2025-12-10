@@ -2,7 +2,6 @@ node
 node_modules
 .env
 .DS_Store
-.vscode
 storybook-static/
 build-storybook.log
 docs/

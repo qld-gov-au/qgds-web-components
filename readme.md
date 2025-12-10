@@ -12,3 +12,12 @@ To begin working with the current state of the components, clone the repository:
 ```bash
 git clone https://github.com/qld-gov-au/qgds-web-components.git
 cd qgds-web-components
+```
+
+## VS Code Extensions
+See `.vscode/extension.json` for recommended extensions.
+
+### Some Sass
+For the best experience follow [these instructions to turn off built in CSS language features](https://wkillerud.github.io/some-sass/user-guide/settings.html#going-all-in-on-some-sass) .
+
+

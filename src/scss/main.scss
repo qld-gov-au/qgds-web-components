@@ -1,39 +1,28 @@
-// Import QGDS Global styles, these are inherited by all components
+// QGDS Global styles, these are inherited by all components
 // https: //developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascade/Inheritance#properties_that_inherit_by_default
-@use "tokens";
-@use "functions";
-@use "palettes";
 
+// Ordering of styles should in general follow ITCSS principles. https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture
+// This file is for ordering and organising styles, do not write CSS directly here.
+// In order to output CSS within @layer scope, wrap it in a css() mixin and call that mixin here. (meta.load-css could also work).
+// Component styles should not be placed in global CSS.
 
-// Below are global styles applied to the entire document
-// These are just placeholder styles, can be customized as needed
+@use "base/animations";
+@use "base/elements";
+@use "base/globals";
+@use "base/palettes";
+@use "utilities";
 
-:root {
-    --border-radius: 0.25rem;
-    --text-decoration: none;
-    --text-decoration-hover: underline;
-    --qgds-font-family:
-    "Nunito Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+@layer base, components, utilities; /* Defines named layers and their order */
+
+@layer base {
+  @include globals.css();
+  @include animations.css();
+  @include elements.css();
+  @include palettes.css();
 }
 
-html {
-    all: unset;
-    box-sizing: border-box;
-    font-family: var(--qgds-font-family);
-    line-height: 1;
-    font-size: 1rem;
-}
+// @layer components - Loaded Component styles will be scoped here
 
-button,
-a {
-  all: unset;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+@layer utilities {
+  @include utilities.css();
 }
