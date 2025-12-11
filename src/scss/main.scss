@@ -11,7 +11,6 @@
 @use "base/globals";
 @use "base/palettes";
 @use "utilities";
-
 @layer base, components, utilities; /* Defines named layers and their order */
 
 @layer base {
