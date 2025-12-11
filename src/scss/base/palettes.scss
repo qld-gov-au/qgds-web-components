@@ -3,24 +3,24 @@
 @mixin css() {
   :root,
   [data-qgds-theme="light"] {
-    @extend %qgds-color-palette-light-global;
-    @extend %qgds-color-palette-light-bright;
+    @extend %qgds-color-palette-light-global !optional;
+    @extend %qgds-color-palette-light-bright !optional;
   }
 
   .bright {
-    @extend %qgds-color-palette-light-bright;
+    @extend %qgds-color-palette-light-bright !optional;
   }
 
   .tint {
-    @extend %qgds-color-palette-light-tint;
+    @extend %qgds-color-palette-light-tint !optional;
   }
 
   .alt {
-    @extend %qgds-color-palette-light-alt;
+    @extend %qgds-color-palette-light-alt !optional;
   }
 
   .bold {
-    @extend %qgds-color-palette-light-bold;
+    @extend %qgds-color-palette-light-bold !optional;
   }
 
   // [data-qgds-theme="dark"] {
