@@ -74,7 +74,7 @@ jobs:
         run: npm rebuild && npm run prepare --if-present
 
       - name: Install Playwright browsers
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps chromium
 
       - name: Lint
         run: |
