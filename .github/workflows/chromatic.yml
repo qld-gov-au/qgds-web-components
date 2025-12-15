@@ -1,23 +1,20 @@
-# This workflow will run chromatic build on specific branches. We separated out the chromatic job to make sure it run on manual trigger and
-# restricted to push on specific branches and pull requests like before
+# Chromatic Visual Regression Testing
+# VALIDATION WORKFLOW - Must pass before PR can be merged
+# Runs on pull requests targeting develop or main
 #
 # TurboSnap Performance: This workflow enables TurboSnap for efficient visual regression testing.
-# The build step regenerates handlebars.partials.js which can trigger false cache invalidation.
-# Mitigations applied:
-# - Deterministic file ordering in .esbuild/plugins/qgds-plugin-handlebar-partial-builder.js
-# - Generated files excluded from linting to prevent formatting changes
 
 name: Chromatic
 permissions:
   contents: read
+  pull-requests: write
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - develop
       - master
-  pull_request:
   workflow_dispatch:
 
 concurrency:
