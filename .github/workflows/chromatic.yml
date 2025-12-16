@@ -74,10 +74,6 @@ jobs:
         run: |
           npm run lint
 
-      - name: Build
-        run: | # build the files
-          npm run build
-
       - name: Build Storybook
         run: | # build the Storybook files
           if [ "${{ vars.ENABLE_STORYBOOK_THEMES }}" == "true" ]; then
