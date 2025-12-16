@@ -70,9 +70,19 @@ jobs:
       - name: Rebuild and prepare
         run: npm rebuild && npm run prepare --if-present
 
+      - name: Install Rollup binary
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       - name: Lint
         run: |
           npm run lint
+
+      - name: Build
+        run: | # build the files
+          npm run build
 
       - name: Build Storybook
         run: | # build the Storybook files
