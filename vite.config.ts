@@ -58,13 +58,13 @@ export default defineConfig({
       plugins: [],
     },
   },
-  //vite plugins
+  // vite plugins
   plugins: [
     viteStaticCopy({
       targets: [
         {
           src: "src/templates/index.html",
-          dest: "",
+          dest: "dist/",
         },
       ],
     }) as any,
