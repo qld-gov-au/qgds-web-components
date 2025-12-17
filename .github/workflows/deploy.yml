@@ -11,16 +11,9 @@ permissions:
   id-token: write
 
 on:
-  # TEMPORARY: Execute on each push for testing
-  push:
-    branches:
-      - main
-      - develop
-      - '**'  # All branches for testing
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   # Triggers after CI workflow completes on main or develop
-  # TODO: Remove push trigger above after testing, keep only workflow_run
   workflow_run:
     workflows: [CI] # References the CI workflow name
     branches: [main, develop]
