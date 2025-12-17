@@ -18,6 +18,11 @@ on:
     workflows: [CI] # References the CI workflow name
     branches: [main, develop]
     types: [completed]
+  # Also trigger on direct push to develop/main (e.g., after PR merge)
+  push:
+    branches:
+      - develop
+      - main
 
 concurrency:
   group: deploy-${{ github.workflow }}-${{ github.ref }}
