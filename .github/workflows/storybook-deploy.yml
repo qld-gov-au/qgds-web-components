@@ -2,7 +2,7 @@
 # POST-PR DEPLOYMENT WORKFLOW
 # Runs after CI workflow completes successfully on main or develop
 
-name: Deploy
+name: Storybook Deploy
 
 permissions:
   contents: read
