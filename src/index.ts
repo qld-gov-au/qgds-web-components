@@ -9,6 +9,8 @@
 // =============================================================================
 export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
+export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
+
 // etc...
 
 // =============================================================================
