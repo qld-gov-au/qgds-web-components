@@ -6,7 +6,7 @@ describe("qgds-callout", () => {
   let element: QGDSCallout;
 
   beforeEach(() => {
-    element = document.createElement("qgds-callout") as QGDSCallout;
+    element = document.createElement("qgds-callout");
     document.body.appendChild(element);
   });
 
