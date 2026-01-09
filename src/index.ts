@@ -1,11 +1,25 @@
-// Import supporting functions
-// import QGDSFunctions from "./js/utils/qgds-functions.js";
+/**
+ * Queensland Government Design System (QGDS) - Web Component Library
+ *
+ * @packageDocumentation
+ */
 
-// Explorative only - can be removed if not needed
-// import { PaletteBackgrounds } from "./js/utils/qgds-palettes.js";
-// import { bubbleAllEvents } from "./js/utils/bubble-events.js";
+// =============================================================================
+// QGDS Components
+// =============================================================================
+export { QGDSButton } from "./components/qgds-button/qgds-button";
+export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
+export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
+// etc
 
-// Components.js
-import "./components/qgds-inpage-alert/qgds-inpage-alert.ts";
-import "./components/qgds-callout/qgds-callout.ts";
-import "./components/qgds-button/qgds-button.ts";
+// =============================================================================
+// Export Custom Types
+// =============================================================================
+//export type { AlertType } from "./components/qgds-alert/qgds-alert";
+// etc...
+
+// =============================================================================
+// Package Metadata
+// =============================================================================
+// export const VERSION = "1.0.0";
+// export const PACKAGE_NAME = "@qld-gov-au/qgds-web-components";
