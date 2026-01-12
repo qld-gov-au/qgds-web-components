@@ -36,13 +36,13 @@ export class QGDSInpageNav extends LitElement {
       }
 
       /* General styling rules matching QGDS SCSS implementation */
-      .qld-inpage-nav {
+      nav {
         border-left: 4px solid var(--qld-inpage-nav-border-color);
         padding-left: var(--qld-inpage-nav-padding-left);
         font-family: var(--qgds-font-family);
       }
 
-      ul.nav {
+      ul {
         display: flex;
         flex-direction: column;
         padding-left: 0;
@@ -50,19 +50,19 @@ export class QGDSInpageNav extends LitElement {
         list-style: none;
       }
 
-      .nav-title {
+      h2 {
         font-size: 1rem;
         line-height: 1.25;
         margin-bottom: 0;
         padding-left: var(--qld-inpage-nav-title-padding-left);
       }
 
-      .nav-item {
+      li {
         margin-top: 0;
         display: inline-flex;
       }
 
-      .nav-link {
+      a {
         padding-top: var(--qld-inpage-nav-link-padding-y);
         padding-bottom: var(--qld-inpage-nav-link-padding-y);
         padding-left: var(--qld-inpage-nav-title-padding-left);
@@ -71,50 +71,53 @@ export class QGDSInpageNav extends LitElement {
         text-decoration-line: underline;
       }
 
-      .nav-link:hover,
-      .nav-link:visited {
+      a:hover,
+      a:visited {
         text-decoration-color: var(--qld-link-underline);
       }
 
-      .nav-item:first-child .nav-link {
+      li:first-child a {
         padding-top: 0;
       }
 
-      .nav-item:last-child .nav-link {
+      li:last-child a {
         padding-bottom: 0;
       }
 
       /* Dark variant styles */
-      :host([variant="dark"]) .qld-inpage-nav,
-      :host([variant="dark-alt"]) .qld-inpage-nav {
-        --qld-inpage-nav-border-color: var(--qld-dark-action-primary, #ffffff);
-        background-color: var(--qld-brand-primary, #0085b3);
-        padding: 2rem;
+      :host([variant="dark"]) nav,
+      :host([variant="dark-alt"]) nav {
+        --qld-inpage-nav-border-color: var(--QLD-color-dark__action--primary, #84D3FF);
+        background-color: var(--qld-brand-primary);
         border-radius: 4px;
       }
 
-      :host([variant="dark"]) .nav,
-      :host([variant="dark-alt"]) .nav {
-        --qld-nav-link-color: var(--qld-neutral-white, #ffffff);
-        --qld-nav-link-hover-color: var(--qld-brand-accent, #e6f4f9);
+      :host([variant="dark"]) h2,
+      :host([variant="dark-alt"]) h2 {
+        color: #ffffff;
       }
 
-      :host([variant="dark"]) .nav-title,
-      :host([variant="dark-alt"]) .nav-title {
-        color: var(--qld-neutral-white, #ffffff);
+      :host([variant="dark"]) a,
+      :host([variant="dark-alt"]) a {
+        color: #ffffff;
+      }
+
+      :host([variant="dark"]) a:hover,
+      :host([variant="dark-alt"]) a:hover {
+        text-decoration-color: #ffffff;
       }
     `,
   ];
 
   render() {
     return html`
-      <nav class="qld-inpage-nav" aria-label="In page navigation">
-        <h2 class="nav-title">${this.navtitle}</h2>
-        <ul class="nav">
+      <nav aria-label="In page navigation">
+        <h2>${this.navtitle}</h2>
+        <ul>
           ${this.navitems.map(
             (item) => html`
-              <li class="nav-item">
-                <a class="nav-link" href="#${item.linkid}">${item.linktext}</a>
+              <li>
+                <a href="#${item.linkid}">${item.linktext}</a>
               </li>
             `
           )}
