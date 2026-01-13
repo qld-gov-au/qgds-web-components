@@ -1,17 +1,70 @@
-:host {
+.btn {
+  --border-colour: transparent;
   display: inline-flex;
-  font-family: var(--qgds-font-family);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: var(--border-width-default) solid var(--border-colour);
+
   
-  --button-background: #007bff;
-  --button-text: #fff;
-  --button-border-color: #007bff; 
-  --palette-primary-background: pink;
-  --palette-primary-text: black;
-  --button-disabled-background: #ccc;
-  --button-disabled-text: #666;
-  --button-disabled-border-color: #999;
-  --border-radius: 4px;
-  --button-border-width: 2px;
-  --button-text-decoration: none;
-  --button-text-decoration-hover: underline;
+  color: var(--btn-text, white);
+  gap: var(--gap-inline, 0.5rem);
+  padding-block: var(--block-padding, 0.5rem);
+  padding-inline: var(--inline-padding, 1rem);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size, 1rem);
+  text-decoration: underline;
+  text-decoration-color: inherit;
+  text-underline-offset: 4.8px;
+  text-decoration-thickness: .5px;
+  transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
+}
+
+.btn:hover {
+  text-decoration-thickness: 2px;
+  transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
+}
+.btn:active {
+  --btn-background: var(--btn-background-active);
+  --btn-text: var(--btn-background-active-text);
+}
+.btn:focus {
+  outline: var(--outline-width) solid var(--outline-colour);
+  outline-offset: var(--outline-offset);
+  border-radius: var(--border-radius);
+}
+.btn-primary {
+  background: var(--btn-background, rgb(69, 69, 69));
+  box-shadow: var(--box-shadow, none);
+}
+.btn-primary:hover {
+  --btn-background: var(--btn-background-hover);
+  box-shadow: var(--box-shadow-hover, none);
+}
+.btn-secondary {
+  --border-colour: var(--btn-background, #333333);
+  --btn-text: var(--btn-background, #333333);
+  background: var(--btn-background-secondary);
+  border: var(--border-width-wide) solid var(--border-colour);
+  --btn-text: var(--btn-background, #333333);
+}
+.btn-tertiary {
+  background: var(--btn-background-tertiary);
+  --btn-text: var(--btn-background, #333333);
+}
+.btn-tertiary:hover {
+  background: var(--btn-background-tertiary-hover);
+}
+button:disabled {
+  --btn-background: var(--dis-btn-background, #cccccc);
+  --btn-text: var(--dis-btn-text, #666666);
+  text-decoration: none;
+  cursor: not-allowed;
+}
+:host([trailing-icon]) .btn {
+  flex-direction: row-reverse;
+}
+
+slot {
+  display: block;
 }
