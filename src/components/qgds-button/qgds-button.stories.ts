@@ -87,7 +87,7 @@ export const Button: Story = {
   },
   decorators: [
     (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette || ""}">
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
         ${Story()}
       </div>
     `,
@@ -100,7 +100,7 @@ export const Default: Story = {
   },
   decorators: [
     (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette || ""}">
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
         ${Story()}
       </div>
     `,
@@ -114,7 +114,7 @@ export const NoIcon: Story = {
   },
   decorators: [
     (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette || ""}">
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
         ${Story()}
       </div>
     `,
@@ -128,7 +128,7 @@ export const Disabled: Story = {
   },
   decorators: [
     (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette || ""}">
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
         ${Story()}
       </div>
     `,
@@ -142,7 +142,7 @@ export const CustomMessage: Story = {
   },
   decorators: [
     (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette || ""}">
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
         ${Story()}
       </div>
     `,

@@ -23,7 +23,7 @@ export class QGDSButton extends LitElement {
   label: string = "Button";
 
   @property({ type: String, attribute: "button-text" })
-  buttonText: ButtonText | "test" = "test";
+  buttonText: ButtonText = "test";
 
   @property({ type: String, reflect: true })
   variant: ButtonVariant = "primary";
