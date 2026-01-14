@@ -1,0 +1,189 @@
+// Master brand SASS variables that have changed to align with Brand Book release 2025
+
+// ============================================
+// Default Palette
+// ============================================
+%qgds-color-palette-default {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #003e96;
+  --qgds-color-action-primary: #005eb8;
+  --qgds-color-action-secondary-hover: #004ea7;
+  --qgds-color-action-secondary: #307edb;
+  --qgds-color-background: #ffffff;
+  --qgds-color-background-shade: #f5f5f5;
+  --qgds-color-border: #ebebeb;
+  --qgds-color-crest-fill: #005eb8;
+  --qgds-color-focus-default: #002e85;
+  --qgds-color-link-default: #005eb8;
+  --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-visited: #551a8b;
+  --qgds-color-site-title: #005eb8;
+  --qgds-color-text-default: #353535;
+  --qgds-color-text-heading: #000053;
+  --qgds-color-text-lighter: #636363;
+  --qgds-color-underline-default-hover: #005eb8;
+  --qgds-color-underline-default: #3f7ab4;
+  --qgds-color-underline-visited-hover: #551a8b;
+  --qgds-color-underline-visited: #8b63b0;
+}
+
+// ============================================
+// Pale Palette (previously light)
+// ============================================
+%qgds-color-palette-pale {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #003e96;
+  --qgds-color-action-primary: #005eb8;
+  --qgds-color-action-secondary-hover: #004ea7;
+  --qgds-color-action-secondary: #307edb;
+  --qgds-color-background: #e6f6ff;
+  --qgds-color-background-shade: #ceedff;
+  --qgds-color-border: #bedfff;
+  --qgds-color-crest-fill: #005eb8;
+  --qgds-color-focus-default: #002e85;
+  --qgds-color-link-default: #005eb8;
+  --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-visited: #551a8b;
+  --qgds-color-site-title: #005eb8;
+  --qgds-color-text-default: #353535;
+  --qgds-color-text-heading: #000053;
+  --qgds-color-text-lighter: #636363;
+  --qgds-color-underline-default-hover: #005eb8;
+  --qgds-color-underline-default: #3f7ab4;
+  --qgds-color-underline-visited-hover: #551a8b;
+  --qgds-color-underline-visited: #8b63b0;
+}
+
+// ============================================
+// Muted Palette (previously alt or light-alt)
+// ============================================
+%qgds-color-palette-muted {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #003e96;
+  --qgds-color-action-primary: #005eb8;
+  --qgds-color-action-secondary-hover: #004ea7;
+  --qgds-color-action-secondary: #307edb;
+  --qgds-color-background: #e3e7ea;
+  --qgds-color-background-shade: #d6dce0;
+  --qgds-color-border: #848484;
+  --qgds-color-crest-fill: #005eb8;
+  --qgds-color-focus-default: #002e85;
+  --qgds-color-link-default: #005eb8;
+  --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-visited: #551a8b;
+  --qgds-color-site-title: #005eb8;
+  --qgds-color-text-default: #353535;
+  --qgds-color-text-heading: #000053;
+  --qgds-color-text-lighter: #636363;
+  --qgds-color-underline-default-hover: #005eb8;
+  --qgds-color-underline-default: #3f7ab4;
+  --qgds-color-underline-visited-hover: #551a8b;
+  --qgds-color-underline-visited: #8b63b0;
+}
+
+// ============================================
+// Bold Palette (previously dark)
+// ============================================
+%qgds-color-palette-bold {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #a6f7ff;
+  --qgds-color-action-primary: #84d3ff;
+  --qgds-color-action-secondary-hover: #a6f7ff;
+  --qgds-color-action-secondary: #84d3ff;
+  --qgds-color-background: #005eb8;
+  --qgds-color-background-shade: #003e96;
+  --qgds-color-border: #418fed;
+  --qgds-color-crest-fill: #ffffff;
+  --qgds-color-focus-default: #c6ffff;
+  --qgds-color-link-default: #ffffff;
+  --qgds-color-link-on-action: #001c37;
+  --qgds-color-link-visited: #F2CDFF;
+  --qgds-color-site-title: #ffffff;
+  --qgds-color-text-default: #ffffff;
+  --qgds-color-text-heading: #ffffff;
+  --qgds-color-text-lighter: #deebf9;
+  --qgds-color-underline-default-hover: #ffffff;
+  --qgds-color-underline-default: #b5cce2;
+  --qgds-color-underline-visited-hover: #F2CDFF;
+  --qgds-color-underline-visited: #C6AED9;
+}
+
+// ============================================
+// Deep palette (previously dark-alt)
+// ============================================
+
+%qgds-color-palette-deep {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #a6f7ff;
+  --qgds-color-action-primary: #84d3ff;
+  --qgds-color-action-secondary-hover: #a6f7ff;
+  --qgds-color-action-secondary: #84d3ff;
+  --qgds-color-background: #001d74;
+  --qgds-color-background-shade: #000764;
+  --qgds-color-border: #418fed;
+  --qgds-color-border-alt: #63b1ff;
+  --qgds-color-crest-fill: #ffffff;
+  --qgds-color-focus-default: #c6ffff;
+  --qgds-color-link-default: #ffffff;
+  --qgds-color-link-on-action: #001c37;
+  --qgds-color-link-visited: #F2CDFF;
+  --qgds-color-site-title: #ffffff;
+  --qgds-color-text-default: #ffffff;
+  --qgds-color-text-heading: #ffffff;
+  --qgds-color-text-lighter: #deebf9;
+  --qgds-color-underline-default-hover: #ffffff;
+  --qgds-color-underline-default: #b5cce2;
+  --qgds-color-underline-visited-hover: #F2CDFF;
+  --qgds-color-underline-visited: #C6AED9;
+}
+
+
+
+// SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES
+%qgds-color-palette-global {
+  // V1 brand colors
+  --qgds-color-other-gov-maroon: #771e32;
+  --qgds-color-other-modern-maroon: #a70240;
+  --qgds-color-primary-dark-blue: #05325f;
+  --qgds-color-primary-light-blue: #0085b3;
+  --qgds-color-primary-light-green: #6bbe27;
+  --qgds-color-primary-sapphire-blue: #09549f;
+  --qgds-color-secondary-darkgreen: #008635;
+  --qgds-color-secondary-golden-yellow: #ffe500;
+
+  // Code colors
+  --qgds-color-code-green: #6bbe27;
+  --qgds-color-code-light-blue: #a7e5ff;
+  --qgds-color-code-muted: #c0d7ec;
+  --qgds-color-code-violet: #c88df7;
+
+  // Neutral colors
+  --qgds-color-neutral-black: #131212;
+  --qgds-color-neutral-dark: #78797e;
+  --qgds-color-neutral-darker: #444444;
+  --qgds-color-neutral-darkest: #222020;
+  --qgds-color-neutral-light: #e0e0e0;
+  --qgds-color-neutral-lighter: #ebebeb;
+  --qgds-color-neutral-lightest: #f5f5f5;
+  --qgds-color-neutral-white: #ffffff;
+
+  // Status colors
+  --qgds-color-status-caution-darker: #b38800;
+  --qgds-color-status-caution-default: #ffcc2c;
+  --qgds-color-status-caution-lighter: #fff2c9;
+  --qgds-color-status-caution-lightest: #fffaea;
+  --qgds-color-status-error-darker: #8a1220;
+  --qgds-color-status-error-default: #e22339;
+  --qgds-color-status-error-lighter: #fdf0f0;
+  --qgds-color-status-error-lightest: #fff6f6;
+  --qgds-color-status-info-darker: #006a8f;
+  --qgds-color-status-info-default: #0085b3;
+  --qgds-color-status-info-lighter: #e5eef5;
+  --qgds-color-status-info-lightest: #eff4f9;
+  --qgds-color-status-success-darker: #0a690d;
+  --qgds-color-status-success-default: #339d37;
+  --qgds-color-status-success-lighter: #f2faf4;
+  --qgds-color-status-success-lightest: #f7fbf8;
+  --qgds-color-status-underline-dark: #03213fb8;
+  --qgds-color-status-underline-light: #ffffffb8;
+}

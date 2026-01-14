@@ -1,5 +1,6 @@
 {
   "extends": ["stylelint-config-standard-scss"],
+  "plugins": ["stylelint-use-logical-spec"],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
     "selector-type-no-unknown": [
@@ -9,6 +10,7 @@
       }
     ],
     "scss/at-rule-no-unknown": true,
+    "color-hex-length": null,
     "color-function-notation": "modern",
     "alpha-value-notation": "number",
     "import-notation": "string",
@@ -18,7 +20,8 @@
       {
         "ignorePseudoElements": ["part"]
       }
-    ]
+    ],
+    "liberty/use-logical-spec": "always"
   },
   "ignoreFiles": [
     "dist/**/*",

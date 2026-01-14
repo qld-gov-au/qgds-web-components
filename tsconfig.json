@@ -22,8 +22,7 @@
   "include": [
     "src",
     "build.ts",
-    ".storybook",
-    "src/types/global.d.ts",
+    ".storybook"
   ],
   "exclude": [
     "node_modules",
