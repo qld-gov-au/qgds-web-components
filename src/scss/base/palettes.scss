@@ -12,24 +12,24 @@
     @extend %qgds-color-palette-default;
   }
 
-  .palette-tint,
-  [palette="tint"] {
-    @extend %qgds-color-palette-tint;
+  .palette-pale,
+  [palette="pale"] {
+    @extend %qgds-color-palette-pale;
   }
 
-  .palette-tint-alt,
-  [palette="tint-alt"] {
-    @extend %qgds-color-palette-tint-alt;
+  .palette-muted,
+  [palette="muted"] {
+    @extend %qgds-color-palette-muted;
   }
 
-  .palette-shade,
-  [palette="shade"] {
-    @extend %qgds-color-palette-shade;
+  .palette-bold,
+  [palette="bold"] {
+    @extend %qgds-color-palette-bold;
   }
 
-  .palette-shade-alt,
-  [palette="shade-alt"] {
-    @extend %qgds-color-palette-shade-alt;
+  .palette-deep,
+  [palette="deep"] {
+    @extend %qgds-color-palette-deep;
   }
 
   // Some baseline defaults for background and text colors. These are usually redefined within each component
