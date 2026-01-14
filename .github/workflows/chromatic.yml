@@ -86,12 +86,8 @@ jobs:
 
       - name: Build Storybook
         run: | # build the Storybook files
-          if [ "${{ vars.ENABLE_STORYBOOK_THEMES }}" == "true" ]; then
-            npm run build-storybook:themes || npm run build-storybook
-          else
-            npm run build-storybook
-          fi
-
+          npm run build-storybook --stats-json
+          
       - name: Publish to Chromatic
         if: ${{ env.HAVE_CHROMATIC_PROJECT_TOKEN == 'true' && env.IS_CHROMATIC_DISABLED == 'false'}}
         uses: chromaui/action@latest
