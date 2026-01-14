@@ -17,7 +17,7 @@
     "test:coverage": "vitest --config vitest.config.ts --coverage",
     "test:storybook": "vitest --config vite.config.ts --project=storybook",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build --stats-json",
     "chromatic": "chromatic --build-script-name build-storybook",
     "lint": "npm run lint:ts && npm run lint:styles",
     "lint:ts": "eslint . --max-warnings 0",
