@@ -1,5 +1,6 @@
 @forward "qgds-border";
-@forward "qgds-color";
+//@forward "qgds-color";
+@forward "qgds-color-stub"; // temporary stub until tokens are defined
 @forward "qgds-elevation";
 @forward "qgds-typography";
 @forward "qgds-size";
