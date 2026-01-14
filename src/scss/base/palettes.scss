@@ -1,30 +1,47 @@
-@use "../qgds-tokens";
+@use "../qgds-tokens/" as *;
 
 @mixin css() {
   :root,
   [data-qgds-theme="light"] {
-    @extend %qgds-color-palette-light-global !optional;
-    @extend %qgds-color-palette-light-bright !optional;
+    @extend %qgds-color-palette-global;
+    @extend %qgds-color-palette-default;
   }
 
-  .bright {
-    @extend %qgds-color-palette-light-bright !optional;
+  .palette-default,
+  [palette="default"] {
+    @extend %qgds-color-palette-default;
   }
 
-  .tint {
-    @extend %qgds-color-palette-light-tint !optional;
+  .palette-tint,
+  [palette="tint"] {
+    @extend %qgds-color-palette-tint;
   }
 
-  .alt {
-    @extend %qgds-color-palette-light-alt !optional;
+  .palette-tint-alt,
+  [palette="tint-alt"] {
+    @extend %qgds-color-palette-tint-alt;
   }
 
-  .bold {
-    @extend %qgds-color-palette-light-bold !optional;
+  .palette-shade,
+  [palette="shade"] {
+    @extend %qgds-color-palette-shade;
   }
 
-  // [data-qgds-theme="dark"] {
+  .palette-shade-alt,
+  [palette="shade-alt"] {
+    @extend %qgds-color-palette-shade-alt;
+  }
+
+  // Some baseline defaults for background and text colors. These are usually redefined within each component
+  [class*="palette-"],
+  [palette] {
+    background: var(--qgds-color-background);
+    color: var(--qgds-color-text-default);
+  }
+
+  // [data-qgds-theme=dark] {
   //   @extend %qgds-color-palette-dark-global;
   //   @extend %qgds-color-palette-dark-bright; // weird huh?
   // }
+  
 }

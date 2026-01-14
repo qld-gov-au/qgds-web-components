@@ -1,0 +1,5 @@
+/* Some additional CSS to help with Storybook rendering of components */
+
+#root-inner > [class*="palette-"] {
+  padding: 2rem;
+}
