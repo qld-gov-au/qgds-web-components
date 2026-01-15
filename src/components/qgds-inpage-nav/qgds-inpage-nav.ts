@@ -9,8 +9,6 @@ interface NavItem {
   linktext: string;
 }
 
-type NavVariant = "default" | "dark";
-
 @customElement("qgds-inpage-nav")
 export class QGDSInpageNav extends LitElement {
   @property({ type: String })
@@ -18,9 +16,6 @@ export class QGDSInpageNav extends LitElement {
 
   @property({ type: Array })
   navitems: NavItem[] = [];
-
-  @property({ type: String, reflect: true })
-  variant: NavVariant = "default";
 
   constructor() {
     super();
@@ -82,29 +77,6 @@ export class QGDSInpageNav extends LitElement {
 
       li:last-child a {
         padding-bottom: 0;
-      }
-
-      /* Dark variant styles */
-      :host([variant="dark"]) nav,
-      :host([variant="dark-alt"]) nav {
-        --qld-inpage-nav-border-color: var(--QLD-color-dark__action--primary, #84D3FF);
-        background-color: var(--qld-brand-primary);
-        border-radius: 4px;
-      }
-
-      :host([variant="dark"]) h2,
-      :host([variant="dark-alt"]) h2 {
-        color: #ffffff;
-      }
-
-      :host([variant="dark"]) a,
-      :host([variant="dark-alt"]) a {
-        color: #ffffff;
-      }
-
-      :host([variant="dark"]) a:hover,
-      :host([variant="dark-alt"]) a:hover {
-        text-decoration-color: #ffffff;
       }
     `,
   ];
