@@ -8,16 +8,24 @@ export interface QGDSInpageNavProps {
   navtitle: string;
   /** Navigation items array */
   navitems: { linkid: string; linktext: string }[];
+  /** ARIA label for navigation */
+  ariaLabel: string;
+  /** Heading level (h1-h6) */
+  headlineLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 /** QGDS In-page Navigation Web Component */
 const renderInpageNav = ({
   navtitle = "On this page",
   navitems = [],
+  ariaLabel = "In page navigation",
+  headlineLevel = "h2",
 }: QGDSInpageNavProps) => {
   return html`
     <qgds-inpage-nav
       navtitle="${navtitle}"
+      ariaLabel="${ariaLabel}"
+      headlineLevel="${headlineLevel}"
       .navitems="${navitems}"
     >
     </qgds-inpage-nav>
@@ -31,6 +39,11 @@ const meta: Meta<QGDSInpageNavProps> = {
   argTypes: {
     navtitle: { control: "text" },
     navitems: { control: "object" },
+    ariaLabel: { control: "text" },
+    headlineLevel: {
+      control: "select",
+      options: ["h1", "h2", "h3", "h4", "h5", "h6"],
+    },
   },
 };
 
