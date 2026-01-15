@@ -1,6 +1,4 @@
 import type { Preview } from '@storybook/web-components-vite'
-import { withThemeByClassName } from '@storybook/addon-themes';
-import { html } from 'lit';
 import '../src/stories/assets/qgds-styles.scss';
 
 const preview: Preview = {
@@ -19,15 +17,6 @@ const preview: Preview = {
       test: 'todo'
     }
   },
-  decorators: [
-    withThemeByClassName({
-      themes: {
-        light: '',
-        dark: 'qgds-dark-theme',
-      },
-      defaultTheme: 'light',
-    }),
-  ],
 };
 
 export default preview;

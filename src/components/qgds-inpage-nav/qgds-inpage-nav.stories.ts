@@ -8,20 +8,16 @@ export interface QGDSInpageNavProps {
   navtitle: string;
   /** Navigation items array */
   navitems: { linkid: string; linktext: string }[];
-  /** Variant style (default or dark) */
-  variant: "default" | "dark" | "dark-alt";
 }
 
 /** QGDS In-page Navigation Web Component */
 const renderInpageNav = ({
   navtitle = "On this page",
   navitems = [],
-  variant = "default",
 }: QGDSInpageNavProps) => {
   return html`
     <qgds-inpage-nav
       navtitle="${navtitle}"
-      variant="${variant}"
       .navitems="${navitems}"
     >
     </qgds-inpage-nav>
@@ -34,10 +30,6 @@ const meta: Meta<QGDSInpageNavProps> = {
   render: (args) => renderInpageNav(args),
   argTypes: {
     navtitle: { control: "text" },
-    variant: {
-      control: "select",
-      options: ["default", "dark", "dark-alt"],
-    },
     navitems: { control: "object" },
   },
 };
@@ -57,23 +49,6 @@ export const Default: Story = {
   args: {
     navtitle: "On this page",
     navitems: defaultNavItems,
-    variant: "default",
-  },
-};
-
-export const Dark: Story = {
-  args: {
-    navtitle: "On this page",
-    navitems: defaultNavItems,
-    variant: "dark",
-  },
-};
-
-export const DarkAlt: Story = {
-  args: {
-    navtitle: "On this page",
-    navitems: defaultNavItems,
-    variant: "dark-alt",
   },
 };
 
@@ -81,7 +56,6 @@ export const CustomTitle: Story = {
   args: {
     navtitle: "Table of contents",
     navitems: defaultNavItems,
-    variant: "default",
   },
 };
 
@@ -100,6 +74,5 @@ export const LongList: Story = {
       { linkid: "faq", linktext: "Frequently asked questions" },
       { linkid: "support", linktext: "Support" },
     ],
-    variant: "default",
   },
 };
