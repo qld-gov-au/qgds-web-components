@@ -1,7 +1,5 @@
 /* qgds-inpage-nav component styles */
 
-/* Based on QGDS QOL In-page Navigation extending Bootstrap Nav */
-
 /* Custom properties for public API */
 :host {
   --qgds-inpage-nav-title: var(--qgds-color-text-heading, #000053);
@@ -14,7 +12,6 @@
 nav {
   border-inline-start: 4px solid var(--qgds-inpage-nav-border);
   padding-inline-start: 1.5rem;
-  font-family: var(--qgds-font-family);
 }
 
 /* Title */
