@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { ref } from "lit/directives/ref.js";
 
 import "./qgds-button.ts";
 
@@ -20,6 +22,16 @@ export interface QGDSButtonProps {
   /** Button text content */
   // buttonText?: string;
   trailingIcon?: boolean;
+  /** Whether the button is a link */
+  isLink?: boolean;
+  /** Loading text to display */
+  loadingText?: string;
+  /** Whether the button is loading */
+  isLoading?: boolean;
+  /** Event title */
+  eventTitle?: string;
+  /** Unique identifier */
+  uniqueID?: string;
 
   StoryPalette?: string;
   variant?: string;
@@ -31,21 +43,47 @@ const renderButton = ({
   disabled = false,
   target = "",
   ariaLabel = "",
-  myIcon = `<div slot="icon" class="icon-test"></div>`,
+  myIcon = `<span slot="icon" class="icon-test"></span>`,
   trailingIcon = false,
   variant = "primary",
+  isLink = false,
+  loadingText = "Loading...",
+  isLoading = false,
+  eventTitle = "onClick",
+  uniqueID = "",
 }: QGDSButtonProps) => {
+  // Create a handler that logs the event to console
+  const handleEvent = (e: CustomEvent) => {
+    // eslint-disable-next-line no-console
+    console.log(`✅ Event "${e.type}" bubbled up to light DOM`);
+    // eslint-disable-next-line no-console
+    console.log(`   Full event detail:`, e.detail);
+  };
+
+  const attachListener = (el?: Element) => {
+    if (el) {
+      el.addEventListener(eventTitle, handleEvent as EventListener);
+    }
+  };
+
   return html`
-    <qgds-button
-      ?disabled="${disabled}"
-      target="${target}"
-      aria-label="${ariaLabel}"
-      button-text="${label}"
-      ?trailing-icon="${trailingIcon}"
-      variant="${variant}"
-    >
-      ${myIcon ? unsafeHTML(myIcon) : ""}
-    </qgds-button>
+    <div ${ref(attachListener)}>
+      <qgds-button
+        ?disabled=${disabled}
+        target="${target}"
+        aria-label="${ariaLabel}"
+        button-text="${label}"
+        ?trailing-icon=${trailingIcon}
+        variant="${variant}"
+        ?is-link=${isLink}
+        loading-text="${loadingText}"
+        ?is-loading=${isLoading}
+        event-title="${eventTitle}"
+        unique-id="${ifDefined(uniqueID || undefined)}"
+      >
+        ${myIcon ? unsafeHTML(myIcon) : ""}
+      </qgds-button>
+    </div>
   `;
 };
 
@@ -53,6 +91,7 @@ const meta: Meta<QGDSButtonProps> = {
   title: "Components/QGDS Button",
   tags: ["autodocs"],
   render: (args) => renderButton(args),
+
   argTypes: {
     StoryPalette: {
       control: "select",
@@ -72,6 +111,11 @@ const meta: Meta<QGDSButtonProps> = {
     },
     ariaLabel: { control: "text" },
     trailingIcon: { control: "boolean", name: "has trailing icon" },
+    isLink: { control: "boolean", name: "is link" },
+    loadingText: { control: "text", name: "loading text" },
+    isLoading: { control: "boolean", name: "is loading" },
+    eventTitle: { control: "text", name: "event title" },
+    uniqueID: { control: "text", name: "unique ID" },
   },
   globals: {
     backgrounds: { value: "default" },
@@ -84,6 +128,7 @@ type Story = StoryObj<QGDSButtonProps>;
 export const Button: Story = {
   args: {
     label: "QGDS Button",
+    // StoryPalette: "bright", // Default to bright palette
   },
   decorators: [
     (Story, context) => html`
@@ -139,6 +184,21 @@ export const CustomMessage: Story = {
   args: {
     label: "Custom Message",
     message: "Custom click message!",
+  },
+  decorators: [
+    (Story, context) => html`
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
+        ${Story()}
+      </div>
+    `,
+  ],
+};
+
+export const Loading: Story = {
+  args: {
+    label: "Loading Button",
+    isLoading: true,
+    loadingText: "Loading...",
   },
   decorators: [
     (Story, context) => html`

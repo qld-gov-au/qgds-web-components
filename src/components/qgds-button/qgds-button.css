@@ -1,19 +1,33 @@
-.btn {
-  --border-colour: transparent;
+:host {
+  --btn-border-colour: var(--qgds-color-action-secondary, transparent);
+  --btn-text: var(--qgds-color-link-on-action, #0059ff);
+  --btn-text-decoration-color:var(--qgds-color-underline-default, inherit);
+  --btn-shadow: var(--shadow, none);
+  --btn-shadow-hover: var(--shadow-hover, none);
+}
 
+.btn {
+  --no-colour: transparent;
+  --text: var(--btn-text);
+  --border-width: 1px;
+
+  font: var(--qgds-font-family); /* Not sure why I neeb this */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: var(--border-width-default) solid var(--border-colour);
-  color: var(--btn-text, white);
+  border-width: var(--border-width);
+  border-style: solid;
+  border-color: var(--btn-border-colour);
+  border-color: transparent;
+  color: var(--text, white);
   gap: var(--gap-inline, 0.5rem);
   padding-block: var(--block-padding, 0.5rem);
   padding-inline: var(--inline-padding, 1rem);
   border-radius: var(--border-radius);
   font-size: var(--font-size, 1rem);
   text-decoration: underline;
-  text-decoration-color: inherit;
+  text-decoration-color: var(--btn-text-decoration-color);
   text-underline-offset: 4.8px;
   text-decoration-thickness: .5px;
   transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
@@ -26,50 +40,80 @@
 
 .btn:active {
   --btn-background: var(--btn-background-active);
-  --btn-text: var(--btn-background-active-text);
+  --text: var(--btn-background-active-text);
 }
 
 .btn:focus {
-  outline: var(--outline-width) solid var(--outline-colour);
+  outline: var(--outline-width) solid var(--qgds-color-focus-default);
   outline-offset: var(--outline-offset);
   border-radius: var(--border-radius);
 }
 
+/* Start */
+
+.loading {
+  text-decoration: none; 
+  background: var(--qgds-color-code-muted, #ccc);
+}
+
+.loading:hover {
+  cursor: wait;
+}
+
 .btn-primary {
-  background: var(--btn-background, rgb(69 69 69));
-  box-shadow: var(--box-shadow, none);
+  background: var(--qgds-color-action-primary, rgb(69 69 69));
+  box-shadow: var(--btn-shadow, none);
+  text-decoration-color: inherit;
 }
 
 .btn-primary:hover {
-  --btn-background: var(--btn-background-hover);
-
-  box-shadow: var(--box-shadow-hover, none);
+  --qgds-color-action-primary:  var(--qgds-color-action-primary-hover);
+  --btn-shadow: var(--btn-shadow-hover, none);
 }
 
 .btn-secondary {
-  --border-colour: var(--btn-background, #333);
-  --btn-text: var(--btn-background, #333);
+  --border-width: 3px;
+  --text: var(--qgds-color-link-default, #333);
 
-  background: var(--btn-background-secondary);
-  border: var(--border-width-wide) solid var(--border-colour);
+  background: var(--no-colour);
+  border-color: var(--btn-border-colour);
+}
+
+.btn-secondary:hover {
+  --border-colour: var(--qgds-color-action-secondary-hover, #333);
 }
 
 .btn-tertiary {
-  --btn-text: var(--btn-background, #333);
+  --text: var(--qgds-color-link-default, #333);
 
-  background: var(--btn-background-tertiary);
+  background: var(--no-colour);
 }
 
 .btn-tertiary:hover {
-  background: var(--btn-background-tertiary-hover);
+  background: var(--qgds-color-border, #ebebeb);
 }
 
-button:disabled {
-  --btn-background: var(--dis-btn-background, #ccc);
-  --btn-text: var(--dis-btn-text, #666);
+button:disabled, .disabled {
+  --text: var(--qgds-color-link-default, #666);
 
+  background: var(--qgds-color-border, #ccc);
   text-decoration: none;
   cursor: not-allowed;
+}
+
+.icon-loading {
+  mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M29.988 8.231A16 16 0 1 1 16.928.027l-.17 2.93a13.064 13.064 0 1 0 10.663 6.7l2.567-1.426Z'/%3e %3c/svg%3e");
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: currentcolor;
+  background-position: center center;
+  background-repeat: no-repeat;
+  mask-position: center center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-size: contain;
+  vertical-align: middle;
+  animation: spin 1s linear infinite;
 }
 
 :host([trailing-icon]) .btn {
@@ -78,4 +122,15 @@ button:disabled {
 
 slot {
   display: block;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+
 }
