@@ -1,7 +1,5 @@
 :host {
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
-
-  /* --btn-border-colour: inherit; */
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
   --btn-text-decoration-color:var(--qgds-color-underline-default, inherit);
   --btn-shadow: var(--shadow, none);
@@ -12,7 +10,7 @@
   --no-colour: transparent;
   --text: var(--btn-text);
   --border-width: 1px;
-
+  
   font: var(--qgds-font-family); /* Not sure why I neeb this */
   display: inline-flex;
   align-items: center;
@@ -30,8 +28,8 @@
   font-size: var(--font-size, 1rem);
   text-decoration: underline;
   text-decoration-color: var(--btn-text-decoration-color);
-  text-underline-offset: 4.8px;
-  text-decoration-thickness: .5px;
+  text-underline-offset: 4.8px; /* need a token for this */
+  text-decoration-thickness: .5px; /* need a token for this */
   transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
 }
 
@@ -52,7 +50,6 @@
 }
 
 /* Start */
-
 .loading {
   text-decoration: none; 
   background: var(--qgds-color-code-muted, #ccc);
@@ -62,9 +59,8 @@
   cursor: wait;
 }
 
-
 .btn-primary {
-  background: var(--qgds-color-action-primary, rgb(69 69 69));
+  background: var(--qgds-color-action-primary, #454545);
   box-shadow: var(--btn-shadow, none);
   text-decoration-color: inherit;
 }
@@ -75,7 +71,7 @@
 }
 
 .btn-secondary {
-  --border-width: 3px;
+  --border-width: 3px; /* need a token for this */
   --text: var(--qgds-color-link-default, #333);
 
   background: var(--no-colour) !important;
@@ -144,5 +140,4 @@ slot {
   to {
     transform: rotate(360deg);
   }
-
 }
