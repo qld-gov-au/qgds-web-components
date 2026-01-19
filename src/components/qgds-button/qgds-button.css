@@ -10,7 +10,7 @@
   --no-colour: transparent;
   --text: var(--btn-text);
   --border-width: 1px;
-  
+
   font: var(--qgds-font-family); /* Not sure why I neeb this */
   display: inline-flex;
   align-items: center;
@@ -28,13 +28,13 @@
   font-size: var(--font-size, 1rem);
   text-decoration: underline;
   text-decoration-color: var(--btn-text-decoration-color);
-  text-underline-offset: 4.8px; /* need a token for this */
-  text-decoration-thickness: .5px; /* need a token for this */
+  text-underline-offset: var(--text-underline-offset, 4.8px);
+  text-decoration-thickness: var(--text-decoration-thickness-default, .5px); 
   transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
 }
 
 .btn:hover {
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: var(--text-decoration-thickness-hover, 2px);
   transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
 }
 
@@ -71,7 +71,7 @@
 }
 
 .btn-secondary {
-  --border-width: 3px; /* need a token for this */
+  --border-width: var(--border-width-wide, 3px);
   --text: var(--qgds-color-link-default, #333);
 
   background: var(--no-colour) !important;
@@ -109,6 +109,7 @@ button:disabled, .disabled {
   cursor: not-allowed;
 }
 
+/* The Icon is a temp thing until we get the icon component sorted */
 .icon-loading {
   mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M29.988 8.231A16 16 0 1 1 16.928.027l-.17 2.93a13.064 13.064 0 1 0 10.663 6.7l2.567-1.426Z'/%3e %3c/svg%3e");
   inline-size: 1.5rem;
@@ -132,6 +133,7 @@ slot {
   display: block;
 }
 
+/* Spin animation for loading icon */
 @keyframes spin {
   from {
     transform: rotate(0deg);
