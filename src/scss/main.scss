@@ -66,12 +66,15 @@
   --qgds-color-status-success-lightest: #f7fbf8;
   --qgds-color-status-underline-dark: #03213fb8;
   --qgds-color-status-underline-light: #ffffffb8;
+
+  /* added tokens for spacing, borders, text decoration */
   --outline-width: 3px;
   --outline-offset: 2px;
   --text-underline-offset: 4.8px;
   --text-decoration-thickness-default:.5px;
   --text-decoration-thickness-hover:2px;
   --border-width-wide: 3px;
+  --default-spacing: 1rem;
 }
 
 :root, .default {
