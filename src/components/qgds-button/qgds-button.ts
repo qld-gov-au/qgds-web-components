@@ -1,5 +1,5 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-button.css?inline";
 
@@ -35,6 +35,11 @@ export class QGDSButton extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
   @property({ type: String, attribute: "event-title" }) eventTitle = "onClick";
+
+  // Internal state management for interaction states
+  @state() private _isHovered: boolean = false;
+  @state() private _isActive: boolean = false;
+  @state() private _isFocused: boolean = false;
 
   // Constructor is generally for setting up initial state that doesn't depend on attributes.
   // For properties, it's better to set default values directly on the class with the @property decorator.
@@ -72,6 +77,12 @@ export class QGDSButton extends LitElement {
         title=${this.buttonText}
         target="${ifDefined(this.target || undefined)}"
         tabindex="0"
+        @mouseenter=${this._handleMouseEnter.bind(this)}
+        @mouseleave=${this._handleMouseLeave.bind(this)}
+        @mousedown=${this._handleMouseDown.bind(this)}
+        @mouseup=${this._handleMouseUp.bind(this)}
+        @focus=${this._handleFocus.bind(this)}
+        @blur=${this._handleBlur.bind(this)}
       >
         ${this.isLoading
           ? html`<span class="icon-loading"></span>`
@@ -97,6 +108,12 @@ export class QGDSButton extends LitElement {
         title=${this.buttonText}
         @click=${this._onClick.bind(this)}
         tabindex="0"
+        @mouseenter=${this._handleMouseEnter.bind(this)}
+        @mouseleave=${this._handleMouseLeave.bind(this)}
+        @mousedown=${this._handleMouseDown.bind(this)}
+        @mouseup=${this._handleMouseUp.bind(this)}
+        @focus=${this._handleFocus.bind(this)}
+        @blur=${this._handleBlur.bind(this)}
       >
         ${this.isLoading
           ? html`<span class="icon-loading"></span>`
@@ -106,6 +123,49 @@ export class QGDSButton extends LitElement {
           : this.buttonText}
       </button>
     `;
+  }
+
+  // State management handlers
+  private _handleMouseEnter() {
+    if (!this.disabled && !this.isLoading) {
+      this._isHovered = true;
+    }
+  }
+
+  private _handleMouseLeave() {
+    this._isHovered = false;
+    this._isActive = false;
+  }
+
+  private _handleMouseDown() {
+    if (!this.disabled && !this.isLoading) {
+      this._isActive = true;
+    }
+  }
+
+  private _handleMouseUp() {
+    this._isActive = false;
+  }
+
+  private _handleFocus() {
+    if (!this.disabled && !this.isLoading) {
+      this._isFocused = true;
+    }
+  }
+
+  private _handleBlur() {
+    this._isFocused = false;
+  }
+
+  // Getter for combined button state
+  get buttonState() {
+    return {
+      isHovered: this._isHovered,
+      isActive: this._isActive,
+      isFocused: this._isFocused,
+      isDisabled: this.disabled,
+      isLoading: this.isLoading,
+    };
   }
 
   private _onClick() {
