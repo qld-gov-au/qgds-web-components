@@ -68,19 +68,19 @@
   --qgds-color-status-underline-light: #ffffffb8;
 }
 
-
-:root, .bright {
+:root, .default {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #003e96;
   --qgds-color-action-primary: #005eb8;
   --qgds-color-action-secondary-hover: #004ea7;
   --qgds-color-action-secondary: #307edb;
-  --qgds-color-background: #fff;
+  --qgds-color-background: #ffffff;
+  --qgds-color-background-shade: #f5f5f5;
   --qgds-color-border: #ebebeb;
   --qgds-color-crest-fill: #005eb8;
   --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
-  --qgds-color-link-on-action: #fff;
+  --qgds-color-link-on-action: #ffffff;
   --qgds-color-link-visited: #551a8b;
   --qgds-color-site-title: #005eb8;
   --qgds-color-text-default: #353535;
@@ -92,18 +92,19 @@
   --qgds-color-underline-visited: #8b63b0;
 }
 
-.tint {
+.pale {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #003e96;
   --qgds-color-action-primary: #005eb8;
   --qgds-color-action-secondary-hover: #004ea7;
   --qgds-color-action-secondary: #307edb;
-  --qgds-color-background: #fff;
-  --qgds-color-border: #ebebeb;
+  --qgds-color-background: #e6f6ff;
+  --qgds-color-background-shade: #ceedff;
+  --qgds-color-border: #bedfff;
   --qgds-color-crest-fill: #005eb8;
   --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
-  --qgds-color-link-on-action: #fff;
+  --qgds-color-link-on-action: #ffffff;
   --qgds-color-link-visited: #551a8b;
   --qgds-color-site-title: #005eb8;
   --qgds-color-text-default: #353535;
@@ -115,27 +116,28 @@
   --qgds-color-underline-visited: #8b63b0;
 }
 
-.alt {
+.muted {
   --qgds-color-accent-design-accent: #84d3ff;
-  --qgds-color-action-primary-hover: #a6f7ff;
-  --qgds-color-action-primary: #84d3ff;
-  --qgds-color-action-secondary-hover: #a6f7ff;
-  --qgds-color-action-secondary: #84d3ff;
-  --qgds-color-background: #005eb8;
-  --qgds-color-border: #418fed;
-  --qgds-color-crest-fill: #fff;
-  --qgds-color-focus-default: #c6ffff;
-  --qgds-color-link-default: #fff;
-  --qgds-color-link-on-action: #001c37;
-  --qgds-color-link-visited: #F2CDFF;
-  --qgds-color-site-title: #fff;
-  --qgds-color-text-default: #fff;
-  --qgds-color-text-heading: #fff;
-  --qgds-color-text-lighter: #deebf9;
-  --qgds-color-underline-default-hover: #fff;
-  --qgds-color-underline-default: #b5cce2;
-  --qgds-color-underline-visited-hover: #F2CDFF;
-  --qgds-color-underline-visited: #C6AED9;
+  --qgds-color-action-primary-hover: #003e96;
+  --qgds-color-action-primary: #005eb8;
+  --qgds-color-action-secondary-hover: #004ea7;
+  --qgds-color-action-secondary: #307edb;
+  --qgds-color-background: #e3e7ea;
+  --qgds-color-background-shade: #d6dce0;
+  --qgds-color-border: #848484;
+  --qgds-color-crest-fill: #005eb8;
+  --qgds-color-focus-default: #002e85;
+  --qgds-color-link-default: #005eb8;
+  --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-visited: #551a8b;
+  --qgds-color-site-title: #005eb8;
+  --qgds-color-text-default: #353535;
+  --qgds-color-text-heading: #000053;
+  --qgds-color-text-lighter: #636363;
+  --qgds-color-underline-default-hover: #005eb8;
+  --qgds-color-underline-default: #3f7ab4;
+  --qgds-color-underline-visited-hover: #551a8b;
+  --qgds-color-underline-visited: #8b63b0;
 }
 
 .bold {
@@ -144,53 +146,63 @@
   --qgds-color-action-primary: #84d3ff;
   --qgds-color-action-secondary-hover: #a6f7ff;
   --qgds-color-action-secondary: #84d3ff;
-  --qgds-color-background: #05325f;
+  --qgds-color-background: #005eb8;
+  --qgds-color-background-shade: #003e96;
   --qgds-color-border: #418fed;
-  --qgds-color-crest-fill: #fff;
+  --qgds-color-crest-fill: #ffffff;
   --qgds-color-focus-default: #c6ffff;
-  --qgds-color-link-default: #fff;
+  --qgds-color-link-default: #ffffff;
   --qgds-color-link-on-action: #001c37;
   --qgds-color-link-visited: #F2CDFF;
-  --qgds-color-site-title: #fff;
-  --qgds-color-text-default: #fff;
-  --qgds-color-text-heading: #fff;
+  --qgds-color-site-title: #ffffff;
+  --qgds-color-text-default: #ffffff;
+  --qgds-color-text-heading: #ffffff;
   --qgds-color-text-lighter: #deebf9;
-  --qgds-color-underline-default-hover: #fff;
+  --qgds-color-underline-default-hover: #ffffff;
   --qgds-color-underline-default: #b5cce2;
   --qgds-color-underline-visited-hover: #F2CDFF;
   --qgds-color-underline-visited: #C6AED9;
 }
 
-.bright, #storybook-docs:has(.bright) {
+.deep {
+  --qgds-color-accent-design-accent: #84d3ff;
+  --qgds-color-action-primary-hover: #a6f7ff;
+  --qgds-color-action-primary: #84d3ff;
+  --qgds-color-action-secondary-hover: #a6f7ff;
+  --qgds-color-action-secondary: #84d3ff;
+  --qgds-color-background: #001d74;
+  --qgds-color-background-shade: #000764;
+  --qgds-color-border: #418fed;
+  --qgds-color-border-alt: #63b1ff;
+  --qgds-color-crest-fill: #ffffff;
+  --qgds-color-focus-default: #c6ffff;
+  --qgds-color-link-default: #ffffff;
+  --qgds-color-link-on-action: #001c37;
+  --qgds-color-link-visited: #F2CDFF;
+  --qgds-color-site-title: #ffffff;
+  --qgds-color-text-default: #ffffff;
+  --qgds-color-text-heading: #ffffff;
+  --qgds-color-text-lighter: #deebf9;
+  --qgds-color-underline-default-hover: #ffffff;
+  --qgds-color-underline-default: #b5cce2;
+  --qgds-color-underline-visited-hover: #F2CDFF;
+  --qgds-color-underline-visited: #C6AED9;
+}
+
+.pale, #storybook-docs:has(.pale) {
   --qgds-color-background:#e6f6ff;
-
-  // --btn-background: #005eb8;
-  // --btn-text: #fff;
 }
 
-.tint, #storybook-docs:has(.tint) {
+.muted, #storybook-docs:has(.muted) {
   --qgds-color-background: #e3e7ea;
-
-  // --btn-background: #005eb8;
-  // --btn-text: #fff;
-}
-
-.alt, #storybook-docs:has(.alt) {
-  --qgds-color-background: #005eb8;
-
-  // --btn-background: #84d3ff;
-  // --btn-text: #001C37;
-  // --btn-background-hover: #A6F7FF;
-  // --outline-colour: #C6FFFF;
 }
 
 .bold, #storybook-docs:has(.bold) {
-  --qgds-color-background: #05325f;
+  --qgds-color-background: #005eb8;
+}
 
-  // --btn-background: #84d3ff;
-  // --btn-text: #001C37;
-  // --btn-background-hover: #A6F7FF;
-  // --outline-colour: #C6FFFF;
+.deep, #storybook-docs:has(.deep) {
+  --qgds-color-background: #05325f;
 }
 
 .css-1cvjpgl, .parent-container {
@@ -201,8 +213,8 @@
 
 .icon-test {
   mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M6.552 28a2.464 2.464 0 0 1-1.81-.741A2.463 2.463 0 0 1 4 25.448V6.552c0-.713.247-1.317.741-1.81A2.463 2.463 0 0 1 6.552 4h7.846c.3 0 .552.101.755.304.202.203.304.454.304.755 0 .3-.102.552-.304.754a1.025 1.025 0 0 1-.755.305H6.552a.414.414 0 0 0-.298.136.414.414 0 0 0-.136.298v18.896c0 .109.045.208.136.299.09.09.19.135.298.135h18.896a.414.414 0 0 0 .299-.136c.09-.09.135-.19.135-.298v-7.846c0-.3.102-.552.305-.755.202-.203.454-.304.754-.304s.552.102.755.304c.203.203.304.454.304.755v7.846c0 .713-.247 1.317-.741 1.81a2.463 2.463 0 0 1-1.811.742H6.552Zm19.33-20.395L13.524 19.964a1.025 1.025 0 0 1-.737.3.999.999 0 0 1-.75-.3 1.014 1.014 0 0 1-.308-.744c0-.291.103-.54.307-.744L24.395 6.118h-4.513c-.3 0-.552-.102-.754-.305a1.024 1.024 0 0 1-.305-.754c0-.3.102-.552.305-.755.202-.203.454-.304.754-.304h6.842c.364 0 .667.122.91.365.244.244.366.547.366.911v6.842c0 .3-.101.552-.304.754a1.024 1.024 0 0 1-.755.305c-.3 0-.552-.102-.754-.305a1.024 1.024 0 0 1-.305-.754V7.605Z'/%3e %3c/svg%3e");
-  width: 1.5rem;
-  height: 1.5rem;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
   background-color: currentcolor;
   background-position: center center;
   background-repeat: no-repeat;
@@ -213,18 +225,3 @@
   vertical-align: middle;
   display: inline-block;
 }
-
-// .icon-loading {
-//   mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M29.988 8.231A16 16 0 1 1 16.928.027l-.17 2.93a13.064 13.064 0 1 0 10.663 6.7l2.567-1.426Z'/%3e %3c/svg%3e");
-//   -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M29.988 8.231A16 16 0 1 1 16.928.027l-.17 2.93a13.064 13.064 0 1 0 10.663 6.7l2.567-1.426Z'/%3e %3c/svg%3e");
-//   width: 1.5rem;
-//   height: 1.5rem;
-//   background-color: currentColor;
-//   background-position: center center;
-//   background-repeat: no-repeat;
-//   mask-position: center center;
-//   mask-repeat: no-repeat;
-//   mask-size: contain;
-//   background-size: contain;
-//   vertical-align: middle;
-// }

@@ -70,13 +70,13 @@ const renderButton = ({
     <div ${ref(attachListener)}>
       <qgds-button
         ?disabled=${disabled}
-        target="${target}"
-        aria-label="${ariaLabel}"
+        target="${ifDefined(target || undefined)}"
+        aria-label="${ifDefined(ariaLabel || undefined)}"
         button-text="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
         ?is-link=${isLink}
-        loading-text="${loadingText}"
+        loading-text="${ifDefined(loadingText || undefined)}"
         ?is-loading=${isLoading}
         event-title="${eventTitle}"
         unique-id="${ifDefined(uniqueID || undefined)}"
@@ -95,7 +95,7 @@ const meta: Meta<QGDSButtonProps> = {
   argTypes: {
     StoryPalette: {
       control: "select",
-      options: ["default-none", "bright", "tint", "alt", "bold"],
+      options: ["default", "pale", "muted", "bold", "deep"],
       name: "story palette",
     },
     variant: {
@@ -128,7 +128,6 @@ type Story = StoryObj<QGDSButtonProps>;
 export const Button: Story = {
   args: {
     label: "QGDS Button",
-    // StoryPalette: "bright", // Default to bright palette
   },
   decorators: [
     (Story, context) => html`

@@ -49,7 +49,12 @@ export class QGDSButton extends LitElement {
   ];
 
   render() {
-    // Check if it's a link or button
+    // Loading state takes precedence
+    if (this.isLoading) {
+      return this.renderLoadingButton();
+    }
+
+    // Then check if it's a link or button
     if (this.isLink) {
       return this.renderLink();
     } else {
@@ -66,19 +71,15 @@ export class QGDSButton extends LitElement {
         type="button"
         ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
-        class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
-          "btn-" + this.variant
-        )} ${this.disabled || this.isLoading ? "disabled" : ""}"
+        class="btn ${ifDefined("btn-" + this.variant)} ${this.disabled
+          ? "disabled"
+          : ""}"
         title=${this.buttonText}
         target="${ifDefined(this.target || undefined)}"
         tabindex="0"
       >
-        ${this.isLoading
-          ? html`<span class="icon-loading"></span>`
-          : html`<slot name="icon"></slot>`}
-        ${this.isLoading
-          ? (this.loadingText ?? this.buttonText)
-          : this.buttonText}
+        <slot name="icon"></slot>
+        ${this.buttonText}
       </a>
     `;
   }
@@ -87,23 +88,36 @@ export class QGDSButton extends LitElement {
   private renderButton() {
     return html`
       <button
-        ?disabled=${this.disabled || this.isLoading}
+        ?disabled=${this.disabled}
         type=${this.type}
         ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
-        class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
-          "btn-" + this.variant
-        )}"
+        class="btn ${ifDefined("btn-" + this.variant)}"
         title=${this.buttonText}
         @click=${this._onClick.bind(this)}
         tabindex="0"
       >
-        ${this.isLoading
-          ? html`<span class="icon-loading"></span>`
-          : html`<slot name="icon"></slot>`}
-        ${this.isLoading
-          ? (this.loadingText ?? this.buttonText)
-          : this.buttonText}
+        <slot name="icon"></slot>
+        ${this.buttonText}
+      </button>
+    `;
+  }
+
+  // Render loading state of the button
+  private renderLoadingButton() {
+    return html`
+      <button
+        ?disabled=${this.disabled}
+        type=${this.type}
+        ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
+        aria-label="${ifDefined(this.ariaLabel || undefined)}"
+        class="btn loading ${ifDefined("btn-" + this.variant)} "
+        title=${this.buttonText}
+        @click=${this._onClick.bind(this)}
+        tabindex="0"
+      >
+        <span class="icon-loading"></span>
+        ${this.loadingText ?? this.buttonText}
       </button>
     `;
   }
