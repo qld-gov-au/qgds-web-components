@@ -2,7 +2,7 @@
 @use "sass:map";
 @use "../../utilities/icons.list" as *;
 @use "../../utilities/icons.sizes" as *;
-@use "../../utilities/functions" as f;
+@use "../functions/functions" as f;
 
 $prefix: "qld-" !default;
 $icons-multicolour: () !default;
