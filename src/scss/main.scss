@@ -11,11 +11,17 @@
 @use "base/globals";
 @use "base/palettes";
 @use "utilities";
-@layer base; /* Defines named layers and their order */
+@layer base, components, utilities; /* Defines named layers and their order */
 
 @layer base {
   @include globals.css();
   @include animations.css();
   @include elements.css();
   @include palettes.css();
+}
+
+// @layer components - Loaded Component styles will be scoped here
+
+@layer utilities {
+  @include utilities.css();
 }

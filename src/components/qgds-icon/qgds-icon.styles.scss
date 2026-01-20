@@ -2,8 +2,10 @@
 @use "../../scss/utilities/icon-utilities" as icon-utils;
 
 :host {
+  --qgds-icon-text-default: var(--qgds-color-text-default);
+
   display: inline-block;
-  color: var(--qgds-palette-text-default);
+  color: var(--qgds-icon-text-default);
 }
 
 svg {
