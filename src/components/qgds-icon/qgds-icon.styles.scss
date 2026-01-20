@@ -1,0 +1,15 @@
+/* qgds-icon component styles */
+@use "../../scss/utilities/icon-utilities" as icon-utils;
+
+:host {
+  display: inline-block;
+  color: var(--qgds-palette-text-default);
+}
+
+svg {
+  display: block;
+  fill: currentcolor;
+}
+
+// Include all icon utility classes (.qgds-icon, .qgds-icon-*, sizes, etc.) within shadow DOM
+@include icon-utils.css();

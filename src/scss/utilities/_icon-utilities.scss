@@ -1,0 +1,38 @@
+@forward "../../scss/utilities/_icons.variables";
+@use "sass:map";
+@use "../tools/mixins/make-icon" as m;
+@use "./_icons.list" as *;
+@use "./_icons.sizes" as *;
+
+@mixin css() {
+  // Loop through the icon names and create utility class for each
+  .qgds-icon {
+    @include m.make-icon();
+
+    &:where(svg) {
+      background-color: transparent;
+    }
+
+    // Utility classes for icons
+    // Note: mask-image is the preferred method for icons that are single colour, as it allows for easy colour changes using CSS variables.
+    // The background-image method is used for SVG icons with multiple fill colours.
+    @each $icon in map.keys($icon-names) {
+      &-#{$icon} {
+        @include m.make-icon($name: $icon, $include-base: false);
+      }
+    }
+
+    // Loop through the icon sizes and create utility class for each size.
+    // Independent from the icon base class to allow sizing on inline SVG icons as well as CSS icons.
+    @each $key, $value in $icon-sizes {
+      &-#{$key} {
+        --icon-size: #{$value};
+      }
+    }
+
+    // Better alignment for icons inline with text
+    &.is-inline {
+      @include m.make-icon($include-base: false, $is-inline: true);
+    }
+  }
+}

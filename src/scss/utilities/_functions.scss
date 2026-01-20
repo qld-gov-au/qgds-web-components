@@ -1,0 +1,10 @@
+// Functions.scss
+@use "sass:list";
+
+/// Check if a value exists in a list
+/// @param {*} $value - The value to search for
+/// @param {List} $list - The list to search in
+/// @return {Boolean} - True if value is in list, false otherwise
+@function in-list($value, $list) {
+  @return list.index($list, $value) != null;
+}
