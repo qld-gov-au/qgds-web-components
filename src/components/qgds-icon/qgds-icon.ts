@@ -1,6 +1,5 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
 
@@ -22,11 +21,6 @@ export class QGDSIcon extends LitElement {
   `;
 
   render() {
-    // Old SVG sprite approach (replaced with CSS mask-image):
-    // <svg class="qgds-icon-${this.size}" ?aria-hidden="${this.ariaHidden}" aria-label="${ifDefined(this.ariaLabel)}">
-    //   <use href="./assets/img/icons-sprite.svg#qgds-icon-${this.iconId}"></use>
-    // </svg>
-
     return html`
       <span class="qgds-icon" aria-label="${this.ariaLabel || "icon"}"></span>
     `;

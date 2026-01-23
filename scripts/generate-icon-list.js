@@ -36,4 +36,4 @@ const outputPath = path.join(
 );
 fs.writeFileSync(outputPath, tsContent, "utf-8");
 
-console.log(`✓ Generated icon-names.ts with ${iconNames.length} icons`);
+console.log(`✓ Generated icon-names.ts with ${iconNames.length} icons`); // eslint-disable-line no-undef
