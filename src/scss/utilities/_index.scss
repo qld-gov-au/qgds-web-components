@@ -1,6 +1,30 @@
 @use "icon-utilities";
-
+@use "icons.list" as icons-list; 
 @mixin css() {
   // utilities and helper classes with ability to override anything which goes before in the triangle, e.g. hide helper class
   @include icon-utilities.css();
 }
+
+:root{
+  --qgds-icon-size-xs: 1rem;
+  --qgds-icon-size-sm: 1.25rem;
+  --qgds-icon-size-md: 1.5rem;
+  --qgds-icon-size-lg: 2rem;
+  --qgds-icon-size-xl: 2.5rem;
+  --qgds-icon-size-xxl: 3rem;
+  }
+  
+  // Generate icon selectors dynamically from the icon list
+  @each $icon-name, $icon-svg in icons-list.$icon-names {
+    qgds-icon[iconid="#{$icon-name}"] {
+      --icon-svg: var(--qgds-icon-#{$icon-name});
+    }
+  }
+  
+  // Generate size selectors dynamically
+  $icon-sizes: xs, sm, md, lg, xl, xxl;
+  @each $icon-size in $icon-sizes {
+    qgds-icon[size="#{$icon-size}"] {
+      --icon-size: var(--qgds-icon-size-#{$icon-size});
+    }
+  }

@@ -4,7 +4,6 @@
 @use "../../utilities/icons.sizes" as *;
 @use "../functions/functions" as f;
 
-$prefix: "qld-" !default;
 $icons-multicolour: () !default;
 
 ///
@@ -68,10 +67,10 @@ $icons-multicolour: () !default;
       // What's going on here?
       // These styles unify svg and mask-image implementations
       // Color is the property we can share across both, since we can apply currentColor to backgroundColor.
-      // Preferred API to set color on icons is via --qld-icon-color property.
-      // This is not set intentionally by default, so we can inherit --qld-action-icon-color from palette context.
+      // Preferred API to set color on icons is via --qgds-icon-color property.
+      // This is not set intentionally by default, so we can inherit --qgds--action-icon-color from palette context.
       // Final fallback to inherit in case these go wrong.
-      color: var(--#{$prefix}icon-color, var(--qld-action-icon-color, inherit));
+      color: var( --qgds-icon-color, inherit);
       background-color: currentcolor;
     }
 

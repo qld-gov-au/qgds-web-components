@@ -14,8 +14,8 @@ export class QGDSIcon extends LitElement {
   @property({ type: String })
   size: IconSize = "md";
 
-  @property({ type: String })
-  ariaLabel: string = 'icons';
+  @property({ type: String, attribute: "arialabel" })
+  ariaLabel: string = "";
 
   static styles = css`
     ${unsafeCSS(componentCSS)}
@@ -28,10 +28,7 @@ export class QGDSIcon extends LitElement {
     // </svg>
 
     return html`
-      <span
-        class="qgds-icon qgds-icon-${this.iconId} qgds-icon-${this.size}"
-        aria-label="${ifDefined(this.ariaLabel)}"
-      ></span>
+      <span class="qgds-icon" aria-label="${this.ariaLabel || "icon"}"></span>
     `;
   }
 }

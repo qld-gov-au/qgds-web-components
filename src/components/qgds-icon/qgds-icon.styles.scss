@@ -1,17 +1,41 @@
 /* qgds-icon component styles */
-@use "../../scss/utilities/icon-utilities" as icon-utils;
+// @use "../../scss/utilities/icon-utilities" as icon-utils;
 
 :host {
-  --qgds-icon-text-default: var(--qgds-color-text-default);
-
   display: inline-block;
-  color: var(--qgds-icon-text-default);
+  --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  --qgds-icon-svg: var(--icon-svg); // remove if using icon-utilities mixin
+  --qgds-icon-size: var(--icon-size); // remove if using icon-utilities mixin
 }
 
-svg {
-  display: block;
-  fill: currentcolor;
+// remove if using icon-utilities mixin
+.qgds-icon-md {
+  --icon-size: var(--qgds-icon-size-md);
+}
+
+// remove if using icon-utilities mixin
+.qgds-icon {
+  // --icon-size-internal: var(--qgds-icon-size);
+  display: inline-flex;
+  inline-size: var(--qgds-icon-size);
+  block-size: var(--qgds-icon-size);
+  background-position: center center;
+  background-repeat: no-repeat;
+  mask-position: center center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-size: contain;
+  vertical-align: middle;
+  mask-image: var(--qgds-icon-svg);
+  // What's going on here?
+  // These styles unify svg and mask-image implementations
+  // Color is the property we can share across both, since we can apply currentColor to backgroundColor.
+  // Preferred API to set color on icons is via --qgds-icon-color property.
+  // This is not set intentionally by default, so we can inherit --qgds--action-icon-color from palette context.
+  // Final fallback to inherit in case these go wrong.
+  color: var( --qgds-icon-color, inherit);
+  background-color: currentcolor;
 }
 
 // Include all icon utility classes (.qgds-icon, .qgds-icon-*, sizes, etc.) within shadow DOM
-@include icon-utils.css();
+// @include icon-utils.css();
