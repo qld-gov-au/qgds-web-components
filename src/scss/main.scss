@@ -26,6 +26,11 @@
   @include utilities.css();
 }
 
+.sb-show-main, .css-1cvjpgl, .parent-container {
+  background: var(--qgds-color-background);
+  color: var(--text);
+  padding: var(--default-spacing);
+}
 
 .palette-pale, #storybook-docs:has(.palette-pale), .sb-show-main:has(.palette-pale) {
   --qgds-color-background:#e6f6ff;
@@ -41,10 +46,4 @@
 
 .palette-deep, #storybook-docs:has(.palette-deep), .sb-show-main:has(.palette-deep) {
   --qgds-color-background: #05325f;
-}
-
-.sb-show-main, .css-1cvjpgl, .parent-container {
-  background: var(--qgds-color-background);
-  color: var(--text);
-  padding: var(--default-spacing);
 }
