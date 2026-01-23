@@ -12,6 +12,7 @@ export interface QGDSIconProps {
   size: "sm" | "md" | "lg" | "xl";
   /** ARIA label for accessibility */
   ariaLabel: string;
+  StoryPalette?: string;
 }
 
 /** QGDS Icon Web Component */
@@ -35,6 +36,17 @@ const meta: Meta<QGDSIconProps> = {
   tags: ["autodocs"],
   render: (args) => renderIcon(args),
   argTypes: {
+    StoryPalette: {
+      control: "select",
+      options: [
+        "palette-default",
+        "palette-pale",
+        "palette-muted",
+        "palette-bold",
+        "palette-deep",
+      ],
+      name: "story palette",
+    },
     iconId: {
       control: "select",
       options: [...ICON_NAMES],
@@ -55,50 +67,57 @@ export const Default: Story = {
     iconId: "home",
     size: "md",
   },
+  decorators: [
+    (Story, context) => html`
+      <div class="parent-container ${context.args.StoryPalette ?? ""}">
+        ${Story()}
+      </div>
+    `,
+  ],
 };
 
 /** Multiple icons at small size */
-export const Small: Story = {
-  render: () => html`
-    <div
-      style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
-    >
-      <qgds-icon iconId="home" size="sm" ariaLabel="Home"></qgds-icon>
-      <qgds-icon
-        iconId="alert-success"
-        size="sm"
-        ariaLabel="Success"
-      ></qgds-icon>
-      <qgds-icon iconId="alert-error" size="sm" ariaLabel="Error"></qgds-icon>
-      <qgds-icon
-        iconId="alert-warning"
-        size="sm"
-        ariaLabel="Warning"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="alert-information"
-        size="sm"
-        ariaLabel="Information"
-      ></qgds-icon>
-      <qgds-icon iconId="calendar" size="sm" ariaLabel="Calendar"></qgds-icon>
-      <qgds-icon
-        iconId="arrow-right"
-        size="sm"
-        ariaLabel="Arrow Right"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="accessibility"
-        size="sm"
-        ariaLabel="Accessibility"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="announcement"
-        size="sm"
-        ariaLabel="Announcement"
-      ></qgds-icon>
-    </div>
-  `,
-};
+// export const Small: Story = {
+//   render: () => html`
+//     <div
+//       style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
+//     >
+//       <qgds-icon iconId="home" size="sm" ariaLabel="Home"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-success"
+//         size="sm"
+//         ariaLabel="Success"
+//       ></qgds-icon>
+//       <qgds-icon iconId="alert-error" size="sm" ariaLabel="Error"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-warning"
+//         size="sm"
+//         ariaLabel="Warning"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-information"
+//         size="sm"
+//         ariaLabel="Information"
+//       ></qgds-icon>
+//       <qgds-icon iconId="calendar" size="sm" ariaLabel="Calendar"></qgds-icon>
+//       <qgds-icon
+//         iconId="arrow-right"
+//         size="sm"
+//         ariaLabel="Arrow Right"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="accessibility"
+//         size="sm"
+//         ariaLabel="Accessibility"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="announcement"
+//         size="sm"
+//         ariaLabel="Announcement"
+//       ></qgds-icon>
+//     </div>
+//   `,
+// };
 
 /** Multiple icons at medium size */
 export const Medium: Story = {
@@ -144,94 +163,94 @@ export const Medium: Story = {
 };
 
 /** Multiple icons at large size */
-export const Large: Story = {
-  render: () => html`
-    <div
-      style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
-    >
-      <qgds-icon iconId="home" size="lg" ariaLabel="Home"></qgds-icon>
-      <qgds-icon
-        iconId="alert-success"
-        size="lg"
-        ariaLabel="Success"
-      ></qgds-icon>
-      <qgds-icon iconId="alert-error" size="lg" ariaLabel="Error"></qgds-icon>
-      <qgds-icon
-        iconId="alert-warning"
-        size="lg"
-        ariaLabel="Warning"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="alert-information"
-        size="lg"
-        ariaLabel="Information"
-      ></qgds-icon>
-      <qgds-icon iconId="calendar" size="lg" ariaLabel="Calendar"></qgds-icon>
-      <qgds-icon
-        iconId="arrow-right"
-        size="lg"
-        ariaLabel="Arrow Right"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="accessibility"
-        size="lg"
-        ariaLabel="Accessibility"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="announcement"
-        size="lg"
-        ariaLabel="Announcement"
-      ></qgds-icon>
-    </div>
-  `,
-};
+// export const Large: Story = {
+//   render: () => html`
+//     <div
+//       style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
+//     >
+//       <qgds-icon iconId="home" size="lg" ariaLabel="Home"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-success"
+//         size="lg"
+//         ariaLabel="Success"
+//       ></qgds-icon>
+//       <qgds-icon iconId="alert-error" size="lg" ariaLabel="Error"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-warning"
+//         size="lg"
+//         ariaLabel="Warning"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-information"
+//         size="lg"
+//         ariaLabel="Information"
+//       ></qgds-icon>
+//       <qgds-icon iconId="calendar" size="lg" ariaLabel="Calendar"></qgds-icon>
+//       <qgds-icon
+//         iconId="arrow-right"
+//         size="lg"
+//         ariaLabel="Arrow Right"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="accessibility"
+//         size="lg"
+//         ariaLabel="Accessibility"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="announcement"
+//         size="lg"
+//         ariaLabel="Announcement"
+//       ></qgds-icon>
+//     </div>
+//   `,
+// };
 
 /** Multiple icons at extra large size */
-export const ExtraLarge: Story = {
-  render: () => html`
-    <div
-      style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
-    >
-      <qgds-icon iconId="home" size="xl" ariaLabel="Home"></qgds-icon>
-      <qgds-icon
-        iconId="alert-success"
-        size="xl"
-        ariaLabel="Success"
-      ></qgds-icon>
-      <qgds-icon iconId="alert-error" size="xl" ariaLabel="Error"></qgds-icon>
-      <qgds-icon
-        iconId="alert-warning"
-        size="xl"
-        ariaLabel="Warning"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="alert-information"
-        size="xl"
-        ariaLabel="Information"
-      ></qgds-icon>
-      <qgds-icon iconId="calendar" size="xl" ariaLabel="Calendar"></qgds-icon>
-      <qgds-icon
-        iconId="arrow-right"
-        size="xl"
-        ariaLabel="Arrow Right"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="accessibility"
-        size="xl"
-        ariaLabel="Accessibility"
-      ></qgds-icon>
-      <qgds-icon
-        iconId="announcement"
-        size="xl"
-        ariaLabel="Announcement"
-      ></qgds-icon>
-    </div>
-  `,
-};
+// export const ExtraLarge: Story = {
+//   render: () => html`
+//     <div
+//       style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;"
+//     >
+//       <qgds-icon iconId="home" size="xl" ariaLabel="Home"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-success"
+//         size="xl"
+//         ariaLabel="Success"
+//       ></qgds-icon>
+//       <qgds-icon iconId="alert-error" size="xl" ariaLabel="Error"></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-warning"
+//         size="xl"
+//         ariaLabel="Warning"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="alert-information"
+//         size="xl"
+//         ariaLabel="Information"
+//       ></qgds-icon>
+//       <qgds-icon iconId="calendar" size="xl" ariaLabel="Calendar"></qgds-icon>
+//       <qgds-icon
+//         iconId="arrow-right"
+//         size="xl"
+//         ariaLabel="Arrow Right"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="accessibility"
+//         size="xl"
+//         ariaLabel="Accessibility"
+//       ></qgds-icon>
+//       <qgds-icon
+//         iconId="announcement"
+//         size="xl"
+//         ariaLabel="Announcement"
+//       ></qgds-icon>
+//     </div>
+//   `,
+// };
 
-export const Decorative: Story = {
-  args: {
-    iconId: "home",
-    size: "md",
-  },
-};
+// export const Decorative: Story = {
+//   args: {
+//     iconId: "home",
+//     size: "md",
+//   },
+// };

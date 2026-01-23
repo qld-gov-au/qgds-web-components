@@ -25,3 +25,26 @@
 @layer utilities {
   @include utilities.css();
 }
+
+
+.palette-pale, #storybook-docs:has(.palette-pale), .sb-show-main:has(.palette-pale) {
+  --qgds-color-background:#e6f6ff;
+}
+
+.palette-muted, #storybook-docs:has(.palette-muted), .sb-show-main:has(.palette-muted) {
+  --qgds-color-background: #e3e7ea;
+}
+
+.palette-bold, #storybook-docs:has(.palette-bold), .sb-show-main:has(.palette-bold) {
+  --qgds-color-background: #005eb8;
+}
+
+.palette-deep, #storybook-docs:has(.palette-deep), .sb-show-main:has(.palette-deep) {
+  --qgds-color-background: #05325f;
+}
+
+.sb-show-main, .css-1cvjpgl, .parent-container {
+  background: var(--qgds-color-background);
+  color: var(--text);
+  padding: var(--default-spacing);
+}
