@@ -4,10 +4,6 @@
   --btn-text-decoration-color:var(--qgds-color-underline-default, inherit);
 }
 
-:host([trailing-icon]) .btn {
-  flex-direction: row-reverse;
-}
-
 .btn {
   --no-colour: transparent;
   --text: var(--btn-text);
@@ -49,6 +45,10 @@
   border-radius: var(--border-radius);
 }
 
+:host([trailing-icon]) .btn {
+  flex-direction: row-reverse;
+}
+
 /* Start */
 .loading {
   text-decoration: none; 
@@ -67,6 +67,7 @@
 
 .btn-primary:hover {
   --qgds-color-action-primary:  var(--qgds-color-action-primary-hover);
+
   box-shadow: var(--qgds-shadow-level-4);
 }
 
