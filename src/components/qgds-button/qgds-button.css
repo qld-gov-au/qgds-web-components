@@ -17,21 +17,21 @@
   border-style: solid;
   border-color: transparent;
   color: var(--text, white);
-  gap: var(--gap-inline, 0.5rem);
-  padding-block: var(--block-padding, 0.5rem);
-  padding-inline: var(--inline-padding, 1rem);
+  gap: var(--qgds-gap-inline, 0.5rem);
+  padding-block: var(--qgds-block-padding, 0.5rem);
+  padding-inline: var(--qgds-inline-padding, 1rem);
   border-radius: var(--border-radius);
-  font-size: var(--font-size, 1rem);
+  font-size: var(--qgds-font-size, 1rem);
   text-decoration: underline;
   text-decoration-color: var(--btn-text-decoration-color);
   text-underline-offset: var(--text-underline-offset, 4.8px);
   text-decoration-thickness: var(--text-decoration-thickness-default, .5px); 
-  transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
+  transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
 }
 
 .btn:hover {
   text-decoration-thickness: var(--text-decoration-thickness-hover, 2px);
-  transition: text-decoration-thickness var(--transition-time, 0.3s) ease-in-out;
+  transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
 }
 
 .btn:active {

@@ -91,50 +91,111 @@ const meta: Meta<QGDSButtonProps> = {
   title: "Components/QGDS Button",
   tags: ["autodocs"],
   render: (args) => renderButton(args),
-
   argTypes: {
     StoryPalette: {
       control: "select",
-      options: ["default", "pale", "muted", "bold", "deep"],
-      mapping: {
-        default: "palette-default",
-        pale: "palette-pale",
-        muted: "palette-muted",
-        bold: "palette-bold",
-        deep: "palette-deep",
-      },
+      options: [
+        "palette-default",
+        "palette-pale",
+        "palette-muted",
+        "palette-bold",
+        "palette-deep",
+      ],
+      // mapping: {
+      //   default: "palette-default",
+      //   pale: "palette-pale",
+      //   muted: "palette-muted",
+      //   bold: "palette-bold",
+      //   deep: "palette-deep",
+      // },
       name: "story palette",
+      description: "The Button colour palette and story palette",
+      table: {
+        defaultValue: { summary: "default" },
+      },
     },
     variant: {
       control: "select",
       options: ["primary", "secondary", "tertiary"],
       name: "button variant type",
+      description: "The Button variant type",
+      table: {
+        defaultValue: { summary: "primary" },
+      },
     },
-    label: { control: "text" },
-    disabled: { control: "boolean" },
+    label: {
+      control: "text",
+      description: "This is the Button content",
+      type: "string",
+    },
+    disabled: {
+      control: "boolean",
+      description: "Whether the button is disabled",
+      type: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
     target: {
       control: "select",
       options: ["_self", "_blank", "_parent", "_top"],
       if: { arg: "isLink" },
     },
-    ariaLabel: { control: "text" },
-    trailingIcon: { control: "boolean", name: "has trailing icon" },
-    isLink: { control: "boolean", name: "is link" },
+    ariaLabel: {
+      control: "text",
+      description: "The Button aria-label attribute",
+      type: "string",
+    },
+    trailingIcon: {
+      control: "boolean",
+      name: "has trailing icon",
+      description: "Whether the button has a trailing icon",
+      type: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
+    isLink: {
+      control: "boolean",
+      name: "is link",
+      description: "Whether the button is a HTML link",
+      type: "boolean",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+    },
     loadingText: {
       control: "text",
       name: "loading text",
       if: { arg: "isLink", truthy: false },
+      description: "The text that appears when the button is loading",
+      type: "string",
+      table: {
+        defaultValue: { summary: "Loading..." },
+      },
     },
     isLoading: {
       control: "boolean",
       name: "is loading",
       if: { arg: "isLink", truthy: false },
+      description: "Whether the button is in a loading state",
+      table: {
+        defaultValue: { summary: "false" },
+      },
+      type: "boolean",
     },
     eventTitle: {
       control: "text",
       name: "event title",
+      description: "The event title for the button, e.g., onClick",
+      type: "string",
     },
-    uniqueID: { control: "text", name: "unique ID" },
+    uniqueID: {
+      control: "text",
+      name: "unique ID",
+      description: "The unique identifier for the button",
+      type: "string",
+    },
   },
   globals: {
     backgrounds: { value: "default" },
@@ -161,13 +222,19 @@ export const Default: Story = {
   args: {
     label: "Default",
   },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <qgds-button button-text="QGDS Button" variant="primary">
+        <span slot="icon" class="icon-test"></span>
+      </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="secondary">
+        <span slot="icon" class="icon-test"></span>
+      </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="tertiary">
+        <span slot="icon" class="icon-test"></span>
+      </qgds-button>
+    </div>
+  `,
 };
 
 export const NoIcon: Story = {
@@ -175,54 +242,17 @@ export const NoIcon: Story = {
     label: "No icon",
     myIcon: "",
   },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
-};
-
-export const Disabled: Story = {
-  args: {
-    label: "Disabled Button",
-    disabled: true,
-  },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
-};
-
-export const CustomMessage: Story = {
-  args: {
-    label: "Custom Message",
-    message: "Custom click message!",
-  },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
-};
-
-export const Loading: Story = {
-  args: {
-    label: "Loading Button",
-    isLoading: true,
-    loadingText: "Loading...",
-  },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
+  render: () => html`
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <qgds-button button-text="QGDS Button" variant="primary">
+        <slot name="icon"></slot>
+      </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="secondary">
+        <slot name="icon"></slot>
+      </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="tertiary">
+        <slot name="icon"></slot>
+      </qgds-button>
+    </div>
+  `,
 };
