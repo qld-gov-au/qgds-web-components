@@ -100,7 +100,8 @@ export const AllIcons: Story = {
         border-radius: 0.25rem;
       }
       .my-icons qgds-icon:hover {
-        box-shadow: 0 0 0 2px rgb(0 0 0 / 0.15);
+        --qgds--icon-color-hover: hsl(from var(--qgds-color-border) h s 75%);
+        box-shadow: 0 0 0 2px var(--qgds--icon-color-hover);
       }
     </style>
     <section class="my-icons">
