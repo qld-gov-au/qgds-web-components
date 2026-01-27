@@ -26,24 +26,40 @@
   @include utilities.css();
 }
 
-.sb-show-main, .css-1cvjpgl, .parent-container {
-  background: var(--qgds-color-background);
-  color: var(--text);
-  padding: var(--default-spacing);
-}
+
 
 .palette-pale, #storybook-docs:has(.palette-pale), .sb-show-main:has(.palette-pale) {
   --qgds-color-background:#e6f6ff;
+  qgds-icon{
+    --qgds-icon-color: #353535;
+  }
 }
 
 .palette-muted, #storybook-docs:has(.palette-muted), .sb-show-main:has(.palette-muted) {
   --qgds-color-background: #e3e7ea;
+  qgds-icon{
+    --qgds-icon-color: #353535;
+  }
 }
 
 .palette-bold, #storybook-docs:has(.palette-bold), .sb-show-main:has(.palette-bold) {
   --qgds-color-background: #005eb8;
+  qgds-icon{
+    --qgds-icon-color: #ffffff;
+  }
 }
 
-.palette-deep, #storybook-docs:has(.palette-deep), .sb-show-main:has(.palette-deep) {
+.palette-deep, #storybook-docs:has(.palette-deep) {
   --qgds-color-background: #05325f;
+  qgds-icon{
+    --qgds-icon-color: #ffffff;
+  }
+  
 }
+
+.sb-show-main, .css-1cvjpgl, .parent-container {
+  background: var(--qgds-color-background);
+  &.palette-default {
+    background-color: transparent;
+  }
+} 
