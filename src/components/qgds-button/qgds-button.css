@@ -2,8 +2,10 @@
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
   --btn-text-decoration-color:var(--qgds-color-underline-default, inherit);
-  --btn-shadow: var(--shadow, none);
-  --btn-shadow-hover: var(--shadow-hover, none);
+}
+
+:host([trailing-icon]) .btn {
+  flex-direction: row-reverse;
 }
 
 .btn {
@@ -11,14 +13,12 @@
   --text: var(--btn-text);
   --border-width: 1px;
 
-  font: var(--qgds-font-family); /* Not sure why I neeb this */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border-width: var(--border-width);
   border-style: solid;
-  border-color: var(--btn-border-colour);
   border-color: transparent;
   color: var(--text, white);
   gap: var(--gap-inline, 0.5rem);
@@ -44,8 +44,8 @@
 }
 
 .btn:focus {
-  outline: var(--outline-width) solid var(--qgds-color-focus-default);
-  outline-offset: var(--outline-offset);
+  outline: var(--qgds-outline-width) solid var(--qgds-color-focus-default);
+  outline-offset: var(--qgds-outline-offset);
   border-radius: var(--border-radius);
 }
 
@@ -61,13 +61,13 @@
 
 .btn-primary {
   background: var(--qgds-color-action-primary, #454545);
-  box-shadow: var(--btn-shadow, none);
+  box-shadow: var(--qgds-shadow-level-3);
   text-decoration-color: inherit;
 }
 
 .btn-primary:hover {
   --qgds-color-action-primary:  var(--qgds-color-action-primary-hover);
-  --btn-shadow: var(--btn-shadow-hover, none);
+  box-shadow: var(--qgds-shadow-level-4);
 }
 
 .btn-secondary {
@@ -79,11 +79,11 @@
 }
 
 button.btn-secondary:disabled, .btn-secondary.disabled {
-  border-color: var(--qgds-color-neutral-light, #ccc);
+  --btn-border-colour: var(--qgds-color-neutral-light, #ccc);
 }
 
 .btn-secondary:hover {
-  --border-colour: var(--qgds-color-action-secondary-hover, #333);
+  --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
 }
 
 .btn-tertiary {
@@ -125,9 +125,7 @@ button:disabled, .disabled {
   animation: spin 1s linear infinite;
 }
 
-:host([trailing-icon]) .btn {
-  flex-direction: row-reverse;
-}
+
 
 slot {
   display: block;

@@ -96,6 +96,13 @@ const meta: Meta<QGDSButtonProps> = {
     StoryPalette: {
       control: "select",
       options: ["default", "pale", "muted", "bold", "deep"],
+      mapping: {
+        default: "palette-default",
+        pale: "palette-pale",
+        muted: "palette-muted",
+        bold: "palette-bold",
+        deep: "palette-deep",
+      },
       name: "story palette",
     },
     variant: {
@@ -108,13 +115,25 @@ const meta: Meta<QGDSButtonProps> = {
     target: {
       control: "select",
       options: ["_self", "_blank", "_parent", "_top"],
+      if: { arg: "isLink" },
     },
     ariaLabel: { control: "text" },
     trailingIcon: { control: "boolean", name: "has trailing icon" },
     isLink: { control: "boolean", name: "is link" },
-    loadingText: { control: "text", name: "loading text" },
-    isLoading: { control: "boolean", name: "is loading" },
-    eventTitle: { control: "text", name: "event title" },
+    loadingText: {
+      control: "text",
+      name: "loading text",
+      if: { arg: "isLink", truthy: false },
+    },
+    isLoading: {
+      control: "boolean",
+      name: "is loading",
+      if: { arg: "isLink", truthy: false },
+    },
+    eventTitle: {
+      control: "text",
+      name: "event title",
+    },
     uniqueID: { control: "text", name: "unique ID" },
   },
   globals: {

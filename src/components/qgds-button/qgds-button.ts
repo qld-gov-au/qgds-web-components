@@ -7,8 +7,8 @@ import componentCSS from "./qgds-button.css?inline";
 type ButtonVariant = "primary" | "secondary" | "tertiary";
 type ButtonType = "button" | "submit" | "reset";
 type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
-type UniqueID = string; // This is used for click tracking data attribute
-type ButtonText = string;
+// type UniqueID = string; // This is used for click tracking data attribute
+// type ButtonText = string;
 
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
@@ -17,7 +17,7 @@ export class QGDSButton extends LitElement {
   // The 'static properties' getter is less common with decorators.
 
   @property({ type: String }) label: string = "Button";
-  @property({ type: String, attribute: "button-text" }) buttonText: ButtonText =
+  @property({ type: String, attribute: "button-text" }) buttonText: string =
     "test";
   @property({ type: String, reflect: true }) variant: ButtonVariant = "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
@@ -27,7 +27,7 @@ export class QGDSButton extends LitElement {
   ariaLabel: string = "";
   @property({ type: Boolean, reflect: true }) trailingIcon: boolean = false;
   @property({ type: String, reflect: true, attribute: "unique-id" })
-  uniqueID: UniqueID | undefined = undefined;
+  uniqueID: string | undefined = undefined;
   @property({ type: Boolean, reflect: true, attribute: "is-link" }) isLink =
     false;
   @property({ type: String, attribute: "loading-text" }) loadingText =
@@ -68,15 +68,15 @@ export class QGDSButton extends LitElement {
     return html`
       <a
         href=${this.label}
-        type="button"
         ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
-          "btn-" + this.variant
+          "btn-" + this.variant,
         )} ${this.disabled || this.isLoading ? "disabled" : ""}"
-        title=${this.buttonText}
         target="${ifDefined(this.target || undefined)}"
         tabindex="0"
+        rel="no-opener"
+        @click=${this._onClick.bind(this)}
         @mouseenter=${this._handleMouseEnter.bind(this)}
         @mouseleave=${this._handleMouseLeave.bind(this)}
         @mousedown=${this._handleMouseDown.bind(this)}
@@ -84,12 +84,8 @@ export class QGDSButton extends LitElement {
         @focus=${this._handleFocus.bind(this)}
         @blur=${this._handleBlur.bind(this)}
       >
-        ${this.isLoading
-          ? html`<span class="icon-loading"></span>`
-          : html`<slot name="icon"></slot>`}
-        ${this.isLoading
-          ? (this.loadingText ?? this.buttonText)
-          : this.buttonText}
+        <slot name="icon"></slot>
+        ${this.buttonText}
       </a>
     `;
   }
@@ -103,7 +99,7 @@ export class QGDSButton extends LitElement {
         ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
-          "btn-" + this.variant
+          "btn-" + this.variant,
         )}"
         title=${this.buttonText}
         @click=${this._onClick.bind(this)}
