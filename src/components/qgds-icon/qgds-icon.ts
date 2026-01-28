@@ -1,7 +1,9 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
+import { isMulticolourIcon } from "./icons-multicolour.js";
 
 type IconSize = "sm" | "md" | "lg" | "xl";
 
@@ -20,9 +22,18 @@ export class QGDSIcon extends LitElement {
     ${unsafeCSS(componentCSS)}
   `;
 
+  private get isMulticolour(): boolean {
+    return isMulticolourIcon(this.iconId);
+  }
+
   render() {
+    const classes = {
+      "qgds-icon": true,
+      "qgds-icon-multicolour": this.isMulticolour,
+    };
+
     return html`
-      <span class="qgds-icon" aria-label="${this.ariaLabel || "icon"}"></span>
+      <span class="${classMap(classes)}" aria-label="${this.ariaLabel || "icon"}"></span>
     `;
   }
 }

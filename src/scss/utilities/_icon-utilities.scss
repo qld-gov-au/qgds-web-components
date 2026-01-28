@@ -1,6 +1,5 @@
 @forward "../../scss/utilities/_icons.variables";
 @use "icons.list" as icons-list;
-@use "../tools/mixins/make-icon" as m;
 
 @mixin css() {
   :root {
@@ -24,20 +23,6 @@
   @each $icon-size in $icon-sizes {
     qgds-icon[size="#{$icon-size}"] {
       --icon-size: var(--qgds-icon-size-#{$icon-size});
-    }
-  }
-
-  // Loop through the icon names and create utility class for each
-  .qgds-icon {
-    @include m.make-icon();
-
-    &:where(svg) {
-      background-color: transparent;
-    }
-
-    // Better alignment for icons inline with text
-    &.is-inline {
-      @include m.make-icon($include-base: false, $is-inline: true);
     }
   }
 }
