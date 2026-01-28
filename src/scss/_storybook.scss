@@ -1,0 +1,70 @@
+// Storybook-specific styles
+// These styles are only used in Storybook for demonstration purposes
+
+@mixin css() {
+  .sb-show-main,
+  .css-1cvjpgl,
+  .parent-container {
+    background: var(--qgds-color-background);
+
+    &.palette-default {
+      background-color: transparent;
+    }
+  }
+
+  .palette-pale,
+  #storybook-docs:has(.palette-pale),
+  .sb-show-main:has(.palette-pale) {
+    --qgds-color-background: #e6f6ff;
+  }
+
+  .palette-muted,
+  #storybook-docs:has(.palette-muted),
+  .sb-show-main:has(.palette-muted) {
+    --qgds-color-background: #e3e7ea;
+  }
+
+  .palette-bold,
+  #storybook-docs:has(.palette-bold),
+  .sb-show-main:has(.palette-bold) {
+    --qgds-color-background: #005eb8;
+  }
+
+  .palette-deep,
+  #storybook-docs:has(.palette-deep) {
+    --qgds-color-background: #05325f;
+  }
+
+  qgds-icon {
+    --qgds-icon-color: inherit;
+  }
+
+  .palette-pale qgds-icon,
+  .palette-muted qgds-icon {
+    --qgds-icon-color: #353535;
+  }
+
+  .palette-bold qgds-icon,
+  .palette-deep qgds-icon {
+    --qgds-icon-color: #fff;
+  }
+
+  .sb-show-main:has(.palette-pale) qgds-icon,
+  .sb-show-main:has(.palette-muted) qgds-icon {
+    --qgds-icon-color: #353535;
+  }
+
+  .sb-show-main:has(.palette-bold) qgds-icon {
+    --qgds-icon-color: #fff;
+  }
+
+  #storybook-docs:has(.palette-pale) qgds-icon,
+  #storybook-docs:has(.palette-muted) qgds-icon {
+    --qgds-icon-color: #353535;
+  }
+
+  #storybook-docs:has(.palette-bold) qgds-icon,
+  #storybook-docs:has(.palette-deep) qgds-icon {
+    --qgds-icon-color: #fff;
+  }
+}
