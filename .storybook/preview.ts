@@ -30,9 +30,7 @@ const preview: Preview = {
       toolbar: {
         // icons: https://main--64b56e737c0aeefed9d5e675.chromatic.com/?path=/docs/introduction--docs
         icon: "paintbrush",
-        items: palettes.map((palette) => {
-          // Convert { "soft": "Soft" } → { value: "soft", title: "Soft" }
-          const [key, value] = Object.entries(palette)[0];
+        items: Object.entries(palettes).map(([key, value]) => {
           return { value: key, title: value };
         }),
       },
