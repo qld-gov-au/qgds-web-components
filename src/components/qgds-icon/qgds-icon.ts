@@ -7,6 +7,23 @@ import { isMulticolourIcon } from "./icons-multicolour.js";
 
 type IconSize = "sm" | "md" | "lg" | "xl";
 
+/**
+ * QGDS Icon Component
+ *
+ * A web component for displaying icons using CSS mask-image or background-image techniques.
+ * Single-colour icons use mask-image for easy recolouring via CSS.
+ * Multi-colour icons use background-image to preserve their original colours.
+ *
+ * @element qgds-icon
+ * @attr {string} iconId - The ID of the icon to display (e.g., "home", "alert-success").
+ * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
+ * @attr {string} ariaLabel - The aria-label for the icon for accessibility.
+ *
+ * @example
+ * ```html
+ * <qgds-icon iconId="home" size="md" ariaLabel="Home"></qgds-icon>
+ * ```
+ */
 @customElement("qgds-icon")
 export class QGDSIcon extends LitElement {
   @property({ type: String })
