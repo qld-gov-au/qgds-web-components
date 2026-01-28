@@ -1,71 +1,68 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+
+import componentCSS from "./qgds-callout.styles.scss?inline";
+
+/** QGDS Callout Web Component
+ *  Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.
+ * @example
+ * <qgds-callout heading="Important Notice" heading-level="h2">
+ *
+ * @attribute heading - Callout headline text
+ * @attribute heading-level - Heading level (h2-h6)
+ * @attribute content - Callout message content
+ */
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
-  @property({ type: String }) headline: string = "Callout headline";
-  @property({ type: String, reflect: true }) level: string = "3";
-  @property({ type: String }) message: string = "This is an alert message.";
-  @property({ type: String }) palette: string = "";
+  @property({ type: String, reflect: true, attribute: "heading" })
+  heading: string = "Callout headline";
+  @property({ type: String, reflect: true, attribute: "heading-level" })
+  headingLevel: string = "h3";
+  @property({ type: String, reflect: true, attribute: "content" })
+  content: string = "This is callout content.";
 
-  static styles = css`
-    :host {
-      display: flex;
-      flex-direction: column;
-      background-color: var(--bg, #f9f9f9);
-      color: var(--text-color, #333);
-      padding: 1.5rem 1rem 1.5rem 1.5rem;
-      border-left: 4px solid var(--accent-color);
-      margin-bottom: 1rem;
-    }
-
-    .headline {
-      margin: 0;
-      padding: 0 0 1rem 0;
-      font-size: 1.25rem;
-      line-height: 2rem;
-      font-weight: 600;
-      color: var(--headline-color);
-    }
-
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    qgds-button {
-      max-width: 4rem;
-    }
-  `;
+  static styles = [
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   render() {
     let headingElement: unknown = "";
 
-    if (this.headline) {
-      switch (this.level.toLowerCase()) {
+    if (this.heading) {
+      switch (this.headingLevel.toLowerCase()) {
         case "2":
         case "h2":
-          headingElement = html`<h2 class="headline">${this.headline}</h2>`;
+          headingElement = html`<h2 class="headline">${this.heading}</h2>`;
           break;
         case "3":
         case "h3":
-          headingElement = html`<h3 class="headline">${this.headline}</h3>`;
+          headingElement = html`<h3 class="headline">${this.heading}</h3>`;
           break;
         case "4":
         case "h4":
-          headingElement = html`<h4 class="headline">${this.headline}</h4>`;
+          headingElement = html`<h4 class="headline">${this.heading}</h4>`;
+          break;
+        case "5":
+        case "h5":
+          headingElement = html`<h5 class="headline">${this.heading}</h5>`;
+          break;
+        case "6":
+        case "h6":
+          headingElement = html`<h6 class="headline">${this.heading}</h6>`;
           break;
         default:
           console.warn(
-            `Unsupported headline level: ${this.level}. Defaulting to h3.`
+            `Unsupported headline level: ${this.headingLevel}. Defaulting to h3.`,
           );
-          headingElement = html`<h3 class="headline">${this.headline}</h3>`;
+          headingElement = html`<h3 class="headline">${this.heading}</h3>`;
       }
     }
 
     return html`
-      <div class="qgds-callout">
+      <div class="callout">
         ${headingElement}
         <div class="content">
           <slot></slot>
