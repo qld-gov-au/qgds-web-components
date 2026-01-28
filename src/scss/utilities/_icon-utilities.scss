@@ -1,5 +1,7 @@
+@use "sass:map";
 @forward "../../scss/utilities/_icons.variables";
 @use "icons.list" as icons-list;
+@use "icons.sizes" as icons-sizes;
 
 @mixin css() {
   :root {
@@ -18,11 +20,10 @@
     }
   }
 
-  // Generate size selectors dynamically
-  $icon-sizes: xs, sm, md, lg, xl, xxl;
-  @each $icon-size in $icon-sizes {
-    qgds-icon[size="#{$icon-size}"] {
-      --icon-size: var(--qgds-icon-size-#{$icon-size});
+  // Generate size selectors dynamically from the icon-sizes map (single source of truth)
+  @each $size-key, $size-value in icons-sizes.$icon-sizes {
+    qgds-icon[size="#{$size-key}"] {
+      --icon-size: #{$size-value};
     }
   }
 }
