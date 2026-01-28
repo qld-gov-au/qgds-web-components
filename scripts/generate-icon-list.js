@@ -1,3 +1,22 @@
+/**
+ * Generate Icon List Script
+ *
+ * This script extracts icon names from the SCSS icon list file and generates
+ * a TypeScript file with all available icon names for use in the component.
+ *
+ * Usage:
+ *   npm run generate:icons
+ *   # or directly:
+ *   node scripts/generate-icon-list.js
+ *
+ * When to run:
+ *   Run this script whenever new icons are added to src/scss/utilities/_icons.list.scss
+ *   to regenerate the icon-names.ts file used by Storybook and the component.
+ *
+ * Input:  src/scss/utilities/_icons.list.scss
+ * Output: src/components/qgds-icon/icon-names.ts
+ */
+
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
