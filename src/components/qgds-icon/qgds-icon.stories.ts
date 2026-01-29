@@ -86,11 +86,17 @@ export const AllIcons: Story = {
     <style>
       .my-icons {
         display: grid;
-        grid-template-columns: repeat(auto-fit, 2.5rem);
+        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
 
         gap: 1rem;
       }
-      .my-icons qgds-icon {
+      .icon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .icon-item qgds-icon {
         display: flex;
         padding-inline: 0.5rem;
         padding-block: 0.5rem;
@@ -99,20 +105,28 @@ export const AllIcons: Story = {
         border: 1px solid var(--qgds-color-border);
         border-radius: 0.25rem;
       }
-      .my-icons qgds-icon:hover {
+      .icon-item qgds-icon:hover {
         --qgds--icon-color-hover: hsl(from var(--qgds-color-border) h s 75%);
         box-shadow: 0 0 0 2px var(--qgds--icon-color-hover);
+      }
+      .icon-name {
+        font-size: 0.75rem;
+        text-align: center;
+        word-break: break-word;
       }
     </style>
     <section class="my-icons">
       ${ICON_NAMES.map(
         (iconName) => html`
-          <qgds-icon
-            iconId="${iconName}"
-            size="${args.size}"
-            ariaLabel="${iconName}"
-            title="${iconName}"
-          ></qgds-icon>
+          <div class="icon-item">
+            <qgds-icon
+              iconId="${iconName}"
+              size="${args.size}"
+              ariaLabel="${iconName}"
+              title="${iconName}"
+            ></qgds-icon>
+            <span class="icon-name">${iconName}</span>
+          </div>
         `,
       )}
     </section>
