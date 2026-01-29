@@ -7,28 +7,28 @@
     @extend %qgds-color-palette-default !optional;
   }
 
-  .palette-soft,
+  .qgds-palette-soft,
   [palette="soft"] {
     @extend %qgds-color-palette-soft !optional;
   }
 
-  .palette-muted,
+  .qgds-palette-muted,
   [palette="muted"] {
     @extend %qgds-color-palette-muted !optional;
   }
 
-  .palette-bold,
+  .qgds-palette-bold,
   [palette="bold"] {
     @extend %qgds-color-palette-bold !optional;
   }
 
-  .palette-deep,
+  .qgds-palette-deep,
   [palette="deep"] {
     @extend %qgds-color-palette-deep !optional;
   }
 
   // Some baseline defaults for background and text colors. These are usually redefined within each component
-  [class*="palette-"],
+  [class*="qgds-palette-"],
   [palette] {
     background: var(--qgds-color-background);
     color: var(--qgds-color-text-default);

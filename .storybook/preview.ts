@@ -43,22 +43,20 @@ const preview: Preview = {
       const paletteName = context?.globals?.globalPalette || "default";
 
       // Find and apply palette class to all .docs-story and .sb-show-main elements
-      setTimeout(() => {
-        const storyElements = document.querySelectorAll(
-          ".docs-story, .sb-show-main",
-        );
+      const storyElements = document.querySelectorAll(
+        ".docs-story, .sb-show-main",
+      );
 
-        storyElements.forEach((el) => {
-          // Remove any existing palette classes
-          el.classList.forEach((className) => {
-            if (className.startsWith("palette-")) {
-              el.classList.remove(className);
-            }
-          });
-          // Add the current palette class
-          el.classList.add(`palette-${paletteName}`);
+      storyElements.forEach((el) => {
+        // Remove any existing palette classes
+        el.classList.forEach((className) => {
+          if (className.startsWith("qgds-palette-")) {
+            el.classList.remove(className);
+          }
         });
-      }, 0);
+        // Add the current palette class
+        el.classList.add(`qgds-palette-${paletteName}`);
+      });
 
       return html`${Story()}`;
     },
