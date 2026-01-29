@@ -9,6 +9,13 @@
   --text: var(--btn-text);
   --border-width: 1px;
 
+  /* Stubs to be replaced when token files are created */
+  --qgds-outline-width: 3px;
+  --qgds-outline-offset: 2px;
+  --qgds-gap-inline: 0.5rem;
+  --qgds-block-padding: 0.5rem;
+  --qgds-inline-padding: 1rem;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;

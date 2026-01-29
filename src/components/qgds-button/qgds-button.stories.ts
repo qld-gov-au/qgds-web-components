@@ -33,7 +33,7 @@ export interface QGDSButtonProps {
   /** Unique identifier */
   uniqueID?: string;
 
-  StoryPalette?: string;
+  // StoryPalette?: string;
   variant?: string;
 }
 
@@ -92,28 +92,21 @@ const meta: Meta<QGDSButtonProps> = {
   tags: ["autodocs"],
   render: (args) => renderButton(args),
   argTypes: {
-    StoryPalette: {
-      control: "select",
-      options: [
-        "palette-default",
-        "palette-pale",
-        "palette-muted",
-        "palette-bold",
-        "palette-deep",
-      ],
-      // mapping: {
-      //   default: "palette-default",
-      //   pale: "palette-pale",
-      //   muted: "palette-muted",
-      //   bold: "palette-bold",
-      //   deep: "palette-deep",
-      // },
-      name: "story palette",
-      description: "The Button colour palette and story palette",
-      table: {
-        defaultValue: { summary: "default" },
-      },
-    },
+    // StoryPalette: {
+    //   control: "select",
+    //   options: [
+    //     "palette-default",
+    //     "palette-soft",
+    //     "palette-muted",
+    //     "palette-bold",
+    //     "palette-deep",
+    //   ],
+    //   name: "story palette",
+    //   description: "The Button colour palette and story palette",
+    //   table: {
+    //     defaultValue: { summary: "default" },
+    //   },
+    // },
     variant: {
       control: "select",
       options: ["primary", "secondary", "tertiary"],
@@ -209,13 +202,13 @@ export const Button: Story = {
   args: {
     label: "QGDS Button",
   },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
+  // decorators: [
+  //   (Story, context) => html`
+  //     <div class="parent-container ${context.args.StoryPalette ?? ""}">
+  //       ${Story()}
+  //     </div>
+  //   `,
+  // ],
 };
 
 export const Default: Story = {

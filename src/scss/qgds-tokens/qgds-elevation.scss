@@ -1,4 +1,7 @@
 // Stub file only.
 :root {
-    --qgds-transition-time: 0.3s;
+    --qgds-shadow-level-1: 0 1px 2px 0 rgb(0 0 0 / 0.20), 0 1px 3px 1px rgb(0 0 0 / 0.10);
+    --qgds-shadow-level-2: 0px 1px 2px rgb(0 0 0 / 0.3), 0px 2px 6px 2px rgb(0 0 0 / 0.15);
+    --qgds-shadow-level-3: 0px 4px 8px 3px rgb(0 0 0 / 0.1), 0px 1px 3px rgb(0 0 0 / 0.2);
+    --qgds-shadow-level-4: 7px 6px 13px 0 rgb(0 0 0 / 0.02), 0 2px 5px 0 rgb(0 0 0 / 0.10), 0 13px 20px 0 rgb(0 0 0 / 0.10);
 }
