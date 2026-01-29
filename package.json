@@ -12,6 +12,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "http-server dist -p 8090",
+    "generate:icons": "node scripts/generate-icon-list.js",
     "test": "vitest --config vitest.config.ts",
     "test:ui": "vitest --config vitest.config.ts --ui",
     "test:coverage": "vitest --config vitest.config.ts --coverage",

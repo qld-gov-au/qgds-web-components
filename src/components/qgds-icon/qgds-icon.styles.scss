@@ -1,0 +1,28 @@
+:host {
+  display: inline-block;
+
+  --qgds-icon-color: var(--qgds-color-text-default, inherit);
+}
+
+.qgds-icon {
+  display: inline-flex;
+  inline-size: var(--qgds-icon-size);
+  block-size: var(--qgds-icon-size);
+  background-position: center center;
+  background-repeat: no-repeat;
+  mask-position: center center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  background-size: contain;
+  vertical-align: middle;
+  mask-image: var(--qgds-icon-svg);
+  color: var(--qgds-icon-color, inherit);
+  background-color: currentcolor;
+}
+
+/* Multicolour icons use background-image instead of mask-image */
+.qgds-icon-multicolour {
+  mask-image: none;
+  background-image: var(--qgds-icon-svg);
+  background-color: transparent;
+}
