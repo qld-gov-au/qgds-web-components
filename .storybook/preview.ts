@@ -14,6 +14,15 @@ const preview: Preview = {
       },
     },
 
+    layout: "fullscreen",
+
+    docs: {
+      source: {
+        //Global default. Override this in local stories to include decorators
+        excludeDecorators: true,
+      },
+    },
+
     a11y: {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
@@ -42,23 +51,13 @@ const preview: Preview = {
       // Get the selected palette from global types (storybook toolbar)
       const paletteName = context?.globals?.globalPalette || "default";
 
-      // Find and apply palette class to all .docs-story and .sb-show-main elements
-      const storyElements = document.querySelectorAll(
-        ".docs-story, .sb-show-main",
-      );
-
-      storyElements.forEach((el) => {
-        // Remove any existing palette classes
-        el.classList.forEach((className) => {
-          if (className.startsWith("qgds-palette-")) {
-            el.classList.remove(className);
-          }
-        });
-        // Add the current palette class
-        el.classList.add(`qgds-palette-${paletteName}`);
-      });
-
-      return html`${Story()}`;
+      return html`
+        <div
+          class="qgds-palette-${paletteName}"
+          style="padding: 2rem; min-height: 30vh;">
+          ${Story()}
+        </div>
+      `;
     },
   ],
 };
