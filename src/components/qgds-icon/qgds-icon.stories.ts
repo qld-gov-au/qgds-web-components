@@ -36,17 +36,6 @@ const meta: Meta<QGDSIconProps> = {
   tags: ["autodocs"],
   render: (args) => renderIcon(args),
   argTypes: {
-    StoryPalette: {
-      control: "select",
-      options: [
-        "palette-default",
-        "palette-pale",
-        "palette-muted",
-        "palette-bold",
-        "palette-deep",
-      ],
-      name: "story palette",
-    },
     iconId: {
       control: "select",
       options: [...ICON_NAMES],
@@ -66,15 +55,8 @@ export const Default: Story = {
   args: {
     iconId: "home",
     size: "md",
-    StoryPalette: "palette-default",
+    ariaLabel: "Home icon",
   },
-  decorators: [
-    (Story, context) => html`
-      <div class="parent-container ${context.args.StoryPalette ?? ""}">
-        ${Story()}
-      </div>
-    `,
-  ],
 };
 
 /** Multiple icons at medium size */

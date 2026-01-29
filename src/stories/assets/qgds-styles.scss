@@ -1,5 +1,1 @@
 @use "./../../scss/main" as *;
-@use "./../../scss/storybook";
-
-// Storybook-specific styles (for demonstration purposes only)
-@include storybook.css();
