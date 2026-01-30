@@ -134,8 +134,8 @@ describe("qgds-button", () => {
       expect(link).toBeFalsy();
     });
 
-    it("should render as link when isLink is true", async () => {
-      element.setAttribute("is-link", "true");
+    it("should render as link when linkValue is provided", async () => {
+      element.setAttribute("link-value", "/test-page");
       await element.updateComplete;
 
       const link = element.shadowRoot?.querySelector("a");
@@ -143,6 +143,7 @@ describe("qgds-button", () => {
 
       expect(link).toBeTruthy();
       expect(button).toBeFalsy();
+      expect(link?.getAttribute("href")).toBe("/test-page");
     });
 
     it("should display loading state", async () => {

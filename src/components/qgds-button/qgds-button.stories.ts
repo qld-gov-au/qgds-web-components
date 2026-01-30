@@ -23,8 +23,6 @@ export interface QGDSButtonProps {
   /** Button text content */
   // buttonText?: string;
   trailingIcon?: boolean;
-  /** Whether the button is a link */
-  isLink?: boolean;
   /** Loading text to display */
   loadingText?: string;
   /** Whether the button is loading */
@@ -36,6 +34,8 @@ export interface QGDSButtonProps {
   /** Icon identifier */
   iconId?: string;
   iconSize: "sm" | "md" | "lg" | "xl";
+  /** Link URL value */
+  linkValue?: string;
 
   // StoryPalette?: string;
   variant?: string;
@@ -49,7 +49,7 @@ const renderButton = ({
   ariaLabel = "",
   trailingIcon = false,
   variant = "primary",
-  isLink = false,
+  linkValue = "",
   loadingText = "Loading...",
   isLoading = false,
   eventTitle = "onClick",
@@ -80,7 +80,7 @@ const renderButton = ({
         button-text="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
-        ?is-link=${isLink}
+        href="${ifDefined(linkValue || undefined)}"
         loading-text="${ifDefined(loadingText || undefined)}"
         ?is-loading=${isLoading}
         event-title="${eventTitle}"
@@ -128,7 +128,7 @@ const meta: Meta<QGDSButtonProps> = {
     target: {
       control: "select",
       options: ["_self", "_blank", "_parent", "_top"],
-      if: { arg: "isLink" },
+      if: { arg: "linkValue", truthy: true },
     },
     ariaLabel: {
       control: "text",
@@ -158,19 +158,19 @@ const meta: Meta<QGDSButtonProps> = {
         defaultValue: { summary: "false" },
       },
     },
-    isLink: {
-      control: "boolean",
-      name: "is link",
-      description: "Whether the button is a HTML link",
-      type: "boolean",
+    linkValue: {
+      control: "text",
+      name: "link value",
+      description: "The URL for the button if it is a link",
+      type: "string",
       table: {
-        defaultValue: { summary: "false" },
+        defaultValue: { summary: "" },
       },
     },
     loadingText: {
       control: "text",
       name: "loading text",
-      if: { arg: "isLink", truthy: false },
+      if: { arg: "linkValue", truthy: false },
       description: "The text that appears when the button is loading",
       type: "string",
       table: {
@@ -180,7 +180,7 @@ const meta: Meta<QGDSButtonProps> = {
     isLoading: {
       control: "boolean",
       name: "is loading",
-      if: { arg: "isLink", truthy: false },
+      if: { arg: "linkValue", truthy: false },
       description: "Whether the button is in a loading state",
       table: {
         defaultValue: { summary: "false" },

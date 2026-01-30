@@ -28,8 +28,8 @@ export class QGDSButton extends LitElement {
   @property({ type: Boolean, reflect: true }) trailingIcon: boolean = false;
   @property({ type: String, reflect: true, attribute: "unique-id" })
   uniqueID: string | undefined = undefined;
-  @property({ type: Boolean, reflect: true, attribute: "is-link" }) isLink =
-    false;
+  @property({ type: String, reflect: true, attribute: "href" })
+  linkValue: string | undefined = undefined;
   @property({ type: String, attribute: "loading-text" }) loadingText =
     "Loading...";
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
@@ -59,7 +59,7 @@ export class QGDSButton extends LitElement {
 
   render() {
     // Check if it's a link or button
-    if (this.isLink) {
+    if (this.linkValue !== undefined) {
       return this.renderLink();
     } else {
       return this.renderButton();
@@ -71,7 +71,7 @@ export class QGDSButton extends LitElement {
   private renderLink() {
     return html`
       <a
-        href=${this.label}
+        href=${this.linkValue ?? "#"}
         ?uniqueID=${ifDefined(this.uniqueID ?? undefined)}
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
