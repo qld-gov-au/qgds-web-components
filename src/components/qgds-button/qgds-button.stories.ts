@@ -47,7 +47,6 @@ const renderButton = ({
   disabled = false,
   target = "",
   ariaLabel = "",
-  _myIcon = `<span slot="icon" class="icon-test"></span>`,
   trailingIcon = false,
   variant = "primary",
   isLink = false,
