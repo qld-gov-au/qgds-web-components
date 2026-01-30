@@ -10,10 +10,12 @@ const renderCallout = ({
   heading,
   headingLevel,
   content,
-}: QGDSCalloutProps) => {
+}: QGDSCalloutProps & { content?: string }) => {
+  // Ensure content is a string for unsafeHTML
+  const safeContent = typeof content === "string" ? content : "";
   return html`
     <qgds-callout heading="${heading}" heading-level="${headingLevel ?? "h3"}">
-      ${unsafeHTML(content)}
+      ${unsafeHTML(safeContent)}
     </qgds-callout>
   `;
 };
