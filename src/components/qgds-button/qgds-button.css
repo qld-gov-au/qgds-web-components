@@ -120,6 +120,7 @@ button:disabled, .disabled {
   pointer-events: none;
   cursor: not-allowed;
 }
+
 /* Hide all slotted elements by default */
 ::slotted(*) {
   display: none;

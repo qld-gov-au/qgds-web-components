@@ -139,7 +139,7 @@ export class QGDSButton extends LitElement {
   }
 
   // Watch for isLoading changes to swap icons in light DOM
-  updated(changedProperties: Map<string, any>) {
+  updated(changedProperties: Map<PropertyKey, unknown>) {
     super.updated(changedProperties);
 
     if (changedProperties.has("isLoading")) {
@@ -164,7 +164,7 @@ export class QGDSButton extends LitElement {
         this.loadingIcon.setAttribute("iconid", "spinner-step-1");
 
         // Use the original icon's size if it exists, otherwise default to "md"
-        const originalSize = this.originalIcon?.getAttribute("size") || "md";
+        const originalSize = this.originalIcon?.getAttribute("size") ?? "md";
         this.loadingIcon.setAttribute("size", originalSize);
 
         this.loadingIcon.setAttribute("data-loading-icon", "");
