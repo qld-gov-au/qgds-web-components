@@ -23,7 +23,9 @@ export function semanticHeading(
     ${choose(
       level,
       [
+        [1, () => html`<h1 class=${className}>${heading}</h1>`],
         [2, () => html`<h2 class=${className}>${heading}</h2>`],
+        [3, () => html`<h3 class=${className}>${heading}</h3>`],
         [4, () => html`<h4 class=${className}>${heading}</h4>`],
         [5, () => html`<h5 class=${className}>${heading}</h5>`],
         [6, () => html`<h6 class=${className}>${heading}</h6>`],
