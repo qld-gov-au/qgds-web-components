@@ -42,6 +42,9 @@ export class QGDSButton extends LitElement {
   @state() private _isFocused: boolean = false;
   @state() private hasIcon: boolean = false;
 
+  private originalIcon: HTMLElement | null = null;
+  private loadingIcon: HTMLElement | null = null;
+
   // Constructor is generally for setting up initial state that doesn't depend on attributes.
   // For properties, it's better to set default values directly on the class with the @property decorator.
   constructor() {
@@ -117,12 +120,10 @@ export class QGDSButton extends LitElement {
         @focus=${this._handleFocus.bind(this)}
         @blur=${this._handleBlur.bind(this)}
       >
-        ${this.isLoading
-          ? html`<span class="icon-loading"></span>`
-          : html`<slot
-              name="icon"
-              @slotchange=${this.handleSlotChange.bind(this)}
-            ></slot>`}
+        <slot
+          name="icon"
+          @slotchange=${this.handleSlotChange.bind(this)}
+        ></slot>
         ${this.isLoading
           ? (this.loadingText ?? this.buttonText)
           : this.buttonText}
@@ -135,6 +136,53 @@ export class QGDSButton extends LitElement {
     const slot = e.target as HTMLSlotElement;
     const assignedElements = slot.assignedElements();
     this.hasIcon = assignedElements.length > 0;
+  }
+
+  // Watch for isLoading changes to swap icons in light DOM
+  updated(changedProperties: Map<string, any>) {
+    super.updated(changedProperties);
+
+    if (changedProperties.has("isLoading")) {
+      this.handleLoadingStateChange();
+    }
+  }
+
+  private handleLoadingStateChange() {
+    const iconSlot = this.querySelector('[slot="icon"]');
+
+    if (this.isLoading) {
+      // Store original icon if it exists
+      if (iconSlot && !iconSlot.hasAttribute("data-loading-icon")) {
+        this.originalIcon = iconSlot as HTMLElement;
+        this.originalIcon.style.display = "none";
+      }
+
+      // Create and inject loading spinner
+      if (!this.loadingIcon) {
+        this.loadingIcon = document.createElement("qgds-icon");
+        this.loadingIcon.setAttribute("slot", "icon");
+        this.loadingIcon.setAttribute("iconid", "spinner-step-1");
+
+        // Use the original icon's size if it exists, otherwise default to "md"
+        const originalSize = this.originalIcon?.getAttribute("size") || "md";
+        this.loadingIcon.setAttribute("size", originalSize);
+
+        this.loadingIcon.setAttribute("data-loading-icon", "");
+        this.appendChild(this.loadingIcon);
+      }
+    } else {
+      // Remove loading spinner
+      if (this.loadingIcon) {
+        this.loadingIcon.remove();
+        this.loadingIcon = null;
+      }
+
+      // Restore original icon
+      if (this.originalIcon) {
+        this.originalIcon.style.display = "";
+        this.originalIcon = null;
+      }
+    }
   }
 
   // State management handlers
