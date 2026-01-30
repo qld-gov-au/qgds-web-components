@@ -12,14 +12,14 @@ export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
  *  <p>This is an important callout message.</p>
  * </qgds-callout>
  *
- * @attribute heading - Callout headline text
+ * @attribute heading - Callout heading text
  * @attribute heading-level - Heading level (h2-h6)
  */
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
   @property({ type: String, reflect: true, attribute: "heading" })
-  heading: string = "Callout headline";
+  heading: string = "Callout heading";
   @property({ type: String, reflect: true, attribute: "heading-level" })
   headingLevel: string = "h3";
 

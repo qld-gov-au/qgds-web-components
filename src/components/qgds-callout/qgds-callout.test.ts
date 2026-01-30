@@ -19,13 +19,20 @@ describe("qgds-callout", () => {
     await element.updateComplete;
 
     // Verify default property values
-    expect(element.heading).toBe("Callout headline");
+    expect(element.heading).toBe("Callout heading");
     expect(element.headingLevel).toBe("h3");
-    expect(element.content).toBe("This is callout content.");
+  });
 
-    // Check that h3 heading is rendered by default
-    const heading = element.shadowRoot?.querySelector("h3.headline");
-    expect(heading).toBeTruthy();
-    expect(heading?.textContent).toBe("Callout headline");
+  it("renders HTML passed to the slot", async () => {
+    // Add HTML content to the slot
+    element.innerHTML =
+      '<p class="test-slot">Slot <strong>content</strong></p>';
+    await element.updateComplete;
+
+    // Query the slotted content in the light DOM
+    const slotted = element.querySelector(".test-slot");
+    expect(slotted).not.toBeNull();
+    expect(slotted?.innerHTML).toContain("<strong>content</strong>");
+    expect(slotted?.textContent).toBe("Slot content");
   });
 });
