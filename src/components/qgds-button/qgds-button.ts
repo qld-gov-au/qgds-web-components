@@ -40,6 +40,7 @@ export class QGDSButton extends LitElement {
   @state() private _isHovered: boolean = false;
   @state() private _isActive: boolean = false;
   @state() private _isFocused: boolean = false;
+  @state() private hasIcon: boolean = false;
 
   // Constructor is generally for setting up initial state that doesn't depend on attributes.
   // For properties, it's better to set default values directly on the class with the @property decorator.
@@ -72,7 +73,9 @@ export class QGDSButton extends LitElement {
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
           "btn-" + this.variant,
-        )} ${this.disabled || this.isLoading ? "disabled" : ""}"
+        )} ${this.disabled || this.isLoading ? "disabled" : ""} ${this.hasIcon
+          ? "has-icon"
+          : ""}"
         target="${ifDefined(this.target || undefined)}"
         tabindex="0"
         rel="no-opener"
@@ -84,7 +87,7 @@ export class QGDSButton extends LitElement {
         @focus=${this._handleFocus.bind(this)}
         @blur=${this._handleBlur.bind(this)}
       >
-        <slot name="icon"></slot>
+        <slot name="icon" @slotchange=${this.handleSlotChange}></slot>
         ${this.buttonText}
       </a>
     `;
@@ -100,7 +103,7 @@ export class QGDSButton extends LitElement {
         aria-label="${ifDefined(this.ariaLabel || undefined)}"
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
           "btn-" + this.variant,
-        )}"
+        )} ${this.hasIcon || this.isLoading ? "has-icon" : ""}"
         title=${this.buttonText}
         @click=${this._onClick.bind(this)}
         tabindex="0"
@@ -113,12 +116,22 @@ export class QGDSButton extends LitElement {
       >
         ${this.isLoading
           ? html`<span class="icon-loading"></span>`
-          : html`<slot name="icon"></slot>`}
+          : html`<slot
+              name="icon"
+              @slotchange=${this.handleSlotChange}
+            ></slot>`}
         ${this.isLoading
           ? (this.loadingText ?? this.buttonText)
           : this.buttonText}
       </button>
     `;
+  }
+
+  // Handle slot changes to detect if icon is present
+  private handleSlotChange(e: Event) {
+    const slot = e.target as HTMLSlotElement;
+    const assignedElements = slot.assignedElements();
+    this.hasIcon = assignedElements.length > 0;
   }
 
   // State management handlers

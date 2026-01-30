@@ -3,6 +3,8 @@ import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
+import "../qgds-icon/qgds-icon.ts";
+import { ICON_NAMES } from "../qgds-icon/icon-names";
 
 import "./qgds-button.ts";
 
@@ -32,6 +34,9 @@ export interface QGDSButtonProps {
   eventTitle?: string;
   /** Unique identifier */
   uniqueID?: string;
+  /** Icon identifier */
+  iconId?: string;
+  iconSize: "sm" | "md" | "lg" | "xl";
 
   // StoryPalette?: string;
   variant?: string;
@@ -51,6 +56,8 @@ const renderButton = ({
   isLoading = false,
   eventTitle = "onClick",
   uniqueID = "",
+  iconId = "external-link",
+  iconSize = "md",
 }: QGDSButtonProps) => {
   // Create a handler that logs the event to console
   const handleEvent = (e: CustomEvent) => {
@@ -81,7 +88,13 @@ const renderButton = ({
         event-title="${eventTitle}"
         unique-id="${ifDefined(uniqueID || undefined)}"
       >
-        ${myIcon ? unsafeHTML(myIcon) : ""}
+        <qgds-icon
+          slot="icon"
+          iconId="${iconId}"
+          size="${iconSize}"
+          ariaLabel="${ifDefined(ariaLabel || undefined)}"
+        >
+        </qgds-icon>
       </qgds-button>
     </div>
   `;
@@ -92,21 +105,6 @@ const meta: Meta<QGDSButtonProps> = {
   tags: ["autodocs"],
   render: (args) => renderButton(args),
   argTypes: {
-    // StoryPalette: {
-    //   control: "select",
-    //   options: [
-    //     "palette-default",
-    //     "palette-soft",
-    //     "palette-muted",
-    //     "palette-bold",
-    //     "palette-deep",
-    //   ],
-    //   name: "story palette",
-    //   description: "The Button colour palette and story palette",
-    //   table: {
-    //     defaultValue: { summary: "default" },
-    //   },
-    // },
     variant: {
       control: "select",
       options: ["primary", "secondary", "tertiary"],
@@ -137,6 +135,20 @@ const meta: Meta<QGDSButtonProps> = {
     ariaLabel: {
       control: "text",
       description: "The Button aria-label attribute",
+      type: "string",
+    },
+    iconId: {
+      control: "select",
+      options: [...ICON_NAMES],
+      name: "icon name",
+      description: "The icon to display in the button",
+      type: "string",
+    },
+    iconSize: {
+      control: "select",
+      options: ["sm", "md", "lg", "xl"],
+      name: "icon size",
+      description: "The size of the icon",
       type: "string",
     },
     trailingIcon: {
@@ -202,13 +214,6 @@ export const Button: Story = {
   args: {
     label: "QGDS Button",
   },
-  // decorators: [
-  //   (Story, context) => html`
-  //     <div class="parent-container ${context.args.StoryPalette ?? ""}">
-  //       ${Story()}
-  //     </div>
-  //   `,
-  // ],
 };
 
 export const Default: Story = {
@@ -218,13 +223,13 @@ export const Default: Story = {
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <qgds-button button-text="QGDS Button" variant="primary">
-        <span slot="icon" class="icon-test"></span>
+        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
       <qgds-button button-text="QGDS Button" variant="secondary">
-        <span slot="icon" class="icon-test"></span>
+        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
       <qgds-button button-text="QGDS Button" variant="tertiary">
-        <span slot="icon" class="icon-test"></span>
+        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
     </div>
   `,
@@ -237,15 +242,9 @@ export const NoIcon: Story = {
   },
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <qgds-button button-text="QGDS Button" variant="primary">
-        <slot name="icon"></slot>
-      </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="secondary">
-        <slot name="icon"></slot>
-      </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="tertiary">
-        <slot name="icon"></slot>
-      </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="primary"> </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="secondary"> </qgds-button>
+      <qgds-button button-text="QGDS Button" variant="tertiary"> </qgds-button>
     </div>
   `,
 };

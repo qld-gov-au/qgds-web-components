@@ -1,7 +1,7 @@
 :host {
   display: inline-block;
 
-  --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  --_qgds-icon-color: var(--qgds-icon-color,inherit);
 }
 
 .qgds-icon {
@@ -16,7 +16,7 @@
   background-size: contain;
   vertical-align: middle;
   mask-image: var(--qgds-icon-svg);
-  color: var(--qgds-icon-color, inherit);
+  color: var(--_qgds-icon-color);
   background-color: currentcolor;
 }
 

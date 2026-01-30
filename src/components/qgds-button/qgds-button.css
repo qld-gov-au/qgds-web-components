@@ -36,6 +36,10 @@
   transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
 }
 
+.btn:not(.has-icon) {
+  gap: 0;
+}
+
 .btn:hover {
   text-decoration-thickness: var(--text-decoration-thickness-hover, 2px);
   transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
