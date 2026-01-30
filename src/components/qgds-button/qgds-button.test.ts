@@ -135,7 +135,7 @@ describe("qgds-button", () => {
     });
 
     it("should render as link when linkValue is provided", async () => {
-      element.setAttribute("link-value", "/test-page");
+      element.setAttribute("href", "/test-page");
       await element.updateComplete;
 
       const link = element.shadowRoot?.querySelector("a");
@@ -150,7 +150,7 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const loadingIcon = element.shadowRoot?.querySelector(".icon-loading");
+      const loadingIcon = element.querySelector('[data-loading-icon]');
       const button = element.shadowRoot?.querySelector("button");
 
       expect(loadingIcon).toBeTruthy();
