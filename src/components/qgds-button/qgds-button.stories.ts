@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
 import "../qgds-icon/qgds-icon.ts";
@@ -48,7 +47,7 @@ const renderButton = ({
   disabled = false,
   target = "",
   ariaLabel = "",
-  myIcon = `<span slot="icon" class="icon-test"></span>`,
+  _myIcon = `<span slot="icon" class="icon-test"></span>`,
   trailingIcon = false,
   variant = "primary",
   isLink = false,

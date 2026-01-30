@@ -87,7 +87,10 @@ export class QGDSButton extends LitElement {
         @focus=${this._handleFocus.bind(this)}
         @blur=${this._handleBlur.bind(this)}
       >
-        <slot name="icon" @slotchange=${this.handleSlotChange}></slot>
+        <slot
+          name="icon"
+          @slotchange=${this.handleSlotChange.bind(this)}
+        ></slot>
         ${this.buttonText}
       </a>
     `;
@@ -118,7 +121,7 @@ export class QGDSButton extends LitElement {
           ? html`<span class="icon-loading"></span>`
           : html`<slot
               name="icon"
-              @slotchange=${this.handleSlotChange}
+              @slotchange=${this.handleSlotChange.bind(this)}
             ></slot>`}
         ${this.isLoading
           ? (this.loadingText ?? this.buttonText)
