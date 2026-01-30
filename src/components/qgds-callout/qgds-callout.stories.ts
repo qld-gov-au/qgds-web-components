@@ -2,13 +2,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-import "./qgds-callout.ts";
-
-export interface QGDSCalloutProps {
-  heading: string;
-  headingLevel?: string;
-  content?: string;
-}
+import "./qgds-callout";
+import { QGDSCalloutProps } from "./qgds-callout";
 
 /** QGDS Callout Web Component */
 const renderCallout = ({

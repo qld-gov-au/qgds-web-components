@@ -5,19 +5,19 @@ Scoped CSS: qgds-callout
 */
 
 // Public API: CSS custom properties that can be overridden from Light DOM
-// Example: qgds-callout { --qgds-callout-background: pink; }
+// Example: qgds-callout { --background: pink; }
 :host {
   // Fallback values align with QGDS design tokens
-  --qgds-callout-background: var(--qgds-color-background-shade, #f9f9f9);
-  --qgds-callout-text: var(--qgds-color-text-default, #333333);
-  --qgds-callout-border: var(--qgds-color-accent-design-accent, #0078d4);
+  --background: var(--qgds-color-background-shade, #f9f9f9);
+  --text: var(--qgds-color-text-default, #333333);
+  --border: var(--qgds-color-accent-design-accent, #0078d4);
 }
 
 // Component container
 .callout {
-  background: var(--qgds-callout-background);
-  color: var(--qgds-callout-text);
-  border-inline-start: 4px solid var(--qgds-callout-border);
+  background: var(--background);
+  color: var(--text);
+  border-inline-start: 4px solid var(--border);
   padding-block: 1.5rem;
   padding-inline: 1.5rem 1rem;
   display: flex;

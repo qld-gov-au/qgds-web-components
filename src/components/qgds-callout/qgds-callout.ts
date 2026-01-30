@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 
 import componentCSS from "./qgds-callout.styles.scss?inline";
 
+export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
+
 /** QGDS Callout Web Component
  *  Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.
  * @example
@@ -55,7 +57,7 @@ export class QGDSCallout extends LitElement {
           break;
         default:
           console.warn(
-            `Unsupported headline level: ${this.headingLevel}. Defaulting to h3.`,
+            `Unsupported heading level: ${this.headingLevel}. Defaulting to h3.`,
           );
           headingElement = html`<h3 class="headline">${this.heading}</h3>`;
       }
