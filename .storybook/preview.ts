@@ -1,8 +1,14 @@
 import type { Preview } from "@storybook/web-components-vite";
+import { setCustomElementsManifest } from "@storybook/web-components-vite";
 import { html } from "lit";
 
 import "../src/stories/assets/qgds-styles.scss";
 import { palettes } from "../src/js/utils/palettes";
+import customElementsManifest from "../custom-elements.json";
+
+// Register custom elements manifest for API documentation
+// This enables automatic API tables in Storybook autodocs
+setCustomElementsManifest(customElementsManifest);
 
 const preview: Preview = {
   parameters: {
@@ -18,7 +24,7 @@ const preview: Preview = {
 
     docs: {
       source: {
-        //Global default. Override this in local stories to include decorators
+        // Global default. Override this in local stories to include decorators
         excludeDecorators: true,
       },
     },
