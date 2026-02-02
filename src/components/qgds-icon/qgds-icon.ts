@@ -4,6 +4,7 @@ import { classMap } from "lit/directives/class-map.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
 import { isMulticolourIcon } from "./icons-multicolour.js";
+import type { IconName } from "./icon-names";
 
 type IconSize = "sm" | "md" | "lg" | "xl";
 
@@ -27,7 +28,7 @@ type IconSize = "sm" | "md" | "lg" | "xl";
 @customElement("qgds-icon")
 export class QGDSIcon extends LitElement {
   @property({ type: String })
-  iconId: string = "";
+  iconId: IconName = "home";
 
   @property({ type: String, reflect: true })
   size: IconSize = "md";
