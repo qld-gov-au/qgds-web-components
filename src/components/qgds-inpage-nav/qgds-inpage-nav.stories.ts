@@ -2,32 +2,21 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 
 import "./qgds-inpage-nav.ts";
-
-export interface QGDSInpageNavProps {
-  /** Navigation title */
-  navtitle: string;
-  /** Navigation items array */
-  navitems: { linkid: string; linktext: string }[];
-  /** ARIA label for navigation */
-  ariaLabel: string;
-  /** Heading level (h1-h6) */
-  headlineLevel: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-}
+import { QGDSInpageNavProps } from "./qgds-inpage-nav";
 
 /** QGDS In-page Navigation Web Component */
 const renderInpageNav = ({
   navtitle = "On this page",
   navitems = [],
   ariaLabel = "In page navigation",
-  headlineLevel = "h2",
+  headingLevel = "h2",
 }: QGDSInpageNavProps) => {
   return html`
     <qgds-inpage-nav
       navtitle="${navtitle}"
       ariaLabel="${ariaLabel}"
-      headlineLevel="${headlineLevel}"
-      .navitems="${navitems}"
-    >
+      headingLevel="${headingLevel}"
+      .navitems="${navitems}">
     </qgds-inpage-nav>
   `;
 };
@@ -40,7 +29,7 @@ const meta: Meta<QGDSInpageNavProps> = {
     navtitle: { control: "text" },
     navitems: { control: "object" },
     ariaLabel: { control: "text" },
-    headlineLevel: {
+    headingLevel: {
       control: "select",
       options: ["h1", "h2", "h3", "h4", "h5", "h6"],
     },
