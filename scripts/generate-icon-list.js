@@ -25,7 +25,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read the SCSS file
-const scssPath = path.join(__dirname, "../src/scss/utilities/_icons.list.scss");
+const scssPath = path.join(__dirname, "../src/scss/icons/_icons.list.scss");
 const scssContent = fs.readFileSync(scssPath, "utf-8");
 
 // Extract icon names using regex

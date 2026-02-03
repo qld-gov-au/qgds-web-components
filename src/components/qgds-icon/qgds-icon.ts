@@ -29,7 +29,7 @@ export class QGDSIcon extends LitElement {
   @property({ type: String })
   iconId: string = "";
 
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   size: IconSize = "md";
 
   @property({ type: String, attribute: "arialabel" })
@@ -50,7 +50,10 @@ export class QGDSIcon extends LitElement {
     };
 
     return html`
-      <span class="${classMap(classes)}" aria-label="${this.ariaLabel || "icon"}"></span>
+      <span
+        class="${classMap(classes)}"
+        aria-label="${this.ariaLabel || "icon"}"
+      ></span>
     `;
   }
 }

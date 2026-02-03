@@ -1,7 +1,29 @@
-:host {
-  display: inline-block;
+@use "../../scss/icons/icons.list" as icons;
 
+$_sizes: (
+  "xs": var(--qgds-icon-size-xs),
+  "sm": var(--qgds-icon-size-sm),
+  "md": var(--qgds-icon-size-md),
+  "lg": var(--qgds-icon-size-lg),
+  "xl": var(--qgds-icon-size-xl),
+  "xxl": var(--qgds-icon-size-xxl),
+);
+
+:host {
   --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  display: inline-block;
+}
+
+@each $key, $value in $_sizes {
+  :host([size="#{$key}"]) {
+    --qgds-icon-size: #{$value};
+  }
+}
+
+@each $key, $_ in icons.$icon-names {
+  :host([iconid="#{$key}"]) {
+    --qgds-icon-svg: var(--qgds-icon-#{$key});
+  }
 }
 
 .qgds-icon {
