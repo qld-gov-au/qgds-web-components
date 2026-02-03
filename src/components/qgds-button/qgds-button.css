@@ -9,6 +9,7 @@
   --text: var(--btn-text);
   --border-width: 0;
   --min-width: 160px;
+
   /* Stubs to be replaced when token files are created */
   --qgds-outline-width: 3px;
   --qgds-outline-offset: 2px;
@@ -34,7 +35,7 @@
   text-underline-offset: var(--text-underline-offset, 4.8px);
   text-decoration-thickness: var(--text-decoration-thickness-default, .5px); 
   transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
-  min-width: var(--min-width);
+  min-inline-size: var(--min-width);
 }
 
 .btn:not(.has-icon) {
