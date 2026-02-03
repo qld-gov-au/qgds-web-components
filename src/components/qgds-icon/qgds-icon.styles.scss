@@ -1,6 +1,6 @@
 @use "../../scss/icons/icons.list" as icons;
 
-$_sizes: (
+$sizes: (
   "xs": var(--qgds-icon-size-xs),
   "sm": var(--qgds-icon-size-sm),
   "md": var(--qgds-icon-size-md),
@@ -11,10 +11,11 @@ $_sizes: (
 
 :host {
   --qgds-icon-color: var(--qgds-color-text-default, inherit);
+
   display: inline-block;
 }
 
-@each $key, $value in $_sizes {
+@each $key, $value in $sizes {
   :host([size="#{$key}"]) {
     --qgds-icon-size: #{$value};
   }
