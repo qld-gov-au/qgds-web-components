@@ -118,7 +118,7 @@ describe("qgds-button", () => {
     it("should render with default properties", async () => {
       await element.updateComplete;
 
-      expect(element.label).toBe("test");
+      expect(element.label).toBe("Button");
       expect(element.variant).toBe("primary");
       expect(element.disabled).toBe(false);
       expect(element.type).toBe("button");
@@ -187,6 +187,7 @@ describe("qgds-button", () => {
 
   describe("Event dispatching", () => {
     it("should dispatch custom event on click", async () => {
+      element.setAttribute("label", "test");
       element.setAttribute("event-title", "testClick");
       await element.updateComplete;
 
@@ -203,7 +204,7 @@ describe("qgds-button", () => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(event.detail.eventTitle).toBe("testClick");
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      expect(event.detail.buttonText).toBe("test");
+      expect(event.detail.label).toBe("test");
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       expect(event.detail.variant).toBe("primary");
     });
