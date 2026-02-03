@@ -6,37 +6,12 @@ import "../qgds-icon/qgds-icon.ts";
 import { ICON_NAMES } from "../qgds-icon/icon-names";
 
 import "./qgds-button.ts";
-// import { QGDSButtonProps } from "./qgds-button";
+import { QGDSButtonProps } from "./qgds-button";
 
-export interface QGDSButtonProps {
-  /** Button contents */
-  label: string;
-  /** Message to log on click */
-  message?: string;
-  /** Anchor target */
-  target?: string;
-  /** ARIA label */
-  ariaLabel?: string;
-  /** Whether the button is disabled */
-  disabled?: boolean;
-  /** Button text content */
-  // buttonText?: string;
-  trailingIcon?: boolean;
-  /** Loading text to display */
-  loadingLabel?: string;
-  /** Whether the button is loading */
-  isLoading?: boolean;
-  /** Event title */
-  eventTitle?: string;
-  /** Unique identifier */
-  uniqueID?: string;
-  /** Icon identifier */
+// Extended interface for story-specific props
+interface StoryButtonProps extends QGDSButtonProps {
   iconId?: string;
   iconSize: "sm" | "md" | "lg" | "xl";
-  /** Link URL value */
-  linkValue?: string;
-  // StoryPalette?: string;
-  variant?: string;
 }
 
 /** QGDS Button Web Component */
@@ -54,7 +29,7 @@ const renderButton = ({
   uniqueID = "",
   iconId = "external-link",
   iconSize = "md",
-}: QGDSButtonProps) => {
+}: StoryButtonProps) => {
   // Create a handler that logs the event to console
   const handleEvent = (e: CustomEvent) => {
     // eslint-disable-next-line no-console
@@ -96,7 +71,7 @@ const renderButton = ({
   `;
 };
 
-const meta: Meta<QGDSButtonProps> = {
+const meta: Meta<StoryButtonProps> = {
   title: "Components/QGDS Button",
   tags: ["autodocs"],
   render: (args) => renderButton(args),
@@ -139,16 +114,22 @@ const meta: Meta<QGDSButtonProps> = {
     iconId: {
       control: "select",
       options: [...ICON_NAMES],
-      name: "icon name",
+      name: "name",
       description: "The icon to display in the button",
       type: "string",
+      table: {
+        category: "QGDS Icon",
+      },
     },
     iconSize: {
       control: "select",
       options: ["sm", "md", "lg", "xl"],
-      name: "icon size",
+      name: "size",
       description: "The size of the icon",
       type: "string",
+      table: {
+        category: "QGDS Icon",
+      },
     },
     trailingIcon: {
       control: "boolean",
@@ -207,7 +188,7 @@ const meta: Meta<QGDSButtonProps> = {
 };
 
 export default meta;
-type Story = StoryObj<QGDSButtonProps>;
+type Story = StoryObj<StoryButtonProps>;
 
 export const Button: Story = {
   args: {

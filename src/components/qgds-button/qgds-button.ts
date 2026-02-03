@@ -10,7 +10,7 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
 // type UniqueID = string; // This is used for click tracking data attribute
 // type ButtonText = string;
 
-// export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
+export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
