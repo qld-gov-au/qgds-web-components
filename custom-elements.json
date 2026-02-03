@@ -4,83 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/qgds-callout/qgds-callout.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "QGDS Callout Web Component\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
-          "name": "QGDSCallout",
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "attribute": "heading",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "headingLevel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "attribute": "heading-level",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "description": "Callout heading text",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "fieldName": "heading"
-            },
-            {
-              "description": "Heading level (h2-h6)",
-              "name": "heading-level",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "fieldName": "headingLevel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-callout",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSCallout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-callout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/qgds-button/qgds-button.ts",
       "declarations": [
         {
@@ -271,6 +194,83 @@
           "declaration": {
             "name": "QGDSButton",
             "module": "src/components/qgds-button/qgds-button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-callout/qgds-callout.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "QGDS Callout Web Component\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
+          "name": "QGDSCallout",
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "attribute": "heading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "attribute": "heading-level",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "description": "Callout heading text",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "fieldName": "heading"
+            },
+            {
+              "description": "Heading level (h2-h6)",
+              "name": "heading-level",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "fieldName": "headingLevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-callout",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSCallout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-callout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
           }
         }
       ]
@@ -584,17 +584,12 @@
             },
             {
               "kind": "field",
-              "name": "headlineLevel",
+              "name": "headingLevel",
               "type": {
-                "text": "HeadlineLevel"
+                "text": "headingLevel"
               },
               "default": "\"h2\"",
-              "attribute": "headlineLevel"
-            },
-            {
-              "kind": "method",
-              "name": "renderTitle",
-              "privacy": "private"
+              "attribute": "headingLevel"
             }
           ],
           "attributes": [
@@ -623,12 +618,12 @@
               "fieldName": "ariaLabel"
             },
             {
-              "name": "headlineLevel",
+              "name": "headingLevel",
               "type": {
-                "text": "HeadlineLevel"
+                "text": "headingLevel"
               },
               "default": "\"h2\"",
-              "fieldName": "headlineLevel"
+              "fieldName": "headingLevel"
             }
           ],
           "superclass": {

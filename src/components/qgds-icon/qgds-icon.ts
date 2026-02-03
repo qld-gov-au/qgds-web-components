@@ -16,7 +16,7 @@ type IconSize = "sm" | "md" | "lg" | "xl";
  * Multi-colour icons use background-image to preserve their original colours.
  *
  * @element qgds-icon
- * @attr {string} iconId - The ID of the icon to display (e.g., "home", "alert-success").
+ * @attr {IconName} iconId - The ID of the icon to display (e.g., "home", "alert-success").
  * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
  * @attr {string} ariaLabel - The aria-label for the icon for accessibility.
  *
