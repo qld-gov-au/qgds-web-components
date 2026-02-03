@@ -7,14 +7,14 @@
 .btn {
   --no-colour: transparent;
   --text: var(--btn-text);
-  --border-width: 1px;
-
+  --border-width: 0;
+  --min-width: 160px;
   /* Stubs to be replaced when token files are created */
   --qgds-outline-width: 3px;
   --qgds-outline-offset: 2px;
   --qgds-gap-inline: 0.5rem;
-  --qgds-block-padding: 0.5rem;
-  --qgds-inline-padding: 1rem;
+  --qgds-block-padding: 0.75rem;
+  --qgds-inline-padding: 1.5rem;
 
   display: inline-flex;
   align-items: center;
@@ -25,8 +25,8 @@
   border-color: transparent;
   color: var(--text, white);
   gap: var(--qgds-gap-inline, 0.5rem);
-  padding-block: var(--qgds-block-padding, 0.5rem);
-  padding-inline: var(--qgds-inline-padding, 1rem);
+  padding-block: var(--qgds-block-padding, 0.75rem);
+  padding-inline: var(--qgds-inline-padding, 1.5rem);
   border-radius: var(--border-radius);
   font-size: var(--qgds-font-size, 1rem);
   text-decoration: underline;
@@ -34,6 +34,7 @@
   text-underline-offset: var(--text-underline-offset, 4.8px);
   text-decoration-thickness: var(--text-decoration-thickness-default, .5px); 
   transition: text-decoration-thickness var(--qgds-transition-time, 0.3s) ease-in-out;
+  min-width: var(--min-width);
 }
 
 .btn:not(.has-icon) {
@@ -74,6 +75,7 @@
   background: var(--qgds-color-action-primary, #454545);
   box-shadow: var(--qgds-shadow-level-3);
   text-decoration-color: inherit;
+  border-color: var(--qgds-color-action-primary, #454545);
 }
 
 .btn-primary:hover {
@@ -85,6 +87,7 @@
 .btn-secondary {
   --border-width: var(--border-width-wide, 3px);
   --text: var(--qgds-color-link-default, #333);
+  --qgds-block-padding: 0.5625rem;
 
   background: var(--no-colour) !important;
   border-color: var(--btn-border-colour);

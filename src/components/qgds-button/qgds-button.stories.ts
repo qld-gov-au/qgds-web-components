@@ -6,6 +6,7 @@ import "../qgds-icon/qgds-icon.ts";
 import { ICON_NAMES } from "../qgds-icon/icon-names";
 
 import "./qgds-button.ts";
+// import { QGDSButtonProps } from "./qgds-button";
 
 export interface QGDSButtonProps {
   /** Button contents */
@@ -18,13 +19,11 @@ export interface QGDSButtonProps {
   ariaLabel?: string;
   /** Whether the button is disabled */
   disabled?: boolean;
-  /** Icon slot content */
-  myIcon?: string;
   /** Button text content */
   // buttonText?: string;
   trailingIcon?: boolean;
   /** Loading text to display */
-  loadingText?: string;
+  loadingLabel?: string;
   /** Whether the button is loading */
   isLoading?: boolean;
   /** Event title */
@@ -36,7 +35,6 @@ export interface QGDSButtonProps {
   iconSize: "sm" | "md" | "lg" | "xl";
   /** Link URL value */
   linkValue?: string;
-
   // StoryPalette?: string;
   variant?: string;
 }
@@ -50,7 +48,7 @@ const renderButton = ({
   trailingIcon = false,
   variant = "primary",
   linkValue = "",
-  loadingText = "Loading...",
+  loadingLabel = "Loading...",
   isLoading = false,
   eventTitle = "onClick",
   uniqueID = "",
@@ -77,11 +75,11 @@ const renderButton = ({
         ?disabled=${disabled}
         target="${ifDefined(target || undefined)}"
         aria-label="${ifDefined(ariaLabel || undefined)}"
-        button-text="${label}"
+        label="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
         href="${ifDefined(linkValue || undefined)}"
-        loading-text="${ifDefined(loadingText || undefined)}"
+        loading-label="${ifDefined(loadingLabel || undefined)}"
         ?is-loading=${isLoading}
         event-title="${eventTitle}"
         unique-id="${ifDefined(uniqueID || undefined)}"
@@ -119,6 +117,7 @@ const meta: Meta<QGDSButtonProps> = {
     },
     disabled: {
       control: "boolean",
+      name: "disabled",
       description: "Whether the button is disabled",
       type: "boolean",
       table: {
@@ -127,11 +126,13 @@ const meta: Meta<QGDSButtonProps> = {
     },
     target: {
       control: "select",
+      name: "target",
       options: ["_self", "_blank", "_parent", "_top"],
       if: { arg: "linkValue", truthy: true },
     },
     ariaLabel: {
       control: "text",
+      name: "aria-label",
       description: "The Button aria-label attribute",
       type: "string",
     },
@@ -167,9 +168,9 @@ const meta: Meta<QGDSButtonProps> = {
         defaultValue: { summary: "" },
       },
     },
-    loadingText: {
+    loadingLabel: {
       control: "text",
-      name: "loading text",
+      name: "loading label",
       if: { arg: "linkValue", truthy: false },
       description: "The text that appears when the button is loading",
       type: "string",
@@ -220,13 +221,13 @@ export const Default: Story = {
   },
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <qgds-button button-text="QGDS Button" variant="primary">
+      <qgds-button label="QGDS Button" variant="primary">
         <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="secondary">
+      <qgds-button label="QGDS Button" variant="secondary">
         <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="tertiary">
+      <qgds-button label="QGDS Button" variant="tertiary">
         <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
       </qgds-button>
     </div>
@@ -236,13 +237,12 @@ export const Default: Story = {
 export const NoIcon: Story = {
   args: {
     label: "No icon",
-    myIcon: "",
   },
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <qgds-button button-text="QGDS Button" variant="primary"> </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="secondary"> </qgds-button>
-      <qgds-button button-text="QGDS Button" variant="tertiary"> </qgds-button>
+      <qgds-button label="QGDS Button" variant="primary"></qgds-button>
+      <qgds-button label="QGDS Button" variant="secondary"></qgds-button>
+      <qgds-button label="QGDS Button" variant="tertiary"></qgds-button>
     </div>
   `,
 };

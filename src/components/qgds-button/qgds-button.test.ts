@@ -118,7 +118,7 @@ describe("qgds-button", () => {
     it("should render with default properties", async () => {
       await element.updateComplete;
 
-      expect(element.buttonText).toBe("test");
+      expect(element.label).toBe("test");
       expect(element.variant).toBe("primary");
       expect(element.disabled).toBe(false);
       expect(element.type).toBe("button");
@@ -150,7 +150,7 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const loadingIcon = element.querySelector('[data-loading-icon]');
+      const loadingIcon = element.querySelector("[data-loading-icon]");
       const button = element.shadowRoot?.querySelector("button");
 
       expect(loadingIcon).toBeTruthy();

@@ -10,15 +10,17 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
 // type UniqueID = string; // This is used for click tracking data attribute
 // type ButtonText = string;
 
+// export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
+
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
   // Use @property decorator for declaring properties directly on the class.
   // This is the idiomatic way in Lit with TypeScript.
   // The 'static properties' getter is less common with decorators.
 
-  @property({ type: String }) label: string = "Button";
-  @property({ type: String, attribute: "button-text" }) buttonText: string =
-    "test";
+  @property({ type: String, attribute: "label" }) label: string = "Button";
+  // @property({ type: String, attribute: "button-text" }) buttonText: string =
+  //   "button text";
   @property({ type: String, reflect: true }) variant: ButtonVariant = "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
   @property({ type: String }) target: AnchorTarget | "" = "";
@@ -30,7 +32,7 @@ export class QGDSButton extends LitElement {
   uniqueID: string | undefined = undefined;
   @property({ type: String, reflect: true, attribute: "href" })
   linkValue: string | undefined = undefined;
-  @property({ type: String, attribute: "loading-text" }) loadingText =
+  @property({ type: String, attribute: "loading-label" }) loadingLabel =
     "Loading...";
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
@@ -94,7 +96,7 @@ export class QGDSButton extends LitElement {
           name="icon"
           @slotchange=${this.handleSlotChange.bind(this)}
         ></slot>
-        ${this.buttonText}
+        ${this.label}
       </a>
     `;
   }
@@ -110,7 +112,7 @@ export class QGDSButton extends LitElement {
         class="btn ${this.isLoading ? "loading" : ""} ${ifDefined(
           "btn-" + this.variant,
         )} ${this.hasIcon || this.isLoading ? "has-icon" : ""}"
-        title=${this.buttonText}
+        title=${this.label}
         @click=${this._onClick.bind(this)}
         tabindex="0"
         @mouseenter=${this._handleMouseEnter.bind(this)}
@@ -124,9 +126,7 @@ export class QGDSButton extends LitElement {
           name="icon"
           @slotchange=${this.handleSlotChange.bind(this)}
         ></slot>
-        ${this.isLoading
-          ? (this.loadingText ?? this.buttonText)
-          : this.buttonText}
+        ${this.isLoading ? (this.loadingLabel ?? this.label) : this.label}
       </button>
     `;
   }
@@ -235,7 +235,7 @@ export class QGDSButton extends LitElement {
       detail: {
         eventTitle: this.eventTitle,
         uniqueID: this.uniqueID ?? null,
-        buttonText: this.buttonText,
+        label: this.label,
         variant: this.variant,
       },
     });
