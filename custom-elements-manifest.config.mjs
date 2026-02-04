@@ -20,7 +20,13 @@ export default {
   globs: ["src/components/**/*.ts"],
 
   /** Glob patterns to exclude */
-  exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts"],
+  exclude: [
+    "**/*.stories.ts",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/icon-names.ts",
+    "**/icons-multicolour.ts",
+  ],
 
   /** Output file path */
   outdir: ".",
