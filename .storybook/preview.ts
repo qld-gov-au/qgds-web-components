@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/web-components-vite";
 import { setCustomElementsManifest } from "@storybook/web-components-vite";
+import { setStorybookHelpersConfig } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
 import "../src/stories/assets/qgds-styles.scss";
@@ -7,13 +8,19 @@ import { palettes } from "../src/js/utils/palettes";
 import customElementsManifest from "../custom-elements.json";
 
 // Register custom elements manifest for API documentation
-// This enables automatic API tables in Storybook autodocs
+// This enables automatic API tables and controls in Storybook autodocs
 setCustomElementsManifest(customElementsManifest);
+
+// Configure @wc-toolkit/storybook-helpers
+setStorybookHelpersConfig({
+  // Use type info from Custom Elements Manifest for controls
+});
 
 const preview: Preview = {
   parameters: {
     tags: ["autodocs"],
     controls: {
+      expanded: true,
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
