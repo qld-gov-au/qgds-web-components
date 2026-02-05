@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import "./qgds-inpage-nav";
+import "../qgds-inpage-nav-item/qgds-inpage-nav-item";
+
 import type { QGDSInpageNav } from "./qgds-inpage-nav";
 
 describe("qgds-inpage-nav", () => {
@@ -16,38 +18,66 @@ describe("qgds-inpage-nav", () => {
 
   it("renders with default properties", async () => {
     await element.updateComplete;
-    expect(element.navtitle).toBe("On this page");
+    expect(element.heading).toBe("On this page");
     expect(element.headingLevel).toBe("h2");
     const nav = element.shadowRoot?.querySelector("nav");
     expect(nav).toBeTruthy();
   });
 
-  it("renders the correct number of nav items", async () => {
-    const listitems = [
-      { linkid: "section1", linktext: "List item 1" },
-      { linkid: "section2", linktext: "List item 2" },
-      { linkid: "section3", linktext: "List item 3" },
-      { linkid: "section4", linktext: "List item 4" },
-      { linkid: "section5", linktext: "List item 5" },
-    ];
-    element.navitems = listitems;
+  it("renders custom heading and heading level", async () => {
+    element.setAttribute("heading", "Custom title");
+    element.setAttribute("heading-level", "h3");
     await element.updateComplete;
-    const listItemElements = element.shadowRoot?.querySelectorAll("li");
-    expect(listItemElements?.length).toBe(listitems.length);
+
+    expect(element.heading).toBe("Custom title");
+    expect(element.headingLevel).toBe("h3");
   });
 
-  it("renders nav item text content correctly", async () => {
+  it("renders 5 qgds-inpage-nav-item as child nodes", async () => {
     const listitems = [
-      { linkid: "section1", linktext: "First" },
-      { linkid: "section2", linktext: "Second" },
-      { linkid: "section3", linktext: "Third" },
+      { href: "#section1", text: "List item 1" },
+      { href: "#section2", text: "List item 2" },
+      { href: "#section3", text: "List item 3" },
+      { href: "#section4", text: "List item 4" },
+      { href: "#section5", text: "List item 5" },
     ];
-    element.navitems = listitems;
-    await element.updateComplete;
-    const listItemElements = element.shadowRoot?.querySelectorAll("li");
-    expect(listItemElements?.length).toBe(listitems.length);
-    listitems.forEach((item, idx) => {
-      expect(listItemElements?.[idx]?.textContent).toContain(item.linktext);
+
+    listitems.forEach((item) => {
+      const listItemElement = document.createElement("qgds-inpage-nav-item");
+      listItemElement.setAttribute("href", item.href);
+      listItemElement.textContent = item.text;
+      element.appendChild(listItemElement);
     });
+
+    await element.updateComplete;
+
+    // Query the light DOM children, not shadowRoot
+    const listItemElements = element.querySelectorAll("qgds-inpage-nav-item");
+    expect(listItemElements.length).toBe(listitems.length);
+  });
+
+  it("renders an unordered list by default", async () => {
+    await element.updateComplete;
+    const ul = element.shadowRoot?.querySelector("ul");
+    const ol = element.shadowRoot?.querySelector("ol");
+    expect(ul).toBeTruthy();
+    expect(ol).toBeFalsy();
+  });
+
+  it("renders an ordered list when is-ordered is true", async () => {
+    element.setAttribute("is-ordered", "true");
+    await element.updateComplete;
+    const ul = element.shadowRoot?.querySelector("ul");
+    const ol = element.shadowRoot?.querySelector("ol");
+    expect(ol).toBeTruthy();
+    expect(ul).toBeFalsy();
+  });
+
+  // custom element uses arialabel (no hyphen) which is converted to aria-label in elements shadow DOM
+  it("applies custom aria-label", async () => {
+    element.setAttribute("arialabel", "Custom navigation");
+    await element.updateComplete;
+    const nav = element.shadowRoot?.querySelector("nav");
+    expect(nav?.getAttribute("aria-label")).toBe("Custom navigation");
   });
 });
