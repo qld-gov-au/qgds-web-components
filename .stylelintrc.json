@@ -21,7 +21,13 @@
         "ignorePseudoElements": ["part"]
       }
     ],
-    "liberty/use-logical-spec": "always"
+    "liberty/use-logical-spec": "always",
+    "custom-property-pattern": [
+      "^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Expected custom property to be kebab-case"
+      }
+    ]
   },
   "ignoreFiles": [
     "dist/**/*",

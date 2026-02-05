@@ -1,13 +1,25 @@
-:host {
-  display: inline-block;
+@use "../../scss/icons/icons.list" as icons;
 
+:host {
   --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  --qgds-icon-size-xs: 1rem;
+  --qgds-icon-size-sm: 1.25rem;
+  --qgds-icon-size-md: 1.5rem;
+  --qgds-icon-size-lg: 2rem;
+  --qgds-icon-size-xl: 2.5rem;
+  --qgds-icon-size-xxl: 3rem;
+  --qgds-icon-size: initial;
+
+  display: inline-block;
 }
 
 .qgds-icon {
   display: inline-flex;
-  inline-size: var(--qgds-icon-size);
-  block-size: var(--qgds-icon-size);
+  inline-size: var(
+    --_qgds-icon-size
+  ); // set as dynamic style prop in component logic
+
+  block-size: var(--_qgds-icon-size);
   background-position: center center;
   background-repeat: no-repeat;
   mask-position: center center;
