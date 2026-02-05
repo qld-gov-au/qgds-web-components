@@ -291,16 +291,6 @@
             {
               "description": "The size of the icon.",
               "name": "--qgds-icon-size"
-            },
-            {
-              "description": "The SVG data for the icon, used in mask-image or background-image.",
-              "name": "--qgds-icon-svg"
-            }
-          ],
-          "slots": [
-            {
-              "description": "This component does not use slots as it is designed to display an icon based on the iconId property.",
-              "name": "Icon"
             }
           ],
           "members": [
@@ -320,7 +310,8 @@
                 "text": "'sm' | 'md' | 'lg' | 'xl'"
               },
               "default": "\"md\"",
-              "attribute": "size"
+              "attribute": "size",
+              "reflects": true
             },
             {
               "kind": "field",

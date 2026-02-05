@@ -10,7 +10,7 @@ import { ICON_NAMES } from "./icon-names.js";
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // Exclude "cssProps" category to hide CSS custom properties
 const { args, argTypes } = getStorybookHelpers<QGDSIcon>("qgds-icon", {
-  excludeCategories: ["cssProps"],
+  // excludeCategories: ["cssProps"],
 }) as { args: Partial<QGDSIcon>; argTypes: Record<string, unknown> };
 
 /** QGDS Icon Web Component */
