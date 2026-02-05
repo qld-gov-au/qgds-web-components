@@ -51,6 +51,9 @@ export class QGDSIcon extends LitElement {
 
     return html`
       <span
+        style="--qgds-icon-svg: var(--qgds-icon-${this
+          .iconId}); --_qgds-icon-size: var(--qgds-icon-size, var(--qgds-icon-size-${this
+          .size}))"
         class="${classMap(classes)}"
         aria-label="${this.ariaLabel || "icon"}"
       ></span>

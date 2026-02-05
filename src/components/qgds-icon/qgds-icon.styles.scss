@@ -1,36 +1,25 @@
 @use "../../scss/icons/icons.list" as icons;
 
-$sizes: (
-  "xs": var(--qgds-icon-size-xs),
-  "sm": var(--qgds-icon-size-sm),
-  "md": var(--qgds-icon-size-md),
-  "lg": var(--qgds-icon-size-lg),
-  "xl": var(--qgds-icon-size-xl),
-  "xxl": var(--qgds-icon-size-xxl),
-);
-
 :host {
   --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  --qgds-icon-size-xs: 1rem;
+  --qgds-icon-size-sm: 1.25rem;
+  --qgds-icon-size-md: 1.5rem;
+  --qgds-icon-size-lg: 2rem;
+  --qgds-icon-size-xl: 2.5rem;
+  --qgds-icon-size-xxl: 3rem;
+  --qgds-icon-size: initial;
 
   display: inline-block;
 }
 
-@each $key, $value in $sizes {
-  :host([size="#{$key}"]) {
-    --qgds-icon-size: #{$value};
-  }
-}
-
-@each $key, $_ in icons.$icon-names {
-  :host([iconid="#{$key}"]) {
-    --qgds-icon-svg: var(--qgds-icon-#{$key});
-  }
-}
-
 .qgds-icon {
   display: inline-flex;
-  inline-size: var(--qgds-icon-size);
-  block-size: var(--qgds-icon-size);
+  inline-size: var(
+    --_qgds-icon-size
+  ); // set as dynamic style prop in component logic
+
+  block-size: var(--_qgds-icon-size);
   background-position: center center;
   background-repeat: no-repeat;
   mask-position: center center;
