@@ -277,102 +277,32 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "QGDSInpageAlert",
-          "members": [
-            {
-              "kind": "field",
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Alert headline\"",
-              "attribute": "headline"
-            },
-            {
-              "kind": "field",
-              "name": "message",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "attribute": "message"
-            },
-            {
-              "kind": "field",
-              "name": "alerttype",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"info\"",
-              "attribute": "alerttype"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Alert headline\"",
-              "fieldName": "headline"
-            },
-            {
-              "name": "message",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "fieldName": "message"
-            },
-            {
-              "name": "alerttype",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"info\"",
-              "fieldName": "alerttype"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-inpage-alert",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSInpageAlert",
-          "declaration": {
-            "name": "QGDSInpageAlert",
-            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-inpage-alert",
-          "declaration": {
-            "name": "QGDSInpageAlert",
-            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/qgds-icon/qgds-icon.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "QGDS Icon Component\n\nA web component for displaying icons using CSS mask-image or background-image techniques.\nSingle-colour icons use mask-image for easy recolouring via CSS.\nMulti-colour icons use background-image to preserve their original colours.",
           "name": "QGDSIcon",
+          "cssProperties": [
+            {
+              "description": "The color of single-colour icons (applies to mask-image icons).",
+              "name": "--qgds-icon-color"
+            },
+            {
+              "description": "The size of the icon.",
+              "name": "--qgds-icon-size"
+            },
+            {
+              "description": "The SVG data for the icon, used in mask-image or background-image.",
+              "name": "--qgds-icon-svg"
+            }
+          ],
+          "slots": [
+            {
+              "description": "This component does not use slots as it is designed to display an icon based on the iconId property.",
+              "name": "Icon"
+            }
+          ],
           "members": [
             {
               "kind": "field",
@@ -469,6 +399,96 @@
           "declaration": {
             "name": "QGDSIcon",
             "module": "src/components/qgds-icon/qgds-icon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "QGDSInpageAlert",
+          "members": [
+            {
+              "kind": "field",
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Alert headline\"",
+              "attribute": "headline"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"This is an alert message.\"",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "alerttype",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"info\"",
+              "attribute": "alerttype"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Alert headline\"",
+              "fieldName": "headline"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"This is an alert message.\"",
+              "fieldName": "message"
+            },
+            {
+              "name": "alerttype",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"info\"",
+              "fieldName": "alerttype"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-inpage-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSInpageAlert",
+          "declaration": {
+            "name": "QGDSInpageAlert",
+            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-inpage-alert",
+          "declaration": {
+            "name": "QGDSInpageAlert",
+            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
           }
         }
       ]
