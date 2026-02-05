@@ -19,6 +19,9 @@ type IconSize = "sm" | "md" | "lg" | "xl";
  * @attr {IconName} iconId - The ID of the icon to display (e.g., "home", "alert-success").
  * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
  * @attr {string} ariaLabel - The aria-label for the icon for accessibility.
+ * 
+ * @cssprop --qgds-icon-color - The color of single-colour icons (applies to mask-image icons).
+ * @cssprop --qgds-icon-size - The size of the icon.
  *
  * @example
  * ```html
