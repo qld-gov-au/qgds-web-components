@@ -150,7 +150,10 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const loadingIcon = element.querySelector("[data-loading-icon]");
+      const loadingIcon =
+        element.shadowRoot?.querySelector("[data-loading-icon]") ||
+        element.shadowRoot?.querySelector(".loading-icon") ||
+        element.shadowRoot?.querySelector("qgds-loading-icon");
       const button = element.shadowRoot?.querySelector("button");
 
       expect(loadingIcon).toBeTruthy();
