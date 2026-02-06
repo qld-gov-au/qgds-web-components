@@ -39,25 +39,28 @@ const renderButton = ({
 
   const attachListener = (el?: Element) => {
     if (el) {
-      el.addEventListener(eventTitle, handleEvent as EventListener);
+      el.addEventListener(
+        eventTitle ?? "onClick",
+        handleEvent as EventListener,
+      );
     }
   };
 
   return html`
     <div ${ref(attachListener)}>
       <qgds-button
-        ?disabled=${disabled}
+        ?disabled=${disabled ?? false}
         target="${ifDefined(target)}"
         type=${ifDefined(href ? undefined : type)}
-        aria-label="${ifDefined(ariaLabel || undefined)}"
+        aria-label="${ifDefined(ariaLabel ?? undefined)}"
         label="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
-        href="${ifDefined(href || undefined)}"
-        loading-label="${ifDefined(loadingLabel || undefined)}"
+        href="${ifDefined(href)}"
+        loading-label="${ifDefined(loadingLabel)}"
         ?is-loading=${isLoading}
-        event-title="${ifDefined(eventTitle || undefined)}"
-        id="${ifDefined(uniqueID || undefined)}"
+        event-title="${ifDefined(eventTitle)}"
+        id="${ifDefined(uniqueID)}"
       >
         <qgds-icon
           slot="icon"

@@ -1,4 +1,4 @@
-@import "../../scss/base/animations.scss";
+@import "../../scss/base/animations";
 @include css();
 
 :host {
@@ -140,18 +140,22 @@ button:disabled, .disabled {
 
 qgds-icon[iconid="spinner-step-1"] {
   --qgds-icon-svg: var(--qgds-icon-spinner-step-1);
+
   animation: spin 1s linear infinite;
 }
 
 qgds-icon[size="sm"] {
   --qgds-icon-size: 1.25rem;
 }
+
 qgds-icon[size="md"] {
   --qgds-icon-size: 1.5rem;
 }
+
 qgds-icon[size="lg"] {
   --qgds-icon-size: 2rem;
 }
+
 qgds-icon[size="xl"] {
   --qgds-icon-size: 2.5rem;
 }

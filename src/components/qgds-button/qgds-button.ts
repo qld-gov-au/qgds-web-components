@@ -1,9 +1,8 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import componentCSS from "./qgds-button.scss?inline";
-
 import { classMap } from "lit/directives/class-map.js";
+import componentCSS from "./qgds-button.scss?inline";
 
 // Define types for properties to ensure type safety and better autocompletion
 type ButtonVariant = "primary" | "secondary" | "tertiary";
@@ -157,7 +156,7 @@ export class QGDSButton extends LitElement {
   }
 
   // Handle slot changes to detect if icon is present
-  private handleSlotChange(e: Event) {
+  private handleSlotChange = (e: Event): void => {
     const slot = e.target as HTMLSlotElement;
     const assignedElements = slot.assignedElements();
     this.hasIcon = assignedElements.length > 0;
@@ -170,39 +169,39 @@ export class QGDSButton extends LitElement {
         this.iconSize = iconSize;
       }
     }
-  }
+  };
 
   // State management handlers
-  private _handleMouseEnter() {
+  private _handleMouseEnter = (): void => {
     if (!this.disabled && !this.isLoading) {
       this._isHovered = true;
     }
-  }
+  };
 
-  private _handleMouseLeave() {
+  private _handleMouseLeave = (): void => {
     this._isHovered = false;
     this._isActive = false;
-  }
+  };
 
-  private _handleMouseDown() {
+  private _handleMouseDown = (): void => {
     if (!this.disabled && !this.isLoading) {
       this._isActive = true;
     }
-  }
+  };
 
-  private _handleMouseUp() {
+  private _handleMouseUp = (): void => {
     this._isActive = false;
-  }
+  };
 
-  private _handleFocus() {
+  private _handleFocus = (): void => {
     if (!this.disabled && !this.isLoading) {
       this._isFocused = true;
     }
-  }
+  };
 
-  private _handleBlur() {
+  private _handleBlur = (): void => {
     this._isFocused = false;
-  }
+  };
 
   // Getter for combined button state
   get buttonState() {
@@ -215,7 +214,7 @@ export class QGDSButton extends LitElement {
     };
   }
 
-  private _onClick(e: Event) {
+  private _onClick = (e: Event): void => {
     if (this.disabled || this.isLoading) {
       e.preventDefault();
       return;
@@ -232,5 +231,5 @@ export class QGDSButton extends LitElement {
       },
     });
     this.dispatchEvent(myButtonEvent);
-  }
+  };
 }
