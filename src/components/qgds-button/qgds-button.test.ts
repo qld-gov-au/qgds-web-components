@@ -160,7 +160,7 @@ describe("qgds-button", () => {
 
       // Check that the button has loading class or aria-disabled
       expect(
-        button?.classList.contains("loading") ||
+        button?.classList.contains("loading") ??
           button?.getAttribute("aria-disabled") === "true",
       ).toBe(true);
     });
