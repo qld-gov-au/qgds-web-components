@@ -40,6 +40,7 @@ export class QGDSButton extends LitElement {
   @state() private _isActive: boolean = false;
   @state() private _isFocused: boolean = false;
   @state() private hasIcon: boolean = false;
+  @state() private _iconSlotRef: HTMLElement | null = null;
 
   static styles = [
     css`
@@ -145,9 +146,8 @@ export class QGDSButton extends LitElement {
   }
 
   private getCurrentIconSize(): string {
-    const iconSlot = this.querySelector('[slot="icon"]');
-    if (iconSlot) {
-      const size = iconSlot.getAttribute("size");
+    if (this._iconSlotRef) {
+      const size = this._iconSlotRef.getAttribute("size");
       if (size) {
         return size;
       }
@@ -161,13 +161,15 @@ export class QGDSButton extends LitElement {
     const assignedElements = slot.assignedElements();
     this.hasIcon = assignedElements.length > 0;
 
-    // Capture the size attribute from the slotted icon
+    // Store reference to the slotted icon
     if (assignedElements.length > 0) {
-      const icon = assignedElements[0];
-      const iconSize = icon.getAttribute("size") ?? "md";
+      this._iconSlotRef = assignedElements[0] as HTMLElement;
+      const iconSize = this._iconSlotRef.getAttribute("size") ?? "md";
       if (iconSize !== this.iconSize) {
         this.iconSize = iconSize;
       }
+    } else {
+      this._iconSlotRef = null;
     }
   };
 
