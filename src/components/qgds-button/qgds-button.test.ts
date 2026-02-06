@@ -151,8 +151,8 @@ describe("qgds-button", () => {
       await element.updateComplete;
 
       const loadingIcon =
-        element.shadowRoot?.querySelector("[data-loading-icon]") ||
-        element.shadowRoot?.querySelector(".loading-icon") ||
+        element.shadowRoot?.querySelector("[data-loading-icon]") ??
+        element.shadowRoot?.querySelector(".loading-icon") ??
         element.shadowRoot?.querySelector("qgds-loading-icon");
       const button = element.shadowRoot?.querySelector("button");
 
