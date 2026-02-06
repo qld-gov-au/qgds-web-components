@@ -4,31 +4,30 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
 import "../qgds-icon/qgds-icon.ts";
 import { ICON_NAMES } from "../qgds-icon/icon-names";
-
 import "./qgds-button.ts";
 import { QGDSButtonProps } from "./qgds-button";
 
 // Extended interface for story-specific props
 interface StoryButtonProps extends QGDSButtonProps {
   iconId?: string;
-  iconSize: "sm" | "md" | "lg" | "xl";
 }
 
 /** QGDS Button Web Component */
 const renderButton = ({
   label,
-  disabled = false,
-  target = "",
-  ariaLabel = "",
-  trailingIcon = false,
-  variant = "primary",
-  linkValue = "",
-  loadingLabel = "Loading...",
-  isLoading = false,
-  eventTitle = "onClick",
-  uniqueID = "",
-  iconId = "external-link",
-  iconSize = "md",
+  disabled,
+  target,
+  ariaLabel,
+  trailingIcon,
+  variant,
+  href,
+  loadingLabel,
+  isLoading,
+  eventTitle,
+  uniqueID,
+  iconId,
+  iconSize,
+  type,
 }: StoryButtonProps) => {
   // Create a handler that logs the event to console
   const handleEvent = (e: CustomEvent) => {
@@ -48,22 +47,23 @@ const renderButton = ({
     <div ${ref(attachListener)}>
       <qgds-button
         ?disabled=${disabled}
-        target="${ifDefined(target || undefined)}"
+        target="${ifDefined(target)}"
+        type=${ifDefined(href ? undefined : type)}
         aria-label="${ifDefined(ariaLabel || undefined)}"
         label="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
-        href="${ifDefined(linkValue || undefined)}"
+        href="${ifDefined(href || undefined)}"
         loading-label="${ifDefined(loadingLabel || undefined)}"
         ?is-loading=${isLoading}
-        event-title="${eventTitle}"
-        unique-id="${ifDefined(uniqueID || undefined)}"
+        event-title="${ifDefined(eventTitle || undefined)}"
+        id="${ifDefined(uniqueID || undefined)}"
       >
         <qgds-icon
           slot="icon"
           iconId="${iconId}"
           size="${iconSize}"
-          ariaLabel="${ifDefined(ariaLabel || undefined)}"
+          aria-label="${ifDefined(ariaLabel)}"
         >
         </qgds-icon>
       </qgds-button>
@@ -88,13 +88,11 @@ const meta: Meta<StoryButtonProps> = {
     label: {
       control: "text",
       description: "This is the Button content",
-      type: "string",
     },
     disabled: {
       control: "boolean",
       name: "disabled",
       description: "Whether the button is disabled",
-      type: "boolean",
       table: {
         defaultValue: { summary: "false" },
       },
@@ -103,30 +101,31 @@ const meta: Meta<StoryButtonProps> = {
       control: "select",
       name: "target",
       options: ["_self", "_blank", "_parent", "_top"],
-      if: { arg: "linkValue", truthy: true },
+      if: { arg: "href", truthy: true },
     },
     ariaLabel: {
       control: "text",
       name: "aria-label",
       description: "The Button aria-label attribute",
-      type: "string",
     },
     iconId: {
       control: "select",
       options: [...ICON_NAMES],
-      name: "name",
       description: "The icon to display in the button",
-      type: "string",
       table: {
         category: "QGDS Icon",
       },
     },
+    type: {
+      control: "select",
+      options: ["button", "submit", "reset"],
+      description: "The button type attribute",
+      if: { arg: "href", truthy: false },
+    },
     iconSize: {
       control: "select",
       options: ["sm", "md", "lg", "xl"],
-      name: "size",
       description: "The size of the icon",
-      type: "string",
       table: {
         category: "QGDS Icon",
       },
@@ -135,16 +134,13 @@ const meta: Meta<StoryButtonProps> = {
       control: "boolean",
       name: "has trailing icon",
       description: "Whether the button has a trailing icon",
-      type: "boolean",
       table: {
         defaultValue: { summary: "false" },
       },
     },
-    linkValue: {
+    href: {
       control: "text",
-      name: "link value",
       description: "The URL for the button if it is a link",
-      type: "string",
       table: {
         defaultValue: { summary: "" },
       },
@@ -152,9 +148,8 @@ const meta: Meta<StoryButtonProps> = {
     loadingLabel: {
       control: "text",
       name: "loading label",
-      if: { arg: "linkValue", truthy: false },
       description: "The text that appears when the button is loading",
-      type: "string",
+      if: { arg: "href", truthy: false },
       table: {
         defaultValue: { summary: "Loading..." },
       },
@@ -162,8 +157,8 @@ const meta: Meta<StoryButtonProps> = {
     isLoading: {
       control: "boolean",
       name: "is loading",
-      if: { arg: "linkValue", truthy: false },
       description: "Whether the button is in a loading state",
+      if: { arg: "href", truthy: false },
       table: {
         defaultValue: { summary: "false" },
       },
@@ -172,14 +167,18 @@ const meta: Meta<StoryButtonProps> = {
     eventTitle: {
       control: "text",
       name: "event title",
-      description: "The event title for the button, e.g., onClick",
-      type: "string",
+      description: "The event title for the qgds-button, e.g., onClick",
+      table: {
+        defaultValue: { summary: "onClick" },
+      },
     },
     uniqueID: {
       control: "text",
+      description: "The unique identifier for the qgds-button",
       name: "unique ID",
-      description: "The unique identifier for the button",
-      type: "string",
+      table: {
+        defaultValue: { summary: "onClick" },
+      },
     },
   },
   globals: {
@@ -193,6 +192,10 @@ type Story = StoryObj<StoryButtonProps>;
 export const Button: Story = {
   args: {
     label: "QGDS Button",
+    iconId: "external-link",
+    iconSize: "md",
+    variant: "primary",
+    type: "button",
   },
 };
 
