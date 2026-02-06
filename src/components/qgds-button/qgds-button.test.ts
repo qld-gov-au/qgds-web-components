@@ -30,9 +30,7 @@ describe("qgds-button", () => {
       form.appendChild(element);
       await element.updateComplete;
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       expect(button).toBeTruthy();
       expect(button?.getAttribute("type")).toBe("button");
     });
@@ -42,9 +40,7 @@ describe("qgds-button", () => {
       form.appendChild(element);
       await element.updateComplete;
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       expect(button?.getAttribute("type")).toBe("submit");
 
       // Verify that the button has the correct type attribute
@@ -58,9 +54,7 @@ describe("qgds-button", () => {
       form.appendChild(element);
       await element.updateComplete;
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       expect(button?.getAttribute("type")).toBe("reset");
 
       // Verify that the button has the correct type attribute
@@ -77,9 +71,7 @@ describe("qgds-button", () => {
       const submitHandler = vi.fn((e: Event) => e.preventDefault());
       form.addEventListener("submit", submitHandler);
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       button?.click();
 
       expect(submitHandler).not.toHaveBeenCalled();
@@ -96,9 +88,7 @@ describe("qgds-button", () => {
       const submitHandler = vi.fn((e: Event) => e.preventDefault());
       form.addEventListener("submit", submitHandler);
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       button?.click();
 
       expect(submitHandler).not.toHaveBeenCalled();
@@ -115,9 +105,7 @@ describe("qgds-button", () => {
       const submitHandler = vi.fn((e: Event) => e.preventDefault());
       form.addEventListener("submit", submitHandler);
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       button?.click();
 
       expect(submitHandler).not.toHaveBeenCalled();
@@ -139,10 +127,8 @@ describe("qgds-button", () => {
     it("should render as button by default", async () => {
       await element.updateComplete;
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
-      const link = element.shadowRoot?.querySelector("a") as HTMLAnchorElement;
+      const button = element.shadowRoot?.querySelector("button");
+      const link = element.shadowRoot?.querySelector("a");
 
       expect(button).toBeTruthy();
       expect(link).toBeFalsy();
@@ -152,10 +138,8 @@ describe("qgds-button", () => {
       element.setAttribute("href", "/test-page");
       await element.updateComplete;
 
-      const link = element.shadowRoot?.querySelector("a") as HTMLAnchorElement;
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const link = element.shadowRoot?.querySelector("a");
+      const button = element.shadowRoot?.querySelector("button");
 
       expect(link).toBeTruthy();
       expect(button).toBeFalsy();
@@ -166,12 +150,8 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const loadingIcon = element.querySelector(
-        "[data-loading-icon]",
-      ) as HTMLElement;
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const loadingIcon = element.querySelector("[data-loading-icon]");
+      const button = element.shadowRoot?.querySelector("button");
 
       expect(loadingIcon).toBeTruthy();
       expect(button?.classList.contains("loading")).toBe(true);
@@ -181,9 +161,7 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       expect(button?.hasAttribute("disabled")).toBe(true);
 
       element.removeAttribute("is-loading");
@@ -216,18 +194,23 @@ describe("qgds-button", () => {
       const eventHandler = vi.fn();
       element.addEventListener("testClick", eventHandler);
 
-      const button = element.shadowRoot?.querySelector(
-        "button",
-      ) as HTMLButtonElement;
+      const button = element.shadowRoot?.querySelector("button");
       button?.click();
 
       expect(eventHandler).toHaveBeenCalled();
 
       const event = eventHandler.mock.calls[0]?.[0] as CustomEvent;
-      expect(event.detail).toBeDefined();
-      expect((event.detail as any).eventTitle).toBe("testClick");
-      expect((event.detail as any).label).toBe("test");
-      expect((event.detail as any).variant).toBe("primary");
+      expect(event?.detail).toBeDefined();
+
+      if (event?.detail && typeof event.detail === "object") {
+        expect((event.detail as Record<string, unknown>).eventTitle).toBe(
+          "testClick",
+        );
+        expect((event.detail as Record<string, unknown>).label).toBe("test");
+        expect((event.detail as Record<string, unknown>).variant).toBe(
+          "primary",
+        );
+      }
     });
   });
 });
