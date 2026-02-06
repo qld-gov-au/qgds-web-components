@@ -1,10 +1,11 @@
-@import "../../scss/base/animations";
-@include css();
+@use "../../scss/base/animations";
+
+@include animations.css();
 
 :host {
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
-  --btn-text-decoration-color:var(--qgds-color-underline-default, inherit);
+  --btn-text-decoration-color: var(--qgds-color-underline-default, inherit);
 }
 
 .btn {
@@ -36,7 +37,7 @@
   text-decoration: underline;
   text-decoration-color: var(--btn-text-decoration-color);
   text-underline-offset: var(--text-underline-offset, 4.8px);
-  text-decoration-thickness: var(--text-decoration-thickness, .5px); 
+  text-decoration-thickness: var(--text-decoration-thickness, 0.5px);
   transition: text-decoration-thickness var(--qgds-transition-duration, 0.3s) ease-in-out;
   min-inline-size: var(--min-width);
 }
@@ -67,7 +68,7 @@
 
 /* Start */
 .loading {
-  text-decoration: none; 
+  text-decoration: none;
   background: var(--qgds-color-code-muted, #ccc);
 }
 
@@ -83,7 +84,7 @@
 }
 
 .btn-primary:hover {
-  --qgds-color-action-primary:  var(--qgds-color-action-primary-hover);
+  --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
 
   box-shadow: var(--qgds-elevation-4);
 }
@@ -97,7 +98,8 @@
   border-color: var(--btn-border-colour);
 }
 
-button.btn-secondary:disabled, .btn-secondary.disabled {
+button.btn-secondary:disabled,
+.btn-secondary.disabled {
   --btn-border-colour: var(--qgds-color-neutral-light, #ccc);
 }
 
@@ -111,7 +113,8 @@ button.btn-secondary:disabled, .btn-secondary.disabled {
   background: var(--no-colour);
 }
 
-button.btn-tertiary:disabled, .btn-tertiary.disabled {
+button.btn-tertiary:disabled,
+.btn-tertiary.disabled {
   background: var(--no-colour);
 }
 
@@ -119,8 +122,9 @@ button.btn-tertiary:disabled, .btn-tertiary.disabled {
   background: var(--qgds-color-border, #ebebeb);
 }
 
-button:disabled, .disabled {
-  --text: var(--qgds-color-text-lighter, #666); 
+button:disabled,
+.disabled {
+  --text: var(--qgds-color-text-lighter, #666);
 
   background: var(--qgds-color-neutral-light, #ccc);
   text-decoration: none;
