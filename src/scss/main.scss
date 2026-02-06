@@ -10,6 +10,7 @@
 @use "base/elements";
 @use "base/globals";
 @use "base/palettes";
+@use "base/icons";
 @use "utilities";
 @layer base, components, utilities; /* Defines named layers and their order */
 
@@ -18,6 +19,7 @@
   @include animations.css();
   @include elements.css();
   @include palettes.css();
+  @include icons.css();
 }
 
 // @layer components - Loaded Component styles will be scoped here

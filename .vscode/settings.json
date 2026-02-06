@@ -1,5 +1,5 @@
 {
-  "editor.defaultFormatter": "prettier.prettier-vscode",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "somesass.css.codeAction.enabled": true,
   "somesass.css.colors.enabled": true,
   "somesass.css.completion.enabled": true,
@@ -27,7 +27,7 @@
   "somesass.scss.links.enabled": true,
   "somesass.scss.selectionRanges.enabled": true,
   "somesass.workspace.exclude": ["**/.git/**", "**/node_modules/**", "dist/"],
-  "[scss]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode"
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
