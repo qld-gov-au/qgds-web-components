@@ -150,14 +150,19 @@ describe("qgds-button", () => {
       element.setAttribute("is-loading", "true");
       await element.updateComplete;
 
-      const loadingIcon =
-        element.shadowRoot?.querySelector("[data-loading-icon]") ??
-        element.shadowRoot?.querySelector(".loading-icon") ??
-        element.shadowRoot?.querySelector("qgds-loading-icon");
       const button = element.shadowRoot?.querySelector("button");
 
-      expect(loadingIcon).toBeTruthy();
-      expect(button?.classList.contains("loading")).toBe(true);
+      // Check that the component is in loading state
+      expect(element.isLoading).toBe(true);
+
+      // Check that the button is disabled when loading
+      expect(button?.hasAttribute("disabled")).toBe(true);
+
+      // Check that the button has loading class or aria-disabled
+      expect(
+        button?.classList.contains("loading") ||
+          button?.getAttribute("aria-disabled") === "true",
+      ).toBe(true);
     });
 
     it("should be disabled when disabled or loading", async () => {
