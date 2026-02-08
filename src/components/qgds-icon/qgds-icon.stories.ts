@@ -14,16 +14,12 @@ const { args, argTypes } = getStorybookHelpers<QGDSIcon>("qgds-icon", {
 }) as { args: Partial<QGDSIcon>; argTypes: Record<string, unknown> };
 
 /** QGDS Icon Web Component */
-const renderIcon = ({
-  iconId = "home",
-  size = "md",
-  ariaLabel = "",
-}: QGDSIcon) => {
+const renderIcon = ({ iconId, size = "md", ariaLabel = "" }: QGDSIcon) => {
   return html`
     <qgds-icon
-      iconId="${iconId}"
+      icon-id="${ifDefined(iconId)}"
       size="${size}"
-      ariaLabel="${ifDefined(ariaLabel || undefined)}"
+      aria-label="${ifDefined(ariaLabel || undefined)}"
     >
     </qgds-icon>
   `;
@@ -90,9 +86,9 @@ export const AllIcons: Story = {
         (iconName) => html`
           <div class="icon-item">
             <qgds-icon
-              iconId="${iconName}"
+              icon-id="${iconName}"
               size="${storyArgs.size}"
-              ariaLabel="${iconName}"
+              aria-label="${iconName}"
               title="${iconName}"
             ></qgds-icon>
             <span class="icon-name">${iconName}</span>
