@@ -1,8 +1,9 @@
 /* Inpage Nav List items (sub component) */
 :host {
   margin-block-start: 0;
-  display: inline-flex;
+  display: list-item;
   line-height: 1.5;
+  list-style: none;
 
   /* Links */
   a,
