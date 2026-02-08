@@ -9,13 +9,34 @@
  *   node scripts/post-process-cem.js
  */
 
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 // eslint-disable-next-line no-undef
 const cemPath = resolve(process.cwd(), "custom-elements.json");
 
-const cem = JSON.parse(readFileSync(cemPath, "utf-8"));
+// Check if CEM file exists
+if (!existsSync(cemPath)) {
+  // eslint-disable-next-line no-undef
+  console.warn("⚠ custom-elements.json not found, skipping post-processing");
+  // eslint-disable-next-line no-undef
+  process.exit(0);
+}
+
+let cem;
+try {
+  cem = JSON.parse(readFileSync(cemPath, "utf-8"));
+} catch (error) {
+  // eslint-disable-next-line no-undef
+  console.error("✗ Failed to parse custom-elements.json:", error.message);
+  // eslint-disable-next-line no-undef
+  process.exit(1);
+}
+
+// Fallback to empty modules array if not present
+if (!cem.modules) {
+  cem.modules = [];
+}
 
 /**
  * Recursively process declarations to move parsedType to type.text
@@ -52,3 +73,6 @@ for (const module of cem.modules) {
 }
 
 writeFileSync(cemPath, JSON.stringify(cem, null, 2));
+
+// eslint-disable-next-line no-undef
+console.log("✓ Custom Elements Manifest post-processed: parsedType → type.text");
