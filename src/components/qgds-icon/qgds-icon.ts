@@ -35,11 +35,9 @@ export class QGDSIcon extends LitElement {
   @property({ type: String, attribute: "arialabel" })
   ariaLabel: string = "";
 
-  static styles = [
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = css`
+    ${unsafeCSS(componentCSS)}
+  `;
 
   private get isMulticolour(): boolean {
     return isMulticolourIcon(this.iconId);
@@ -49,7 +47,6 @@ export class QGDSIcon extends LitElement {
     const classes = {
       "qgds-icon": true,
       "qgds-icon-multicolour": this.isMulticolour,
-      [`is-${this.size}`]: true,
     };
 
     return html`
