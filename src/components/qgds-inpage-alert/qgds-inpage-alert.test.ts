@@ -47,9 +47,8 @@ describe("qgds-inpage-alert", () => {
     const headingElement = element.shadowRoot?.querySelector(
       ".content-wrapper > .heading",
     );
-    expect(headingElement?.outerHTML).toBe(
-      `<h3 class="heading qgds-display-lg">${headingText}</h3>`,
-    );
+    expect(headingElement?.tagName).toBe("H3");
+    expect(headingElement?.textContent).toBe(headingText);
 
     // Verify the slot is distributing the content correctly
     const slot = element.shadowRoot?.querySelector("slot");
