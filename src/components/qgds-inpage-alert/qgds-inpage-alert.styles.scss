@@ -1,0 +1,56 @@
+@use "../../scss/qgds-tokens/qgds-color-stub";
+
+$_border-width: 2px;
+
+:host {
+  display: block;
+  --qgds-icon-color: var(--qgds-color-neutral-white);
+}
+
+.qgds-inpage-alert {
+  border-radius: 0.25rem;
+  background-color: var(--background, var(--palette-bright-shade));
+  color: var(--color, var(--palette-bright-typography-body-default));
+  border: $_border-width solid var(--border);
+  overflow: hidden;
+  display: flex;
+
+  &.is-info {
+    --border: var(--qgds-color-status-info-default);
+  }
+
+  &.is-success {
+    --border: var(--qgds-color-status-success-default);
+  }
+
+  &.is-error {
+    --border: var(--qgds-color-status-error-default);
+  }
+
+  &.is-warning {
+    --border: var(--qgds-color-status-caution-default);
+    --qgds-icon-color: var(--qgds-color-neutral-black);
+  }
+}
+
+.icon-wrapper {
+  flex: 0 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--border);
+  margin-inline-start: -($_border-width);
+}
+
+.content-wrapper {
+  @extend %qgds-color-palette-default;
+
+  background: var(--qgds-color-background);
+  color: var(--qgds-color-text-default);
+  flex: 1 1 auto;
+  padding: 1rem;
+}
+
+.heading {
+  margin-block: 0 1rem;
+}

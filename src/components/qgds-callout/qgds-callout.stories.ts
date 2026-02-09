@@ -5,12 +5,10 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import "./qgds-callout";
 import { QGDSCalloutProps } from "./qgds-callout";
 
+type TArgs = QGDSCalloutProps & { content: string };
+
 /** QGDS Callout Web Component */
-const renderCallout = ({
-  heading,
-  headingLevel,
-  content,
-}: QGDSCalloutProps & { content?: string }) => {
+const renderCallout = ({ heading, headingLevel, content }: TArgs) => {
   // Ensure content is a string for unsafeHTML
   const safeContent = typeof content === "string" ? content : "";
   return html`
@@ -20,7 +18,7 @@ const renderCallout = ({
   `;
 };
 
-const meta: Meta<QGDSCalloutProps> = {
+const meta: Meta<TArgs> = {
   title: "Components/QGDS Callout",
   component: "qgds-callout",
   tags: ["autodocs"],
@@ -52,7 +50,7 @@ This component is used to highlight important information within content areas. 
 };
 
 export default meta;
-type Story = StoryObj<QGDSCalloutProps>;
+type Story = StoryObj<TArgs>;
 
 export const Default: Story = {
   args: {

@@ -1,0 +1,32 @@
+@use "../tools/functions" as f;
+
+$_sizes: (
+  xs: 14px,
+  sm: 16px,
+  md: 20px,
+  lg: 24px,
+  xl: 32px,
+  xxl: 40px,
+  xxxl: 48px,
+);
+
+%_qgds-display {
+  font-family: var(
+    --qgds-font-family,
+    "Noto Sans",
+    "Helvetica Neue",
+    helvetica,
+    arial,
+    sans-serif
+  );
+  font-weight: 600;
+  line-height: f.snap-line-height(1.4);
+  color: var(--qgds-color-text-heading);
+}
+
+@each $key, $value in $_sizes {
+  .qgds-display-#{$key} {
+    @extend %_qgds-display;
+    font-size: f.remify($value);
+  }
+}

@@ -2,13 +2,13 @@
   // reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.
 
   // Below are global styles applied to the entire document
-  // These are just placeholder styles, can be customized as needed
+  // These are just placeholder styles, can be customized as needed;
   :root {
     --border-radius: 0.25rem;
     --text-decoration: none;
     --text-decoration-hover: underline;
     --qgds-font-family:
-      "Nunito Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+      "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif;
   }
 
   html {

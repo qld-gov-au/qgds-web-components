@@ -1,91 +1,71 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+// import { classMap } from "lit/directives/class-map.js";
+import "../qgds-icon/qgds-icon";
+import styles from "./qgds-inpage-alert.styles.scss?inline";
+import display from "../../scss/typography/qgds-display.scss?inline";
+import { ICON_NAMES } from "../qgds-icon/icon-names";
 
-import { bubbleAllEvents } from "../../js/utils/bubble-events"; // Import the bubble events utility
+// import { bubbleAllEvents } from "../../js/utils/bubble-events"; // Import the bubble events utility
+
+type AlertVariant = "error" | "info" | "success" | "warning";
+type IconName = (typeof ICON_NAMES)[number]; // Gets the literal type of each icon
 
 // Register the custom element
 @customElement("qgds-inpage-alert")
 export class QGDSInpageAlert extends LitElement {
   // Define properties for the component
-  @property({ type: String }) 
-  headline: string;
+  @property({ type: String })
+  heading?: string;
 
-  @property({ type: String }) 
-  message: string;
+  // // @property({ type: String })
+  // // message: string;
 
-  @property({ type: String }) 
-  alerttype: string;
-
-  constructor() {
-    super();
-    this.headline = "Alert headline";
-    this.message = "This is an alert message.";
-    this.alerttype = "info";
-  }
+  @property({ type: String })
+  variant: AlertVariant = "info";
 
   // Define styles for the component
   static styles = [
     css`
-      :host {
-        display: block;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin-bottom: 1rem;
-        background-color: var(--bg, var(--palette-bright-shade));
-        color: var(--color, var(--palette-bright-typography-body-default));
-      }
+      ${unsafeCSS(display)}
+    `,
 
-      .qgds-alert {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .content {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      .icon {
-        color: var(--color);
-      }
+    css`
+      ${unsafeCSS(styles)}
     `,
   ];
 
   // Bind events to bubble up from button
-  firstUpdated() {
-    // Ensure the button exists before trying to bubble events
-    this.shadowRoot?.querySelector("button")?.addEventListener("click", (e) => {
-      bubbleAllEvents(this, e.currentTarget as Element);
-    });
-  }
+  // firstUpdated() {
+  //   // Ensure the button exists before trying to bubble events
+  //   this.shadowRoot?.querySelector("button")?.addEventListener("click", (e) => {
+  //     bubbleAllEvents(this, e.currentTarget as Element);
+  //   });
+  // }
+
+  private static readonly icons: Record<AlertVariant, IconName> = {
+    error: "alert-danger",
+    info: "alert-information",
+    success: "alert-success",
+    warning: "alert-warning",
+  };
 
   render() {
     return html`
-      <section class="qgds-alert" data-alert-type="${this.alerttype}">
-        <div class="icon" aria-hidden="true">
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M28.9 10.5C28.2 8.8 27.2 7.3 25.9 6.1C24.6 4.8 23.2 3.8 21.5 3.1C19.8 2.4 17.9 2 16 2C14.1 2 12.2 2.4 10.5 3.1C8.8 3.8 7.3 4.8 6.1 6.1C4.8 7.4 3.8 8.8 3.1 10.5C2.4 12.2 2 14.1 2 16C2 17.9 2.4 19.8 3.1 21.5C3.8 23.2 4.8 24.7 6.1 25.9C7.4 27.2 8.8 28.2 10.5 28.9C12.2 29.6 14 30 16 30C17.9 30 19.7 29.6 21.5 28.9C23.2 28.2 24.7 27.2 25.9 25.9C27.2 24.6 28.2 23.2 28.9 21.5C29.6 19.8 30 18 30 16C30 14.1 29.6 12.2 28.9 10.5ZM24.6 24.6C22.2 27 19.4 28.1 16 28.1C12.6 28.1 9.7 26.9 7.4 24.6C5 22.2 3.9 19.4 3.9 16C3.9 12.6 5.1 9.7 7.4 7.4C9.7 5.1 12.6 3.9 16 3.9C19.4 3.9 22.3 5.1 24.6 7.4C27 9.8 28.1 12.6 28.1 16C28.1 19.4 27 22.2 24.6 24.6ZM16 9C15.6 9 15.3 9.1 15.1 9.4C14.9 9.6 14.7 9.9 14.7 10.3C14.7 10.6 14.8 10.9 15.1 11.2C15.3 11.4 15.6 11.6 16 11.6C16.4 11.6 16.7 11.5 16.9 11.2C17.1 11 17.3 10.7 17.3 10.3C17.3 9.9 17.2 9.6 16.9 9.4C16.7 9.1 16.4 9 16 9ZM16 14C15.7 14 15.5 14.1 15.3 14.3C15.1 14.5 15 14.7 15 15V22C15 22.3 15.1 22.5 15.3 22.7C15.5 22.9 15.7 23 16 23C16.3 23 16.5 22.9 16.7 22.7C16.9 22.5 17 22.3 17 22V15C17 14.7 16.9 14.5 16.7 14.3C16.5 14.1 16.3 14 16 14Z"
-              fill="currentColor"
-            />
-          </svg>
+      <section class="qgds-inpage-alert is-${this.variant}">
+        <div class="icon-wrapper">
+          <qgds-icon
+            iconId="${QGDSInpageAlert.icons[this.variant]}"
+          ></qgds-icon>
         </div>
 
-        <div class="content">
-          <h3 class="headline">${this.headline}</h3>
-          <div class="content" data-alert-type="${this.alerttype}">
-            <slot></slot>
-          </div>
+        <div class="content-wrapper">
+          <h3 class="heading qgds-display-lg">${this.heading}</h3>
+          <slot></slot>
         </div>
       </section>
     `;
   }
 }
+
+export type QGDSInpageAlertProps = InstanceType<typeof QGDSInpageAlert>;

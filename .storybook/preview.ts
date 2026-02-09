@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/web-components-vite";
 import { html } from "lit";
 
-import "../src/stories/assets/qgds-styles.scss";
+import "../src/scss/main.scss";
 import { palettes } from "../src/js/utils/palettes";
 
 const preview: Preview = {
@@ -52,9 +52,7 @@ const preview: Preview = {
       const paletteName = context?.globals?.globalPalette || "default";
 
       return html`
-        <div
-          class="qgds-palette-${paletteName}"
-          style="padding: 2rem; min-height: 30vh;">
+        <div class="qgds-palette-${paletteName}" style="padding: 2rem">
           ${Story()}
         </div>
       `;
