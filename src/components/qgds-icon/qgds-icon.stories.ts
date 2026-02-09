@@ -1,46 +1,45 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 import type { QGDSIcon } from "./qgds-icon.ts";
 import "./qgds-icon.ts";
 import { ICON_NAMES } from "./icon-names.js";
+import type { IconName } from "./icon-names.js";
+
+/**
+ * Storybook args interface using kebab-case attribute names from CEM.
+ * This matches the format returned by getStorybookHelpers.
+ */
+interface QGDSIconStoryArgs {
+  "icon-id"?: IconName;
+  size?: "sm" | "md" | "lg" | "xl";
+  "aria-label"?: string;
+}
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
-// Exclude "cssProps" category to hide CSS custom properties
-const { args, argTypes } = getStorybookHelpers<QGDSIcon>("qgds-icon", {
-  // excludeCategories: ["cssProps"],
-}) as { args: Partial<QGDSIcon>; argTypes: Record<string, unknown> };
+// The template function handles attribute/property name mapping automatically
+const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 
-/** QGDS Icon Web Component */
-const renderIcon = ({ iconId, size = "md", ariaLabel = "" }: QGDSIcon) => {
-  return html`
-    <qgds-icon
-      icon-id="${ifDefined(iconId)}"
-      size="${size}"
-      aria-label="${ifDefined(ariaLabel || undefined)}"
-    >
-    </qgds-icon>
-  `;
-};
-
-const meta: Meta<QGDSIcon> = {
+const meta: Meta<QGDSIconStoryArgs> = {
   title: "Components/QGDS Icon",
   tags: ["autodocs"],
-  args,
+  args: {
+    ...args,
+    "icon-id": "home",
+  },
   argTypes,
-  render: (storyArgs) => renderIcon(storyArgs),
+  render: (storyArgs) => template(storyArgs),
 };
 
 export default meta;
-type Story = StoryObj<QGDSIcon>;
+type Story = StoryObj<QGDSIconStoryArgs>;
 
 export const Default: Story = {
   args: {
-    iconId: "home",
+    "icon-id": "home",
     size: "md",
-    ariaLabel: "Home icon",
+    "aria-label": "Home icon",
   },
 };
 
