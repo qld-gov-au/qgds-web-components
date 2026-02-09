@@ -24,7 +24,10 @@ const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 const meta: Meta<QGDSIconStoryArgs> = {
   title: "Components/QGDS Icon",
   tags: ["autodocs"],
-  args,
+  args: {
+    ...args,
+    "icon-id": "home",
+  },
   argTypes,
   render: (storyArgs) => template(storyArgs),
 };
