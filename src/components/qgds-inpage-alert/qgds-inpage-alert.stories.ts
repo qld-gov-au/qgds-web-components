@@ -48,14 +48,15 @@ export const Info: Story = {
 
 export const AllVariants: Story = {
   decorators: [
-    (story) =>
-      html`<div>
+    (story) => {
+      return html`<div>
         <style>
           qgds-inpage-alert:not(:last-child) {
             margin-bottom: 20px;
           }</style
         >${story()}
-      </div>`,
+      </div>`;
+    },
   ],
   render: (args) => {
     return html`
@@ -76,4 +77,24 @@ export const AllVariants: Story = {
       </qgds-inpage-alert>
     `;
   },
+};
+
+export const AllVariantsSoft: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "soft" },
+};
+
+export const AllVariantsMuted: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "muted" },
+};
+
+export const AllVariantsBold: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "bold" },
+};
+
+export const AllVariantsDeep: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "deep" },
 };
