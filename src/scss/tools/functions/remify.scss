@@ -8,19 +8,21 @@
 /// @param {Number} $baseline [16px] The assumed px value of 1rem.
 /// @todo support complex property values eg: `border: remify(4px 8px 12px 2rem)`;
 @function remify($value, $baseline: 16px) {
-  @if (math.is-unitless($baseline)) {
+  @if math.is-unitless($baseline) {
     $baseline-px: $baseline * 1px;
   }
 
-  @if (math.unit($baseline) != "px") {
+  @if math.unit($baseline) != "px" {
     @error "parameter $baseline may only use px units";
   }
 
-  @if (meta.type-of($value) == "list") {
+  @if meta.type-of($value) == "list" {
     $result: ();
+
     @each $item in $value {
       $result: list.append($result, remify($item));
     }
+
     @return $result;
   }
 

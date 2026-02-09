@@ -5,6 +5,7 @@
     "github.vscode-github-actions",
     "github.vscode-pull-request-github",
     "unifiedjs.vscode-mdx",
-    "somewhatstationery.some-sass"
+    "somewhatstationery.some-sass",
+    "stylelint.vscode-stylelint"
   ]
 }

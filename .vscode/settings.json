@@ -1,5 +1,9 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "stylelint.enable": true,
+  "stylelint.validate": ["css", "scss"],
+  "css.validate": false,
+  "scss.validate": false,
   "somesass.css.codeAction.enabled": true,
   "somesass.css.colors.enabled": true,
   "somesass.css.completion.enabled": true,

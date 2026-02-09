@@ -70,7 +70,7 @@ $icons-multicolour: () !default;
       // Preferred API to set color on icons is via --qgds-icon-color property.
       // This is not set intentionally by default, so we can inherit --qgds--action-icon-color from palette context.
       // Final fallback to inherit in case these go wrong.
-      color: var( --qgds-icon-color, inherit);
+      color: var(--qgds-icon-color, inherit);
       background-color: currentcolor;
     }
 

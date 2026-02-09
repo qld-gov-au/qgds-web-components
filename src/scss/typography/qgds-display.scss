@@ -27,6 +27,7 @@ $_sizes: (
 @each $key, $value in $_sizes {
   .qgds-display-#{$key} {
     @extend %_qgds-display;
+
     font-size: f.remify($value);
   }
 }

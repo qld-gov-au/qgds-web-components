@@ -3,8 +3,9 @@
 $_border-width: 2px;
 
 :host {
-  display: block;
   --qgds-icon-color: var(--qgds-color-neutral-white);
+
+  display: block;
 }
 
 .qgds-inpage-alert {
