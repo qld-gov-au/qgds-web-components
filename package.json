@@ -11,7 +11,7 @@
   "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run analyze && vite build",
     "serve": "http-server dist -p 8090",
     "analyze": "custom-elements-manifest analyze && node scripts/post-process-cem.js",
     "generate:icons": "node scripts/generate-icon-list.js",

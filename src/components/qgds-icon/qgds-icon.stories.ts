@@ -5,21 +5,16 @@ import { html } from "lit";
 import type { QGDSIcon } from "./qgds-icon.ts";
 import "./qgds-icon.ts";
 import { ICON_NAMES } from "./icon-names.js";
-import type { IconName } from "./icon-names.js";
+
+// Get auto-generated args, argTypes, and template from Custom Elements Manifest
+// The template function handles attribute/property name mapping automatically
+const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 
 /**
  * Storybook args interface using kebab-case attribute names from CEM.
  * This matches the format returned by getStorybookHelpers.
  */
-interface QGDSIconStoryArgs {
-  "icon-id"?: IconName;
-  size?: "sm" | "md" | "lg" | "xl";
-  "aria-label"?: string;
-}
-
-// Get auto-generated args, argTypes, and template from Custom Elements Manifest
-// The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
+type QGDSIconStoryArgs = typeof args;
 
 const meta: Meta<QGDSIconStoryArgs> = {
   title: "Components/QGDS Icon",
