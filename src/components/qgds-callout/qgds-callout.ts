@@ -3,6 +3,8 @@ import { customElement, property } from "lit/decorators.js";
 import { semanticHeading } from "../../js/utils";
 import componentCSS from "./qgds-callout.styles.scss?inline";
 
+export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
+
 export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
 
 /** QGDS Callout Web Component
@@ -13,15 +15,16 @@ export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
  * </qgds-callout>
  *
  * @attribute heading - Callout heading text
- * @attribute heading-level - Heading level (h2-h6)
+ * @attribute {HeadingLevel} heading-level - Heading level (h2-h6)
  */
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
   @property({ type: String, reflect: true, attribute: "heading" })
   heading: string = "Callout heading";
+
   @property({ type: String, reflect: true, attribute: "heading-level" })
-  headingLevel: string = "h3";
+  headingLevel: HeadingLevel = "h3";
 
   static styles = [
     css`
