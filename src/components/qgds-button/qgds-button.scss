@@ -13,9 +13,6 @@
   --border-width: 0;
   --min-width: 160px;
 
-  // Stubs to use while we wait for the Tokens to work.
-  --btn-background-active: transparent;
-
   /* Stubs to be replaced when token files are created */
   --qgds-outline-width: 3px;
   --qgds-outline-offset: 2px;
@@ -41,27 +38,39 @@
   text-underline-offset: var(--text-underline-offset, 4.8px);
   text-decoration-thickness: 0;
   min-inline-size: var(--min-width);
-}
 
-.btn:not(.has-icon) {
-  gap: 0;
-}
+  &:not(.has-icon) {
+    gap: 0;
+  }
 
-.btn:hover {
-  text-decoration: underline;
-}
+  &:hover {
+    text-decoration: underline;
+  }
 
-.btn:active {
-  --text: #000053;
+  &:active {
+    --text: #000053;
+    
+    text-decoration: none;
+    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+  }
 
-  background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
-}
+  &:focus {
+    text-decoration: underline;
+    outline: var(--qgds-outline-width) solid var(--qgds-color-focus-default);
+    outline-offset: var(--qgds-outline-offset);
+    border-radius: var(--border-radius);
+  }
 
-.btn:focus {
-  text-decoration: underline;
-  outline: var(--qgds-outline-width) solid var(--qgds-color-focus-default);
-  outline-offset: var(--qgds-outline-offset);
-  border-radius: var(--border-radius);
+  &:disabled,
+  &.disabled {
+    --text: var(--qgds-color-text-lighter, #666);
+  
+    background: var(--qgds-color-disabled, #ccc);
+    text-decoration: none;
+    pointer-events: none;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
 }
 
 :host([trailing-icon]) .btn {
@@ -72,10 +81,10 @@
 .loading {
   text-decoration: none;
   background: var(--qgds-color-code-muted, #ccc);
-}
 
-.loading:hover {
-  cursor: wait;
+  &:hover {
+    cursor: wait;
+  }
 }
 
 .btn-primary {
@@ -83,87 +92,80 @@
   box-shadow: var(--qgds-elevation-3);
   text-decoration-color: inherit;
   border-color: var(--qgds-color-action-primary, #454545);
-}
 
-.btn-primary:hover {
-  --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
+  &:hover {
+    --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
+  
+    box-shadow: var(--qgds-elevation-4);
+  }
 
-  box-shadow: var(--qgds-elevation-4);
-}
+  &:active {
+    box-shadow: var(--qgds-elevation-1);
+  }
 
-.btn-primary:active {
-  box-shadow: var(--qgds-elevation-1);
-}
-
-.btn-primary:focus {
-  --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
-
-  box-shadow: var(--qgds-elevation-1);
+  &:focus {
+    --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
+  
+    box-shadow: var(--qgds-elevation-1);
+  }
 }
 
 .btn-secondary {
   --border-width: var(--border-width-wide, 3px);
   --text: var(--qgds-color-link-default, #333);
   --qgds-block-padding: 0.5625rem;
+  --qgds-icon-color: var(--qgds-color-btn-icon);
 
   background: var(--no-colour);
   border-color: var(--btn-border-colour);
-}
 
-.btn-secondary:active {
-  border-color: transparent;
-}
+  &:active {
+    --qgds-icon-color: inherit;
 
-button.btn-secondary:disabled,
-.btn-secondary.disabled {
-  --btn-border-colour: var(--qgds-color-disabled, #ccc);
+    border-color: transparent;
+  }
 
-  background-color: transparent;
-}
+  &:disabled,
+  &.disabled {
+    --btn-border-colour: var(--qgds-color-disabled, #ccc);
+    --qgds-icon-color: inherit;
+  
+    background-color: transparent;
+  }
 
-.btn-secondary:hover {
-  --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
-}
+  &:hover {
+    --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
+  }
 
-.btn-secondary:focus {
-  background: var(--qgds-color-background-shade);
-  border: none;
+  &:focus {
+    background: var(--qgds-color-background-shade);
+    border: none;
+  }
 }
 
 .btn-tertiary {
   --text: var(--qgds-color-link-default, #333);
+  --qgds-icon-color: var(--qgds-color-btn-icon);
 
   text-decoration: underline;
   background: var(--no-colour);
+
+  &:active {
+    --qgds-icon-color: inherit;
+  }
+
+  &:disabled,
+  &.disabled {
+    --qgds-icon-color: inherit;
+
+    background: var(--no-colour);
+  }
+
+  &:hover, &:focus {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
+  }
 }
 
-button.btn-tertiary:disabled,
-.btn-tertiary.disabled {
-  background: var(--no-colour);
-}
-
-.btn-tertiary:hover, .btn-tertiary:focus {
-  background-color: var(--qgds-color-background-shade, #f5f5f5);
-}
-
-.btn-tertiary:active {
-  text-decoration: none;
-
-  --text: #000053;
-
-  background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
-}
-
-button:disabled,
-.disabled {
-  --text: var(--qgds-color-text-lighter, #666);
-
-  background: var(--qgds-color-disabled, #ccc);
-  text-decoration: none;
-  pointer-events: none;
-  cursor: not-allowed;
-  box-shadow: none;
-}
 
 /* Hide all slotted elements by default */
 ::slotted(*) {
@@ -173,18 +175,6 @@ button:disabled,
 /* Only show qgds-icon elements in the icon slot */
 ::slotted(qgds-icon) {
   display: block; 
-}
-
-.btn-secondary ::slotted(qgds-icon), .btn-tertiary ::slotted(qgds-icon) {
-  --qgds-icon-color: var(--qgds-color-btn-icon, inherit);
-}
-
-.btn-secondary:active ::slotted(qgds-icon), .btn-tertiary:active ::slotted(qgds-icon) {
-  --qgds-icon-color: inherit;
-}
-
-.btn-secondary:disabled ::slotted(qgds-icon), .btn-tertiary:disabled ::slotted(qgds-icon) {
-  --qgds-icon-color: inherit;
 }
 
 qgds-icon[iconid="spinner-step-1"] {
