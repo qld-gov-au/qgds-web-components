@@ -1,0 +1,181 @@
+@use "../../scss/base/animations";
+@include animations.css();
+
+:host {
+  --btn-border-colour: var(--qgds-color-action-secondary, transparent);
+  --btn-text: var(--qgds-color-link-on-action, #0059ff);
+}
+
+.btn {
+  --no-colour: transparent;
+  --text: var(--btn-text);
+  --border-width: 0;
+  --min-width: 160px;
+
+  /* Stubs to be replaced when token files are created */
+  --qgds-outline-width: 3px;
+  --qgds-outline-offset: 2px;
+  --qgds-gap-inline: 0.5rem;
+  --qgds-block-padding: 0.75rem;
+  --qgds-inline-padding: 1.5rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-width: var(--border-width);
+  border-style: solid;
+  border-color: transparent;
+  color: var(--text, white);
+  gap: var(--qgds-gap-inline, 0.5rem);
+  padding-block: var(--qgds-block-padding, 0.75rem);
+  padding-inline: var(--qgds-inline-padding, 1.5rem);
+  border-radius: var(--border-radius);
+  font-size: var(--qgds-font-size, 1rem);
+  text-decoration: none;
+  text-decoration-color: transparent;
+  text-underline-offset: var(--text-underline-offset, 4.8px);
+  text-decoration-thickness: 0;
+  min-inline-size: var(--min-width);
+
+  &:not(.has-icon) {
+    gap: 0;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:active {
+    --text: #000053;
+    
+    text-decoration: none;
+    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+  }
+
+  &:focus {
+    text-decoration: underline;
+    outline: var(--qgds-outline-width) solid var(--qgds-color-focus-default);
+    outline-offset: var(--qgds-outline-offset);
+    border-radius: var(--border-radius);
+  }
+
+  &:disabled,
+  &.disabled {
+    --text: var(--qgds-color-text-lighter, #666);
+  
+    background: var(--qgds-color-disabled, #ccc);
+    text-decoration: none;
+    pointer-events: none;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+:host([trailing-icon]) .btn {
+  flex-direction: row-reverse;
+}
+
+/* Start */
+.loading {
+  text-decoration: none;
+  background: var(--qgds-color-code-muted, #ccc);
+
+  &:hover {
+    cursor: wait;
+  }
+}
+
+.btn-primary {
+  background: var(--qgds-color-action-primary, #454545);
+  box-shadow: var(--qgds-elevation-3);
+  text-decoration-color: inherit;
+  border-color: var(--qgds-color-action-primary, #454545);
+
+  &:hover {
+    --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
+  
+    box-shadow: var(--qgds-elevation-4);
+  }
+
+  &:active {
+    box-shadow: var(--qgds-elevation-1);
+  }
+
+  &:focus {
+    --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
+  
+    box-shadow: var(--qgds-elevation-1);
+  }
+}
+
+.btn-secondary {
+  --border-width: var(--border-width-wide, 3px);
+  --text: var(--qgds-color-link-default, #333);
+  --qgds-block-padding: 0.5625rem;
+  --qgds-icon-color: var(--qgds-color-btn-icon);
+
+  background: var(--no-colour);
+  border-color: var(--btn-border-colour);
+
+  &:active {
+    --qgds-icon-color: inherit;
+
+    border-color: transparent;
+  }
+
+  &:disabled,
+  &.disabled {
+    --btn-border-colour: var(--qgds-color-disabled, #ccc);
+    --qgds-icon-color: inherit;
+  
+    background-color: transparent;
+  }
+
+  &:hover {
+    --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
+  }
+
+  &:focus {
+    background: var(--qgds-color-background-shade);
+    border: 3px solid transparent;
+  }
+}
+
+.btn-tertiary {
+  --text: var(--qgds-color-link-default, #333);
+  --qgds-icon-color: var(--qgds-color-btn-icon);
+
+  text-decoration: underline;
+  background: var(--no-colour);
+
+  &:active {
+    --qgds-icon-color: inherit;
+  }
+
+  &:disabled,
+  &.disabled {
+    --qgds-icon-color: inherit;
+
+    background: var(--no-colour);
+  }
+
+  &:hover, &:focus {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
+  }
+}
+
+
+/* Hide all slotted elements by default */
+::slotted(*) {
+  display: none;
+}
+
+/* Only show qgds-icon elements in the icon slot */
+::slotted(qgds-icon) {
+  display: block; 
+}
+
+qgds-icon[iconid="spinner-step-1"] {
+  animation: spin 1s linear infinite;
+}

@@ -1,7 +1,5 @@
-@use "../../scss/icons/icons.list" as icons;
-
 :host {
-  // --qgds-icon-color: var(--qgds-color-text-default, inherit);
+  --qgds-icon-color: inherit;
   --qgds-icon-size-xs: 1rem;
   --qgds-icon-size-sm: 1.25rem;
   --qgds-icon-size-md: 1.5rem;
@@ -28,7 +26,7 @@
   background-size: contain;
   vertical-align: middle;
   mask-image: var(--qgds-icon-svg);
-  color: var(--qgds-icon-color, inherit);
+  color: var(--qgds-icon-color);
   background-color: currentcolor;
 }
 
