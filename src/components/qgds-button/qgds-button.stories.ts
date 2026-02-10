@@ -64,7 +64,7 @@ const renderButton = ({
       >
         <qgds-icon
           slot="icon"
-          iconId="${iconId}"
+          icon-id="${iconId}"
           size="${iconSize}"
           aria-label="${ifDefined(ariaLabel)}"
         >
@@ -209,13 +209,13 @@ export const Default: Story = {
   render: () => html`
     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
       <qgds-button label="QGDS Button" variant="primary">
-        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
       <qgds-button label="QGDS Button" variant="secondary">
-        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
       <qgds-button label="QGDS Button" variant="tertiary">
-        <qgds-icon slot="icon" iconid="external-link" size="md"></qgds-icon>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
     </div>
   `,

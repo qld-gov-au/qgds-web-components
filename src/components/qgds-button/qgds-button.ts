@@ -91,7 +91,7 @@ export class QGDSButton extends LitElement {
       >
         ${this.isLoading
           ? html`<qgds-icon
-              iconid="spinner-step-1"
+              icon-id="spinner-step-1"
               size="${currentIconSize}"
             ></qgds-icon>`
           : html`<slot
@@ -133,7 +133,7 @@ export class QGDSButton extends LitElement {
       >
         ${this.isLoading
           ? html`<qgds-icon
-              iconid="spinner-step-1"
+              icon-id="spinner-step-1"
               size="${currentIconSize}"
             ></qgds-icon>`
           : html`<slot
