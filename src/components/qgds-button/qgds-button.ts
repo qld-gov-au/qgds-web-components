@@ -9,6 +9,42 @@ type ButtonVariant = "primary" | "secondary" | "tertiary";
 type ButtonType = "button" | "submit" | "reset";
 type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
 
+/**
+ * QGDS Button Component
+ *
+ * A web component for displaying buttons with various styles and states.
+ * Supports primary, secondary, and tertiary variants.
+ * Can include icons and handle loading states.
+ * Accessible via aria-labels and keyboard interactions.
+ *
+ * @element qgds-button
+ * @attr {string} label - The label of the button.
+ * @attr {ButtonVariant} variant - The variant of the button ("primary", "secondary", "tertiary").  Default is "primary"
+ * @attr {boolean} disabled - Whether the button is disabled.  Default is "false"
+ * @attr {AnchorTarget} target - The target for the link ("_self", "_blank", "_parent", "_top"). Default is "_self"
+ * @attr {ButtonType} type - The type of the button ("button", "submit", "reset"). Default is "button"
+ * @attr {string} aria-label - The aria-label for the button for accessibility.
+ * @attr {boolean} trailing-icon - Whether the icon is displayed after the label. Default is "false" (icon before label).
+ * @attr {string} id - A unique ID for the button.
+ * @attr {string} href - The URL the button links to (if it's a link).
+ * @attr {string} loading-label - The label to display when the button is in a loading state. Default is "Loading...".
+ * @attr {boolean} is-loading - Whether the button is in a loading state. Default is "false".
+ * @attr {string} event-title - The title of the custom event dispatched on click.
+ * @attr {string} slot="icon" - The icon slot for adding a qgds-icon to the qgds-button.
+ *
+ *
+ * @cssprop --btn-border-colour - The color of the button border.
+ * @cssprop --btn-text - The color of the button text.
+ *
+ * @example
+ * ```html
+ * <qgds-button type="button" label="QGDS Button" variant="primary">
+ *   <qgds-icon slot="icon" icon-id="external-link" size="md">
+ *   </qgds-icon>
+ * </qgds-button>
+ * ```
+ */
+
 export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 
 @customElement("qgds-button")
