@@ -1,61 +1,45 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
+import type { QGDSIcon } from "./qgds-icon.ts";
 import "./qgds-icon.ts";
 import { ICON_NAMES } from "./icon-names.js";
+import type { IconName } from "./icon-names.js";
 
-export interface QGDSIconProps {
-  /** Icon identifier */
-  iconId: string;
-  /** Icon size */
-  size: "sm" | "md" | "lg" | "xl";
-  /** ARIA label for accessibility */
-  ariaLabel: string;
-  StoryPalette?: string;
+/**
+ * Storybook args interface using kebab-case attribute names from CEM.
+ * This matches the format returned by getStorybookHelpers.
+ */
+interface QGDSIconStoryArgs {
+  "icon-id"?: IconName;
+  size?: "sm" | "md" | "lg" | "xl";
+  "aria-label"?: string;
 }
 
-/** QGDS Icon Web Component */
-const renderIcon = ({
-  iconId = "home",
-  size = "md",
-  ariaLabel = "",
-}: QGDSIconProps) => {
-  return html`
-    <qgds-icon
-      iconId="${iconId}"
-      size="${size}"
-      ariaLabel="${ifDefined(ariaLabel || undefined)}"
-    >
-    </qgds-icon>
-  `;
-};
+// Get auto-generated args, argTypes, and template from Custom Elements Manifest
+// The template function handles attribute/property name mapping automatically
+const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 
-const meta: Meta<QGDSIconProps> = {
+const meta: Meta<QGDSIconStoryArgs> = {
   title: "Components/QGDS Icon",
   tags: ["autodocs"],
-  render: (args) => renderIcon(args),
-  argTypes: {
-    iconId: {
-      control: "select",
-      options: [...ICON_NAMES],
-    },
-    size: {
-      control: "select",
-      options: ["sm", "md", "lg", "xl"],
-    },
-    ariaLabel: { control: "text" },
+  args: {
+    ...args,
+    "icon-id": "home",
   },
+  argTypes,
+  render: (storyArgs) => template(storyArgs),
 };
 
 export default meta;
-type Story = StoryObj<QGDSIconProps>;
+type Story = StoryObj<QGDSIconStoryArgs>;
 
 export const Default: Story = {
   args: {
-    iconId: "home",
+    "icon-id": "home",
     size: "md",
-    ariaLabel: "Home icon",
+    "aria-label": "Home icon",
   },
 };
 
@@ -64,12 +48,11 @@ export const AllIcons: Story = {
   args: {
     size: "md",
   },
-  render: (args) => html`
+  render: (storyArgs) => html`
     <style>
       .my-icons {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-
         gap: 1rem;
       }
       .icon-item {
@@ -102,9 +85,9 @@ export const AllIcons: Story = {
         (iconName) => html`
           <div class="icon-item">
             <qgds-icon
-              iconId="${iconName}"
-              size="${args.size}"
-              ariaLabel="${iconName}"
+              icon-id="${iconName}"
+              size="${storyArgs.size}"
+              aria-label="${iconName}"
               title="${iconName}"
             ></qgds-icon>
             <span class="icon-name">${iconName}</span>

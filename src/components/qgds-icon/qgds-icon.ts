@@ -4,6 +4,7 @@ import { classMap } from "lit/directives/class-map.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
 import { isMulticolourIcon } from "./icons-multicolour.js";
+import type { IconName } from "./icon-names";
 
 type IconSize = "sm" | "md" | "lg" | "xl";
 
@@ -15,24 +16,27 @@ type IconSize = "sm" | "md" | "lg" | "xl";
  * Multi-colour icons use background-image to preserve their original colours.
  *
  * @element qgds-icon
- * @attr {string} iconId - The ID of the icon to display (e.g., "home", "alert-success").
+ * @attr {IconName} icon-id - The ID of the icon to display (e.g., "home", "alert-success").
  * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
- * @attr {string} ariaLabel - The aria-label for the icon for accessibility.
+ * @attr {string} aria-label - The aria-label for the icon for accessibility.
+ *
+ * @cssprop --qgds-icon-color - The color of single-colour icons (applies to mask-image icons).
+ * @cssprop --qgds-icon-size - The size of the icon.
  *
  * @example
  * ```html
- * <qgds-icon iconId="home" size="md" ariaLabel="Home"></qgds-icon>
+ * <qgds-icon icon-id="home" size="md" aria-label="Home"></qgds-icon>
  * ```
  */
 @customElement("qgds-icon")
 export class QGDSIcon extends LitElement {
-  @property({ type: String })
-  iconId: string = "";
+  @property({ type: String, attribute: "icon-id" })
+  iconId?: IconName;
 
   @property({ type: String, reflect: true })
   size: IconSize = "md";
 
-  @property({ type: String, attribute: "arialabel" })
+  @property({ type: String, attribute: "aria-label" })
   ariaLabel: string = "";
 
   static styles = css`
@@ -40,7 +44,7 @@ export class QGDSIcon extends LitElement {
   `;
 
   private get isMulticolour(): boolean {
-    return isMulticolourIcon(this.iconId);
+    return this.iconId ? isMulticolourIcon(this.iconId) : false;
   }
 
   render() {

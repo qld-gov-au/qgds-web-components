@@ -1,13 +1,27 @@
 import type { Preview } from "@storybook/web-components-vite";
+import { setCustomElementsManifest } from "@storybook/web-components-vite";
+import { setStorybookHelpersConfig } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
 import "../src/stories/assets/qgds-styles.scss";
 import { palettes } from "../src/js/utils/palettes";
+import customElementsManifest from "../custom-elements.json";
+import DocumentationTemplate from "../src/stories/DocumentationTemplate.mdx";
+
+// Register custom elements manifest for API documentation
+// This enables automatic API tables and controls in Storybook autodocs
+setCustomElementsManifest(customElementsManifest);
+
+// Configure @wc-toolkit/storybook-helpers
+setStorybookHelpersConfig({
+  // Use type info from Custom Elements Manifest for controls
+});
 
 const preview: Preview = {
   parameters: {
     tags: ["autodocs"],
     controls: {
+      expanded: true,
       matchers: {
         color: /(background|color)$/i,
         date: /Date$/i,
@@ -17,10 +31,12 @@ const preview: Preview = {
     layout: "fullscreen",
 
     docs: {
+      page: DocumentationTemplate,
       source: {
-        //Global default. Override this in local stories to include decorators
+        // Global default. Override this in local stories to include decorators
         excludeDecorators: true,
       },
+      toc: true, // Enable table of contents in docs page
     },
 
     a11y: {
