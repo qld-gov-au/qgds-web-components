@@ -4,83 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/qgds-callout/qgds-callout.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "QGDS Callout Web Component\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
-          "name": "QGDSCallout",
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "attribute": "heading",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "headingLevel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "attribute": "heading-level",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "description": "Callout heading text",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "fieldName": "heading"
-            },
-            {
-              "description": "Heading level (h2-h6)",
-              "name": "heading-level",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "fieldName": "headingLevel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-callout",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSCallout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-callout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/qgds-button/qgds-button.ts",
       "declarations": [
         {
@@ -130,7 +53,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "'reset' | 'submit' | 'button'"
+                "text": "'button' | 'submit' | 'reset'"
               },
               "default": "\"button\"",
               "attribute": "type"
@@ -358,7 +281,7 @@
             {
               "name": "type",
               "type": {
-                "text": "'reset' | 'submit' | 'button'"
+                "text": "'button' | 'submit' | 'reset'"
               },
               "default": "\"button\"",
               "fieldName": "type"
@@ -451,113 +374,6 @@
           "declaration": {
             "name": "QGDSButton",
             "module": "src/components/qgds-button/qgds-button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "QGDSInpageNav",
-          "members": [
-            {
-              "kind": "field",
-              "name": "navtitle",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"On this page\"",
-              "attribute": "navtitle"
-            },
-            {
-              "kind": "field",
-              "name": "navitems",
-              "type": {
-                "text": "NavItem[]"
-              },
-              "default": "[]",
-              "attribute": "navitems"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"In page navigation\"",
-              "attribute": "ariaLabel"
-            },
-            {
-              "kind": "field",
-              "name": "headingLevel",
-              "type": {
-                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
-              },
-              "default": "\"h2\"",
-              "attribute": "headingLevel"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "navtitle",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"On this page\"",
-              "fieldName": "navtitle"
-            },
-            {
-              "name": "navitems",
-              "type": {
-                "text": "NavItem[]"
-              },
-              "default": "[]",
-              "fieldName": "navitems"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"In page navigation\"",
-              "fieldName": "ariaLabel"
-            },
-            {
-              "name": "headingLevel",
-              "type": {
-                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
-              },
-              "default": "\"h2\"",
-              "fieldName": "headingLevel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-inpage-nav",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSInpageNav",
-          "declaration": {
-            "name": "QGDSInpageNav",
-            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-inpage-nav",
-          "declaration": {
-            "name": "QGDSInpageNav",
-            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
           }
         }
       ]
@@ -759,6 +575,190 @@
           "declaration": {
             "name": "QGDSIcon",
             "module": "src/components/qgds-icon/qgds-icon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "QGDSInpageNav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "navtitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"On this page\"",
+              "attribute": "navtitle"
+            },
+            {
+              "kind": "field",
+              "name": "navitems",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "attribute": "navitems"
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"In page navigation\"",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
+              },
+              "default": "\"h2\"",
+              "attribute": "headingLevel"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "navtitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"On this page\"",
+              "fieldName": "navtitle"
+            },
+            {
+              "name": "navitems",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "fieldName": "navitems"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"In page navigation\"",
+              "fieldName": "ariaLabel"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
+              },
+              "default": "\"h2\"",
+              "fieldName": "headingLevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-inpage-nav",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSInpageNav",
+          "declaration": {
+            "name": "QGDSInpageNav",
+            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-inpage-nav",
+          "declaration": {
+            "name": "QGDSInpageNav",
+            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-callout/qgds-callout.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "QGDS Callout Web Component\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
+          "name": "QGDSCallout",
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "attribute": "heading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "attribute": "heading-level",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "description": "Callout heading text",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "fieldName": "heading"
+            },
+            {
+              "description": "Heading level (h2-h6)",
+              "name": "heading-level",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "fieldName": "headingLevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-callout",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSCallout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-callout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
           }
         }
       ]
