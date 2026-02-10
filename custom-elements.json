@@ -4,202 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/qgds-button/qgds-button.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "QGDSButton",
-          "members": [
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Button\"",
-              "attribute": "label"
-            },
-            {
-              "kind": "field",
-              "name": "variant",
-              "type": {
-                "text": "'default' | 'bold' | 'strong' | 'dark' | 'alt' | 'tint'"
-              },
-              "default": "\"default\"",
-              "attribute": "variant",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'medium' | 'large'"
-              },
-              "default": "\"medium\"",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "attribute": "disabled",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "href"
-            },
-            {
-              "kind": "field",
-              "name": "target",
-              "type": {
-                "text": "'_self' | '_blank' | '_parent' | '_top' | ''"
-              },
-              "default": "\"\"",
-              "attribute": "target"
-            },
-            {
-              "kind": "field",
-              "name": "type",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "\"button\"",
-              "attribute": "type"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "aria-label"
-            },
-            {
-              "kind": "field",
-              "name": "palette",
-              "type": {
-                "text": "'' | 'primary' | 'secondary' | 'tertiary'"
-              },
-              "default": "\"\"",
-              "attribute": "palette",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Button\"",
-              "fieldName": "label"
-            },
-            {
-              "name": "variant",
-              "type": {
-                "text": "'default' | 'bold' | 'strong' | 'dark' | 'alt' | 'tint'"
-              },
-              "default": "\"default\"",
-              "fieldName": "variant"
-            },
-            {
-              "name": "size",
-              "type": {
-                "text": "'medium' | 'large'"
-              },
-              "default": "\"medium\"",
-              "fieldName": "size"
-            },
-            {
-              "name": "disabled",
-              "type": {
-                "text": "boolean"
-              },
-              "default": "false",
-              "fieldName": "disabled"
-            },
-            {
-              "name": "href",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "href"
-            },
-            {
-              "name": "target",
-              "type": {
-                "text": "'_self' | '_blank' | '_parent' | '_top' | ''"
-              },
-              "default": "\"\"",
-              "fieldName": "target"
-            },
-            {
-              "name": "type",
-              "type": {
-                "text": "'button' | 'submit' | 'reset'"
-              },
-              "default": "\"button\"",
-              "fieldName": "type"
-            },
-            {
-              "name": "aria-label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "ariaLabel"
-            },
-            {
-              "name": "palette",
-              "type": {
-                "text": "'' | 'primary' | 'secondary' | 'tertiary'"
-              },
-              "default": "\"\"",
-              "fieldName": "palette"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-button",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSButton",
-          "declaration": {
-            "name": "QGDSButton",
-            "module": "src/components/qgds-button/qgds-button.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-button",
-          "declaration": {
-            "name": "QGDSButton",
-            "module": "src/components/qgds-button/qgds-button.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/qgds-callout/qgds-callout.ts",
       "declarations": [
         {
@@ -271,6 +75,579 @@
           "declaration": {
             "name": "QGDSCallout",
             "module": "src/components/qgds-callout/qgds-callout.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-button/qgds-button.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "QGDSButton",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Button\"",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "'primary' | 'secondary' | 'tertiary'"
+              },
+              "default": "\"primary\"",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "disabled",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "target",
+              "type": {
+                "text": "'_self' | '_blank' | '_parent' | '_top' | undefined"
+              },
+              "default": "undefined",
+              "attribute": "target"
+            },
+            {
+              "kind": "field",
+              "name": "type",
+              "type": {
+                "text": "'reset' | 'submit' | 'button'"
+              },
+              "default": "\"button\"",
+              "attribute": "type"
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
+              "name": "trailingIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "trailing-icon",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "uniqueID",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "attribute": "href",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "loadingLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Loading...\"",
+              "attribute": "loading-label"
+            },
+            {
+              "kind": "field",
+              "name": "isLoading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "is-loading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "eventTitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"qgds-button-click\"",
+              "attribute": "event-title"
+            },
+            {
+              "kind": "field",
+              "name": "iconSize",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"md\"",
+              "attribute": "icon-size"
+            },
+            {
+              "kind": "field",
+              "name": "_isHovered",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_isActive",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_isFocused",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "hasIcon",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "field",
+              "name": "_iconSlotRef",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "privacy": "private",
+              "default": "null"
+            },
+            {
+              "kind": "method",
+              "name": "renderLink",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderButton",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "getCurrentIconSize",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "handleSlotChange",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMouseEnter",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMouseLeave",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMouseDown",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleMouseUp",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleFocus",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_handleBlur",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "buttonState",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_onClick",
+              "privacy": "private"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Button\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "'primary' | 'secondary' | 'tertiary'"
+              },
+              "default": "\"primary\"",
+              "fieldName": "variant"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "target",
+              "type": {
+                "text": "'_self' | '_blank' | '_parent' | '_top' | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "target"
+            },
+            {
+              "name": "type",
+              "type": {
+                "text": "'reset' | 'submit' | 'button'"
+              },
+              "default": "\"button\"",
+              "fieldName": "type"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string | null"
+              },
+              "default": "null",
+              "fieldName": "ariaLabel"
+            },
+            {
+              "name": "trailing-icon",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "trailingIcon"
+            },
+            {
+              "name": "id",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "uniqueID"
+            },
+            {
+              "name": "href",
+              "type": {
+                "text": "string | undefined"
+              },
+              "default": "undefined",
+              "fieldName": "href"
+            },
+            {
+              "name": "loading-label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Loading...\"",
+              "fieldName": "loadingLabel"
+            },
+            {
+              "name": "is-loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "isLoading"
+            },
+            {
+              "name": "event-title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"qgds-button-click\"",
+              "fieldName": "eventTitle"
+            },
+            {
+              "name": "icon-size",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"md\"",
+              "fieldName": "iconSize"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-button",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSButton",
+          "declaration": {
+            "name": "QGDSButton",
+            "module": "src/components/qgds-button/qgds-button.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-button",
+          "declaration": {
+            "name": "QGDSButton",
+            "module": "src/components/qgds-button/qgds-button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "QGDSInpageNav",
+          "members": [
+            {
+              "kind": "field",
+              "name": "navtitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"On this page\"",
+              "attribute": "navtitle"
+            },
+            {
+              "kind": "field",
+              "name": "navitems",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "attribute": "navitems"
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"In page navigation\"",
+              "attribute": "ariaLabel"
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
+              },
+              "default": "\"h2\"",
+              "attribute": "headingLevel"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "navtitle",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"On this page\"",
+              "fieldName": "navtitle"
+            },
+            {
+              "name": "navitems",
+              "type": {
+                "text": "NavItem[]"
+              },
+              "default": "[]",
+              "fieldName": "navitems"
+            },
+            {
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"In page navigation\"",
+              "fieldName": "ariaLabel"
+            },
+            {
+              "name": "headingLevel",
+              "type": {
+                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
+              },
+              "default": "\"h2\"",
+              "fieldName": "headingLevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-inpage-nav",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSInpageNav",
+          "declaration": {
+            "name": "QGDSInpageNav",
+            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-inpage-nav",
+          "declaration": {
+            "name": "QGDSInpageNav",
+            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "QGDSInpageAlert",
+          "members": [
+            {
+              "kind": "field",
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Alert headline\"",
+              "attribute": "headline"
+            },
+            {
+              "kind": "field",
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"This is an alert message.\"",
+              "attribute": "message"
+            },
+            {
+              "kind": "field",
+              "name": "alerttype",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"info\"",
+              "attribute": "alerttype"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Alert headline\"",
+              "fieldName": "headline"
+            },
+            {
+              "name": "message",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"This is an alert message.\"",
+              "fieldName": "message"
+            },
+            {
+              "name": "alerttype",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"info\"",
+              "fieldName": "alerttype"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-inpage-alert",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSInpageAlert",
+          "declaration": {
+            "name": "QGDSInpageAlert",
+            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-inpage-alert",
+          "declaration": {
+            "name": "QGDSInpageAlert",
+            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
           }
         }
       ]
@@ -382,203 +759,6 @@
           "declaration": {
             "name": "QGDSIcon",
             "module": "src/components/qgds-icon/qgds-icon.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "QGDSInpageAlert",
-          "members": [
-            {
-              "kind": "field",
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Alert headline\"",
-              "attribute": "headline"
-            },
-            {
-              "kind": "field",
-              "name": "message",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "attribute": "message"
-            },
-            {
-              "kind": "field",
-              "name": "alerttype",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"info\"",
-              "attribute": "alerttype"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Alert headline\"",
-              "fieldName": "headline"
-            },
-            {
-              "name": "message",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "fieldName": "message"
-            },
-            {
-              "name": "alerttype",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"info\"",
-              "fieldName": "alerttype"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-inpage-alert",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSInpageAlert",
-          "declaration": {
-            "name": "QGDSInpageAlert",
-            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-inpage-alert",
-          "declaration": {
-            "name": "QGDSInpageAlert",
-            "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "",
-          "name": "QGDSInpageNav",
-          "members": [
-            {
-              "kind": "field",
-              "name": "navtitle",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"On this page\"",
-              "attribute": "navtitle"
-            },
-            {
-              "kind": "field",
-              "name": "navitems",
-              "type": {
-                "text": "NavItem[]"
-              },
-              "default": "[]",
-              "attribute": "navitems"
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"In page navigation\"",
-              "attribute": "ariaLabel"
-            },
-            {
-              "kind": "field",
-              "name": "headingLevel",
-              "type": {
-                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
-              },
-              "default": "\"h2\"",
-              "attribute": "headingLevel"
-            }
-          ],
-          "attributes": [
-            {
-              "name": "navtitle",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"On this page\"",
-              "fieldName": "navtitle"
-            },
-            {
-              "name": "navitems",
-              "type": {
-                "text": "NavItem[]"
-              },
-              "default": "[]",
-              "fieldName": "navitems"
-            },
-            {
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"In page navigation\"",
-              "fieldName": "ariaLabel"
-            },
-            {
-              "name": "headingLevel",
-              "type": {
-                "text": "'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'"
-              },
-              "default": "\"h2\"",
-              "fieldName": "headingLevel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-inpage-nav",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSInpageNav",
-          "declaration": {
-            "name": "QGDSInpageNav",
-            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-inpage-nav",
-          "declaration": {
-            "name": "QGDSInpageNav",
-            "module": "src/components/qgds-inpage-nav/qgds-inpage-nav.ts"
           }
         }
       ]
