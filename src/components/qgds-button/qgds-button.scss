@@ -138,7 +138,7 @@
 
   &:focus {
     background: var(--qgds-color-background-shade);
-    border: none;
+    border: 3px solid transparent;
   }
 }
 
