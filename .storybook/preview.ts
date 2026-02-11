@@ -15,6 +15,7 @@ setCustomElementsManifest(customElementsManifest);
 // Configure @wc-toolkit/storybook-helpers
 setStorybookHelpersConfig({
   // Use type info from Custom Elements Manifest for controls
+  hideArgRef: true, // perhaps can be based on env variable, false for local?
 });
 
 const preview: Preview = {

@@ -4,83 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/components/qgds-callout/qgds-callout.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "QGDS Callout Web Component\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
-          "name": "QGDSCallout",
-          "members": [
-            {
-              "kind": "field",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "attribute": "heading",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "headingLevel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "attribute": "heading-level",
-              "reflects": true
-            }
-          ],
-          "attributes": [
-            {
-              "description": "Callout heading text",
-              "name": "heading",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"Callout heading\"",
-              "fieldName": "heading"
-            },
-            {
-              "description": "Heading level (h2-h6)",
-              "name": "heading-level",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"h3\"",
-              "fieldName": "headingLevel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-callout",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSCallout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-callout",
-          "declaration": {
-            "name": "QGDSCallout",
-            "module": "src/components/qgds-callout/qgds-callout.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/components/qgds-button/qgds-button.ts",
       "declarations": [
         {
@@ -130,7 +53,7 @@
               "kind": "field",
               "name": "type",
               "type": {
-                "text": "'reset' | 'submit' | 'button'"
+                "text": "'button' | 'submit' | 'reset'"
               },
               "default": "\"button\"",
               "attribute": "type"
@@ -358,7 +281,7 @@
             {
               "name": "type",
               "type": {
-                "text": "'reset' | 'submit' | 'button'"
+                "text": "'button' | 'submit' | 'reset'"
               },
               "default": "\"button\"",
               "fieldName": "type"
@@ -451,6 +374,194 @@
           "declaration": {
             "name": "QGDSButton",
             "module": "src/components/qgds-button/qgds-button.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-callout/qgds-callout.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "QGDS Callout Web Component\r\nUsed to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.",
+          "name": "QGDSCallout",
+          "members": [
+            {
+              "kind": "field",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "attribute": "heading",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "attribute": "heading-level",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "description": "Callout heading text",
+              "name": "heading",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Callout heading\"",
+              "fieldName": "heading"
+            },
+            {
+              "description": "Heading level (h2-h6)",
+              "name": "heading-level",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"h3\"",
+              "fieldName": "headingLevel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-callout",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSCallout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-callout",
+          "declaration": {
+            "name": "QGDSCallout",
+            "module": "src/components/qgds-callout/qgds-callout.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/components/qgds-icon/qgds-icon.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "QGDS Icon Component\r\n\r\nA web component for displaying icons using CSS mask-image or background-image techniques.\r\nSingle-colour icons use mask-image for easy recolouring via CSS.\r\nMulti-colour icons use background-image to preserve their original colours.",
+          "name": "QGDSIcon",
+          "cssProperties": [
+            {
+              "description": "The color of single-colour icons (applies to mask-image icons).",
+              "name": "--qgds-icon-color"
+            },
+            {
+              "description": "The size of the icon.",
+              "name": "--qgds-icon-size"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "iconId",
+              "type": {
+                "text": "'close' | 'copy' | 'article' | 'audio' | 'code' | 'menu' | 'search' | 'video' | 'filter' | 'image' | 'accessibility' | 'alert-cancel' | 'alert-danger' | 'alert-error' | 'alert-information' | 'alert-maintenance' | 'alert-success' | 'alert-warning' | 'announcement' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'attach' | 'calendar' | 'car' | 'chart' | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'clock' | 'cost-money' | 'delete' | 'design' | 'direction-up-down' | 'directions' | 'document-error' | 'document-pdf' | 'document-spreadsheet' | 'document-word' | 'document' | 'download' | 'edit' | 'email' | 'enlarge' | 'external-link' | 'facebook' | 'favourite' | 'global-nav' | 'help' | 'hide' | 'home' | 'identity-face' | 'identity' | 'instagram' | 'language' | 'like' | 'linkedin' | 'links' | 'location' | 'lock-open' | 'lock' | 'login' | 'logout' | 'manage-accounts' | 'microphone' | 'minus' | 'more-horizontal' | 'more-vertical' | 'notifications-circle' | 'notifications' | 'op-ed' | 'parking' | 'pause-circle' | 'pdf' | 'pending' | 'phone' | 'play-circle' | 'plus' | 'podcasts' | 'print' | 'profile' | 'refresh' | 'save' | 'settings' | 'share' | 'show' | 'sort-alpha' | 'speech' | 'spinner-step-1' | 'spinner-step-2' | 'spinner-step-3' | 'spinner-step-4' | 'spreadsheet' | 'status-cancel' | 'status-danger' | 'status-error' | 'status-information' | 'status-maintenance' | 'status-success' | 'status-warning' | 'stop-circle' | 'tick' | 'transcript' | 'upload' | 'users' | 'view-all' | 'wheelchair' | 'x' | 'youtube' | 'zoom' | undefined"
+              },
+              "attribute": "icon-id"
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "'sm' | 'md' | 'lg' | 'xl'"
+              },
+              "default": "\"md\"",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "ariaLabel",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "aria-label"
+            },
+            {
+              "kind": "field",
+              "name": "isMulticolour",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "'close' | 'copy' | 'article' | 'audio' | 'code' | 'menu' | 'search' | 'video' | 'filter' | 'image' | 'accessibility' | 'alert-cancel' | 'alert-danger' | 'alert-error' | 'alert-information' | 'alert-maintenance' | 'alert-success' | 'alert-warning' | 'announcement' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'attach' | 'calendar' | 'car' | 'chart' | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'clock' | 'cost-money' | 'delete' | 'design' | 'direction-up-down' | 'directions' | 'document-error' | 'document-pdf' | 'document-spreadsheet' | 'document-word' | 'document' | 'download' | 'edit' | 'email' | 'enlarge' | 'external-link' | 'facebook' | 'favourite' | 'global-nav' | 'help' | 'hide' | 'home' | 'identity-face' | 'identity' | 'instagram' | 'language' | 'like' | 'linkedin' | 'links' | 'location' | 'lock-open' | 'lock' | 'login' | 'logout' | 'manage-accounts' | 'microphone' | 'minus' | 'more-horizontal' | 'more-vertical' | 'notifications-circle' | 'notifications' | 'op-ed' | 'parking' | 'pause-circle' | 'pdf' | 'pending' | 'phone' | 'play-circle' | 'plus' | 'podcasts' | 'print' | 'profile' | 'refresh' | 'save' | 'settings' | 'share' | 'show' | 'sort-alpha' | 'speech' | 'spinner-step-1' | 'spinner-step-2' | 'spinner-step-3' | 'spinner-step-4' | 'spreadsheet' | 'status-cancel' | 'status-danger' | 'status-error' | 'status-information' | 'status-maintenance' | 'status-success' | 'status-warning' | 'stop-circle' | 'tick' | 'transcript' | 'upload' | 'users' | 'view-all' | 'wheelchair' | 'x' | 'youtube' | 'zoom' | undefined"
+              },
+              "description": "The ID of the icon to display (e.g., \"home\", \"alert-success\").",
+              "name": "icon-id",
+              "fieldName": "iconId"
+            },
+            {
+              "type": {
+                "text": "'sm' | 'md' | 'lg' | 'xl'"
+              },
+              "description": "The size of the icon. Options are \"sm\", \"md\", \"lg\", \"xl\". Default is \"md\".",
+              "name": "size",
+              "default": "\"md\"",
+              "fieldName": "size"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The aria-label for the icon for accessibility.",
+              "name": "aria-label",
+              "default": "\"\"",
+              "fieldName": "ariaLabel"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "qgds-icon",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "QGDSIcon",
+          "declaration": {
+            "name": "QGDSIcon",
+            "module": "src/components/qgds-icon/qgds-icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "qgds-icon",
+          "declaration": {
+            "name": "QGDSIcon",
+            "module": "src/components/qgds-icon/qgds-icon.ts"
           }
         }
       ]
@@ -568,61 +679,96 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "",
+          "description": "QGDS in-page alert\r\nIn-page alerts are a helpful tool for informing users about essential updates or modifications on a webpage, all while capturing their attention without disrupting their ongoing task. Usually positioned at the top of a page after a submit action, these alerts are designed to be noticeable yet unobtrusive.",
           "name": "QGDSInpageAlert",
+          "cssProperties": [
+            {
+              "description": "Override the color of the displayed icon",
+              "name": "--icon-color"
+            },
+            {
+              "description": "Override the color of the background.",
+              "name": "--background"
+            },
+            {
+              "description": "Override the border color.",
+              "name": "--border"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Default content slot.",
+              "name": ""
+            }
+          ],
           "members": [
             {
               "kind": "field",
-              "name": "headline",
+              "name": "heading",
               "type": {
                 "text": "string"
               },
-              "default": "\"Alert headline\"",
-              "attribute": "headline"
+              "description": "The alert heading text.",
+              "attribute": "heading"
             },
             {
               "kind": "field",
-              "name": "message",
+              "name": "variant",
               "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "attribute": "message"
-            },
-            {
-              "kind": "field",
-              "name": "alerttype",
-              "type": {
-                "text": "string"
+                "text": "'error' | 'info' | 'success' | 'warning'"
               },
               "default": "\"info\"",
-              "attribute": "alerttype"
+              "description": "The alert variant, either \"error\", \"info\", \"success\", \"warning\".",
+              "attribute": "variant"
+            },
+            {
+              "kind": "field",
+              "name": "headingLevel",
+              "type": {
+                "text": "2 | 3 | 4 | 5 | 6"
+              },
+              "default": "3",
+              "description": "Determines the heading level (h2-h6)",
+              "attribute": "heading-level"
+            },
+            {
+              "kind": "field",
+              "name": "icons",
+              "type": {
+                "text": "Record<AlertVariant, IconName>"
+              },
+              "privacy": "private",
+              "static": true,
+              "readonly": true,
+              "default": "{ error: \"alert-danger\", info: \"alert-information\", success: \"alert-success\", warning: \"alert-warning\", }"
             }
           ],
           "attributes": [
             {
-              "name": "headline",
+              "name": "heading",
               "type": {
                 "text": "string"
               },
-              "default": "\"Alert headline\"",
-              "fieldName": "headline"
+              "description": "The alert heading text.",
+              "fieldName": "heading"
             },
             {
-              "name": "message",
+              "name": "variant",
               "type": {
-                "text": "string"
-              },
-              "default": "\"This is an alert message.\"",
-              "fieldName": "message"
-            },
-            {
-              "name": "alerttype",
-              "type": {
-                "text": "string"
+                "text": "'error' | 'info' | 'success' | 'warning'"
               },
               "default": "\"info\"",
-              "fieldName": "alerttype"
+              "description": "The alert variant, either \"error\", \"info\", \"success\", \"warning\".",
+              "fieldName": "variant"
+            },
+            {
+              "name": "heading-level",
+              "type": {
+                "text": "2 | 3 | 4 | 5 | 6"
+              },
+              "default": "3",
+              "description": "Determines the heading level (h2-h6)",
+              "fieldName": "headingLevel"
             }
           ],
           "superclass": {
@@ -648,117 +794,6 @@
           "declaration": {
             "name": "QGDSInpageAlert",
             "module": "src/components/qgds-inpage-alert/qgds-inpage-alert.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/components/qgds-icon/qgds-icon.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "QGDS Icon Component\n\nA web component for displaying icons using CSS mask-image or background-image techniques.\nSingle-colour icons use mask-image for easy recolouring via CSS.\nMulti-colour icons use background-image to preserve their original colours.",
-          "name": "QGDSIcon",
-          "cssProperties": [
-            {
-              "description": "The color of single-colour icons (applies to mask-image icons).",
-              "name": "--qgds-icon-color"
-            },
-            {
-              "description": "The size of the icon.",
-              "name": "--qgds-icon-size"
-            }
-          ],
-          "members": [
-            {
-              "kind": "field",
-              "name": "iconId",
-              "type": {
-                "text": "'close' | 'copy' | 'article' | 'audio' | 'code' | 'menu' | 'search' | 'video' | 'filter' | 'image' | 'accessibility' | 'alert-cancel' | 'alert-danger' | 'alert-error' | 'alert-information' | 'alert-maintenance' | 'alert-success' | 'alert-warning' | 'announcement' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'attach' | 'calendar' | 'car' | 'chart' | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'clock' | 'cost-money' | 'delete' | 'design' | 'direction-up-down' | 'directions' | 'document-error' | 'document-pdf' | 'document-spreadsheet' | 'document-word' | 'document' | 'download' | 'edit' | 'email' | 'enlarge' | 'external-link' | 'facebook' | 'favourite' | 'global-nav' | 'help' | 'hide' | 'home' | 'identity-face' | 'identity' | 'instagram' | 'language' | 'like' | 'linkedin' | 'links' | 'location' | 'lock-open' | 'lock' | 'login' | 'logout' | 'manage-accounts' | 'microphone' | 'minus' | 'more-horizontal' | 'more-vertical' | 'notifications-circle' | 'notifications' | 'op-ed' | 'parking' | 'pause-circle' | 'pdf' | 'pending' | 'phone' | 'play-circle' | 'plus' | 'podcasts' | 'print' | 'profile' | 'refresh' | 'save' | 'settings' | 'share' | 'show' | 'sort-alpha' | 'speech' | 'spinner-step-1' | 'spinner-step-2' | 'spinner-step-3' | 'spinner-step-4' | 'spreadsheet' | 'status-cancel' | 'status-danger' | 'status-error' | 'status-information' | 'status-maintenance' | 'status-success' | 'status-warning' | 'stop-circle' | 'tick' | 'transcript' | 'upload' | 'users' | 'view-all' | 'wheelchair' | 'x' | 'youtube' | 'zoom' | undefined"
-              },
-              "attribute": "icon-id"
-            },
-            {
-              "kind": "field",
-              "name": "size",
-              "type": {
-                "text": "'sm' | 'md' | 'lg' | 'xl'"
-              },
-              "default": "\"md\"",
-              "attribute": "size",
-              "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "ariaLabel",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "aria-label"
-            },
-            {
-              "kind": "field",
-              "name": "isMulticolour",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            }
-          ],
-          "attributes": [
-            {
-              "type": {
-                "text": "'close' | 'copy' | 'article' | 'audio' | 'code' | 'menu' | 'search' | 'video' | 'filter' | 'image' | 'accessibility' | 'alert-cancel' | 'alert-danger' | 'alert-error' | 'alert-information' | 'alert-maintenance' | 'alert-success' | 'alert-warning' | 'announcement' | 'arrow-down' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'attach' | 'calendar' | 'car' | 'chart' | 'chevron-down' | 'chevron-left' | 'chevron-right' | 'chevron-up' | 'clock' | 'cost-money' | 'delete' | 'design' | 'direction-up-down' | 'directions' | 'document-error' | 'document-pdf' | 'document-spreadsheet' | 'document-word' | 'document' | 'download' | 'edit' | 'email' | 'enlarge' | 'external-link' | 'facebook' | 'favourite' | 'global-nav' | 'help' | 'hide' | 'home' | 'identity-face' | 'identity' | 'instagram' | 'language' | 'like' | 'linkedin' | 'links' | 'location' | 'lock-open' | 'lock' | 'login' | 'logout' | 'manage-accounts' | 'microphone' | 'minus' | 'more-horizontal' | 'more-vertical' | 'notifications-circle' | 'notifications' | 'op-ed' | 'parking' | 'pause-circle' | 'pdf' | 'pending' | 'phone' | 'play-circle' | 'plus' | 'podcasts' | 'print' | 'profile' | 'refresh' | 'save' | 'settings' | 'share' | 'show' | 'sort-alpha' | 'speech' | 'spinner-step-1' | 'spinner-step-2' | 'spinner-step-3' | 'spinner-step-4' | 'spreadsheet' | 'status-cancel' | 'status-danger' | 'status-error' | 'status-information' | 'status-maintenance' | 'status-success' | 'status-warning' | 'stop-circle' | 'tick' | 'transcript' | 'upload' | 'users' | 'view-all' | 'wheelchair' | 'x' | 'youtube' | 'zoom' | undefined"
-              },
-              "description": "The ID of the icon to display (e.g., \"home\", \"alert-success\").",
-              "name": "icon-id",
-              "fieldName": "iconId"
-            },
-            {
-              "type": {
-                "text": "'sm' | 'md' | 'lg' | 'xl'"
-              },
-              "description": "The size of the icon. Options are \"sm\", \"md\", \"lg\", \"xl\". Default is \"md\".",
-              "name": "size",
-              "default": "\"md\"",
-              "fieldName": "size"
-            },
-            {
-              "type": {
-                "text": "string"
-              },
-              "description": "The aria-label for the icon for accessibility.",
-              "name": "aria-label",
-              "default": "\"\"",
-              "fieldName": "ariaLabel"
-            }
-          ],
-          "superclass": {
-            "name": "LitElement",
-            "package": "lit"
-          },
-          "tagName": "qgds-icon",
-          "customElement": true
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "QGDSIcon",
-          "declaration": {
-            "name": "QGDSIcon",
-            "module": "src/components/qgds-icon/qgds-icon.ts"
-          }
-        },
-        {
-          "kind": "custom-element-definition",
-          "name": "qgds-icon",
-          "declaration": {
-            "name": "QGDSIcon",
-            "module": "src/components/qgds-icon/qgds-icon.ts"
           }
         }
       ]

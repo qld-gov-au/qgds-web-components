@@ -3,15 +3,20 @@ import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
 import "./qgds-inpage-alert";
-import { QGDSInpageAlertProps } from "./qgds-inpage-alert";
+import type { QGDSInpageAlert } from "./qgds-inpage-alert";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
-type TArgs = QGDSInpageAlertProps & { content: string };
+// The type parameter helps TypeScript understand your component's API
+const { args, argTypes, template } =
+  getStorybookHelpers<QGDSInpageAlert>("qgds-inpage-alert");
 
-const meta: Meta<TArgs> = {
+type Args = typeof args;
+type Story = StoryObj<Args>;
+
+const meta: Meta<Args> = {
   title: "Components/QGDS In-page alert",
   component: "qgds-inpage-alert",
   tags: ["autodocs"],
-
   parameters: {
     docs: {
       description: {
@@ -24,20 +29,15 @@ Usually positioned at the top of a page after a submit action, these alerts are 
     },
   },
   args: {
+    ...args,
     heading: "Here is the heading",
-    content: "<span>And here is the content.</span>",
+    "default-slot": "<span>And here is the content.</span>",
   },
-
-  render: (args) => html`
-    <qgds-inpage-alert heading="${args.heading}" variant="${args.variant}">
-      ${unsafeHTML(args.content)}
-    </qgds-inpage-alert>
-  `,
+  argTypes,
+  render: (args) => template(args),
 };
 
 export default meta;
-
-type Story = StoryObj<TArgs>;
 
 export const Info: Story = {
   args: {
@@ -61,19 +61,19 @@ export const AllVariants: Story = {
   render: (args) => {
     return html`
       <qgds-inpage-alert heading="${args.heading}" variant="info">
-        ${unsafeHTML(args.content)}
+        ${unsafeHTML(args["default-slot"] as string)}
       </qgds-inpage-alert>
 
       <qgds-inpage-alert heading="${args.heading}" variant="error">
-        ${unsafeHTML(args.content)}
+        ${unsafeHTML(args["default-slot"] as string)}
       </qgds-inpage-alert>
 
       <qgds-inpage-alert heading="${args.heading}" variant="success">
-        ${unsafeHTML(args.content)}
+        ${unsafeHTML(args["default-slot"] as string)}
       </qgds-inpage-alert>
 
       <qgds-inpage-alert heading="${args.heading}" variant="warning">
-        ${unsafeHTML(args.content)}
+        ${unsafeHTML(args["default-slot"] as string)}
       </qgds-inpage-alert>
     `;
   },

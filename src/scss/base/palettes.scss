@@ -12,12 +12,7 @@
     @extend %qgds-color-palette-soft !optional;
   }
 
-  .palette-soft,
-  [palette="soft"] {
-    @extend %qgds-color-palette-soft;
-  }
-
-  .palette-muted,
+  .qgds-palette-muted,
   [palette="muted"] {
     @extend %qgds-color-palette-muted !optional;
   }
@@ -43,5 +38,4 @@
   //   @extend %qgds-color-palette-dark-global;
   //   @extend %qgds-color-palette-dark-bright; // weird huh?
   // }
-  
 }
