@@ -1,43 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
+import type { QGDSInpageNav } from "./qgds-inpage-nav";
 import "./qgds-inpage-nav.ts";
-import { QGDSInpageNavProps } from "./qgds-inpage-nav";
 
-/** QGDS In-page Navigation Web Component */
-const renderInpageNav = ({
-  navtitle = "On this page",
-  navitems = [],
-  ariaLabel = "In page navigation",
-  headingLevel = "h2",
-}: QGDSInpageNavProps) => {
-  return html`
-    <qgds-inpage-nav
-      navtitle="${navtitle}"
-      ariaLabel="${ariaLabel}"
-      headingLevel="${headingLevel}"
-      .navitems="${navitems}">
-    </qgds-inpage-nav>
-  `;
-};
+// Get auto-generated args, argTypes, and template from Custom Elements Manifest
+// The template function handles attribute/property name mapping automatically
+const { args, argTypes, template } = getStorybookHelpers<QGDSInpageNav>("qgds-inpage-nav");
 
-const meta: Meta<QGDSInpageNavProps> = {
+/**
+ * Storybook args interface using kebab-case attribute names from CEM.
+ * This matches the format returned by getStorybookHelpers.
+ */
+type QGDSInpageNavStoryArgs = typeof args;
+
+const meta: Meta<QGDSInpageNavStoryArgs> = {
   title: "Components/QGDS In-page Navigation",
   tags: ["autodocs"],
-  render: (args) => renderInpageNav(args),
-  argTypes: {
-    navtitle: { control: "text" },
-    navitems: { control: "object" },
-    ariaLabel: { control: "text" },
-    headingLevel: {
-      control: "select",
-      options: ["h1", "h2", "h3", "h4", "h5", "h6"],
-    },
+  args: {
+    ...args,
+    navtitle: "On this page",
+    "aria-label": "In page navigation",
+    "heading-level": "h2",
   },
+  argTypes,
+  render: (storyArgs) => template(storyArgs),
 };
 
 export default meta;
-type Story = StoryObj<QGDSInpageNavProps>;
+type Story = StoryObj<QGDSInpageNavStoryArgs>;
 
 const defaultNavItems = [
   { linkid: "section1", linktext: "List item" },

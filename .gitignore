@@ -12,6 +12,7 @@ docs/storybook-static
 prettier.json
 /debug-storybook.log
 *storybook.log
+custom-elements.json
 
 # Chromatic
 chromatic-diagnostics.json

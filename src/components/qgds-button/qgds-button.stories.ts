@@ -1,34 +1,43 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
 import "../qgds-icon/qgds-icon.ts";
 import { ICON_NAMES } from "../qgds-icon/icon-names";
+import type { QGDSButton } from "./qgds-button";
 import "./qgds-button.ts";
-import { QGDSButtonProps } from "./qgds-button";
 
-// Extended interface for story-specific props
-interface StoryButtonProps extends QGDSButtonProps {
+// Get auto-generated args, argTypes, and template from Custom Elements Manifest
+// The template function handles attribute/property name mapping automatically
+const { args, argTypes } = getStorybookHelpers<QGDSButton>("qgds-button");
+
+/**
+ * Storybook args interface using kebab-case attribute names from CEM.
+ * This matches the format returned by getStorybookHelpers.
+ */
+type QGDSButtonStoryArgs = typeof args & {
   iconId?: string;
-}
+  iconSize?: string;
+};
 
 /** QGDS Button Web Component */
 const renderButton = ({
   label,
   disabled,
   target,
-  ariaLabel,
-  trailingIcon,
+  "aria-label": ariaLabel,
+  "trailing-icon": trailingIcon,
   variant,
   href,
-  loadingLabel,
-  isLoading,
-  eventTitle,
-  uniqueID,
+  "loading-label": loadingLabel,
+  "is-loading": isLoading,
+  "event-title": eventTitle,
+  id: uniqueID,
   iconId,
   iconSize,
   type,
-}: StoryButtonProps) => {
+}: QGDSButtonStoryArgs) => {
   // Create a handler that logs the event to console
   const handleEvent = (e: CustomEvent) => {
     // eslint-disable-next-line no-console
@@ -74,43 +83,16 @@ const renderButton = ({
   `;
 };
 
-const meta: Meta<StoryButtonProps> = {
+const meta: Meta<QGDSButtonStoryArgs> = {
   title: "Components/QGDS Button",
   tags: ["autodocs"],
-  render: (args) => renderButton(args),
+  args: {
+    ...args,
+    label: "QGDS Button",
+    variant: "primary",
+  },
   argTypes: {
-    variant: {
-      control: "select",
-      options: ["primary", "secondary", "tertiary"],
-      name: "button variant type",
-      description: "The Button variant type",
-      table: {
-        defaultValue: { summary: "primary" },
-      },
-    },
-    label: {
-      control: "text",
-      description: "This is the Button content",
-    },
-    disabled: {
-      control: "boolean",
-      name: "disabled",
-      description: "Whether the button is disabled",
-      table: {
-        defaultValue: { summary: "false" },
-      },
-    },
-    target: {
-      control: "select",
-      name: "target",
-      options: ["_self", "_blank", "_parent", "_top"],
-      if: { arg: "href", truthy: true },
-    },
-    ariaLabel: {
-      control: "text",
-      name: "aria-label",
-      description: "The Button aria-label attribute",
-    },
+    ...argTypes,
     iconId: {
       control: "select",
       options: [...ICON_NAMES],
@@ -118,12 +100,6 @@ const meta: Meta<StoryButtonProps> = {
       table: {
         category: "QGDS Icon",
       },
-    },
-    type: {
-      control: "select",
-      options: ["button", "submit", "reset"],
-      description: "The button type attribute",
-      if: { arg: "href", truthy: false },
     },
     iconSize: {
       control: "select",
@@ -133,64 +109,15 @@ const meta: Meta<StoryButtonProps> = {
         category: "QGDS Icon",
       },
     },
-    trailingIcon: {
-      control: "boolean",
-      name: "has trailing icon",
-      description: "Whether the button has a trailing icon",
-      table: {
-        defaultValue: { summary: "false" },
-      },
-    },
-    href: {
-      control: "text",
-      description: "The URL for the button if it is a link",
-      table: {
-        defaultValue: { summary: "" },
-      },
-    },
-    loadingLabel: {
-      control: "text",
-      name: "loading label",
-      description: "The text that appears when the button is loading",
-      if: { arg: "href", truthy: false },
-      table: {
-        defaultValue: { summary: "Loading..." },
-      },
-    },
-    isLoading: {
-      control: "boolean",
-      name: "is loading",
-      description: "Whether the button is in a loading state",
-      if: { arg: "href", truthy: false },
-      table: {
-        defaultValue: { summary: "false" },
-      },
-      type: "boolean",
-    },
-    eventTitle: {
-      control: "text",
-      name: "event title",
-      description: "The event title for the qgds-button, e.g., onClick",
-      table: {
-        defaultValue: { summary: "onClick" },
-      },
-    },
-    uniqueID: {
-      control: "text",
-      description: "The unique identifier for the qgds-button",
-      name: "unique ID",
-      table: {
-        defaultValue: { summary: "onClick" },
-      },
-    },
   },
+  render: (storyArgs) => renderButton(storyArgs),
   globals: {
     backgrounds: { value: "default" },
   },
 };
 
 export default meta;
-type Story = StoryObj<StoryButtonProps>;
+type Story = StoryObj<QGDSButtonStoryArgs>;
 
 export const Button: Story = {
   args: {

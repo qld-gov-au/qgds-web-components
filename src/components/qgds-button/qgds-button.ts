@@ -3,6 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-button.scss?inline";
+import { IconSize } from "../qgds-icon/qgds-icon";
 
 // Define types for properties to ensure type safety and better autocompletion
 type ButtonVariant = "primary" | "secondary" | "tertiary";
@@ -69,7 +70,7 @@ export class QGDSButton extends LitElement {
   isLoading = false;
   @property({ type: String, attribute: "event-title" }) eventTitle =
     "qgds-button-click";
-  @property({ type: String, attribute: "icon-size" }) iconSize: string = "md";
+  @property({ type: String, attribute: "icon-size" }) iconSize: IconSize = "md";
 
   // Internal state management for interaction states
   @state() private _isHovered: boolean = false;
@@ -200,7 +201,8 @@ export class QGDSButton extends LitElement {
     // Store reference to the slotted icon
     if (assignedElements.length > 0) {
       this._iconSlotRef = assignedElements[0] as HTMLElement;
-      const iconSize = this._iconSlotRef.getAttribute("size") ?? "md";
+      const iconSize =
+        (this._iconSlotRef.getAttribute("size") as IconSize) ?? "md";
       if (iconSize !== this.iconSize) {
         this.iconSize = iconSize;
       }
