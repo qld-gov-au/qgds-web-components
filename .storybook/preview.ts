@@ -3,7 +3,7 @@ import { setCustomElementsManifest } from "@storybook/web-components-vite";
 import { setStorybookHelpersConfig } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import "../src/stories/assets/qgds-styles.scss";
+import "../src/scss/main.scss";
 import { palettes } from "../src/js/utils/palettes";
 import customElementsManifest from "../custom-elements.json";
 import DocumentationTemplate from "../src/stories/DocumentationTemplate.mdx";
@@ -15,6 +15,7 @@ setCustomElementsManifest(customElementsManifest);
 // Configure @wc-toolkit/storybook-helpers
 setStorybookHelpersConfig({
   // Use type info from Custom Elements Manifest for controls
+  hideArgRef: true, // perhaps can be based on env variable, false for local?
 });
 
 const preview: Preview = {
@@ -68,9 +69,7 @@ const preview: Preview = {
       const paletteName = context?.globals?.globalPalette || "default";
 
       return html`
-        <div
-          class="qgds-palette-${paletteName}"
-          style="padding: 2rem; min-height: 30vh;">
+        <div class="qgds-palette-${paletteName}" style="padding: 2rem">
           ${Story()}
         </div>
       `;

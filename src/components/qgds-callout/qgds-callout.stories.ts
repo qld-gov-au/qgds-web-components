@@ -8,7 +8,8 @@ import "./qgds-callout";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } = getStorybookHelpers<QGDSCallout>("qgds-callout");
+const { args, argTypes, template } =
+  getStorybookHelpers<QGDSCallout>("qgds-callout");
 
 /**
  * Storybook args interface using kebab-case attribute names from CEM.

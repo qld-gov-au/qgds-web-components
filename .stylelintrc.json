@@ -1,5 +1,8 @@
 {
-  "extends": ["stylelint-config-standard-scss"],
+  "extends": [
+    "stylelint-config-standard-scss",
+    "stylelint-config-prettier-scss"
+  ],
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
@@ -26,6 +29,18 @@
       "^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
       {
         "message": "Expected custom property to be kebab-case"
+      }
+    ],
+    "scss/dollar-variable-pattern": [
+      "^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Expected variable to be kebab-case, optionally prefixed with _ for private variables"
+      }
+    ],
+    "scss/percent-placeholder-pattern": [
+      "^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Expected placeholder to be kebab-case, optionally prefixed with _ for private placeholders"
       }
     ]
   },

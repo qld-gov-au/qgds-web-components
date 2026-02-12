@@ -1,4 +1,4 @@
-import { palettes } from "./palettes";
+import { palettes } from "../src/js/utils/palettes";
 
 /**
  * Creates a Storybook control for palette switching at the component level.

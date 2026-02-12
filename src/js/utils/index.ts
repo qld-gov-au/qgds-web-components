@@ -2,5 +2,4 @@
 export * from "./bubble-events";
 export * from "./functions";
 export * from "./palettes";
-export * from "./storybook-helpers";
 export * from "./semantic-heading";
