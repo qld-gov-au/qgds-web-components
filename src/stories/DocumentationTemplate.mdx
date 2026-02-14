@@ -1,19 +1,25 @@
-import { Meta, Title, Primary, Controls, Stories, ArgTypes } from '@storybook/addon-docs/blocks';
+import {
+  Meta,
+  Title,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  ArgTypes,
+} from "@storybook/addon-docs/blocks";
+
+import { ComponentMetadata } from "./ComponentMetadata.jsx";
 
 <Meta isTemplate />
 
 <Title />
 
-## Overview
+<Description />
+
+<ComponentMetadata />
 
 <Primary />
 
 ## API Reference
 
 <ArgTypes />
-
-## Controls
-
-<Controls />
-
-<Stories />

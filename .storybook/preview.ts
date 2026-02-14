@@ -33,11 +33,11 @@ const preview: Preview = {
 
     docs: {
       page: DocumentationTemplate,
+      codePanel: true,
       source: {
         // Global default. Override this in local stories to include decorators
         excludeDecorators: true,
       },
-      toc: true, // Enable table of contents in docs page
     },
 
     a11y: {

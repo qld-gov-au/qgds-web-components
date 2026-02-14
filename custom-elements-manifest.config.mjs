@@ -15,6 +15,7 @@
 
 import path from "path";
 import { getTsProgram, typeParserPlugin } from "@wc-toolkit/type-parser";
+import { jsDocTagsPlugin } from "@wc-toolkit/jsdoc-tags";
 
 export default {
   /** Glob patterns to analyze */
@@ -40,10 +41,19 @@ export default {
       if (!sf.fileName.endsWith(".ts")) return false;
       const dirname = path.basename(path.dirname(sf.fileName));
       const basename = path.basename(sf.fileName, ".ts");
-      return basename === dirname;
+      return basename === dirname || basename.startsWith(dirname + "-");
     });
   },
 
   /** Additional plugins for enhanced analysis */
-  plugins: [typeParserPlugin()],
+  plugins: [
+    typeParserPlugin(),
+    jsDocTagsPlugin({
+      tags: {
+        "uikit": {},
+        "website": {},
+        "tagname": {},
+      },
+    }),
+  ],
 };
