@@ -1,28 +1,35 @@
-import { useOf } from "@storybook/addon-docs/blocks";
 import React from "react";
-import { styled } from "storybook/theming";
+import { useOf } from "@storybook/addon-docs/blocks";
 import { getComponentByTagName } from "@wc-toolkit/cem-utilities";
-
 import manifest from "../../custom-elements.json";
 
 const getComponentData = () => {
   const resolvedOf = useOf("meta", ["meta"]);
   const componentName = resolvedOf.preparedMeta?.component || "";
-
   const component = getComponentByTagName(manifest, componentName);
 
+  // Exit early
   if (!component) {
     console.warn("No component found in manifest for:", componentName);
     return null;
   }
 
+  // Return subset of metadata relevant to the links we want to render.
+  // Any custom @tags usually contain name and description keys, refer custom-elements.json for structure
   return {
-    uikit: component.uikit,
-    website: component.website,
+    uikit:
+      typeof component.uikit === "string"
+        ? component.uikit
+        : (component.uikit?.name ?? component.uikit?.description),
+    website:
+      typeof component.website === "string"
+        ? component.website
+        : (component.website?.name ?? component.website?.description),
   };
 };
 
-export const ComponentMetadata = () => {
+// Returns the JSX block <ComponentLinks /> for use on the custom DocumentationTemplate page
+export const ComponentLinks = () => {
   const metadata = getComponentData();
 
   // Check if some metadata exists
@@ -40,21 +47,14 @@ export const ComponentMetadata = () => {
           gap: "0.75rem",
         }}>
         {metadata.uikit && (
-          <>
-            <a href={metadata.uikit} target='_blank' rel='noopener noreferrer'>
-              Figma UI Kit
-            </a>
-          </>
+          <a href={metadata.uikit} target='_blank' rel='noopener noreferrer'>
+            Figma UI Kit
+          </a>
         )}
         {metadata.website && (
-          <>
-            <a
-              href={metadata.website}
-              target='_blank'
-              rel='noopener noreferrer'>
-              Guidelines
-            </a>
-          </>
+          <a href={metadata.website} target='_blank' rel='noopener noreferrer'>
+            Guidelines
+          </a>
         )}
       </p>
     </>

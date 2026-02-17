@@ -1,23 +1,21 @@
+{/* Load Storybook default blocks */}
 import {
-  Meta,
-  Title,
-  Description,
-  Primary,
-  Controls,
-  Stories,
-  ArgTypes,
+Meta,
+Title,
+Description,
+Primary,
+Controls,
+Stories,
+ArgTypes,
 } from "@storybook/addon-docs/blocks";
 
-import { ComponentMetadata } from "./ComponentMetadata.jsx";
+{/* Load any custom blocks */}
+import { ComponentLinks } from "./ComponentLinks.jsx";
 
 <Meta isTemplate />
-
 <Title />
-
 <Description />
-
-<ComponentMetadata />
-
+<ComponentLinks />
 <Primary />
 
 ## API Reference
