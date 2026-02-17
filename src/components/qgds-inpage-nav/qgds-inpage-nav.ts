@@ -2,6 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { semanticHeading } from "../../js/utils";
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
+import { baseStyles } from "../../scss/base/index";
 
 // Define types for properties
 interface NavItem {
@@ -27,9 +28,12 @@ export class QGDSInpageNav extends LitElement {
   @property({ type: String })
   headingLevel: headingLevel = "h2";
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  static styles = [
+    ...baseStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   render() {
     return html`
@@ -37,7 +41,7 @@ export class QGDSInpageNav extends LitElement {
         ${semanticHeading(this.navtitle, this.headingLevel, "title")}
 
         <ul>
-          ${this.navitems.map(
+          ${this.navitems?.map(
             (item) => html`
               <li>
                 <a href="#${item.linkid}">${item.linktext}</a>
