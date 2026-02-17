@@ -22,7 +22,6 @@ export type QGDSInpageNavProps = InstanceType<typeof QGDSInpageNav>;
  * @attribute heading-level - Semantic heading level (h1-h6)
  * @attribute aria-label - Accessible label for the navigation landmark, defaults to "On this page navigation"
  * @attribute is-ordered - Whether to use an ordered list (ol) instead of unordered (ul)
- *
  */
 
 @customElement("qgds-inpage-nav")

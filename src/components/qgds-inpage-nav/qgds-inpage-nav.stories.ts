@@ -25,7 +25,7 @@ const meta: Meta<QGDSInpageNavStoryArgs> = {
     ...args,
     "heading": "On this page",
     "heading-level": "h2",
-    "arialabel": "In page navigation",
+    "aria-label": "In page navigation",
   },
   argTypes: {
     ...argTypes,
@@ -58,7 +58,7 @@ export const CustomTitle: Story = {
   args: {
     "heading": "Table of contents",
     "heading-level": "h3",
-    "arialabel": "Custom in-page navigation",
+    "aria-label": "Custom in-page navigation",
   },
 };
 
@@ -66,7 +66,7 @@ export const LongList: Story = {
   args: {
     "heading": "On this page",
     "heading-level": "h2",
-    "arialabel": "In page navigation",
+    "aria-label": "In page navigation",
   },
   render: (storyArgs) =>
     template(
