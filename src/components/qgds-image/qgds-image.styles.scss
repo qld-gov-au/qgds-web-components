@@ -1,0 +1,31 @@
+/* 
+==========================
+Scoped CSS: qgds-image
+==========================
+*/
+
+:host {
+  --my-thing: #000;
+}
+
+.image-wrap {
+  display: block;
+  inline-size: 100%;
+
+  img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: 100%;
+    aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
+    object-fit: cover;
+  }
+}
+
+.caption {
+  font-size: 0.875rem;
+  color: var(--qgds-color-text-default);
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  background: var(--qgds-color-background-shade);
+}
