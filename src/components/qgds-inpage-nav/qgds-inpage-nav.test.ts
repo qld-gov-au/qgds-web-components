@@ -74,8 +74,8 @@ describe("qgds-inpage-nav", () => {
   });
 
   // custom element uses arialabel (no hyphen) which is converted to aria-label in elements shadow DOM
-  it("applies custom aria-label", async () => {
-    element.setAttribute("arialabel", "Custom navigation");
+  it("applies aria-label", async () => {
+    element.setAttribute("aria-label", "Custom navigation");
     await element.updateComplete;
     const nav = element.shadowRoot?.querySelector("nav");
     expect(nav?.getAttribute("aria-label")).toBe("Custom navigation");

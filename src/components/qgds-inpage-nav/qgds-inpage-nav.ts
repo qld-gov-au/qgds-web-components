@@ -1,5 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { semanticHeading } from "../../js/utils";
 
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
@@ -19,34 +20,34 @@ export type QGDSInpageNavProps = InstanceType<typeof QGDSInpageNav>;
  *
  * @attribute heading - Navigation heading text
  * @attribute heading-level - Semantic heading level (h1-h6)
- * @attribute arialabel - Accessible label for the nav element
+ * @attribute aria-label - Accessible label for the navigation landmark, defaults to "On this page navigation"
  * @attribute is-ordered - Whether to use an ordered list (ol) instead of unordered (ul)
  *
  */
 
 @customElement("qgds-inpage-nav")
 export class QGDSInpageNav extends LitElement {
+  static styles = css`
+    ${unsafeCSS(componentCSS)}
+  `;
+
   @property({ type: String, attribute: "heading" })
   heading: string = "On this page";
 
   @property({ type: String, attribute: "heading-level" })
   headingLevel: headingLevel = "h2";
 
-  @property({ type: String, attribute: "arialabel" })
-  ariaLabel: string = "In page navigation";
-
   @property({ type: Boolean, attribute: "is-ordered" })
   isOrdered: boolean = false;
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  @property({ type: String, attribute: "aria-label" })
+  label: string = "On this page navigation";
 
   render() {
     // The a11y tree will be: nav > (h2) + (ol or ul) > li* > a
 
     return html`
-      <nav aria-label="${this.ariaLabel}">
+      <nav aria-label="${ifDefined(this.label)}">
         ${semanticHeading(this.heading, this.headingLevel, "title")}
         ${this.isOrdered
           ? // eslint-disable-next-line lit-a11y/list
