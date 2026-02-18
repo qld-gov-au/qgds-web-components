@@ -1,71 +1,98 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { html } from "lit";
+
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
+//Import custom element definitions to ensure they're registered in Storybook environment
+import "./qgds-inpage-nav";
+import "./qgds-inpage-nav-item";
+
+//Import types for controls and API tables
 import type { QGDSInpageNav } from "./qgds-inpage-nav";
-import "./qgds-inpage-nav.ts";
 
-// Get auto-generated args, argTypes, and template from Custom Elements Manifest
-// The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } = getStorybookHelpers<QGDSInpageNav>("qgds-inpage-nav");
-
-/**
- * Storybook args interface using kebab-case attribute names from CEM.
- * This matches the format returned by getStorybookHelpers.
- */
+const { args, argTypes, template } =
+  getStorybookHelpers<QGDSInpageNav>("qgds-inpage-nav");
 type QGDSInpageNavStoryArgs = typeof args;
 
 const meta: Meta<QGDSInpageNavStoryArgs> = {
   title: "Components/QGDS In-page Navigation",
+  component: "Inpage Navigation",
+  subcomponents: {
+    "Nav Item": "qgds-inpage-nav-item",
+  },
   tags: ["autodocs"],
   args: {
     ...args,
-    navtitle: "On this page",
-    "aria-label": "In page navigation",
+    "heading": "On this page",
     "heading-level": "h2",
+    "aria-label": "In page navigation",
   },
-  argTypes,
-  render: (storyArgs) => template(storyArgs),
+  argTypes: {
+    ...argTypes,
+  },
+  render: (storyArgs) =>
+    template(
+      storyArgs,
+      html`
+        <qgds-inpage-nav-item href="#introduction"
+          >Introduction</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
+        <qgds-inpage-nav-item href="#getting-started"
+          >Getting started</qgds-inpage-nav-item
+        >
+      `,
+    ),
 };
 
 export default meta;
 type Story = StoryObj<QGDSInpageNavStoryArgs>;
 
-const defaultNavItems = [
-  { linkid: "section1", linktext: "List item" },
-  { linkid: "section2", linktext: "List item" },
-  { linkid: "section3", linktext: "List item" },
-  { linkid: "section4", linktext: "List item" },
-  { linkid: "section5", linktext: "List item" },
-];
-
 export const Default: Story = {
   args: {
-    navtitle: "On this page",
-    navitems: defaultNavItems,
+    "heading": "On this page",
   },
 };
 
 export const CustomTitle: Story = {
   args: {
-    navtitle: "Table of contents",
-    navitems: defaultNavItems,
+    "heading": "Table of contents",
+    "heading-level": "h3",
+    "aria-label": "Custom in-page navigation",
   },
 };
 
 export const LongList: Story = {
   args: {
-    navtitle: "On this page",
-    navitems: [
-      { linkid: "intro", linktext: "Introduction" },
-      { linkid: "getting-started", linktext: "Getting started" },
-      { linkid: "installation", linktext: "Installation" },
-      { linkid: "configuration", linktext: "Configuration" },
-      { linkid: "usage", linktext: "Usage examples" },
-      { linkid: "api", linktext: "API reference" },
-      { linkid: "advanced", linktext: "Advanced topics" },
-      { linkid: "troubleshooting", linktext: "Troubleshooting" },
-      { linkid: "faq", linktext: "Frequently asked questions" },
-      { linkid: "support", linktext: "Support" },
-    ],
+    "heading": "On this page",
+    "heading-level": "h2",
+    "aria-label": "In page navigation",
   },
+  render: (storyArgs) =>
+    template(
+      storyArgs,
+      html`
+        <qgds-inpage-nav-item href="#section1"
+          >Section 1: Introduction</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section2"
+          >Section 2: Background</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section3"
+          >Section 3: Requirements</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section4"
+          >Section 4: Implementation</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section5"
+          >Section 5: Testing</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section6"
+          >Section 6: Deployment</qgds-inpage-nav-item
+        >
+        <qgds-inpage-nav-item href="#section7"
+          >Section 7: Maintenance</qgds-inpage-nav-item
+        >
+      `,
+    ),
 };
