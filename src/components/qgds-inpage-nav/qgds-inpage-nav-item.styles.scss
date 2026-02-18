@@ -1,0 +1,22 @@
+/* Inpage Nav List items (sub component) */
+:host {
+  margin-block-start: 0;
+  display: list-item;
+  line-height: 1.5;
+  list-style: none;
+
+  /* Links */
+  a,
+  a:visited {
+    color: var(--qgds-color-link-default, #005eb8);
+    text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+    text-decoration-thickness: 0.5px;
+    text-decoration-style: solid;
+    text-underline-offset: 0.3em;
+  }
+
+  a:hover {
+    text-decoration-color: var(--qgds-color-underline-default-hover, #003e96);
+    text-decoration-thickness: 2px;
+  }
+}

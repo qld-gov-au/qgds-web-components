@@ -12,7 +12,7 @@
 nav {
   border-inline-start: 4px solid var(--qgds-inpage-nav-border);
   padding-inline-start: 1.5rem;
-} 
+}
 
 /* Title */
 .title {
@@ -24,32 +24,12 @@ nav {
 }
 
 /* List */
-ul {
+ul,
+ol {
   display: flex;
   flex-direction: column;
   padding-inline-start: 0;
   margin-block: 0;
   gap: 0.5rem;
   list-style: none;
-}
-
-/* List items */
-li {
-  margin-block-start: 0;
-  display: inline-flex;
-  line-height: 1.5;
-}
-
-/* Links */
-a, a:visited {
-  color: var(--qgds-color-link-default, #005eb8);
-  text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
-  text-decoration-thickness: 0.5px;
-  text-decoration-style: solid;
-  text-underline-offset: 4.8px;
-}
-
-a:hover {
-  text-decoration-color: var(--qgds-color-underline-default-hover, #003e96);
-  text-decoration-thickness: 2px
 }
