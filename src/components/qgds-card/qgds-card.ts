@@ -9,7 +9,6 @@ import { classMap } from "lit/directives/class-map.js";
 // IMPORT CSS (global and component-specific styles)
 // ============================================================================
 // import sharedStyles from "../../styles/shared-styles.ts";
-
 import componentCSS from "./qgds-card.styles.scss?inline";
 
 // ============================================================================
@@ -30,6 +29,7 @@ type CardFeatures = "arrow" | "leading-icon" | "stacked-icon" | "image" | "links
  *
  * @uikit https://www.figma.com/design/fc8Ng3GB7fbkL37WGKXwai/Queensland-Government-Design-System--UI-Kit--Community-?node-id=120360-98159&m=dev
  * @website https://www.designsystem.qld.gov.au/components/card
+ * @tagname qgds-card
  *
  * @property {string} action - Action describes the card's primary behaviour: No action (non clickable), Single Action, Multiple Actions.
  * @property {string} variant - The variant describes the range of configurations a card can have. Card with arrow, Card with image, stacked icon, leading icon, image and footer, footer
@@ -90,31 +90,31 @@ export class QGDSCard extends LitElement {
   // PROPERTIES (Public API)
   // ==========================================================================
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   action: CardActions = "none";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   variant: CardFeatures = "arrow";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   palette: string = "default";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   heading: string = "";
 
-  @property({ type: String, attribute: "heading-level", useDefault: true })
+  @property({ type: String, reflect: true, attribute: "heading-level" })
   headingLevel: "h2" | "h3" | "h4" | "h5" | "h6" = "h3";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   href: string = "";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true })
   target: string = "_self";
 
-  @property({ type: String, attribute: "aria-label", useDefault: true })
+  @property({ type: String, reflect: true, attribute: "aria-label" })
   ariaLabel: string = "";
 
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   elevation?: 0 | 1 | 2 | 3 | 4;
 
   // ==========================================================================

@@ -29,6 +29,7 @@ export { QGDSRadioGroup } from "./components/forms/qgds-radio-group/qgds-radio-g
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+export { QGDSCard } from "./components/qgds-card/qgds-card";
 // etc...
 
 // =============================================================================

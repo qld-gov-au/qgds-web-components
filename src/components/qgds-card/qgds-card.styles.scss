@@ -1,3 +1,59 @@
+/* 
+==========================
+Scoped CSS: qgds-card
+==========================
+*/
+
+// Public API: CSS custom properties that can be overridden from Light DOM
+
 :host {
-  display: inline-block;
+  --background: var(--qgds-color-background, #ffffff);
+  --border: var(--qgds-color-border, #848484);
+  --border-radius: 0.75rem;
+}
+
+.card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-block-size: 5rem;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.heading {
+  padding: 0;
+  margin: 0;
+  line-height: 1.25;
+}
+
+::slotted(*) {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.has-elevation,
+.has-elevation-1 {
+  box-shadow: var(--qgds-elevation-1);
+}
+
+.has-elevation-2 {
+  box-shadow: var(--qgds-elevation-2);
+}
+
+.has-elevation-3 {
+  box-shadow: var(--qgds-elevation-3);
+}
+
+.has-elevation-4 {
+  box-shadow: var(--qgds-elevation-4);
 }
