@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
 import styles from "./qgds-inpage-alert.styles.scss?inline";
 import display from "../../scss/typography/qgds-display.scss?inline";
-import { baseStyles } from "../../scss/base/index";
+import { resetStyles } from "../../scss/base/index";
 import { IconName } from "../qgds-icon/icon-names";
 import { semanticHeading } from "../../js/utils";
 
@@ -54,7 +54,7 @@ export class QGDSInpageAlert extends LitElement {
 
   // Define styles for the component
   static styles = [
-    ...baseStyles,
+    resetStyles,
     css`
       ${unsafeCSS(display)}
     `,
