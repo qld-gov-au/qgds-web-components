@@ -7,7 +7,7 @@ import resetCss from "./reset.css?inline";
  * Only loaded once in memory, shared across all component instances
  */
 export const resetStyles = css`
-  ${unsafeCSS(resetCss)},
+  ${unsafeCSS(resetCss)}
 
   /* Box sizing reset */
   /* Remove default margins and padding */
