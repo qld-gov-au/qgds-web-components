@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { semanticHeading } from "../../js/utils";
 import componentCSS from "./qgds-callout.styles.scss?inline";
-import { baseStyles } from "../../scss/base/index";
+import { resetStyles } from "../../scss/base/index";
 
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -28,7 +28,7 @@ export class QGDSCallout extends LitElement {
   headingLevel: HeadingLevel = "h3";
 
   static styles = [
-    ...baseStyles,
+    resetStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,

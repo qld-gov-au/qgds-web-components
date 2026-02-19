@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
-import { baseStyles } from "../../scss/base/index";
+// import { baseStyles } from "../../scss/base/index";
 import { isMulticolourIcon } from "./icons-multicolour.js";
 import type { IconName } from "./icon-names";
 
@@ -41,7 +41,6 @@ export class QGDSIcon extends LitElement {
   ariaLabel: string = "";
 
   static styles = [
-    ...baseStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
