@@ -15,7 +15,7 @@ export const resetStyles = css`
   :host {
     box-sizing: border-box;
     isolation: isolate;
-    display: inline-block;
+    display: var(--qgds-host-display, inline-block);
     margin: 0;
     padding: 0;
     line-height: 1.5;
@@ -26,12 +26,6 @@ export const resetStyles = css`
   :host *::before,
   :host *::after {
     box-sizing: inherit;
-  }
-
-  /* List styles */
-  ul,
-  ol {
-    list-style: none;
   }
 
   button {
