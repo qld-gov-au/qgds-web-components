@@ -18,7 +18,7 @@ export const resetStyles = css`
     display: var(--qgds-host-display, inline-block);
     margin: 0;
     padding: 0;
-    line-height: 1.5;
+    line-height: var(--qgds-line-height, 1.5);
     -webkit-font-smoothing: antialiased;
   }
 
