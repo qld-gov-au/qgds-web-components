@@ -8,15 +8,21 @@ export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 
 export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
 
-/** QGDS Callout Web Component
- *  Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.
- * @example
- * <qgds-callout heading="Important Notice" heading-level="h2">
- *  <p>This is an important callout message.</p>
- * </qgds-callout>
+/**
+ * Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.
+ *
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120360-73541&m=dev
+ * @website https://www.designsystem.qld.gov.au/components/callout
+ * @tagname qgds-callout
  *
  * @attribute heading - Callout heading text
- * @attribute {HeadingLevel} heading-level - Heading level (h2-h6)
+ * @attribute heading-level - Heading level (h2-h6)
+ *
+ * @slot - Default content slot accepts general typographic HTML content, including paragraphs, lists, and links.
+ *
+ * @cssprop {color} --background - Override the background color of the callout.
+ * @cssprop {color} --border - Override the border color of the callout.
+ * @cssprop {color} --text-color - Override the text color within the callout.
  */
 
 @customElement("qgds-callout")

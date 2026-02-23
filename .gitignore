@@ -14,6 +14,7 @@ prettier.json
 *storybook.log
 custom-elements.json
 *__screenshots__/
+_dev/
 
 # Chromatic
 chromatic-diagnostics.json

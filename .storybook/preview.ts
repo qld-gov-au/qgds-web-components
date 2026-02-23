@@ -6,7 +6,7 @@ import { html } from "lit";
 import "../src/scss/main.scss";
 import { palettes } from "../src/js/utils/palettes";
 import customElementsManifest from "../custom-elements.json";
-import DocumentationTemplate from "../src/stories/DocumentationTemplate.mdx";
+import DocumentationTemplate from "./templates/DocumentationTemplate.mdx";
 
 // Register custom elements manifest for API documentation
 // This enables automatic API tables and controls in Storybook autodocs
@@ -33,11 +33,11 @@ const preview: Preview = {
 
     docs: {
       page: DocumentationTemplate,
+      codePanel: true,
       source: {
         // Global default. Override this in local stories to include decorators
         excludeDecorators: true,
       },
-      toc: true, // Enable table of contents in docs page
     },
 
     a11y: {
