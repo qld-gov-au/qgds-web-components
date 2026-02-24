@@ -1,5 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { resetStyles } from "../../scss/base/index";
 
 import componentCSS from "./qgds-inpage-nav-item.styles.scss?inline";
 
@@ -24,9 +25,12 @@ export class QGDSInpageNavItem extends LitElement {
     this.setAttribute("role", "listitem");
   }
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  static styles = [
+    resetStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   @property({ type: String, attribute: "href" })
   href: string = "";

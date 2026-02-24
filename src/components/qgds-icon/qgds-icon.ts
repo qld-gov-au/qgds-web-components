@@ -39,9 +39,11 @@ export class QGDSIcon extends LitElement {
   @property({ type: String, attribute: "aria-label" })
   ariaLabel: string = "";
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  static styles = [
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   private get isMulticolour(): boolean {
     return this.iconId ? isMulticolourIcon(this.iconId) : false;
