@@ -4,7 +4,6 @@ import componentCSS from "./qgds-details.styles.scss?inline";
 import "../qgds-icon/qgds-icon.js";
 
 export type DetailsSize = "xs" | "sm" | "md" | "lg";
-export type QGDSDetailsProps = InstanceType<typeof QGDSDetails>;
 
 /**
  * Used to progressively disclose content behind a native browser details/summary disclosure widget.
