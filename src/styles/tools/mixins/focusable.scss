@@ -1,39 +1,39 @@
 ///
 /// Default focus styles for use in buttons etc. Resets :focus and uses :focus-visible instead which only appears on keyboard interaction.
-/// @param {Boolean|number} $offsetOutline [true] - Offset the focus ring by 2px.
-/// @param {Boolean} $isFocusWithin [false] - Optionally apply styles via :focus-within rather than :focus-visible
-/// @param {String} $outlineWidth: [3px] The width of the outline.
-/// @param {String} $customSelector [null] - If passed, will override $isFocusWithin and apply focus styles instead to a custom selector string. @see SearchInput
+/// @param {Boolean|number} $offset-outline [true] - Offset the focus ring by 2px.
+/// @param {Boolean} $is-focus-within [false] - Optionally apply styles via :focus-within rather than :focus-visible
+/// @param {String} $outline-width: [3px] The width of the outline.
+/// @param {String} $custom-selector [null] - If passed, will override $is-focus-within and apply focus styles instead to a custom selector string. @see SearchInput
 /// @content
 
 @mixin focusable(
-  $offsetOutline: true,
-  $isFocusWithin: false,
-  $outlineWidth: 3px,
-  $customSelector: null
+  $offset-outline: true,
+  $is-focus-within: false,
+  $outline-width: 3px,
+  $custom-selector: null
 ) {
   // outline styles without the pseudo state to allow for transition animations.
-  $initial-offset: 0 - $outlineWidth;
-  $offset-outline: $offsetOutline;
+  $initial-offset: 0 - $outline-width;
+  $outline-offset: $offset-outline;
 
-  @if $offsetOutline == true {
-    $offset-outline: 2px;
-  } @else if $offsetOutline == false {
-    $offset-outline: 0px;
+  @if $offset-outline == true {
+    $outline-offset: 2px;
+  } @else if $offset-outline == false {
+    $outline-offset: 0px;
   }
 
-  outline: transparent solid $outlineWidth;
+  outline: transparent solid $outline-width;
   outline-offset: $initial-offset;
 
   $selector: if(
-    $customSelector,
-    $customSelector,
-    if($isFocusWithin, ":focus-within", ":focus")
+    $custom-selector,
+    $custom-selector,
+    if($is-focus-within, ":focus-within", ":focus")
   );
 
   &#{$selector} {
-    outline: var(--qld-focus-color, #002e85) solid $outlineWidth; // --qld-focus-color defined in qld-type.scss
-    outline-offset: $offset-outline;
+    outline: var(--qgds-color-focus-default, #002e85) solid $outline-width;
+    outline-offset: $outline-offset;
     @content;
   }
 }
