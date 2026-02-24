@@ -8,16 +8,17 @@ Scoped CSS: qgds-callout
 // Example: qgds-callout { --background: pink; }
 :host {
   // Fallback values align with QGDS design tokens
-  --background: var(--qgds-color-background-shade, #f9f9f9);
-  --text: var(--qgds-color-text-default, #333333);
-  --border: var(--qgds-color-accent-design-accent, #0078d4);
+  --callout-background: var(--qgds-color-background-shade, #f9f9f9);
+  --callout-heading: var(--qgds-color-text-heading, #000053);
+  --callout-text: var(--qgds-color-text-default, #353535);
+  --callout-border: var(--qgds-color-accent-design-accent, #0078d4);
 }
 
 // Component container
 .callout {
-  background: var(--background);
-  color: var(--text);
-  border-inline-start: 4px solid var(--border);
+  background: var(--callout-background);
+  color: var(--callout-text);
+  border-inline-start: 4px solid var(--callout-border);
   padding-block: 1.5rem;
   padding-inline: 1.5rem 1rem;
   display: flex;
@@ -27,9 +28,9 @@ Scoped CSS: qgds-callout
 
 // Nested elements
 .heading {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 2rem;
+  font-size: 1.5rem;
+  font-weight: var(--qgds-fw-semibold);
+  line-height: 1.5;
   margin: 0;
   padding: 0;
 }
