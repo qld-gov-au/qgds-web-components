@@ -1,0 +1,28 @@
+/* reset-host.scss
+==========================
+
+These are additional resets applied to compoonents only, via :host selector
+
+Box sizing reset 
+Remove default margins and padding
+Ensure components don't leak styles 
+*/
+
+:host {
+  box-sizing: border-box;
+  isolation: isolate;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+:host *,
+:host *::before,
+:host *::after {
+  box-sizing: inherit;
+}
+
+button {
+  appearance: none;
+  border: none;
+}
