@@ -1,4 +1,4 @@
-@use "../../scss/base/animations";
+@use "../../styles/base/animations";
 @include animations.css();
 
 :host {
@@ -47,7 +47,7 @@
 
   &:active {
     --text: #000053;
-    
+
     text-decoration: none;
     background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
   }
@@ -62,7 +62,7 @@
   &:disabled,
   &.disabled {
     --text: var(--qgds-color-text-lighter, #666);
-  
+
     background: var(--qgds-color-disabled, #ccc);
     text-decoration: none;
     pointer-events: none;
@@ -93,7 +93,7 @@
 
   &:hover {
     --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
-  
+
     box-shadow: var(--qgds-elevation-4);
   }
 
@@ -103,7 +103,7 @@
 
   &:focus {
     --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
-  
+
     box-shadow: var(--qgds-elevation-1);
   }
 }
@@ -127,7 +127,7 @@
   &.disabled {
     --btn-border-colour: var(--qgds-color-disabled, #ccc);
     --qgds-icon-color: inherit;
-  
+
     background-color: transparent;
   }
 
@@ -159,11 +159,11 @@
     background: var(--no-colour);
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: var(--qgds-color-background-shade, #f5f5f5);
   }
 }
-
 
 /* Hide all slotted elements by default */
 ::slotted(*) {
@@ -172,7 +172,7 @@
 
 /* Only show qgds-icon elements in the icon slot */
 ::slotted(qgds-icon) {
-  display: block; 
+  display: block;
 }
 
 qgds-icon[iconid="spinner-step-1"] {
