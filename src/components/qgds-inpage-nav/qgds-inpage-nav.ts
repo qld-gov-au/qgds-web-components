@@ -1,8 +1,8 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { resetStyles } from "../../scss/base/index";
-import { semanticHeading } from "../../js/utils";
+import { resetStyles } from "../../styles";
+import { semanticHeading } from "../../utils";
 
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
 
