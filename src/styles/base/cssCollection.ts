@@ -9,13 +9,15 @@ import resetCss from "./reset.css?inline";
 export const resetStyles = css`
   ${unsafeCSS(resetCss)}
 
+  /* 👇 These are additional resets applied to compoonents only, via :host selector */
+
   /* Box sizing reset */
   /* Remove default margins and padding */
   /* Ensure components don't leak styles */
+  
   :host {
     box-sizing: border-box;
     isolation: isolate;
-    display: var(--qgds-host-display, inline-block);
     margin: 0;
     padding: 0;
     -webkit-font-smoothing: antialiased;

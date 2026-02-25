@@ -1,6 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { resetStyles } from "../../scss/base/index";
+import { resetStyles } from "../../styles";
 
 import componentCSS from "./qgds-inpage-nav-item.styles.scss?inline";
 

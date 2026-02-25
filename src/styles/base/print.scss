@@ -1,0 +1,6 @@
+// Styles are invoked through @print media query
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

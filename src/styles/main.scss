@@ -5,29 +5,24 @@
 // This file is for ordering and organising styles, do not write CSS directly here.
 // In order to output CSS within @layer scope, wrap it in a css() mixin and call that mixin here. (meta.load-css could also work).
 // Component styles should not be placed in global CSS.
+
 @use "sass:meta";
-@use "base/animations";
-@use "base/elements";
-@use "base/globals";
-@use "base/palettes";
-@use "base/icons";
-@use "utilities";
 
 @layer base, components, utilities; /* Defines named layers and their order */
 
 @import "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap";
 
 @layer base {
-  @include meta.load-css("base/reset.css");
-  @include globals.css();
-  @include animations.css();
-  @include elements.css();
-  @include palettes.css();
-  @include icons.css();
+  @include meta.load-css("base/reset");
+  @include meta.load-css("base/reset-slotted");
+  @include meta.load-css("base/globals");
+  @include meta.load-css("base/elements");
+  @include meta.load-css("base/palettes");
+  @include meta.load-css("base/icons");
+  @include meta.load-css("base/animations");
 }
 
 // @layer components - Loaded Component styles will be scoped here
-
 @layer utilities {
-  @include utilities.css();
+  @include meta.load-css("utilities");
 }

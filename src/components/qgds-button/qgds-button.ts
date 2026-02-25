@@ -3,7 +3,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-button.scss?inline";
-import { resetStyles } from "../../scss/base/index";
+import { resetStyles } from "../../styles";
 import { IconSize } from "../qgds-icon/qgds-icon";
 
 // Define types for properties to ensure type safety and better autocompletion
@@ -126,17 +126,14 @@ export class QGDSButton extends LitElement {
         @mousedown=${this._handleMouseDown}
         @mouseup=${this._handleMouseUp}
         @focus=${this._handleFocus}
-        @blur=${this._handleBlur}
-      >
+        @blur=${this._handleBlur}>
         ${this.isLoading
           ? html`<qgds-icon
               icon-id="spinner-step-1"
-              size="${currentIconSize}"
-            ></qgds-icon>`
+              size="${currentIconSize}"></qgds-icon>`
           : html`<slot
               name="icon"
-              @slotchange=${this.handleSlotChange}
-            ></slot>`}
+              @slotchange=${this.handleSlotChange}></slot>`}
         ${this.label}
       </a>
     `;
@@ -168,17 +165,14 @@ export class QGDSButton extends LitElement {
         @mousedown=${this._handleMouseDown}
         @mouseup=${this._handleMouseUp}
         @focus=${this._handleFocus}
-        @blur=${this._handleBlur}
-      >
+        @blur=${this._handleBlur}>
         ${this.isLoading
           ? html`<qgds-icon
               icon-id="spinner-step-1"
-              size="${currentIconSize}"
-            ></qgds-icon>`
+              size="${currentIconSize}"></qgds-icon>`
           : html`<slot
               name="icon"
-              @slotchange=${this.handleSlotChange}
-            ></slot>`}
+              @slotchange=${this.handleSlotChange}></slot>`}
         ${this.isLoading ? (this.loadingLabel ?? this.label) : this.label}
       </button>
     `;
