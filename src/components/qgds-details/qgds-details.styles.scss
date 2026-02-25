@@ -4,6 +4,8 @@ Scoped CSS: qgds-details
 ==========================
 */
 @use "../../scss/tools/mixins/index.scss" as m;
+@use "sass:meta";
+@include meta.load-css("../../scss/base/reset.css");
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-details { --summary-color: red; }
@@ -67,7 +69,7 @@ details[open] .icon {
   padding-inline: 0.25rem;
   margin-block-end: 0.5rem;
   margin-inline: -0.25rem; // extend hover background edge-to-edge
-  min-block-size: var(--min-block-size);
+  block-size: var(--min-block-size);
   cursor: pointer;
   list-style: none;
   color: var(--summary-color);
