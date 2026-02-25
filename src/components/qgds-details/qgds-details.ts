@@ -46,8 +46,8 @@ export class QGDSDetails extends LitElement {
   `;
 
   /** Sync internal state when the native details element is toggled by the browser */
-  private _handleToggle = (e: Event): void => {
-    this._open = (e.currentTarget as HTMLDetailsElement).open;
+  private _handleToggle = (e: ToggleEvent): void => {
+    this._open = e.newState === "open";
   };
 
   render() {
