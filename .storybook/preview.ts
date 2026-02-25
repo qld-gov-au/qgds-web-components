@@ -3,8 +3,8 @@ import { setCustomElementsManifest } from "@storybook/web-components-vite";
 import { setStorybookHelpersConfig } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import "../src/scss/main.scss";
-import { palettes } from "../src/js/utils/palettes";
+import "../src/styles/main.scss";
+import { palettes } from "../src/utils";
 import customElementsManifest from "../custom-elements.json";
 import DocumentationTemplate from "./templates/DocumentationTemplate.mdx";
 

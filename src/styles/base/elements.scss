@@ -1,0 +1,12 @@
+// Global Styling for HTML elements
+
+// styling for bare HTML elements (like H1, A, etc.). These come with default styling from the browser so we can redefine them here.
+
+h1 {
+  //use mixin pr tokens
+}
+
+ul,
+ol {
+  padding-inline-start: var(--qgds-list-padding, 0);
+}

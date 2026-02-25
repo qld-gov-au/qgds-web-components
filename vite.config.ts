@@ -25,7 +25,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         "qgds-web-components": "./src/index.ts",
-        "qgds-web-components-css": "./src/scss/main.scss",
+        "qgds-web-components-css": "./src/styles/main.scss",
       },
       output: {
         // All JS assets from input object:

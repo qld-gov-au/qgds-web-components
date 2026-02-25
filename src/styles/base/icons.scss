@@ -1,0 +1,4 @@
+@use "sass:meta";
+
+// equivalent to old "import" statement - because @using will output css directly instead controlling load order via mixin.
+@include meta.load-css("../icons/icons.variables");
