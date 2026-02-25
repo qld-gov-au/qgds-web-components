@@ -3,9 +3,8 @@
 Scoped CSS: qgds-details
 ==========================
 */
-@use "../../scss/tools/mixins/index.scss" as m;
-@use "sass:meta";
-@include meta.load-css("../../scss/base/reset.css");
+@use "../../styles/tools/mixins/index" as m;
+@use "../../styles/base/reset";
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-details { --summary-color: red; }
