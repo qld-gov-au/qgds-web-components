@@ -19,12 +19,14 @@ qgds-tabs {
 
   ul,
   ol {
-    padding-inline-start: var(--qgds-list-padding, 0);
+    padding-inline-start: var(--slotted-list-padding, 0);
   }
 
   li,
   p {
     padding: var(--slotted-content-padding, 0);
+    margin: var(--slotted-content-margin, 0);
+    line-height: var(--slotted-content-line-height, inherit);
   }
 
   /* Interactive */
