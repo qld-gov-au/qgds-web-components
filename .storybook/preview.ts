@@ -16,6 +16,7 @@ setCustomElementsManifest(customElementsManifest);
 setStorybookHelpersConfig({
   // Use type info from Custom Elements Manifest for controls
   hideArgRef: true, // perhaps can be based on env variable, false for local?
+  renderDefaultValues: true,
 });
 
 const preview: Preview = {
