@@ -50,7 +50,7 @@ export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
-  @property({ type: String }) label: string = "";
+  @property({ type: String }) label: string = "Button";
   @property({ type: String, useDefault: true }) variant: ButtonVariant =
     "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
