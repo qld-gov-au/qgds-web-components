@@ -12,16 +12,22 @@ import printCSS from "./base/print.scss?inline";
 import typographyCSS from "./base/typography.scss?inline";
 //...
 
-
 // EXPORTS
-
 export const resetStyles = [
-  css`${unsafeCSS(resetCSS)}`,
-  css`${unsafeCSS(resetHostCSS)}`
+  css`
+    ${unsafeCSS(resetCSS)}
+  `,
+  css`
+    ${unsafeCSS(resetHostCSS)}
+  `,
 ];
 
-export const printStyles = css`${unsafeCSS(printCSS)}`;
-export const typographyStyles = css`${unsafeCSS(typographyCSS)}`;
+export const printStyles = css`
+  ${unsafeCSS(printCSS)}
+`;
+export const typographyStyles = css`
+  ${unsafeCSS(typographyCSS)}
+`;
 //...
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
