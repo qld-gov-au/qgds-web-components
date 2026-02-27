@@ -28,13 +28,13 @@ export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
-  @property({ type: String, reflect: true, attribute: "heading" })
+  @property({ type: String, useDefault: true })
   heading: string = "Callout heading";
 
-  @property({ type: String, reflect: true, attribute: "heading-level" })
+  @property({ type: String, attribute: "heading-level", useDefault: true })
   headingLevel: HeadingLevel = "h3";
 
-  @property({ type: String, reflect: true, attribute: "heading-size" })
+  @property({ type: String, attribute: "heading-size", useDefault: true })
   headingSize: HeadingSize = "Small";
 
   static styles = [
@@ -46,8 +46,8 @@ export class QGDSCallout extends LitElement {
 
   private static readonly headingClasses: Record<HeadingSize, string> = {
     "Extra small": "qgds-heading-xs",
-    "Small": "qgds-heading-sm",
-    "Medium": "qgds-heading-md",
+    Small: "qgds-heading-sm",
+    Medium: "qgds-heading-md",
   };
 
   render() {
