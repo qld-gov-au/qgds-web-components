@@ -1,18 +1,34 @@
 //src/styles/index.ts
 
-/* This file serves as the main TS entry point for all styles in the QGDS web components library. It provides a single import source for base styles, utilities, and component-specific styles. By centralizing style exports here, we can ensure consistent styling across all components and simplify imports in individual component files. */
-
 import { css, unsafeCSS } from "lit";
 
 // Import specific stylesheets for granular control
+// Utils
 import resetCSS from "./base/reset.scss?inline";
+import resetHostCSS from "./base/reset-host.scss?inline";
 import printCSS from "./base/print.scss?inline";
+
+// Global styles
 import typographyCSS from "./base/typography.scss?inline";
+//...
 
-export const resetStyles = css`${unsafeCSS(resetCSS)}`; // prettier-ignore
-export const printStyles = css`${unsafeCSS(printCSS)}`; // prettier-ignore
-export const typographyStyles = css`${unsafeCSS(typographyCSS)}`; // prettier-ignore
-//etc... add global styles as needed
+// EXPORTS
+export const resetStyles = [
+  css`
+    ${unsafeCSS(resetCSS)}
+  `,
+  css`
+    ${unsafeCSS(resetHostCSS)}
+  `,
+];
 
-// Export baseStyles array for easy inclusion in components
+export const printStyles = css`
+  ${unsafeCSS(printCSS)}
+`;
+export const typographyStyles = css`
+  ${unsafeCSS(typographyCSS)}
+`;
+//...
+
+// Also export a baseStyles array that includes all modules, for easy inclusion in components
 export const baseStyles = [resetStyles, printStyles, typographyStyles];
