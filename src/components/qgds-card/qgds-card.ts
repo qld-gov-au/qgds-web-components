@@ -101,31 +101,31 @@ export class QGDSCard extends LitElement {
   // PROPERTIES (Public API)
   // ==========================================================================
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   action: CardActions = "none";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   variant: CardFeatures = "arrow";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   palette: string = "default";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   heading: string = "";
 
-  @property({ type: String, reflect: true, attribute: "heading-level" })
+  @property({ type: String, attribute: "heading-level", useDefault: true })
   headingLevel: "h2" | "h3" | "h4" | "h5" | "h6" = "h3";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   href: string = "";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   target: string = "_self";
 
-  @property({ type: String, reflect: true, attribute: "aria-label" })
+  @property({ type: String, attribute: "aria-label", useDefault: true })
   ariaLabel: string = "";
 
-  @property({ type: Number, reflect: true })
+  @property({ type: Number })
   elevation?: 0 | 1 | 2 | 3 | 4;
 
   // ==========================================================================
@@ -213,10 +213,12 @@ export class QGDSCard extends LitElement {
                 <div class="footer">
                   <slot
                     name="footer-links"
-                    @slotchange=${this.handleLinksSlot}></slot>
+                    @slotchange=${this.handleLinksSlot}
+                  ></slot>
                   <slot
                     name="footer-tags"
-                    @slotchange=${this.handleTagsSlot}></slot>
+                    @slotchange=${this.handleTagsSlot}
+                  ></slot>
                 </div>
               `
             : ""

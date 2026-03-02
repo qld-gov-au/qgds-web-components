@@ -32,10 +32,10 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  */
 @customElement("qgds-details")
 export class QGDSDetails extends LitElement {
-  @property({ type: String, attribute: "summary-text" })
+  @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   size: DetailsSize = "md";
 
   /** Internal open/closed state — toggled by native browser interaction */
