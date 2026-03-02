@@ -59,8 +59,6 @@ export class QGDSCallout extends LitElement {
   };
 
   render() {
-    console.log(this);
-
     //Use user defined heading-display, or fallback to default class for heading level (h2, h3 etc), or finally fallback to small if something goes wrong
     let headingSizeClass =
       QGDSCallout.headingClasses[this.headingDisplay] ||
