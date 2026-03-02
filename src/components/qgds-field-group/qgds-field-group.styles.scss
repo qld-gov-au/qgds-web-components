@@ -1,0 +1,39 @@
+/*
+==========================
+Scoped CSS: qgds-field-group
+==========================
+*/
+@use "../../styles/tools/mixins/index" as m;
+@use "../../styles/base/reset";
+
+:host {
+  display: block;
+
+  --legend-color: var(--qgds-color-text-default, #333333);
+  --legend-font-size: 1rem;
+  --legend-font-weight: 600;
+  --gap: 0.5rem;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+.legend {
+  color: var(--legend-color);
+  display: block;
+  font-size: var(--legend-font-size);
+  font-weight: var(--legend-font-weight);
+  margin-block-end: var(--gap);
+  padding: 0;
+}
+
+::slotted(*) {
+  display: block;
+}
+
+::slotted(*  + *) {
+  margin-block-start: var(--gap);
+}
