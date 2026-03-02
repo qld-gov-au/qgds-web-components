@@ -4,8 +4,7 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QGDSCallout } from "./qgds-callout";
 import "./qgds-callout";
 
-const { args, argTypes, template } =
-  getStorybookHelpers<QGDSCallout>("qgds-callout");
+const { args, argTypes, template } = getStorybookHelpers<QGDSCallout>("qgds-callout");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
@@ -30,6 +29,7 @@ export const Complex: Story = {
   args: {
     heading: "Before you start",
     "heading-level": "h2",
+    "heading-display": "Medium",
     "default-slot": `
         <p>
           Please read the following information carefully <strong>before proceeding:</strong>
