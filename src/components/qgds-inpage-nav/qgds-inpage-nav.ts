@@ -37,7 +37,7 @@ export class QGDSInpageNav extends LitElement {
   @property({ type: String, attribute: "heading" })
   heading: string = "On this page";
 
-  @property({ type: String, attribute: "heading-level" })
+  @property({ type: String, attribute: "heading-level", useDefault: true })
   headingLevel: headingLevel = "h2";
 
   @property({ type: Boolean, attribute: "is-ordered" })

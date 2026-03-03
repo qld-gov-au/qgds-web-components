@@ -30,7 +30,7 @@ export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
-  @property({ type: String, reflect: true, attribute: "heading" })
+  @property({ type: String, useDefault: true })
   heading: string = "Callout heading";
 
   @property({ type: String, reflect: true, attribute: "heading-level", useDefault: true })
