@@ -1,5 +1,28 @@
 // Global Styling for HTML elements - generic/global namespace primary for body content
 
+// ALl text based elements, lists, etc. These are the most basic styles for content within the body of the page, and are usually overridden within components. These are not slotted-specific, but they can be overridden by slotted styles if used within a component that includes the reset-slotted mixin.
+p,
+ul,
+ol,
+li,
+a,
+span,
+blockquote,
+pre,
+code,
+summary {
+  line-height: var(--line-height-default, 1.5);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height-heading, 1.25);
+}
+
 // P, LI, A, Hx, etc
 a {
   color: var(--qgds-color-link-default);

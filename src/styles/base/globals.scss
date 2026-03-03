@@ -25,12 +25,17 @@
   --breakpoint-md: $qgds-media-md;
   --breakpoint-lg: $qgds-media-lg;
   --breakpoint-xl: $qgds-media-xl;
+
+  // Line height utility
+  --line-height-default: 1.5;
+  --line-height-heading: 1.25;
+  --line-height-nospace: 1;
 }
 
 html {
   font-family: var(--qgds-font-family);
   box-sizing: border-box;
-  line-height: 1;
+  line-height: var(--line-height-default);
   font-size: 1rem;
 }
 
