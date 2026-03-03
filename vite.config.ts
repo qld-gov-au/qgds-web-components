@@ -64,7 +64,16 @@ export default defineConfig({
       targets: [
         {
           src: "src/templates/index.html",
-          dest: "dist/",
+          dest: ".",
+        },
+        {
+          src: "src/demo/index-built.html",
+          dest: ".",
+          rename: "demo.html",
+        },
+        {
+          src: "src/scss/demo.css",
+          dest: "assets/css",
         },
       ],
     }) as any,

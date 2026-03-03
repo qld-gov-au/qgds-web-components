@@ -12,7 +12,9 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run analyze && vite build",
+    "build:watch": "vite build --watch",
     "serve": "http-server dist -p 8090",
+    "demo": "npm run build && (npm run build:watch & http-server dist -p 8090 -o /demo.html)",
     "analyze": "custom-elements-manifest analyze && node scripts/post-process-cem.js",
     "generate:icons": "node scripts/generate-icon-list.js",
     "test": "vitest --config vitest.config.ts",
@@ -54,6 +56,7 @@
     "eslint-plugin-wc": "^3.0.2",
     "http-server": "^14.1.1",
     "husky": "^9.1.7",
+    "live-server": "^1.2.2",
     "playwright": "^1.57.0",
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",

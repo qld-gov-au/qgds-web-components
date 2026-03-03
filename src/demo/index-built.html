@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Component Demo Page</title>
+    <link rel="stylesheet" href="./assets/css/demo.css">
+    <!-- Compiled CSS (includes main.scss + all component styles) -->
+    <link rel="stylesheet" href="./assets/css/qgds-web-components.css">
+    <script>
+        // Set up palette selectors and controls
+        document.addEventListener('DOMContentLoaded', () => {
+            const paletteOptions = ['default', 'soft', 'muted', 'bold', 'deep'];
+
+            // Create variant controls HTML
+            const createVariantControls = () => {
+                const div = document.createElement('div');
+                div.className = 'variant-controls';
+                div.innerHTML = `
+                    <select name="colors" class="qgds-palette">
+                        <option value="default">default</option>
+                        <option value="soft">soft</option>
+                        <option value="muted">muted</option>
+                        <option value="bold">bold</option>
+                        <option value="deep">deep</option>
+                    </select>
+                `;
+                return div;
+            };
+
+            // Add variant controls to all component containers
+            document.querySelectorAll('.component-container').forEach(container => {
+                // Check if it already has variant controls
+                if (!container.querySelector('.variant-controls')) {
+                    container.insertBefore(createVariantControls(), container.firstChild);
+                }
+            });
+
+            // Set up event listeners for all palette selectors
+            document.querySelectorAll('.qgds-palette').forEach(selector => {
+                selector.addEventListener('change', (event) => {
+                    const selectedPalette = event.target.value;
+                    const section = event.target.closest('section');
+                    if (section) {
+                        // Remove all existing palette classes
+                        paletteOptions.forEach(palette => section.classList.remove(`qgds-palette-${palette}`));
+                        // Add the new palette class
+                        if (selectedPalette !== 'default') {
+                            section.classList.add(`qgds-palette-${selectedPalette}`);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>Web Component Demo</h1>
+            <p>This page demonstrates the usage of QGDS web components.</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Using the custom web component -->
+        <section>
+            <div class="component-container grid" data-columns="3">
+                <qgds-button label="QGDS Button" variant="primary">
+                    <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+                </qgds-button>
+                <qgds-button label="QGDS Button" variant="secondary">
+                    <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+                </qgds-button>
+                <qgds-button label="QGDS Button" variant="tertiary">
+                    <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+                </qgds-button>
+            </div>
+        </section>
+        <section>
+            <div class="component-container">
+                <qgds-callout heading="Callout heading" heading-level="h3">
+                    <p>This is an important callout message.</p>
+                </qgds-callout>
+            </div>
+        </section>
+        <section>
+            <div class="component-container">
+                <qgds-inpage-alert heading="Here is the heading" heading-level="3">
+                    <span>And here is the content.</span>
+                </qgds-inpage-alert>
+            </div>
+        </section>
+        <section>
+            <div class="component-container">
+                <qgds-inpage-nav aria-label="In page navigation">
+                    <qgds-inpage-nav-item href="#introduction" role="listitem">Introduction</qgds-inpage-nav-item>
+                    <qgds-inpage-nav-item href="#overview" role="listitem">Overview</qgds-inpage-nav-item>
+                    <qgds-inpage-nav-item href="#getting-started" role="listitem">Getting started</qgds-inpage-nav-item>
+                </qgds-inpage-nav>
+            </div>
+        </section>
+    </main>
+    <!-- Use compiled JavaScript -->
+    <script type="module" src="./assets/js/qgds-web-components.js"></script>
+</body>
+
+</html>
