@@ -1,5 +1,5 @@
 // List of icons with multiple colours, which use background-image rather than mask-image
-// Generated from src/scss/utilities/_icons-multicolours.list.scss
+// Generated from src/styles/utilities/_icons-multicolours.list.scss
 
 export const ICONS_MULTICOLOUR = [
   "status-cancel",

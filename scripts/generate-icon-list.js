@@ -10,10 +10,10 @@
  *   node scripts/generate-icon-list.js
  *
  * When to run:
- *   Run this script whenever new icons are added to src/scss/utilities/_icons.list.scss
+ *   Run this script whenever new icons are added to src/styles/utilities/_icons.list.scss
  *   to regenerate the icon-names.ts file used by Storybook and the component.
  *
- * Input:  src/scss/utilities/_icons.list.scss
+ * Input:  src/styles/utilities/_icons.list.scss
  * Output: src/components/qgds-icon/icon-names.ts
  */
 
@@ -25,7 +25,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Read the SCSS file
-const scssPath = path.join(__dirname, "../src/scss/icons/_icons.list.scss");
+const scssPath = path.join(__dirname, "../src/styles/icons/_icons.list.scss");
 const scssContent = fs.readFileSync(scssPath, "utf-8");
 
 // Extract icon names using regex
@@ -39,7 +39,7 @@ while ((match = regex.exec(scssContent)) !== null) {
 
 // Generate TypeScript file
 const tsContent = `// This file is auto-generated. Do not edit directly!
-// Generated from src/scss/utilities/_icons.list.scss
+// Generated from src/styles/icons/_icons.list.scss
 
 export const ICON_NAMES = [
 ${iconNames.map((name) => `  "${name}",`).join("\n")}

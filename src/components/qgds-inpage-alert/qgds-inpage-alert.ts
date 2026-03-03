@@ -2,10 +2,10 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
 import styles from "./qgds-inpage-alert.styles.scss?inline";
-import display from "../../scss/typography/qgds-display.scss?inline";
-import { resetStyles } from "../../scss/base/index";
+//import display from "../../styles/typography/qgds-display.scss?inline";
+import { resetStyles, typographyStyles } from "../../styles";
 import { IconName } from "../qgds-icon/icon-names";
-import { semanticHeading } from "../../js/utils";
+import { semanticHeading } from "../../utils";
 
 type AlertVariant = "error" | "info" | "success" | "warning";
 type HeadingLevel = 2 | 3 | 4 | 5 | 6;
@@ -32,7 +32,7 @@ export class QGDSInpageAlert extends LitElement {
   @property({ type: String })
   heading?: string;
 
-  @property({ type: String })
+  @property({ type: String, useDefault: true })
   variant: AlertVariant = "info";
 
   @property({
@@ -55,9 +55,7 @@ export class QGDSInpageAlert extends LitElement {
   // Define styles for the component
   static styles = [
     resetStyles,
-    css`
-      ${unsafeCSS(display)}
-    `,
+    typographyStyles,
 
     css`
       ${unsafeCSS(styles)}

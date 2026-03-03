@@ -23,31 +23,17 @@ Scoped CSS: qgds-callout
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
 
-// Nested elements
-.heading {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: 2rem;
-  margin: 0;
-  padding: 0;
+  // Resets our slotted content
+  // Defined by reset-slotted.scss, customised for callout content
+  --slotted-list-padding: 1rem;
+  --slotted-content-padding: 0;
+  --slotted-content-margin: 0;
+  --slotted-content-line-height: 1.5;
 }
 
 .content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-// Style slotted Light DOM content
-::slotted(*) {
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
-}
-
-::slotted(ul),
-::slotted(ol) {
-  padding-inline-start: 1rem;
 }

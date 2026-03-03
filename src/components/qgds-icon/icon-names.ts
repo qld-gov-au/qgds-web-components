@@ -1,5 +1,5 @@
 // This file is auto-generated. Do not edit directly!
-// Generated from src/scss/utilities/_icons.list.scss
+// Generated from src/styles/utilities/_icons.list.scss
 
 export const ICON_NAMES = [
   "accessibility",
@@ -116,4 +116,4 @@ export const ICON_NAMES = [
   "zoom",
 ] as const;
 
-export type IconName = typeof ICON_NAMES[number];
+export type IconName = (typeof ICON_NAMES)[number];

@@ -33,7 +33,6 @@ type Story = StoryObj<QGDSIconStoryArgs>;
 export const Default: Story = {
   args: {
     "icon-id": "home",
-    size: "md",
     "aria-label": "Home icon",
   },
 };

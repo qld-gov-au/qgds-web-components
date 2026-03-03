@@ -1,8 +1,8 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { resetStyles } from "../../scss/base/index";
-import { semanticHeading } from "../../js/utils";
+import { resetStyles } from "../../styles";
+import { semanticHeading } from "../../utils";
 
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
 
@@ -37,7 +37,7 @@ export class QGDSInpageNav extends LitElement {
   @property({ type: String, attribute: "heading" })
   heading: string = "On this page";
 
-  @property({ type: String, attribute: "heading-level" })
+  @property({ type: String, attribute: "heading-level", useDefault: true })
   headingLevel: headingLevel = "h2";
 
   @property({ type: Boolean, attribute: "is-ordered" })

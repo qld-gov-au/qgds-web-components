@@ -1,0 +1,37 @@
+/*
+These resets are tailored for slotted content inside web components.
+They enable a component's :host to redefine a CSS custom property for slotted elements, 
+but also use a fallback that is consistent with Light DOM reset.
+*/
+
+qgds-callout,
+qgds-inpage-alert,
+qgds-card,
+qgds-tabs {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: var(--slotted-heading-margin, 0);
+    padding: var(--slotted-heading-padding, 0);
+  }
+
+  ul,
+  ol {
+    padding-inline-start: var(--slotted-list-padding, 0);
+  }
+
+  li,
+  p {
+    padding: var(--slotted-content-padding, 0);
+    margin: var(--slotted-content-margin, 0);
+    line-height: var(--slotted-content-line-height, inherit);
+  }
+
+  /* Interactive */
+  a {
+    color: var(--slotted-a-color, inherit);
+    text-decoration: var(--slotted-a-text-decoration, inherit);
+  }
+}
