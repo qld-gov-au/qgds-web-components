@@ -4,20 +4,22 @@ Scoped CSS: qgds-callout
 ==========================
 */
 
+@use "../../styles/base/typography.scss" as tp;
+
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-callout { --background: pink; }
 :host {
   // Fallback values align with QGDS design tokens
-  --background: var(--qgds-color-background-shade, #f9f9f9);
-  --text: var(--qgds-color-text-default, #333333);
-  --border: var(--qgds-color-accent-design-accent, #0078d4);
+  --callout-background: var(--qgds-color-background-shade, #f9f9f9);
+  --callout-text: var(--qgds-color-text-default, #333333);
+  --callout-border: var(--qgds-color-accent-design-accent, #0078d4);
 }
 
 // Component container
 .callout {
-  background: var(--background);
-  color: var(--text);
-  border-inline-start: 4px solid var(--border);
+  background: var(--callout-background);
+  color: var(--callout-text);
+  border-inline-start: 4px solid var(--callout-border);
   padding-block: 1.5rem;
   padding-inline: 1.25rem;
   display: flex;

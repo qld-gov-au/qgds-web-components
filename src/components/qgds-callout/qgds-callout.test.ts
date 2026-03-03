@@ -21,12 +21,12 @@ describe("qgds-callout", () => {
     // Verify default property values
     expect(element.heading).toBe("Callout heading");
     expect(element.headingLevel).toBe("h3");
+    expect(element.headingSize).toBe(undefined);
   });
 
   it("renders HTML passed to the slot", async () => {
     // Add HTML content to the slot
-    element.innerHTML =
-      '<p class="test-slot">Slot <strong>content</strong></p>';
+    element.innerHTML = '<p class="test-slot">Slot <strong>content</strong></p>';
     await element.updateComplete;
 
     // Query the slotted content in the light DOM

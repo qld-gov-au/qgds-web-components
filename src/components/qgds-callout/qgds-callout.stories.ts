@@ -14,7 +14,17 @@ const meta: Meta<Args> = {
   component: "qgds-callout",
   tags: ["autodocs"],
   args,
-  argTypes,
+  argTypes: {
+    ...argTypes,
+    "heading-size": {
+      control: "select",
+      options: ["none", "xs", "sm", "md"],
+      mapping: {
+        none: "",
+      },
+    },
+  },
+
   render: (args) => template(args),
 };
 export default meta;
@@ -29,7 +39,7 @@ export const Complex: Story = {
   args: {
     heading: "Before you start",
     "heading-level": "h2",
-    "heading-display": "Medium",
+    "heading-size": "md",
     "default-slot": `
         <p>
           Please read the following information carefully <strong>before proceeding:</strong>
