@@ -1,0 +1,9 @@
+.qgds-form-feedback {
+  &.is-valid {
+    color: green;
+  }
+
+  &.is-invalid {
+    color: red;
+  }
+}

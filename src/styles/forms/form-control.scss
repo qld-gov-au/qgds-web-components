@@ -1,0 +1,8 @@
+/// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
+.qgds-form-control {
+  // Variants
+
+  &.is-filled {
+    background: grey;
+  }
+}

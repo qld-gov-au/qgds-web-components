@@ -1,12 +1,10 @@
-//src/styles/index.ts
-
 import { css, unsafeCSS } from "lit";
 
 // Import specific stylesheets for granular control
-// Utils
 import resetCSS from "./base/reset.scss?inline";
 import resetHostCSS from "./base/reset-host.scss?inline";
 import printCSS from "./base/print.scss?inline";
+import formsCSS from "./forms/_index.scss?inline";
 
 // Global styles
 import typographyCSS from "./base/typography.scss?inline";
@@ -27,6 +25,9 @@ export const printStyles = css`
 `;
 export const typographyStyles = css`
   ${unsafeCSS(typographyCSS)}
+`;
+export const formStyles = css`
+  ${unsafeCSS(formsCSS)}
 `;
 //...
 
