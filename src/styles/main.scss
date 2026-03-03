@@ -25,4 +25,5 @@
 // @layer components - Loaded Component styles will be scoped here
 @layer utilities {
   @include meta.load-css("utilities");
+  @include meta.load-css("utilities/breakpoints");
 }
