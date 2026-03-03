@@ -1,0 +1,14 @@
+$qgds-media-sm: 400px;
+$qgds-media-md: 699px;
+$qgds-media-lg: 992px;
+$qgds-media-xl: 1312px;
+$qgds-media-xxl: 1599px;
+
+/* stylelint-ignore */
+$breakpoints: (
+  "sm": $qgds-media-sm,
+  "md": $qgds-media-md,
+  "lg": $qgds-media-lg,
+  "xl": $qgds-media-xl,
+  "xxl": $qgds-media-xxl,
+);

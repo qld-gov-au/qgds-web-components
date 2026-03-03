@@ -1,3 +1,32 @@
 // Global Styling for HTML elements - generic/global namespace primary for body content
 
 // P, LI, A, Hx, etc
+a {
+  color: var(--qgds-color-link-default);
+  text-decoration: var(--text-decoration, none);
+  text-decoration-thickness: var(--text-decoration-thickness, 1px);
+  text-underline-offset: var(--text-underline-offset, auto);
+}
+
+a:hover,
+a:focus,
+a:focus-visible {
+  text-decoration: var(--text-decoration-hover, underline);
+  text-decoration-thickness: var(--text-decoration-thickness-hover, 2px);
+}
+
+a:visited {
+  color: var(--qgds-color-link-visited);
+}
+
+/* buttons: minimal reset, not all: unset */
+button {
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}

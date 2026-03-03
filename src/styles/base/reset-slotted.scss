@@ -7,7 +7,8 @@ but also use a fallback that is consistent with Light DOM reset.
 qgds-callout,
 qgds-inpage-alert,
 qgds-card,
-qgds-tabs {
+qgds-tabs,
+qgds-details {
   h2,
   h3,
   h4,
@@ -31,7 +32,7 @@ qgds-tabs {
 
   /* Interactive */
   a {
-    color: var(--slotted-a-color, inherit);
-    text-decoration: var(--slotted-a-text-decoration, inherit);
+    color: var(--slotted-a-color, var(--qgds-color-link-default));
+    text-decoration: var(--slotted-a-text-decoration, var(--text-decoration, none));
   }
 }
