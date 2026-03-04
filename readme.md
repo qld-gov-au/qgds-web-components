@@ -17,6 +17,22 @@ git clone https://github.com/qld-gov-au/qgds-web-components.git
 cd qgds-web-components
 ```
 
+### Custom Elements Manifest
+
+A custom elements manifest is required to automate the API documentation.
+
+To build a CEM, run:
+
+```
+npm run analyze
+```
+
+To watch for updates while also running live reload in storybook, run this in a separate terminal window:
+
+```
+npx cem analyze --watch
+```
+
 ## VS Code Extensions
 
 See `.vscode/extension.json` for recommended extensions.

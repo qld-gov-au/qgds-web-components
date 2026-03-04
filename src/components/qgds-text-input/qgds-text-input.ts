@@ -14,22 +14,23 @@ const tagName = "qgds-text-input";
  * Text inputs should be accompanied by labels.
  *
  * @element qgds-text-input
- * @attr {Variant} [variant="outline"] - The visual style of the input, either "outline" (default) or "filled".
- * @attr {string} id - required for all form inputs.
- * @attr {string} [label] The input's label, defines what the input value represents.
- * @attr {Boolean} [required] - indicate whether the field is required. In addition to built in HTML validation, will display an asterix.
- * @attr {string} [indicate-if="required"] Display a red asterisk for required, or appended "(optional)" to the label if not required.
- * @attr {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
- * @attr {string} [hint] - Hint text
- * @attr {string} [placeholder=""] - Text to display when the value is empty.
- * @attr {string} [value]
- * @attr {boolean} [disabled]
- * @attr {Boolean} [readonly]
- * @attr {Number} [maxlength]
- * @attr {Number} [minlength]
- * @attr {Regex} [pattern]
- * @attr {Boolean} [spellcheck]
- * @attr {String} [details-summary="More information"] - If details slot is used, this text will be displayed as the clickable summary.
+ * @prop {String} id - Required for all form inputs.
+ * @prop {Variant} [variant="outline"] - The visual style of the input, either "outline" (default) or "filled".
+ * @prop {String} [label] The input's label, defines what the input value represents.
+ * @prop {Boolean} [required] - indicate whether the field is required. In addition to built in HTML validation, will display an asterix.
+ * @prop {String} [indicateIf="required"] Display a red asterisk for required, or appended "(optional)" to the label if not required.
+ * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
+ * @prop {String} [hint] - Hint text
+ * @prop {String} [placeholder] - Text to display when the value is empty.
+ * @prop {String} [value]
+ * @prop {Boolean} [disabled]
+ * @prop {Boolean} [readonly]
+ * @prop {Number} [maxlength]
+ * @prop {Number} [minlength]
+ * @prop {Regex} [pattern]
+ * @prop {String} [feedback] The Validation feedback text, only displays if `validation-state` is one of `success` or `error`
+ * @prop {Boolean} [spellcheck]
+ * @prop {String} [detailsSummary="More information"] - If details slot is used, this text will be displayed as the clickable summary.
  *
  * @slot details - place any markup to be rendered within the "Summary" dropdown
  *
@@ -57,8 +58,9 @@ export class QGDSTextInput extends LitElement {
   @property({ type: Number }) minlength?: number;
   @property({ type: RegExp }) pattern?: RegExp;
   @property({ type: String }) feedback?: string;
-  @property({ type: String }) validationState?: "success" | "error";
-  // @property({type:Boolean})spellcheck: boolean = false; // spellcheck is an attribute of HTMLElement already
+  @property({ type: String, attribute: "validation-state" }) validationState?: "success" | "error";
+  @property({ type: Boolean }) spellcheck: boolean = false; // spellcheck is an attribute of HTMLElement already
+  @property({ type: String, attribute: "details-summary" }) detailsSummary?: string = "More information";
 
   static styles = [resetStyles, formStyles];
 
@@ -66,44 +68,21 @@ export class QGDSTextInput extends LitElement {
     super.updated(changedProperties);
 
     if (changedProperties.has("id") && !this.id) {
-      console.warn(`${tagName}: id attribute is required for accessibility`);
+      console.warn(`${tagName}: id attribute is required`);
     }
   }
 
-  private renderLabel = () =>
-    this.label
-      ? html`<label class="qgds-form-label"
-          >${this.required && this.indicateIf === "required"
-            ? html`<span class="qgds-form-label-required">*</span>`
-            : nothing}
-          ${this.label}${!this.required && this.indicateIf === "optional"
-            ? html` <span class="qgds-form-label-optional">(optional)</span>`
-            : nothing}</label
-        >`
+  private renderRequiredIndicator() {
+    return this.required && this.indicateIf === "required"
+      ? html`<span class="qgds-form-label-required">*</span>`
       : nothing;
+  }
 
-  private renderHint = () => (this.hint ? html`<qgds-form-hint>${this.hint}</qgds-form-hint>` : nothing);
-
-  private renderDetails = () => html`<slot name="details"></slot>`;
-
-  private renderFormControl = () =>
-    html`<input
-      id=${this.id}
-      class=${classMap({
-        "qgds-form-control": true,
-        "is-filled": this.variant === "filled",
-      })}
-      type=${this.type ?? "text"}
-      value=${ifDefined(this.value)}
-      placeholder=${ifDefined(this.placeholder)}
-      ?required=${this.required}
-      ?readonly=${this.readonly}
-      ?disabled=${this.disabled}
-      maxlength=${ifDefined(this.maxlength)}
-      minlength=${ifDefined(this.minlength)}
-      pattern=${ifDefined(this.pattern)}
-      feedback=${ifDefined(this.feedback)}
-    />`;
+  private renderOptionalIndicator() {
+    return !this.required && this.indicateIf === "optional"
+      ? html` <span class="qgds-form-label-optional">(optional)</span>`
+      : nothing;
+  }
 
   render() {
     if (!this.id) {
@@ -111,12 +90,31 @@ export class QGDSTextInput extends LitElement {
       return html`<p style="color: red;">Error: id attribute is required</p>`;
     }
 
-    // TODO: render summary
-    // TODO: render validation feedback
-
-    // The .form-control class is directly on the input element. More complex features may require .form-control to be placed on a wrapping element instead (eg clearable button)
-
-    return html` ${this.renderLabel()} ${this.renderHint()} ${this.renderDetails()} ${this.renderFormControl()}`;
+    return html`
+      ${this.label
+        ? html`<label class="qgds-form-label">
+            ${this.renderRequiredIndicator()} ${this.label}${this.renderOptionalIndicator()}
+          </label>`
+        : nothing}
+      ${this.hint ? html`<p class="qgds-form-hint">${this.hint}</p>` : nothing}
+      <slot name="details"></slot>
+      <input
+        id=${this.id}
+        class=${classMap({
+          "qgds-form-control": true,
+          "is-filled": this.variant === "filled",
+        })}
+        type=${this.type ?? "text"}
+        value=${ifDefined(this.value)}
+        placeholder=${ifDefined(this.placeholder)}
+        ?required=${this.required}
+        ?readonly=${this.readonly}
+        ?disabled=${this.disabled}
+        maxlength=${ifDefined(this.maxlength)}
+        minlength=${ifDefined(this.minlength)}
+        pattern=${ifDefined(this.pattern?.toString())}
+      />
+    `;
   }
 }
 
