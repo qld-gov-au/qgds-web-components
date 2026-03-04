@@ -41,15 +41,3 @@ a:focus-visible {
 a:visited {
   color: var(--qgds-color-link-visited);
 }
-
-/* buttons: minimal reset, not all: unset */
-button {
-  font: inherit;
-  color: inherit;
-  line-height: inherit;
-  margin: 0;
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
