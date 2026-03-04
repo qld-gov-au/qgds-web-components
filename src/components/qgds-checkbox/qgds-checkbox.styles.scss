@@ -1,0 +1,38 @@
+/*
+==========================
+Scoped CSS: qgds-checkbox
+Placeholder styles — replace once Figma design is confirmed.
+==========================
+*/
+@use "../../styles/tools/mixins/index" as m;
+@use "../../styles/base/reset";
+
+:host {
+  display: block;
+}
+
+:host([disabled]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkbox {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.5rem;
+
+  input[type="checkbox"] {
+    block-size: 1.25rem;
+    cursor: inherit;
+    flex-shrink: 0;
+    inline-size: 1.25rem;
+    margin: 0;
+
+    @include m.focusable();
+  }
+}
+
+.label-text {
+  line-height: 1.5;
+}

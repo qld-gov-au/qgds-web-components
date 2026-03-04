@@ -5,6 +5,7 @@ import { html } from "lit";
 
 import type { QGDSFieldGroup } from "./qgds-field-group.ts";
 import "./qgds-field-group.ts";
+import "../qgds-checkbox/qgds-checkbox.ts";
 
 const { args, argTypes } = getStorybookHelpers<QGDSFieldGroup>("qgds-field-group");
 
@@ -23,9 +24,9 @@ const meta: Meta<QGDSFieldGroupStoryArgs> = {
       label="${storyArgs.label ?? "Select options"}"
       @qgds-change=${action("qgds-change")}
     >
-      <label><input type="checkbox" value="one" /> Option one</label>
-      <label><input type="checkbox" value="two" /> Option two</label>
-      <label><input type="checkbox" value="three" /> Option three</label>
+      <qgds-checkbox value="one" label="Option one"></qgds-checkbox>
+      <qgds-checkbox value="two" label="Option two"></qgds-checkbox>
+      <qgds-checkbox value="three" label="Option three"></qgds-checkbox>
     </qgds-field-group>
   `,
 };
@@ -41,9 +42,9 @@ export const Checkbox: Story = {
       label="${storyArgs.label ?? "Interests"}"
       @qgds-change=${action("qgds-change")}
     >
-      <label><input type="checkbox" value="design" /> Design</label>
-      <label><input type="checkbox" value="code" /> Code</label>
-      <label><input type="checkbox" value="research" /> Research</label>
+      <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+      <qgds-checkbox value="code" label="Code"></qgds-checkbox>
+      <qgds-checkbox value="research" label="Research"></qgds-checkbox>
     </qgds-field-group>
   `,
 };
