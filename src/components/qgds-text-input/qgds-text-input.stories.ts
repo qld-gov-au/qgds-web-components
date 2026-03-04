@@ -24,5 +24,8 @@ export const Default: Story = {
   args: {
     ...args,
     id: "my-text-input",
+    label: "Here is the label",
+    hint: "This is hint text",
+    placeholder: "Hold my place...",
   },
 };

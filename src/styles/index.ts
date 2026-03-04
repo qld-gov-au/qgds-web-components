@@ -5,6 +5,7 @@ import resetCSS from "./base/reset.scss?inline";
 import resetHostCSS from "./base/reset-host.scss?inline";
 import printCSS from "./base/print.scss?inline";
 import formsCSS from "./forms/_index.scss?inline";
+import utilitiesCSS from "./utilities/_index.scss?inline";
 
 // Global styles
 import typographyCSS from "./base/typography.scss?inline";
@@ -28,6 +29,9 @@ export const typographyStyles = css`
 `;
 export const formStyles = css`
   ${unsafeCSS(formsCSS)}
+`;
+export const utilitiesStyles = css`
+  ${unsafeCSS(utilitiesCSS)}
 `;
 //...
 

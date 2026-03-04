@@ -1,8 +1,83 @@
+@use "../tools/functions" as f;
+@use "../tools/mixins" as m;
+
 /// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
 .qgds-form-control {
-  // Variants
+  // Color variables
+  --bg: #ffffff;
+  --bg-hover: #f5f5f5;
+  --bg-focus: #ffffff;
+  --border: #7a7a7a;
+  --border-hover: #003e96;
+  --border-focus: #ebebeb;
+  --text: #414141;
+  --text-hover: #414141;
+  --text-focus: #414141;
+  --placeholder-text: #636363;
+  --placeholder-text-hover: #636363;
+  --placeholder-text-focus: #636363;
+
+  // Other variables
+  --border-top-width: 0.125rem;
+  --border-right-width: 0.125rem;
+  --border-bottom-width: 0.125rem;
+  --border-left-width: 0.125rem;
+  --border-width: var(--border-top-width) var(--border-right-width) var(--border-bottom-width) var(--border-left-width);
+  --border-radius: 0.25rem;
+
+  // padding
+  --padding-y: #{f.remify(12px)};
+  --padding-x: #{f.remify(16px)};
+
+  inline-size: 100%;
+  max-inline-size: 320px;
+  block-size: 48px;
+  color: var(--text);
+  background-color: var(--bg);
+  border: {
+    style: solid;
+    width: var(--border-width); // stylelint-disable-line
+    color: var(--border);
+    radius: var(--border-radius);
+  }
+
+  // Calc for padding to align with design, which overlays border, and to ensure no pixel shift if border is removed.
+  padding-inline: calc(var(--padding-x) - var(--border-left-width)) calc(var(--padding-x) - var(--border-right-width));
+  padding-block: calc(var(--padding-y) - var(--border-top-width)) calc(var(--padding-y) - var(--border-bottom-width));
+  transition: none; // no transitions until a holistic decision at design system level
+
+  &::placeholder {
+    color: var(--placeholder-text);
+  }
+
+  &:hover {
+    --placeholder-text: var(--placeholder-text-hover);
+
+    background-color: var(--bg-hover);
+    border-color: var(--border-hover);
+  }
+
+  @include m.focusable() {
+    --text: var(--text-focus);
+    --bg: var(--bg-focus);
+    --border: var(--border-focus);
+    --placeholder-text: var(--placeholder-text-focus);
+
+    box-shadow: none !important;
+  }
 
   &.is-filled {
-    background: grey;
+    --bg: #f5f5f5;
+    --border-radius: 0.25rem 0.25rem 0 0;
+    --border-top-width: 0px; // px unit required for use in calc()
+    --border-right-width: 0px; // px unit required for use in calc()
+    --border-left-width: 0px; // px unit required for use in calc()
+
+    &:focus {
+      --border-top-width: 0.125rem;
+      --border-right-width: 0.125rem;
+      --border-left-width: 0.125rem;
+      --border-radius: 0.25rem;
+    }
   }
 }
