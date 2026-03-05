@@ -9,9 +9,11 @@
 // =============================================================================
 export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
+export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
 export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
+export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-item";
 
 // etc...
 
