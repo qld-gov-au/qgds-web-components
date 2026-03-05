@@ -34,9 +34,7 @@ export default defineConfig({
         // Other non JS assets from input object (CSS/Images):
         assetFileNames: (assetInfo) => {
           //Original filename
-          let name = Array.isArray(assetInfo.names)
-            ? assetInfo.names[0]
-            : assetInfo.name;
+          let name = Array.isArray(assetInfo.names) ? assetInfo.names[0] : assetInfo.name;
           console.log("Asset name:", name);
 
           // If for some reason the name is missing, fall back to standard pattern
@@ -62,10 +60,6 @@ export default defineConfig({
   plugins: [
     viteStaticCopy({
       targets: [
-        {
-          src: "src/templates/index.html",
-          dest: ".",
-        },
         {
           src: "src/demo/index-built.html",
           dest: ".",
