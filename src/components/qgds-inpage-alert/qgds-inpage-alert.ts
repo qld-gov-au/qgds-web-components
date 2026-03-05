@@ -73,12 +73,17 @@ export class QGDSInpageAlert extends LitElement {
     return html`
       <section class="qgds-inpage-alert is-${this.variant}">
         <div class="icon-wrapper">
-          <qgds-icon icon-id="${QGDSInpageAlert.icons[this.variant]}"></qgds-icon>
+          <qgds-icon
+            icon-id="${QGDSInpageAlert.icons[this.variant]}"></qgds-icon>
         </div>
 
         <div class="content-wrapper">
           ${this.heading &&
-          semanticHeading(this.heading, this.headingLevel, "heading qgds-display-lg")}
+          semanticHeading(
+            this.heading,
+            this.headingLevel,
+            "heading qgds-display-lg",
+          )}
           <slot></slot>
         </div>
       </section>
