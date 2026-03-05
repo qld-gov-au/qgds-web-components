@@ -26,17 +26,18 @@
   // Line height utility
   --line-height-default: 1.5;
   --line-height-heading: 1.25;
-  --line-height-nospace: 1;
+  --line-height-none: 1;
 }
 
 html {
-  font-family: var(--qgds-font-family);
   box-sizing: border-box;
-  line-height: var(--line-height-default);
-  font-size: 1rem;
+  font-size: 100%;
 }
 
 body {
   margin: 0;
+  font-size: 1rem;
+  font-family: var(--qgds-font-family);
+  line-height: var(--line-height-default);
   color: var(--qgds-color-text-default);
 }
