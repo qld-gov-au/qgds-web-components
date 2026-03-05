@@ -6,7 +6,7 @@ describe("qgds-button", () => {
   let element: QGDSButton;
 
   beforeEach(() => {
-    element = document.createElement("qgds-button") as QGDSButton;
+    element = document.createElement("qgds-button");
     document.body.appendChild(element);
   });
 
@@ -160,8 +160,7 @@ describe("qgds-button", () => {
 
       // Check that the button has loading class or aria-disabled
       expect(
-        button?.classList.contains("loading") ??
-          button?.getAttribute("aria-disabled") === "true",
+        button?.classList.contains("loading") ?? button?.getAttribute("aria-disabled") === "true",
       ).toBe(true);
     });
 
@@ -211,13 +210,9 @@ describe("qgds-button", () => {
       expect(event?.detail).toBeDefined();
 
       if (event?.detail && typeof event.detail === "object") {
-        expect((event.detail as Record<string, unknown>).eventTitle).toBe(
-          "testClick",
-        );
+        expect((event.detail as Record<string, unknown>).eventTitle).toBe("testClick");
         expect((event.detail as Record<string, unknown>).label).toBe("test");
-        expect((event.detail as Record<string, unknown>).variant).toBe(
-          "primary",
-        );
+        expect((event.detail as Record<string, unknown>).variant).toBe("primary");
       }
     });
   });
