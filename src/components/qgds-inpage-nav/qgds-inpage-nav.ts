@@ -65,3 +65,9 @@ export class QGDSInpageNav extends LitElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-inpage-nav": QGDSInpageNav;
+  }
+}
