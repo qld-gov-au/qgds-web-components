@@ -2,6 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import componentCSS from "./qgds-details.styles.scss?inline";
 import "../qgds-icon/qgds-icon.js";
+import { QgdsEvents } from "../../utils/events-controller";
 
 export type DetailsSize = "xs" | "sm" | "md" | "lg";
 
@@ -32,6 +33,8 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  */
 @customElement("qgds-details")
 export class QGDSDetails extends LitElement {
+  events = new QgdsEvents(this, { pushToDataLayer: true });
+
   @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";
 
@@ -45,9 +48,25 @@ export class QGDSDetails extends LitElement {
     ${unsafeCSS(componentCSS)}
   `;
 
-  /** Sync internal state when the native details element is toggled by the browser */
-  private _handleToggle = (e: ToggleEvent): void => {
-    this._open = e.newState === "open";
+  /** Sync state and emit host-level events when details opens/closes. */
+  private eventData() {
+    return {
+      open: this._open,
+      component: this.localName,
+      id: this.id || null,
+      name: this.getAttribute("name"),
+    };
+  }
+
+  private _handleToggle = (e: Event): void => {
+    const detailsEl = e.currentTarget as HTMLDetailsElement | null;
+    this._open = Boolean(detailsEl?.open);
+
+    this.events.emit("toggle", {
+      originalEvent: e,
+      ...this.eventData(),
+      source: "summary",
+    });
   };
 
   render() {
