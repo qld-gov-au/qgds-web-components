@@ -5,7 +5,7 @@ The typography file is for utility classes that can be applied to any element.
 */
 
 @use "sass:map";
-@use "../tools/functions" as f;
+@use "../helpers/functions" as f;
 
 $_sizes: (
   xs: 14px,
@@ -18,14 +18,7 @@ $_sizes: (
 );
 
 %_qgds-display {
-  font-family: var(
-    --qgds-font-family,
-    "Noto Sans",
-    "Helvetica Neue",
-    helvetica,
-    arial,
-    sans-serif
-  );
+  font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
   font-weight: 600;
   line-height: f.snap-line-height(1.4);
   color: var(--qgds-color-text-heading);
@@ -53,14 +46,7 @@ $_headings: (
 );
 
 %_qgds-heading {
-  font-family: var(
-    --qgds-font-family,
-    "Noto Sans",
-    "Helvetica Neue",
-    helvetica,
-    arial,
-    sans-serif
-  );
+  font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
   font-weight: 600;
   line-height: f.snap-line-height(1.25);
   color: var(--qgds-color-text-heading);

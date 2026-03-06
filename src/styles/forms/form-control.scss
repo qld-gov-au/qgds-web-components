@@ -1,5 +1,5 @@
-@use "../tools/functions" as f;
-@use "../tools/mixins" as m;
+@use "../helpers/functions" as f;
+@use "../helpers/mixins" as m;
 
 /// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
 .qgds-form-control {
@@ -30,14 +30,14 @@
   --padding-x: #{f.remify(16px)};
 
   inline-size: 100%;
-  max-inline-size: 320px;
-  block-size: 48px;
+  max-inline-size: f.remify(320px);
+  block-size: f.remify(48px);
   color: var(--text);
   background-color: var(--bg);
   border: {
     style: solid;
-    width: var(--border-width); // stylelint-disable-line
     color: var(--border);
+    width: var(--border-width); // stylelint-disable-line
     radius: var(--border-radius);
   }
 
@@ -50,7 +50,18 @@
     color: var(--placeholder-text);
   }
 
-  &:hover {
+  &:is(textarea) {
+    block-size: auto;
+    field-sizing: content;
+    min-block-size: calc((3lh) + (2 * var(--padding-y))); // 3 lines of text + vertical padding.
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
     --placeholder-text: var(--placeholder-text-hover);
 
     background-color: var(--bg-hover);
@@ -62,10 +73,9 @@
     --bg: var(--bg-focus);
     --border: var(--border-focus);
     --placeholder-text: var(--placeholder-text-focus);
-
-    box-shadow: none !important;
   }
 
+  // modifiers
   &.is-filled {
     --bg: #f5f5f5;
     --border-radius: 0.25rem 0.25rem 0 0;
@@ -79,5 +89,9 @@
       --border-left-width: 0.125rem;
       --border-radius: 0.25rem;
     }
+  }
+
+  &.is-full-width {
+    max-inline-size: 100%;
   }
 }

@@ -3,7 +3,7 @@
 Scoped CSS: qgds-details
 ==========================
 */
-@use "../../styles/tools/mixins/index" as m;
+@use "../../styles/helpers/mixins" as m;
 @use "../../styles/base/reset";
 
 // Public API: CSS custom properties that can be overridden from Light DOM
