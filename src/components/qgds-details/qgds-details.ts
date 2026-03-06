@@ -2,7 +2,8 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import componentCSS from "./qgds-details.styles.scss?inline";
 import "../qgds-icon/qgds-icon.js";
-import { QgdsEvents } from "../../utils/events-controller";
+
+import { QgdsEvents } from "../../utils/events/event-controller";
 
 export type DetailsSize = "xs" | "sm" | "md" | "lg";
 
@@ -13,8 +14,8 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  * @website https://www.designsystem.qld.gov.au/components/details
  * @tagname qgds-details
  *
- * @attribute {string} summary-text - The visible label shown in the summary trigger.
- * @attribute {DetailsSize} size - Size variant controlling height and font size ("xs", "sm", "md", "lg"). Default is "md".
+ * @property {string} [summary-text] - The visible label shown in the summary trigger.
+ * @property {DetailsSize} [size] - Size variant controlling height and font size ("xs", "sm", "md", "lg"). Default is "md".
  *
  * @slot - Default slot accepts general typographic HTML content (paragraphs, lists, links).
  *
@@ -33,7 +34,7 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  */
 @customElement("qgds-details")
 export class QGDSDetails extends LitElement {
-  events = new QgdsEvents(this, { pushToDataLayer: true });
+  private events: QgdsEvents = new QgdsEvents(this, { pushToDataLayer: true });
 
   @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";
@@ -48,30 +49,29 @@ export class QGDSDetails extends LitElement {
     ${unsafeCSS(componentCSS)}
   `;
 
-  /** Sync state and emit host-level events when details opens/closes. */
-  private eventData() {
-    return {
-      open: this._open,
-      component: this.localName,
-      id: this.id || null,
-      name: this.getAttribute("name"),
-    };
-  }
+  /**
+   * Event handler for the native toggle event on the <details> element.
+   * Syncs the internal open state and emits a custom "qgds-toggle" event with relevant details.
+   */
 
-  private _handleToggle = (e: Event): void => {
-    const detailsEl = e.currentTarget as HTMLDetailsElement | null;
+  private handleToggle = (originalEvent: Event): void => {
+    const detailsEl = originalEvent.currentTarget as HTMLDetailsElement | null;
     this._open = Boolean(detailsEl?.open);
 
-    this.events.emit("toggle", {
-      originalEvent: e,
-      ...this.eventData(),
-      source: "summary",
-    });
+    // Keep event detail limited, avoid bloating logs, and consider PII and privacy risks
+    this.events.api.toggle(
+      {
+        component: this.localName, // "qgds-details"
+        id: this.id || null, // Include the id if it exists, otherwise null
+        open: this._open, // boolean indicating whether the details is now open or closed
+      },
+      originalEvent, // pass the original toggle event for reference in handlers
+    );
   };
 
   render() {
     return html`
-      <details ?open=${this._open} @toggle=${this._handleToggle}>
+      <details ?open=${this._open} @toggle=${this.handleToggle}>
         <summary class="summary">
           <span class="icon">
             <qgds-icon icon-id="chevron-right" size="sm"></qgds-icon>

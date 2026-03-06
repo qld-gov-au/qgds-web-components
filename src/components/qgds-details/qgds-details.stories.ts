@@ -10,7 +10,8 @@ import "./qgds-details.ts";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } = getStorybookHelpers<QGDSDetails>("qgds-details");
+const { args, argTypes, template } =
+  getStorybookHelpers<QGDSDetails>("qgds-details");
 
 /**
  * Storybook args interface using kebab-case attribute names from CEM.
@@ -30,8 +31,8 @@ const meta: Meta<QGDSDetailsStoryArgs> = {
     template(
       storyArgs,
       html`<p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum efficitur egestas.
-        Aenean sed pretium mauris.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum
+        efficitur egestas. Aenean sed pretium mauris.
       </p>`,
     ),
 };
@@ -98,19 +99,33 @@ export const EventDispatch: Story = {
       },
     },
   },
-  render: (storyArgs) => {
-    // Storybook action logger for "qgds-toggle" events - see Actions Tab in Storybook UI
-    const logQgdsToggle = action("qgds-toggle");
+  render: (storyArgs) => html`
+    <div>
+      <qgds-details
+        summary-text="${storyArgs["summary-text"]}"
+        size="${ifDefined(storyArgs.size)}"
+        id="input-helper-1"
+        name="whatever"
+        data-test="2024-06-20">
+        <p>Open and close this disclosure, then check Storybook Actions.</p>
+      </qgds-details>
+    </div>
+  `,
+  play: ({ canvasElement }) => {
+    // Storybook demo only.
+    // Play executes when the story renders, or a control changes. We use this hook to:
+    // 1. attach an event listener,
+    // 2. listen for any dispatched "qgds-toggle" events,
+    // 3. and log the event payload to the Actions panel
 
-    return html`
-      <div>
-        <qgds-details
-          summary-text="${storyArgs["summary-text"]}"
-          size="${ifDefined(storyArgs.size)}"
-          @qgds-toggle=${(e: CustomEvent) => logQgdsToggle(e.detail)}>
-          <p>Open and close this disclosure, then check Storybook Actions.</p>
-        </qgds-details>
-      </div>
-    `;
+    // Other clients would use their own methods to listen for "qgds-toggle", and react to the event as needed.
+    // thing.addEventListener("qgds-toggle", doSomething()}
+
+    const logToggle = action("qgds-toggle");
+    const details = canvasElement.querySelector("qgds-details");
+
+    details?.addEventListener("qgds-toggle", (e) => {
+      logToggle((e as CustomEvent).detail);
+    });
   },
 };
