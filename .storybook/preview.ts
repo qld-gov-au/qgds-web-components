@@ -16,6 +16,7 @@ setCustomElementsManifest(customElementsManifest);
 setStorybookHelpersConfig({
   // Use type info from Custom Elements Manifest for controls
   hideArgRef: true, // perhaps can be based on env variable, false for local?
+  renderDefaultValues: true, // Automatically render default values from CEM in Storybook controls
 });
 
 const preview: Preview = {
@@ -69,9 +70,7 @@ const preview: Preview = {
       const paletteName = context?.globals?.globalPalette || "default";
 
       return html`
-        <div class="qgds-palette-${paletteName}" style="padding: 2rem">
-          ${Story()}
-        </div>
+        <div class="qgds-palette-${paletteName}" style="padding: 2rem">${Story()}</div>
       `;
     },
   ],
