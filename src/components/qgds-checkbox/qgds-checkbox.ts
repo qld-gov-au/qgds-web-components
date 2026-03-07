@@ -1,5 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+
+import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
 
 export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
@@ -11,11 +13,12 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  *
  * @tagname qgds-checkbox
  *
- * @attribute {string} value - The value submitted when the checkbox is checked.
- * @attribute {string} label - Visible label text.
- * @attribute {string} name  - Input name, required when used outside a field group.
- * @attribute {boolean} checked  - Whether the checkbox is checked.
- * @attribute {boolean} disabled - Whether the checkbox is disabled.
+ * @prop {string} id - The unique ID for the checkbox input, required for accessibility.
+ * @prop {string} value - The value submitted when the checkbox is checked.
+ * @prop {string} label - Visible label text.
+ * @prop {string} name  - Input name, required when used outside a field group.
+ * @prop {boolean} checked  - Whether the checkbox is checked.
+ * @prop {boolean} disabled - Whether the checkbox is disabled.
  *
  * @fires {Event} change - Native composed change event re-dispatched from the host.
  *
@@ -29,6 +32,10 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  */
 @customElement("qgds-checkbox")
 export class QGDSCheckbox extends LitElement {
+
+  @property({ type: String })
+  id: string = "";
+
   @property({ type: String })
   value: string = "";
 
@@ -47,11 +54,12 @@ export class QGDSCheckbox extends LitElement {
   /** Exposed so qgds-field-group can identify this as a checkbox via duck-typing */
   readonly type = "checkbox";
 
-  private readonly _inputId = `qgds-checkbox-${Math.random().toString(36).slice(2)}`;
-
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  static styles = [
+    baseStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   private _handleChange = (e: Event): void => {
     this.checked = (e.target as HTMLInputElement).checked;
@@ -63,10 +71,10 @@ export class QGDSCheckbox extends LitElement {
 
   render() {
     return html`
-      <label class="checkbox" for=${this._inputId}>
+      <label class="checkbox">
         <input
-          id=${this._inputId}
           type="checkbox"
+          id=${this.id}
           name=${this.name}
           value=${this.value}
           ?checked=${this.checked}

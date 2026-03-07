@@ -4,8 +4,7 @@ Scoped CSS: qgds-checkbox
 Placeholder styles — replace once Figma design is confirmed.
 ==========================
 */
-@use "../../styles/tools/mixins/index" as m;
-@use "../../styles/base/reset";
+@use "../../styles/tools/mixins" as m;
 
 :host {
   display: block;

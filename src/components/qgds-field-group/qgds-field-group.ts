@@ -1,5 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+
+import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-field-group.styles.scss?inline";
 
 export type FieldGroupValue = string | string[];
@@ -19,7 +21,7 @@ export type QGDSFieldGroupProps = InstanceType<typeof QGDSFieldGroup>;
  * @website https://www.designsystem.qld.gov.au/components/field-group
  * @tagname qgds-field-group
  *
- * @attribute {string} label - The legend text labelling the group.
+ * @prop {string} label - The legend text labelling the group.
  *
  * @slot - Accepts checkbox or radio input elements (or components wrapping them).
  *
@@ -54,9 +56,12 @@ export class QGDSFieldGroup extends LitElement {
   /** Stable ID linking the label span to the div[role=group] when `nested` is set */
   private readonly _labelId = `qgds-fg-label-${Math.random().toString(36).slice(2)}`;
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
+  static styles = [
+    baseStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   // Listen on the host so composed change events from slotted custom elements
   // (e.g. qgds-checkbox) are reliably captured — the host is always in the
@@ -75,14 +80,27 @@ export class QGDSFieldGroup extends LitElement {
    * Normalise a native HTMLInputElement or a custom element (e.g. qgds-checkbox)
    * that re-dispatches a composed change event, into a common shape.
    */
-  private _resolveInput(el: EventTarget | null): { type: string; value: string; checked: boolean } | null {
+  private _resolveInput(
+    el: EventTarget | null,
+  ): { type: string; value: string; checked: boolean } | null {
     if (el instanceof HTMLInputElement) {
       return { type: el.type, value: el.value, checked: el.checked };
     }
     // Duck-type custom form elements that expose .type / .value / .checked
-    if (el instanceof Element && typeof (el as Element & { type?: unknown }).type === "string") {
-      const custom = el as Element & { type: string; value: string; checked: boolean };
-      return { type: custom.type, value: custom.value, checked: custom.checked };
+    if (
+      el instanceof Element &&
+      typeof (el as Element & { type?: unknown }).type === "string"
+    ) {
+      const custom = el as Element & {
+        type: string;
+        value: string;
+        checked: boolean;
+      };
+      return {
+        type: custom.type,
+        value: custom.value,
+        checked: custom.checked,
+      };
     }
     return null;
   }

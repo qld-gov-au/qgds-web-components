@@ -22,6 +22,7 @@ const meta: Meta<QGDSCheckboxStoryArgs> = {
   argTypes,
   render: (storyArgs) => html`
     <qgds-checkbox
+      
       label="${storyArgs.label ?? "Option"}"
       value="${storyArgs.value ?? "option"}"
       ?checked=${storyArgs.checked}
