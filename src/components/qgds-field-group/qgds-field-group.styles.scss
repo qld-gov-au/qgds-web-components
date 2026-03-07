@@ -3,8 +3,6 @@
 Scoped CSS: qgds-field-group
 ==========================
 */
-@use "../../styles/tools/mixins/index" as m;
-@use "../../styles/base/reset";
 
 :host {
   display: block;
