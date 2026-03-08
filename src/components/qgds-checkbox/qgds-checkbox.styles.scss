@@ -55,6 +55,15 @@ Placeholder styles — replace once Figma design is confirmed.
   }
 }
 
+// Status variants — box-shadow adds a flush outer border without conflicting with the focus outline
+:host([status="success"]) input[type="checkbox"] {
+  box-shadow: 0 0 0 2px var(--qgds-color-status-success, #339D37);
+}
+
+:host([status="error"]) input[type="checkbox"] {
+  box-shadow: 0 0 0 2px var(--qgds-color-status-error, #E22339);
+}
+
 .label-text {
   font-size: 1rem;
   font-style: normal;

@@ -51,6 +51,9 @@ export class QGDSCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
+  @property({ type: String, reflect: true })
+  status: "success" | "error" | "" = "";
+
   /** Exposed so qgds-field-group can identify this as a checkbox via duck-typing */
   readonly type = "checkbox";
 
