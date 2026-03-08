@@ -6,6 +6,11 @@ import componentCSS from "./qgds-field-group.styles.scss?inline";
 
 export type FieldGroupValue = string | string[];
 
+export interface FieldGroupChangeDetail {
+  name: string;
+  value: FieldGroupValue;
+}
+
 export type QGDSFieldGroupProps = InstanceType<typeof QGDSFieldGroup>;
 
 /**
@@ -22,11 +27,12 @@ export type QGDSFieldGroupProps = InstanceType<typeof QGDSFieldGroup>;
  * @tagname qgds-field-group
  *
  * @prop {string} label - The legend text labelling the group.
+ * @prop {string} name  - Name identifying the group, forwarded to child inputs for form association.
  *
  * @slot - Accepts checkbox or radio input elements (or components wrapping them).
  *
- * @fires {CustomEvent<{ value: FieldGroupValue }>} qgds-change - Fired when any child input changes.
- *   `detail.value` is a `string[]` for checkbox groups or a `string` for radio groups.
+ * @fires {CustomEvent<FieldGroupChangeDetail>} qgds-change - Fired when any child input changes.
+ *   `detail.name` identifies the group; `detail.value` is a `string[]` for checkbox groups or a `string` for radio groups.
  *
  * @example
  * ```html
@@ -47,6 +53,9 @@ export type QGDSFieldGroupProps = InstanceType<typeof QGDSFieldGroup>;
 export class QGDSFieldGroup extends LitElement {
   @property({ type: String })
   label: string = "";
+
+  @property({ type: String })
+  name: string = "";
 
   @property({ type: Boolean })
   nested: boolean = false;
@@ -123,8 +132,8 @@ export class QGDSFieldGroup extends LitElement {
     }
 
     this.dispatchEvent(
-      new CustomEvent<{ value: FieldGroupValue }>("qgds-change", {
-        detail: { value: this._value },
+      new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
+        detail: { name: this.name, value: this._value },
         bubbles: true,
         composed: true,
       }),
