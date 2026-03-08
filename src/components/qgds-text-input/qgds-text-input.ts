@@ -24,9 +24,9 @@ const tagName = "qgds-text-input";
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]
  * @prop {Boolean} [disabled]
- * @prop {Boolean} [readonly]
- * @prop {Number} [maxlength]
- * @prop {Number} [minlength]
+ * @prop {Boolean} [readOnly]
+ * @prop {Number} [maxLength]
+ * @prop {Number} [minLength]
  * @prop {Regex} [pattern]
  * @prop {String} [feedback] The Validation feedback text, only displays if `validation-state` is one of `success` or `error`
  * @prop {Boolean} [spellcheck]
@@ -42,25 +42,26 @@ const tagName = "qgds-text-input";
 
 @customElement(tagName)
 export class QGDSTextInput extends LitElement {
-  @property({ type: String }) id!: string;
+  @property({ type: String }) id!: HTMLElement["id"];
   @property({ type: String }) variant: Variant = "outline";
   @property({ type: String }) label: string = "";
-  @property({ type: Boolean }) required?: boolean;
   @property({ type: String, attribute: "indicate-if", useDefault: true }) indicateIf: "required" | "optional" | "none" =
     "required";
-  @property({ type: String }) type?: InputType;
   @property({ type: String }) hint?: string;
-  @property({ type: String }) placeholder?: string;
-  @property({ type: String }) value?: string;
-  @property({ type: Boolean }) disabled?: boolean;
-  @property({ type: Boolean }) readonly?: boolean;
-  @property({ type: Number }) maxlength?: number;
-  @property({ type: Number }) minlength?: number;
-  @property({ type: RegExp }) pattern?: RegExp;
   @property({ type: String }) feedback?: string;
   @property({ type: String, attribute: "validation-state" }) validationState?: "success" | "error";
-  @property({ type: Boolean }) spellcheck: boolean = false; // spellcheck is an attribute of HTMLElement already
   @property({ type: String, attribute: "details-summary" }) detailsSummary?: string = "More information";
+  // forwarded html input attributes
+  @property({ type: Boolean }) required?: HTMLInputElement["required"];
+  @property({ type: String }) type?: InputType;
+  @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
+  @property({ type: String }) value?: HTMLInputElement["value"];
+  @property({ type: Boolean }) disabled?: HTMLInputElement["disabled"];
+  @property({ type: Boolean, attribute: "readonly" }) readOnly?: HTMLInputElement["readOnly"];
+  @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLInputElement["maxLength"];
+  @property({ type: Number, attribute: "minlength" }) minLength?: HTMLInputElement["minLength"];
+  @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];
+  @property({ type: Boolean }) spellcheck: HTMLInputElement["spellcheck"] = false; // spellcheck is an attribute of HTMLElement already
 
   static styles = [resetStyles, formStyles, utilitiesStyles];
 
@@ -108,10 +109,10 @@ export class QGDSTextInput extends LitElement {
         value=${ifDefined(this.value)}
         placeholder=${ifDefined(this.placeholder)}
         ?required=${this.required}
-        ?readonly=${this.readonly}
+        ?readonly=${this.readOnly}
         ?disabled=${this.disabled}
-        maxlength=${ifDefined(this.maxlength)}
-        minlength=${ifDefined(this.minlength)}
+        maxlength=${ifDefined(this.maxLength)}
+        minlength=${ifDefined(this.minLength)}
         pattern=${ifDefined(this.pattern?.toString())}
       />
     `;
