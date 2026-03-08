@@ -6,6 +6,7 @@ import { html } from "lit";
 import type { QGDSFieldGroup } from "./qgds-field-group.ts";
 import "./qgds-field-group.ts";
 import "../qgds-checkbox/qgds-checkbox.ts";
+import "../qgds-form-field/qgds-form-field.ts";
 
 const { args, argTypes } = getStorybookHelpers<QGDSFieldGroup>("qgds-field-group");
 
@@ -16,50 +17,55 @@ const meta: Meta<QGDSFieldGroupStoryArgs> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    label: "Select options",
+    name: "interests",
   },
   argTypes,
-  render: (storyArgs) => html`
-    <qgds-field-group
-      label="${storyArgs.label ?? "Select options"}"
-      @qgds-change=${action("qgds-change")}
-    >
-      <qgds-checkbox value="one" label="Option one"></qgds-checkbox>
-      <qgds-checkbox value="two" label="Option two"></qgds-checkbox>
-      <qgds-checkbox value="three" label="Option three"></qgds-checkbox>
-    </qgds-field-group>
-  `,
 };
 
 export default meta;
 type Story = StoryObj<QGDSFieldGroupStoryArgs>;
 
-/** Checkbox group — value is a `string[]` of checked values. */
+/** Checkbox group wrapped in a form field for label and hint. */
 export const Checkbox: Story = {
-  args: { label: "Interests" },
-  render: (storyArgs) => html`
-    <qgds-field-group
-      label="${storyArgs.label ?? "Interests"}"
-      @qgds-change=${action("qgds-change")}
-    >
-      <qgds-checkbox value="design" label="Design"></qgds-checkbox>
-      <qgds-checkbox value="code" label="Code"></qgds-checkbox>
-      <qgds-checkbox value="research" label="Research"></qgds-checkbox>
-    </qgds-field-group>
+  render: () => html`
+    <qgds-form-field label="Interests" hint="Select all that apply.">
+      <qgds-field-group name="interests" @qgds-change=${action("qgds-change")}>
+        <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+        <qgds-checkbox value="code" label="Code"></qgds-checkbox>
+        <qgds-checkbox value="research" label="Research"></qgds-checkbox>
+      </qgds-field-group>
+    </qgds-form-field>
   `,
 };
 
-/** Radio group — value is a single `string` of the selected option. */
+/** Radio group wrapped in a form field. */
 export const Radio: Story = {
-  args: { label: "Priority" },
-  render: (storyArgs) => html`
-    <qgds-field-group
-      label="${storyArgs.label ?? "Priority"}"
-      @qgds-change=${action("qgds-change")}
+  render: () => html`
+    <qgds-form-field label="Priority" hint="Choose one option.">
+      <qgds-field-group name="priority" @qgds-change=${action("qgds-change")}>
+        <label><input type="radio" name="priority" value="low" /> Low</label>
+        <label><input type="radio" name="priority" value="medium" /> Medium</label>
+        <label><input type="radio" name="priority" value="high" /> High</label>
+      </qgds-field-group>
+    </qgds-form-field>
+  `,
+};
+
+/** Error state — form field shows validation message above inputs. */
+export const WithError: Story = {
+  render: () => html`
+    <qgds-form-field
+      label="Interests"
+      hint="Select all that apply."
+      status="error"
+      message="Please select at least one option."
+      required
     >
-      <label><input type="radio" name="priority" value="low" /> Low</label>
-      <label><input type="radio" name="priority" value="medium" /> Medium</label>
-      <label><input type="radio" name="priority" value="high" /> High</label>
-    </qgds-field-group>
+      <qgds-field-group name="interests" @qgds-change=${action("qgds-change")}>
+        <qgds-checkbox value="design" label="Design" status="error"></qgds-checkbox>
+        <qgds-checkbox value="code" label="Code" status="error"></qgds-checkbox>
+        <qgds-checkbox value="research" label="Research" status="error"></qgds-checkbox>
+      </qgds-field-group>
+    </qgds-form-field>
   `,
 };
