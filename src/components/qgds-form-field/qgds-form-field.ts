@@ -65,9 +65,9 @@ export class QGDSFormField extends LitElement {
     `,
   ];
 
-  private get _iconId(): "alert-danger" | "alert-success" | undefined {
-    if (this.status === "error") return "alert-danger";
-    if (this.status === "success") return "alert-success";
+  private get _iconId(): "status-error" | "status-success" | undefined {
+    if (this.status === "error") return "status-error";
+    if (this.status === "success") return "status-success";
     return undefined;
   }
 

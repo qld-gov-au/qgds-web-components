@@ -37,30 +37,27 @@ export default meta;
 type Story = StoryObj<QGDSCheckboxStoryArgs>;
 
 export const Default: Story = {
-  args: { label: "Accept terms", value: "terms", checked: true  },
+  args: { label: "Accept terms", value: "terms", checked: true },
 };
 
 export const Disabled: Story = {
-  args: { label: "Unavailable", value: "na", disabled: true },
+  args: { label: "Unavailable", value: "na", disabled: true, checked: true },
 };
 
 export const Success: Story = {
-  args: { label: "Valid option", value: "valid", status: "success", checked: true  },
+  args: {
+    label: "Valid option",
+    value: "valid",
+    status: "success",
+    checked: true,
+  },
 };
 
 export const Error: Story = {
-  args: { label: "Invalid option", value: "invalid", status: "error", checked: true  },
-};
-
-/** Multiple checkboxes inside a field group with form field label. */
-export const InFieldGroup: Story = {
-  render: () => html`
-    <qgds-form-field label="Interests" hint="Select all that apply.">
-      <qgds-field-group name="interests" @qgds-change=${action("qgds-change")}>
-        <qgds-checkbox value="design" label="Design"></qgds-checkbox>
-        <qgds-checkbox value="code" label="Code"></qgds-checkbox>
-        <qgds-checkbox value="research" label="Research"></qgds-checkbox>
-      </qgds-field-group>
-    </qgds-form-field>
-  `,
+  args: {
+    label: "Invalid option",
+    value: "invalid",
+    status: "error",
+    checked: true,
+  },
 };
