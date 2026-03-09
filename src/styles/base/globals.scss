@@ -1,34 +1,43 @@
+@use "sass:map";
+@use "../qgds-tokens/" as *;
+
 // reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
 :root {
-  --border-radius: 0.25rem;
-  --text-decoration: none;
-  --text-decoration-hover: underline;
-  --qgds-font-family:
-    "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif;
+  --qgds-font-family: "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif;
   --qgds-list-padding: 1.5rem; // Custom property for list padding, default to 1.5rem
+
+  // Text decoration for links and interactive elements
+  --text-decoration: underline;
+  --text-decoration-hover: underline;
+  --text-underline-offset: 0.3em;
+  --text-decoration-thickness: 0.5px;
+  --text-decoration-thickness-hover: 2px;
+
+  // Breakpoints
+  --breakpoint-xs: $qgds-media-xs;
+  --breakpoint-sm: $qgds-media-sm;
+  --breakpoint-md: $qgds-media-md;
+  --breakpoint-lg: $qgds-media-lg;
+  --breakpoint-xl: $qgds-media-xl;
+
+  // Line height utility
+  --line-height-default: 1.5;
+  --line-height-heading: 1.25;
+  --line-height-none: 1;
 }
 
 html {
-  all: unset;
   box-sizing: border-box;
-  font-family: var(--qgds-font-family);
-  line-height: 1;
-  font-size: 1rem;
+  font-size: 100%;
 }
 
-button,
-a {
-  all: unset;
-  cursor: pointer;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: 1;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+body {
+  margin: 0;
+  font-size: 1rem;
+  font-family: var(--qgds-font-family);
+  line-height: var(--line-height-default);
+  color: var(--qgds-color-text-default);
 }
