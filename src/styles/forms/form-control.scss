@@ -53,6 +53,7 @@
   &:is(textarea) {
     block-size: auto;
     field-sizing: content;
+    resize: vertical;
     min-block-size: calc((3lh) + (2 * var(--padding-y))); // 3 lines of text + vertical padding.
   }
 

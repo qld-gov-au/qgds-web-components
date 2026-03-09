@@ -1,19 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-// import { expect } from "storybook/test";
-// import { html } from "lit";
 
-import { QGDSTextarea } from "./qgds-textarea";
+import { QGDSTextarea, tagName } from "./qgds-textarea";
 import "./qgds-textarea";
 
-const { args, argTypes, template } = getStorybookHelpers<QGDSTextarea>("qgds-textarea");
+const { args, argTypes, template } = getStorybookHelpers<QGDSTextarea>(tagName);
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
   title: "Components/Forms/Textarea",
-  component: "Text input",
+  component: tagName,
   tags: ["autodocs"],
   args,
   argTypes,

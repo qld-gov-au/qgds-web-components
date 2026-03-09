@@ -5,20 +5,22 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-textarea.styles.scss?inline";
 
-type Variant = "filled" | "outline";
-const tagName = "qgds-textarea";
+type VariantOptions = "filled" | "outline";
+type IndicateIfOptions = "required" | "optional" | "none";
+export const tagName = "qgds-textarea";
 /**
- * QGDS Text input
+ * Textareas are input fields typically used in forms that allow the user to enter multi-line text data.
+ * Textareas should be accompanied by labels.
  *
- * Text inputs are input fields typically used in forms that allow the user to enter text data in a structured format.
- * Text inputs should be accompanied by labels.
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
+ * @website https://www.designsystem.qld.gov.au/components/text-input
  *
  * @element qgds-textarea
  * @prop {String} id - Required for all form inputs.
- * @prop {Variant} [variant="outline"] - The visual style of the input, either "outline" (default) or "filled".
+ * @prop {VariantOptions} [variant="outline"] - The visual style of the input, either "outline" (default) or "filled".
  * @prop {String} [label] The input's label, defines what the input value represents.
  * @prop {Boolean} [required] - indicate whether the field is required. In addition to built in HTML validation, will display an asterix.
- * @prop {String} [indicateIf="required"] Display a red asterisk for required, or appended "(optional)" to the label if not required.
+ * @prop {IndicateIfOptions} [indicateIf="required"] Display a red asterisk for required, or appended "(optional)" to the label if not required.
  * @prop {String} [hint] - Hint text
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]
@@ -41,11 +43,10 @@ const tagName = "qgds-textarea";
 @customElement(tagName)
 export class QGDSTextarea extends LitElement {
   @property({ type: String }) id!: HTMLElement["id"];
-  @property({ type: String }) variant: Variant = "outline";
+  @property({ type: String }) variant: VariantOptions = "outline";
   @property({ type: String }) label: string = "";
   @property({ type: Boolean }) required?: boolean;
-  @property({ type: String, attribute: "indicate-if", useDefault: true }) indicateIf: "required" | "optional" | "none" =
-    "required";
+  @property({ type: String, attribute: "indicate-if", useDefault: true }) indicateIf: IndicateIfOptions = "required";
   @property({ type: String }) hint?: string;
   @property({ type: String }) feedback?: string;
   @property({ type: String, attribute: "validation-state" }) validationState?: "success" | "error";
@@ -111,6 +112,7 @@ export class QGDSTextarea extends LitElement {
         ?required=${this.required}
         ?readonly=${this.readOnly}
         ?disabled=${this.disabled}
+        ?spellcheck=${this.spellcheck}
         maxlength=${ifDefined(this.maxLength)}
         minlength=${ifDefined(this.minLength)}
       >

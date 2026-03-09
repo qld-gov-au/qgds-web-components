@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-import { QGDSTextInput } from "./qgds-text-input";
+import { QGDSTextInput, tagName } from "./qgds-text-input";
 import "./qgds-text-input";
 
-const { args, argTypes, template } = getStorybookHelpers<QGDSTextInput>("qgds-text-input");
+const { args, argTypes, template } = getStorybookHelpers<QGDSTextInput>(tagName);
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
   title: "Components/Forms/Text input",
-  component: "Text input",
+  component: tagName,
   tags: ["autodocs"],
   args,
   argTypes,
