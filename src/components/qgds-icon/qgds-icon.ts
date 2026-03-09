@@ -33,7 +33,7 @@ export class QGDSIcon extends LitElement {
   @property({ type: String, attribute: "icon-id" })
   iconId?: IconName;
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, useDefault: true })
   size: IconSize = "md";
 
   @property({ type: String, attribute: "aria-label" })

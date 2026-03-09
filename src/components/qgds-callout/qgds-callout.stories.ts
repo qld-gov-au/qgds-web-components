@@ -4,8 +4,7 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QGDSCallout } from "./qgds-callout";
 import "./qgds-callout";
 
-const { args, argTypes, template } =
-  getStorybookHelpers<QGDSCallout>("qgds-callout");
+const { args, argTypes, template } = getStorybookHelpers<QGDSCallout>("qgds-callout");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
@@ -15,7 +14,17 @@ const meta: Meta<Args> = {
   component: "qgds-callout",
   tags: ["autodocs"],
   args,
-  argTypes,
+  argTypes: {
+    ...argTypes,
+    "heading-size": {
+      control: "select",
+      options: ["none", "xs", "sm", "md"],
+      mapping: {
+        none: "",
+      },
+    },
+  },
+
   render: (args) => template(args),
 };
 export default meta;
@@ -30,6 +39,7 @@ export const Complex: Story = {
   args: {
     heading: "Before you start",
     "heading-level": "h2",
+    "heading-size": "md",
     "default-slot": `
         <p>
           Please read the following information carefully <strong>before proceeding:</strong>

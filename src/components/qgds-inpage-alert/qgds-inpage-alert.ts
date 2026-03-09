@@ -32,7 +32,7 @@ export class QGDSInpageAlert extends LitElement {
   @property({ type: String })
   heading?: string;
 
-  @property({ type: String })
+  @property({ type: String, useDefault: true })
   variant: AlertVariant = "info";
 
   @property({
@@ -74,7 +74,8 @@ export class QGDSInpageAlert extends LitElement {
       <section class="qgds-inpage-alert is-${this.variant}">
         <div class="icon-wrapper">
           <qgds-icon
-            icon-id="${QGDSInpageAlert.icons[this.variant]}"></qgds-icon>
+            icon-id="${QGDSInpageAlert.icons[this.variant]}"
+          ></qgds-icon>
         </div>
 
         <div class="content-wrapper">
