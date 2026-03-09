@@ -60,18 +60,10 @@ Scoped CSS: qgds-form-field
 
 :host([status="error"]) .message {
   color: var(--qgds-color-status-error-default, #e22339);
-
-  qgds-icon {
-    --qgds-icon-color: var(--qgds-color-status-error-default, #e22339);
-  }
 }
 
 :host([status="success"]) .message {
   color: var(--qgds-color-status-success-darker, #0a690d);
-
-  qgds-icon {
-    --qgds-icon-color: var(--qgds-color-status-success-darker, #0a690d);
-  }
 }
 
 // ── Input wrapper ─────────────────────────────────────────────────────────────
