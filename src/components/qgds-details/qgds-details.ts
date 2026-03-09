@@ -45,11 +45,6 @@ export class QGDSDetails extends LitElement {
     ${unsafeCSS(componentCSS)}
   `;
 
-  /** Sync internal state when the native details element is toggled by the browser */
-  private _handleToggle = (e: ToggleEvent): void => {
-    this._open = e.newState === "open";
-  };
-
   render() {
     return html`
       <details ?open=${this._open} @toggle=${this._handleToggle}>
@@ -64,5 +59,11 @@ export class QGDSDetails extends LitElement {
         </div>
       </details>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-details": QGDSDetails;
   }
 }
