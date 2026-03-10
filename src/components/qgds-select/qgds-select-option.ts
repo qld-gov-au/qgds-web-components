@@ -41,7 +41,7 @@ export class QGDSSelectOption extends LitElement {
    * Get the text content of the option
    */
   getTextContent(): string {
-    // Use label if provided, otherwise use value
+    // Use label if provided and not empty, otherwise use value
     return this.label ?? this.value;
   }
 

@@ -90,11 +90,63 @@ export class QGDSSelect extends LitElement {
 
   private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   private _internals: ElementInternals;
+  private _mutationObserver?: MutationObserver;
 
   constructor() {
     super();
     // Attach ElementInternals for form participation
     this._internals = this.attachInternals();
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback?.();
+
+    // Ensure form value is set when connected (important for form participation)
+    this._internals.setFormValue(this.disabled ? null : this.value || "");
+
+    // Set up mutation observer to watch for attribute changes on child options
+    this._mutationObserver = new MutationObserver((mutations) => {
+      // Check if any mutation affected our child option elements
+      const hasOptionChanges = mutations.some((mutation) => {
+        const target = mutation.target as Element;
+        const tagName = target.tagName?.toLowerCase();
+        return (
+          (tagName === "qgds-select-option" ||
+            tagName === "qgds-select-optgroup") &&
+          mutation.type === "attributes"
+        );
+      });
+
+      if (hasOptionChanges) {
+        // Rebuild native options
+        this._rebuildNativeOptions();
+      }
+    });
+
+    // Observe attribute changes on all descendants
+    this._mutationObserver.observe(this, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["disabled", "selected", "label", "value"],
+    });
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this._mutationObserver?.disconnect();
+  }
+
+  /**
+   * Set initial form value when component first renders
+   */
+  firstUpdated(): void {
+    // Set initial form value (don't validate yet - wait for user interaction or explicit validation)
+    this._internals.setFormValue(this.value || "");
+
+    // If required is set initially, set up validation state
+    if (this.required) {
+      this._validateAndUpdateState();
+    }
   }
 
   get inputId(): string {
@@ -131,11 +183,25 @@ export class QGDSSelect extends LitElement {
   updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties);
 
-    if (changedProperties.has("value") || changedProperties.has("multiple")) {
+    if (
+      changedProperties.has("value") ||
+      changedProperties.has("multiple") ||
+      changedProperties.has("name")
+    ) {
       // Set form value (for multiple, submit as comma-separated)
-      this._internals.setFormValue(this.value);
+      // Don't set if disabled
+      if (!this.disabled) {
+        this._internals.setFormValue(this.value || "");
+      }
 
       // Validate on value change
+      if (changedProperties.has("value")) {
+        this._validateAndUpdateState();
+      }
+    }
+
+    if (changedProperties.has("required")) {
+      // Re-validate when required changes
       this._validateAndUpdateState();
     }
 
@@ -143,6 +209,8 @@ export class QGDSSelect extends LitElement {
       // Update disabled state
       if (this.disabled) {
         this._internals.setFormValue(null);
+      } else {
+        this._internals.setFormValue(this.value || "");
       }
     }
 
@@ -215,16 +283,16 @@ export class QGDSSelect extends LitElement {
         <select
           name="${this.name}"
           id="${this.inputId}"
-          ${describedByIds ? html`aria-describedby="${describedByIds}"` : ""}
-          ${this.required ? html`aria-required="true"` : ""}
+          aria-describedby="${describedByIds || undefined}"
+          aria-required="${this.required ? "true" : undefined}"
           .value=${this.value}
           @change=${this._handleChange}
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?multiple=${this.multiple}
           ?autofocus=${this.autofocus}
-          ${this.multiple && this.size ? html`size="${this.size}"` : ""}
-          aria-invalid=${this.invalid ? "true" : "false"}
+          size="${this.multiple && this.size ? this.size : undefined}"
+          aria-invalid="${this.invalid ? "true" : "false"}"
         >
           ${!this.multiple
             ? html`<option value="">${this.placeholder}</option>`
@@ -241,15 +309,17 @@ export class QGDSSelect extends LitElement {
   private _validateAndUpdateState(): void {
     const isValid = this._checkValidity();
     const validationMessage = this._getValidationMessage();
+    const selectElement = this.shadowRoot?.querySelector("select");
 
-    // Update ElementInternals validity
+    // Always update ElementInternals validity
     if (!isValid && validationMessage) {
       this._internals.setValidity(
         { valueMissing: true },
         validationMessage,
-        this.shadowRoot?.querySelector("select") ?? undefined,
+        selectElement ?? undefined,
       );
     } else {
+      // Clear validity when valid
       this._internals.setValidity({});
     }
 
@@ -264,15 +334,18 @@ export class QGDSSelect extends LitElement {
    * Check validity with support for multiple select
    */
   private _checkValidity(): boolean {
-    if (this.required) {
-      if (this.multiple) {
-        // For multiple, check if any values are selected
-        return this.valueAsArray.length > 0 && this.valueAsArray[0] !== "";
-      }
-      // For single, check if value is not empty
-      return !!this.value;
+    if (!this.required) {
+      return true;
     }
-    return true;
+
+    if (this.multiple) {
+      // For multiple, check if any values are selected and not just empty string
+      const values = this.valueAsArray;
+      return values.length > 0 && values.some((v) => v !== "");
+    }
+
+    // For single, check if value is not empty
+    return this.value !== "" && this.value !== null && this.value !== undefined;
   }
 
   /**
@@ -329,11 +402,12 @@ export class QGDSSelect extends LitElement {
   };
 
   /**
-   * Optimized option cloning with DocumentFragment (avoiding innerHTML manipulation)
-   * Only accepts qgds-select-option and qgds-select-optgroup custom elements
+   * Rebuild native options from slotted custom elements
    */
-  private _onSlotChange = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
+  private _rebuildNativeOptions(): void {
+    const slot = this.shadowRoot?.querySelector("slot");
+    if (!slot) return;
+
     const select = this.shadowRoot?.querySelector("select");
     if (!select) return;
 
@@ -414,6 +488,14 @@ export class QGDSSelect extends LitElement {
         }
       }
     }
+  }
+
+  /**
+   * Optimized option cloning with DocumentFragment (avoiding innerHTML manipulation)
+   * Only accepts qgds-select-option and qgds-select-optgroup custom elements
+   */
+  private _onSlotChange = (_e: Event) => {
+    this._rebuildNativeOptions();
   };
 
   /**

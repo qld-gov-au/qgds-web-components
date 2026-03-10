@@ -38,11 +38,8 @@ export class QGDSSelectOptgroup extends LitElement {
    * Get all qgds-select-option children
    */
   getOptions(): QGDSSelectOption[] {
-    const slot = this.shadowRoot?.querySelector("slot");
-    if (!slot) return [];
-
-    const assignedElements = slot.assignedElements({ flatten: true });
-    return assignedElements.filter(
+    // Query light DOM children directly
+    return Array.from(this.children).filter(
       (el) => el.tagName.toLowerCase() === "qgds-select-option",
     ) as QGDSSelectOption[];
   }
