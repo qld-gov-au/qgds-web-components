@@ -8,8 +8,6 @@ export interface FieldGroupChangeDetail {
   value: FieldGroupValue;
 }
 
-export type QGDSFieldGroupProps = InstanceType<typeof QGDSFieldGroup>;
-
 /**
  * A headless wrapper for grouping related form inputs such as checkboxes and radios.
  * Responsible only for event aggregation — it has no visual output of its own.
