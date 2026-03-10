@@ -92,6 +92,11 @@ export class QGDSFieldGroup extends LitElement {
         : current.filter((v) => v !== input.value);
     } else if (input.type === "radio") {
       this._value = input.value;
+      // Deselect sibling qgds-radio elements — native radio grouping does not
+      // work across shadow roots, so mutual exclusivity is enforced here.
+      this.querySelectorAll<Element & { checked?: boolean }>("qgds-radio").forEach((el) => {
+        if (el !== e.composedPath()[0]) el.checked = false;
+      });
     }
 
     this.dispatchEvent(
