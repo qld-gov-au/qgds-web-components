@@ -24,12 +24,12 @@ Placeholder styles — replace once Figma design is confirmed.
 
   input[type="checkbox"] {
     appearance: none;
-    block-size: 1.75rem; // 28px including 2px border (box-sizing: border-box)
+    block-size: 2rem; // 28px including 2px border (box-sizing: border-box)
     border: 2px solid var(--qgds-color-light-text, #353535);
     box-sizing: border-box;
     cursor: inherit;
     flex-shrink: 0;
-    inline-size: 1.75rem;
+    inline-size: 2rem;
     margin: 0;
     position: relative;
     transition: background-color 0.15s ease;
@@ -42,11 +42,11 @@ Placeholder styles — replace once Figma design is confirmed.
     &:checked::after {
       border-block-end: 3px solid var(--qgds-color-light-text, #353535);
       border-inline-end: 3px solid var(--qgds-color-light-text, #353535);
-      block-size: 0.875rem;
+      block-size: 1rem;
       content: "";
       inline-size: 0.5rem;
-      inset-block-start: 0.175rem;
-      inset-inline-start: 0.5rem;
+      inset-block-start: 0.25rem;
+      inset-inline-start: 0.575rem;
       position: absolute;
       transform: rotate(45deg);
     }
@@ -57,11 +57,11 @@ Placeholder styles — replace once Figma design is confirmed.
 
 // Status variants — box-shadow adds a flush outer border without conflicting with the focus outline
 :host([status="success"]) input[type="checkbox"] {
-  box-shadow: 0 0 0 2px var(--qgds-color-status-success, #339D37);
+  box-shadow: 0 0 0 2px var(--qgds-color-status-success-default, #339D37);
 }
 
 :host([status="error"]) input[type="checkbox"] {
-  box-shadow: 0 0 0 2px var(--qgds-color-status-error, #E22339);
+  box-shadow: 0 0 0 2px var(--qgds-color-status-error-default, #E22339);
 }
 
 .label-text {
