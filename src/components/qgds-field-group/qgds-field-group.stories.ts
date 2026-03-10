@@ -6,9 +6,11 @@ import { html } from "lit";
 import type { QGDSFieldGroup } from "./qgds-field-group.ts";
 import "./qgds-field-group.ts";
 import "../qgds-checkbox/qgds-checkbox.ts";
+import "../qgds-radio/qgds-radio.ts";
 import "../qgds-form-field/qgds-form-field.ts";
 
-const { args, argTypes } = getStorybookHelpers<QGDSFieldGroup>("qgds-field-group");
+const { args, argTypes } =
+  getStorybookHelpers<QGDSFieldGroup>("qgds-field-group");
 
 type QGDSFieldGroupStoryArgs = typeof args;
 
@@ -43,9 +45,9 @@ export const Radio: Story = {
   render: () => html`
     <qgds-form-field label="Priority" hint="Choose one option.">
       <qgds-field-group name="priority" @qgds-change=${action("qgds-change")}>
-        <label><input type="radio" name="priority" value="low" /> Low</label>
-        <label><input type="radio" name="priority" value="medium" /> Medium</label>
-        <label><input type="radio" name="priority" value="high" /> High</label>
+        <qgds-radio value="low" label="Low"></qgds-radio>
+        <qgds-radio value="medium" label="Medium"></qgds-radio>
+        <qgds-radio value="high" label="High"></qgds-radio>
       </qgds-field-group>
     </qgds-form-field>
   `,
@@ -62,9 +64,17 @@ export const WithError: Story = {
       required
     >
       <qgds-field-group name="interests" @qgds-change=${action("qgds-change")}>
-        <qgds-checkbox value="design" label="Design" status="error"></qgds-checkbox>
+        <qgds-checkbox
+          value="design"
+          label="Design"
+          status="error"
+        ></qgds-checkbox>
         <qgds-checkbox value="code" label="Code" status="error"></qgds-checkbox>
-        <qgds-checkbox value="research" label="Research" status="error"></qgds-checkbox>
+        <qgds-checkbox
+          value="research"
+          label="Research"
+          status="error"
+        ></qgds-checkbox>
       </qgds-field-group>
     </qgds-form-field>
   `,
