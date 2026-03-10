@@ -6,7 +6,7 @@ describe("qgds-button", () => {
   let element: QGDSButton;
 
   beforeEach(() => {
-    element = document.createElement("qgds-button") as QGDSButton;
+    element = document.createElement("qgds-button");
     document.body.appendChild(element);
   });
 

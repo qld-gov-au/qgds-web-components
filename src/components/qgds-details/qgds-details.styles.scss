@@ -3,15 +3,16 @@
 Scoped CSS: qgds-details
 ==========================
 */
+
 @use "../../styles/tools/mixins/index" as m;
-@use "../../styles/base/reset";
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-details { --summary-color: red; }
+
 :host {
   display: block;
 
-  --summary-color: var(--qgds-color-link, #005eb8);
+  --summary-color: var(--qgds-color-link-default, #005eb8);
   --summary-icon-color: var(--qgds-color-action-secondary, #307edb);
   --summary-bg-hover: var(--qgds-color-background-shade, #f5f5f5);
   --summary-icon-hover: var(--qgds-color-action-secondary-hover, #004ea7);

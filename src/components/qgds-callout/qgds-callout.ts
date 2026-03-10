@@ -81,3 +81,9 @@ export class QGDSCallout extends LitElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-callout": QGDSCallout;
+  }
+}
