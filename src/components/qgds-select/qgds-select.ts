@@ -78,11 +78,11 @@ export class QGDSSelect extends LitElement {
   @property({ type: Boolean, reflect: true }) invalid: boolean = false;
   @property({ type: String }) hint?: string = "";
   @property({ type: String }) optionalText?: string = "";
-  @property({ type: String }) errorMessage?: string = "";
-  @property({ type: String }) successMessage?: string = "";
+  @property({ type: String }) errorMessage?: string;
+  @property({ type: String }) successMessage?: string;
   @property({ type: String }) placeholder: string = "Please select";
   @property({ type: String }) value: string = "";
-  @property({ type: String }) name: string = "";
+  @property({ type: String, reflect: true }) name: string = "";
   @property({ type: String }) selectId: string = "";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
   @property({ type: Number }) size?: SelectSize;
@@ -100,9 +100,6 @@ export class QGDSSelect extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback?.();
-
-    // Ensure form value is set when connected (important for form participation)
-    this._internals.setFormValue(this.disabled ? null : this.value || "");
 
     // Set up mutation observer to watch for attribute changes on child options
     this._mutationObserver = new MutationObserver((mutations) => {
@@ -129,6 +126,10 @@ export class QGDSSelect extends LitElement {
       subtree: true,
       attributeFilter: ["disabled", "selected", "label", "value"],
     });
+
+    // Set form value when element is connected to DOM (important for form participation)
+    // This ensures the value is set when the element is appended to a form
+    this._internals.setFormValue(this.disabled ? null : this.value || "");
   }
 
   disconnectedCallback(): void {
@@ -140,13 +141,11 @@ export class QGDSSelect extends LitElement {
    * Set initial form value when component first renders
    */
   firstUpdated(): void {
-    // Set initial form value (don't validate yet - wait for user interaction or explicit validation)
-    this._internals.setFormValue(this.value || "");
+    // Don't set form value yet in firstUpdated - wait for connectedCallback
+    // This ensures the element is connected to a form before setting the value
 
-    // If required is set initially, set up validation state
-    if (this.required) {
-      this._validateAndUpdateState();
-    }
+    // Set up initial validation state after render
+    this._validateAndUpdateState();
   }
 
   get inputId(): string {

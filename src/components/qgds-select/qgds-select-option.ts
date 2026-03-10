@@ -42,7 +42,9 @@ export class QGDSSelectOption extends LitElement {
    */
   getTextContent(): string {
     // Use label if provided and not empty, otherwise use value
-    return this.label ?? this.value;
+    // Using || instead of ?? because we want empty string to be falsy
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    return this.label || this.value;
   }
 
   /**
@@ -66,7 +68,11 @@ export class QGDSSelectOption extends LitElement {
         ?disabled=${this.disabled}
         ?selected=${this.selected}
       >
-        ${this.label ?? this.value}
+        ${
+          // Using || instead of ?? because we want empty string to be falsy
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          this.label || this.value
+        }
       </option>
     `;
   }
