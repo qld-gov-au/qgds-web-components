@@ -6,7 +6,7 @@ describe("qgds-details", () => {
   let element: QGDSDetails;
 
   beforeEach(() => {
-    element = document.createElement("qgds-details") as QGDSDetails;
+    element = document.createElement("qgds-details");
     document.body.appendChild(element);
   });
 
@@ -26,11 +26,8 @@ describe("qgds-details", () => {
   });
 
   it("dispatches qgds-toggle with metadata on open/close", async () => {
-    window.dataLayer = [];
-
     const wrapper = document.createElement("div");
     element.id = "details-1";
-    element.setAttribute("name", "faq-panel");
     wrapper.appendChild(element);
     document.body.appendChild(wrapper);
 
@@ -39,9 +36,9 @@ describe("qgds-details", () => {
     const qgdsToggleDetails: {
       open: boolean;
       component: string;
+      componentID: string | null;
       id: string | null;
-      name: string | null;
-      source: string;
+      timestamp: number;
       originalEvent: Event;
     }[] = [];
 
@@ -49,9 +46,9 @@ describe("qgds-details", () => {
       const customEvent = event as CustomEvent<{
         open: boolean;
         component: string;
+        componentID: string | null;
         id: string | null;
-        name: string | null;
-        source: string;
+        timestamp: number;
         originalEvent: Event;
       }>;
       qgdsToggleDetails.push(customEvent.detail);
@@ -69,17 +66,15 @@ describe("qgds-details", () => {
     details.open = false;
     details.dispatchEvent(new Event("toggle", { bubbles: true }));
 
-    expect(qgdsToggleDetails.map((detail) => detail.open)).toEqual([true, false]);
+    expect(qgdsToggleDetails.map((detail) => detail.open)).toEqual([
+      true,
+      false,
+    ]);
     expect(qgdsToggleDetails[0]?.component).toBe("qgds-details");
+    expect(qgdsToggleDetails[0]?.componentID).toBe("details-1");
     expect(qgdsToggleDetails[0]?.id).toBe("details-1");
-    expect(qgdsToggleDetails[0]?.name).toBe("faq-panel");
-    expect(qgdsToggleDetails[0]?.source).toBe("summary");
+    expect(typeof qgdsToggleDetails[0]?.timestamp).toBe("number");
     expect(qgdsToggleDetails[0]?.originalEvent).toBeInstanceOf(Event);
-    expect(window.dataLayer.length).toBe(2);
-    expect(window.dataLayer[0]?.event).toBe("qgds-toggle");
-    expect(window.dataLayer[0]?.open).toBe(true);
-    expect(window.dataLayer[0]?.component).toBe("qgds-details");
-    expect(window.dataLayer[0]?.originalEvent).toBe("toggle");
 
     wrapper.remove();
   });

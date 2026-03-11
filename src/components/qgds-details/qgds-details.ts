@@ -65,9 +65,9 @@ export class QGDSDetails extends LitElement {
     this._open = Boolean(detailsEl?.open);
 
     // Keep event detail limited, avoid bloating logs, and consider PII and privacy risks
-    this.events.api.toggle(
+    this.events.dispatch(
+      "toggle",
       {
-        component: this.localName, // "qgds-details"
         id: this.id || null, // Include the id if it exists, otherwise null
         open: this._open, // boolean indicating whether the details is now open or closed
       },
