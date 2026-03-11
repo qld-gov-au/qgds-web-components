@@ -28,6 +28,8 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  * @cssprop {color} --summary-icon-hover - Override the chevron icon color on hover.
  * @cssprop {color} --content-color - Override the content text color.
  *
+ * @event qgds-toggle - Emitted when the details is toggled open or closed. Event payload includes `{ component: "qgds-details", id: string | null, open: boolean }`.
+ *
  * @example
  * ```html
  * <qgds-details summary-text="More information" size="md">
