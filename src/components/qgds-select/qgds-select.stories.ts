@@ -170,9 +170,6 @@ export const Default: Story = {
       hint=${args.hint}
     >
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <option value="cat">Cat</option>
-      <option value="hamster">Hamster</option>
-      <option value="parrot">Parrot</option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
       <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>

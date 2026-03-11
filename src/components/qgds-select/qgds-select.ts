@@ -37,22 +37,22 @@ export type SelectSize = number | undefined;
  *
  * @element qgds-select
  *
- * @attribute {string} label - The label text for the select element.
- * @attribute {boolean} disabled - Whether the select is disabled.
- * @attribute {boolean} required - Whether the select is required.
- * @attribute {boolean} filled - Whether to use the filled variant styling.
- * @attribute {boolean} valid - Whether the select is in a valid state.
- * @attribute {boolean} invalid - Whether the select is in an invalid state.
- * @attribute {string} hint - Hint text displayed below the label.
- * @attribute {string} optional-text - Optional text displayed next to the label.
- * @attribute {string} error-message - Error message displayed when invalid.
- * @attribute {string} success-message - Success message displayed when valid.
- * @attribute {string} placeholder - Placeholder text for the select element.
- * @attribute {string} name - Name attribute for form submission.
- * @attribute {string} value - Currently selected value (or comma-separated values for multiple).
- * @attribute {boolean} multiple - Whether multiple selections are allowed.
- * @attribute {number} size - Number of visible options when multiple is enabled.
- * @attribute {boolean} autofocus - Whether the select should automatically receive focus when the page loads.
+ * @prop {string} label - The label text for the select element.
+ * @prop {boolean} disabled - Whether the select is disabled.
+ * @prop {boolean} required - Whether the select is required.
+ * @prop {boolean} filled - Whether to use the filled variant styling.
+ * @prop {boolean} valid - Whether the select is in a valid state.
+ * @prop {boolean} invalid - Whether the select is in an invalid state.
+ * @prop {string} hint - Hint text displayed below the label.
+ * @prop {string} optionalText - Optional text displayed next to the label.
+ * @prop {string} errorMessage - Error message displayed when invalid.
+ * @prop {string} successMessage - Success message displayed when valid.
+ * @prop {string} placeholder - Placeholder text for the select element.
+ * @prop {string} name - Name attribute for form submission.
+ * @prop {string} value - Currently selected value (or comma-separated values for multiple).
+ * @prop {boolean} multiple - Whether multiple selections are allowed.
+ * @prop {number} size - Number of visible options when multiple is enabled.
+ * @prop {boolean} autofocus - Whether the select should automatically receive focus when the page loads.
  *
  * @example
  * ```html
