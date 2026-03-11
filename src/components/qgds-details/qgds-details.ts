@@ -1,6 +1,9 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+
 import componentCSS from "./qgds-details.styles.scss?inline";
+import { baseStyles } from "../../styles";
+
 import "../qgds-icon/qgds-icon.js";
 
 export type DetailsSize = "xs" | "sm" | "md" | "lg";
@@ -41,14 +44,12 @@ export class QGDSDetails extends LitElement {
   /** Internal open/closed state — toggled by native browser interaction */
   @state() private _open: boolean = false;
 
-  static styles = css`
-    ${unsafeCSS(componentCSS)}
-  `;
-
-  /** Sync internal state when the native details element is toggled by the browser */
-  private _handleToggle = (e: ToggleEvent): void => {
-    this._open = e.newState === "open";
-  };
+  static styles = [
+    baseStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   render() {
     return html`
@@ -64,5 +65,11 @@ export class QGDSDetails extends LitElement {
         </div>
       </details>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-details": QGDSDetails;
   }
 }

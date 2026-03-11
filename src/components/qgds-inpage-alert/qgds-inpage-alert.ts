@@ -74,8 +74,7 @@ export class QGDSInpageAlert extends LitElement {
       <section class="qgds-inpage-alert is-${this.variant}">
         <div class="icon-wrapper">
           <qgds-icon
-            icon-id="${QGDSInpageAlert.icons[this.variant]}"
-          ></qgds-icon>
+            icon-id="${QGDSInpageAlert.icons[this.variant]}"></qgds-icon>
         </div>
 
         <div class="content-wrapper">
@@ -89,5 +88,11 @@ export class QGDSInpageAlert extends LitElement {
         </div>
       </section>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-inpage-alert": QGDSInpageAlert;
   }
 }

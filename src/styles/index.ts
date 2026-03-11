@@ -8,6 +8,8 @@ import formsCSS from "./forms/_index.scss?inline";
 import utilitiesCSS from "./utilities/_index.scss?inline";
 
 // Global styles
+import globalCSS from "./base/globals.scss?inline";
+import elementsCSS from "./base/elements.scss?inline";
 import typographyCSS from "./base/typography.scss?inline";
 //...
 
@@ -21,8 +23,8 @@ export const resetStyles = [
   `,
 ];
 
-export const printStyles = css`
-  ${unsafeCSS(printCSS)}
+export const globalStyles = css`
+  ${unsafeCSS(globalCSS)}
 `;
 export const typographyStyles = css`
   ${unsafeCSS(typographyCSS)}
@@ -33,7 +35,12 @@ export const formStyles = css`
 export const utilitiesStyles = css`
   ${unsafeCSS(utilitiesCSS)}
 `;
-//...
+export const elementsStyles = css`
+  ${unsafeCSS(elementsCSS)}
+`;
+export const printStyles = css`
+  ${unsafeCSS(printCSS)}
+`;
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
-export const baseStyles = [resetStyles, printStyles, typographyStyles];
+export const baseStyles = [resetStyles, typographyStyles, elementsStyles /*, ...other styles */];
