@@ -1,5 +1,5 @@
-@use "../helpers/functions" as f;
-@use "../helpers/mixins" as m;
+@use "../tools/functions" as f;
+@use "../tools/mixins" as m;
 
 /// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
 .qgds-form-control {
