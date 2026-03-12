@@ -15,6 +15,7 @@
 @layer base {
   @include meta.load-css("base/reset");
   @include meta.load-css("base/reset-slotted");
+  @include meta.load-css("qgds-tokens/qgds-breakpoints");
   @include meta.load-css("base/globals");
   @include meta.load-css("base/elements");
   @include meta.load-css("base/palettes");
