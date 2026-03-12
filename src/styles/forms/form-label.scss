@@ -1,0 +1,18 @@
+@use "../tools/functions" as f;
+
+.qgds-form-label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: f.snap-line-height(1.45);
+  margin-block-end: 8px;
+
+  &-required {
+    color: red;
+  }
+
+  &-optional {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}

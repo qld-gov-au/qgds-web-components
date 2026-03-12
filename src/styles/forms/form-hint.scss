@@ -1,0 +1,8 @@
+@use "../tools/functions" as f;
+
+.qgds-form-hint {
+  color: #636363;
+  font-size: 14px;
+  line-height: f.snap-line-height(1.45);
+  margin-block-end: 8px;
+}
