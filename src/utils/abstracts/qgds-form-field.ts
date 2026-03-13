@@ -4,12 +4,32 @@ import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
 
 export type ValidationState = "success" | "error";
 
+/**
+ * Abstract base class for all QGDS form field components.
+ * Provides common properties, validation handling, and rendering logic for form inputs.
+ *
+ * @abstract
+ * @prop {String} [id] - Required unique identifier for the form field.
+ * @prop {String} [name] - Required name attribute for form submission.
+ * @prop {String} [label] - The field's label text.
+ * @prop {String | String[]} [value] - The current value of the field.
+ * @prop {Boolean} [required=false] - Indicates whether the field is required.
+ * @prop {IndicateIfOptions} [indicateIf] - Display indicator for "required", "optional", or "none".
+ * @prop {VariantOptions} [variant] - The visual style of the input, either "filled" or "outlined".
+ * @prop {String} [hint] - Hint text to guide the user.
+ * @prop {ValidationState} [validationState] - The validation state, either "success" or "error".
+ * @prop {String} [validationMessage] - Validation feedback message displayed with the state.
+ * @prop {Boolean} [disabled=false] - Disables the field when true.
+ * @prop {Boolean} [readOnly=false] - Makes the field read-only when true.
+ *
+ * @slot details - Place any markup to be rendered within additional details.
+ */
 export abstract class QGDSFormField extends LitElement {
   @property({ type: String })
   id!: string;
 
   @property({ type: String })
-  name!: string;
+  name?: string;
 
   @property({ type: String })
   label?: string;
@@ -46,8 +66,8 @@ export abstract class QGDSFormField extends LitElement {
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
-    if (changedProperties.has("id") && !this.id) {
-      console.warn(`id attribute is required`);
+    if (changedProperties.has("id") && !this.id && !this.name) {
+      console.warn(`id or name attribute is required`);
     }
   }
 

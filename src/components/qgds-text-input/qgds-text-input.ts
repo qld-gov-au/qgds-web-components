@@ -2,7 +2,7 @@ import {  html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { QGDSFormField } from "../../utils/components/qgds-form-field";
+import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
 
 type InputType = "text" | "email" | "password" | "number" | "tel" | "url";
 export const tagName = "qgds-text-input";
@@ -15,23 +15,13 @@ export const tagName = "qgds-text-input";
  * @website https://www.designsystem.qld.gov.au/components/text-input
  *
  * @element qgds-text-input
- * @prop {String} id - Required for all form inputs.
- * @prop {VariantOptions} [variant="outline"] - The visual style of the input, either "outline" (default) or "filled".
- * @prop {String} [label] The input's label, defines what the input value represents.
- * @prop {Boolean} [required] - indicate whether the field is required. In addition to built in HTML validation, will display an asterix.
- * @prop {IndicateIfOptions} [indicateIf="required"] Display a red asterisk for required, or appended "(optional)" to the label if not required.
  * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
- * @prop {String} [hint] - Hint text
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]
- * @prop {Boolean} [disabled]
- * @prop {Boolean} [readOnly]
  * @prop {Number} [maxLength]
  * @prop {Number} [minLength]
  * @prop {Regex} [pattern]
- * @prop {String} [feedback] The Validation feedback text, only displays if `validation-state` is one of `success` or `error`
  * @prop {Boolean} [spellcheck]
- * @prop {String} [detailsSummary="More information"] - If details slot is used, this text will be displayed as the clickable summary.
  *
  * @slot details - place any markup to be rendered within the "Summary" dropdown
  *

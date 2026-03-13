@@ -83,7 +83,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this.dispatchEvent(
       new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
-        detail: { name: this.name, value: this._value },
+        detail: { name: this.name ?? this.id, value: this._value },
         bubbles: true,
         composed: true,
       })

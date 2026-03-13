@@ -5,7 +5,7 @@ import {
   type FieldGroupChangeDetail,
   type FieldGroupValue,
   type ResolvedInput,
-} from "../../utils/components/qgds-field-group-base";
+} from "../../utils/abstracts/qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 export type QGDSCheckboxGroupProps = InstanceType<typeof QGDSCheckboxGroup>;

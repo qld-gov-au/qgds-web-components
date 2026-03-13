@@ -75,6 +75,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@wc-toolkit/cem-sorter": "^1.0.1",
     "lit": "^3.3.1"
   }
 }
