@@ -14,34 +14,19 @@ Ensure components don't leak styles
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-}
 
-:host *,
-:host *::before,
-:host *::after {
-  box-sizing: inherit;
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 }
 
 button {
   appearance: none;
   border: none;
-}
 
-// Visually hidden class for screen readers
-// Add this to the global styles if you want to use it across the app
-
-.sr-only {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-button:disabled {
-  cursor: not-allowed;
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
