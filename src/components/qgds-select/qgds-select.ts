@@ -1,7 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-select.styles.scss?inline";
-import { resetStyles } from "../../styles";
+import { resetStyles, utilitiesStyles } from "../../styles";
 import "../qgds-icon/qgds-icon";
 import { QGDSSelectOption } from "./qgds-select-option.js";
 import { QGDSSelectOptgroup } from "./qgds-select-optgroup.js";
@@ -108,9 +108,7 @@ export class QGDSSelect extends LitElement {
         const target = mutation.target as Element;
         const tagName = target.tagName?.toLowerCase();
         return (
-          (tagName === "qgds-select-option" ||
-            tagName === "qgds-select-optgroup") &&
-          mutation.type === "attributes"
+          (tagName === "qgds-select-option" || tagName === "qgds-select-optgroup") && mutation.type === "attributes"
         );
       });
 
@@ -171,6 +169,7 @@ export class QGDSSelect extends LitElement {
 
   static styles = [
     resetStyles,
+    utilitiesStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
@@ -182,11 +181,7 @@ export class QGDSSelect extends LitElement {
   updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties);
 
-    if (
-      changedProperties.has("value") ||
-      changedProperties.has("multiple") ||
-      changedProperties.has("name")
-    ) {
+    if (changedProperties.has("value") || changedProperties.has("multiple") || changedProperties.has("name")) {
       // Set form value (for multiple, submit as comma-separated)
       // Don't set if disabled
       if (!this.disabled) {
@@ -231,50 +226,22 @@ export class QGDSSelect extends LitElement {
 
     return html`
       <label for="${this.inputId}">
-        ${this.required
-          ? html`<span class="required"
-              >*<span class="sr-only"> (required)</span></span
-            >`
-          : ""}
+        ${this.required ? html`<span class="required">*<span class="sr-only"> (required)</span></span>` : ""}
         ${this.label}
         ${this.optionalText
-          ? html`<span class="optional"
-              >${this.optionalText}<span class="sr-only"
-                >, not required</span
-              ></span
-            >`
+          ? html`<span class="optional">${this.optionalText}<span class="sr-only">, not required</span></span>`
           : ""}
       </label>
-      ${this.hint
-        ? html`<span id="${this.inputId}-hint" class="hint">${this.hint}</span>`
-        : ""}
+      ${this.hint ? html`<span id="${this.inputId}-hint" class="hint">${this.hint}</span>` : ""}
       ${this.invalid && this.errorMessage
-        ? html`<span
-            id="${this.inputId}-error"
-            class="error-message"
-            role="alert"
-            aria-live="polite"
-          >
-            <qgds-icon
-              icon-id="status-error"
-              size="sm"
-              aria-hidden="true"
-            ></qgds-icon>
+        ? html`<span id="${this.inputId}-error" class="error-message" role="alert" aria-live="polite">
+            <qgds-icon icon-id="status-error" size="sm" aria-hidden="true"></qgds-icon>
             ${this.errorMessage}
           </span>`
         : ""}
       ${this.valid && this.successMessage
-        ? html`<span
-            id="${this.inputId}-success"
-            class="success-message"
-            role="status"
-            aria-live="polite"
-          >
-            <qgds-icon
-              icon-id="status-success"
-              size="sm"
-              aria-hidden="true"
-            ></qgds-icon>
+        ? html`<span id="${this.inputId}-success" class="success-message" role="status" aria-live="polite">
+            <qgds-icon icon-id="status-success" size="sm" aria-hidden="true"></qgds-icon>
             ${this.successMessage}
           </span>`
         : ""}
@@ -293,9 +260,7 @@ export class QGDSSelect extends LitElement {
           size="${this.multiple && this.size ? this.size : undefined}"
           aria-invalid="${this.invalid ? "true" : "false"}"
         >
-          ${!this.multiple
-            ? html`<option value="">${this.placeholder}</option>`
-            : ""}
+          ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
         </select>
       </div>
       <slot @slotchange=${this._onSlotChange}></slot>
@@ -312,11 +277,7 @@ export class QGDSSelect extends LitElement {
 
     // Always update ElementInternals validity
     if (!isValid && validationMessage) {
-      this._internals.setValidity(
-        { valueMissing: true },
-        validationMessage,
-        selectElement ?? undefined,
-      );
+      this._internals.setValidity({ valueMissing: true }, validationMessage, selectElement ?? undefined);
     } else {
       // Clear validity when valid
       this._internals.setValidity({});
@@ -375,9 +336,7 @@ export class QGDSSelect extends LitElement {
 
     if (this.multiple) {
       // Get all selected options for multiple select
-      const selectedOptions = Array.from(selectElement.selectedOptions).map(
-        (opt) => opt.value,
-      );
+      const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
       this.value = selectedOptions.join(",");
     } else {
       // Single select
@@ -393,7 +352,7 @@ export class QGDSSelect extends LitElement {
         },
         bubbles: true,
         composed: true,
-      }),
+      })
     );
 
     // Auto-validate after change
@@ -416,16 +375,14 @@ export class QGDSSelect extends LitElement {
     // Validate that only qgds-select-option and qgds-select-optgroup elements are slotted
     const invalidElements = assignedElements.filter((el) => {
       const tagName = el.tagName.toLowerCase();
-      return (
-        tagName !== "qgds-select-option" && tagName !== "qgds-select-optgroup"
-      );
+      return tagName !== "qgds-select-option" && tagName !== "qgds-select-optgroup";
     });
 
     if (invalidElements.length > 0) {
       console.warn(
         "qgds-select only accepts qgds-select-option and qgds-select-optgroup elements as children. " +
           "The following invalid elements will be ignored:",
-        invalidElements,
+        invalidElements
       );
     }
 
@@ -441,9 +398,7 @@ export class QGDSSelect extends LitElement {
     // Filter to only process valid custom elements
     const validElements = assignedElements.filter((el) => {
       const tagName = el.tagName.toLowerCase();
-      return (
-        tagName === "qgds-select-option" || tagName === "qgds-select-optgroup"
-      );
+      return tagName === "qgds-select-option" || tagName === "qgds-select-optgroup";
     });
 
     // Use DocumentFragment for efficient DOM manipulation
@@ -476,9 +431,7 @@ export class QGDSSelect extends LitElement {
         this._syncMultipleSelectValue();
       } else {
         // For single select
-        const optionExists = Array.from(select.options).some(
-          (opt) => opt.value === this.value,
-        );
+        const optionExists = Array.from(select.options).some((opt) => opt.value === this.value);
         if (optionExists) {
           select.value = this.value;
         } else {
