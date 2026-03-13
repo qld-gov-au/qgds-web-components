@@ -6,7 +6,6 @@ import { html } from "lit";
 import type { QGDSCheckboxGroup } from "./qgds-checkbox-group.ts";
 import "./qgds-checkbox-group.ts";
 import "../qgds-checkbox/qgds-checkbox.ts";
-import "../qgds-form-field/qgds-form-field.ts";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCheckboxGroup>("qgds-checkbox-group");
 
@@ -23,30 +22,34 @@ export default meta;
 
 export const Default: Story = {
   render: () => html`
-    <qgds-form-field label="Interests" hint="Select all that apply.">
-      <qgds-checkbox-group name="interests" @qgds-change=${action("qgds-change")}>
-        <qgds-checkbox value="design"   label="Design"></qgds-checkbox>
-        <qgds-checkbox value="code"     label="Code"></qgds-checkbox>
-        <qgds-checkbox value="research" label="Research"></qgds-checkbox>
-      </qgds-checkbox-group>
-    </qgds-form-field>
+    <qgds-checkbox-group
+      id="interests"
+      name="interests"
+      label="Interests"
+      hint="Select all that apply."
+      @qgds-change=${action("qgds-change")}
+    >
+      <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+      <qgds-checkbox value="code" label="Code"></qgds-checkbox>
+      <qgds-checkbox value="research" label="Research"></qgds-checkbox>
+    </qgds-checkbox-group>
   `,
 };
 
 export const WithError: Story = {
   render: () => html`
-    <qgds-form-field
+    <qgds-checkbox-group
+      id="interests-err"
+      name="interests"
       label="Interests"
       hint="Select all that apply."
-      status="error"
-      message="Please select at least one option."
+      validation-state="error"
+      validation-message="Please select at least one option."
       required
     >
-      <qgds-checkbox-group name="interests-err" @qgds-change=${action("qgds-change")}>
-        <qgds-checkbox value="design"   label="Design"   status="error"></qgds-checkbox>
-        <qgds-checkbox value="code"     label="Code"     status="error"></qgds-checkbox>
-        <qgds-checkbox value="research" label="Research" status="error"></qgds-checkbox>
-      </qgds-checkbox-group>
-    </qgds-form-field>
+      <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+      <qgds-checkbox value="code" label="Code"></qgds-checkbox>
+      <qgds-checkbox value="research" label="Research"></qgds-checkbox>
+    </qgds-checkbox-group>
   `,
 };

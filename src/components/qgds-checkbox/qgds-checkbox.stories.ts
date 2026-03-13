@@ -6,7 +6,6 @@ import { html } from "lit";
 import type { QGDSCheckbox } from "./qgds-checkbox.ts";
 import "./qgds-checkbox.ts";
 import "../qgds-checkbox-group/qgds-checkbox-group.ts";
-import "../qgds-form-field/qgds-form-field.ts";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCheckbox>("qgds-checkbox");
 

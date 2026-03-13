@@ -16,10 +16,11 @@
 import path from "path";
 import { getTsProgram, typeParserPlugin } from "@wc-toolkit/type-parser";
 import { jsDocTagsPlugin } from "@wc-toolkit/jsdoc-tags";
+import { cemSorterPlugin } from "@wc-toolkit/cem-sorter";
 
 export default {
   /** Glob patterns to analyze */
-  globs: ["src/components/**/*.ts"],
+  globs: ["src/components/**/*.ts", "src/utils/abstracts/**/*.ts"],
 
   /** Glob patterns to exclude */
   exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts"],
@@ -32,13 +33,21 @@ export default {
 
   /**
    * Give the plugin access to the TypeScript type checker.
-   * Filter to only include component files where filename matches parent folder.
+   * Filter to only include component files where filename matches parent folder,
+   * plus all files in the abstracts directory.
    * e.g., qgds-icon/qgds-icon.ts is included, but qgds-icon/icon-names.ts is excluded.
    */
   overrideModuleCreation({ ts, globs }) {
     const program = getTsProgram(ts, globs, "tsconfig.json");
     return program.getSourceFiles().filter((sf) => {
       if (!sf.fileName.endsWith(".ts")) return false;
+
+      // Include all files in abstracts directory
+      if (sf.fileName.includes("/utils/abstracts/")) {
+        return true;
+      }
+
+      // Include component files where filename matches parent folder
       const dirname = path.basename(path.dirname(sf.fileName));
       const basename = path.basename(sf.fileName, ".ts");
       return basename === dirname || basename.startsWith(dirname + "-");
@@ -50,10 +59,14 @@ export default {
     typeParserPlugin(),
     jsDocTagsPlugin({
       tags: {
-        "uikit": {},
-        "website": {},
-        "tagname": {},
+        uikit: {},
+        website: {},
+        tagname: {},
       },
+    }),
+    cemSorterPlugin({
+      deprecatedLast: true,
+      customFields: ["customProperty"],
     }),
   ],
 };

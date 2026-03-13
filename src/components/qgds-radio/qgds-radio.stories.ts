@@ -6,7 +6,6 @@ import { html } from "lit";
 import type { QGDSRadio } from "./qgds-radio.ts";
 import "./qgds-radio.ts";
 import "../qgds-radio-group/qgds-radio-group.ts";
-import "../qgds-form-field/qgds-form-field.ts";
 
 const { args, argTypes } = getStorybookHelpers<QGDSRadio>("qgds-radio");
 

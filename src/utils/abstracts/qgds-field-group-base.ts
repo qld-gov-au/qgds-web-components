@@ -1,5 +1,6 @@
-import { LitElement, html } from "lit";
-import { property, state } from "lit/decorators.js";
+import { html, PropertyValues } from "lit";
+import { state } from "lit/decorators.js";
+import { QGDSFormField, ValidationState } from "./qgds-form-field";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 
@@ -10,7 +11,11 @@ export interface FieldGroupChangeDetail {
   value: FieldGroupValue;
 }
 
-export interface ResolvedInput { type: string; value: string; checked: boolean }
+export interface ResolvedInput {
+  type: string;
+  value: string;
+  checked: boolean;
+}
 
 // ── Base class ────────────────────────────────────────────────────────────────
 
@@ -23,10 +28,7 @@ export interface ResolvedInput { type: string; value: string; checked: boolean }
  * Not registered as a custom element — use `<qgds-checkbox-group>` or
  * `<qgds-radio-group>` instead.
  */
-export abstract class FieldGroupBase extends LitElement {
-  @property({ type: String })
-  name: string = "";
-
+export abstract class QGDSFieldGroupBase extends QGDSFormField {
   // Calls the subclass override — prototype dispatch is dynamic even during
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
@@ -59,10 +61,7 @@ export abstract class FieldGroupBase extends LitElement {
     if (el instanceof HTMLInputElement) {
       return { type: el.type, value: el.value, checked: el.checked };
     }
-    if (
-      el instanceof Element &&
-      typeof (el as Element & { type?: unknown }).type === "string"
-    ) {
+    if (el instanceof Element && typeof (el as Element & { type?: unknown }).type === "string") {
       const custom = el as Element & {
         type: string;
         value: string;
@@ -84,14 +83,25 @@ export abstract class FieldGroupBase extends LitElement {
 
     this.dispatchEvent(
       new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
-        detail: { name: this.name, value: this._value },
+        detail: { name: this.name ?? this.id, value: this._value },
         bubbles: true,
         composed: true,
-      }),
+      })
     );
   };
 
-  render() {
+  protected abstract groupItemName: string;
+
+  protected update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+    if (changedProperties.has("validationState")) {
+      this.querySelectorAll<Element & { status?: ValidationState }>(this.groupItemName).forEach((el) => {
+        el.status = this.validationState;
+      });
+    }
+  }
+
+  renderInput() {
     return html`<slot></slot>`;
   }
 }

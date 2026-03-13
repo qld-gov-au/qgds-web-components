@@ -1,11 +1,11 @@
 import { customElement } from "lit/decorators.js";
 
 import {
-  FieldGroupBase,
+  QGDSFieldGroupBase,
   type FieldGroupChangeDetail,
   type FieldGroupValue,
   type ResolvedInput,
-} from "../field-group-base/field-group-base";
+} from "../../utils/abstracts/qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 export type QGDSCheckboxGroupProps = InstanceType<typeof QGDSCheckboxGroup>;
@@ -39,16 +39,16 @@ export type QGDSCheckboxGroupProps = InstanceType<typeof QGDSCheckboxGroup>;
  * ```
  */
 @customElement("qgds-checkbox-group")
-export class QGDSCheckboxGroup extends FieldGroupBase {
+export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
   protected _initialValue(): string[] {
     return [];
   }
 
+  protected groupItemName = "qgds-checkbox";
+
   protected _applyChange(input: ResolvedInput): void {
     if (input.type !== "checkbox") return;
     const current = Array.isArray(this._value) ? [...this._value] : [];
-    this._value = input.checked
-      ? [...current, input.value]
-      : current.filter((v) => v !== input.value);
+    this._value = input.checked ? [...current, input.value] : current.filter((v) => v !== input.value);
   }
 }
