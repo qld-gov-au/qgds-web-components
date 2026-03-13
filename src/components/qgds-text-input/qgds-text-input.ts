@@ -33,15 +33,6 @@ export const tagName = "qgds-text-input";
 
 @customElement(tagName)
 export class QGDSTextInput extends QGDSFormField {
-  // @property({ type: String }) id!: HTMLElement["id"];
-  // @property({ type: String }) variant: VariantOptions = "outline";
-  // @property({ type: String }) label: string = "";
-  // @property({ type: String, attribute: "indicate-if", useDefault: true }) indicateIf: IndicateIfOptions = "required";
-  // @property({ type: String }) hint?: string;
-  // @property({ type: String }) feedback?: string;
-  // @property({ type: String, attribute: "validation-state" }) validationState?: "success" | "error";
-  // forwarded html input attributes
-  // @property({ type: Boolean }) required?: HTMLInputElement["required"];
   @property({ type: String }) type?: InputType;
   @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
   @property({ type: String }) value?: HTMLInputElement["value"];
@@ -51,28 +42,6 @@ export class QGDSTextInput extends QGDSFormField {
   @property({ type: Number, attribute: "minlength" }) minLength?: HTMLInputElement["minLength"];
   @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];
   @property({ type: Boolean }) spellcheck: HTMLInputElement["spellcheck"] = false; // spellcheck is an attribute of HTMLElement already
-
-  // static styles = [resetStyles, formStyles, utilitiesStyles];
-
-  // updated(changedProperties: PropertyValues) {
-  //   super.updated(changedProperties);
-
-  //   if (changedProperties.has("id") && !this.id) {
-  //     console.warn(`${tagName}: id attribute is required`);
-  //   }
-  // }
-
-  // private renderRequiredIndicator() {
-  //   return this.required && this.indicateIf === "required"
-  //     ? html`<span class="qgds-form-label-required" aria-hidden="true">*</span><span class="sr-only">(Required)</span>`
-  //     : nothing;
-  // }
-
-  // private renderOptionalIndicator() {
-  //   return !this.required && this.indicateIf === "optional"
-  //     ? html` <span class="qgds-form-label-optional">(optional)</span>`
-  //     : nothing;
-  // }
 
   renderInput(validationState?: "success" | "error"): TemplateResult {
     return html`<input
