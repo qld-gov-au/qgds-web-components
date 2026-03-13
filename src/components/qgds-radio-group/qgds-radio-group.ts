@@ -1,11 +1,11 @@
 import { customElement } from "lit/decorators.js";
 
 import {
-  FieldGroupBase,
+  QGDSFieldGroupBase,
   type FieldGroupChangeDetail,
   type FieldGroupValue,
   type ResolvedInput,
-} from "../field-group-base/field-group-base";
+} from "../../utils/components/qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 export type QGDSRadioGroupProps = InstanceType<typeof QGDSRadioGroup>;
@@ -39,18 +39,20 @@ export type QGDSRadioGroupProps = InstanceType<typeof QGDSRadioGroup>;
  * ```
  */
 @customElement("qgds-radio-group")
-export class QGDSRadioGroup extends FieldGroupBase {
+export class QGDSRadioGroup extends QGDSFieldGroupBase {
   protected _initialValue(): string {
     return "";
   }
+
+  protected groupItemName = "qgds-radio";
 
   protected _applyChange(input: ResolvedInput, source: EventTarget): void {
     if (input.type !== "radio") return;
     this._value = input.value;
     // Enforce mutual exclusivity — native radio grouping does not work across
     // shadow roots, so sibling qgds-radio elements are deselected explicitly.
-    this.querySelectorAll<Element & { checked?: boolean }>("qgds-radio").forEach(
-      (el) => { if (el !== source) el.checked = false; },
-    );
+    this.querySelectorAll<Element & { checked?: boolean }>(this.groupItemName).forEach((el) => {
+      if (el !== source) el.checked = false;
+    });
   }
 }
