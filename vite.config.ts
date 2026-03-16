@@ -66,7 +66,7 @@ export default defineConfig({
           rename: "demo.html",
         },
         {
-          src: "src/scss/demo.css",
+          src: "src/demo/demo.css",
           dest: "assets/css",
         },
       ],
