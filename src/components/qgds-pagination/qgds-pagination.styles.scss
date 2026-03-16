@@ -1,0 +1,151 @@
+@use "../../styles/qgds-tokens/qgds-breakpoints" as *;
+
+:host {
+  --pagination-justify-content: flex-start;
+}
+
+.pagination {
+  --pg-border-color: var(--qgds-color-action-primary);
+  --pg-link-color: var(--qgds-color-link-default);
+  --pg-border-radius: 4px;
+  --pg-size: 2rem; /* Standardizing size */
+
+  display: flex;
+  justify-content: var(--pagination-justify-content);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.75rem;
+}
+
+/* Base Link Styles */
+.page-link,
+.prev-link,
+.next-link,
+qgds-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: var(--pg-size);
+  text-decoration: none;
+  border-radius: var(--pg-border-radius);
+  box-sizing: border-box;
+}
+
+/* Page Numbers (1, 2, 3) */
+.page-link {
+  /* Dimensions */
+  inline-size: var(--pg-size); /* 2rem / 32px */
+  block-size: var(--pg-size);
+
+  /* Reset border to 0 to ensure box-shadow starts at the absolute edge */
+  border: none;
+
+  /* State 1: 1px "Border" sitting at the 32px perimeter */
+  box-shadow: inset 0 0 0 1px var(--qgds-color-border);
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--pg-link-color);
+  transition:
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.page-link:hover,
+.page-link:focus {
+  /* State 2: Shadow grows to 2px internally. 
+     The footprint remains exactly 32px. */
+  box-shadow: inset 0 0 0 2px var(--qgds-color-action-secondary);
+  text-decoration: none;
+}
+
+.page-link:focus {
+  /* Focus ring should usually be external to avoid clashing with the internal shadow */
+  outline: 2px solid var(--qgds-color-focus-default);
+  outline-offset: 2px;
+}
+
+.page-link.active {
+  /* State 3: Active page usually loses the inner border for a solid fill */
+  background: var(--qgds-color-action-primary);
+  color: var(--qgds-color-link-on-action);
+  box-shadow: none;
+  font-weight: var(--qgds-fw-bold, 700);
+
+  &:hover,
+  &:focus {
+    box-shadow: var(--qgds-elevation-1);
+    background: var(--qgds-color-action-primary-hover);
+  }
+}
+
+.page-link-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.prev-link.is-disabled,
+.next-link.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+  text-decoration: none;
+}
+
+/* Prev/Next Navigation */
+.prev-link,
+.next-link {
+  gap: 0.5rem;
+  padding-inline: 0.5rem; /* Better than fixed width for text labels */
+  color: var(--pg-link-color);
+  text-decoration: underline 1px var(--pg-link-color);
+  text-underline-offset: 0.2em;
+
+  qgds-icon {
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+  }
+
+  &:hover qgds-icon {
+    --qgds-icon-color: var(--qgds-color-action-secondary-hover);
+  }
+}
+
+/* Focus State (Unified) */
+.page-link:focus,
+.prev-link:focus,
+.next-link:focus {
+  outline: 2px solid var(--qgds-color-focus-default);
+  outline-offset: 2px;
+}
+
+.page-more.is-mobile-only {
+  display: none;
+}
+
+/********** Responsive **********/
+@media (max-width: $qgds-media-md) {
+  /* Use flex-gap or margins if needed, but display:none is fine */
+  .prev-link .label,
+  .next-link .label {
+    display: none;
+  }
+
+  /* Refined Mobile Logic: Hide items, not just links */
+  .page-item {
+    display: none;
+  }
+
+  .is-first-page,
+  .is-active,
+  .is-last-page,
+  .page-more {
+    display: block;
+  }
+
+  .page-more.is-mobile-only {
+    display: block;
+  }
+}
