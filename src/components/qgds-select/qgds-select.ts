@@ -1,7 +1,9 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import componentCSS from "./qgds-select.styles.scss?inline";
+import { classMap } from "lit/directives/class-map.js";
+import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
 import { resetStyles, utilitiesStyles } from "../../styles";
+import componentCSS from "./qgds-select.styles.scss?inline";
 import "../qgds-icon/qgds-icon";
 import { QGDSSelectOption } from "./qgds-select-option.js";
 import { QGDSSelectOptgroup } from "./qgds-select-optgroup.js";
@@ -37,53 +39,31 @@ export type SelectSize = number | undefined;
  *
  * @element qgds-select
  *
- * @prop {string} label - The label text for the select element.
- * @prop {boolean} disabled - Whether the select is disabled.
- * @prop {boolean} required - Whether the select is required.
- * @prop {boolean} filled - Whether to use the filled variant styling.
- * @prop {boolean} valid - Whether the select is in a valid state.
- * @prop {boolean} invalid - Whether the select is in an invalid state.
- * @prop {string} hint - Hint text displayed below the label.
- * @prop {string} optionalText - Optional text displayed next to the label.
- * @prop {string} errorMessage - Error message displayed when invalid.
- * @prop {string} successMessage - Success message displayed when valid.
- * @prop {string} placeholder - Placeholder text for the select element.
- * @prop {string} name - Name attribute for form submission.
- * @prop {string} value - Currently selected value (or comma-separated values for multiple).
- * @prop {boolean} multiple - Whether multiple selections are allowed.
- * @prop {number} size - Number of visible options when multiple is enabled.
- * @prop {boolean} autofocus - Whether the select should automatically receive focus when the page loads.
+ * @prop {boolean} [filled] - Whether to apply the "filled" variant styles.
+ * @prop {string} [placeholder] - Placeholder text shown as the first (unselectable) option.
+ * @prop {boolean} [multiple] - Whether multiple selections are allowed.
+ * @prop {number} [size] - Number of visible options when multiple is enabled.
+ * @prop {boolean} [autofocus] - Whether the select should automatically receive focus.
+ *
+ * @slot - Accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as options.
  *
  * @example
  * ```html
- * <qgds-select label="Form label">
+ * <qgds-select id="my-select" label="Form label">
  *   <qgds-select-option value="1" label="Option 1"></qgds-select-option>
  *   <qgds-select-option value="2" label="Option 2"></qgds-select-option>
  * </qgds-select>
  * ```
  */
-
-export type QGDSSelectProps = InstanceType<typeof QGDSSelect>;
-
 @customElement("qgds-select")
-export class QGDSSelect extends LitElement {
+export class QGDSSelect extends QGDSFormField {
   // Enable form association
   static formAssociated = true;
 
-  @property({ type: String }) label: string = "Select";
-  @property({ type: Boolean, reflect: true }) disabled: boolean = false;
-  @property({ type: Boolean, reflect: true }) required: boolean = false;
+  // Re-declare value as a plain string (base type is string | string[] | undefined)
   @property({ type: Boolean, reflect: true }) filled: boolean = false;
-  @property({ type: Boolean, reflect: true }) valid: boolean = false;
-  @property({ type: Boolean, reflect: true }) invalid: boolean = false;
-  @property({ type: String }) hint?: string = "";
-  @property({ type: String }) optionalText?: string = "";
-  @property({ type: String }) errorMessage?: string;
-  @property({ type: String }) successMessage?: string;
-  @property({ type: String }) placeholder: string = "Please select";
   @property({ type: String }) value: string = "";
-  @property({ type: String, reflect: true }) name: string = "";
-  @property({ type: String }) selectId: string = "";
+  @property({ type: String }) placeholder: string = "Please select";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
   @property({ type: Number }) size?: SelectSize;
   @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
@@ -97,6 +77,14 @@ export class QGDSSelect extends LitElement {
     // Attach ElementInternals for form participation
     this._internals = this.attachInternals();
   }
+
+  static styles = [
+    resetStyles,
+    utilitiesStyles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
 
   connectedCallback(): void {
     super.connectedCallback?.();
@@ -139,15 +127,15 @@ export class QGDSSelect extends LitElement {
    * Set initial form value when component first renders
    */
   firstUpdated(): void {
-    // Don't set form value yet in firstUpdated - wait for connectedCallback
-    // This ensures the element is connected to a form before setting the value
+    // Guarantee id is always set so the base's render guard never triggers
+    if (!this.id) this.id = this._inputId;
 
     // Set up initial validation state after render
     this._validateAndUpdateState();
   }
 
   get inputId(): string {
-    return this.selectId || this._inputId;
+    return this.id || this._inputId;
   }
 
   /**
@@ -166,14 +154,6 @@ export class QGDSSelect extends LitElement {
   set valueAsArray(values: string[]) {
     this.value = values.join(",");
   }
-
-  static styles = [
-    resetStyles,
-    utilitiesStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
 
   /**
    * Update form value and validity when value or multiple changes
@@ -201,11 +181,7 @@ export class QGDSSelect extends LitElement {
 
     if (changedProperties.has("disabled")) {
       // Update disabled state
-      if (this.disabled) {
-        this._internals.setFormValue(null);
-      } else {
-        this._internals.setFormValue(this.value || "");
-      }
+      this._internals.setFormValue(this.disabled ? null : this.value || "");
     }
 
     // Sync select element with value property for multiple select
@@ -214,43 +190,28 @@ export class QGDSSelect extends LitElement {
     }
   }
 
-  render() {
+  renderInput(validationState?: "success" | "error"): TemplateResult {
     // Build aria-describedby with all relevant IDs
     const describedByIds = [
       this.hint ? `${this.inputId}-hint` : "",
-      this.invalid && this.errorMessage ? `${this.inputId}-error` : "",
-      this.valid && this.successMessage ? `${this.inputId}-success` : "",
+      this.validationState === "error" && this.validationMessage ? `${this.inputId}-error` : "",
+      this.validationState === "success" && this.validationMessage ? `${this.inputId}-success` : "",
     ]
       .filter(Boolean)
       .join(" ");
-
     return html`
-      <label for="${this.inputId}">
-        ${this.required ? html`<span class="required">*<span class="sr-only"> (required)</span></span>` : ""}
-        ${this.label}
-        ${this.optionalText
-          ? html`<span class="optional">${this.optionalText}<span class="sr-only">, not required</span></span>`
-          : ""}
-      </label>
-      ${this.hint ? html`<span id="${this.inputId}-hint" class="hint">${this.hint}</span>` : ""}
-      ${this.invalid && this.errorMessage
-        ? html`<span id="${this.inputId}-error" class="error-message" role="alert" aria-live="polite">
-            <qgds-icon icon-id="status-error" size="sm" aria-hidden="true"></qgds-icon>
-            ${this.errorMessage}
-          </span>`
-        : ""}
-      ${this.valid && this.successMessage
-        ? html`<span id="${this.inputId}-success" class="success-message" role="status" aria-live="polite">
-            <qgds-icon icon-id="status-success" size="sm" aria-hidden="true"></qgds-icon>
-            ${this.successMessage}
-          </span>`
-        : ""}
       <div class="select-wrapper">
         <select
           name="${this.name}"
           id="${this.inputId}"
           aria-describedby="${describedByIds || undefined}"
           aria-required="${this.required ? "true" : undefined}"
+          aria-invalid="${validationState === "error" ? "true" : "false"}"
+          class=${classMap({
+            "is-filled": this.variant === "filled",
+            "is-valid": validationState === "success",
+            "is-invalid": validationState === "error",
+          })}
           .value=${this.value}
           @change=${this._handleChange}
           ?disabled=${this.disabled}
@@ -258,7 +219,6 @@ export class QGDSSelect extends LitElement {
           ?multiple=${this.multiple}
           ?autofocus=${this.autofocus}
           size="${this.multiple && this.size ? this.size : undefined}"
-          aria-invalid="${this.invalid ? "true" : "false"}"
         >
           ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
         </select>
@@ -272,21 +232,21 @@ export class QGDSSelect extends LitElement {
    */
   private _validateAndUpdateState(): void {
     const isValid = this._checkValidity();
-    const validationMessage = this._getValidationMessage();
+    const message = this._getValidationMessage();
     const selectElement = this.shadowRoot?.querySelector("select");
+    const hasValue = this.value !== "";
 
     // Always update ElementInternals validity
-    if (!isValid && validationMessage) {
-      this._internals.setValidity({ valueMissing: true }, validationMessage, selectElement ?? undefined);
+    if (!isValid && message) {
+      this._internals.setValidity({ valueMissing: true }, message, selectElement ?? undefined);
     } else {
       // Clear validity when valid
       this._internals.setValidity({});
     }
 
     // Auto-update valid/invalid flags if no custom messages
-    if (!this.errorMessage && !this.successMessage) {
-      this.invalid = !isValid && this.value !== "";
-      this.valid = isValid && this.value !== "";
+    if (!this.validationMessage) {
+      this.validationState = isValid && hasValue ? "success" : "error";
     }
   }
 
@@ -294,16 +254,12 @@ export class QGDSSelect extends LitElement {
    * Check validity with support for multiple select
    */
   private _checkValidity(): boolean {
-    if (!this.required) {
-      return true;
-    }
-
+    if (!this.required) return true;
     if (this.multiple) {
       // For multiple, check if any values are selected and not just empty string
       const values = this.valueAsArray;
       return values.length > 0 && values.some((v) => v !== "");
     }
-
     // For single, check if value is not empty
     return this.value !== "" && this.value !== null && this.value !== undefined;
   }
@@ -316,12 +272,12 @@ export class QGDSSelect extends LitElement {
       if (this.multiple) {
         // For multiple, check if any values are selected
         if (this.valueAsArray.length === 0 || this.valueAsArray[0] === "") {
-          return this.errorMessage ?? "Please select at least one option";
+          return this.validationMessage ?? "Please select at least one option";
         }
       } else {
         // For single, check if value is not empty
         if (!this.value) {
-          return this.errorMessage ?? "Please select an option";
+          return this.validationMessage ?? "Please select an option";
         }
       }
     }
@@ -363,7 +319,9 @@ export class QGDSSelect extends LitElement {
    * Rebuild native options from slotted custom elements
    */
   private _rebuildNativeOptions(): void {
-    const slot = this.shadowRoot?.querySelector("slot");
+    // Select the unnamed slot — the base class renders <slot name="details"> first,
+    // so querySelector("slot") would find that one instead of the options slot.
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
     if (!slot) return;
 
     const select = this.shadowRoot?.querySelector("select");
@@ -407,17 +365,10 @@ export class QGDSSelect extends LitElement {
     // Process only valid custom elements
     validElements.forEach((el) => {
       const tagName = el.tagName.toLowerCase();
-
       if (tagName === "qgds-select-optgroup") {
-        // Custom optgroup element
-        const customOptgroup = el as QGDSSelectOptgroup;
-        const nativeOptgroup = customOptgroup.toNativeOptgroup();
-        fragment.appendChild(nativeOptgroup);
+        fragment.appendChild((el as QGDSSelectOptgroup).toNativeOptgroup());
       } else if (tagName === "qgds-select-option") {
-        // Custom option element
-        const customOption = el as QGDSSelectOption;
-        const nativeOption = customOption.toNativeOption();
-        fragment.appendChild(nativeOption);
+        fragment.appendChild((el as QGDSSelectOption).toNativeOption());
       }
     });
 
@@ -468,8 +419,8 @@ export class QGDSSelect extends LitElement {
    */
   formResetCallback(): void {
     this.value = "";
-    this.valid = false;
-    this.invalid = false;
+    this.validationState = undefined;
+    this.validationMessage = undefined;
   }
 
   formStateRestoreCallback(state: string): void {
@@ -500,7 +451,7 @@ export class QGDSSelect extends LitElement {
    * Focus the select element
    * Public method for programmatic focus management
    */
-  focus(): void {
+  override focus(): void {
     const select = this.shadowRoot?.querySelector("select");
     select?.focus();
   }
