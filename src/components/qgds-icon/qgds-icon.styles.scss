@@ -13,10 +13,8 @@
 
 .qgds-icon {
   display: inline-flex;
-  inline-size: var(
-    --_qgds-icon-size
-  ); // set as dynamic style prop in component logic
-
+  inline-size: var(--_qgds-icon-size); // set as dynamic style prop in component logic
+  line-height: var(--line-height-none, 1);
   block-size: var(--_qgds-icon-size);
   background-position: center center;
   background-repeat: no-repeat;

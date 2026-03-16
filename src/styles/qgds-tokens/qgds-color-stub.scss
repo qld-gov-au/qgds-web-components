@@ -12,6 +12,7 @@
   --qgds-color-background: #ffffff;
   --qgds-color-background-shade: #f5f5f5;
   --qgds-color-border: #ebebeb;
+  --qgds-color-border-alt: #848484;
   --qgds-color-crest-fill: #005eb8;
   --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
@@ -40,6 +41,7 @@
   --qgds-color-background: #e6f6ff;
   --qgds-color-background-shade: #ceedff;
   --qgds-color-border: #bedfff;
+  --qgds-color-border-alt: #848484;
   --qgds-color-crest-fill: #005eb8;
   --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
@@ -68,6 +70,7 @@
   --qgds-color-background: #e3e7ea;
   --qgds-color-background-shade: #d6dce0;
   --qgds-color-border: #848484;
+  --qgds-color-border-alt: #848484;
   --qgds-color-crest-fill: #005eb8;
   --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
@@ -96,21 +99,22 @@
   --qgds-color-background: #005eb8;
   --qgds-color-background-shade: #003e96;
   --qgds-color-border: #418fed;
+  --qgds-color-border-alt: #73C2FF;
   --qgds-color-crest-fill: #ffffff;
   --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-on-action: #001c37;
-  --qgds-color-link-visited: #F2CDFF;
+  --qgds-color-link-visited: #f2cdff;
   --qgds-color-site-title: #ffffff;
   --qgds-color-text-default: #ffffff;
   --qgds-color-text-heading: #ffffff;
   --qgds-color-text-lighter: #deebf9;
   --qgds-color-underline-default-hover: #ffffff;
   --qgds-color-underline-default: #b5cce2;
-  --qgds-color-underline-visited-hover: #F2CDFF;
-  --qgds-color-underline-visited: #C6AED9;
-  --qgds-color-disabled: #E0E0E019;
-  --qgds-color-btn-icon: #A6F7FF;
+  --qgds-color-underline-visited-hover: #f2cdff;
+  --qgds-color-underline-visited: #c6aed9;
+  --qgds-color-disabled: #e0e0e019;
+  --qgds-color-btn-icon: #a6f7ff;
 }
 
 // ============================================
@@ -131,20 +135,18 @@
   --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-on-action: #001c37;
-  --qgds-color-link-visited: #F2CDFF;
+  --qgds-color-link-visited: #f2cdff;
   --qgds-color-site-title: #ffffff;
   --qgds-color-text-default: #ffffff;
   --qgds-color-text-heading: #ffffff;
   --qgds-color-text-lighter: #deebf9;
   --qgds-color-underline-default-hover: #ffffff;
   --qgds-color-underline-default: #b5cce2;
-  --qgds-color-underline-visited-hover: #F2CDFF;
-  --qgds-color-underline-visited: #C6AED9;
-  --qgds-color-disabled: #E0E0E019;
-  --qgds-color-btn-icon: #A6F7FF;
+  --qgds-color-underline-visited-hover: #f2cdff;
+  --qgds-color-underline-visited: #c6aed9;
+  --qgds-color-disabled: #e0e0e019;
+  --qgds-color-btn-icon: #a6f7ff;
 }
-
-
 
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES
 %qgds-color-palette-global {

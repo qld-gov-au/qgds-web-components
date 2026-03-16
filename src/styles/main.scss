@@ -22,7 +22,6 @@
   @include meta.load-css("base/animations");
 }
 
-// @layer components - Loaded Component styles will be scoped here
 @layer utilities {
   @include meta.load-css("utilities");
 }

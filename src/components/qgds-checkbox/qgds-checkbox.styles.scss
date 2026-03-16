@@ -1,0 +1,72 @@
+/*
+==========================
+Scoped CSS: qgds-checkbox
+Placeholder styles — replace once Figma design is confirmed.
+==========================
+*/
+@use "../../styles/tools/mixins" as m;
+
+:host {
+  display: block;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.checkbox {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 0.25rem;
+
+  input[type="checkbox"] {
+    appearance: none;
+    block-size: 2rem; // 28px including 2px border (box-sizing: border-box)
+    border: 2px solid var(--qgds-color-light-text, #353535);
+    box-sizing: border-box;
+    cursor: inherit;
+    flex-shrink: 0;
+    inline-size: 2rem;
+    margin: 0;
+    position: relative;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+    }
+
+    // Checkmark via rotated border — no fill
+    &:checked::after {
+      border-block-end: 3px solid var(--qgds-color-light-text, #353535);
+      border-inline-end: 3px solid var(--qgds-color-light-text, #353535);
+      block-size: 1rem;
+      content: "";
+      inline-size: 0.5rem;
+      inset-block-start: 0.25rem;
+      inset-inline-start: 0.575rem;
+      position: absolute;
+      transform: rotate(45deg);
+    }
+
+    @include m.focusable();
+  }
+}
+
+// Status variants — box-shadow adds a flush outer border without conflicting with the focus outline
+:host([status="success"]) input[type="checkbox"] {
+  box-shadow: 0 0 0 2px var(--qgds-color-status-success-default, #339D37);
+}
+
+:host([status="error"]) input[type="checkbox"] {
+  box-shadow: 0 0 0 2px var(--qgds-color-status-error-default, #E22339);
+}
+
+.label-text {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}

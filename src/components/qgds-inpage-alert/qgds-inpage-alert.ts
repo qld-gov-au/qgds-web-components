@@ -32,7 +32,7 @@ export class QGDSInpageAlert extends LitElement {
   @property({ type: String })
   heading?: string;
 
-  @property({ type: String })
+  @property({ type: String, useDefault: true })
   variant: AlertVariant = "info";
 
   @property({
@@ -88,5 +88,11 @@ export class QGDSInpageAlert extends LitElement {
         </div>
       </section>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-inpage-alert": QGDSInpageAlert;
   }
 }

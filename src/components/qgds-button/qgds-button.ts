@@ -8,7 +8,6 @@ import { IconSize } from "../qgds-icon/qgds-icon";
 
 // Define types for properties to ensure type safety and better autocompletion
 type ButtonVariant = "primary" | "secondary" | "tertiary";
-type ButtonType = "button" | "submit" | "reset";
 type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
 
 /**
@@ -24,7 +23,7 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
  * @attr {ButtonVariant} variant - The variant of the button ("primary", "secondary", "tertiary").  Default is "primary"
  * @attr {boolean} disabled - Whether the button is disabled.  Default is "false"
  * @attr {AnchorTarget} target - The target for the link ("_self", "_blank", "_parent", "_top"). Default is "_self"
- * @attr {ButtonType} type - The type of the button ("button", "submit", "reset"). Default is "button"
+ * @attr {ButtonType} [type="button"] - The type of the button ("button", "submit", "reset"). Default is "button"
  * @attr {string} aria-label - The aria-label for the button for accessibility.
  * @attr {boolean} trailing-icon - Whether the icon is displayed after the label. Default is "false" (icon before label).
  * @attr {string} id - A unique ID for the button.
@@ -51,20 +50,21 @@ export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
-  @property({ type: String, attribute: "label" }) label: string = "Button";
-  @property({ type: String, reflect: true }) variant: ButtonVariant = "primary";
+  @property({ type: String }) label: string = "Button";
+  @property({ type: String, useDefault: true }) variant: ButtonVariant =
+    "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
-  @property({ type: String }) target: AnchorTarget | undefined = undefined;
-  @property({ type: String }) type: ButtonType = "button";
+  @property({ type: String }) target?: AnchorTarget;
+  @property({ type: String }) type: HTMLButtonElement["type"] = "button";
   @property({ type: String, attribute: "aria-label" }) ariaLabel:
     | string
     | null = null;
   @property({ type: Boolean, reflect: true, attribute: "trailing-icon" })
   trailingIcon: boolean = false;
   @property({ type: String, reflect: true, attribute: "id" })
-  uniqueID: string | undefined = undefined;
+  uniqueID?: string;
   @property({ type: String, reflect: true, attribute: "href" })
-  href: string | undefined = undefined;
+  href?: string;
   @property({ type: String, attribute: "loading-label" }) loadingLabel =
     "Loading...";
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
@@ -268,4 +268,10 @@ export class QGDSButton extends LitElement {
     });
     this.dispatchEvent(myButtonEvent);
   };
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-button": QGDSButton;
+  }
 }

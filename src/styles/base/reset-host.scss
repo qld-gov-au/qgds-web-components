@@ -14,15 +14,19 @@ Ensure components don't leak styles
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
-}
 
-:host *,
-:host *::before,
-:host *::after {
-  box-sizing: inherit;
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
 }
 
 button {
   appearance: none;
   border: none;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
