@@ -98,7 +98,7 @@ export abstract class QGDSFormField extends LitElement {
     }
 
     return html`${this.label
-        ? html`<label class="qgds-form-label">
+        ? html`<label class="qgds-form-label" for=${this.id}>
             ${this.renderRequiredIndicator()} ${this.label} ${this.renderOptionalIndicator()}
           </label>`
         : nothing}
