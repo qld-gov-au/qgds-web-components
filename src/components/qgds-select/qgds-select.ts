@@ -190,7 +190,7 @@ export class QGDSSelect extends QGDSFormField {
     }
   }
 
-  renderInput(validationState?: "success" | "error"): TemplateResult {
+  renderInput(): TemplateResult {
     // Build aria-describedby with all relevant IDs
     const describedByIds = [
       this.hint ? `${this.inputId}-hint` : "",
@@ -206,11 +206,11 @@ export class QGDSSelect extends QGDSFormField {
           id="${this.inputId}"
           aria-describedby="${describedByIds || undefined}"
           aria-required="${this.required ? "true" : undefined}"
-          aria-invalid="${validationState === "error" ? "true" : "false"}"
+          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
           class=${classMap({
             "is-filled": this.variant === "filled",
-            "is-valid": validationState === "success",
-            "is-invalid": validationState === "error",
+            "is-valid": this.validationState === "success",
+            "is-invalid": this.validationState === "error",
           })}
           .value=${this.value}
           @change=${this._handleChange}

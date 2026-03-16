@@ -39,14 +39,14 @@ export class QGDSTextarea extends QGDSFormField {
     `,
   ];
 
-  renderInput(validationState?: "success" | "error"): TemplateResult {
+  renderInput(): TemplateResult {
     return html`<textarea
       id=${this.id}
       class=${classMap({
         "qgds-form-control is-full-width": true,
         "is-filled": this.variant === "filled",
-        "is-valid": validationState === "success",
-        "is-invalid": validationState === "error",
+        "is-valid": this.validationState === "success",
+        "is-invalid": this.validationState === "error",
       })}
       placeholder=${ifDefined(this.placeholder)}
       ?required=${this.required}
@@ -55,7 +55,9 @@ export class QGDSTextarea extends QGDSFormField {
       ?spellcheck=${this.spellcheck}
       maxlength=${ifDefined(this.maxLength)}
       minlength=${ifDefined(this.minLength)}
-    >${this.value ?? nothing}</textarea>`;
+    >
+      ${this.value ?? nothing}</textarea
+    >`;
   }
 }
 
