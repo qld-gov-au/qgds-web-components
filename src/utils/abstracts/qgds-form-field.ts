@@ -4,10 +4,6 @@ import { property } from "lit/decorators.js";
 import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
 import { FormValidationState, FormIndicateIfOptions } from "../../types/forms";
 
-// export type ValidationState = "success" | "error";
-// export type IndicateIfOptions = "required" | "optional" | "none";
-// export type VariantOptions = "filled" | "outlined";
-
 /**
  * Abstract base class for all QGDS form field components.
  * Provides common properties, validation handling, and rendering logic for form inputs.
