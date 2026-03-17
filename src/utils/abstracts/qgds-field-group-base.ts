@@ -1,6 +1,7 @@
 import { html, PropertyValues } from "lit";
 import { state } from "lit/decorators.js";
-import { QGDSFormField, ValidationState } from "./qgds-form-field";
+import { QGDSFormField } from "./qgds-form-field";
+import { FormValidationState } from "../../types/forms";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 
@@ -95,7 +96,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
     if (changedProperties.has("validationState")) {
-      this.querySelectorAll<Element & { status?: ValidationState }>(this.groupItemName).forEach((el) => {
+      this.querySelectorAll<Element & { status?: FormValidationState }>(this.groupItemName).forEach((el) => {
         el.status = this.validationState;
       });
     }
