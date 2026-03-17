@@ -52,7 +52,6 @@ export type SelectSize = number | undefined;
  * @prop {string} value - Currently selected value (or comma-separated values for multiple).
  * @prop {boolean} multiple - Whether multiple selections are allowed.
  * @prop {number} size - Number of visible options when multiple is enabled.
- * @prop {boolean} autofocus - Whether the select should automatically receive focus when the page loads.
  *
  * @example
  * ```html
@@ -86,7 +85,7 @@ export class QGDSSelect extends LitElement {
   @property({ type: String }) selectId: string = "";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
   @property({ type: Number }) size?: SelectSize;
-  @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
+  // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
 
   private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   private _internals: ElementInternals;
