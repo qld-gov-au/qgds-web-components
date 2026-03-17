@@ -1,4 +1,4 @@
-import {  html, TemplateResult } from "lit";
+import { html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -43,26 +43,26 @@ export class QGDSTextInput extends QGDSFormField {
   @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];
   @property({ type: Boolean }) spellcheck: HTMLInputElement["spellcheck"] = false; // spellcheck is an attribute of HTMLElement already
 
-  renderInput(validationState?: "success" | "error"): TemplateResult {
+  renderInput(): TemplateResult {
     return html`<input
-        id=${this.id}
-        class=${classMap({
-          "qgds-form-control": true,
-          "is-filled": this.variant === "filled",
-          "is-valid": validationState === "success",
-          "is-invalid": validationState === "error",
-        })}
-        type=${this.type ?? "text"}
-        value=${ifDefined(this.value)}
-        placeholder=${ifDefined(this.placeholder)}
-        ?required=${this.required}
-        ?readonly=${this.readOnly}
-        ?disabled=${this.disabled}
-        ?spellcheck=${this.spellcheck}
-        maxlength=${ifDefined(this.maxLength)}
-        minlength=${ifDefined(this.minLength)}
-        pattern=${ifDefined(this.pattern?.toString())}
-      />`
+      id=${this.id}
+      class=${classMap({
+        "qgds-form-control": true,
+        "is-filled": this.variant === "filled",
+        "is-valid": this.validationState === "success",
+        "is-invalid": this.validationState === "error",
+      })}
+      type=${this.type ?? "text"}
+      value=${ifDefined(this.value)}
+      placeholder=${ifDefined(this.placeholder)}
+      ?required=${this.required}
+      ?readonly=${this.readOnly}
+      ?disabled=${this.disabled}
+      ?spellcheck=${this.spellcheck}
+      maxlength=${ifDefined(this.maxLength)}
+      minlength=${ifDefined(this.minLength)}
+      pattern=${ifDefined(this.pattern?.toString())}
+    />`;
   }
 }
 
