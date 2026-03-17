@@ -32,6 +32,10 @@ qgds-icon {
   box-sizing: border-box;
 }
 
+.page-more qgds-icon {
+  inline-size: var(--pg-size);
+}
+
 /* Page Numbers (1, 2, 3) */
 .page-link {
   /* Dimensions */

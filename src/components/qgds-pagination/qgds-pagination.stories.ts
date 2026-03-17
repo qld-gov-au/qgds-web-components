@@ -6,8 +6,7 @@ import { action } from "storybook/actions";
 import "./qgds-pagination";
 import type { QGDSPagination } from "./qgds-pagination";
 
-const { args, argTypes } =
-  getStorybookHelpers<QGDSPagination>("qgds-pagination");
+const { args, argTypes } = getStorybookHelpers<QGDSPagination>("qgds-pagination");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
@@ -21,9 +20,9 @@ const meta: Meta<Args> = {
     "total-pages": 14,
     "prev-label": "Back",
     "next-label": "Next",
+    "show-prev-next": "default",
     "link-base": "/page/",
     "aria-label": "Pagination navigation",
-    "no-reload": false,
     // "page-range": 5,
     // "show-more": true,
     // "show-first": true,
@@ -34,7 +33,10 @@ const meta: Meta<Args> = {
 
   argTypes: {
     ...argTypes,
-    // "show-prev-next": { control: "boolean" },
+    "show-prev-next": {
+      control: { type: "radio" },
+      options: ["default", "always"],
+    },
     // "show-page-numbers": { control: "boolean" },
     // "show-more": { control: "boolean" },
     // ...other boolean attributes
@@ -56,45 +58,17 @@ const meta: Meta<Args> = {
 
     return html`
       <qgds-pagination
+        id="my-app-pager"
         current-page="${args["current-page"]}"
         total-pages="${args["total-pages"]}"
-        page-range="${args["page-range"]}"
         prev-label="${args["prev-label"]}"
         next-label="${args["next-label"]}"
+        show-prev-next="${args["show-prev-next"]}"
         link-base="${args["link-base"]}"
-        ?no-reload="${args["no-reload"]}"
-        ?show-more="${args["show-more"]}">
+      >
       </qgds-pagination>
     `;
   },
-
-  decorators: [
-    (Story) => html`
-      <script>
-        document.addEventListener("qgds-navigate", (e) => {
-          const eventNode =
-            e.localName || e.target?.localName || "unknown element";
-
-          if (eventNode.toString() === "qgds-pagination") {
-            let newPage = e.detail.pageid;
-
-            if (newPage === "prev") {
-              newPage = Number(e.target.currentPage) - 1;
-            }
-
-            if (newPage === "next") {
-              newPage = Number(e.target.currentPage) + 1;
-            }
-
-            e.target.currentPage = newPage; // Update the pagination's current page based on the event detail
-            e.target.blur();
-          }
-        });
-      </script>
-
-      ${Story()}
-    `,
-  ],
 
   play: ({ canvasElement }) => {
     // Storybook demo only.
@@ -107,10 +81,29 @@ const meta: Meta<Args> = {
     // thing.addEventListener("qgds-navigate", doSomething());}
 
     const logSelection = action("qgds-navigate");
-    const details = canvasElement.querySelector("qgds-pagination");
+    const pagination = canvasElement.querySelector<QGDSPagination>("qgds-pagination");
 
-    details?.addEventListener("qgds-navigate", (e) => {
-      logSelection((e as CustomEvent).detail);
+    pagination?.addEventListener("qgds-navigate", (e) => {
+      const event = e as CustomEvent<{
+        action: "prev" | "next" | "page";
+        requestedPage: number | null;
+      }>;
+
+      event.preventDefault();
+
+      const { action, requestedPage } = event.detail;
+      const currentPage = Number(pagination.currentPage);
+
+      if (action === "prev") {
+        pagination.currentPage = Math.max(1, currentPage - 1);
+      } else if (action === "next") {
+        pagination.currentPage = currentPage + 1;
+      } else if (typeof requestedPage === "number") {
+        pagination.currentPage = requestedPage;
+      }
+
+      pagination.blur();
+      logSelection(event.detail);
     });
   },
 };

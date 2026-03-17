@@ -2,8 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
-// Pending PR-45
-// import { QgdsEvents } from "../../utils/events/event-controller";
+import { QgdsEvents } from "../../utils/events/event-controller";
 
 // Import QGDS Icons for some controls (show more, chevron and arrows)
 import "../qgds-icon/qgds-icon";
@@ -22,10 +21,11 @@ export type QGDSPaginationProps = InstanceType<typeof QGDSPagination>;
  * @prop { Number } [totalPages=1] - The total number of pages
  * @prop { String } [prevLabel="Back"] - The label for the previous page button
  * @prop { String } [nextLabel="Next"] - The label for the next page button
+ * @prop { String } [showPrevNext="default"] - Whether to show previous/next links: "default" or "always"
  * @prop { String } [ariaLabel="Pagination navigation"] - The aria-label for the pagination navigation
  * @prop { String } [linkBase=""] - The base URL for page links (e.g. "/articles?page=")
  *
- * @event click - Emitted when a page link is clicked, with detail of the selected page number or "prev"/"next"
+ * @event qgds-navigate - Emitted when a page link is clicked, with detail of the selected page number or "prev"/"next"
  */
 
 @customElement("qgds-pagination")
@@ -38,7 +38,7 @@ export class QGDSPagination extends LitElement {
   ];
 
   // Bind common events handler - Pending PR-45
-  // events = new QgdsEvents(this);
+  events = new QgdsEvents(this);
 
   // Max page numbers to show in the pagination (excluding prev/next and ellipses)
   private readonly maxPageNumbersToShow = 6;
@@ -62,13 +62,11 @@ export class QGDSPagination extends LitElement {
   @property({ type: String, reflect: true, attribute: "aria-label" })
   ariaLabel: string = "Pagination navigation";
 
-  @property({ type: Boolean, reflect: true, attribute: "no-reload" })
-  noReload: boolean = false;
+  @property({ type: String, reflect: true, attribute: "show-prev-next" })
+  showPrevNext: "default" | "always" = "default";
 
   // Number of sibling pages shown on each side of the current page.
   private readonly siblingCount = 1;
-
-  private readonly fixedNoReloadSlots = 6;
 
   private get normalizedTotalPages(): number {
     return Math.max(1, this.totalPages);
@@ -76,6 +74,10 @@ export class QGDSPagination extends LitElement {
 
   private get normalizedCurrentPage(): number {
     return Math.min(Math.max(1, this.currentPage), this.normalizedTotalPages);
+  }
+
+  private get normalizedShowPrevNext(): "default" | "always" {
+    return this.showPrevNext === "always" ? "always" : "default";
   }
 
   private isBoundaryActionDisabled(target: HTMLAnchorElement): boolean {
@@ -138,56 +140,7 @@ export class QGDSPagination extends LitElement {
     </li>`;
   }
 
-  private _renderNoReloadPageNumbers() {
-    const totalPages = this.normalizedTotalPages;
-    const currentPage = this.normalizedCurrentPage;
-    const slots: (number | "ellipsis" | "placeholder")[] = [];
-
-    if (totalPages <= this.fixedNoReloadSlots) {
-      for (let page = 1; page <= totalPages; page++) {
-        slots.push(page);
-      }
-      while (slots.length < this.fixedNoReloadSlots) {
-        slots.push("placeholder");
-      }
-    } else if (currentPage <= 3) {
-      slots.push(1, 2, 3, 4, "ellipsis", totalPages);
-    } else if (currentPage >= totalPages - 2) {
-      slots.push(
-        1,
-        "ellipsis",
-        totalPages - 3,
-        totalPages - 2,
-        totalPages - 1,
-        totalPages,
-      );
-    } else {
-      slots.push(
-        1,
-        "ellipsis",
-        currentPage - 1,
-        currentPage,
-        "ellipsis",
-        totalPages,
-      );
-    }
-
-    return slots.map((slot) => {
-      if (slot === "ellipsis") {
-        return this.renderPageMore();
-      }
-      if (slot === "placeholder") {
-        return this.renderPagePlaceholder();
-      }
-      return this.renderPageLink(slot);
-    });
-  }
-
   private _renderPageNumbers() {
-    if (this.noReload) {
-      return this._renderNoReloadPageNumbers();
-    }
-
     const totalPages = this.normalizedTotalPages;
     const currentPage = this.normalizedCurrentPage;
     const pages: ReturnType<typeof html>[] = [];
@@ -199,30 +152,45 @@ export class QGDSPagination extends LitElement {
       return pages;
     }
 
+    const computeWindow = (requestedMiddleSlots: number) => {
+      const middleSlots = Math.max(1, requestedMiddleSlots);
+      const halfWindow = Math.floor(middleSlots / 2);
+      let leftBoundary = currentPage - halfWindow;
+      let rightBoundary = currentPage + (middleSlots - halfWindow - 1);
+
+      // Clamp middle window to valid inner-page bounds [2, totalPages - 1].
+      if (leftBoundary < 2) {
+        rightBoundary += 2 - leftBoundary;
+        leftBoundary = 2;
+      }
+      if (rightBoundary > totalPages - 1) {
+        leftBoundary -= rightBoundary - (totalPages - 1);
+        rightBoundary = totalPages - 1;
+      }
+
+      leftBoundary = Math.max(2, leftBoundary);
+      rightBoundary = Math.min(totalPages - 1, rightBoundary);
+
+      return {
+        leftBoundary,
+        rightBoundary,
+        hasLeadingGap: leftBoundary > 2,
+        hasTrailingGap: rightBoundary < totalPages - 1,
+      };
+    };
+
     // Reserve first and last pages, then compute the middle window.
-    const middleSlots = this.maxPageNumbersToShow - 2;
-    const halfWindow = Math.floor(middleSlots / 2);
-    let leftBoundary = currentPage - halfWindow;
-    let rightBoundary = currentPage + (middleSlots - halfWindow - 1);
+    const baseMiddleSlots = this.maxPageNumbersToShow - 2;
+    let { leftBoundary, rightBoundary, hasLeadingGap, hasTrailingGap } = computeWindow(baseMiddleSlots);
 
-    // Clamp middle window to valid inner-page bounds [2, totalPages - 1].
-    if (leftBoundary < 2) {
-      rightBoundary += 2 - leftBoundary;
-      leftBoundary = 2;
-    }
-    if (rightBoundary > totalPages - 1) {
-      leftBoundary -= rightBoundary - (totalPages - 1);
-      rightBoundary = totalPages - 1;
+    // When both ellipses are visible, shrink the middle window by one slot
+    // so the overall pagination footprint stays stable.
+    if (hasLeadingGap && hasTrailingGap) {
+      ({ leftBoundary, rightBoundary, hasLeadingGap, hasTrailingGap } = computeWindow(baseMiddleSlots - 1));
     }
 
-    leftBoundary = Math.max(2, leftBoundary);
-    rightBoundary = Math.min(totalPages - 1, rightBoundary);
-
-    const hasLeadingGap = leftBoundary > 2;
-    const hasTrailingGap = rightBoundary < totalPages - 1;
     const needsMobileLeadingGap = !hasLeadingGap && currentPage > 2;
-    const needsMobileTrailingGap =
-      !hasTrailingGap && currentPage < totalPages - 1;
+    const needsMobileTrailingGap = !hasTrailingGap && currentPage < totalPages - 1;
 
     pages.push(this.renderPageLink(1));
 
@@ -253,10 +221,6 @@ export class QGDSPagination extends LitElement {
       return;
     }
 
-    if (this.noReload) {
-      e.preventDefault();
-    }
-
     if (this.isBoundaryActionDisabled(target)) {
       e.preventDefault();
       return;
@@ -267,47 +231,41 @@ export class QGDSPagination extends LitElement {
     const href = target.getAttribute("href") ?? target.href;
 
     let action: "prev" | "next" | "page" = "page";
-    let page: number | null = null;
+    let requestedPage: number | null = null;
 
     if (target.classList.contains("prev-link")) {
       action = "prev";
-      page = Math.max(1, currentPage - 1);
+      requestedPage = Math.max(1, currentPage - 1);
     } else if (target.classList.contains("next-link")) {
       action = "next";
-      page = Math.min(totalPages, currentPage + 1);
+      requestedPage = Math.min(totalPages, currentPage + 1);
     } else if (target.classList.contains("page-link")) {
       const pageToken = href.replace(this.linkBase, "");
       const parsedPage = Number(pageToken);
-      page = Number.isNaN(parsedPage) ? null : parsedPage;
+      requestedPage = Number.isNaN(parsedPage) ? null : parsedPage;
     }
 
     const eventPayload = {
       action,
-      page,
+      requestedPage,
       currentPage,
       totalPages,
       href,
     };
 
-    // Pending PR-45
-    // this.events.dispatch("navigate", eventPayload, e);
+    const navigationCancelled = !this.events.dispatch("navigate", eventPayload, e);
 
-    // Temporary to test
-    this.dispatchEvent(
-      new CustomEvent("qgds-navigate", {
-        detail: eventPayload,
-        bubbles: true,
-        composed: true,
-      }),
-    );
+    if (navigationCancelled) {
+      e.preventDefault();
+    }
   };
 
   render() {
-    const showPrevLink = this.noReload || this.currentPage > 1;
-    const showNextLink = this.noReload || this.currentPage < this.totalPages;
+    const showPrevNextAlways = this.normalizedShowPrevNext === "always";
+    const showPrevLink = showPrevNextAlways || this.normalizedCurrentPage > 1;
+    const showNextLink = showPrevNextAlways || this.normalizedCurrentPage < this.normalizedTotalPages;
     const isPrevDisabled = this.normalizedCurrentPage <= 1;
-    const isNextDisabled =
-      this.normalizedCurrentPage >= this.normalizedTotalPages;
+    const isNextDisabled = this.normalizedCurrentPage >= this.normalizedTotalPages;
 
     return html`
       <nav aria-label="${ifDefined(this.ariaLabel)}">
@@ -317,15 +275,11 @@ export class QGDSPagination extends LitElement {
                 <li class="prev-item ${isPrevDisabled ? "disabled" : ""}">
                   <a
                     class="prev-link ${isPrevDisabled ? "is-disabled" : ""}"
-                    href="${this.linkBase}${Math.max(
-                      1,
-                      this.normalizedCurrentPage - 1,
-                    )}"
+                    href="${this.linkBase}${Math.max(1, this.normalizedCurrentPage - 1)}"
                     aria-label="${this.prevLabel}"
-                    aria-disabled=${ifDefined(
-                      isPrevDisabled ? "true" : undefined,
-                    )}
-                    @click=${this._handleClick}>
+                    aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
+                    @click=${this._handleClick}
+                  >
                     <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
                     <span class="label">${this.prevLabel}</span>
                   </a>
@@ -338,15 +292,11 @@ export class QGDSPagination extends LitElement {
                 <li class="next-item ${isNextDisabled ? "disabled" : ""}">
                   <a
                     class="next-link ${isNextDisabled ? "is-disabled" : ""}"
-                    href="${this.linkBase}${Math.min(
-                      this.normalizedTotalPages,
-                      this.normalizedCurrentPage + 1,
-                    )}"
+                    href="${this.linkBase}${Math.min(this.normalizedTotalPages, this.normalizedCurrentPage + 1)}"
                     aria-label="${this.nextLabel}"
-                    aria-disabled=${ifDefined(
-                      isNextDisabled ? "true" : undefined,
-                    )}
-                    @click=${this._handleClick}>
+                    aria-disabled=${ifDefined(isNextDisabled ? "true" : undefined)}
+                    @click=${this._handleClick}
+                  >
                     <span class="label">${this.nextLabel}</span>
                     <qgds-icon size="md" icon-id="arrow-right"></qgds-icon>
                   </a>
