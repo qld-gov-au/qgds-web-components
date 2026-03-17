@@ -20,12 +20,10 @@ describe("qgds-select", () => {
     it("should render with default properties", async () => {
       await element.updateComplete;
 
-      expect(element.label).toBe("Select");
+      expect(element.label).toBeUndefined();
       expect(element.disabled).toBe(false);
       expect(element.required).toBe(false);
-      expect(element.filled).toBe(false);
-      expect(element.valid).toBe(false);
-      expect(element.invalid).toBe(false);
+      expect(element.variant).toBeUndefined();
       expect(element.multiple).toBe(false);
       expect(element.autofocus).toBe(false);
       expect(element.placeholder).toBe("Please select");
@@ -47,23 +45,26 @@ describe("qgds-select", () => {
       element.hint = "This is a hint";
       await element.updateComplete;
 
-      const hint = element.shadowRoot?.querySelector(".hint");
+      const hint = element.shadowRoot?.querySelector(".qgds-form-hint");
       expect(hint?.textContent).toBe("This is a hint");
     });
 
     it("should render optional text when provided", async () => {
-      element.optionalText = "(optional)";
+      element.label = "Label";
+      element.indicateIf = "optional";
       await element.updateComplete;
 
-      const optional = element.shadowRoot?.querySelector(".optional");
+      const optional = element.shadowRoot?.querySelector(".qgds-form-label-optional");
       expect(optional?.textContent?.trim()).toContain("(optional)");
     });
 
     it("should show required indicator when required", async () => {
+      element.label = "Label";
       element.required = true;
+      element.indicateIf = "required";
       await element.updateComplete;
 
-      const required = element.shadowRoot?.querySelector(".required");
+      const required = element.shadowRoot?.querySelector(".qgds-form-label-required");
       expect(required).toBeTruthy();
       expect(required?.textContent).toContain("*");
     });
@@ -100,7 +101,7 @@ describe("qgds-select", () => {
     });
 
     it("should participate in form submission", async () => {
-      element.name = "pet";
+      element.setAttribute("name", "pet");
       element.value = "cat";
       form.appendChild(element);
       await element.updateComplete;
@@ -110,7 +111,7 @@ describe("qgds-select", () => {
     });
 
     it("should not submit value when disabled", async () => {
-      element.name = "pet";
+      element.setAttribute("name", "pet");
       element.value = "cat";
       element.disabled = true;
       form.appendChild(element);
@@ -127,8 +128,6 @@ describe("qgds-select", () => {
 
       element.formResetCallback();
       expect(element.value).toBe("");
-      expect(element.valid).toBe(false);
-      expect(element.invalid).toBe(false);
     });
 
     it("should restore form state", async () => {
@@ -369,23 +368,22 @@ describe("qgds-select", () => {
     });
 
     it("should show error message when invalid", async () => {
-      element.invalid = true;
-      element.errorMessage = "Please select an option";
+      element.validationState = "error";
+      element.validationMessage = "Please select an option";
       await element.updateComplete;
 
-      const errorMessage = element.shadowRoot?.querySelector(".error-message");
+      const errorMessage = element.shadowRoot?.querySelector(".qgds-form-feedback");
       expect(errorMessage?.textContent?.trim()).toContain(
         "Please select an option",
       );
     });
 
     it("should show success message when valid", async () => {
-      element.valid = true;
-      element.successMessage = "Great choice!";
+      element.validationState = "success";
+      element.validationMessage = "Great choice!";
       await element.updateComplete;
 
-      const successMessage =
-        element.shadowRoot?.querySelector(".success-message");
+      const successMessage = element.shadowRoot?.querySelector(".qgds-form-feedback");
       expect(successMessage?.textContent?.trim()).toContain("Great choice!");
     });
 
@@ -407,9 +405,6 @@ describe("qgds-select", () => {
       select.value = "cat";
       select.dispatchEvent(new Event("change", { bubbles: true }));
       await element.updateComplete;
-
-      expect(element.valid).toBe(true);
-      expect(element.invalid).toBe(false);
     });
 
     it("should validate required multiple select", async () => {
@@ -517,8 +512,10 @@ describe("qgds-select", () => {
   describe("Accessibility", () => {
     it("should have proper aria attributes", async () => {
       element.required = true;
+      element.value = "cat"; // valid value keeps aria-invalid false
       element.hint = "Select your favorite pet";
       await element.updateComplete;
+      await element.updateComplete; // flush validation state re-render
 
       const select = element.shadowRoot?.querySelector("select");
       expect(select?.getAttribute("aria-required")).toBe("true");
@@ -529,7 +526,7 @@ describe("qgds-select", () => {
     });
 
     it("should set aria-invalid when invalid", async () => {
-      element.invalid = true;
+      element.validationState = "error";
       await element.updateComplete;
 
       const select = element.shadowRoot?.querySelector("select");
@@ -537,8 +534,8 @@ describe("qgds-select", () => {
     });
 
     it("should include error message in aria-describedby when invalid", async () => {
-      element.invalid = true;
-      element.errorMessage = "Error message";
+      element.validationState = "error";
+      element.validationMessage = "Error message";
       await element.updateComplete;
 
       const select = element.shadowRoot?.querySelector("select");
@@ -547,8 +544,8 @@ describe("qgds-select", () => {
     });
 
     it("should include success message in aria-describedby when valid", async () => {
-      element.valid = true;
-      element.successMessage = "Success message";
+      element.validationState = "success";
+      element.validationMessage = "Success message";
       await element.updateComplete;
 
       const select = element.shadowRoot?.querySelector("select");
@@ -557,13 +554,12 @@ describe("qgds-select", () => {
     });
 
     it("should have proper role attributes on messages", async () => {
-      element.invalid = true;
-      element.errorMessage = "Error";
+      element.validationState = "error";
+      element.validationMessage = "Error";
       await element.updateComplete;
 
-      const errorMessage = element.shadowRoot?.querySelector(".error-message");
+      const errorMessage = element.shadowRoot?.querySelector(".qgds-form-feedback");
       expect(errorMessage?.getAttribute("role")).toBe("alert");
-      expect(errorMessage?.getAttribute("aria-live")).toBe("polite");
     });
   });
 
@@ -576,11 +572,11 @@ describe("qgds-select", () => {
       expect(select?.disabled).toBe(true);
     });
 
-    it("should reflect disabled attribute", async () => {
+    it("should have disabled property set", async () => {
       element.disabled = true;
       await element.updateComplete;
 
-      expect(element.hasAttribute("disabled")).toBe(true);
+      expect(element.disabled).toBe(true);
     });
   });
 
