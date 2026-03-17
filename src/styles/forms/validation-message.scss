@@ -1,11 +1,11 @@
-.qgds-form-feedback {
+.qgds-validation-message {
   margin-block-end: 8px;
 
-  &.is-valid {
+  &.is-success {
     color: green;
   }
 
-  &.is-invalid {
+  &.is-error {
     color: red;
   }
 }

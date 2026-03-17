@@ -66,7 +66,7 @@ export class QGDSSelect extends QGDSFormField {
   @property({ type: String }) placeholder: string = "Please select";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
   @property({ type: Number }) size?: SelectSize;
-  @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
+  // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
 
   private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   private _internals: ElementInternals;
