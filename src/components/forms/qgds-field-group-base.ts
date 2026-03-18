@@ -73,6 +73,17 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     return null;
   }
 
+  /** Point the base sync logic at the internal selection state. */
+  protected override get _currentValue(): FieldGroupValue {
+    return this._value;
+  }
+
+  override formResetCallback(): void {
+    this._value = this._initialValue();
+    this.validationState = undefined;
+    this.validationMessage = undefined;
+  }
+
   private _handleChange = (e: Event): void => {
     e.stopPropagation();
 
@@ -81,6 +92,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     if (!input) return;
 
     this._applyChange(input, source);
+    this._syncFormValue();
 
     this.dispatchEvent(
       new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
