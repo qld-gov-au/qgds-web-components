@@ -44,6 +44,10 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
     `,
   ];
 
+  // private _handleInput = (e: Event): void => {
+  //   this.value = (e.target as HTMLTextAreaElement).value;
+  // };
+
   protected renderInput(): TemplateResult {
     return html`<textarea
       name="${ifDefined(this.name)}"
