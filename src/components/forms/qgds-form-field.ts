@@ -6,12 +6,14 @@ import { FormValidationState, FormIndicateIf } from "../../types/forms";
 
 /**
  * Abstract base class for all QGDS form field components.
- * Provides common properties, validation handling, and rendering logic for form inputs.
+ * Provides common properties, validation handling, rendering logic, and
+ * form association (via ElementInternals) for all form field inputs.
  *
  * @abstract
  * @prop {String} id - Required unique identifier for the form field.
  * @prop {String} [name] - Required name attribute for form submission.
  * @prop {String} [label] - The form field's label text.
+ * @prop {String} [value] - The current value of the field.
  * @prop {Boolean} [required=false] - Indicates whether the field is required.
  * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none".
  * @prop {String} [hint] - Hint text to guide the user.
@@ -23,6 +25,19 @@ import { FormValidationState, FormIndicateIf } from "../../types/forms";
  * @slot details - Place any markup to be rendered within additional details.
  */
 export abstract class QGDSFormField extends LitElement {
+  // ── Form association ───────────────────────────────────────────────────────
+
+  static formAssociated = true;
+
+  protected _internals: ElementInternals;
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // ── Properties ─────────────────────────────────────────────────────────────
+
   @property({ type: String })
   id!: string;
 
@@ -31,6 +46,9 @@ export abstract class QGDSFormField extends LitElement {
 
   @property({ type: String })
   label?: string;
+
+  @property({ type: String })
+  value?: string = "";
 
   @property({ type: Boolean })
   required?: boolean = false;
@@ -56,8 +74,7 @@ export abstract class QGDSFormField extends LitElement {
   /** Set delegatesFocus: true for programatic focus, autofocus */
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
-  // Enable form association
-  static formAssociated = true;
+  // Enable form associatio
 
   static styles = [resetStyles, formStyles, utilitiesStyles];
 
@@ -80,34 +97,74 @@ export abstract class QGDSFormField extends LitElement {
       .join(" ");
   }
 
-  protected _internals: ElementInternals;
+  // ── Form value sync ────────────────────────────────────────────────────────
 
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
+  /**
+   * The value to sync into ElementInternals. Override in subclasses that
+   * track their selection in a separate internal state (e.g. field groups).
+   */
+  protected get _currentValue(): string | string[] | undefined {
+    return this.value;
   }
 
-  // Public validation methods
-  checkValidity(): boolean {
-    return this._internals.checkValidity();
-  }
-
-  reportValidity(): boolean {
-    const isValid = this._internals.reportValidity();
-    // Focus the select if validation fails for better accessibility
-    if (!isValid) {
-      this.focus();
+  /**
+   * Sync the current value into ElementInternals so the field participates
+   * in native form submission.
+   */
+  protected _syncFormValue(): void {
+    if (this.disabled) {
+      this._internals.setFormValue(null);
+      return;
     }
-    return isValid;
+    const raw = this._currentValue;
+    if (Array.isArray(raw)) {
+      const fd = new FormData();
+      const key = this.name ?? this.id;
+      raw.forEach((v) => fd.append(key, v));
+      this._internals.setFormValue(fd);
+    } else {
+      this._internals.setFormValue(raw ?? "");
+    }
   }
 
-  // Lit lifecycle methods
+  // ── Lifecycle ──────────────────────────────────────────────────────────────
+
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
     if (changedProperties.has("id") && !this.id && !this.name) {
       console.warn(`id or name attribute is required`);
     }
+
+    if (changedProperties.has("value") || changedProperties.has("disabled")) {
+      this._syncFormValue();
+    }
+  }
+
+  // ── Form lifecycle callbacks ───────────────────────────────────────────────
+
+  formResetCallback(): void {
+    this.value = undefined;
+    this.validationState = undefined;
+    this.validationMessage = undefined;
+  }
+
+  formDisabledCallback(disabled: boolean): void {
+    this.disabled = disabled;
+  }
+
+  formStateRestoreCallback(state: string): void {
+    this.value = state;
+  }
+
+  // ── Validation ─────────────────────────────────────────────────────────────
+
+  checkValidity(): boolean {
+    return this._internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    return this._internals.reportValidity();
   }
 
   // Custom internal methods

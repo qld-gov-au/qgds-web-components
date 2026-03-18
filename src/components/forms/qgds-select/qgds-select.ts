@@ -55,7 +55,6 @@ export interface QGDSSelectEventMap {
 export class QGDSSelect extends QGDSFormField implements IFormControl {
   // Re-declare value as a plain string (base type is string | string[] | undefined)
   @property({ type: String }) variant?: FormVariant;
-  @property({ type: String }) value: string = "";
   @property({ type: String }) placeholder: string = "Please select";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
   @property({ type: Number }) size?: number;
@@ -136,29 +135,10 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
    * Update form value and validity when value or multiple changes
    */
   updated(changedProperties: Map<string, unknown>): void {
-    super.updated(changedProperties);
+    super.updated(changedProperties); // handles _syncFormValue for value/disabled
 
-    if (changedProperties.has("value") || changedProperties.has("multiple") || changedProperties.has("name")) {
-      // Set form value (for multiple, submit as comma-separated)
-      // Don't set if disabled
-      if (!this.disabled) {
-        this._internals.setFormValue(this.value ?? "");
-      }
-
-      // Validate on value change
-      if (changedProperties.has("value")) {
-        this._validateAndUpdateState();
-      }
-    }
-
-    if (changedProperties.has("required")) {
-      // Re-validate when required changes
+    if (changedProperties.has("value") || changedProperties.has("required")) {
       this._validateAndUpdateState();
-    }
-
-    if (changedProperties.has("disabled")) {
-      // Update disabled state
-      this._internals.setFormValue(this.disabled ? null : (this.value ?? ""));
     }
 
     // Sync select element with value property for multiple select
@@ -386,18 +366,19 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   /**
    * Form lifecycle callbacks
    */
-  formResetCallback(): void {
-    this.value = "";
+  override formResetCallback(): void {
+    this.value = ""; // select resets to "" not undefined
     this.validationState = undefined;
     this.validationMessage = undefined;
   }
 
-  formStateRestoreCallback(state: string): void {
-    this.value = state;
-  }
-
-  formDisabledCallback(disabled: boolean): void {
-    this.disabled = disabled;
+  override reportValidity(): boolean {
+    const isValid = super.reportValidity();
+    // Focus the select if validation fails for better accessibility
+    if (!isValid) {
+      this.focus();
+    }
+    return isValid;
   }
 
   /**
