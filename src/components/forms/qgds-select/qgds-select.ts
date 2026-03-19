@@ -131,15 +131,16 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     this.value = values.join(",");
   }
 
+  /** Get value array or string depending on multiple select */
+  protected override get _currentValue(): string | string[] | undefined {
+    return this.multiple ? this.valueAsArray : this.value;
+  }
+
   /**
    * Update form value and validity when value or multiple changes
    */
   updated(changedProperties: Map<string, unknown>): void {
     super.updated(changedProperties); // handles _syncFormValue for value/disabled
-
-    if (changedProperties.has("value") || changedProperties.has("required")) {
-      this._validateAndUpdateState();
-    }
 
     // Sync select element with value property for multiple select
     if (changedProperties.has("value") && this.multiple) {
@@ -147,62 +148,10 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     }
   }
 
-  protected renderInput(): TemplateResult {
-    return html`
-      <div class="select-wrapper">
-        <select
-          name="${this.name}"
-          id="${this.id}"
-          class=${classMap({
-            "qgds-form-control is-full-width": true,
-            "is-filled": this.variant === "filled",
-            "is-valid": this.validationState === "success",
-            "is-invalid": this.validationState === "error",
-          })}
-          .value=${this.value}
-          @change=${this._handleChange}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?multiple=${this.multiple}
-          ?autofocus=${this.autofocus}
-          size="${this.multiple && this.size ? this.size : undefined}"
-          aria-describedby="${ifDefined(this._ariaDescribedBy)}"
-          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
-        >
-          ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
-        </select>
-      </div>
-      <slot @slotchange=${this._onSlotChange}></slot>
-    `;
-  }
-
-  /**
-   * Auto-validation logic
-   */
-  private _validateAndUpdateState(): void {
-    const isValid = this._checkValidity();
-    const message = this._getValidationMessage();
-    const selectElement = this.shadowRoot?.querySelector("select");
-    const hasValue = this.value !== "";
-
-    // Always update ElementInternals validity
-    if (!isValid && message) {
-      this._internals.setValidity({ valueMissing: true }, message, selectElement ?? undefined);
-    } else {
-      // Clear validity when valid
-      this._internals.setValidity({});
-    }
-
-    // Auto-update valid/invalid flags if no custom messages
-    if (!this.validationMessage) {
-      this.validationState = isValid && hasValue ? "success" : "error";
-    }
-  }
-
   /**
    * Check validity with support for multiple select
    */
-  private _checkValidity(): boolean {
+  override checkValidity(): boolean {
     if (!this.required) return true;
     if (this.multiple) {
       // For multiple, check if any values are selected and not just empty string
@@ -216,7 +165,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   /**
    * Get validation message
    */
-  private _getValidationMessage(): string {
+  override _getValidationMessage(): string {
     if (this.required) {
       if (this.multiple) {
         // For multiple, check if any values are selected
@@ -404,6 +353,35 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
    */
   setSelectedValues(values: string[]): void {
     this.valueAsArray = values;
+  }
+
+  protected renderInput(): TemplateResult {
+    return html`
+      <div class="select-wrapper">
+        <select
+          name="${this.name}"
+          id="${this.id}"
+          class=${classMap({
+            "qgds-form-control is-full-width": true,
+            "is-filled": this.variant === "filled",
+            "is-valid": this.validationState === "success",
+            "is-invalid": this.validationState === "error",
+          })}
+          .value=${this.value}
+          @change=${this._handleChange}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?multiple=${this.multiple}
+          ?autofocus=${this.autofocus}
+          size="${this.multiple && this.size ? this.size : undefined}"
+          aria-describedby="${ifDefined(this._ariaDescribedBy)}"
+          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
+        >
+          ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
+        </select>
+      </div>
+      <slot @slotchange=${this._onSlotChange}></slot>
+    `;
   }
 }
 
