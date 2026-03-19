@@ -2,7 +2,6 @@ import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
-import { resetStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-select.styles.scss?inline";
 import "../qgds-icon/qgds-icon";
 import { QGDSSelectOption } from "./qgds-select-option.js";
@@ -79,8 +78,7 @@ export class QGDSSelect extends QGDSFormField {
   }
 
   static styles = [
-    resetStyles,
-    utilitiesStyles,
+    ...super.styles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
@@ -115,7 +113,7 @@ export class QGDSSelect extends QGDSFormField {
 
     // Set form value when element is connected to DOM (important for form participation)
     // This ensures the value is set when the element is appended to a form
-    this._internals.setFormValue(this.disabled ? null : this.value || "");
+    this._internals.setFormValue(this.disabled ? null : (this.value ?? ""));
   }
 
   disconnectedCallback(): void {
@@ -165,7 +163,7 @@ export class QGDSSelect extends QGDSFormField {
       // Set form value (for multiple, submit as comma-separated)
       // Don't set if disabled
       if (!this.disabled) {
-        this._internals.setFormValue(this.value || "");
+        this._internals.setFormValue(this.value ?? "");
       }
 
       // Validate on value change
@@ -181,7 +179,7 @@ export class QGDSSelect extends QGDSFormField {
 
     if (changedProperties.has("disabled")) {
       // Update disabled state
-      this._internals.setFormValue(this.disabled ? null : this.value || "");
+      this._internals.setFormValue(this.disabled ? null : (this.value ?? ""));
     }
 
     // Sync select element with value property for multiple select

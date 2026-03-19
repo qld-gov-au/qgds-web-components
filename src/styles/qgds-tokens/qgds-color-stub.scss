@@ -14,7 +14,6 @@
   --qgds-color-border: #ebebeb;
   --qgds-color-border-alt: #848484;
   --qgds-color-crest-fill: #005eb8;
-  --qgds-color-focus-default: #002e85;
   --qgds-color-link-default: #005eb8;
   --qgds-color-link-on-action: #ffffff;
   --qgds-color-link-visited: #551a8b;
@@ -27,6 +26,11 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
+
+  &:root,
+  > :where(*) {
+    --qgds-color-focus-default: #002e85;
+  }
 }
 
 // ============================================
@@ -56,6 +60,11 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
+
+  &:root,
+  > :where(*) {
+    --qgds-color-focus-default: #002e85;
+  }
 }
 
 // ============================================
@@ -85,6 +94,11 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
+
+  &:root,
+  > :where(*) {
+    --qgds-color-focus-default: #002e85;
+  }
 }
 
 // ============================================
@@ -99,9 +113,8 @@
   --qgds-color-background: #005eb8;
   --qgds-color-background-shade: #003e96;
   --qgds-color-border: #418fed;
-  --qgds-color-border-alt: #73C2FF;
+  --qgds-color-border-alt: #73c2ff;
   --qgds-color-crest-fill: #ffffff;
-  --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-on-action: #001c37;
   --qgds-color-link-visited: #f2cdff;
@@ -115,6 +128,11 @@
   --qgds-color-underline-visited: #c6aed9;
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
+
+  &:root,
+  > :where(*) {
+    --qgds-color-focus-default: #c6ffff;
+  }
 }
 
 // ============================================
@@ -132,7 +150,6 @@
   --qgds-color-border: #418fed;
   --qgds-color-border-alt: #63b1ff;
   --qgds-color-crest-fill: #ffffff;
-  --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-on-action: #001c37;
   --qgds-color-link-visited: #f2cdff;
@@ -146,6 +163,11 @@
   --qgds-color-underline-visited: #c6aed9;
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
+
+  &:root,
+  > :where(*) {
+    --qgds-color-focus-default: #c6ffff;
+  }
 }
 
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES

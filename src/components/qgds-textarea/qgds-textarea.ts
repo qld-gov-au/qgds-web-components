@@ -14,8 +14,9 @@ export const tagName = "qgds-textarea";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
  * @website https://www.designsystem.qld.gov.au/components/text-input
  *
- * @element qgds-textarea
+ * @tagname qgds-textarea
  *
+ * @prop {String} [value]
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {Number} [maxLength] - Maximum number of characters allowed.
  * @prop {Number} [minLength] - Minimum number of characters required.
@@ -25,6 +26,7 @@ export const tagName = "qgds-textarea";
  */
 @customElement(tagName)
 export class QGDSTextarea extends QGDSFormField {
+  @property({ type: String }) value?: HTMLInputElement["value"];
   @property({ type: String }) placeholder?: HTMLTextAreaElement["placeholder"];
   @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLTextAreaElement["maxLength"];
   @property({ type: Number, attribute: "minlength" }) minLength?: HTMLTextAreaElement["minLength"];
@@ -45,8 +47,8 @@ export class QGDSTextarea extends QGDSFormField {
       class=${classMap({
         "qgds-form-control is-full-width": true,
         "is-filled": this.variant === "filled",
-        "is-valid": this.validationState === "success",
-        "is-invalid": this.validationState === "error",
+        "is-success": this.validationState === "success",
+        "is-error": this.validationState === "error",
       })}
       placeholder=${ifDefined(this.placeholder)}
       ?required=${this.required}
@@ -56,7 +58,7 @@ export class QGDSTextarea extends QGDSFormField {
       maxlength=${ifDefined(this.maxLength)}
       minlength=${ifDefined(this.minLength)}
     >
-      ${this.value ?? nothing}</textarea
+${this.value ?? nothing}</textarea
     >`;
   }
 }

@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
+import { IFormControl } from "../../types/forms";
 
 type InputType = "text" | "email" | "password" | "number" | "tel" | "url";
 export const tagName = "qgds-text-input";
@@ -14,7 +15,8 @@ export const tagName = "qgds-text-input";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
  * @website https://www.designsystem.qld.gov.au/components/text-input
  *
- * @element qgds-text-input
+ * @tagname qgds-text-input
+ *
  * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]
@@ -32,7 +34,7 @@ export const tagName = "qgds-text-input";
  */
 
 @customElement(tagName)
-export class QGDSTextInput extends QGDSFormField {
+export class QGDSTextInput extends QGDSFormField implements IFormControl {
   @property({ type: String }) type?: InputType;
   @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
   @property({ type: String }) value?: HTMLInputElement["value"];
@@ -49,8 +51,8 @@ export class QGDSTextInput extends QGDSFormField {
       class=${classMap({
         "qgds-form-control": true,
         "is-filled": this.variant === "filled",
-        "is-valid": this.validationState === "success",
-        "is-invalid": this.validationState === "error",
+        "is-success": this.validationState === "success",
+        "is-error": this.validationState === "error",
       })}
       type=${this.type ?? "text"}
       value=${ifDefined(this.value)}
