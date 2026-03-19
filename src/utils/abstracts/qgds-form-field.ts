@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult, PropertyValues, nothing } from "lit";
 // import { classMap } from "lit/directives/class-map.js";
 import { property } from "lit/decorators.js";
 import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
-import { FormValidationState, FormIndicateIfOptions } from "../../types/forms";
+import { FormValidationState, FormIndicateIfOptions, FormVariantOptions } from "../../types/forms";
 
 /**
  * Abstract base class for all QGDS form field components.
@@ -12,16 +12,14 @@ import { FormValidationState, FormIndicateIfOptions } from "../../types/forms";
  * @prop {String} id - Required unique identifier for the form field.
  * @prop {String} [name] - Required name attribute for form submission.
  * @prop {String} [label] - The form field's label text.
- * @prop {String | String[]} [value] - The current value of the field.
  * @prop {Boolean} [required=false] - Indicates whether the field is required.
  * @prop {FormIndicateIfOptions} [indicateIf] - Display indicator for "required", "optional", or "none".
- * @prop {VariantOptions} [variant] - The visual style of the input, either "filled" or "outlined".
+ * @prop {FormVariantOptions} [variant] - The visual style of the input, either "filled" or "outlined".
  * @prop {String} [hint] - Hint text to guide the user.
  * @prop {FormValidationState} [validationState] - The validation state, either "success" or "error".
  * @prop {String} [validationMessage] - Validation feedback message displayed with the state.
  * @prop {Boolean} [disabled=false] - Disables the field when true.
  * @prop {Boolean} [readOnly=false] - Makes the field read-only when true.
- * @prop {Boolean} [autofocus=false] - Automatically focuses the field when true.
  *
  * @slot details - Place any markup to be rendered within additional details.
  */
@@ -35,9 +33,6 @@ export abstract class QGDSFormField extends LitElement {
   @property({ type: String })
   label?: string;
 
-  @property()
-  value?: string | string[];
-
   @property({ type: Boolean })
   required?: boolean = false;
 
@@ -45,7 +40,7 @@ export abstract class QGDSFormField extends LitElement {
   indicateIf?: FormIndicateIfOptions = "required";
 
   @property({ type: String })
-  variant?: "filled" | "outlined";
+  variant?: FormVariantOptions;
 
   @property({ type: String })
   hint?: string;
@@ -87,7 +82,7 @@ export abstract class QGDSFormField extends LitElement {
       : nothing;
   }
 
-  abstract renderInput(): TemplateResult;
+  protected abstract renderInput(): TemplateResult;
 
   render() {
     if (!this.id) {

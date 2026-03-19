@@ -7,7 +7,10 @@ export type FormVariantOptions = "filled" | "outlined";
  */
 export interface IFormControl {
   /**  The visual style of the input, either "filled" or "outlined". */
-  variant: FormVariantOptions;
+  variant?: FormVariantOptions;
+
+  /** The value of the input. When specified in the HTML, corresponds to the initial value */
+  value?: string;
   /** Displayed text when the value is empty */
-  placeholder: string;
+  placeholder?: string;
 }
