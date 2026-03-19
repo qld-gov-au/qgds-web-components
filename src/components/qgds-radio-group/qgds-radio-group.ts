@@ -18,7 +18,8 @@ export type QGDSRadioGroupProps = InstanceType<typeof QGDSRadioGroup>;
  *
  * Use `<qgds-form-field>` for label, hint, and validation message rendering.
  *
- * @tagname qgds-radio-group
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321347
+ * @website https://www.designsystem.qld.gov.au/components/radio
  *
  * @prop {string} name - Included in the `qgds-change` detail.
  *

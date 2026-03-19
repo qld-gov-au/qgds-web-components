@@ -11,7 +11,8 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  * Re-dispatches a composed `change` event from the host so `qgds-field-group`
  * can intercept it across the shadow DOM boundary.
  *
- * @tagname qgds-checkbox
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321348&p=f
+ * @website https://www.designsystem.qld.gov.au/components/checkbox
  *
  * @prop {string} id - The unique ID for the checkbox input, required for accessibility.
  * @prop {string} value - The value submitted when the checkbox is checked.
@@ -32,7 +33,6 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  */
 @customElement("qgds-checkbox")
 export class QGDSCheckbox extends LitElement {
-
   @property({ type: String })
   id: string = "";
 

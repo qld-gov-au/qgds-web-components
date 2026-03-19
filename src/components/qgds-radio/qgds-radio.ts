@@ -15,7 +15,8 @@ export type QGDSRadioProps = InstanceType<typeof QGDSRadio>;
  * grouping by `name` does not work across instances. Mutual exclusivity is
  * managed by `<qgds-field-group>` when this element is used inside one.
  *
- * @tagname qgds-radio
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321347
+ * @website https://www.designsystem.qld.gov.au/components/radio
  *
  * @prop {string} value - The value submitted when the radio is selected.
  * @prop {string} label - Visible label text.

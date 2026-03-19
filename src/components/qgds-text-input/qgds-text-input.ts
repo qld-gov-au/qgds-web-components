@@ -14,7 +14,6 @@ export const tagName = "qgds-text-input";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
  * @website https://www.designsystem.qld.gov.au/components/text-input
  *
- * @tagname qgds-text-input
  * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]

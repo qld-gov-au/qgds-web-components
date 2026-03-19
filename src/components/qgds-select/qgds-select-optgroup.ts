@@ -7,7 +7,8 @@ import type { QGDSSelectOption } from "./qgds-select-option.js";
  * Used as a child element within {@link QGDSSelect} to group related options with a label.
  * Only accepts {@link QGDSSelectOption} elements as children - other elements will be ignored.
  *
- * @tagname qgds-select-optgroup
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321345
+ * @website https://www.designsystem.qld.gov.au/components/select
  *
  * @example
  * ```html

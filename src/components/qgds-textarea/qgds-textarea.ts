@@ -14,8 +14,6 @@ export const tagName = "qgds-textarea";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
  * @website https://www.designsystem.qld.gov.au/components/text-input
  *
- * @tagname qgds-textarea
- *
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {Number} [maxLength] - Maximum number of characters allowed.
  * @prop {Number} [minLength] - Minimum number of characters required.

@@ -15,7 +15,9 @@ export type IconSize = "sm" | "md" | "lg" | "xl";
  * Single-colour icons use mask-image for easy recolouring via CSS.
  * Multi-colour icons use background-image to preserve their original colours.
  *
- * @tagname qgds-icon
+ * @uikit https://www.figma.com/design/0mkS2SvlrITvPC4JTnF7RS/QGDS-Icon-library
+ * @website https://www.designsystem.qld.gov.au/styles/iconography
+ *
  * @attr {IconName} icon-id - The ID of the icon to display (e.g., "home", "alert-success").
  * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
  * @attr {string} aria-label - The aria-label for the icon for accessibility.

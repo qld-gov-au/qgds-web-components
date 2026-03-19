@@ -37,7 +37,8 @@ export type SelectSize = number | undefined;
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
- * @tagname qgds-select
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321345
+ * @website https://www.designsystem.qld.gov.au/components/select
  *
  * @prop {boolean} [filled] - Whether to apply the "filled" variant styles.
  * @prop {string} [placeholder] - Placeholder text shown as the first (unselectable) option.

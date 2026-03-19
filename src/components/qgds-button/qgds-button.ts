@@ -18,7 +18,6 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
  * Can include icons and handle loading states.
  * Accessible via aria-labels and keyboard interactions.
  *
- * @tagname qgds-button
  * @attr {string} label - The label of the button.
  * @attr {ButtonVariant} variant - The variant of the button ("primary", "secondary", "tertiary").  Default is "primary"
  * @attr {boolean} disabled - Whether the button is disabled.  Default is "false"
