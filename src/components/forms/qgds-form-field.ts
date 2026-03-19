@@ -25,17 +25,6 @@ import { FormValidationState, FormIndicateIf } from "../../types/forms";
  * @slot details - Place any markup to be rendered within additional details.
  */
 export abstract class QGDSFormField extends LitElement {
-  // ── Form association ───────────────────────────────────────────────────────
-
-  static formAssociated = true;
-
-  protected _internals: ElementInternals;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
-
   // ── Properties ─────────────────────────────────────────────────────────────
 
   @property({ type: String })
@@ -97,6 +86,19 @@ export abstract class QGDSFormField extends LitElement {
       .join(" ");
   }
 
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // ── Form association ───────────────────────────────────────────────────────
+
+  static formAssociated = true;
+
+  protected _internals: ElementInternals;
+
+  private _validationMessage?: string;
+
   // ── Form value sync ────────────────────────────────────────────────────────
 
   /**
@@ -136,17 +138,49 @@ export abstract class QGDSFormField extends LitElement {
       console.warn(`id or name attribute is required`);
     }
 
+    if (changedProperties.has("value") || changedProperties.has("required")) {
+      this._validateAndUpdateState();
+    }
+
     if (changedProperties.has("value") || changedProperties.has("disabled")) {
       this._syncFormValue();
     }
   }
 
+  protected _getValidationMessage(): string | undefined {
+    if (!this.required) return "";
+    if (!this.value) return "This field is required.";
+    return "";
+  }
+
+  /**
+   * Auto-validation logic
+   */
+  protected _validateAndUpdateState(): void {
+    const message = this._getValidationMessage();
+    const isValid = this.checkValidity();
+    const hasValue = !!this.value;
+
+    // Always update ElementInternals validity
+    if (!isValid) {
+      this._internals.setValidity({ valueMissing: true }, message);
+    } else {
+      // Clear validity when valid
+      this._internals.setValidity({});
+    }
+
+    // Auto-update valid/invalid flags if no custom messages
+    this._validationMessage = message;
+    this.validationState = isValid && hasValue ? "success" : "error";
+  }
+
   // ── Form lifecycle callbacks ───────────────────────────────────────────────
 
   formResetCallback(): void {
-    this.value = undefined;
+    this.value = "";
     this.validationState = undefined;
     this.validationMessage = undefined;
+    this._validationMessage = undefined;
   }
 
   formDisabledCallback(disabled: boolean): void {
@@ -159,12 +193,23 @@ export abstract class QGDSFormField extends LitElement {
 
   // ── Validation ─────────────────────────────────────────────────────────────
 
+  get nativeInput(): HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null {
+    return this.shadowRoot?.getElementById(this.id) as
+      | HTMLInputElement
+      | HTMLSelectElement
+      | HTMLTextAreaElement
+      | null;
+  }
+
   checkValidity(): boolean {
-    return this._internals.checkValidity();
+    if (!this.required) return true;
+    const input = this.nativeInput;
+    return input ? input.checkValidity() : this._internals.checkValidity();
   }
 
   reportValidity(): boolean {
-    return this._internals.reportValidity();
+    const input = this.nativeInput;
+    return input ? input.reportValidity() : this._internals.reportValidity();
   }
 
   // Custom internal methods
