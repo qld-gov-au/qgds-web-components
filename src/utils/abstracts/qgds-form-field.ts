@@ -112,6 +112,7 @@ export abstract class QGDSFormField extends LitElement {
           `
         : ""}
       <slot name="details"></slot>
-      ${this.renderInput()}`;
+
+      <div class="field-wrap">${this.renderInput()}</div>`;
   }
 }
