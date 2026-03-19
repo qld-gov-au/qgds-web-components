@@ -56,9 +56,6 @@ export type SelectSize = number | undefined;
  */
 @customElement("qgds-select")
 export class QGDSSelect extends QGDSFormField {
-  // Enable form association
-  static formAssociated = true;
-
   // Re-declare value as a plain string (base type is string | string[] | undefined)
   @property({ type: Boolean, reflect: true }) filled: boolean = false;
   @property({ type: String }) value: string = "";
@@ -68,14 +65,7 @@ export class QGDSSelect extends QGDSFormField {
   // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
 
   private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
-  private _internals: ElementInternals;
   private _mutationObserver?: MutationObserver;
-
-  constructor() {
-    super();
-    // Attach ElementInternals for form participation
-    this._internals = this.attachInternals();
-  }
 
   static styles = [
     ...super.styles,
@@ -427,22 +417,6 @@ export class QGDSSelect extends QGDSFormField {
 
   formDisabledCallback(disabled: boolean): void {
     this.disabled = disabled;
-  }
-
-  /**
-   * Public validation methods
-   */
-  checkValidity(): boolean {
-    return this._internals.checkValidity();
-  }
-
-  reportValidity(): boolean {
-    const isValid = this._internals.reportValidity();
-    // Focus the select if validation fails for better accessibility
-    if (!isValid) {
-      this.focus();
-    }
-    return isValid;
   }
 
   /**
