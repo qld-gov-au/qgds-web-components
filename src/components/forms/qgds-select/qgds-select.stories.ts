@@ -33,8 +33,7 @@ export const Default: Story = {
     label: "Form label",
     hint: "Hint text",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} optionalText=${args.optionalText} hint=${args.hint}>
+  render: (args) => html` hint=${args.hint}>
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -88,7 +87,7 @@ export const Required: Story = {
     hint: "Hint text",
   },
   render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?required=${args.required} hint=${args.hint}>
+    <qgds-select id=${args.id} label=${args.label} ?required=${args.required} hint=${args.hint} indicate-if="required">
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -115,7 +114,6 @@ export const Invalid: Story = {
       validation-state=${args.validationState}
       validation-message=${args.validationMessage}
       hint=${args.hint}
-      optionalText=${args.optionalText}
     >
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
@@ -162,7 +160,14 @@ export const Multiple: Story = {
     hint: "You can select multiple options",
   },
   render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?multiple=${args.multiple} size=${args.size} hint=${args.hint}>
+    <qgds-select
+      id=${args.id}
+      label=${args.label}
+      ?required=${args.required}
+      ?multiple=${args.multiple}
+      size=${args.size}
+      hint=${args.hint}
+    >
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
