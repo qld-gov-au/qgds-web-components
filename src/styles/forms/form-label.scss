@@ -1,18 +1,20 @@
 @use "../tools/functions" as f;
 
 .qgds-form-label {
-  display: block;
-  font-size: 16px;
+  display: inline-block; // block triggers hover effect on white space.
+  font-size: f.remify(16px);
   font-weight: 600;
   line-height: f.snap-line-height(1.45);
-  margin-block-end: 8px;
+  margin-block-end: f.remify(8px);
 
   &-required {
-    color: red;
+    color: var(--qgds-color-status-error-default, #e22339);
   }
 
   &-optional {
-    font-size: 14px;
+    font-size: f.remify(14px);
     font-weight: 400;
+    color: var(--qgds-color-text-lighter, #636363);
+    line-height: 1; // corrects a visual bug.
   }
 }

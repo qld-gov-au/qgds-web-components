@@ -1,8 +1,8 @@
 @use "../tools/functions" as f;
 
 .qgds-form-hint {
-  color: #636363;
-  font-size: 14px;
+  color: var(--qgds-color-text-lighter, #636363);
+  font-size: f.remify(14px);
   line-height: f.snap-line-height(1.45);
-  margin-block-end: 8px;
+  margin-block-end: f.remify(8px);
 }

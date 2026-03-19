@@ -9,10 +9,11 @@
   --qgds-icon-size: initial;
 
   display: inline-block;
+  vertical-align: middle;
 }
 
 .qgds-icon {
-  display: inline-flex;
+  display: flex;
   inline-size: var(--_qgds-icon-size); // set as dynamic style prop in component logic
   line-height: var(--line-height-none, 1);
   block-size: var(--_qgds-icon-size);
@@ -22,7 +23,7 @@
   mask-repeat: no-repeat;
   mask-size: contain;
   background-size: contain;
-  vertical-align: middle;
+  vertical-align: top;
   mask-image: var(--qgds-icon-svg);
   color: var(--qgds-icon-color);
   background-color: currentcolor;
