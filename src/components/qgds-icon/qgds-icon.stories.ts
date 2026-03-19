@@ -17,7 +17,8 @@ const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 type QGDSIconStoryArgs = typeof args;
 
 const meta: Meta<QGDSIconStoryArgs> = {
-  title: "Components/QGDS Icon",
+  title: "Components/Icon",
+  component: "qgds-icon",
   tags: ["autodocs"],
   args: {
     ...args,
@@ -86,7 +87,7 @@ export const AllIcons: Story = {
             ></qgds-icon>
             <span class="icon-name">${iconName}</span>
           </div>
-        `,
+        `
       )}
     </section>
   `,

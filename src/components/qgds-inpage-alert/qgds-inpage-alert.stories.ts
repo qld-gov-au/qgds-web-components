@@ -16,17 +16,6 @@ const meta: Meta<Args> = {
   title: "Components/In-page alert",
   component: "qgds-inpage-alert",
   tags: ["autodocs"],
-  parameters: {
-    docs: {
-      description: {
-        component: `## \`<qgds-inpage-alert>\`
-        
-In-page alerts are a helpful tool for informing users about essential updates or modifications on a webpage, all while capturing their attention without disrupting their ongoing task.
-
-Usually positioned at the top of a page after a submit action, these alerts are designed to be noticeable yet unobtrusive.`,
-      },
-    },
-  },
   args: {
     ...args,
     heading: "Here is the heading",

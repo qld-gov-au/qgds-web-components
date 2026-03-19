@@ -9,7 +9,7 @@ type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
-  title: "Components/Forms/Text input",
+  title: "Components/Forms/Forms/Text input",
   component: tagName,
   tags: ["autodocs"],
   args,

@@ -12,7 +12,8 @@ const { args, argTypes } = getStorybookHelpers<QGDSRadio>("qgds-radio");
 type QGDSRadioStoryArgs = typeof args;
 
 const meta: Meta<QGDSRadioStoryArgs> = {
-  title: "Components/QGDS Radio",
+  title: "Components/Forms/Radio",
+  component: "qgds-radio",
   tags: ["autodocs"],
   args: {
     ...args,
