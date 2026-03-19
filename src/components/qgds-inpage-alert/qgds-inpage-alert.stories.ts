@@ -7,14 +7,13 @@ import type { QGDSInpageAlert } from "./qgds-inpage-alert";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
 // The type parameter helps TypeScript understand your component's API
-const { args, argTypes, template } =
-  getStorybookHelpers<QGDSInpageAlert>("qgds-inpage-alert");
+const { args, argTypes, template } = getStorybookHelpers<QGDSInpageAlert>("qgds-inpage-alert");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
-  title: "Components/QGDS In-page alert",
+  title: "Components/In-page alert",
   component: "qgds-inpage-alert",
   tags: ["autodocs"],
   parameters: {

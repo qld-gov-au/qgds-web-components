@@ -14,7 +14,7 @@ type HeadingLevel = 2 | 3 | 4 | 5 | 6;
  * QGDS in-page alert
  * In-page alerts are a helpful tool for informing users about essential updates or modifications on a webpage, all while capturing their attention without disrupting their ongoing task. Usually positioned at the top of a page after a submit action, these alerts are designed to be noticeable yet unobtrusive.
  *
- * @element qgds-inpage-alert
+ * @tagname qgds-inpage-alert
  *
  * @prop {AlertVariant} [variant="info"] The alert variant, either "error", "info", "success", "warning".
  * @prop {string} [heading] The alert heading text.

@@ -37,7 +37,7 @@ export type SelectSize = number | undefined;
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
- * @element qgds-select
+ * @tagname qgds-select
  *
  * @prop {boolean} [filled] - Whether to apply the "filled" variant styles.
  * @prop {string} [placeholder] - Placeholder text shown as the first (unselectable) option.

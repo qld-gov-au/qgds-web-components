@@ -11,7 +11,7 @@ import componentCSS from "./qgds-inpage-nav-item.styles.scss?inline";
  * <qgds-inpage-nav-item href="#section1">Section 1</qgds-inpage-nav-item>
  *
  * @attribute href - The target URL or anchor for the navigation item
- * @tag qgds-inpage-nav-item
+ * @tagname qgds-inpage-nav-item
  *
  */
 
