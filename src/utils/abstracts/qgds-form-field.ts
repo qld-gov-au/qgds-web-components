@@ -60,8 +60,33 @@ export abstract class QGDSFormField extends LitElement {
   /** Set delegatesFocus: true for programatic focus, autofocus */
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
+  // Enable form association
+  static formAssociated = true;
+
   static styles = [resetStyles, formStyles, utilitiesStyles];
 
+  protected _internals: ElementInternals;
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
+  // Public validation methods
+  checkValidity(): boolean {
+    return this._internals.checkValidity();
+  }
+
+  reportValidity(): boolean {
+    const isValid = this._internals.reportValidity();
+    // Focus the select if validation fails for better accessibility
+    if (!isValid) {
+      this.focus();
+    }
+    return isValid;
+  }
+
+  // Lit lifecycle methods
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
@@ -70,6 +95,7 @@ export abstract class QGDSFormField extends LitElement {
     }
   }
 
+  // Custom internal methods
   private renderRequiredIndicator() {
     return this.required && this.indicateIf === "required"
       ? html`<span class="qgds-form-label-required" aria-hidden="true">*</span><span class="sr-only">(Required)</span>`
@@ -82,6 +108,10 @@ export abstract class QGDSFormField extends LitElement {
       : nothing;
   }
 
+  /**
+   * Abstract method to render the specific input element for the form field. Must be implemented by subclasses.
+   * This method is called within the main render() method of the base class, which handles common rendering logic for labels, hints, and validation messages.
+   */
   protected abstract renderInput(): TemplateResult;
 
   render() {
