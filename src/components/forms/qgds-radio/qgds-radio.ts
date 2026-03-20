@@ -1,7 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-import { baseStyles } from "../../styles";
+import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-radio.styles.scss?inline";
 
 export type QGDSRadioProps = InstanceType<typeof QGDSRadio>;

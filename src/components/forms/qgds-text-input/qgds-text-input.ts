@@ -2,8 +2,8 @@ import { html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
-import { IFormControl } from "../../types/forms";
+import { QGDSFormField } from "../qgds-form-field";
+import { IFormControl } from "../../../types/forms";
 
 type InputType = "text" | "email" | "password" | "number" | "tel" | "url";
 export const tagName = "qgds-text-input";

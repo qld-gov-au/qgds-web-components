@@ -3,9 +3,9 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSRadio } from "./qgds-radio.ts";
-import "./qgds-radio.ts";
-import "../qgds-radio-group/qgds-radio-group.ts";
+import type { QGDSRadio } from "./qgds-radio";
+import "./qgds-radio";
+import "../qgds-radio-group/qgds-radio-group";
 
 const { args, argTypes } = getStorybookHelpers<QGDSRadio>("qgds-radio");
 

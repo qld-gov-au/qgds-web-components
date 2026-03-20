@@ -5,7 +5,7 @@ import {
   type FieldGroupChangeDetail,
   type FieldGroupValue,
   type ResolvedInput,
-} from "../../utils/abstracts/qgds-field-group-base";
+} from "../qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 export type QGDSRadioGroupProps = InstanceType<typeof QGDSRadioGroup>;
