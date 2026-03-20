@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSSelect } from "./qgds-select.ts";
-import "./qgds-select.ts";
+import type { QGDSSelect } from "./qgds-select";
+import "./qgds-select";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 const { args, argTypes, template } = getStorybookHelpers<QGDSSelect>("qgds-select");

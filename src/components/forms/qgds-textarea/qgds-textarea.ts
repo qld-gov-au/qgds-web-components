@@ -2,8 +2,8 @@ import { html, TemplateResult, nothing, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
-import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
+import { QGDSFormField } from "../qgds-form-field";
+import { resetStyles, formStyles, utilitiesStyles } from "../../../styles";
 import componentCSS from "./qgds-textarea.styles.scss?inline";
 
 export const tagName = "qgds-textarea";

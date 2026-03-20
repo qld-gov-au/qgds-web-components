@@ -1,11 +1,11 @@
 import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
+import { QGDSFormField } from "../qgds-form-field";
 import componentCSS from "./qgds-select.styles.scss?inline";
-import "../qgds-icon/qgds-icon";
-import { QGDSSelectOption } from "./qgds-select-option.js";
-import { QGDSSelectOptgroup } from "./qgds-select-optgroup.js";
+import "../../qgds-icon/qgds-icon";
+import { QGDSSelectOption } from "./qgds-select-option";
+import { QGDSSelectOptgroup } from "./qgds-select-optgroup";
 
 /**
  * Event detail for change events

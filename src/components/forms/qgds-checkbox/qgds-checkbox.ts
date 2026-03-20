@@ -1,7 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-import { baseStyles } from "../../styles";
+import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
 
 export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
@@ -32,7 +32,6 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  */
 @customElement("qgds-checkbox")
 export class QGDSCheckbox extends LitElement {
-
   @property({ type: String })
   id: string = "";
 
