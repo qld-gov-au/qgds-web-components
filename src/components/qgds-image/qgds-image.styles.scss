@@ -5,27 +5,82 @@ Scoped CSS: qgds-image
 */
 
 :host {
-  --my-thing: #000;
+  --image-border-radius: 0;
+  --figure-border: 0;
+  --figure-padding: 0;
 }
 
-.image-wrap {
-  display: block;
-  inline-size: 100%;
+figure {
+  padding: var(--figure-padding);
+  border: var(--figure-border);
+  margin: 0;
+  inline-size: min-content;
 
-  img {
-    display: block;
-    inline-size: 100%;
-    block-size: 100%;
-    max-inline-size: 100%;
-    aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
-    object-fit: cover;
+  &.is-vertical {
+    inline-size: min-content;
   }
 }
 
-.caption {
+figure, div { 
+  display: block;
+  border-radius: var(--image-border-radius, 0);
+
+  &.align-left {
+    margin: 1rem;
+    margin-inline-start: 0;
+    float: inline-start;
+  }
+  
+  &.align-right {
+    margin: 1rem;
+    margin-inline-end: 0;
+    float: inline-end;
+  }
+
+  img {
+    display: block;
+
+    // inline-size: 100%;
+    aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
+    object-fit: cover;
+    border-radius: inherit;
+  }
+}
+
+:host:has(figcaption) {
+  .image-wrap img {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+}
+
+figcaption {
   font-size: 0.875rem;
   color: var(--qgds-color-text-default);
   padding-block: 0.5rem;
   padding-inline: 1rem;
   background: var(--qgds-color-background-shade);
+  border-radius: inherit;
+  border-start-start-radius: 0;
+  border-start-end-radius: 0;
+  text-align: start;
+  inline-size: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
+
+  a {
+    color: var(--qgds-color-link-default);
+    text-decoration: var(--text-decoration, none);
+    text-decoration-thickness: var(--text-decoration-thickness, 1px);
+    text-underline-offset: var(--text-underline-offset, auto);
+    transition: text-decoration-thickness 0.2s ease-in-out;
+
+    &:hover {
+      text-decoration-thickness: var(--text-decoration-thickness-hover, 2px);
+      transition: text-decoration-thickness 0.2s ease-in-out;
+    }
+  }
 }
+
