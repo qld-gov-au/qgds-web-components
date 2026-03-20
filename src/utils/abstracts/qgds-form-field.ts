@@ -89,7 +89,7 @@ export abstract class QGDSFormField extends LitElement {
     return undefined;
   }
 
-  abstract renderInput(validationState?: "success" | "error"): TemplateResult;
+  abstract renderInput(): TemplateResult;
 
   render() {
     if (!this.id) {
@@ -98,7 +98,7 @@ export abstract class QGDSFormField extends LitElement {
     }
 
     return html`${this.label
-        ? html`<label class="qgds-form-label">
+        ? html`<label class="qgds-form-label" for=${this.id}>
             ${this.renderRequiredIndicator()} ${this.label} ${this.renderOptionalIndicator()}
           </label>`
         : nothing}
@@ -112,6 +112,6 @@ export abstract class QGDSFormField extends LitElement {
           `
         : ""}
       <slot name="details"></slot>
-      ${this.renderInput(this.validationState)}`;
+      ${this.renderInput()}`;
   }
 }
