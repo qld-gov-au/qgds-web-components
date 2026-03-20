@@ -3,9 +3,9 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSCheckboxGroup } from "./qgds-checkbox-group.ts";
-import "./qgds-checkbox-group.ts";
-import "../qgds-checkbox/qgds-checkbox.ts";
+import type { QGDSCheckboxGroup } from "./qgds-checkbox-group";
+import "./qgds-checkbox-group";
+import "../qgds-checkbox/qgds-checkbox";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCheckboxGroup>("qgds-checkbox-group");
 
