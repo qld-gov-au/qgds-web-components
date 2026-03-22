@@ -39,7 +39,6 @@ export class QGDSTextInput extends QGDSFormField implements IFormControl {
   @property({ type: String }) variant?: FormVariant;
   @property({ type: String }) type?: InputType;
   @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
-  @property({ type: String }) value?: HTMLInputElement["value"];
   @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLInputElement["maxLength"];
   @property({ type: Number, attribute: "minlength" }) minLength?: HTMLInputElement["minLength"];
   @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];

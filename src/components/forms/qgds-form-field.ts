@@ -186,10 +186,20 @@ export abstract class QGDSFormField extends LitElement {
     return "";
   }
 
+  /**
+   * Override in subclasses to define component-level validity without relying
+   * on the native input element (e.g. when the native element's options don't
+   * reflect the component value at validation time).
+   */
+  protected _computeIsValid(): boolean {
+    const input = this._nativeInput;
+    return input ? input.checkValidity() : true;
+  }
+
   /** Auto-validation logic — syncs native input validity into ElementInternals. */
   protected _validateAndUpdateState(): void {
     const input = this._nativeInput;
-    const isValid = input ? input.checkValidity() : this._internals.checkValidity();
+    const isValid = this._computeIsValid();
     const hasValue = !!this.value;
 
     if (input && !isValid) {

@@ -149,17 +149,21 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   }
 
   /**
-   * Check validity with support for multiple select
+   * Component-level validity — checks this.value directly rather than the
+   * native <select>, whose options may not be populated at validation time.
    */
-  override checkValidity(): boolean {
+  protected override _computeIsValid(): boolean {
     if (!this.required) return true;
     if (this.multiple) {
-      // For multiple, check if any values are selected and not just empty string
       const values = this.valueAsArray;
       return values.length > 0 && values.some((v) => v !== "");
     }
-    // For single, check if value is not empty
-    return this.value !== "" && this.value !== null && this.value !== undefined;
+    return !!this.value;
+  }
+
+  /** @inheritdoc */
+  override checkValidity(): boolean {
+    return this._computeIsValid();
   }
 
   /**
