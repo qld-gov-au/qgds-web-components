@@ -78,10 +78,59 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     return this._value;
   }
 
+  // ── Group-aware validity helpers ───────────────────────────────────────────
+
+  private _groupHasValue(): boolean {
+    const val = this._value;
+    return Array.isArray(val) ? val.length > 0 : !!val;
+  }
+
+  /**
+   * Override to derive the required message from the group's internal
+   * `_value` instead of the inherited `this.value` (which is always "").
+   */
+  protected override _getValidationMessage(): string | undefined {
+    if (!this.required) return "";
+    return this._groupHasValue() ? "" : "This field is required.";
+  }
+
+  /**
+   * Override to validate against `_value` without touching `nativeInput`.
+   * Groups have no single native input element — validity is computed
+   * directly from the aggregated selection state.
+   */
+  protected override _validateAndUpdateState(): void {
+    const hasValue = this._groupHasValue();
+    const isValid = !this.required || hasValue;
+    const message = this._getValidationMessage();
+
+    if (!isValid) {
+      this._internals.setValidity({ valueMissing: true }, message);
+    } else {
+      this._internals.setValidity({});
+    }
+
+    this._validationMessage = message;
+    this.validationState = isValid && hasValue ? "success" : "error";
+  }
+
+  /**
+   * Watch `_value` changes (the internal `@state`) so validation and the
+   * visual state update after every user interaction, not just on `value`
+   * attribute changes (which never fire for groups).
+   */
+  override updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+    if (changedProperties.has("_value")) {
+      this._validateAndUpdateState();
+    }
+  }
+
   override formResetCallback(): void {
     this._value = this._initialValue();
     this.validationState = undefined;
     this.validationMessage = undefined;
+    this._validationMessage = undefined;
   }
 
   private _handleChange = (e: Event): void => {
