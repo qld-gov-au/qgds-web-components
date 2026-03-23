@@ -2,7 +2,7 @@ import { html, LitElement, TemplateResult, PropertyValues, nothing } from "lit";
 // import { classMap } from "lit/directives/class-map.js";
 import { property } from "lit/decorators.js";
 import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
-import { FormValidationState, FormIndicateIfOptions, FormVariantOptions } from "../../types/forms";
+import { FormValidationState, FormIndicateIf } from "../../types/forms";
 
 /**
  * Abstract base class for all QGDS form field components.
@@ -13,8 +13,7 @@ import { FormValidationState, FormIndicateIfOptions, FormVariantOptions } from "
  * @prop {String} [name] - Required name attribute for form submission.
  * @prop {String} [label] - The form field's label text.
  * @prop {Boolean} [required=false] - Indicates whether the field is required.
- * @prop {FormIndicateIfOptions} [indicateIf] - Display indicator for "required", "optional", or "none".
- * @prop {FormVariantOptions} [variant] - The visual style of the input, either "filled" or "outlined".
+ * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none".
  * @prop {String} [hint] - Hint text to guide the user.
  * @prop {FormValidationState} [validationState] - The validation state, either "success" or "error".
  * @prop {String} [validationMessage] - Validation feedback message displayed with the state.
@@ -37,10 +36,7 @@ export abstract class QGDSFormField extends LitElement {
   required?: boolean = false;
 
   @property({ type: String, attribute: "indicate-if", useDefault: true })
-  indicateIf?: FormIndicateIfOptions = "required";
-
-  @property({ type: String })
-  variant?: FormVariantOptions;
+  indicateIf?: FormIndicateIf = "required";
 
   @property({ type: String })
   hint?: string;
@@ -64,6 +60,25 @@ export abstract class QGDSFormField extends LitElement {
   static formAssociated = true;
 
   static styles = [resetStyles, formStyles, utilitiesStyles];
+
+  // Getters ensure these properties are always derived from current value of id.
+  private get _labelId(): string {
+    return `${this.id}-label`;
+  }
+
+  private get _hintId(): string {
+    return `${this.id}-hint`;
+  }
+
+  private get _validationMessageId(): string {
+    return `${this.id}-validation-message`;
+  }
+
+  protected get _ariaDescribedBy(): string {
+    return [this.label && this._labelId, this.hint && this._hintId, this.validationMessage && this._validationMessageId]
+      .filter(Boolean)
+      .join(" ");
+  }
 
   protected _internals: ElementInternals;
 
@@ -121,21 +136,21 @@ export abstract class QGDSFormField extends LitElement {
     }
 
     return html`${this.label
-        ? html`<label class="qgds-form-label" for="${this.id}">
+        ? html`<label class="qgds-form-label" for="${this.id}" id="${this._labelId}">
             ${this.renderRequiredIndicator()} ${this.label} ${this.renderOptionalIndicator()}
           </label>`
         : nothing}
-      ${this.hint ? html`<p class="qgds-form-hint">${this.hint}</p>` : nothing}
+      ${this.hint ? html`<p class="qgds-form-hint" id="${this._hintId}">${this.hint}</p>` : nothing}
       <slot name="details"></slot>
       ${this.validationMessage && this.validationState === "error"
         ? html`
-            <p class="qgds-validation-message is-error" role="alert">
+            <p class="qgds-validation-message is-error" role="alert" id="${this._validationMessageId}">
               <qgds-icon icon-id="status-error" size="sm"></qgds-icon>
               ${this.validationMessage}
             </p>
           `
         : this.validationMessage && this.validationState === "success"
-          ? html`<p class="qgds-validation-message is-success" role="status">
+          ? html`<p class="qgds-validation-message is-success" role="status" id="${this._validationMessageId}">
               <qgds-icon icon-id="status-success" size="sm"></qgds-icon>
               ${this.validationMessage}
             </p>`
