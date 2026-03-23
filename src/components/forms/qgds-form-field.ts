@@ -238,12 +238,6 @@ export abstract class QGDSFormField extends LitElement {
       | null;
   }
 
-  private get _iconId(): "status-error" | "status-success" | undefined {
-    if (this.validationState === "error") return "status-error";
-    if (this.validationState === "success") return "status-success";
-    return undefined;
-  }
-
   // Custom internal methods
   private renderRequiredIndicator() {
     return this.required && this.indicateIf === "required"
