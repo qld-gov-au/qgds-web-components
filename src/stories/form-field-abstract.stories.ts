@@ -21,13 +21,13 @@ import { action } from "storybook/actions";
 import { html } from "lit";
 
 // ── Register all components used in this story ─────────────────────────────
-import "../components/qgds-text-input/qgds-text-input";
-import "../components/qgds-select/qgds-select";
-import "../components/qgds-select/qgds-select-option";
-import "../components/qgds-checkbox/qgds-checkbox";
-import "../components/qgds-checkbox-group/qgds-checkbox-group";
-import "../components/qgds-radio/qgds-radio";
-import "../components/qgds-radio-group/qgds-radio-group";
+import "../components/forms/qgds-text-input/qgds-text-input";
+import "../components/forms/qgds-select/qgds-select";
+import "../components/forms/qgds-select/qgds-select-option";
+import "../components/forms/qgds-checkbox/qgds-checkbox";
+import "../components/forms/qgds-checkbox-group/qgds-checkbox-group";
+import "../components/forms/qgds-radio/qgds-radio";
+import "../components/forms/qgds-radio-group/qgds-radio-group";
 
 // ── Meta ───────────────────────────────────────────────────────────────────
 
@@ -152,14 +152,7 @@ export const FullForm: Story = {
       <!-- ── Select ─────────────────────────────────────────── -->
       <fieldset style=${fieldsetStyle}>
         <legend style=${legendStyle}>Select</legend>
-        <qgds-select
-          id="pet"
-          name="pet"
-          label="Favourite pet"
-          hint="Choose one"
-          indicate-if="required"
-          required
-        >
+        <qgds-select id="pet" name="pet" label="Favourite pet" hint="Choose one" indicate-if="required" required>
           <qgds-select-option value="dog" label="Dog"></qgds-select-option>
           <qgds-select-option value="cat" label="Cat"></qgds-select-option>
           <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -465,8 +458,8 @@ export const AutoValidation: Story = {
   render: () => html`
     <form style=${sectionStyle} @submit=${handleSubmit}>
       <p style="font-size:0.875rem;color:#444;margin:0">
-        Leave one or more fields empty and click <strong>Validate</strong> to trigger
-        <code>reportValidity()</code> from the base class.
+        Leave one or more fields empty and click <strong>Validate</strong> to trigger <code>reportValidity()</code> from
+        the base class.
       </p>
 
       <qgds-text-input

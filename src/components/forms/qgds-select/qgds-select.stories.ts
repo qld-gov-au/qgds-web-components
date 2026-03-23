@@ -33,7 +33,8 @@ export const Default: Story = {
     label: "Form label",
     hint: "Hint text",
   },
-  render: (args) => html` hint=${args.hint}>
+  render: (args) => html`
+    <qgds-select id=${args.id} label=${args.label} ?filled=${args.filled} hint=${args.hint}>
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
