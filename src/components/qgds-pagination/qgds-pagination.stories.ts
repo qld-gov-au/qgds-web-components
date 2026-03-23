@@ -12,7 +12,7 @@ type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
-  title: "Components/QGDS Pagination",
+  title: "Components/Pagination",
   component: "qgds-pagination",
   args: {
     ...args,
@@ -115,7 +115,7 @@ export const Default: Story = {};
 /* Middle page to demonstrate mutliple more ellipses */
 export const MiddlePage: Story = {
   args: {
-    "current-page": 4,
-    "total-pages": 8,
+    "current-page": 6,
+    "total-pages": 14,
   },
 };

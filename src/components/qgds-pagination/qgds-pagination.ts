@@ -1,5 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import { QgdsEvents } from "../../utils/events/event-controller";
@@ -25,7 +26,9 @@ export type QGDSPaginationProps = InstanceType<typeof QGDSPagination>;
  * @prop { String } [ariaLabel="Pagination navigation"] - The aria-label for the pagination navigation
  * @prop { String } [linkBase=""] - The base URL for page links (e.g. "/articles?page=")
  *
- * @event qgds-navigate - Emitted when a page link is clicked, with detail of the selected page number or "prev"/"next"
+ * @event qgds-navigate - Emits a cancelable event when a page link is clicked.
+ *
+ *
  */
 
 @customElement("qgds-pagination")
@@ -38,10 +41,20 @@ export class QGDSPagination extends LitElement {
   ];
 
   // Bind common events handler - Pending PR-45
-  events = new QgdsEvents(this);
+  private events = new QgdsEvents(this);
 
   // Max page numbers to show in the pagination (excluding prev/next and ellipses)
-  private readonly maxPageNumbersToShow = 6;
+
+  // DESKTOP
+  // Close to start:  [1, 2, 3, 4, 5, M, 10]
+  // Middle range:    [1, 2, M, 6, 7, M, 10]
+  // Close to end:    [1, M, 6, 7, 8, 9, 10]
+
+  // MOBILE
+  // Close to start:  [1, 2, 3, M, 10]
+  // Middle range:    [1, M, 6, M, 10]
+  // Close to end:    [1, M, 8, 9, 10]
+  private readonly maxPageNumbersToShow = 7;
 
   /* Properties */
   @property({ type: Number, reflect: true, attribute: "current-page" })
@@ -65,9 +78,6 @@ export class QGDSPagination extends LitElement {
   @property({ type: String, reflect: true, attribute: "show-prev-next" })
   showPrevNext: "default" | "always" = "default";
 
-  // Number of sibling pages shown on each side of the current page.
-  private readonly siblingCount = 1;
-
   private get normalizedTotalPages(): number {
     return Math.max(1, this.totalPages);
   }
@@ -80,6 +90,11 @@ export class QGDSPagination extends LitElement {
     return this.showPrevNext === "always" ? "always" : "default";
   }
 
+  private isClipped(): boolean {
+    return this.normalizedTotalPages > this.maxPageNumbersToShow;
+  }
+
+  /** Determines if a boundary action (previous/next) is disabled based on the current page */
   private isBoundaryActionDisabled(target: HTMLAnchorElement): boolean {
     if (target.classList.contains("prev-link")) {
       return this.normalizedCurrentPage <= 1;
@@ -90,129 +105,126 @@ export class QGDSPagination extends LitElement {
     return false;
   }
 
-  /* Render Page Numbers with Ellipses
-   *  This method calculates the range of page numbers to display based on the current page and the specified page range.
-   *  It also determines whether to show ellipses ("...") when there are more pages than can be displayed within the page range.
-   *
-   * The method returns an array of HTML templates for the page number links, including active state and accessibility attributes.
-   *
-   * @returns An array of HTML templates for page number links, including ellipses if applicable.
-   */
-  private renderPageLink(page: number) {
+  private renderPageNumbers() {
     const totalPages = this.normalizedTotalPages;
-    const normalizedCurrentPage = this.normalizedCurrentPage;
-    const isActive = page === normalizedCurrentPage;
-    const itemClasses = ["page-item"];
 
-    if (page === 1) {
-      itemClasses.push("is-first-page");
+    const moreIconPositions: Record<number, string> = {};
+    if (this.isClipped()) {
+      // Insert the leading ellipsis after page 2 so in middle ranges
+      // it appears before page 3 (e.g. 1, ..., 3, 4, 5, ..., last).
+      moreIconPositions[2] = "page-more-leading";
+      moreIconPositions[totalPages - 3] = "page-more-trailing";
     }
-    if (page === totalPages) {
-      itemClasses.push("is-last-page");
+
+    const pageLinks: ReturnType<typeof html>[] = [];
+    for (let page = 1; page <= totalPages; page += 1) {
+      pageLinks.push(this.renderPageLink(page));
+
+      if (moreIconPositions[page]) {
+        pageLinks.push(this.renderMoreIcon(moreIconPositions[page]));
+      }
     }
-    if (isActive) {
-      itemClasses.push("is-active");
-    }
+    return pageLinks;
+  }
+
+  private renderPageLink(page: number) {
+    const total = this.normalizedTotalPages;
+    const current = this.normalizedCurrentPage;
+    const isActive = page === current;
+
+    // Logic: Is this page near the "edges" or the "current selection"?
+    // We use a simple distance check instead of complex window clamping.
+    const isEdge = page === 1 || page === total;
+    const isNearCurrent = Math.abs(page - current) <= 1; // Show current +/- 1
+    const withinStartRange = current <= 4 && page <= 5; // Special case for start
+    const withinEndRange = current >= total - 3 && page >= total - 4; // Special case for end
+    const withinMiddleRange = !isEdge && !withinStartRange && !withinEndRange && isNearCurrent;
+
+    // Mobile edge cases
+    const withinMobileStartRange = current <= 3 && page <= 3; // Show one less page on mobile
+    const withinMobileEndRange = current >= total - 2 && page >= total - 2;
+
+    const classes = {
+      "page-item": true,
+      "is-active": isActive,
+      "is-pinned": !this.isClipped() || isEdge || isActive || withinStartRange || withinEndRange || withinMiddleRange,
+      "is-pinned-mobile": isEdge || isActive || withinMobileStartRange || withinMobileEndRange, // Only pin edges on mobile when clipped
+    };
 
     return html`
-      <li class="${itemClasses.join(" ")}">
+      <li class=${classMap(classes)} data-page="${page}">
         <a
           class="page-link ${isActive ? "active" : ""}"
           href="${this.linkBase}${page}"
-          aria-label="Page ${page}"
           aria-current=${ifDefined(isActive ? "page" : undefined)}
           @click=${this._handleClick}
-          >${page}</a
         >
+          ${page}
+        </a>
       </li>
     `;
   }
 
-  private renderPageMore(isMobileOnly = false) {
-    return html` <li class="page-more ${isMobileOnly ? "is-mobile-only" : ""}">
-      <qgds-icon size="md" icon-id="more-horizontal"></qgds-icon>
-    </li>`;
+  private renderMoreIcon(classname: string) {
+    return html`
+      <li class="page-item page-more ${classname}">
+        <qgds-icon icon-id="more-horizontal"></qgds-icon>
+      </li>
+    `;
   }
 
-  private renderPagePlaceholder() {
-    return html`<li class="page-item page-placeholder" aria-hidden="true">
-      <span class="page-link page-link-placeholder"></span>
-    </li>`;
-  }
+  private renderPaginationList() {
+    const showPrevNextAlways = this.normalizedShowPrevNext === "always";
+    const showPrevLink = showPrevNextAlways || this.normalizedCurrentPage > 1;
+    const showNextLink = showPrevNextAlways || this.normalizedCurrentPage < this.normalizedTotalPages;
+    const isPrevDisabled = this.normalizedCurrentPage <= 1;
+    const isNextDisabled = this.normalizedCurrentPage >= this.normalizedTotalPages;
 
-  private _renderPageNumbers() {
-    const totalPages = this.normalizedTotalPages;
-    const currentPage = this.normalizedCurrentPage;
-    const pages: ReturnType<typeof html>[] = [];
-
-    if (totalPages <= this.maxPageNumbersToShow) {
-      for (let page = 1; page <= totalPages; page++) {
-        pages.push(this.renderPageLink(page));
-      }
-      return pages;
-    }
-
-    const computeWindow = (requestedMiddleSlots: number) => {
-      const middleSlots = Math.max(1, requestedMiddleSlots);
-      const halfWindow = Math.floor(middleSlots / 2);
-      let leftBoundary = currentPage - halfWindow;
-      let rightBoundary = currentPage + (middleSlots - halfWindow - 1);
-
-      // Clamp middle window to valid inner-page bounds [2, totalPages - 1].
-      if (leftBoundary < 2) {
-        rightBoundary += 2 - leftBoundary;
-        leftBoundary = 2;
-      }
-      if (rightBoundary > totalPages - 1) {
-        leftBoundary -= rightBoundary - (totalPages - 1);
-        rightBoundary = totalPages - 1;
-      }
-
-      leftBoundary = Math.max(2, leftBoundary);
-      rightBoundary = Math.min(totalPages - 1, rightBoundary);
-
-      return {
-        leftBoundary,
-        rightBoundary,
-        hasLeadingGap: leftBoundary > 2,
-        hasTrailingGap: rightBoundary < totalPages - 1,
-      };
+    const classes = {
+      "is-clipped": this.isClipped(),
+      "is-start-range": this.normalizedCurrentPage <= 4,
+      "is-end-range": this.normalizedCurrentPage >= this.normalizedTotalPages - 3,
+      "is-mobile-start-range": this.normalizedCurrentPage <= 3,
+      "is-mobile-end-range": this.normalizedCurrentPage >= this.normalizedTotalPages - 2,
     };
 
-    // Reserve first and last pages, then compute the middle window.
-    const baseMiddleSlots = this.maxPageNumbersToShow - 2;
-    let { leftBoundary, rightBoundary, hasLeadingGap, hasTrailingGap } = computeWindow(baseMiddleSlots);
-
-    // When both ellipses are visible, shrink the middle window by one slot
-    // so the overall pagination footprint stays stable.
-    if (hasLeadingGap && hasTrailingGap) {
-      ({ leftBoundary, rightBoundary, hasLeadingGap, hasTrailingGap } = computeWindow(baseMiddleSlots - 1));
-    }
-
-    const needsMobileLeadingGap = !hasLeadingGap && currentPage > 2;
-    const needsMobileTrailingGap = !hasTrailingGap && currentPage < totalPages - 1;
-
-    pages.push(this.renderPageLink(1));
-
-    if (hasLeadingGap) {
-      pages.push(this.renderPageMore());
-    } else if (needsMobileLeadingGap) {
-      pages.push(this.renderPageMore(true));
-    }
-
-    for (let page = leftBoundary; page <= rightBoundary; page++) {
-      pages.push(this.renderPageLink(page));
-    }
-
-    if (hasTrailingGap) {
-      pages.push(this.renderPageMore());
-    } else if (needsMobileTrailingGap) {
-      pages.push(this.renderPageMore(true));
-    }
-
-    pages.push(this.renderPageLink(totalPages));
-
-    return pages;
+    return html`
+      <ul class="pagination ${classMap(classes)}">
+        ${showPrevLink
+          ? html`
+              <li class="prev-item ${isPrevDisabled ? "disabled" : ""}">
+                <a
+                  class="prev-link ${isPrevDisabled ? "is-disabled" : ""}"
+                  href="${this.linkBase}${Math.max(1, this.normalizedCurrentPage - 1)}"
+                  aria-label="${this.prevLabel}"
+                  aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
+                  @click=${this._handleClick}
+                >
+                  <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
+                  <span class="label">${this.prevLabel}</span>
+                </a>
+              </li>
+            `
+          : null}
+        ${this.renderPageNumbers()}
+        ${showNextLink
+          ? html`
+              <li class="next-item ${isNextDisabled ? "disabled" : ""}">
+                <a
+                  class="next-link ${isNextDisabled ? "is-disabled" : ""}"
+                  href="${this.linkBase}${Math.min(this.normalizedTotalPages, this.normalizedCurrentPage + 1)}"
+                  aria-label="${this.nextLabel}"
+                  aria-disabled=${ifDefined(isNextDisabled ? "true" : undefined)}
+                  @click=${this._handleClick}
+                >
+                  <span class="label">${this.nextLabel}</span>
+                  <qgds-icon size="md" icon-id="arrow-right"></qgds-icon>
+                </a>
+              </li>
+            `
+          : null}
+      </ul>
+    `;
   }
 
   private _handleClick = (e: Event): void => {
@@ -255,56 +267,24 @@ export class QGDSPagination extends LitElement {
 
     const navigationCancelled = !this.events.dispatch("navigate", eventPayload, e);
 
+    // Apply a fallback visual update only when no listener has already
+    // updated currentPage during event dispatch.
+    if (requestedPage !== null && this.currentPage === currentPage) {
+      this.currentPage = requestedPage;
+    }
+
     if (navigationCancelled) {
       e.preventDefault();
     }
   };
 
   render() {
-    const showPrevNextAlways = this.normalizedShowPrevNext === "always";
-    const showPrevLink = showPrevNextAlways || this.normalizedCurrentPage > 1;
-    const showNextLink = showPrevNextAlways || this.normalizedCurrentPage < this.normalizedTotalPages;
-    const isPrevDisabled = this.normalizedCurrentPage <= 1;
-    const isNextDisabled = this.normalizedCurrentPage >= this.normalizedTotalPages;
+    return html` <nav aria-label="${ifDefined(this.ariaLabel)}">${this.renderPaginationList()}</nav> `;
+  }
+}
 
-    return html`
-      <nav aria-label="${ifDefined(this.ariaLabel)}">
-        <ul class="pagination">
-          ${showPrevLink
-            ? html`
-                <li class="prev-item ${isPrevDisabled ? "disabled" : ""}">
-                  <a
-                    class="prev-link ${isPrevDisabled ? "is-disabled" : ""}"
-                    href="${this.linkBase}${Math.max(1, this.normalizedCurrentPage - 1)}"
-                    aria-label="${this.prevLabel}"
-                    aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
-                    @click=${this._handleClick}
-                  >
-                    <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
-                    <span class="label">${this.prevLabel}</span>
-                  </a>
-                </li>
-              `
-            : null}
-          ${this._renderPageNumbers()}
-          ${showNextLink
-            ? html`
-                <li class="next-item ${isNextDisabled ? "disabled" : ""}">
-                  <a
-                    class="next-link ${isNextDisabled ? "is-disabled" : ""}"
-                    href="${this.linkBase}${Math.min(this.normalizedTotalPages, this.normalizedCurrentPage + 1)}"
-                    aria-label="${this.nextLabel}"
-                    aria-disabled=${ifDefined(isNextDisabled ? "true" : undefined)}
-                    @click=${this._handleClick}
-                  >
-                    <span class="label">${this.nextLabel}</span>
-                    <qgds-icon size="md" icon-id="arrow-right"></qgds-icon>
-                  </a>
-                </li>
-              `
-            : null}
-        </ul>
-      </nav>
-    `;
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-pagination": QGDSPagination;
   }
 }

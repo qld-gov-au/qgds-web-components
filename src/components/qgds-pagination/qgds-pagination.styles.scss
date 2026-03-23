@@ -125,31 +125,57 @@ qgds-icon {
   outline-offset: 2px;
 }
 
-.page-more.is-mobile-only {
+.page-item {
+  display: none;
+
+  &.is-pinned,
+  &.is-active,
+  &.page-more-leading,
+  &.page-more-trailing {
+    display: flex;
+  }
+}
+
+.is-start-range .page-item.page-more-leading {
+  display: none;
+}
+
+.is-end-range .page-item.page-more-trailing {
   display: none;
 }
 
 /********** Responsive **********/
 @media (max-width: $qgds-media-md) {
-  /* Use flex-gap or margins if needed, but display:none is fine */
+  /* Hides all pinned items */
+  .page-item.is-pinned {
+    display: none;
+  }
+
+  /* Displays all pinned-mobile items */
+  .page-item.is-pinned-mobile {
+    display: flex;
+  }
+
+  .page-item.page-more-leading,
+  .is-start-range .page-item.page-more-leading {
+    display: flex;
+  }
+
+  .page-item.page-more-trailing,
+  .is-end-range .page-item.page-more-trailing {
+    display: flex;
+  }
+
+  .is-mobile-start-range .page-item.page-more-leading,
+  .is-mobile-end-range .page-item.page-more-trailing {
+    display: none;
+  }
+}
+
+@media (max-width: $qgds-media-sm) {
+  /* Hides Prev and Next labels on smaller screens, relying on icons */
   .prev-link .label,
   .next-link .label {
     display: none;
-  }
-
-  /* Refined Mobile Logic: Hide items, not just links */
-  .page-item {
-    display: none;
-  }
-
-  .is-first-page,
-  .is-active,
-  .is-last-page,
-  .page-more {
-    display: block;
-  }
-
-  .page-more.is-mobile-only {
-    display: block;
   }
 }
