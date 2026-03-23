@@ -20,10 +20,6 @@ const meta: Meta<QGDSSelectStoryArgs> = {
     ...args,
     id: "my-select",
     label: "Form label",
-    disabled: false,
-    required: false,
-    filled: false,
-    autofocus: false,
   },
   argTypes,
   render: (storyArgs) => template(storyArgs),
@@ -35,7 +31,6 @@ type Story = StoryObj<QGDSSelectStoryArgs>;
 export const Default: Story = {
   args: {
     label: "Form label",
-    optionalText: "(optional)",
     hint: "Hint text",
   },
   render: (args) => html`
@@ -54,17 +49,10 @@ export const Filled: Story = {
   args: {
     label: "Form label",
     filled: true,
-    optionalText: "(optional)",
     hint: "Hint text",
   },
   render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?filled=${args.filled}
-      hint=${args.hint}
-      optionalText=${args.optionalText}
-    >
+    <qgds-select id=${args.id} label=${args.label} variant="filled" hint=${args.hint}>
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -78,18 +66,11 @@ export const Filled: Story = {
 export const Disabled: Story = {
   args: {
     label: "Form label",
-    optionalText: "(optional)",
     disabled: true,
     hint: "Hint text",
   },
   render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?disabled=${args.disabled}
-      hint=${args.hint}
-      optionalText=${args.optionalText}
-    >
+    <qgds-select id=${args.id} label=${args.label} ?disabled=${args.disabled} hint=${args.hint}>
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -103,18 +84,11 @@ export const Disabled: Story = {
 export const Required: Story = {
   args: {
     label: "Form label",
-    optionalText: "(optional)",
     required: true,
     hint: "Hint text",
   },
   render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?required=${args.required}
-      hint=${args.hint}
-      optionalText=${args.optionalText}
-    >
+    <qgds-select id=${args.id} label=${args.label} ?required=${args.required} hint=${args.hint}>
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>
       <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
@@ -128,7 +102,6 @@ export const Required: Story = {
 export const Invalid: Story = {
   args: {
     label: "Form label",
-    optionalText: "(optional)",
     validationState: "error",
     required: true,
     hint: "Hint text",
@@ -159,7 +132,6 @@ export const Valid: Story = {
     label: "Form label",
     validationState: "success",
     required: true,
-    optionalText: "(optional)",
     hint: "Hint text",
     validationMessage: "Great choice!",
   },
@@ -171,7 +143,6 @@ export const Valid: Story = {
       hint=${args.hint}
       validation-state=${args.validationState}
       validation-message=${args.validationMessage}
-      optionalText=${args.optionalText}
     >
       <qgds-select-option value="dog" label="Dog"></qgds-select-option>
       <qgds-select-option value="cat" label="Cat"></qgds-select-option>

@@ -9,6 +9,7 @@ describe("qgds-select", () => {
 
   beforeEach(() => {
     element = document.createElement("qgds-select");
+    element.id = "test";
     document.body.appendChild(element);
   });
 
@@ -496,7 +497,7 @@ describe("qgds-select", () => {
       await element.updateComplete; // flush validation state re-render
 
       const select = element.shadowRoot?.querySelector("select");
-      expect(select?.getAttribute("aria-required")).toBe("true");
+      expect(select?.getAttribute("aria-required")).toBe(null);
       expect(select?.getAttribute("aria-invalid")).toBe("false");
 
       const describedBy = select?.getAttribute("aria-describedby");
@@ -518,7 +519,7 @@ describe("qgds-select", () => {
 
       const select = element.shadowRoot?.querySelector("select");
       const describedBy = select?.getAttribute("aria-describedby");
-      expect(describedBy).toContain("-error");
+      expect(describedBy).toContain("test-validation-message");
     });
 
     it("should include success message in aria-describedby when valid", async () => {
@@ -528,7 +529,7 @@ describe("qgds-select", () => {
 
       const select = element.shadowRoot?.querySelector("select");
       const describedBy = select?.getAttribute("aria-describedby");
-      expect(describedBy).toContain("-success");
+      expect(describedBy).toContain("test-validation-message");
     });
 
     it("should have proper role attributes on messages", async () => {

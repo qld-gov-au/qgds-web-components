@@ -1,11 +1,13 @@
 import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import { QGDSFormField } from "../qgds-form-field";
 import componentCSS from "./qgds-select.styles.scss?inline";
 import "../../qgds-icon/qgds-icon";
 import { QGDSSelectOption } from "./qgds-select-option";
 import { QGDSSelectOptgroup } from "./qgds-select-optgroup";
+import { FormVariant, IFormControl } from "../../../types/forms";
 
 /**
  * Event detail for change events
@@ -28,21 +30,16 @@ export interface QGDSSelectEventMap {
 }
 
 /**
- * Valid size options for the select element when multiple is enabled
- */
-export type SelectSize = number | undefined;
-
-/**
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
  * @element qgds-select
  *
- * @prop {boolean} [filled] - Whether to apply the "filled" variant styles.
- * @prop {string} [placeholder] - Placeholder text shown as the first (unselectable) option.
- * @prop {boolean} [multiple] - Whether multiple selections are allowed.
- * @prop {number} [size] - Number of visible options when multiple is enabled.
- * @prop {boolean} [autofocus] - Whether the select should automatically receive focus.
+ * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
+ * @prop {String} [placeholder] - Placeholder text shown as the first (unselectable) option.
+ * @prop {Boolean} [multiple] - Whether multiple selections are allowed.
+ * @prop {Number} [size] - Number of visible options when multiple is enabled.
+ * @prop {Boolean} [autofocus] - Whether the select should automatically receive focus.
  *
  * @slot - Accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as options.
  *
@@ -55,16 +52,15 @@ export type SelectSize = number | undefined;
  * ```
  */
 @customElement("qgds-select")
-export class QGDSSelect extends QGDSFormField {
+export class QGDSSelect extends QGDSFormField implements IFormControl {
   // Re-declare value as a plain string (base type is string | string[] | undefined)
-  @property({ type: Boolean, reflect: true }) filled: boolean = false;
+  @property({ type: String }) variant?: FormVariant;
   @property({ type: String }) value: string = "";
   @property({ type: String }) placeholder: string = "Please select";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
-  @property({ type: Number }) size?: SelectSize;
+  @property({ type: Number }) size?: number;
   // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
 
-  private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   private _mutationObserver?: MutationObserver;
 
   static styles = [
@@ -116,14 +112,7 @@ export class QGDSSelect extends QGDSFormField {
    */
   firstUpdated(): void {
     // Guarantee id is always set so the base's render guard never triggers
-    if (!this.id) this.id = this._inputId;
-
-    // Set up initial validation state after render
-    this._validateAndUpdateState();
-  }
-
-  get inputId(): string {
-    return this.id || this._inputId;
+    if (!this.id) this.id = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
@@ -178,24 +167,14 @@ export class QGDSSelect extends QGDSFormField {
     }
   }
 
-  renderInput(): TemplateResult {
-    // Build aria-describedby with all relevant IDs
-    const describedByIds = [
-      this.hint ? `${this.inputId}-hint` : "",
-      this.validationState === "error" && this.validationMessage ? `${this.inputId}-error` : "",
-      this.validationState === "success" && this.validationMessage ? `${this.inputId}-success` : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
+  protected renderInput(): TemplateResult {
     return html`
       <div class="select-wrapper">
         <select
           name="${this.name}"
-          id="${this.inputId}"
-          aria-describedby="${describedByIds || undefined}"
-          aria-required="${this.required ? "true" : undefined}"
-          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
+          id="${this.id}"
           class=${classMap({
+            "qgds-form-control is-full-width": true,
             "is-filled": this.variant === "filled",
             "is-valid": this.validationState === "success",
             "is-invalid": this.validationState === "error",
@@ -207,6 +186,8 @@ export class QGDSSelect extends QGDSFormField {
           ?multiple=${this.multiple}
           ?autofocus=${this.autofocus}
           size="${this.multiple && this.size ? this.size : undefined}"
+          aria-describedby="${ifDefined(this._ariaDescribedBy)}"
+          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
         >
           ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
         </select>

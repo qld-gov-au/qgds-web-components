@@ -5,7 +5,6 @@
 /// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
 .qgds-form-control {
   // Color variables
-
   --bg: var(--qgds-color-background, #ffffff);
   --bg-hover: var(--qgds-color-background-shade, #f5f5f5);
   --bg-focus: var(--qgds-color-background, #ffffff);
@@ -31,6 +30,9 @@
   --padding-y: #{f.remify(12px)};
   --padding-x: #{f.remify(16px)};
 
+  appearance: none;
+  font-size: f.remify(16px);
+  line-height: f.snap-line-height(1.45);
   inline-size: 100%;
   max-inline-size: f.remify(320px);
   block-size: f.remify(48px);
@@ -59,10 +61,22 @@
     min-block-size: calc((3lh) + (2 * var(--padding-y))); // 3 lines of text + vertical padding.
   }
 
+  &:is(select) {
+    cursor: pointer;
+
+    &:not([multiple]) {
+      --icon-size: inherit; // see qgds-select
+
+      padding-inline-end: calc(var(--padding-x) - var(--border-right-width) + var(--icon-size) + var(--padding-x));
+    }
+  }
+
+  // stylelint-disable
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+  // stylelint-enable
 
   &:hover:not(:disabled) {
     --placeholder-fg: var(--placeholder-fg-hover);
@@ -91,7 +105,7 @@
     max-inline-size: 100%;
   }
 
-  &.is-success {
+  &.is-valid {
     @extend %qgds-color-palette-default;
 
     --bg: var(--qgds-color-status-success-lightest, #fff6f6);
@@ -102,14 +116,14 @@
     --border-focus: var(--qgds-color-neutral-lighter, #ebebeb);
   }
 
-  &.is-error {
+  &.is-invalid {
     @extend %qgds-color-palette-default;
 
     --bg: var(--qgds-color-status-error-lightest, #fff6f6);
     --bg-hover: var(--qgds-color-status-error-lighter, #fdf0f0);
     --bg-focus: var(--qgds-color-neutral-white, #ffffff);
-    --border: var(--qgds-color-status-error-default, #339d37);
-    --border-hover: var(--qgds-color-status-error-default, #339d37);
+    --border: var(--qgds-color-status-error-default, #e22339);
+    --border-hover: var(--qgds-color-status-error-default, #e22339);
     --border-focus: var(--qgds-color-neutral-lighter, #ebebeb);
   }
 
