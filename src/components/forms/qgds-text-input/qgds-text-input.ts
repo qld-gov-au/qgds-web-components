@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { QGDSFormField } from "../qgds-form-field";
-import { IFormControl } from "../../../types/forms";
+import { IFormControl, FormVariant } from "../../../types/forms";
 
 type InputType = "text" | "email" | "password" | "number" | "tel" | "url";
 export const tagName = "qgds-text-input";
@@ -17,6 +17,7 @@ export const tagName = "qgds-text-input";
  *
  * @tagname qgds-text-input
  *
+ * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
  * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
  * @prop {String} [placeholder] - Text to display when the value is empty.
  * @prop {String} [value]
@@ -35,24 +36,24 @@ export const tagName = "qgds-text-input";
 
 @customElement(tagName)
 export class QGDSTextInput extends QGDSFormField implements IFormControl {
+  @property({ type: String }) variant?: FormVariant;
   @property({ type: String }) type?: InputType;
   @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
   @property({ type: String }) value?: HTMLInputElement["value"];
-  // @property({ type: Boolean }) disabled?: HTMLInputElement["disabled"];
-  // @property({ type: Boolean, attribute: "readonly" }) readOnly?: HTMLInputElement["readOnly"];
   @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLInputElement["maxLength"];
   @property({ type: Number, attribute: "minlength" }) minLength?: HTMLInputElement["minLength"];
   @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];
   @property({ type: Boolean }) spellcheck: HTMLInputElement["spellcheck"] = false; // spellcheck is an attribute of HTMLElement already
 
-  renderInput(): TemplateResult {
+  protected renderInput(): TemplateResult {
     return html`<input
+      name="${ifDefined(this.name)}"
       id=${this.id}
       class=${classMap({
         "qgds-form-control": true,
         "is-filled": this.variant === "filled",
-        "is-success": this.validationState === "success",
-        "is-error": this.validationState === "error",
+        "is-valid": this.validationState === "success",
+        "is-invalid": this.validationState === "error",
       })}
       type=${this.type ?? "text"}
       value=${ifDefined(this.value)}
@@ -64,6 +65,7 @@ export class QGDSTextInput extends QGDSFormField implements IFormControl {
       maxlength=${ifDefined(this.maxLength)}
       minlength=${ifDefined(this.minLength)}
       pattern=${ifDefined(this.pattern?.toString())}
+      aria-describedby="${ifDefined(this._ariaDescribedBy)}"
     />`;
   }
 }

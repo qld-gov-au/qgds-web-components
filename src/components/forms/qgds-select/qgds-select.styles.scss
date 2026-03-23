@@ -1,21 +1,10 @@
 @use "../../../styles/tools/mixins" as mixins;
 
 :host {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  font-size: 0.875rem;
-  line-height: 1.4;
-
-  --border-colour: var(--qgds-color-border-alt, #848484);
-  --font-colour: var(--qgds-color-text-lighter, #636363);
-  --dropdown-icon-colour: var(--qgds-color-action-secondary, #307edb);
-  --background-colour: var(--qgds-color-background, #fff);
-  --error-colour: var(--qgds-color-status-error-default, #e22339);
-  --success-colour: var(--qgds-color-status-success-default, #339d37);
-  --muted-colour: var(--qgds-color-text-lighter, #848484);
-  --border-width: var(--text-decoration-thickness-hover, 2px);
-  --border-radius: 4px;
+  --border: var(--qgds-color-border-alt, #848484);
+  --fg: var(--qgds-color-text-lighter, #636363);
+  --dropdown-fg: var(--qgds-color-action-secondary, #307edb);
+  --bg: var(--qgds-color-background, #fff);
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
@@ -24,7 +13,7 @@
 
 .select-wrapper {
   position: relative;
-  display: inline-block;
+  display: block;
 
   &::after {
     content: "";
@@ -38,51 +27,20 @@
     mask-position: center center;
     mask-repeat: no-repeat;
     mask-size: contain;
-    background-color: var(--dropdown-icon-colour);
+    background-color: var(--dropdown-fg);
     pointer-events: none;
   }
-}
 
-select {
-  appearance: none;
-  padding-block: 0.625rem;
-  padding-inline: var(--spacing-md) calc(var(--spacing-md) * 2);
-  inline-size: 100%;
-  line-height: 1.5;
-  cursor: pointer;
-  border: var(--border-width) solid var(--border-colour);
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  color: var(--font-colour);
-  background-color: var(--background-colour);
-  @include mixins.focusable();
-
-  &:focus {
-    --border-colour: var(--qgds-color-border);
+  &:has(.is-valid) {
+    --dropdown-fg: var(--qgds-color-status-success-default, #339d37);
   }
-}
 
-/* Invalid state */
-:host([invalid]) {
-  --dropdown-icon-colour: var(--error-colour);
-  --border-colour: var(--error-colour);
-}
+  &:has(.is-invalid) {
+    --dropdown-fg: var(--qgds-color-status-error-default, #e22339);
+  }
 
-/* Valid state */
-:host([valid]) {
-  --dropdown-icon-colour: var(--success-colour);
-  --border-colour: var(--success-colour);
-}
-
-/* Disabled state */
-:host([disabled]) {
-  --dropdown-icon-colour: var(--muted-colour);
-  --border-colour: var(--muted-colour);
-
-  .select-wrapper {
-    select {
-      cursor: not-allowed;
-    }
+  &:has(select:disabled) {
+    --dropdown-fg: color(from var(--qgds-color-text-lighter) srgb r g b / 0.5);
   }
 }
 
@@ -101,17 +59,17 @@ select {
 
 /* Filled variant */
 :host([filled]) {
-  --background-colour: var(--qgds-color-background-shade, #f5f5f5);
+  --bg: var(--qgds-color-background-shade, #f5f5f5);
 
   .select-wrapper {
     select {
       border: var(--border-width) solid transparent;
-      border-block-end: var(--border-width) solid var(--border-colour);
+      border-block-end: var(--border-width) solid var(--border);
       border-end-start-radius: 0;
       border-end-end-radius: 0;
 
       &:focus {
-        border: var(--border-width) solid var(--border-colour);
+        border: var(--border-width) solid var(--border);
         border-radius: var(--border-radius);
       }
     }
@@ -121,34 +79,4 @@ select {
 /* Hide slotted custom elements in the light DOM */
 ::slotted(*) {
   display: none;
-}
-
-label {
-  font-size: 1rem;
-  font-weight: 600;
-  line-height: 1.5;
-}
-
-.required {
-  color: var(--error-colour);
-}
-
-.optional {
-  color: var(--muted-colour);
-  font-weight: normal;
-}
-
-// select states - all message classes
-[class$="-message"] {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-}
-
-.error-message {
-  color: var(--error-colour);
-}
-
-.success-message {
-  color: var(--success-colour);
 }
