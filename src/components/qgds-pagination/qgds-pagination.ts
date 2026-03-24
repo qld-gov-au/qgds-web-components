@@ -8,12 +8,12 @@ import { QgdsEvents } from "../../utils/events/event-controller";
 // Import QGDS Icons for some controls (show more, chevron and arrows)
 import "../qgds-icon/qgds-icon";
 
-import { baseStyles } from "../../styles";
+import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-pagination.styles.scss?inline";
 
 export type QGDSPaginationProps = InstanceType<typeof QGDSPagination>;
 
-/** Used to navigate through paged content
+/** Renders pagination controls and emits navigation intents.
  *
  * @uikit pagination
  * @website https://www.qld.gov.au/dsiti/design-system/components/pagination
@@ -22,28 +22,27 @@ export type QGDSPaginationProps = InstanceType<typeof QGDSPagination>;
  * @prop { Number } [totalPages=1] - The total number of pages
  * @prop { String } [prevLabel="Back"] - The label for the previous page button
  * @prop { String } [nextLabel="Next"] - The label for the next page button
- * @prop { String } [showPrevNext="default"] - Whether to show previous/next links: "default" or "always"
- * @prop { String } [ariaLabel="Pagination navigation"] - The aria-label for the pagination navigation
+ * @prop { String } [showPrevNext="always"] - Whether to show previous/next links: "default" or "always"
+ * @prop { String } [navAriaLabel="Page navigation"] - The aria-label to indicate page navigation
  * @prop { String } [linkBase=""] - The base URL for page links (e.g. "/articles?page=")
  *
  * @event qgds-navigate - Emits a cancelable event when a page link is clicked.
- *
- *
  */
 
 @customElement("qgds-pagination")
 export class QGDSPagination extends LitElement {
   static styles = [
     baseStyles,
+    utilitiesStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
   ];
 
-  // Bind common events handler - Pending PR-45
+  // Shared helper for dispatching qgds custom events.
   private events = new QgdsEvents(this);
 
-  // Max page numbers to show in the pagination (excluding prev/next and ellipses)
+  // Maximum number of numeric page links shown before clipping logic applies.
 
   // DESKTOP
   // Close to start:  [1, 2, 3, 4, 5, M, 10]
@@ -72,46 +71,45 @@ export class QGDSPagination extends LitElement {
   @property({ type: String, reflect: true, attribute: "link-base" })
   linkBase: string = "";
 
-  @property({ type: String, reflect: true, attribute: "aria-label" })
-  ariaLabel: string = "Pagination navigation";
+  @property({ type: String, attribute: "aria-label" })
+  navAriaLabel: string = "Page navigation";
 
   @property({ type: String, reflect: true, attribute: "show-prev-next" })
-  showPrevNext: "default" | "always" = "default";
+  showPrevNext: "always" | "default" = "always";
 
-  private get normalizedTotalPages(): number {
+  private get normalisedTotalPages(): number {
     return Math.max(1, this.totalPages);
   }
 
-  private get normalizedCurrentPage(): number {
-    return Math.min(Math.max(1, this.currentPage), this.normalizedTotalPages);
+  private get normalisedCurrentPage(): number {
+    return Math.min(Math.max(1, this.currentPage), this.normalisedTotalPages);
   }
 
-  private get normalizedShowPrevNext(): "default" | "always" {
+  private get normalisedShowPrevNext(): "always" | "default" {
     return this.showPrevNext === "always" ? "always" : "default";
   }
 
   private isClipped(): boolean {
-    return this.normalizedTotalPages > this.maxPageNumbersToShow;
+    return this.normalisedTotalPages > this.maxPageNumbersToShow;
   }
 
   /** Determines if a boundary action (previous/next) is disabled based on the current page */
   private isBoundaryActionDisabled(target: HTMLAnchorElement): boolean {
     if (target.classList.contains("prev-link")) {
-      return this.normalizedCurrentPage <= 1;
+      return this.normalisedCurrentPage <= 1;
     }
     if (target.classList.contains("next-link")) {
-      return this.normalizedCurrentPage >= this.normalizedTotalPages;
+      return this.normalisedCurrentPage >= this.normalisedTotalPages;
     }
     return false;
   }
 
   private renderPageNumbers() {
-    const totalPages = this.normalizedTotalPages;
+    const totalPages = this.normalisedTotalPages;
 
     const moreIconPositions: Record<number, string> = {};
     if (this.isClipped()) {
-      // Insert the leading ellipsis after page 2 so in middle ranges
-      // it appears before page 3 (e.g. 1, ..., 3, 4, 5, ..., last).
+      // Place ellipsis markers at fixed positions. CSS range classes decide visibility.
       moreIconPositions[2] = "page-more-leading";
       moreIconPositions[totalPages - 3] = "page-more-trailing";
     }
@@ -128,27 +126,40 @@ export class QGDSPagination extends LitElement {
   }
 
   private renderPageLink(page: number) {
-    const total = this.normalizedTotalPages;
-    const current = this.normalizedCurrentPage;
+    const total = this.normalisedTotalPages;
+    const current = this.normalisedCurrentPage;
     const isActive = page === current;
 
-    // Logic: Is this page near the "edges" or the "current selection"?
-    // We use a simple distance check instead of complex window clamping.
+    // Keep first/last pages and a compact window around the current page.
     const isEdge = page === 1 || page === total;
     const isNearCurrent = Math.abs(page - current) <= 1; // Show current +/- 1
     const withinStartRange = current <= 4 && page <= 5; // Special case for start
     const withinEndRange = current >= total - 3 && page >= total - 4; // Special case for end
     const withinMiddleRange = !isEdge && !withinStartRange && !withinEndRange && isNearCurrent;
 
-    // Mobile edge cases
-    const withinMobileStartRange = current <= 3 && page <= 3; // Show one less page on mobile
+    // Mobile uses a narrower window than desktop.
+    const withinMobileStartRange = current <= 3 && page <= 3;
     const withinMobileEndRange = current >= total - 2 && page >= total - 2;
 
+    // Skip rendering items that are not visible in either desktop or mobile layouts.
+    if (
+      !isEdge &&
+      !withinStartRange &&
+      !withinEndRange &&
+      !withinMiddleRange &&
+      !withinMobileStartRange &&
+      !withinMobileEndRange
+    ) {
+      return null;
+    }
+
+    // Apply classes so CSS can toggle visibility by range and viewport.
     const classes = {
       "page-item": true,
       "is-active": isActive,
-      "is-pinned": !this.isClipped() || isEdge || isActive || withinStartRange || withinEndRange || withinMiddleRange,
-      "is-pinned-mobile": isEdge || isActive || withinMobileStartRange || withinMobileEndRange, // Only pin edges on mobile when clipped
+      "is-pinned-desktop":
+        !this.isClipped() || isEdge || isActive || withinStartRange || withinEndRange || withinMiddleRange,
+      "is-pinned-mobile": isEdge || isActive || withinMobileStartRange || withinMobileEndRange,
     };
 
     return html`
@@ -156,6 +167,7 @@ export class QGDSPagination extends LitElement {
         <a
           class="page-link ${isActive ? "active" : ""}"
           href="${this.linkBase}${page}"
+          aria-label="Page ${page} ${isActive ? ", current page" : ""}"
           aria-current=${ifDefined(isActive ? "page" : undefined)}
           @click=${this._handleClick}
         >
@@ -167,25 +179,25 @@ export class QGDSPagination extends LitElement {
 
   private renderMoreIcon(classname: string) {
     return html`
-      <li class="page-item page-more ${classname}">
+      <li class="page-item page-more ${classname}" aria-hidden="true">
         <qgds-icon icon-id="more-horizontal"></qgds-icon>
       </li>
     `;
   }
 
   private renderPaginationList() {
-    const showPrevNextAlways = this.normalizedShowPrevNext === "always";
-    const showPrevLink = showPrevNextAlways || this.normalizedCurrentPage > 1;
-    const showNextLink = showPrevNextAlways || this.normalizedCurrentPage < this.normalizedTotalPages;
-    const isPrevDisabled = this.normalizedCurrentPage <= 1;
-    const isNextDisabled = this.normalizedCurrentPage >= this.normalizedTotalPages;
+    const showPrevNextAlways = this.normalisedShowPrevNext === "always";
+    const showPrevLink = showPrevNextAlways || this.normalisedCurrentPage > 1;
+    const showNextLink = showPrevNextAlways || this.normalisedCurrentPage < this.normalisedTotalPages;
+    const isPrevDisabled = this.normalisedCurrentPage <= 1;
+    const isNextDisabled = this.normalisedCurrentPage >= this.normalisedTotalPages;
 
     const classes = {
       "is-clipped": this.isClipped(),
-      "is-start-range": this.normalizedCurrentPage <= 4,
-      "is-end-range": this.normalizedCurrentPage >= this.normalizedTotalPages - 3,
-      "is-mobile-start-range": this.normalizedCurrentPage <= 3,
-      "is-mobile-end-range": this.normalizedCurrentPage >= this.normalizedTotalPages - 2,
+      "is-start-range": this.normalisedCurrentPage <= 4,
+      "is-end-range": this.normalisedCurrentPage >= this.normalisedTotalPages - 3,
+      "is-mobile-start-range": this.normalisedCurrentPage <= 3,
+      "is-mobile-end-range": this.normalisedCurrentPage >= this.normalisedTotalPages - 2,
     };
 
     return html`
@@ -195,10 +207,11 @@ export class QGDSPagination extends LitElement {
               <li class="prev-item ${isPrevDisabled ? "disabled" : ""}">
                 <a
                   class="prev-link ${isPrevDisabled ? "is-disabled" : ""}"
-                  href="${this.linkBase}${Math.max(1, this.normalizedCurrentPage - 1)}"
+                  href="${this.linkBase}${Math.max(1, this.normalisedCurrentPage - 1)}"
                   aria-label="${this.prevLabel}"
                   aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
                   @click=${this._handleClick}
+                  ${isPrevDisabled ? "tabindex='-1'" : ""}
                 >
                   <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
                   <span class="label">${this.prevLabel}</span>
@@ -212,9 +225,10 @@ export class QGDSPagination extends LitElement {
               <li class="next-item ${isNextDisabled ? "disabled" : ""}">
                 <a
                   class="next-link ${isNextDisabled ? "is-disabled" : ""}"
-                  href="${this.linkBase}${Math.min(this.normalizedTotalPages, this.normalizedCurrentPage + 1)}"
+                  href="${this.linkBase}${Math.min(this.normalisedTotalPages, this.normalisedCurrentPage + 1)}"
                   aria-label="${this.nextLabel}"
                   aria-disabled=${ifDefined(isNextDisabled ? "true" : undefined)}
+                  tabindex=${ifDefined(isNextDisabled ? "-1" : undefined)}
                   @click=${this._handleClick}
                 >
                   <span class="label">${this.nextLabel}</span>
@@ -238,8 +252,8 @@ export class QGDSPagination extends LitElement {
       return;
     }
 
-    const totalPages = this.normalizedTotalPages;
-    const currentPage = this.normalizedCurrentPage;
+    const totalPages = this.normalisedTotalPages;
+    const currentPage = this.normalisedCurrentPage;
     const href = target.getAttribute("href") ?? target.href;
 
     let action: "prev" | "next" | "page" = "page";
@@ -267,8 +281,7 @@ export class QGDSPagination extends LitElement {
 
     const navigationCancelled = !this.events.dispatch("navigate", eventPayload, e);
 
-    // Apply a fallback visual update only when no listener has already
-    // updated currentPage during event dispatch.
+    // Fallback: if no listener updates state, sync the UI locally.
     if (requestedPage !== null && this.currentPage === currentPage) {
       this.currentPage = requestedPage;
     }
@@ -279,7 +292,15 @@ export class QGDSPagination extends LitElement {
   };
 
   render() {
-    return html` <nav aria-label="${ifDefined(this.ariaLabel)}">${this.renderPaginationList()}</nav> `;
+    return html`
+      <nav aria-label="${ifDefined(this.navAriaLabel)}">
+        <!-- Accessible live region to announce page changes. -->
+        <span class="sr-only" aria-live="polite" aria-atomic="true"
+          >Page ${this.normalisedCurrentPage} of ${this.normalisedTotalPages}</span
+        >
+        ${this.renderPaginationList()}
+      </nav>
+    `;
   }
 }
 

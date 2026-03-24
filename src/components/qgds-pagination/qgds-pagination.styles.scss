@@ -128,7 +128,7 @@ qgds-icon {
 .page-item {
   display: none;
 
-  &.is-pinned,
+  &.is-pinned-desktop,
   &.is-active,
   &.page-more-leading,
   &.page-more-trailing {
@@ -147,7 +147,7 @@ qgds-icon {
 /********** Responsive **********/
 @media (max-width: $qgds-media-md) {
   /* Hides all pinned items */
-  .page-item.is-pinned {
+  .page-item.is-pinned-desktop {
     display: none;
   }
 
