@@ -163,6 +163,10 @@ export abstract class QGDSFormField extends LitElement {
     return this.value;
   }
 
+  private get formNoValidate(): boolean {
+    return this._internals.form?.noValidate ?? false;
+  }
+
   /**
    * Sync the current value into ElementInternals so the field participates
    * in native form submission.
@@ -197,7 +201,7 @@ export abstract class QGDSFormField extends LitElement {
    */
   protected _computeIsValid(): boolean {
     const input = this._nativeInput;
-    return input ? input.checkValidity() : true;
+    return input && !this.formNoValidate ? input.checkValidity() : true;
   }
 
   /** Auto-validation logic — syncs native input validity into ElementInternals. */
