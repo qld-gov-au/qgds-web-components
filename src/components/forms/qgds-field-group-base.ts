@@ -110,7 +110,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
       this._internals.setValidity({});
     }
 
-    this._validationMessage = message;
+    this.validationMessage = message;
     this.validationState = isValid && hasValue ? "success" : "error";
   }
 
@@ -121,16 +121,12 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    */
   override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
-    if (changedProperties.has("_value")) {
-      this._validateAndUpdateState();
-    }
   }
 
   override formResetCallback(): void {
     this._value = this._initialValue();
     this.validationState = undefined;
     this.validationMessage = undefined;
-    this._validationMessage = undefined;
   }
 
   private _handleChange = (e: Event): void => {
@@ -142,25 +138,28 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this._applyChange(input, source);
     this._syncFormValue();
+    this._validateAndUpdateState();
 
-    this.dispatchEvent(
-      new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
-        detail: { name: this.name ?? this.id, value: this._value },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    this.events.dispatch("change", { name: this.name ?? this.id, value: this._value }, e);
   };
 
   protected abstract groupItemName: string;
 
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
-    if (changedProperties.has("validationState")) {
-      this.querySelectorAll<Element & { status?: FormValidationState }>(this.groupItemName).forEach((el) => {
+    this.querySelectorAll<Element & { status?: FormValidationState; name?: string; disabled?: boolean }>(
+      this.groupItemName
+    ).forEach((el) => {
+      if (changedProperties.has("validationState")) {
         el.status = this.validationState;
-      });
-    }
+      }
+      if (changedProperties.has("name")) {
+        el.name = this.name;
+      }
+      if (changedProperties.has("disabled")) {
+        el.disabled = this.disabled;
+      }
+    });
   }
 
   renderInput() {

@@ -3,6 +3,7 @@ import { html, LitElement, TemplateResult, PropertyValues, nothing } from "lit";
 import { property } from "lit/decorators.js";
 import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
 import { FormValidationState, FormIndicateIf } from "../../types/forms";
+import { QgdsEvents } from "../../utils";
 
 /**
  * Abstract base class for all QGDS form field components.
@@ -75,6 +76,8 @@ export abstract class QGDSFormField extends LitElement {
 
   protected _validationMessage?: string;
 
+  protected events: QgdsEvents = new QgdsEvents(this);
+
   // Getters ensure these properties are always derived from current value of id.
   private get _labelId(): string {
     return `${this.id}-label`;
@@ -101,19 +104,19 @@ export abstract class QGDSFormField extends LitElement {
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
+  protected handleChange = (e: Event): void => {
+    this.value = (e.target as HTMLInputElement).value;
+    this._syncFormValue();
+    this._validateAndUpdateState();
+
+    this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
+  };
+
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
     if (changedProperties.has("id") && !this.id) {
       console.warn(`id or name attribute is required`);
-    }
-
-    if (changedProperties.has("value") || changedProperties.has("required")) {
-      this._validateAndUpdateState();
-    }
-
-    if (changedProperties.has("value") || changedProperties.has("disabled")) {
-      this._syncFormValue();
     }
   }
 
@@ -183,7 +186,7 @@ export abstract class QGDSFormField extends LitElement {
   protected _getValidationMessage(): string | undefined {
     if (!this.required) return "";
     if (!this.value) return "This field is required.";
-    return "";
+    return this._nativeInput?.validationMessage ?? "";
   }
 
   /**
@@ -200,7 +203,6 @@ export abstract class QGDSFormField extends LitElement {
   protected _validateAndUpdateState(): void {
     const input = this._nativeInput;
     const isValid = this._computeIsValid();
-    const hasValue = !!this.value;
 
     if (input && !isValid) {
       const v = input.validity;
@@ -224,8 +226,8 @@ export abstract class QGDSFormField extends LitElement {
       this._internals.setValidity({});
     }
 
-    this._validationMessage = this._getValidationMessage();
-    this.validationState = isValid && hasValue ? "success" : "error";
+    this.validationMessage = this._getValidationMessage();
+    this.validationState = isValid ? "success" : "error";
   }
 
   // ── Private ────────────────────────────────────────────────────────────────
