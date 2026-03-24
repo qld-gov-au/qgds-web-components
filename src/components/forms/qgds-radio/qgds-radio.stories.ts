@@ -26,7 +26,7 @@ const meta: Meta<QGDSRadioStoryArgs> = {
       label="${storyArgs.label ?? "Label"}"
       value="${storyArgs.value ?? "option"}"
       name="${storyArgs.name ?? "group"}"
-      status="${storyArgs.status ?? ""}"
+      validationState="${storyArgs.validationState ?? ""}"
       ?checked=${storyArgs.checked}
       ?disabled=${storyArgs.disabled}
       @change=${action("change")}
@@ -50,9 +50,9 @@ export const Disabled: Story = {
 };
 
 export const Success: Story = {
-  args: { label: "Label", value: "option", status: "success", checked: true },
+  args: { label: "Label", value: "option", validationState: "success", checked: true },
 };
 
 export const Error: Story = {
-  args: { label: "Label", value: "option", status: "error", checked: true },
+  args: { label: "Label", value: "option", validationState: "error", checked: true },
 };

@@ -1,6 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
+import { classMap } from "lit/directives/class-map.js";
+import { FormValidationState } from "../../../types/forms";
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-radio.styles.scss?inline";
 
@@ -22,7 +23,7 @@ export type QGDSRadioProps = InstanceType<typeof QGDSRadio>;
  * @prop {string} name  - Input name, required for form association.
  * @prop {boolean} checked  - Whether this radio is selected.
  * @prop {boolean} disabled - Whether this radio is disabled.
- * @prop {"success"|"error"|""} status - Visual validation state.
+ * @prop {FormValidationState} validationState - Visual validation state.
  *
  * @fires {Event} change - Native composed change event re-dispatched from the host.
  *
@@ -54,7 +55,7 @@ export class QGDSRadio extends LitElement {
   disabled: boolean = false;
 
   @property({ type: String, reflect: true })
-  status: "success" | "error" | "" = "";
+  validationState?: FormValidationState;
 
   /** Exposed so qgds-field-group can identify this as a radio via duck-typing */
   readonly type = "radio";
@@ -73,7 +74,13 @@ export class QGDSRadio extends LitElement {
 
   render() {
     return html`
-      <label class="radio">
+      <label
+        class="${classMap({
+          radio: true,
+          "is-valid": this.validationState === "success",
+          "is-invalid": this.validationState === "error",
+        })}"
+      >
         <input
           type="radio"
           name=${this.name}
