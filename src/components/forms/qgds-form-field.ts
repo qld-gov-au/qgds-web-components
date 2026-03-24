@@ -104,7 +104,7 @@ export abstract class QGDSFormField extends LitElement {
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
-    if (changedProperties.has("id") && !this.id && !this.name) {
+    if (changedProperties.has("id") && !this.id) {
       console.warn(`id or name attribute is required`);
     }
 

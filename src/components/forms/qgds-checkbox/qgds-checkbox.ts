@@ -4,7 +4,6 @@ import { customElement, property } from "lit/decorators.js";
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
 import { FormValidationState } from "../../../types/forms";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 
 export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
@@ -73,8 +72,6 @@ export class QGDSCheckbox extends LitElement {
   //  ifDefined(this.id)
 
   render() {
-    console.warn(ifDefined(this.id) === "");
-
     return html`
       <label
         class="${classMap({
