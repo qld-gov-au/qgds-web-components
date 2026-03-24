@@ -19,21 +19,24 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { action } from "storybook/actions";
 import { html } from "lit";
+import { FormIndicateIf, FormVariant } from "../../types/forms";
 
 // ── Register all components used in this story ─────────────────────────────
-import "../components/forms/qgds-text-input/qgds-text-input";
-import "../components/forms/qgds-select/qgds-select";
-import "../components/forms/qgds-select/qgds-select-option";
-import "../components/forms/qgds-checkbox/qgds-checkbox";
-import "../components/forms/qgds-checkbox-group/qgds-checkbox-group";
-import "../components/forms/qgds-radio/qgds-radio";
-import "../components/forms/qgds-radio-group/qgds-radio-group";
+import "./qgds-text-input/qgds-text-input";
+import "./qgds-textarea/qgds-textarea";
+import "./qgds-select/qgds-select";
+import "./qgds-select/qgds-select-option";
+import "./qgds-checkbox/qgds-checkbox";
+import "./qgds-checkbox-group/qgds-checkbox-group";
+import "./qgds-radio/qgds-radio";
+import "./qgds-radio-group/qgds-radio-group";
 
 // ── Meta ───────────────────────────────────────────────────────────────────
 
 const meta: Meta = {
-  title: "Testing/Form Field Abstract",
+  title: "Components/Forms/Data and validation",
   tags: ["autodocs"],
+  component: "qgds-form-field",
   parameters: {
     docs: {
       description: {
@@ -45,6 +48,17 @@ isolation in the Storybook canvas.
         `,
       },
     },
+  },
+  args: {
+    "indicate-if": "required",
+    variant: "outlined",
+  },
+  argTypes: {
+    "indicate-if": {
+      control: { type: "select" },
+      options: ["required", "optional"] satisfies FormIndicateIf[],
+    },
+    variant: { options: ["filled", "outlined"] satisfies FormVariant[], control: { type: "select" } },
   },
 };
 
@@ -206,109 +220,48 @@ export const FullForm: Story = {
 // ── Story: Validation States ───────────────────────────────────────────────
 
 /**
- * All three component types displayed in their error and success states.
- * Validates the validationState / validationMessage rendering path in
- * the base class render() method.
+ * Simulates a form submission where the server alone is responsible for validation.
+ * Basic HTML5 validation should prevent the form submission, for example a required field is empty.
+ * When a form is submitted, the page is refreshed and rerendered with valid and invalid states, including validation messages.
+ * Server validation is required for any form submission and should not be left to the client.
+ * It can also validate against complex data rules which the client may not have access to.
  */
-export const ValidationStates: Story = {
-  name: "Validation States — Error & Success",
-  render: () => html`
+export const ServerValidationOnly: Story = {
+  name: "Validation — server-side",
+  render: (args) => html`
     <div style=${sectionStyle}>
-      <!-- Error states -->
       <fieldset style=${fieldsetStyle}>
-        <legend style=${legendStyle}>Error State</legend>
+        <legend style=${legendStyle}>Server validation (simulated)</legend>
 
         <qgds-text-input
-          id="name-error"
-          name="name-error"
+          id="ServerValidationOnly_name"
+          name="name"
           label="Full name"
           hint="Required field"
-          validation-state="error"
-          validation-message="This field is required."
-          indicate-if="required"
+          variant=${args.variant}
           required
         ></qgds-text-input>
 
-        <qgds-select
-          id="pet-error"
-          name="pet-error"
-          label="Favourite pet"
-          validation-state="error"
-          validation-message="Please select an option."
-        >
+        <qgds-textarea
+          id="ServerValidationOnly_info"
+          name="info"
+          label="Information"
+          variant=${args.variant}
+          required
+        ></qgds-textarea>
+
+        <qgds-select id="ServerValidationOnly_pet" name="pet" label="Favourite pet" variant=${args.variant} required>
           <qgds-select-option value="dog" label="Dog"></qgds-select-option>
           <qgds-select-option value="cat" label="Cat"></qgds-select-option>
         </qgds-select>
 
-        <qgds-checkbox-group
-          id="interests-error"
-          name="interests-error"
-          label="Interests"
-          validation-state="error"
-          validation-message="Please select at least one option."
-          required
-        >
+        <qgds-checkbox-group id="ServerValidationOnly_interests" name="interests" label="Interests" required>
           <qgds-checkbox value="design" label="Design"></qgds-checkbox>
           <qgds-checkbox value="code" label="Code"></qgds-checkbox>
         </qgds-checkbox-group>
 
-        <qgds-radio-group
-          id="priority-error"
-          name="priority-error"
-          label="Priority"
-          validation-state="error"
-          validation-message="Please select a priority level."
-          required
-        >
+        <qgds-radio-group id="ServerValidationOnly_priority" name="priority" label="Priority" required>
           <qgds-radio value="low" label="Low"></qgds-radio>
-          <qgds-radio value="high" label="High"></qgds-radio>
-        </qgds-radio-group>
-      </fieldset>
-
-      <!-- Success states -->
-      <fieldset style=${fieldsetStyle}>
-        <legend style=${legendStyle}>Success State</legend>
-
-        <qgds-text-input
-          id="name-success"
-          name="name-success"
-          label="Full name"
-          value="Jane Smith"
-          validation-state="success"
-          validation-message="Looks good!"
-        ></qgds-text-input>
-
-        <qgds-select
-          id="pet-success"
-          name="pet-success"
-          label="Favourite pet"
-          validation-state="success"
-          validation-message="Great choice!"
-        >
-          <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-          <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-        </qgds-select>
-
-        <qgds-checkbox-group
-          id="interests-success"
-          name="interests-success"
-          label="Interests"
-          validation-state="success"
-          validation-message="Selection saved."
-        >
-          <qgds-checkbox value="design" label="Design" checked></qgds-checkbox>
-          <qgds-checkbox value="code" label="Code" checked></qgds-checkbox>
-        </qgds-checkbox-group>
-
-        <qgds-radio-group
-          id="priority-success"
-          name="priority-success"
-          label="Priority"
-          validation-state="success"
-          validation-message="Priority confirmed."
-        >
-          <qgds-radio value="low" label="Low"></qgds-radio>
-          <qgds-radio value="medium" label="Medium" checked></qgds-radio>
           <qgds-radio value="high" label="High"></qgds-radio>
         </qgds-radio-group>
       </fieldset>
