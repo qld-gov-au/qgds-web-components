@@ -76,7 +76,7 @@ export abstract class QGDSFormField extends LitElement {
 
   protected _validationMessage?: string;
 
-  protected events: QgdsEvents = new QgdsEvents(this);
+  protected events: QgdsEvents;
 
   // Getters ensure these properties are always derived from current value of id.
   private get _labelId(): string {
@@ -100,6 +100,7 @@ export abstract class QGDSFormField extends LitElement {
   constructor() {
     super();
     this._internals = this.attachInternals();
+    this.events = new QgdsEvents(this);
   }
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
