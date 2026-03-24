@@ -31,6 +31,9 @@ export abstract class QGDSFormField extends LitElement {
 
   static styles = [resetStyles, formStyles, utilitiesStyles];
 
+  /** Set delegatesFocus: true for programatic focus, autofocus */
+  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
+
   // ── Properties ─────────────────────────────────────────────────────────────
 
   @property({ type: String })
@@ -65,9 +68,6 @@ export abstract class QGDSFormField extends LitElement {
 
   @property({ type: Boolean, attribute: "readonly" })
   readOnly?: boolean = false;
-
-  /** Set delegatesFocus: true for programatic focus, autofocus */
-  static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   // ── Internals ──────────────────────────────────────────────────────────────
 
