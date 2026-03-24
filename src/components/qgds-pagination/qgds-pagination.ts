@@ -167,7 +167,7 @@ export class QGDSPagination extends LitElement {
         <a
           class="page-link ${isActive ? "active" : ""}"
           href="${this.linkBase}${page}"
-          aria-label="Page ${page} ${isActive ? ", current page" : ""}"
+          aria-label="Page ${page} ${isActive ? "(current page)" : ""}"
           aria-current=${ifDefined(isActive ? "page" : undefined)}
           @click=${this._handleClick}
         >
@@ -210,8 +210,8 @@ export class QGDSPagination extends LitElement {
                   href="${this.linkBase}${Math.max(1, this.normalisedCurrentPage - 1)}"
                   aria-label="${this.prevLabel}"
                   aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
+                  tabindex=${ifDefined(isPrevDisabled ? "-1" : undefined)}
                   @click=${this._handleClick}
-                  ${isPrevDisabled ? "tabindex='-1'" : ""}
                 >
                   <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
                   <span class="label">${this.prevLabel}</span>
