@@ -65,6 +65,7 @@ export class QGDSTextInput extends QGDSFormField implements IFormControl {
       minlength=${ifDefined(this.minLength)}
       pattern=${ifDefined(this.pattern?.toString())}
       aria-describedby="${ifDefined(this._ariaDescribedBy)}"
+      @change=${this.handleChange}
     />`;
   }
 }
