@@ -190,31 +190,23 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
    * Handle change events with auto-validation and multiple select support
    */
   private _handleChange = (e: Event): void => {
-    const selectElement = e.target as HTMLSelectElement;
-
     if (this.multiple) {
       // Get all selected options for multiple select
+      const selectElement = e.target as HTMLSelectElement;
       const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
       this.value = selectedOptions.join(",");
+      this._syncFormValue();
+      this._validateAndUpdateState();
+      // Dispatch typed custom event with proper value type
+      this.events.dispatch(
+        "change",
+        { name: this.name ?? this.id, value: this._currentValue, multiple: this.multiple },
+        e
+      );
     } else {
       // Single select
-      this.value = selectElement.value;
+      this.handleChange(e); // Call base class handler for single select to dispatch event and validate
     }
-
-    // Dispatch typed custom event with proper value type
-    this.dispatchEvent(
-      new CustomEvent<QGDSSelectChangeDetail>("change", {
-        detail: {
-          value: this.multiple ? this.valueAsArray : this.value,
-          multiple: this.multiple,
-        },
-        bubbles: true,
-        composed: true,
-      })
-    );
-
-    // Auto-validate after change
-    this._validateAndUpdateState();
   };
 
   /**
