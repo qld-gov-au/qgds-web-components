@@ -1,8 +1,11 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
+import { FormValidationState } from "../../../types/forms";
+import { ifDefined } from "lit/directives/if-defined.js";
+import { classMap } from "lit/directives/class-map.js";
 
 export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
 
@@ -13,7 +16,6 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  *
  * @tagname qgds-checkbox
  *
- * @prop {string} id - The unique ID for the checkbox input, required for accessibility.
  * @prop {string} value - The value submitted when the checkbox is checked.
  * @prop {string} label - Visible label text.
  * @prop {string} name  - Input name, required when used outside a field group.
@@ -33,9 +35,6 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
 @customElement("qgds-checkbox")
 export class QGDSCheckbox extends LitElement {
   @property({ type: String })
-  id: string = "";
-
-  @property({ type: String })
   value: string = "";
 
   @property({ type: String })
@@ -51,7 +50,7 @@ export class QGDSCheckbox extends LitElement {
   disabled: boolean = false;
 
   @property({ type: String, reflect: true })
-  status: "success" | "error" | "" = "";
+  validationState?: FormValidationState;
 
   /** Exposed so qgds-field-group can identify this as a checkbox via duck-typing */
   readonly type = "checkbox";
@@ -71,12 +70,22 @@ export class QGDSCheckbox extends LitElement {
     this.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
   };
 
+  //  ifDefined(this.id)
+
   render() {
+    console.warn(ifDefined(this.id) === "");
+
     return html`
-      <label class="checkbox">
+      <label
+        class="${classMap({
+          checkbox: true,
+          "is-valid": this.validationState === "success",
+          "is-invalid": this.validationState === "error",
+        })}"
+      >
         <input
           type="checkbox"
-          id=${this.id}
+          id=${this.id || nothing}
           name=${this.name}
           value=${this.value}
           ?checked=${this.checked}
