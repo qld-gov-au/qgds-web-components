@@ -74,7 +74,15 @@ type Story = StoryObj;
 const handleSubmit = (e: SubmitEvent) => {
   e.preventDefault();
   const form = e.target as HTMLFormElement;
-  const data = Object.fromEntries(new FormData(form).entries());
+  const formData = new FormData(form);
+  const data = Array.from(formData.keys()).reduce(
+    (acc, key) => {
+      const values = formData.getAll(key);
+      acc[key] = values.length > 1 ? values : values[0];
+      return acc;
+    },
+    {} as Record<string, FormDataEntryValue | FormDataEntryValue[]>
+  );
   action("form-submit")(data);
 };
 
@@ -182,7 +190,8 @@ export const FullForm: Story = {
           name="interests"
           label="Interests"
           hint="Select all that apply"
-          indicate-if="optional"
+          indicate-if="required"
+          required
           @qgds-change=${action("checkbox-group:qgds-change")}
         >
           <qgds-checkbox value="design" label="Design"></qgds-checkbox>
@@ -210,7 +219,7 @@ export const FullForm: Story = {
       </fieldset>
 
       <div style=${buttonRowStyle}>
-        <button type="submit" style=${buttonStyle}>Submit</button>
+        <button type="submit" style=${buttonStyle} fromnovalidate>Submit</button>
         <button type="reset" style=${resetButtonStyle}>Reset</button>
       </div>
     </form>
