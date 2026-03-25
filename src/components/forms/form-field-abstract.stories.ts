@@ -249,6 +249,7 @@ export const ServerValidationOnly: Story = {
           label="Full name"
           hint="Required field"
           variant=${args.variant}
+          indicate-if=${args["indicate-if"]}
           required
         ></qgds-text-input>
 
@@ -257,20 +258,40 @@ export const ServerValidationOnly: Story = {
           name="info"
           label="Information"
           variant=${args.variant}
+          indicate-if=${args["indicate-if"]}
           required
         ></qgds-textarea>
 
-        <qgds-select id="ServerValidationOnly_pet" name="pet" label="Favourite pet" variant=${args.variant} required>
+        <qgds-select
+          id="ServerValidationOnly_pet"
+          name="pet"
+          label="Favourite pet"
+          variant=${args.variant}
+          indicate-if=${args["indicate-if"]}
+          required
+        >
           <qgds-select-option value="dog" label="Dog"></qgds-select-option>
           <qgds-select-option value="cat" label="Cat"></qgds-select-option>
         </qgds-select>
 
-        <qgds-checkbox-group id="ServerValidationOnly_interests" name="interests" label="Interests" required>
+        <qgds-checkbox-group
+          id="ServerValidationOnly_interests"
+          name="interests"
+          label="Interests"
+          indicate-if=${args["indicate-if"]}
+          required
+        >
           <qgds-checkbox value="design" label="Design"></qgds-checkbox>
           <qgds-checkbox value="code" label="Code"></qgds-checkbox>
         </qgds-checkbox-group>
 
-        <qgds-radio-group id="ServerValidationOnly_priority" name="priority" label="Priority" required>
+        <qgds-radio-group
+          id="ServerValidationOnly_priority"
+          name="priority"
+          label="Priority"
+          indicate-if=${args["indicate-if"]}
+          required
+        >
           <qgds-radio value="low" label="Low"></qgds-radio>
           <qgds-radio value="high" label="High"></qgds-radio>
         </qgds-radio-group>

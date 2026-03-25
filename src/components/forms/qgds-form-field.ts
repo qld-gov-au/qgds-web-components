@@ -105,14 +105,6 @@ export abstract class QGDSFormField extends LitElement {
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
-  protected handleChange = (e: Event): void => {
-    this.value = (e.target as HTMLInputElement).value;
-    this._syncFormValue();
-    this._validateAndUpdateState();
-
-    this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
-  };
-
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
 
@@ -153,7 +145,15 @@ export abstract class QGDSFormField extends LitElement {
     return isValid;
   }
 
-  // ── Protected ──────────────────────────────────────────────────────────────
+  // ── Private API ──────────────────────────────────────────────────────────────
+
+  protected handleChange = (e: Event): void => {
+    this.value = (e.target as HTMLInputElement).value;
+    this._syncFormValue();
+    this._validateAndUpdateState();
+
+    this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
+  };
 
   /**
    * The value to sync into ElementInternals. Override in subclasses that
