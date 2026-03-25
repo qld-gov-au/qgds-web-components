@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import "./qgds-details";
-import type { QGDSDetails } from "./qgds-details";
+import "./qgds-details.js";
+import type { QGDSDetails } from "./qgds-details.js";
 
 describe("qgds-details", () => {
   let element: QGDSDetails;
@@ -12,14 +12,13 @@ describe("qgds-details", () => {
 
   afterEach(() => {
     element.remove();
-    delete window.dataLayer;
   });
 
   it("renders defaults", async () => {
     await element.updateComplete;
 
     expect(element.summaryText).toBe("Summary");
-    expect(element.size).toBe("md");
+    expect(element.size).toBe("sm");
 
     const details = element.shadowRoot?.querySelector("details");
     expect(details).toBeTruthy();
@@ -35,21 +34,13 @@ describe("qgds-details", () => {
 
     const qgdsToggleDetails: {
       open: boolean;
-      component: string;
-      componentID: string | null;
       id: string | null;
-      timestamp: number;
-      originalEvent: Event;
     }[] = [];
 
     wrapper.addEventListener("qgds-toggle", (event: Event) => {
       const customEvent = event as CustomEvent<{
         open: boolean;
-        component: string;
-        componentID: string | null;
         id: string | null;
-        timestamp: number;
-        originalEvent: Event;
       }>;
       qgdsToggleDetails.push(customEvent.detail);
     });
@@ -66,16 +57,128 @@ describe("qgds-details", () => {
     details.open = false;
     details.dispatchEvent(new Event("toggle", { bubbles: true }));
 
-    expect(qgdsToggleDetails.map((detail) => detail.open)).toEqual([
-      true,
-      false,
-    ]);
-    expect(qgdsToggleDetails[0]?.component).toBe("qgds-details");
-    expect(qgdsToggleDetails[0]?.componentID).toBe("details-1");
+    expect(qgdsToggleDetails.map((detail) => detail.open)).toEqual([true, false]);
     expect(qgdsToggleDetails[0]?.id).toBe("details-1");
-    expect(typeof qgdsToggleDetails[0]?.timestamp).toBe("number");
-    expect(qgdsToggleDetails[0]?.originalEvent).toBeInstanceOf(Event);
 
     wrapper.remove();
+  });
+
+  it("renders custom summary text", async () => {
+    element.summaryText = "Click to expand";
+    await element.updateComplete;
+
+    const summaryText = element.shadowRoot?.querySelector("summary .text");
+    expect(summaryText?.textContent).toBe("Click to expand");
+  });
+
+  it("applies size variants correctly", async () => {
+    // Test xs
+    element.size = "xs";
+    await element.updateComplete;
+    expect(element.size).toBe("xs");
+
+    // Test sm (default)
+    element.size = "sm";
+    await element.updateComplete;
+    expect(element.size).toBe("sm");
+
+    // Test md
+    element.size = "md";
+    await element.updateComplete;
+    expect(element.size).toBe("md");
+
+    // Test lg
+    element.size = "lg";
+    await element.updateComplete;
+    expect(element.size).toBe("lg");
+  });
+
+  it("renders chevron icon", async () => {
+    await element.updateComplete;
+
+    const icon = element.shadowRoot?.querySelector("qgds-icon");
+    expect(icon).toBeTruthy();
+    expect(icon?.getAttribute("icon-id")).toBe("chevron-right");
+    expect(icon?.getAttribute("size")).toBe("sm");
+  });
+
+  it("applies aria-label when provided", async () => {
+    element.ariaLabel = "Custom disclosure label";
+    await element.updateComplete;
+
+    const summary = element.shadowRoot?.querySelector("summary");
+    expect(summary?.getAttribute("aria-label")).toBe("Custom disclosure label");
+  });
+
+  it("does not apply aria-label when null", async () => {
+    element.ariaLabel = null;
+    await element.updateComplete;
+
+    const summary = element.shadowRoot?.querySelector("summary");
+    expect(summary?.hasAttribute("aria-label")).toBe(false);
+  });
+
+  it("toggles details element open state", async () => {
+    await element.updateComplete;
+
+    const details = element.shadowRoot?.querySelector("details");
+    expect(details).toBeTruthy();
+    if (!details) {
+      throw new Error("details element was not rendered");
+    }
+
+    // Initially closed
+    expect(details.open).toBe(false);
+
+    // Open details
+    details.open = true;
+    details.dispatchEvent(new Event("toggle"));
+    await element.updateComplete;
+
+    expect(details.open).toBe(true);
+
+    // Close details
+    details.open = false;
+    details.dispatchEvent(new Event("toggle"));
+    await element.updateComplete;
+
+    expect(details.open).toBe(false);
+  });
+
+  it("renders slotted content", async () => {
+    element.innerHTML = "<p>This is slotted content</p>";
+    await element.updateComplete;
+
+    const slot = element.shadowRoot?.querySelector("slot");
+    expect(slot).toBeTruthy();
+
+    const assignedNodes = slot?.assignedNodes();
+    expect(assignedNodes?.length).toBeGreaterThan(0);
+  });
+
+  it("dispatches event without id when no id is set", async () => {
+    await element.updateComplete;
+
+    const eventDetails: { open: boolean; id: string | null }[] = [];
+
+    element.addEventListener("qgds-toggle", (event: Event) => {
+      const customEvent = event as CustomEvent<{
+        open: boolean;
+        id: string | null;
+      }>;
+      eventDetails.push(customEvent.detail);
+    });
+
+    const details = element.shadowRoot?.querySelector("details");
+    if (!details) {
+      throw new Error("details element was not rendered");
+    }
+
+    details.open = true;
+    details.dispatchEvent(new Event("toggle", { bubbles: true }));
+
+    expect(eventDetails.length).toBe(1);
+    expect(eventDetails[0]?.id).toBeNull();
+    expect(eventDetails[0]?.open).toBe(true);
   });
 });

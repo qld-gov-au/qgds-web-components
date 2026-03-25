@@ -36,13 +36,18 @@ Scoped CSS: qgds-details
 }
 
 :host([size="md"]) {
-  --min-block-size: 2.5rem;
+  --min-block-size: 2.75rem;
   --font-size: 1rem;
 }
 
 :host([size="lg"]) {
   --min-block-size: 3rem;
   --font-size: 1.25rem;
+}
+
+:host([size="xl"]) {
+  --min-block-size: 3rem;
+  --font-size: 1.5rem;
 }
 
 // Icon wrapper — rotates 90deg when details is open; must precede .summary:hover .icon
@@ -54,36 +59,41 @@ Scoped CSS: qgds-details
   --qgds-icon-color: var(--summary-icon-color);
 }
 
-details[open] .icon {
-  transform: rotate(90deg);
+::slotted(*) {
+  font-size: 14px;
 }
 
-.summary {
-  align-items: center;
-  border-radius: 0.25rem;
-  box-sizing: border-box;
+summary {
+  min-block-size: var(--min-block-size);
   display: flex;
-  gap: 0.25rem;
-  padding-block: 0.5rem;
-  padding-inline: 0.25rem;
-  margin-block-end: 0.5rem;
-  margin-inline: -0.25rem; // extend hover background edge-to-edge
-  block-size: var(--min-block-size);
+  align-items: center;
   cursor: pointer;
-  list-style: none;
-  color: var(--summary-color);
-  font-weight: 600;
-  font-size: var(--font-size);
-  line-height: 1.5;
-  user-select: none;
+  margin-inline: -0.25rem;
 
   // Hide the native browser disclosure triangle
+  list-style: none;
+
   &::-webkit-details-marker,
   &::marker {
     display: none;
   }
 
-  &:hover {
+  div {
+    align-items: center;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    display: flex;
+    gap: 0.25rem;
+    padding-block: 0.75rem;
+    padding-inline: 0.25rem;
+    color: var(--summary-color);
+    font-weight: 400;
+    font-size: var(--font-size);
+    user-select: none;
+    inline-size: 100%;
+  }
+
+  &:hover div {
     background-color: var(--summary-bg-hover);
     color: var(--summary-color);
 
@@ -92,13 +102,58 @@ details[open] .icon {
     }
   }
 
-  @include m.focusable();
+  &:focus {
+    outline: none;
+
+    div  {
+      outline: var(--qgds-color-focus-default, #002e85) solid 3px;
+      outline-offset: 2px;
+      background-color: var(--summary-bg-hover);
+      color: var(--summary-color);
+
+      .icon {
+        --qgds-icon-color: var(--summary-icon-hover);
+      }
+    }
+  }
+}
+
+// When details is open, apply visual states and rotate icon
+details[open] {
+  summary {
+    div {
+      background-color: var(--summary-bg-hover);
+      color: var(--summary-color);
+  
+      .icon {
+        --qgds-icon-color: var(--summary-icon-hover);
+
+        transform: rotate(90deg);
+      }
+    }
+  }
 }
 
 // Content area — indent aligns with summary text:
-// summary padding-inline-start (0.25rem) + icon-width + gap (0.25rem)
+// summary padding-inline-start (0.25rem) + icon-width + gap (0.25rem) + margin-inline (-0.25rem)
 .content {
-  padding-inline-start: calc(var(--icon-width) + 0.25rem);
-  padding-block-end: 1rem;
+  padding-inline-start: calc(var(--icon-width) + 0.5rem);
+  margin-inline: -0.25rem;
+  padding-block-end: 0.75rem;
   color: var(--content-color);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+// Will need to add this to a global styles file if we want to support for reduced motion across all components, but adding here for now to meet accessibility requirements for this component (WCAG 2.3.3)
+// Respect user's reduced motion preferences (WCAG 2.3.3)
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    --icon-transition: none;
+  }
+
+  .icon {
+    transition: none;
+  }
 }
