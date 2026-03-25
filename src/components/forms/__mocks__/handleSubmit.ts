@@ -1,4 +1,4 @@
-import { action } from "storybook/actions";
+// import { action } from "storybook/actions";
 
 export const handleServerSideValidationSubmit = (e: SubmitEvent) => {
   e.preventDefault();
@@ -6,6 +6,7 @@ export const handleServerSideValidationSubmit = (e: SubmitEvent) => {
   const form = e.target as HTMLFormElement;
   const formData = new FormData(form);
   const entries = Array.from(formData.entries());
+  /* eslint-disable no-console */
   console.log(entries);
   //   const data = Array.from(formData.keys()).reduce(
   //     (acc, key) => {
