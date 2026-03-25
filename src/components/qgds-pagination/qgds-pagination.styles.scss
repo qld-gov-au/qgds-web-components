@@ -12,6 +12,8 @@
 .pagination {
   --pg-border: var(--qgds-color-action-primary);
   --pg-link-fg: var(--qgds-color-link-default);
+  --icon-fg: var(--qgds-color-action-secondary);
+  --icon-hover-fg: var(--qgds-color-action-secondary-hover);
   --pg-border-radius: 4px;
   --pg-size: 2rem; /* Standardizing size */
 
@@ -36,6 +38,7 @@
 
 .base-icon {
   inline-size: var(--pg-size);
+  block-size: var(--pg-size);
   align-items: center;
   justify-content: center;
   display: flex;
@@ -105,14 +108,13 @@
   text-decoration: underline 1px var(--pg-link-fg);
   text-underline-offset: 0.2em;
 
-  .prev-icon,
-  .next-icon {
-    --qgds-icon-color: var(--qgds-color-action-secondary);
+  .base-icon {
+    color: var(--icon-fg);
+    transition: color 0.2s ease;
   }
 
-  &:hover .prev-icon,
-  &:hover .next-icon {
-    --qgds-icon-color: var(--qgds-color-action-secondary-hover);
+  &:hover .base-icon {
+    --qgds-icon-color: var(--icon-hover-fg);
   }
 
   &.is-disabled {
