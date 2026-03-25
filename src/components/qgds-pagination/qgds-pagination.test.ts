@@ -40,7 +40,7 @@ describe("qgds-pagination", () => {
     expect(prevLink?.getAttribute("aria-disabled")).toBe("true");
   });
 
-  it("dispatches qgds-navigate with page action when a page link is clicked", async () => {
+  it("does not update currentPage when qgds-navigate is cancelled", async () => {
     element.setAttribute("current-page", "2");
     element.setAttribute("total-pages", "5");
     element.setAttribute("link-base", "/page/");
@@ -70,6 +70,28 @@ describe("qgds-pagination", () => {
     expect(customEvent.detail.requestedPage).toBe(3);
     expect(customEvent.detail.currentPage).toBe(2);
     expect(customEvent.detail.totalPages).toBe(5);
+    expect(element.currentPage).toBe(2);
+  });
+
+  it("updates currentPage when qgds-navigate is not cancelled", async () => {
+    element.setAttribute("current-page", "2");
+    element.setAttribute("total-pages", "5");
+    element.setAttribute("link-base", "/page/");
+
+    await element.updateComplete;
+
+    const handler = vi.fn();
+    element.addEventListener("qgds-navigate", handler);
+
+    const targetLink = element.shadowRoot?.querySelector<HTMLAnchorElement>("a.page-link[href='/page/3']");
+    expect(targetLink).toBeTruthy();
+
+    // Stop browser navigation in the test runner while still allowing qgds-navigate to proceed uncancelled.
+    targetLink?.addEventListener("click", (event: Event) => event.preventDefault(), { capture: true });
+
+    targetLink?.click();
+
+    expect(handler).toHaveBeenCalledTimes(1);
     expect(element.currentPage).toBe(3);
   });
 });

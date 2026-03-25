@@ -248,6 +248,8 @@ export class QGDSPagination extends LitElement {
       return;
     }
 
+    // Ignore boundary actions that are currently disabled (page 1 / last page).
+    // This prevents an qgds-navigate event from firing when the user clicks "Previous" on the first page, or "Next" on the last page.
     if (this.isBoundaryActionDisabled(target)) {
       e.preventDefault();
       return;
@@ -260,6 +262,7 @@ export class QGDSPagination extends LitElement {
     let action: "prev" | "next" | "page" = "page";
     let requestedPage: number | null = null;
 
+    // Resolve the intended navigation action and destination page from the clicked link.
     if (target.classList.contains("prev-link")) {
       action = "prev";
       requestedPage = Math.max(1, currentPage - 1);
@@ -272,6 +275,7 @@ export class QGDSPagination extends LitElement {
       requestedPage = Number.isNaN(parsedPage) ? null : parsedPage;
     }
 
+    // Emit a cancelable navigation intent so consumers can intercept and manage routing/state.
     const eventPayload = {
       action,
       requestedPage,
@@ -282,11 +286,13 @@ export class QGDSPagination extends LitElement {
 
     const navigationCancelled = !this.events.dispatch("navigate", eventPayload, e);
 
-    // Fallback: if no listener updates state, sync the UI locally.
-    if (requestedPage !== null && this.currentPage === currentPage) {
+    // Fallback: when navigation is not cancelled and no external listener mutates state,
+    // update the current page locally.
+    if (!navigationCancelled && requestedPage !== null && this.currentPage === currentPage) {
       this.currentPage = requestedPage;
     }
 
+    // Respect consumer cancellation and keep the browser from following the anchor.
     if (navigationCancelled) {
       e.preventDefault();
     }
