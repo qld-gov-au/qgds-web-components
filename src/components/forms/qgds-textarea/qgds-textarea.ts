@@ -68,8 +68,8 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
       aria-describedby="${ifDefined(this._ariaDescribedBy)}"
       @change=${this.handleChange}
     >
-      ${this.value ?? nothing}
-    </textarea>`;
+${this.value ?? nothing}</textarea
+    >`;
   }
 }
 
