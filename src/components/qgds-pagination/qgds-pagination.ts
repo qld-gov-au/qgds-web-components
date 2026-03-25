@@ -284,16 +284,12 @@ export class QGDSPagination extends LitElement {
       href,
     };
 
-    const navigationCancelled = !this.events.dispatch("navigate", eventPayload, e);
+    // Event is cancellable by the consumer.
+    // If the event is cancelled, the pagination component will not update its current page, allowing the consumer to manage state and routing as needed.
+    const navigationOutcome = this.events.dispatch("navigate", eventPayload, e);
 
-    // Fallback: when navigation is not cancelled and no external listener mutates state,
-    // update the current page locally.
-    if (!navigationCancelled && requestedPage !== null && this.currentPage === currentPage) {
-      this.currentPage = requestedPage;
-    }
-
-    // Respect consumer cancellation and keep the browser from following the anchor.
-    if (navigationCancelled) {
+    if (!navigationOutcome) {
+      // If the event was cancelled, prevent the default link navigation behavior.
       e.preventDefault();
     }
   };
