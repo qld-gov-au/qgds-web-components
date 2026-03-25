@@ -24,7 +24,7 @@ const meta: Meta<QGDSCheckboxStoryArgs> = {
     <qgds-checkbox
       label="${storyArgs.label ?? "Option"}"
       value="${storyArgs.value ?? "option"}"
-      validationState="${storyArgs.validationState ?? ""}"
+      validation-state=${storyArgs["validation-state"]}
       ?checked=${storyArgs.checked}
       ?disabled=${storyArgs.disabled}
       @change=${action("change")}
@@ -47,7 +47,7 @@ export const Success: Story = {
   args: {
     label: "Valid option",
     value: "valid",
-    validationState: "success",
+    "validation-state": "success",
     checked: true,
   },
 };
@@ -56,7 +56,7 @@ export const Error: Story = {
   args: {
     label: "Invalid option",
     value: "invalid",
-    validationState: "error",
+    "validation-state": "error",
     checked: true,
   },
 };

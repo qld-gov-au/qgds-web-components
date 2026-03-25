@@ -21,12 +21,14 @@ const meta: Meta<typeof args> = {
 export default meta;
 
 export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
+    <p>${args["validation-state"]}</p>
     <qgds-checkbox-group
       id="interests"
       name="interests"
       label="Interests"
       hint="Select all that apply."
+      validation-state=${args["validation-state"]}
       @qgds-change=${action("qgds-change")}
     >
       <qgds-checkbox value="design" label="Design"></qgds-checkbox>

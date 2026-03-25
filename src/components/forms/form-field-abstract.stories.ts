@@ -20,6 +20,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { action } from "storybook/actions";
 import { html } from "lit";
 import { FormIndicateIf, FormVariant } from "../../types/forms";
+import { handleServerSideValidationSubmit } from "./__mocks__/handleSubmit";
 
 // ── Register all components used in this story ─────────────────────────────
 import "./qgds-text-input/qgds-text-input";
@@ -238,7 +239,7 @@ export const FullForm: Story = {
 export const ServerValidationOnly: Story = {
   name: "Validation — server-side",
   render: (args) => html`
-    <div style=${sectionStyle}>
+    <form style=${sectionStyle} @submit=${handleServerSideValidationSubmit}>
       <fieldset style=${fieldsetStyle}>
         <legend style=${legendStyle}>Server validation (simulated)</legend>
 
@@ -274,7 +275,12 @@ export const ServerValidationOnly: Story = {
           <qgds-radio value="high" label="High"></qgds-radio>
         </qgds-radio-group>
       </fieldset>
-    </div>
+
+      <div style=${buttonRowStyle}>
+        <button type="submit" style=${buttonStyle}>Submit</button>
+        <button type="reset" style=${resetButtonStyle}>Reset</button>
+      </div>
+    </form>
   `,
 };
 

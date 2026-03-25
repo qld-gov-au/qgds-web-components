@@ -147,11 +147,11 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
-    this.querySelectorAll<Element & { status?: FormValidationState; name?: string; disabled?: boolean }>(
+    this.querySelectorAll<Element & { validationState?: FormValidationState; name?: string; disabled?: boolean }>(
       this.groupItemName
     ).forEach((el) => {
       if (changedProperties.has("validationState")) {
-        el.status = this.validationState;
+        el.validationState = this.validationState;
       }
       if (changedProperties.has("name")) {
         el.name = this.name;
