@@ -23,7 +23,7 @@ export default {
   globs: ["src/components/**/*.ts"],
 
   /** Glob patterns to exclude */
-  exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts"],
+  exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts", "**/__mocks__/**"],
 
   /** Output file path */
   outdir: ".",

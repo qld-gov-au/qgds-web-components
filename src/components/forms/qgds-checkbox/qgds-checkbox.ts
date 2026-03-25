@@ -48,7 +48,7 @@ export class QGDSCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
-  @property({ type: String, reflect: true })
+  @property({ type: String, attribute: "validation-state", reflect: true })
   validationState?: FormValidationState;
 
   /** Exposed so qgds-field-group can identify this as a checkbox via duck-typing */

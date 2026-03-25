@@ -245,7 +245,7 @@ export abstract class QGDSFormField extends LitElement {
       | null;
   }
 
-  // Custom internal methods
+  // Custom internal render methods
   private renderRequiredIndicator() {
     return this.required && this.indicateIf === "required"
       ? html`<span class="qgds-form-label-required" aria-hidden="true">*</span><span class="sr-only">(Required)</span>`
