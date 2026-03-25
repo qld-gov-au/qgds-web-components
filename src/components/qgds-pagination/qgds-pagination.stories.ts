@@ -113,9 +113,29 @@ export default meta;
 export const Default: Story = {};
 
 /* Middle page to demonstrate mutliple more ellipses */
-export const MiddlePage: Story = {
+export const MiddleRange: Story = {
   args: {
     "current-page": 6,
     "total-pages": 14,
+  },
+};
+
+/* Middle page to demonstrate mutliple more ellipses */
+export const EndRange: Story = {
+  args: {
+    "current-page": 13,
+    "total-pages": 14,
+  },
+};
+
+/* Middle page to demonstrate mutliple more ellipses */
+export const NarrowContainer: Story = {
+  args: {
+    "current-page": 2,
+    "total-pages": 14,
+  },
+  globals: {
+    // 👇 Override viewport for this story, use mobile2 (large-mobile))
+    viewport: { value: "mobile2", isRotated: false },
   },
 };

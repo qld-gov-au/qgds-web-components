@@ -2,11 +2,16 @@
 
 :host {
   --pagination-justify-content: flex-start;
+
+  /* Container query setup for responsive behaviour */
+  display: block;
+  container-type: inline-size;
+  container-name: pagination;
 }
 
 .pagination {
-  --pg-border-color: var(--qgds-color-action-primary);
-  --pg-link-color: var(--qgds-color-link-default);
+  --pg-border: var(--qgds-color-action-primary);
+  --pg-link-fg: var(--qgds-color-link-default);
   --pg-border-radius: 4px;
   --pg-size: 2rem; /* Standardizing size */
 
@@ -19,10 +24,7 @@
 }
 
 /* Base Link Styles */
-.page-link,
-.prev-link,
-.next-link,
-qgds-icon {
+.base-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,8 +34,11 @@ qgds-icon {
   box-sizing: border-box;
 }
 
-.page-more qgds-icon {
+.base-icon {
   inline-size: var(--pg-size);
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 /* Page Numbers (1, 2, 3) */
@@ -49,7 +54,7 @@ qgds-icon {
   box-shadow: inset 0 0 0 1px var(--qgds-color-border);
   text-decoration: none;
   background-color: transparent;
-  color: var(--pg-link-color);
+  color: var(--pg-link-fg);
   transition:
     box-shadow 0.2s ease,
     background-color 0.2s ease;
@@ -57,33 +62,33 @@ qgds-icon {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
 
-.page-link:hover,
-.page-link:focus {
-  /* State 2: Shadow grows to 2px internally. 
-     The footprint remains exactly 32px. */
-  box-shadow: inset 0 0 0 2px var(--qgds-color-action-secondary);
-  text-decoration: none;
-}
-
-.page-link:focus {
-  /* Focus ring should usually be external to avoid clashing with the internal shadow */
-  outline: 2px solid var(--qgds-color-focus-default);
-  outline-offset: 2px;
-}
-
-.page-link.active {
-  /* State 3: Active page usually loses the inner border for a solid fill */
-  background: var(--qgds-color-action-primary);
-  color: var(--qgds-color-link-on-action);
-  box-shadow: none;
-  font-weight: var(--qgds-fw-bold, 700);
-
+  /* Interactive states */
   &:hover,
   &:focus {
-    box-shadow: var(--qgds-elevation-1);
-    background: var(--qgds-color-action-primary-hover);
+    /* State 2: Shadow grows to 2px internally. The footprint remains exactly 32px. */
+    box-shadow: inset 0 0 0 2px var(--qgds-color-action-secondary);
+    text-decoration: none;
+  }
+
+  &:focus {
+    /* Focus ring should usually be external to avoid clashing with the internal shadow */
+    outline: 2px solid var(--qgds-color-focus-default);
+    outline-offset: 2px;
+  }
+
+  &.active {
+    /* State 3: Active page usually loses the inner border for a solid fill */
+    background: var(--qgds-color-action-primary);
+    color: var(--qgds-color-link-on-action);
+    box-shadow: none;
+    font-weight: var(--qgds-fw-bold, 700);
+
+    &:hover,
+    &:focus {
+      box-shadow: var(--qgds-elevation-1);
+      background: var(--qgds-color-action-primary-hover);
+    }
   }
 }
 
@@ -92,29 +97,39 @@ qgds-icon {
   pointer-events: none;
 }
 
-.prev-link.is-disabled,
-.next-link.is-disabled {
-  opacity: 0.45;
-  pointer-events: none;
-  text-decoration: none;
-}
-
 /* Prev/Next Navigation */
 .prev-link,
 .next-link {
-  gap: 0.5rem;
-  padding-inline: 0.5rem; /* Better than fixed width for text labels */
-  color: var(--pg-link-color);
-  text-decoration: underline 1px var(--pg-link-color);
+  gap: 0.25rem;
+  color: var(--pg-link-fg);
+  text-decoration: underline 1px var(--pg-link-fg);
   text-underline-offset: 0.2em;
 
-  qgds-icon {
+  .prev-icon,
+  .next-icon {
     --qgds-icon-color: var(--qgds-color-action-secondary);
   }
 
-  &:hover qgds-icon {
+  &:hover .prev-icon,
+  &:hover .next-icon {
     --qgds-icon-color: var(--qgds-color-action-secondary-hover);
   }
+
+  &.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    text-decoration: none;
+  }
+}
+
+.prev-link {
+  /* Creates additional space between "Back" label and Page 1 (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-end: 0.25rem;
+}
+
+.next-link {
+  /* Creates additional space between "Next" label and last page (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-start: 0.25rem;
 }
 
 /* Focus State (Unified) */
@@ -125,6 +140,7 @@ qgds-icon {
   outline-offset: 2px;
 }
 
+/* Visually hide non-pinned page items */
 .page-item {
   display: none;
 
@@ -145,7 +161,7 @@ qgds-icon {
 }
 
 /********** Responsive **********/
-@media (max-width: $qgds-media-md) {
+@container pagination (max-width: 480px) {
   /* Hides all pinned items */
   .page-item.is-pinned-desktop {
     display: none;
@@ -172,10 +188,27 @@ qgds-icon {
   }
 }
 
-@media (max-width: $qgds-media-sm) {
-  /* Hides Prev and Next labels on smaller screens, relying on icons */
-  .prev-link .label,
-  .next-link .label {
-    display: none;
+@container pagination (max-width: 400px) {
+  /* Hides Prev and Next labels on smaller container, relying on icons only for prev/next */
+  .prev-link,
+  .next-link {
+    .label {
+      display: none;
+    }
+
+    /* Remove extra padding when labels are hidden */
+    padding-inline: 0;
+  }
+}
+
+@container pagination (max-width: 280px) {
+  /* Edge case at very small viewports, reduces page gaps */
+  .pagination {
+    gap: 0.5rem;
+  }
+
+  .prev-link,
+  .next-link {
+    padding-inline: 0;
   }
 }

@@ -43,6 +43,7 @@ export class QGDSPagination extends LitElement {
   private events = new QgdsEvents(this);
 
   // Maximum number of numeric page links shown before clipping logic applies.
+  // M = More icon
 
   // DESKTOP
   // Close to start:  [1, 2, 3, 4, 5, M, 10]
@@ -165,7 +166,7 @@ export class QGDSPagination extends LitElement {
     return html`
       <li class=${classMap(classes)} data-page="${page}">
         <a
-          class="page-link ${isActive ? "active" : ""}"
+          class="base-link page-link ${isActive ? "active" : ""}"
           href="${this.linkBase}${page}"
           aria-label="Page ${page} ${isActive ? "(current page)" : ""}"
           aria-current=${ifDefined(isActive ? "page" : undefined)}
@@ -180,7 +181,7 @@ export class QGDSPagination extends LitElement {
   private renderMoreIcon(classname: string) {
     return html`
       <li class="page-item page-more ${classname}" aria-hidden="true">
-        <qgds-icon icon-id="more-horizontal"></qgds-icon>
+        <qgds-icon class="base-icon more-icon" icon-id="more-horizontal"></qgds-icon>
       </li>
     `;
   }
@@ -206,14 +207,14 @@ export class QGDSPagination extends LitElement {
           ? html`
               <li class="prev-item ${isPrevDisabled ? "disabled" : ""}">
                 <a
-                  class="prev-link ${isPrevDisabled ? "is-disabled" : ""}"
+                  class="base-link prev-link ${isPrevDisabled ? "is-disabled" : ""}"
                   href="${this.linkBase}${Math.max(1, this.normalisedCurrentPage - 1)}"
-                  aria-label="${this.prevLabel}"
                   aria-disabled=${ifDefined(isPrevDisabled ? "true" : undefined)}
                   tabindex=${ifDefined(isPrevDisabled ? "-1" : undefined)}
                   @click=${this._handleClick}
                 >
-                  <qgds-icon size="md" icon-id="arrow-left"></qgds-icon>
+                  <qgds-icon size="md" icon-id="arrow-left" class="base-icon"></qgds-icon>
+                  <span class="sr-only">${this.prevLabel}</span>
                   <span class="label">${this.prevLabel}</span>
                 </a>
               </li>
@@ -224,15 +225,15 @@ export class QGDSPagination extends LitElement {
           ? html`
               <li class="next-item ${isNextDisabled ? "disabled" : ""}">
                 <a
-                  class="next-link ${isNextDisabled ? "is-disabled" : ""}"
+                  class="base-link next-link ${isNextDisabled ? "is-disabled" : ""}"
                   href="${this.linkBase}${Math.min(this.normalisedTotalPages, this.normalisedCurrentPage + 1)}"
-                  aria-label="${this.nextLabel}"
                   aria-disabled=${ifDefined(isNextDisabled ? "true" : undefined)}
                   tabindex=${ifDefined(isNextDisabled ? "-1" : undefined)}
                   @click=${this._handleClick}
                 >
+                  <span class="sr-only">${this.nextLabel}</span>
                   <span class="label">${this.nextLabel}</span>
-                  <qgds-icon size="md" icon-id="arrow-right"></qgds-icon>
+                  <qgds-icon size="md" icon-id="arrow-right" class="base-icon"></qgds-icon>
                 </a>
               </li>
             `
