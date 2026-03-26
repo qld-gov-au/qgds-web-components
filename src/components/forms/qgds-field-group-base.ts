@@ -1,6 +1,7 @@
 import { html, PropertyValues } from "lit";
 import { state } from "lit/decorators.js";
-import { QGDSFormField, ValidationState } from "./qgds-form-field";
+import { QGDSFormField } from "./qgds-form-field";
+import { FormValidationState } from "../../types/forms";
 
 // ── Shared types ──────────────────────────────────────────────────────────────
 
@@ -72,6 +73,62 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     return null;
   }
 
+  /** Point the base sync logic at the internal selection state. */
+  protected override get _currentValue(): FieldGroupValue {
+    return this._value;
+  }
+
+  // ── Group-aware validity helpers ───────────────────────────────────────────
+
+  private _groupHasValue(): boolean {
+    const val = this._value;
+    return Array.isArray(val) ? val.length > 0 : !!val;
+  }
+
+  /**
+   * Override to derive the required message from the group's internal
+   * `_value` instead of the inherited `this.value` (which is always "").
+   */
+  protected override _getValidationMessage(): string | undefined {
+    if (!this.required) return "";
+    return this._groupHasValue() ? "" : "This field is required.";
+  }
+
+  /**
+   * Override to validate against `_value` without touching `nativeInput`.
+   * Groups have no single native input element — validity is computed
+   * directly from the aggregated selection state.
+   */
+  protected override _validateAndUpdateValidityState(): void {
+    const hasValue = this._groupHasValue();
+    const isValid = !this.required || hasValue;
+    const message = this._getValidationMessage();
+
+    if (!isValid) {
+      this._internals.setValidity({ valueMissing: true }, message);
+    } else {
+      this._internals.setValidity({});
+    }
+
+    this.validationMessage = message;
+    this.validationState = isValid && hasValue ? "success" : "error";
+  }
+
+  /**
+   * Watch `_value` changes (the internal `@state`) so validation and the
+   * visual state update after every user interaction, not just on `value`
+   * attribute changes (which never fire for groups).
+   */
+  override updated(changedProperties: PropertyValues): void {
+    super.updated(changedProperties);
+  }
+
+  override formResetCallback(): void {
+    this._value = this._initialValue();
+    this.validationState = undefined;
+    this.validationMessage = undefined;
+  }
+
   private _handleChange = (e: Event): void => {
     e.stopPropagation();
 
@@ -80,25 +137,29 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     if (!input) return;
 
     this._applyChange(input, source);
+    this._syncFormValue();
+    this._validateAndUpdateValidityState();
 
-    this.dispatchEvent(
-      new CustomEvent<FieldGroupChangeDetail>("qgds-change", {
-        detail: { name: this.name ?? this.id, value: this._value },
-        bubbles: true,
-        composed: true,
-      })
-    );
+    this.events.dispatch("change", { name: this.name ?? this.id, value: this._value }, e);
   };
 
   protected abstract groupItemName: string;
 
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
-    if (changedProperties.has("validationState")) {
-      this.querySelectorAll<Element & { status?: ValidationState }>(this.groupItemName).forEach((el) => {
-        el.status = this.validationState;
-      });
-    }
+    this.querySelectorAll<Element & { validationState?: FormValidationState; name?: string; disabled?: boolean }>(
+      this.groupItemName
+    ).forEach((el) => {
+      if (changedProperties.has("validationState")) {
+        el.validationState = this.validationState;
+      }
+      if (changedProperties.has("name")) {
+        el.name = this.name;
+      }
+      if (changedProperties.has("disabled")) {
+        el.disabled = this.disabled;
+      }
+    });
   }
 
   renderInput() {

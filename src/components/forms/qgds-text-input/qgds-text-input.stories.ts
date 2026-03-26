@@ -28,3 +28,21 @@ export const Default: Story = {
     placeholder: "Hold my place...",
   },
 };
+
+export const Success: Story = {
+  args: {
+    ...Default.args,
+    ["validation-message"]:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+    ["validation-state"]: "success",
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    ["validation-message"]:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
+    ["validation-state"]: "error",
+  },
+};

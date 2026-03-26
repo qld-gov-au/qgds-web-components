@@ -20,10 +20,10 @@ import { cemSorterPlugin } from "@wc-toolkit/cem-sorter";
 
 export default {
   /** Glob patterns to analyze */
-  globs: ["src/components/**/*.ts", "src/utils/abstracts/**/*.ts"],
+  globs: ["src/components/**/*.ts"],
 
   /** Glob patterns to exclude */
-  exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts"],
+  exclude: ["**/*.stories.ts", "**/*.test.ts", "**/*.spec.ts", "**/__mocks__/**"],
 
   /** Output file path */
   outdir: ".",
@@ -40,17 +40,22 @@ export default {
   overrideModuleCreation({ ts, globs }) {
     const program = getTsProgram(ts, globs, "tsconfig.json");
     return program.getSourceFiles().filter((sf) => {
-      if (!sf.fileName.endsWith(".ts")) return false;
-
-      // Include all files in abstracts directory
-      if (sf.fileName.includes("/utils/abstracts/")) {
-        return true;
+      if (!sf.fileName.endsWith(".ts")) {
+        return false;
       }
 
       // Include component files where filename matches parent folder
       const dirname = path.basename(path.dirname(sf.fileName));
       const basename = path.basename(sf.fileName, ".ts");
-      return basename === dirname || basename.startsWith(dirname + "-");
+      if (
+        basename === "qgds-form-field" ||
+        basename === "qgds-field-group-base" ||
+        basename === dirname ||
+        basename.startsWith(dirname + "-")
+      ) {
+        // console.log(`Including ${sf.fileName} in analysis`);
+        return true;
+      }
     });
   },
 

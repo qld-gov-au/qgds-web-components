@@ -1,21 +1,22 @@
 @use "../tools/functions" as f;
 @use "../tools/mixins" as m;
+@use "../qgds-tokens/qgds-color-stub";
 
 /// Shared styles for text input, textarea, native fileupload, datepicker, password inputs.
 .qgds-form-control {
   // Color variables
-  --bg: #ffffff;
-  --bg-hover: #f5f5f5;
-  --bg-focus: #ffffff;
-  --border: #7a7a7a;
-  --border-hover: #003e96;
-  --border-focus: #ebebeb;
-  --text: #414141;
-  --text-hover: #414141;
-  --text-focus: #414141;
-  --placeholder-text: #636363;
-  --placeholder-text-hover: #636363;
-  --placeholder-text-focus: #636363;
+  --bg: var(--qgds-color-background, #ffffff);
+  --bg-hover: var(--qgds-color-background-shade, #f5f5f5);
+  --bg-focus: var(--qgds-color-background, #ffffff);
+  --border: var(--qgds-color-border-alt, #848484);
+  --border-hover: var(--qgds-color-action-primary-hover, #003e96);
+  --border-focus: var(--qgds-color-border, #ebebeb);
+  --fg: var(--qgds-color-text-default, #353535);
+  --fg-hover: var(--qgds-color-text-default, #353535);
+  --fg-focus: var(--qgds-color-text-default, #353535);
+  --placeholder-fg: var(--qgds-color-text-lighter, #636363);
+  --placeholder-fg-hover: var(--qgds-color-text-lighter, #636363);
+  --placeholder-fg-focus: var(--qgds-color-text-lighter, #636363);
 
   // Other variables
   --border-top-width: 0.125rem;
@@ -29,10 +30,13 @@
   --padding-y: #{f.remify(12px)};
   --padding-x: #{f.remify(16px)};
 
+  appearance: none;
+  font-size: f.remify(16px);
+  line-height: f.snap-line-height(1.45);
   inline-size: 100%;
   max-inline-size: f.remify(320px);
   block-size: f.remify(48px);
-  color: var(--text);
+  color: var(--fg);
   background-color: var(--bg);
   border: {
     style: solid;
@@ -47,7 +51,7 @@
   transition: none; // no transitions until a holistic decision at design system level
 
   &::placeholder {
-    color: var(--placeholder-text);
+    color: var(--placeholder-fg);
   }
 
   &:is(textarea) {
@@ -57,28 +61,33 @@
     min-block-size: calc((3lh) + (2 * var(--padding-y))); // 3 lines of text + vertical padding.
   }
 
+  &:is(select) {
+    cursor: pointer;
+
+    &:not([multiple]) {
+      --icon-size: inherit; // see qgds-select
+
+      padding-inline-end: calc(var(--padding-x) - var(--border-right-width) + var(--icon-size) + var(--padding-x));
+    }
+  }
+
+  // stylelint-disable
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
+  // stylelint-enable
 
   &:hover:not(:disabled) {
-    --placeholder-text: var(--placeholder-text-hover);
+    --placeholder-fg: var(--placeholder-fg-hover);
 
     background-color: var(--bg-hover);
     border-color: var(--border-hover);
   }
 
-  @include m.focusable() {
-    --text: var(--text-focus);
-    --bg: var(--bg-focus);
-    --border: var(--border-focus);
-    --placeholder-text: var(--placeholder-text-focus);
-  }
-
   // modifiers
   &.is-filled {
-    --bg: #f5f5f5;
+    --bg: var(--qgds-color-background-shade, #f5f5f5);
     --border-radius: 0.25rem 0.25rem 0 0;
     --border-top-width: 0px; // px unit required for use in calc()
     --border-right-width: 0px; // px unit required for use in calc()
@@ -94,5 +103,34 @@
 
   &.is-full-width {
     max-inline-size: 100%;
+  }
+
+  &.is-valid {
+    @extend %qgds-color-palette-default;
+
+    --bg: var(--qgds-color-status-success-lightest, #fff6f6);
+    --bg-hover: var(--qgds-color-status-success-lighter, #fdf0f0);
+    --bg-focus: var(--qgds-color-neutral-white, #ffffff);
+    --border: var(--qgds-color-status-success-default, #339d37);
+    --border-hover: var(--qgds-color-status-success-default, #339d37);
+    --border-focus: var(--qgds-color-neutral-lighter, #ebebeb);
+  }
+
+  &.is-invalid {
+    @extend %qgds-color-palette-default;
+
+    --bg: var(--qgds-color-status-error-lightest, #fff6f6);
+    --bg-hover: var(--qgds-color-status-error-lighter, #fdf0f0);
+    --bg-focus: var(--qgds-color-neutral-white, #ffffff);
+    --border: var(--qgds-color-status-error-default, #e22339);
+    --border-hover: var(--qgds-color-status-error-default, #e22339);
+    --border-focus: var(--qgds-color-neutral-lighter, #ebebeb);
+  }
+
+  @include m.focusable() {
+    --fg: var(--fg-focus);
+    --bg: var(--bg-focus);
+    --border: var(--border-focus);
+    --placeholder-fg: var(--placeholder-fg-focus);
   }
 }

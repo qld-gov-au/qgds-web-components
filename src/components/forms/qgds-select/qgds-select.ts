@@ -1,12 +1,13 @@
 import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import { QGDSFormField } from "../../utils/abstracts/qgds-form-field";
-import { resetStyles, utilitiesStyles } from "../../styles";
+import { QGDSFormField } from "../qgds-form-field";
 import componentCSS from "./qgds-select.styles.scss?inline";
-import "../qgds-icon/qgds-icon";
-import { QGDSSelectOption } from "./qgds-select-option.js";
-import { QGDSSelectOptgroup } from "./qgds-select-optgroup.js";
+import "../../qgds-icon/qgds-icon";
+import { QGDSSelectOption } from "./qgds-select-option";
+import { QGDSSelectOptgroup } from "./qgds-select-optgroup";
+import { FormVariant, IFormControl } from "../../../types/forms";
 
 /**
  * Event detail for change events
@@ -29,21 +30,16 @@ export interface QGDSSelectEventMap {
 }
 
 /**
- * Valid size options for the select element when multiple is enabled
- */
-export type SelectSize = number | undefined;
-
-/**
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
  * @element qgds-select
  *
- * @prop {boolean} [filled] - Whether to apply the "filled" variant styles.
- * @prop {string} [placeholder] - Placeholder text shown as the first (unselectable) option.
- * @prop {boolean} [multiple] - Whether multiple selections are allowed.
- * @prop {number} [size] - Number of visible options when multiple is enabled.
- * @prop {boolean} [autofocus] - Whether the select should automatically receive focus.
+ * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
+ * @prop {String} [placeholder] - Placeholder text shown as the first (unselectable) option.
+ * @prop {Boolean} [multiple] - Whether multiple selections are allowed.
+ * @prop {Number} [size] - Number of visible options when multiple is enabled.
+ * @prop {Boolean} [autofocus] - Whether the select should automatically receive focus.
  *
  * @slot - Accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as options.
  *
@@ -56,31 +52,18 @@ export type SelectSize = number | undefined;
  * ```
  */
 @customElement("qgds-select")
-export class QGDSSelect extends QGDSFormField {
-  // Enable form association
-  static formAssociated = true;
-
+export class QGDSSelect extends QGDSFormField implements IFormControl {
   // Re-declare value as a plain string (base type is string | string[] | undefined)
-  @property({ type: Boolean, reflect: true }) filled: boolean = false;
-  @property({ type: String }) value: string = "";
+  @property({ type: String }) variant?: FormVariant;
   @property({ type: String }) placeholder: string = "Please select";
   @property({ type: Boolean, reflect: true }) multiple: boolean = false;
-  @property({ type: Number }) size?: SelectSize;
-  @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
+  @property({ type: Number }) size?: number;
+  // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
 
-  private _inputId = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
-  private _internals: ElementInternals;
   private _mutationObserver?: MutationObserver;
 
-  constructor() {
-    super();
-    // Attach ElementInternals for form participation
-    this._internals = this.attachInternals();
-  }
-
   static styles = [
-    resetStyles,
-    utilitiesStyles,
+    ...super.styles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
@@ -115,7 +98,7 @@ export class QGDSSelect extends QGDSFormField {
 
     // Set form value when element is connected to DOM (important for form participation)
     // This ensures the value is set when the element is appended to a form
-    this._internals.setFormValue(this.disabled ? null : this.value || "");
+    this._internals.setFormValue(this.disabled ? null : (this.value ?? ""));
   }
 
   disconnectedCallback(): void {
@@ -128,14 +111,7 @@ export class QGDSSelect extends QGDSFormField {
    */
   firstUpdated(): void {
     // Guarantee id is always set so the base's render guard never triggers
-    if (!this.id) this.id = this._inputId;
-
-    // Set up initial validation state after render
-    this._validateAndUpdateState();
-  }
-
-  get inputId(): string {
-    return this.id || this._inputId;
+    if (!this.id) this.id = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
@@ -155,34 +131,16 @@ export class QGDSSelect extends QGDSFormField {
     this.value = values.join(",");
   }
 
+  /** Get value array or string depending on multiple select */
+  protected override get _currentValue(): string | string[] | undefined {
+    return this.multiple ? this.valueAsArray : this.value;
+  }
+
   /**
    * Update form value and validity when value or multiple changes
    */
   updated(changedProperties: Map<string, unknown>): void {
-    super.updated(changedProperties);
-
-    if (changedProperties.has("value") || changedProperties.has("multiple") || changedProperties.has("name")) {
-      // Set form value (for multiple, submit as comma-separated)
-      // Don't set if disabled
-      if (!this.disabled) {
-        this._internals.setFormValue(this.value || "");
-      }
-
-      // Validate on value change
-      if (changedProperties.has("value")) {
-        this._validateAndUpdateState();
-      }
-    }
-
-    if (changedProperties.has("required")) {
-      // Re-validate when required changes
-      this._validateAndUpdateState();
-    }
-
-    if (changedProperties.has("disabled")) {
-      // Update disabled state
-      this._internals.setFormValue(this.disabled ? null : this.value || "");
-    }
+    super.updated(changedProperties); // handles _syncFormValue for value/disabled
 
     // Sync select element with value property for multiple select
     if (changedProperties.has("value") && this.multiple) {
@@ -190,129 +148,45 @@ export class QGDSSelect extends QGDSFormField {
     }
   }
 
-  renderInput(): TemplateResult {
-    // Build aria-describedby with all relevant IDs
-    const describedByIds = [
-      this.hint ? `${this.inputId}-hint` : "",
-      this.validationState === "error" && this.validationMessage ? `${this.inputId}-error` : "",
-      this.validationState === "success" && this.validationMessage ? `${this.inputId}-success` : "",
-    ]
-      .filter(Boolean)
-      .join(" ");
-    return html`
-      <div class="select-wrapper">
-        <select
-          name="${this.name}"
-          id="${this.inputId}"
-          aria-describedby="${describedByIds || undefined}"
-          aria-required="${this.required ? "true" : undefined}"
-          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
-          class=${classMap({
-            "is-filled": this.variant === "filled",
-            "is-valid": this.validationState === "success",
-            "is-invalid": this.validationState === "error",
-          })}
-          .value=${this.value}
-          @change=${this._handleChange}
-          ?disabled=${this.disabled}
-          ?required=${this.required}
-          ?multiple=${this.multiple}
-          ?autofocus=${this.autofocus}
-          size="${this.multiple && this.size ? this.size : undefined}"
-        >
-          ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
-        </select>
-      </div>
-      <slot @slotchange=${this._onSlotChange}></slot>
-    `;
-  }
-
   /**
-   * Auto-validation logic
+   * Component-level validity — checks this.value directly rather than the
+   * native <select>, whose options may not be populated at validation time.
    */
-  private _validateAndUpdateState(): void {
-    const isValid = this._checkValidity();
-    const message = this._getValidationMessage();
-    const selectElement = this.shadowRoot?.querySelector("select");
-    const hasValue = this.value !== "";
-
-    // Always update ElementInternals validity
-    if (!isValid && message) {
-      this._internals.setValidity({ valueMissing: true }, message, selectElement ?? undefined);
-    } else {
-      // Clear validity when valid
-      this._internals.setValidity({});
-    }
-
-    // Auto-update valid/invalid flags if no custom messages
-    if (!this.validationMessage) {
-      this.validationState = isValid && hasValue ? "success" : "error";
-    }
-  }
-
-  /**
-   * Check validity with support for multiple select
-   */
-  private _checkValidity(): boolean {
+  protected override _computeIsValid(): boolean {
     if (!this.required) return true;
     if (this.multiple) {
-      // For multiple, check if any values are selected and not just empty string
       const values = this.valueAsArray;
       return values.length > 0 && values.some((v) => v !== "");
     }
-    // For single, check if value is not empty
-    return this.value !== "" && this.value !== null && this.value !== undefined;
+    return !!this.value;
   }
 
-  /**
-   * Get validation message
-   */
-  private _getValidationMessage(): string {
-    if (this.required) {
-      if (this.multiple) {
-        // For multiple, check if any values are selected
-        if (this.valueAsArray.length === 0 || this.valueAsArray[0] === "") {
-          return this.validationMessage ?? "Please select at least one option";
-        }
-      } else {
-        // For single, check if value is not empty
-        if (!this.value) {
-          return this.validationMessage ?? "Please select an option";
-        }
-      }
-    }
-    return "";
+  /** @inheritdoc */
+  override checkValidity(): boolean {
+    return this._computeIsValid();
   }
 
   /**
    * Handle change events with auto-validation and multiple select support
    */
   private _handleChange = (e: Event): void => {
-    const selectElement = e.target as HTMLSelectElement;
-
     if (this.multiple) {
       // Get all selected options for multiple select
+      const selectElement = e.target as HTMLSelectElement;
       const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
       this.value = selectedOptions.join(",");
+      this._syncFormValue();
+      this._validateAndUpdateValidityState();
+      // Dispatch typed custom event with proper value type
+      this.events.dispatch(
+        "change",
+        { name: this.name ?? this.id, value: this._currentValue, multiple: this.multiple },
+        e
+      );
     } else {
       // Single select
-      this.value = selectElement.value;
+      this.handleChange(e); // Call base class handler for single select to dispatch event and validate
     }
-
-    // Dispatch typed custom event with proper value type
-    this.dispatchEvent(
-      new CustomEvent<QGDSSelectChangeDetail>("change", {
-        detail: {
-          value: this.multiple ? this.valueAsArray : this.value,
-          multiple: this.multiple,
-        },
-        bubbles: true,
-        composed: true,
-      })
-    );
-
-    // Auto-validate after change
-    this._validateAndUpdateState();
   };
 
   /**
@@ -417,29 +291,14 @@ export class QGDSSelect extends QGDSFormField {
   /**
    * Form lifecycle callbacks
    */
-  formResetCallback(): void {
-    this.value = "";
+  override formResetCallback(): void {
+    this.value = ""; // select resets to "" not undefined
     this.validationState = undefined;
     this.validationMessage = undefined;
   }
 
-  formStateRestoreCallback(state: string): void {
-    this.value = state;
-  }
-
-  formDisabledCallback(disabled: boolean): void {
-    this.disabled = disabled;
-  }
-
-  /**
-   * Public validation methods
-   */
-  checkValidity(): boolean {
-    return this._internals.checkValidity();
-  }
-
-  reportValidity(): boolean {
-    const isValid = this._internals.reportValidity();
+  override reportValidity(): boolean {
+    const isValid = super.reportValidity();
     // Focus the select if validation fails for better accessibility
     if (!isValid) {
       this.focus();
@@ -470,6 +329,35 @@ export class QGDSSelect extends QGDSFormField {
    */
   setSelectedValues(values: string[]): void {
     this.valueAsArray = values;
+  }
+
+  protected renderInput(): TemplateResult {
+    return html`
+      <div class="select-wrapper">
+        <select
+          name="${this.name}"
+          id="${this.id}"
+          class=${classMap({
+            "qgds-form-control is-full-width": true,
+            "is-filled": this.variant === "filled",
+            "is-valid": this.validationState === "success",
+            "is-invalid": this.validationState === "error",
+          })}
+          .value=${this.value}
+          @change=${this._handleChange}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?multiple=${this.multiple}
+          ?autofocus=${this.autofocus}
+          size="${this.multiple && this.size ? this.size : undefined}"
+          aria-describedby="${ifDefined(this._ariaDescribedBy)}"
+          aria-invalid="${this.validationState === "error" ? "true" : "false"}"
+        >
+          ${!this.multiple ? html`<option value="">${this.placeholder}</option>` : ""}
+        </select>
+      </div>
+      <slot @slotchange=${this._onSlotChange}></slot>
+    `;
   }
 }
 
