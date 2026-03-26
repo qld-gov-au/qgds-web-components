@@ -232,7 +232,7 @@ export abstract class QGDSFormField extends LitElement {
       this._internals.setValidity({});
     }
 
-    this.validationMessage = input?.validationMessage; //this._getValidationMessage();
+    this.validationMessage = this._getValidationMessage();
     this.validationState = isValid ? "success" : "error";
   }
 
