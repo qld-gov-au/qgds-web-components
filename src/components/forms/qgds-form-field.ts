@@ -107,7 +107,6 @@ export abstract class QGDSFormField extends LitElement {
 
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
-    this._validateAndUpdateValidityState();
 
     if (changedProperties.has("id") && !this.id) {
       console.warn(`id or name attribute is required`);
@@ -164,7 +163,7 @@ export abstract class QGDSFormField extends LitElement {
     return this.value;
   }
 
-  private get formNoValidate(): boolean {
+  private get _formNoValidate(): boolean {
     return this._internals.form?.noValidate ?? false;
   }
 
@@ -190,8 +189,9 @@ export abstract class QGDSFormField extends LitElement {
 
   /** Override in subclasses to customise the validation message. */
   protected _getValidationMessage(): string | undefined {
-    if (!this.required) return "";
-    if (!this.value) return "This field is required.";
+    if (this._formNoValidate) {
+      return this.validationMessage;
+    }
     return this._nativeInput?.validationMessage ?? "";
   }
 
@@ -202,7 +202,7 @@ export abstract class QGDSFormField extends LitElement {
    */
   protected _computeIsValid(): boolean {
     const input = this._nativeInput;
-    return input && !this.formNoValidate ? input.checkValidity() : true;
+    return input && !this._formNoValidate ? input.checkValidity() : true;
   }
 
   /** Auto-validation logic — syncs native input validity into ElementInternals. */
@@ -232,7 +232,7 @@ export abstract class QGDSFormField extends LitElement {
       this._internals.setValidity({});
     }
 
-    this.validationMessage = this._getValidationMessage();
+    this.validationMessage = input?.validationMessage; //this._getValidationMessage();
     this.validationState = isValid ? "success" : "error";
   }
 
