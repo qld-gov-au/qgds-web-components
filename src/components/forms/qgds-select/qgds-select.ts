@@ -167,26 +167,6 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   }
 
   /**
-   * Get validation message
-   */
-  override _getValidationMessage(): string {
-    if (this.required) {
-      if (this.multiple) {
-        // For multiple, check if any values are selected
-        if (this.valueAsArray.length === 0 || this.valueAsArray[0] === "") {
-          return this.validationMessage ?? "Please select at least one option";
-        }
-      } else {
-        // For single, check if value is not empty
-        if (!this.value) {
-          return this.validationMessage ?? "Please select an option";
-        }
-      }
-    }
-    return "";
-  }
-
-  /**
    * Handle change events with auto-validation and multiple select support
    */
   private _handleChange = (e: Event): void => {
