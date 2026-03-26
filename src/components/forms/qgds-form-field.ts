@@ -58,10 +58,10 @@ export abstract class QGDSFormField extends LitElement {
   @property({ type: String })
   hint?: string;
 
-  @property({ type: String, attribute: "validation-state" })
+  @property({ type: String, attribute: "validation-state", reflect: true })
   validationState?: FormValidationState;
 
-  @property({ type: String, attribute: "validation-message" })
+  @property({ type: String, attribute: "validation-message", reflect: true })
   validationMessage?: string;
 
   @property({ type: Boolean })
@@ -107,6 +107,7 @@ export abstract class QGDSFormField extends LitElement {
 
   updated(changedProperties: PropertyValues) {
     super.updated(changedProperties);
+    this._validateAndUpdateValidityState();
 
     if (changedProperties.has("id") && !this.id) {
       console.warn(`id or name attribute is required`);
@@ -150,7 +151,7 @@ export abstract class QGDSFormField extends LitElement {
   protected handleChange = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
     this._syncFormValue();
-    this._validateAndUpdateState();
+    this._validateAndUpdateValidityState();
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
   };
@@ -205,7 +206,7 @@ export abstract class QGDSFormField extends LitElement {
   }
 
   /** Auto-validation logic — syncs native input validity into ElementInternals. */
-  protected _validateAndUpdateState(): void {
+  protected _validateAndUpdateValidityState(): void {
     const input = this._nativeInput;
     const isValid = this._computeIsValid();
 

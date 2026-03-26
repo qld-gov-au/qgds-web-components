@@ -196,7 +196,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
       const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
       this.value = selectedOptions.join(",");
       this._syncFormValue();
-      this._validateAndUpdateState();
+      this._validateAndUpdateValidityState();
       // Dispatch typed custom event with proper value type
       this.events.dispatch(
         "change",

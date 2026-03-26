@@ -99,7 +99,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * Groups have no single native input element — validity is computed
    * directly from the aggregated selection state.
    */
-  protected override _validateAndUpdateState(): void {
+  protected override _validateAndUpdateValidityState(): void {
     const hasValue = this._groupHasValue();
     const isValid = !this.required || hasValue;
     const message = this._getValidationMessage();
@@ -138,7 +138,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this._applyChange(input, source);
     this._syncFormValue();
-    this._validateAndUpdateState();
+    this._validateAndUpdateValidityState();
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._value }, e);
   };
