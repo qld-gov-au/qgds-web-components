@@ -3,9 +3,9 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSRadio } from "./qgds-radio.ts";
-import "./qgds-radio.ts";
-import "../qgds-radio-group/qgds-radio-group.ts";
+import type { QGDSRadio } from "./qgds-radio";
+import "./qgds-radio";
+import "../qgds-radio-group/qgds-radio-group";
 
 const { args, argTypes } = getStorybookHelpers<QGDSRadio>("qgds-radio");
 
@@ -26,7 +26,7 @@ const meta: Meta<QGDSRadioStoryArgs> = {
       label="${storyArgs.label ?? "Label"}"
       value="${storyArgs.value ?? "option"}"
       name="${storyArgs.name ?? "group"}"
-      status="${storyArgs.status ?? ""}"
+      validation-state="${storyArgs["validation-state"] ?? ""}"
       ?checked=${storyArgs.checked}
       ?disabled=${storyArgs.disabled}
       @change=${action("change")}
@@ -50,9 +50,9 @@ export const Disabled: Story = {
 };
 
 export const Success: Story = {
-  args: { label: "Label", value: "option", status: "success", checked: true },
+  args: { label: "Label", value: "option", "validation-state": "success", checked: true },
 };
 
 export const Error: Story = {
-  args: { label: "Label", value: "option", status: "error", checked: true },
+  args: { label: "Label", value: "option", "validation-state": "error", checked: true },
 };

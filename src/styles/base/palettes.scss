@@ -4,26 +4,43 @@
 [data-qgds-theme="light"] {
   @extend %qgds-color-palette-global;
   @extend %qgds-color-palette-default !optional;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
+}
+
+.qgds-palette-default,
+[palette="default"] {
+  @extend %qgds-color-palette-default;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
 .qgds-palette-soft,
 [palette="soft"] {
   @extend %qgds-color-palette-soft !optional;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
 .qgds-palette-muted,
 [palette="muted"] {
   @extend %qgds-color-palette-muted !optional;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
 .qgds-palette-bold,
 [palette="bold"] {
   @extend %qgds-color-palette-bold !optional;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }
 
 .qgds-palette-deep,
 [palette="deep"] {
   @extend %qgds-color-palette-deep !optional;
+
+  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }
 
 // Some baseline defaults for background and text colors. These are usually redefined within each component

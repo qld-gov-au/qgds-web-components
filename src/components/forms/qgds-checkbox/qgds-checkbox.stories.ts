@@ -3,9 +3,9 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSCheckbox } from "./qgds-checkbox.ts";
-import "./qgds-checkbox.ts";
-import "../qgds-checkbox-group/qgds-checkbox-group.ts";
+import type { QGDSCheckbox } from "./qgds-checkbox";
+import "./qgds-checkbox";
+import "../qgds-checkbox-group/qgds-checkbox-group";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCheckbox>("qgds-checkbox");
 
@@ -24,7 +24,7 @@ const meta: Meta<QGDSCheckboxStoryArgs> = {
     <qgds-checkbox
       label="${storyArgs.label ?? "Option"}"
       value="${storyArgs.value ?? "option"}"
-      status="${storyArgs.status ?? ""}"
+      validation-state=${storyArgs["validation-state"]}
       ?checked=${storyArgs.checked}
       ?disabled=${storyArgs.disabled}
       @change=${action("change")}
@@ -47,7 +47,7 @@ export const Success: Story = {
   args: {
     label: "Valid option",
     value: "valid",
-    status: "success",
+    "validation-state": "success",
     checked: true,
   },
 };
@@ -56,7 +56,7 @@ export const Error: Story = {
   args: {
     label: "Invalid option",
     value: "invalid",
-    status: "error",
+    "validation-state": "error",
     checked: true,
   },
 };

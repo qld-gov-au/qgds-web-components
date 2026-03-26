@@ -3,9 +3,9 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSCheckboxGroup } from "./qgds-checkbox-group.ts";
-import "./qgds-checkbox-group.ts";
-import "../qgds-checkbox/qgds-checkbox.ts";
+import type { QGDSCheckboxGroup } from "./qgds-checkbox-group";
+import "./qgds-checkbox-group";
+import "../qgds-checkbox/qgds-checkbox";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCheckboxGroup>("qgds-checkbox-group");
 
@@ -21,12 +21,14 @@ const meta: Meta<typeof args> = {
 export default meta;
 
 export const Default: Story = {
-  render: () => html`
+  render: (args) => html`
+    <p>${args["validation-state"]}</p>
     <qgds-checkbox-group
       id="interests"
       name="interests"
       label="Interests"
       hint="Select all that apply."
+      validation-state=${args["validation-state"]}
       @qgds-change=${action("qgds-change")}
     >
       <qgds-checkbox value="design" label="Design"></qgds-checkbox>
