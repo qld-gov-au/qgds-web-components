@@ -14,7 +14,7 @@ export type QGDSImageProps = InstanceType<typeof QGDSImage>;
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=23805-301812&m=dev
  * @website https://www.designsystem.qld.gov.au/components/image
- * @tagname qgds-image
+ * @tag qgds-image
  *
  * @prop {String} src - Image source URL
  * @prop {String} alt - Alternative text for the image
@@ -184,49 +184,36 @@ export class QGDSImage extends LitElement {
     // Accessibility: Determine aria-describedby
     const ariaDescribedbyValue = this.ariaDescribedby ?? captionId;
 
+    // DRY: Define the <img> tag once
+    const imageTag = html`
+      <img
+        src="${this.src}"
+        alt="${effectiveAlt}"
+        width="${ifDefined(this.width || undefined)}"
+        height="${ifDefined(this.height || undefined)}"
+        srcset="${ifDefined(this.srcset)}"
+        sizes="${ifDefined(this.sizes)}"
+        style=${ifDefined(hasStyles ? styleMap(imgStyles) : undefined)}
+        loading="${ifDefined(this.loading)}"
+        fetchpriority="${ifDefined(this.fetchpriority)}"
+        decoding="${ifDefined(this.decoding)}"
+        referrerpolicy="${ifDefined(this.referrerpolicy)}"
+        role="${ifDefined(this.decorative ? "presentation" : undefined)}"
+        aria-hidden="${ifDefined(this.decorative ? "true" : undefined)}"
+        aria-label="${ifDefined(this.ariaLabel)}"
+        aria-describedby="${ifDefined(ariaDescribedbyValue)}"
+      />
+    `;
+
     return html`
       ${this.caption
         ? html`
             <figure class=${classMap(wrapperClasses)}>
-              <img
-                src="${this.src}"
-                alt="${effectiveAlt}"
-                width="${ifDefined(this.width || undefined)}"
-                height="${ifDefined(this.height || undefined)}"
-                srcset="${ifDefined(this.srcset)}"
-                sizes="${ifDefined(this.sizes)}"
-                style=${ifDefined(hasStyles ? styleMap(imgStyles) : undefined)}
-                loading="${ifDefined(this.loading)}"
-                fetchpriority="${ifDefined(this.fetchpriority)}"
-                decoding="${ifDefined(this.decoding)}"
-                referrerpolicy="${ifDefined(this.referrerpolicy)}"
-                role="${ifDefined(this.decorative ? "presentation" : undefined)}"
-                aria-hidden="${ifDefined(this.decorative ? "true" : undefined)}"
-                aria-label="${ifDefined(this.ariaLabel)}"
-                aria-describedby="${ifDefined(ariaDescribedbyValue)}"
-              />
+              ${imageTag}
               <figcaption id="${captionId}">${unsafeHTML(this.caption)}</figcaption>
             </figure>
           `
-        : html` <div class=${classMap(wrapperClasses)}>
-            <img
-              src="${this.src}"
-              alt="${effectiveAlt}"
-              width="${ifDefined(this.width || undefined)}"
-              height="${ifDefined(this.height || undefined)}"
-              srcset="${ifDefined(this.srcset)}"
-              sizes="${ifDefined(this.sizes)}"
-              style=${ifDefined(hasStyles ? styleMap(imgStyles) : undefined)}
-              loading="${ifDefined(this.loading)}"
-              fetchpriority="${ifDefined(this.fetchpriority)}"
-              decoding="${ifDefined(this.decoding)}"
-              referrerpolicy="${ifDefined(this.referrerpolicy)}"
-              role="${ifDefined(this.decorative ? "presentation" : undefined)}"
-              aria-hidden="${ifDefined(this.decorative ? "true" : undefined)}"
-              aria-label="${ifDefined(this.ariaLabel)}"
-              aria-describedby="${ifDefined(ariaDescribedbyValue)}"
-            />
-          </div>`}
+        : html` <div class=${classMap(wrapperClasses)}>${imageTag}</div>`}
     `;
   }
 }

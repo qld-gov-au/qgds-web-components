@@ -5,14 +5,20 @@ Scoped CSS: qgds-image
 */
 
 :host {
-  --image-border-radius: 0;
-  --figure-border: 0;
-  --figure-padding: 0;
+  --image-border-radius: inherit;
+  --image-border-width: unset;
+  --image-border-color: unset;
+  --image-border-style: unset;
+  --image-margin: unset;
+  --figure-border: unset;
+  --figure-padding: unset;
+  --figure-border-radius: inherit;
 }
 
 figure {
   padding: var(--figure-padding);
   border: var(--figure-border);
+  border-radius: var(--figure-border-radius);
   margin: 0;
   inline-size: min-content;
 
@@ -21,9 +27,12 @@ figure {
   }
 }
 
+div {
+  border-radius: var(--image-border-radius);
+}
+
 figure, div { 
   display: block;
-  border-radius: var(--image-border-radius, 0);
 
   &.align-left {
     margin: 1rem;
@@ -36,22 +45,23 @@ figure, div {
     margin-inline-end: 0;
     float: inline-end;
   }
-
-  img {
-    display: block;
-
-    // inline-size: 100%;
-    aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
-    object-fit: cover;
-    border-radius: inherit;
-  }
+  
 }
 
-:host:has(figcaption) {
-  .image-wrap img {
-    border-end-start-radius: 0;
-    border-end-end-radius: 0;
-  }
+figure img,
+div img {
+  display: block;
+  aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
+  object-fit: cover;
+  border-radius: inherit;
+  outline: var(--image-border-width) var(--image-border-style) var(--image-border-color);
+  outline-offset: calc(var(--image-border-width) * -1);
+  margin: var(--image-margin);
+}
+
+:host:has(figcaption) .image-wrap img {
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
 }
 
 figcaption {

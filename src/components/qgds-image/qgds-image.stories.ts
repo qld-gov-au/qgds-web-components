@@ -17,7 +17,7 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    src: "./src/img/ds-example-image-3.jpg",
+    src: "https://picsum.photos/seed/qgds-beach/600/400",
     alt: "Placeholder image",
   },
   argTypes,
@@ -27,6 +27,9 @@ const meta: Meta<Args> = {
         .story-wrapper {
           max-width: 600px;
           margin: 2rem;
+        }
+        qgds-image {
+          max-width: 600px;
         }
       </style>
       <div class="story-wrapper">${Story()}</div>
@@ -45,41 +48,36 @@ export const Default: Story = {
 
 export const WithCaption: Story = {
   args: {
-    caption: `Currumbin Beach, Queensland, Australia. Photo by <a href="https://unsplash.com/@joshwithers?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Josh Withers</a> on <a href="https://unsplash.com/photos/a-group-of-people-walking-down-a-road-at-sunset-6VB9fI0imgg?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+    caption: `Currumbin Beach, Queensland, Australia. Photo by <a href="#">Josh Withers</a> on <a href="#">Unsplash</a>
       `,
   },
 };
 
 export const WithRatios: Story = {
+  decorators: [
+    (story) => {
+      return html`
+        <style>
+          .image-grid {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: baseline;
+            margin-bottom: 2rem;
+            width: fit-content;
+          }
+        </style>
+
+        ${story()}
+      `;
+    },
+  ],
   render: (args: Args) => {
     // Define this based on your component's allowed values
     const horizontalRatios = ["16:9", "2:1", "3:2", "4:3", "1:1"] as const;
     const verticalRatios = ["2:3", "3:4", "9:16"] as const;
 
     return html`
-      <style>
-        .image-grid {
-          display: flex;
-          flex-direction: row;
-          gap: 1rem;
-          align-items: baseline;
-          margin-bottom: 2rem;
-          width: fit-content;
-        }
-        qgds-image {
-          /* CSS custom properties cascade into qgds-image shadow DOM */
-          --image-border-radius: 5px;
-          --figure-border: 1px solid grey;
-          --figure-padding: 3px;
-        }
-      </style>
-
-      <p>
-        Ratios with qgds-image's with the :host <br />--image-border-radius: 5px; <br />--figure-border: 1px solid grey;
-        <br />
-        --figure-padding: 3px;
-      </p>
-
       <div class="image-grid">
         ${horizontalRatios.map((ratio, i: number) => {
           return template({
@@ -127,17 +125,23 @@ export const NaturalDimensions: Story = {
 export const DecorativeImage: Story = {
   name: "Decorative Image",
   args: {
-    src: "./src/img/photo-decorative.jpeg",
+    src: "https://fastly.picsum.photos/id/56/2880/1920.jpg?hmac=BIplhYgNZ9bsjPXYhD0xx6M1yPgmg4HtthKkCeJp6Fk",
+    width: 600,
     decorative: true,
     aspect: "16:9",
   },
-  render: (args: Args) => html`
-    <div>
-      <p>This decorative image has no alt text and is hidden from screen readers:</p>
-      ${template(args)}
-      <p>It's purely decorative and doesn't add meaning to the content.</p>
-    </div>
-  `,
+  decorators: [
+    (story) => {
+      return html`
+        <div>
+          ${story()}
+          <p>This decorative image has no alt text and is hidden from screen readers:</p>
+          <p>It's purely decorative and doesn't add meaning to the content.</p>
+        </div>
+      `;
+    },
+  ],
+  render: (args: Args) => html` ${template(args)} `,
 };
 
 export const WithAriaLabel: Story = {
@@ -151,30 +155,36 @@ export const WithAriaLabel: Story = {
 
 export const WithLongDescription: Story = {
   name: "With Long Description",
+  decorators: [
+    (story) => {
+      return html`
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <p>Complex images like charts need detailed descriptions for accessibility:</p>
+          ${story()}
+          <qgds-callout heading="Detailed Description:" heading-level="h3">
+            Bar chart showing population growth across Queensland regions from 2020 to 2025. Brisbane showed 12% growth,
+            Gold Coast 8%, Sunshine Coast 10%, Townsville 5%, and Regional Queensland 3%.
+          </qgds-callout>
+        </div>
+      `;
+    },
+  ],
   render: (args: Args) => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <p>Complex images like charts need detailed descriptions for accessibility:</p>
-      ${template({
-        ...args,
-        src: "./src/img/photo-graph.jpeg",
-        alt: "Queensland population growth chart 2020-2025",
-        aspect: "16:9",
-        ariaDescribedby: "chart-description",
-        caption: "Population growth by region",
-      })}
-
-      <qgds-callout heading="Detailed Description:" heading-level="h3">
-        Bar chart showing population growth across Queensland regions from 2020 to 2025. Brisbane showed 12% growth,
-        Gold Coast 8%, Sunshine Coast 10%, Townsville 5%, and Regional Queensland 3%.
-      </qgds-callout>
-    </div>
+    ${template({
+      ...args,
+      src: "https://quickchart.io/chart?width=600&height=338&devicePixelRatio=1&c={type:'bar',data:{labels:['Brisbane','Gold Coast','Sunshine Coast','Townsville','Regional QLD'],datasets:[{label:'2020',data:[2500,700,350,180,950]},{label:'2025',data:[2800,756,385,189,978]}]}}",
+      alt: "Queensland population growth chart 2020-2025",
+      aspect: "16:9",
+      ariaDescribedby: "chart-description",
+      caption: "Population growth by region",
+    })}
   `,
 };
 
 export const ResponsiveImage: Story = {
   name: "Responsive Image (srcset)",
   args: {
-    srcset: "./src/img/ds-example-image-3.jpg 1x, ./src/img/ds-example-image-3.jpg 2x",
+    srcset: "https://picsum.photos/seed/qgds-beach/600/400 1x, https://picsum.photos/seed/qgds-beach/1200/800 2x",
     sizes: "(max-width: 600px) 100vw, 600px",
     aspect: "3:2",
     caption: "Responsive image with srcset and sizes for different screen densities",
@@ -194,27 +204,33 @@ export const PerformanceOptimized: Story = {
 
 export const LazyLoading: Story = {
   name: "Lazy Loading",
-  render: (args: Args) => html`
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      <p>Scroll down to see lazy-loaded images below the fold:</p>
-      <div
-        style="height: 100vh; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #000; border-radius: 8px;"
-      >
-        <p>⬇️ Scroll down ⬇️</p>
-      </div>
-      ${[1, 2, 3].map(
-        (i) => html`
-          ${template({
-            ...args,
-            aspect: "16:9",
-            loading: "lazy",
-            src: `../src/img/ds-example-image-${i}.jpg`,
-            caption: `Lazy-loaded image ${i}`,
-          })}
-        `
-      )}
-    </div>
-  `,
+  decorators: [
+    (story) => {
+      return html`
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          <p>Scroll down to see lazy-loaded images below the fold:</p>
+          <div
+            style="height: 100vh; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #000; border-radius: 8px;"
+          >
+            <p>⬇️ Scroll down ⬇️</p>
+          </div>
+          ${story()}
+        </div>
+      `;
+    },
+  ],
+  render: (args: Args) =>
+    html` ${[1, 2, 3].map(
+      (i) => html`
+        ${template({
+          ...args,
+          aspect: "16:9",
+          loading: "lazy",
+          src: `https://picsum.photos/seed/qgds-lazy-${i}/600/338`,
+          caption: `Lazy-loaded image ${i}`,
+        })}
+      `
+    )}`,
 };
 
 export const WithAlignment: Story = {
@@ -239,7 +255,7 @@ export const WithAlignment: Story = {
       <p>
         ${template({
           ...args,
-          src: "../src/img/ds-example-image-2.jpg",
+          src: "https://picsum.photos/seed/qgds-right/600/450",
           align: "right",
           aspect: "4:3",
           width: 300,
@@ -255,32 +271,38 @@ export const WithAlignment: Story = {
 
 export const ComplexAccessibility: Story = {
   name: "Complex Accessibility Example",
-  render: (args: Args) => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <h2>Accessible Complex Image Example</h2>
-      <p>This example combines multiple accessibility features:</p>
-      ${template({
-        ...args,
-        src: "./src/img/ds-example-image-2.jpg",
-        alt: "Queensland regional connectivity infrastructure map",
-        ariaLabel: "Interactive map showing fiber optic network coverage across Queensland regions",
-        ariaDescribedby: "map-details",
-        aspect: "16:9",
-        loading: "eager",
-        fetchpriority: "high",
-        caption: `Queensland Digital Infrastructure Map 2025. <a href="#">View full report</a>`,
-      })}
-
-      <qgds-callout heading="Detailed Map Description:" heading-level="h3">
-        <ul>
-          <li>Blue lines represent fiber optic cables connecting major cities</li>
-          <li>Green markers indicate 5G tower locations (328 total)</li>
-          <li>Red zones show areas with infrastructure gaps requiring investment</li>
-          <li>Yellow highlights represent planned developments for 2026-2027</li>
-        </ul>
-      </qgds-callout>
-    </div>
-  `,
+  decorators: [
+    (story) => {
+      return html`
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <h2>Accessible Complex Image Example</h2>
+          <p>This example combines multiple accessibility features:</p>
+          ${story()}
+          <qgds-callout heading="Detailed Image Description:" heading-level="h3">
+            <ul>
+              <li>Wide golden sandy beach stretching along the coastline with beachgoers visible</li>
+              <li>Modern high-rise buildings and resorts lining the beachfront creating a distinctive skyline</li>
+              <li>Turquoise Pacific Ocean waters with white foam from breaking waves</li>
+              <li>Green headlands and coastal vegetation visible in the distance</li>
+            </ul>
+          </qgds-callout>
+        </div>
+      `;
+    },
+  ],
+  render: (args: Args) =>
+    html` ${template({
+      ...args,
+      src: "https://www.ottsworld.com/wp-content/uploads/2014/06/GoldCoastBeach-3.jpg",
+      alt: "Gold Coast beachfront with high-rise buildings and sandy beach",
+      ariaLabel:
+        "Aerial photograph of Gold Coast showing pristine beach, turquoise ocean, and coastal high-rise developments",
+      ariaDescribedby: "map-details",
+      aspect: "16:9",
+      loading: "eager",
+      fetchpriority: "high",
+      caption: `Gold Coast Beach, Queensland 2025. <a href="#">View high resolution</a>`,
+    })}`,
 };
 
 export const WithReferrerPolicy: Story = {
