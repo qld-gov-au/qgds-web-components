@@ -15,7 +15,7 @@ export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-aler
 export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
 export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-item";
-
+export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 // etc...
 
 // =============================================================================
