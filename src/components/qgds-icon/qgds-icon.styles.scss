@@ -26,7 +26,7 @@
   vertical-align: top;
   mask-image: var(--qgds-icon-svg);
   color: var(--qgds-icon-color);
-  background-color: currentcolor;
+  background-color: var(--qgds-icon-color, currentcolor);
 }
 
 /* Multicolour icons use background-image instead of mask-image */

@@ -48,10 +48,7 @@ const renderButton = ({
 
   const attachListener = (el?: Element) => {
     if (el) {
-      el.addEventListener(
-        eventTitle ?? "onClick",
-        handleEvent as EventListener,
-      );
+      el.addEventListener(eventTitle ?? "onClick", handleEvent as EventListener);
     }
   };
 
@@ -71,13 +68,7 @@ const renderButton = ({
         event-title="${ifDefined(eventTitle)}"
         id="${ifDefined(uniqueID)}"
       >
-        <qgds-icon
-          slot="icon"
-          icon-id="${iconId}"
-          size="${iconSize}"
-          aria-label="${ifDefined(ariaLabel)}"
-        >
-        </qgds-icon>
+        <qgds-icon slot="icon" icon-id="${iconId}" size="${iconSize}" aria-label="${ifDefined(ariaLabel)}"> </qgds-icon>
       </qgds-button>
     </div>
   `;
@@ -133,15 +124,62 @@ export const Default: Story = {
   args: {
     label: "Default",
   },
+  decorators: [
+    (story) => {
+      return html`
+        <style>
+          .button-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+          }
+          h3 {
+            margin-bottom: 0.5rem;
+            font-weight: normal;
+          }
+        </style>
+
+        ${story()}
+      `;
+    },
+  ],
   render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <qgds-button label="QGDS Button" variant="primary">
+    <h3>Primary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="primary">
         <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
-      <qgds-button label="QGDS Button" variant="secondary">
+      <qgds-button label="Disabled" variant="primary" disabled>
         <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
-      <qgds-button label="QGDS Button" variant="tertiary">
+      <qgds-button label="QGDS Button" variant="primary" loading-label="Loading" is-loading>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+    </div>
+
+    <h3>Secondary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="secondary">
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+      <qgds-button label="Disabled" variant="secondary" disabled>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+      <qgds-button label="QGDS Button" variant="secondary" loading-label="Loading" is-loading>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+    </div>
+
+    <h3>Tertiary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="tertiary">
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+      <qgds-button label="Disabled" variant="tertiary" disabled>
+        <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
+      </qgds-button>
+      <qgds-button label="QGDS Button" variant="tertiary" loading-label="Loading" is-loading>
         <qgds-icon slot="icon" icon-id="external-link" size="md"></qgds-icon>
       </qgds-button>
     </div>
@@ -152,11 +190,46 @@ export const NoIcon: Story = {
   args: {
     label: "No icon",
   },
+  decorators: [
+    (story) => {
+      return html`
+        <style>
+          .button-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+          }
+          h3 {
+            margin-bottom: 0.5rem;
+            font-weight: normal;
+          }
+        </style>
+
+        ${story()}
+      `;
+    },
+  ],
   render: () => html`
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <qgds-button label="QGDS Button" variant="primary"></qgds-button>
-      <qgds-button label="QGDS Button" variant="secondary"></qgds-button>
-      <qgds-button label="QGDS Button" variant="tertiary"></qgds-button>
+    <h3>Primary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="primary"></qgds-button>
+      <qgds-button label="Disabled" variant="primary" disabled></qgds-button>
+      <qgds-button label="QGDS Button" variant="primary" loading-label="Loading" is-loading></qgds-button>
+    </div>
+
+    <h3>Secondary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="secondary"></qgds-button>
+      <qgds-button label="Disabled" variant="secondary" disabled></qgds-button>
+      <qgds-button label="QGDS Button" variant="secondary" loading-label="Loading" is-loading></qgds-button>
+    </div>
+
+    <h3>Tertiary</h3>
+    <div class="button-grid">
+      <qgds-button label="Enabled" variant="tertiary"></qgds-button>
+      <qgds-button label="Disabled" variant="tertiary" disabled></qgds-button>
+      <qgds-button label="QGDS Button" variant="tertiary" loading-label="Loading" is-loading></qgds-button>
     </div>
   `,
 };
