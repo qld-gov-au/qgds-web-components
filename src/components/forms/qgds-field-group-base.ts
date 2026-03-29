@@ -1,5 +1,6 @@
 import { html, PropertyValues } from "lit";
 import { state } from "lit/decorators.js";
+import { createRef, ref, Ref } from "lit/directives/ref.js";
 import { QGDSFormField } from "./qgds-form-field";
 import { FormValidationState } from "../../types/forms";
 
@@ -33,6 +34,14 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   // Calls the subclass override — prototype dispatch is dynamic even during
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
+
+  /**
+   * Hidden focusable element in shadow DOM used as the `validationAnchor` for
+   * `ElementInternals.setValidity()`. The browser focuses this element when
+   * form submission fails — the focus event is then forwarded to the first
+   * real input in the slotted light DOM.
+   */
+  private _anchorRef: Ref<HTMLSpanElement> = createRef();
 
   /** Return the starting value for this group type. */
   protected abstract _initialValue(): FieldGroupValue;
@@ -98,6 +107,10 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * Override to validate against `_value` without touching `nativeInput`.
    * Groups have no single native input element — validity is computed
    * directly from the aggregated selection state.
+   *
+   * Passes `_anchorRef` as the `validationAnchor` so the browser can focus
+   * into the shadow DOM during form-submission validation, avoiding the
+   * "An invalid form control … is not focusable" console error.
    */
   protected override _validateAndUpdateValidityState(): void {
     const hasValue = this._groupHasValue();
@@ -105,7 +118,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     const message = this._getValidationMessage();
 
     if (!isValid) {
-      this._internals.setValidity({ valueMissing: true }, message);
+      this._internals.setValidity({ valueMissing: true }, message, this._anchorRef.value);
     } else {
       this._internals.setValidity({});
     }
@@ -163,6 +176,17 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   }
 
   renderInput() {
-    return html`<slot></slot>`;
+    // The hidden span is the `validationAnchor` for ElementInternals.setValidity().
+    // When the browser focuses it during form-submission validation, the focus
+    // event is forwarded to the first real input in the slotted light DOM.
+    return html`
+      <span
+        ${ref(this._anchorRef)}
+        tabindex="-1"
+        aria-hidden="true"
+        style="position:absolute;left:8rem;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"
+      ></span>
+      <slot></slot>
+    `;
   }
 }
