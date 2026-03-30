@@ -151,7 +151,9 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this._applyChange(input, source);
     this._syncFormValue();
-    this._validateAndUpdateValidityState();
+    if (!this._noInternalValidate) {
+      this._validateAndUpdateValidityState();
+    }
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._value }, e);
   };
