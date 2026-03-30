@@ -9,8 +9,6 @@
 
 // Navigation container
 nav {
-  // border-inline-start: 4px solid var(--border);
-  // padding-inline-start: 1.5rem;
   @include m.border-padding(0 0 0 4px, 0 0 0 1.5rem);
 
   border-color: var(--border);
