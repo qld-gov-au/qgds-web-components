@@ -31,6 +31,7 @@ export interface ResolvedInput {
  * `<qgds-radio-group>` instead.
  */
 export abstract class QGDSFieldGroupBase extends QGDSFormField {
+
   // Calls the subclass override — prototype dispatch is dynamic even during
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
@@ -41,7 +42,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * form submission fails — the focus event is then forwarded to the first
    * real input in the slotted light DOM.
    */
-  private _anchorRef: Ref<HTMLSpanElement> = createRef();
+  private _anchorRef: Ref<HTMLDivElement> = createRef();
 
   /** Return the starting value for this group type. */
   protected abstract _initialValue(): FieldGroupValue;
@@ -142,6 +143,17 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     this.validationMessage = undefined;
   }
 
+  override focus(): void {
+    this._focusFirstInput();
+  }
+
+  private _focusFirstInput = (): void => {
+    const firstInput = this.querySelector<HTMLInputElement | (Element & { focus(): void })>(
+      "qgds-checkbox, qgds-radio, input[type='checkbox'], input[type='radio']"
+    );
+    firstInput?.focus();
+  };
+
   private _handleChange = (e: Event): void => {
     e.stopPropagation();
 
@@ -178,17 +190,13 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   }
 
   renderInput() {
-    // The hidden span is the `validationAnchor` for ElementInternals.setValidity().
+    // The div is the `validationAnchor` for ElementInternals.setValidity().
     // When the browser focuses it during form-submission validation, the focus
     // event is forwarded to the first real input in the slotted light DOM.
     return html`
-      <span
-        ${ref(this._anchorRef)}
-        tabindex="-1"
-        aria-hidden="true"
-        style="position:absolute;left:8rem;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;"
-      ></span>
-      <slot></slot>
+      <div ${ref(this._anchorRef)} tabindex="-1" @focus=${this._focusFirstInput} style="display:inline-block;">
+        <slot></slot>
+      </div>
     `;
   }
 }
