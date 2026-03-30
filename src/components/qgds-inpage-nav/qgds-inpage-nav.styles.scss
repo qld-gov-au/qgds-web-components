@@ -1,29 +1,33 @@
-/* qgds-inpage-nav component styles */
+@use "../../styles/tools/mixins" as m;
 
-/* Custom properties for public API */
 :host {
-  --qgds-inpage-nav-title: var(--qgds-color-text-heading, #000053);
-  --qgds-inpage-nav-border: var(--qgds-color-action-primary, #005eb8);
+  --title-fg: var(--qgds-color-text-heading, #000053);
+  --border: var(--qgds-color-action-primary, #005eb8);
 
   display: block;
 }
 
-/* Navigation container */
+// Navigation container
 nav {
-  border-inline-start: 4px solid var(--qgds-inpage-nav-border);
-  padding-inline-start: 1.5rem;
+  // border-inline-start: 4px solid var(--border);
+  // padding-inline-start: 1.5rem;
+  @include m.border-padding(0 0 0 4px, 0 0 0 1.5rem);
+
+  border-color: var(--border);
+  border-style: solid;
 }
 
-/* Title */
+// Title
 .title {
-  color: var(--qgds-inpage-nav-title);
+  color: var(--title-fg);
   font-size: 1rem;
   line-height: 1.25;
   margin-block: 0 0.75rem;
   padding-inline-start: 0;
+  font-weight: 600;
 }
 
-/* List */
+// List
 ul,
 ol {
   display: flex;

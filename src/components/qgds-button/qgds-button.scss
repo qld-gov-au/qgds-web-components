@@ -1,6 +1,3 @@
-@use "../../styles/base/animations";
-@include animations.css();
-
 :host {
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
@@ -165,12 +162,12 @@
   }
 }
 
-/* Hide all slotted elements by default */
+// Hide all slotted elements by default
 ::slotted(*) {
   display: none;
 }
 
-/* Only show qgds-icon elements in the icon slot */
+// Only show qgds-icon elements in the icon slot
 ::slotted(qgds-icon) {
   display: block;
 }

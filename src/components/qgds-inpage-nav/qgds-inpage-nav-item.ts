@@ -1,6 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { resetStyles } from "../../styles";
+import { baseStyles } from "../../styles";
 
 import componentCSS from "./qgds-inpage-nav-item.styles.scss?inline";
 
@@ -26,7 +26,7 @@ export class QGDSInpageNavItem extends LitElement {
   }
 
   static styles = [
-    resetStyles,
+    baseStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,

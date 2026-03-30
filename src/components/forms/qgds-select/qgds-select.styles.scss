@@ -40,7 +40,7 @@
   }
 
   &:has(select:disabled) {
-    --dropdown-fg: color(from var(--qgds-color-text-lighter) srgb r g b / 0.5);
+    --dropdown-fg: color(from var(--qgds-color-text-lighter) sRGB r g b / 0.5);
   }
 }
 

@@ -6,41 +6,39 @@ import resetHostCSS from "./base/reset-host.scss?inline";
 import printCSS from "./base/print.scss?inline";
 import formsCSS from "./forms/_index.scss?inline";
 import utilitiesCSS from "./utilities/_index.scss?inline";
-
-// Global styles
-import globalCSS from "./base/globals.scss?inline";
+import animationsCSS from "./base/animations.scss?inline";
 import elementsCSS from "./base/elements.scss?inline";
 import typographyCSS from "./base/typography.scss?inline";
 //...
 
 // EXPORTS
-export const resetStyles = [
-  css`
-    ${unsafeCSS(resetCSS)}
-  `,
-  css`
-    ${unsafeCSS(resetHostCSS)}
-  `,
-];
 
-export const globalStyles = css`
-  ${unsafeCSS(globalCSS)}
-`;
-export const typographyStyles = css`
-  ${unsafeCSS(typographyCSS)}
-`;
 export const formStyles = css`
   ${unsafeCSS(formsCSS)}
 `;
 export const utilitiesStyles = css`
   ${unsafeCSS(utilitiesCSS)}
 `;
-export const elementsStyles = css`
-  ${unsafeCSS(elementsCSS)}
-`;
+
 export const printStyles = css`
   ${unsafeCSS(printCSS)}
 `;
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
-export const baseStyles = [resetStyles, typographyStyles, elementsStyles /*, ...other styles */];
+export const baseStyles = [
+  css`
+    ${unsafeCSS(resetCSS)}
+  `,
+  css`
+    ${unsafeCSS(resetHostCSS)}
+  `,
+  css`
+    ${unsafeCSS(elementsCSS)}
+  `,
+  css`
+    ${unsafeCSS(animationsCSS)}
+  `,
+  css`
+    ${unsafeCSS(typographyCSS)}
+  ` /*, ...other styles */,
+];
