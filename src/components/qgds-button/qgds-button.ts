@@ -2,8 +2,8 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import componentCSS from "./qgds-button.scss?inline";
-import { baseStyles } from "../../styles";
+import componentCSS from "./qgds-button.styles.scss?inline";
+import { resetStyles, animationsStyles } from "../../styles";
 import { IconSize } from "../qgds-icon/qgds-icon";
 
 // Define types for properties to ensure type safety and better autocompletion
@@ -76,7 +76,8 @@ export class QGDSButton extends LitElement {
   @state() private _iconSlotRef: HTMLElement | null = null;
 
   static styles = [
-    baseStyles,
+    resetStyles,
+    animationsStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,

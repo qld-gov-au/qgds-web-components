@@ -20,9 +20,10 @@ type HeadingLevel = 2 | 3 | 4 | 5 | 6;
  * @prop {string} [heading] The alert heading text.
  * @prop {HeadingLevel} [headingLevel=3] Determines the heading level (h2-h6)
  *
- * @cssprop --icon-color Override the color of the displayed icon
- * @cssprop --background Override the color of the background.
+ * @cssprop --icon-fg Override the color of the displayed icon
+ * @cssprop --bg Override the color of the background.
  * @cssprop --border Override the border color.
+ * @cssprop --border-width Override the border width.
  *
  * @slot - Default content slot.
  */
