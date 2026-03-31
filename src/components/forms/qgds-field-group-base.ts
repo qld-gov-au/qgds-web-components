@@ -1,6 +1,5 @@
 import { html, PropertyValues } from "lit";
 import { state } from "lit/decorators.js";
-import { createRef, ref, Ref } from "lit/directives/ref.js";
 import { QGDSFormField } from "./qgds-form-field";
 import { FormValidationState } from "../../types/forms";
 
@@ -36,13 +35,6 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
 
-  /**
-   * Hidden focusable element in shadow DOM used as the `validationAnchor` for
-   * `ElementInternals.setValidity()`. The browser focuses this element when
-   * form submission fails — the focus event is then forwarded to the first
-   * real input in the slotted light DOM.
-   */
-  private _anchorRef: Ref<HTMLDivElement> = createRef();
 
   /** Return the starting value for this group type. */
   protected abstract _initialValue(): FieldGroupValue;
@@ -101,7 +93,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    */
   protected override _getValidationMessage(): string | undefined {
     if (!this.required) return "";
-    return this._groupHasValue() ? "" : "This field is required.";
+    return this._groupHasValue() ? "" : this.requiredErrorMessage;
   }
 
   /**
@@ -109,9 +101,8 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * Groups have no single native input element — validity is computed
    * directly from the aggregated selection state.
    *
-   * Passes `_anchorRef` as the `validationAnchor` so the browser can focus
-   * into the shadow DOM during form-submission validation, avoiding the
-   * "An invalid form control … is not focusable" console error.
+   * Uses the first slotted input as the `validationAnchor` so the browser
+   * can focus it directly during form-submission validation.
    */
   protected override _validateAndUpdateValidityState(): void {
     const hasValue = this._groupHasValue();
@@ -119,7 +110,8 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     const message = this._getValidationMessage();
 
     if (!isValid) {
-      this._internals.setValidity({ valueMissing: true }, message, this._anchorRef.value);
+      const anchorElement = this._getFirstSlottedInputElement();
+      this._internals.setValidity({ valueMissing: true }, message, anchorElement);
     } else {
       this._internals.setValidity({});
     }
@@ -147,10 +139,34 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     this._focusFirstInput();
   }
 
-  private _focusFirstInput = (): void => {
+  /**
+   * Get the first slotted input element for use as validation anchor.
+   * Returns the actual HTMLInputElement (either native or from custom element's shadow DOM).
+   */
+  private _getFirstSlottedInputElement(): HTMLElement | undefined {
     const firstInput = this.querySelector<HTMLInputElement | (Element & { focus(): void })>(
-      "qgds-checkbox, qgds-radio, input[type='checkbox'], input[type='radio']"
+      this.groupItemName
     );
+
+    if (!firstInput) return undefined;
+
+    // If it's a native input, return it directly
+    if (firstInput instanceof HTMLInputElement) {
+      return firstInput;
+    }
+
+    // If it's a custom element with shadow DOM, try to get its internal input
+    if (firstInput instanceof HTMLElement && firstInput.shadowRoot) {
+      const shadowInput = firstInput.shadowRoot.querySelector('input');
+      if (shadowInput) return shadowInput;
+    }
+
+    // Fallback to the custom element itself
+    return firstInput instanceof HTMLElement ? firstInput : undefined;
+  }
+
+  private _focusFirstInput = (): void => {
+    const firstInput = this._getFirstSlottedInputElement();
     firstInput?.focus();
   };
 
@@ -172,6 +188,8 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
   protected abstract groupItemName: string;
 
+  protected requiredErrorMessage = "This field is required.";
+
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
     this.querySelectorAll<Element & { validationState?: FormValidationState; name?: string; disabled?: boolean }>(
@@ -190,13 +208,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   }
 
   renderInput() {
-    // The div is the `validationAnchor` for ElementInternals.setValidity().
-    // When the browser focuses it during form-submission validation, the focus
-    // event is forwarded to the first real input in the slotted light DOM.
-    return html`
-      <div ${ref(this._anchorRef)} tabindex="-1" @focus=${this._focusFirstInput} style="display:inline-block;">
-        <slot></slot>
-      </div>
-    `;
+    // Directly slot the inputs - validation anchor points to the first slotted input
+    return html`<slot></slot>`;
   }
 }

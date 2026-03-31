@@ -46,6 +46,8 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
 
   protected groupItemName = "qgds-checkbox";
 
+  protected override requiredErrorMessage = "Please select an item in the list";
+
   protected _applyChange(input: ResolvedInput): void {
     if (input.type !== "checkbox") return;
     const current = Array.isArray(this._value) ? [...this._value] : [];
