@@ -17,6 +17,12 @@ on:
         options:
           - No
           - Yes
+      release_tag:
+        type: choice
+        description: NPM dist-tag to publish under
+        options:
+          - alpha
+        default: alpha
 
 jobs:
   build:
@@ -75,10 +81,10 @@ jobs:
   publish-npm:
     needs: build
     env:
-      HAVE_DEPLOY_KEY: ${{ github.repository == 'qld-gov-au/qgds-bootstrap5' }}
+      HAVE_DEPLOY_KEY: ${{ github.repository == 'qld-gov-au/qgds-web-components' }}
       #When run on push tags, force is '', default for workflow_dispatch is No so you can't trigger without a double action
       WORKFLOW_DEPLOYMENT: ${{ github.event_name != 'workflow_dispatch'  || github.event.inputs.force == 'Yes' }}
-      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-bootstrap5' && ( github.event_name != 'workflow_dispatch'  || github.event.inputs.force == 'Yes' ) }}
+      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && github.event.inputs.force == 'Yes' && github.event.inputs.release_tag == 'alpha' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -86,7 +92,7 @@ jobs:
       id-token: write # Required for OIDC
     environment:
       name: npmjs
-      url: https://www.npmjs.com/package/@qld-gov-au/qgds-bootstrap5
+      url: https://www.npmjs.com/package/@qld-gov-au/qgds-web-components
     steps:
       - uses: actions/checkout@v6
 
@@ -150,7 +156,7 @@ jobs:
       - name: Publish
         if: ${{ env.DO_DEPLOYMENT == 'true' }}
         run: |
-          npm publish --provenance --access=public
+          npm publish --tag ${{ github.event.inputs.release_tag }} --provenance --access=public
 
       - name: NPM Publish - Is Skipped
         if: ${{ env.HAVE_DEPLOY_KEY != 'true' }}
