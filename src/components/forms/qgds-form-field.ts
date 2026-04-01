@@ -153,7 +153,7 @@ export abstract class QGDSFormField extends LitElement {
   protected handleChange = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
     this._syncFormValue();
-    if (!this._noInternalValidate) {
+    if (this._internalValidate) {
       this._validateAndUpdateValidityState();
     }
 
@@ -168,8 +168,9 @@ export abstract class QGDSFormField extends LitElement {
     return this.value;
   }
 
-  protected get _noInternalValidate(): boolean {
-    return (!this.nativeValidate || this._internals.form?.noValidate) ?? false;
+  protected get _internalValidate(): boolean {
+    if (this._internals.form?.noValidate) return false;
+    return this.nativeValidate ?? false;
   }
 
   /**
@@ -194,7 +195,7 @@ export abstract class QGDSFormField extends LitElement {
 
   /** Override in subclasses to customise the validation message. */
   protected _getValidationMessage(): string | undefined {
-    if (this._noInternalValidate) {
+    if (!this._internalValidate) {
       return this.validationMessage;
     }
     return this._nativeInput?.validationMessage ?? "";
