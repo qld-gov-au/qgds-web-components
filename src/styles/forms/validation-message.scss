@@ -1,0 +1,17 @@
+@use "../tools/functions" as f;
+
+.qgds-validation-message {
+  margin-block-end: f.remify(8px);
+  display: flex;
+  gap: f.remify(4px);
+  font-size: f.remify(14px);
+  line-height: f.snap-line-height();
+
+  &.is-success {
+    color: var(--qgds-color-text-default);
+  }
+
+  &.is-error {
+    color: var(--qgds-fg-critical);
+  }
+}
