@@ -1,28 +1,26 @@
 // CSS keyframes animations, because these are global.
-@mixin css() {
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 
-  @keyframes fade-out {
-    from {
-      opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
+}
 
-    to {
-      opacity: 0;
-    }
+@keyframes fade-out {
+  from {
+    opacity: 1;
   }
 
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

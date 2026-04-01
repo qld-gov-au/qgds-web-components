@@ -36,7 +36,7 @@ export class QGDSCallout extends LitElement {
   headingLevel: HeadingLevel = "h3";
 
   @property({ type: String, reflect: true, attribute: "heading-size", useDefault: false })
-  headingSize: HeadingSize;
+  headingSize?: HeadingSize;
 
   static styles = [
     baseStyles,
