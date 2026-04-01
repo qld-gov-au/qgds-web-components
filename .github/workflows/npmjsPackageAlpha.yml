@@ -1,6 +1,3 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: Publish NPM Package
 
 on:
@@ -12,167 +9,100 @@ on:
         options:
           - No
           - Yes
-        default: No
+        default: "No"
       release_tag:
         type: choice
         description: NPM dist-tag to publish under
         options:
           - alpha
+          - latest
         default: alpha
+
 jobs:
   build:
+    name: Lint, Test, and Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    strategy:
-      matrix:
-        node: ["22"]
-    name: Lint, Test, Build and Deploy on Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v6
-
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v5
-        env:
-          cache-name: cache-node-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
 
       - name: Use Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
-          cache: "npm"
-          registry-url: "https://registry.npmjs.org"
+          node-version: 22
+          cache: "npm" # Simplifies your manual cache block
 
-      - name: Install #run on lint step (Which is cached)
-        run: | # Install packages per package-lock.json only
-          npm ci
+      - name: Install dependencies
+        run: npm ci
 
       - name: Lint
-        run: |
-          npm run lint
+        run: npm run lint
 
       - name: Test
-        run: |
-          npm run test
+        run: npm run test
 
       - name: Build 🔧
-        run: | # build the files
-          npm run build
+        run: npm run build
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-output
+          path: |
+            dist/
+            package.json
+            package-lock.json
+          retention-days: 1
 
   publish-npm:
+    name: Publish to npm
     needs: build
-    env:
-      HAVE_DEPLOY_KEY: ${{ github.repository == 'qld-gov-au/qgds-web-components' }}
-      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && github.event.inputs.force == 'Yes' && github.event.inputs.release_tag == 'alpha' }}
     runs-on: ubuntu-latest
+    # Only run on the main repo and if 'Yes' was selected
+    if: github.repository == 'qld-gov-au/qgds-web-components' && github.event.inputs.force == 'Yes'
     permissions:
       contents: read
       packages: write
-      id-token: write # Required for OIDC
+      id-token: write # Required for OIDC/Provenance
     environment:
       name: npmjs
       url: https://www.npmjs.com/package/@qld-gov-au/qgds-web-components
     steps:
-      - uses: actions/checkout@v6
-
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v5
-        env:
-          cache-name: cache-node-modules
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          name: build-output
 
-      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-        name: List the state of node modules
-        continue-on-error: true
-        run: npm list
-
-      - uses: actions/setup-node@v6
+      - name: Use Node.js
+        uses: actions/setup-node@v6
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org/
-          cache: "npm"
+          registry-url: "https://registry.npmjs.org/"
           scope: "@qld-gov-au"
 
-      # Ensure npm 11.5.1 or later is installed
-      - name: Update npm
-        run: npm install -g npm@latest
-
-      - run: npm ci
-
-      - name: Build 🔧
-        run: | # build the files
-          npm run build
-
-      #      - name: "Update package scope, export package name"
-      #        id: package_details
-      #        run: |
-      #          echo "replacing npm scope to repo owner GITHUB_REPOSITORY_OWNER = $GITHUB_REPOSITORY_OWNER"
-      #          temp_file=$(mktemp)
-      #          package=${GITHUB_REPOSITORY_OWNER,,}
-      #          awk -v scope="$package" '{
-      #                if ($0 ~ /"name": "@[a-zA-Z0-9_-]+\//) {
-      #                    sub(/@[a-zA-Z0-9_-]+\//, "@" scope "/")
-      #              }
-      #                print
-      #            }'  package.json > "$temp_file" && mv "$temp_file" package.json
-      #          echo "package.json updated"
-      #          cat package.json
-      #          echo "package=`npm pkg get name`" >> $GITHUB_STATE
-      #
-      #      - uses: tobysmith568/npm-publish-latest-tag@v1
-      #        id: latest_tag
-      #        with:
-      #          package-json: ./package.json
-
       - name: Preflight version check
-        if: ${{ env.DO_DEPLOYMENT == 'true' }}
+        id: preflight
         run: |
           VERSION=$(node -p "require('./package.json').version")
           PACKAGE=$(node -p "require('./package.json').name")
           if npm view "$PACKAGE@$VERSION" version >/dev/null 2>&1; then
-            echo "Version already exists on npm: $PACKAGE@$VERSION"
+            echo "::error::Version $VERSION already exists on npm. Please bump version."
             exit 1
           fi
-          echo "Publishing $PACKAGE@$VERSION with dist-tag alpha"
-
-          # If you want to publish with a specific dist-tag, you can use the following command:
-          # npm publish --tag alpha
+          echo "Ready to publish $PACKAGE@$VERSION"
 
       - name: Publish
-        if: ${{ env.DO_DEPLOYMENT == 'true' }}
-        run: |
-          npm publish --tag alpha --provenance --access=public
+        run: npm publish --tag ${{ github.event.inputs.release_tag }} --provenance --access=public
+        env:
+          # Ensure this secret is set in your GitHub Repo/Environment settings
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: NPM Publish - Is Skipped
-        if: ${{ env.HAVE_DEPLOY_KEY != 'true' }}
-        run: |
-          echo "## This is a fork" >> $GITHUB_STEP_SUMMARY
-          echo "If you wish to publish to npmjs.org. Please change package prefix name and update this file to new repo location."  >> $GITHUB_STEP_SUMMARY
-
-      - name: Publish - Skipped
-        if: ${{ env.DO_DEPLOYMENT != 'true' }}
-        run: |
+  # Helpful summary if the publish job was skipped due to 'force' being 'No'
+  report-skipped:
+    runs-on: ubuntu-latest
+    if: always() && github.event.inputs.force == 'No'
+    steps:
+      - run: |
           echo "### Publish skipped" >> $GITHUB_STEP_SUMMARY
-          echo "Requires: correct repo, force=Yes, release_tag=alpha" >> $GITHUB_STEP_SUMMARY
+          echo "Reason: 'Confirm publish' was set to 'No'." >> $GITHUB_STEP_SUMMARY
