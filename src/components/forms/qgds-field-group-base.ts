@@ -179,7 +179,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this._applyChange(input, source);
     this._syncFormValue();
-    if (!this._noInternalValidate) {
+    if (this._internalValidate) {
       this._validateAndUpdateValidityState();
     }
 
