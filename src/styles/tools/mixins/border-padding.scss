@@ -1,0 +1,120 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:math";
+
+///
+/// Apply border-width-aware padding, in order to mirror design tools and retain vertical and horizontal rhythm.
+/// This mixin will create CSS custom properties which can be edited in component states to add, remove or change border widths without content shifting around.
+/// `--border-top-width`
+/// `--border-right-width`
+/// `--border-bottom-width`
+/// `--border-left-width`
+/// `--padding-top`
+/// `--padding-right`
+/// `--padding-bottom`
+/// `--padding-left`
+/// @param $border-width [0] - A single border-width or space-separated list, compatible with CSS border-width shorthand.
+/// @param $padding [0] - A single padding value or space-separated list, compatible with CSS padding shorthand.
+@mixin border-padding($border-width: 0, $padding: 0) {
+  // border-width and padding may be valid CSS short-hand values, so a list of values.
+  // The evaluated css property must include a unit (px) for calc to work.
+  @if meta.type-of($border-width) == number {
+    @if math.is-unitless($border-width) {
+      // add units to border-widths if 0
+      $border-width: $border-width * 1px;
+    }
+  } @else if meta.type-of($border-width) == list {
+    // A little validation
+    @if list.length($border-width) > 4 {
+      @error "Too many $border-widths, max is 4.";
+    }
+
+    // add units to border-widths if 0
+    @for $i from 1 through list.length($border-width) {
+      @if math.is-unitless(list.nth($border-width, $i)) {
+        $border-width: list.set-nth($border-width, $i, list.nth($border-width, $i) * 1px);
+      }
+    }
+  } @else {
+    @error "invalid type #{type-of($border-width)} for $border-width. Please use a valid CSS border-width shorthand value.";
+  }
+
+  @if meta.type-of($padding) == number {
+    @if math.is-unitless($padding) {
+      // add units to $padding if 0
+      $padding: $padding * 1px; // multiplication keeps
+    }
+  } @else if meta.type-of($padding) == list {
+    // A little validation
+    @if list.length($padding) > 4 {
+      @error "Too many $paddings, max is 4.";
+    }
+
+    // add units to $padding if 0
+    @for $i from 1 through list.length($padding) {
+      @debug list.nth($padding, $i);
+      @debug meta.type-of(list.nth($padding, $i));
+      @if math.is-unitless(list.nth($padding, $i)) {
+        $padding: list.set-nth($padding, $i, list.nth($padding, $i) * 1px);
+      }
+    }
+  } @else {
+    @error "invalid type for $padding. Please use a valid CSS padding shorthand value.";
+  }
+
+  $num-borders: list.length($border-width);
+  $num-paddings: list.length($padding);
+
+  // stylelint-disable
+  @if $num-borders == 1 {
+    --border-top-width: #{$border-width};
+    --border-right-width: #{$border-width};
+    --border-bottom-width: #{$border-width};
+    --border-left-width: #{$border-width};
+  } @else if $num-borders == 2 {
+    --border-top-width: #{list.nth($border-width, 1)};
+    --border-right-width: #{list.nth($border-width, 2)};
+    --border-bottom-width: #{list.nth($border-width, 1)};
+    --border-left-width: #{list.nth($border-width, 2)};
+  } @else if $num-borders == 3 {
+    --border-top-width: #{list.nth($border-width, 1)};
+    --border-right-width: #{list.nth($border-width, 2)};
+    --border-bottom-width: #{list.nth($border-width, 3)};
+    --border-left-width: #{list.nth($border-width, 2)};
+  } @else if $num-borders == 4 {
+    --border-top-width: #{list.nth($border-width, 1)};
+    --border-right-width: #{list.nth($border-width, 2)};
+    --border-bottom-width: #{list.nth($border-width, 3)};
+    --border-left-width: #{list.nth($border-width, 4)};
+  }
+
+  @if $num-paddings == 1 {
+    --padding-top: #{$padding};
+    --padding-right: #{$padding};
+    --padding-bottom: #{$padding};
+    --padding-left: #{$padding};
+  } @else if $num-paddings == 2 {
+    --padding-top: #{list.nth($padding, 1)};
+    --padding-right: #{list.nth($padding, 2)};
+    --padding-bottom: #{list.nth($padding, 1)};
+    --padding-left: #{list.nth($padding, 2)};
+  } @else if $num-paddings == 3 {
+    --padding-top: #{list.nth($padding, 1)};
+    --padding-right: #{list.nth($padding, 2)};
+    --padding-bottom: #{list.nth($padding, 3)};
+    --padding-left: #{list.nth($padding, 2)};
+  } @else if $num-paddings == 4 {
+    --padding-top: #{list.nth($padding, 1)};
+    --padding-right: #{list.nth($padding, 2)};
+    --padding-bottom: #{list.nth($padding, 3)};
+    --padding-left: #{list.nth($padding, 4)};
+  }
+  //stylelint-enable
+
+  border-block-width: var(--border-top-width) var(--border-bottom-width);
+  border-inline-width: var(--border-left-width) var(--border-right-width);
+  padding-block: calc(var(--padding-top) - var(--border-top-width))
+    calc(var(--padding-bottom) - var(--border-bottom-width));
+  padding-inline: calc(var(--padding-left) - var(--border-left-width))
+    calc(var(--padding-right) - var(--border-right-width));
+}

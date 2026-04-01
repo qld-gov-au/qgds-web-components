@@ -1,7 +1,7 @@
 import { html, LitElement, TemplateResult, PropertyValues, nothing } from "lit";
 // import { classMap } from "lit/directives/class-map.js";
 import { property } from "lit/decorators.js";
-import { resetStyles, formStyles, utilitiesStyles } from "../../styles";
+import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
 import { FormValidationState, FormIndicateIf } from "../../types/forms";
 import { QgdsEvents } from "../../utils";
 
@@ -30,7 +30,7 @@ export abstract class QGDSFormField extends LitElement {
 
   static formAssociated = true;
 
-  static styles = [resetStyles, formStyles, utilitiesStyles];
+  static styles = [baseStyles, formStyles, utilitiesStyles];
 
   /** Set delegatesFocus: true for programatic focus, autofocus */
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };

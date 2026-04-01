@@ -14,7 +14,8 @@ const { args, argTypes, template } = getStorybookHelpers<QGDSSelect>("qgds-selec
 type QGDSSelectStoryArgs = typeof args;
 
 const meta: Meta<QGDSSelectStoryArgs> = {
-  title: "Components/QGDS Select",
+  title: "Components/Forms/Select",
+  component: "qgds-select",
   tags: ["autodocs"],
   args: {
     ...args,

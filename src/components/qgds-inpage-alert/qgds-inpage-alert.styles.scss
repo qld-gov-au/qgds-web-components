@@ -1,11 +1,10 @@
 @use "../../styles/qgds-tokens/qgds-color-stub";
 
-$_border-width: 2px;
-
 :host {
-  --icon-color: initial;
-  --background: initial;
+  --icon-fg: initial;
+  --bg: initial;
   --border: initial;
+  --border-width: 2px;
 
   display: block;
 }
@@ -14,7 +13,7 @@ $_border-width: 2px;
   --qgds-icon-color: var(--icon-color, var(--qgds-color-neutral-white));
 
   border-radius: 0.25rem;
-  border: $_border-width solid var(--_border);
+  border: var(--border-width) solid var(--_border);
   overflow: hidden;
   display: flex;
 
@@ -42,7 +41,7 @@ $_border-width: 2px;
   align-items: center;
   justify-content: center;
   background-color: var(--_border);
-  margin-inline-start: -($_border-width);
+  margin-inline-start: calc(var(--border-width) * -1);
 }
 
 .content-wrapper {
@@ -51,7 +50,8 @@ $_border-width: 2px;
   background-color: var(--background, var(--qgds-color-background));
   color: var(--qgds-color-text-default);
   flex: 1 1 auto;
-  padding: 1rem;
+  padding-block: calc(1rem - var(--border-width));
+  padding-inline: 1rem calc(1rem - var(--border-width));
 }
 
 .heading {

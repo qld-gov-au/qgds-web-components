@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "stylelint-config-standard-scss",
-    "stylelint-config-prettier-scss"
-  ],
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier-scss"],
   "plugins": ["stylelint-use-logical-spec"],
   "rules": {
     "scss/at-mixin-argumentless-call-parentheses": "always",
@@ -42,14 +39,13 @@
       {
         "message": "Expected placeholder to be kebab-case, optionally prefixed with _ for private placeholders"
       }
+    ],
+    "value-keyword-case": [
+      "lower",
+      {
+        "camelCaseSvgKeywords": true
+      }
     ]
   },
-  "ignoreFiles": [
-    "dist/**/*",
-    "storybook-static/**/*",
-    "node_modules/**/*",
-    "coverage/**/*",
-    "**/*.js",
-    "**/*.ts"
-  ]
+  "ignoreFiles": ["dist/**/*", "storybook-static/**/*", "node_modules/**/*", "coverage/**/*", "**/*.js", "**/*.ts"]
 }

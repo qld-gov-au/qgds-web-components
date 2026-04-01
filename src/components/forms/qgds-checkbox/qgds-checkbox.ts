@@ -13,7 +13,8 @@ export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
  * Re-dispatches a composed `change` event from the host so `qgds-field-group`
  * can intercept it across the shadow DOM boundary.
  *
- * @tagname qgds-checkbox
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321348&p=f
+ * @website https://www.designsystem.qld.gov.au/components/checkbox
  *
  * @prop {string} value - The value submitted when the checkbox is checked.
  * @prop {string} label - Visible label text.

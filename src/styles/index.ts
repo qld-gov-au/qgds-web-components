@@ -1,19 +1,19 @@
 import { css, unsafeCSS } from "lit";
 
 // Import specific stylesheets for granular control
+import animationsCSS from "./base/animations.scss?inline";
+import elementsCSS from "./base/elements.scss?inline";
+import formsCSS from "./forms/_index.scss?inline";
+import printCSS from "./base/print.scss?inline";
 import resetCSS from "./base/reset.scss?inline";
 import resetHostCSS from "./base/reset-host.scss?inline";
-import printCSS from "./base/print.scss?inline";
-import formsCSS from "./forms/_index.scss?inline";
+import typographyCSS from "./base/typography.scss?inline";
 import utilitiesCSS from "./utilities/_index.scss?inline";
 
-// Global styles
-import globalCSS from "./base/globals.scss?inline";
-import elementsCSS from "./base/elements.scss?inline";
-import typographyCSS from "./base/typography.scss?inline";
-//...
-
 // EXPORTS
+export const animationsStyles = css`
+  ${unsafeCSS(animationsCSS)}
+`;
 export const resetStyles = [
   css`
     ${unsafeCSS(resetCSS)}
@@ -22,10 +22,6 @@ export const resetStyles = [
     ${unsafeCSS(resetHostCSS)}
   `,
 ];
-
-export const globalStyles = css`
-  ${unsafeCSS(globalCSS)}
-`;
 export const typographyStyles = css`
   ${unsafeCSS(typographyCSS)}
 `;
@@ -43,4 +39,4 @@ export const printStyles = css`
 `;
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
-export const baseStyles = [resetStyles, typographyStyles, elementsStyles /*, ...other styles */];
+export const baseStyles = [resetStyles, elementsStyles, typographyStyles /*, ...other styles */];

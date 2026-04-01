@@ -1,5 +1,4 @@
-@use "../../styles/base/animations";
-@include animations.css();
+@use "../../styles/tools/mixins" as m;
 
 :host {
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
@@ -7,33 +6,27 @@
 }
 
 .btn {
-  --no-colour: transparent;
   --text: var(--btn-text);
   --border-width: 0;
   --min-width: 160px;
 
-  /* Stubs to be replaced when token files are created */
-  --qgds-outline-width: 3px;
-  --qgds-outline-offset: 2px;
+  // Stubs to be replaced when token files are created
   --qgds-gap-inline: 0.5rem;
-  --qgds-block-padding: 0.75rem;
-  --qgds-inline-padding: 1.5rem;
+
+  @include m.border-padding(0, 0.75rem 1.5rem);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-width: var(--border-width);
   border-style: solid;
   border-color: transparent;
   color: var(--text, white);
   gap: var(--qgds-gap-inline, 0.5rem);
-  padding-block: var(--qgds-block-padding, 0.75rem);
-  padding-inline: var(--qgds-inline-padding, 1.5rem);
   border-radius: var(--border-radius);
   font-size: var(--qgds-font-size, 1rem);
   text-decoration: none;
   text-decoration-color: transparent;
-  text-underline-offset: var(--text-underline-offset, 4.8px);
+  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
   text-decoration-thickness: 0;
   min-inline-size: var(--min-width);
 
@@ -52,11 +45,8 @@
     background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
   }
 
-  &:focus {
+  @include m.focusable() {
     text-decoration: underline;
-    outline: var(--qgds-outline-width) solid var(--qgds-color-focus-default);
-    outline-offset: var(--qgds-outline-offset);
-    border-radius: var(--border-radius);
   }
 
   &:disabled,
@@ -75,7 +65,6 @@
   flex-direction: row-reverse;
 }
 
-/* Start */
 .loading {
   text-decoration: none;
   background: var(--qgds-color-code-muted, #ccc);
@@ -109,12 +98,14 @@
 }
 
 .btn-secondary {
-  --border-width: var(--border-width-wide, 3px);
+  --border-top-width: var(--border-width-wide, 3px);
+  --border-right-width: var(--border-width-wide, 3px);
+  --border-bottom-width: var(--border-width-wide, 3px);
+  --border-left-width: var(--border-width-wide, 3px);
   --text: var(--qgds-color-link-default, #333);
-  --qgds-block-padding: 0.5625rem;
   --qgds-icon-color: var(--qgds-color-btn-icon);
 
-  background: var(--no-colour);
+  background: transparent;
   border-color: var(--btn-border-colour);
 
   &:active {
@@ -137,7 +128,7 @@
 
   &:focus {
     background: var(--qgds-color-background-shade);
-    border: 3px solid transparent;
+    border-color: transparent;
   }
 }
 
@@ -146,7 +137,7 @@
   --qgds-icon-color: var(--qgds-color-btn-icon);
 
   text-decoration: underline;
-  background: var(--no-colour);
+  background: transparent;
 
   &:active {
     --qgds-icon-color: inherit;
@@ -156,7 +147,7 @@
   &.disabled {
     --qgds-icon-color: inherit;
 
-    background: var(--no-colour);
+    background: transparent;
   }
 
   &:hover,
@@ -165,12 +156,12 @@
   }
 }
 
-/* Hide all slotted elements by default */
+// Hide all slotted elements by default
 ::slotted(*) {
   display: none;
 }
 
-/* Only show qgds-icon elements in the icon slot */
+// Only show qgds-icon elements in the icon slot
 ::slotted(qgds-icon) {
   display: block;
 }

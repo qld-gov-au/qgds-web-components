@@ -2,8 +2,8 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import componentCSS from "./qgds-button.scss?inline";
-import { resetStyles } from "../../styles";
+import componentCSS from "./qgds-button.styles.scss?inline";
+import { resetStyles, animationsStyles } from "../../styles";
 import { IconSize } from "../qgds-icon/qgds-icon";
 
 // Define types for properties to ensure type safety and better autocompletion
@@ -18,7 +18,6 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
  * Can include icons and handle loading states.
  * Accessible via aria-labels and keyboard interactions.
  *
- * @element qgds-button
  * @attr {string} label - The label of the button.
  * @attr {ButtonVariant} variant - The variant of the button ("primary", "secondary", "tertiary").  Default is "primary"
  * @attr {boolean} disabled - Whether the button is disabled.  Default is "false"
@@ -51,26 +50,21 @@ export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
   @property({ type: String }) label: string = "Button";
-  @property({ type: String, useDefault: true }) variant: ButtonVariant =
-    "primary";
+  @property({ type: String, useDefault: true }) variant: ButtonVariant = "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
   @property({ type: String }) target?: AnchorTarget;
   @property({ type: String }) type: HTMLButtonElement["type"] = "button";
-  @property({ type: String, attribute: "aria-label" }) ariaLabel:
-    | string
-    | null = null;
+  @property({ type: String, attribute: "aria-label" }) ariaLabel: string | null = null;
   @property({ type: Boolean, reflect: true, attribute: "trailing-icon" })
   trailingIcon: boolean = false;
   @property({ type: String, reflect: true, attribute: "id" })
   uniqueID?: string;
   @property({ type: String, reflect: true, attribute: "href" })
   href?: string;
-  @property({ type: String, attribute: "loading-label" }) loadingLabel =
-    "Loading...";
+  @property({ type: String, attribute: "loading-label" }) loadingLabel = "Loading...";
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
-  @property({ type: String, attribute: "event-title" }) eventTitle =
-    "qgds-button-click";
+  @property({ type: String, attribute: "event-title" }) eventTitle = "qgds-button-click";
   @property({ type: String, attribute: "icon-size" }) iconSize: IconSize = "md";
 
   // Internal state management for interaction states
@@ -82,6 +76,7 @@ export class QGDSButton extends LitElement {
 
   static styles = [
     resetStyles,
+    animationsStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
@@ -117,23 +112,18 @@ export class QGDSButton extends LitElement {
         class=${classMap(classes)}
         target="${ifDefined(this.target)}"
         tabindex="${this.disabled || this.isLoading ? -1 : 0}"
-        rel="${this.target === "_blank"
-          ? "noopener noreferrer"
-          : ifDefined(undefined)}"
+        rel="${this.target === "_blank" ? "noopener noreferrer" : ifDefined(undefined)}"
         @click=${this._onClick}
         @mouseenter=${this._handleMouseEnter}
         @mouseleave=${this._handleMouseLeave}
         @mousedown=${this._handleMouseDown}
         @mouseup=${this._handleMouseUp}
         @focus=${this._handleFocus}
-        @blur=${this._handleBlur}>
+        @blur=${this._handleBlur}
+      >
         ${this.isLoading
-          ? html`<qgds-icon
-              icon-id="spinner-step-1"
-              size="${currentIconSize}"></qgds-icon>`
-          : html`<slot
-              name="icon"
-              @slotchange=${this.handleSlotChange}></slot>`}
+          ? html`<qgds-icon icon-id="spinner-step-1" size="${currentIconSize}"></qgds-icon>`
+          : html`<slot name="icon" @slotchange=${this.handleSlotChange}></slot>`}
         ${this.label}
       </a>
     `;
@@ -165,14 +155,11 @@ export class QGDSButton extends LitElement {
         @mousedown=${this._handleMouseDown}
         @mouseup=${this._handleMouseUp}
         @focus=${this._handleFocus}
-        @blur=${this._handleBlur}>
+        @blur=${this._handleBlur}
+      >
         ${this.isLoading
-          ? html`<qgds-icon
-              icon-id="spinner-step-1"
-              size="${currentIconSize}"></qgds-icon>`
-          : html`<slot
-              name="icon"
-              @slotchange=${this.handleSlotChange}></slot>`}
+          ? html`<qgds-icon icon-id="spinner-step-1" size="${currentIconSize}"></qgds-icon>`
+          : html`<slot name="icon" @slotchange=${this.handleSlotChange}></slot>`}
         ${this.isLoading ? (this.loadingLabel ?? this.label) : this.label}
       </button>
     `;
@@ -197,8 +184,7 @@ export class QGDSButton extends LitElement {
     // Store reference to the slotted icon
     if (assignedElements.length > 0) {
       this._iconSlotRef = assignedElements[0] as HTMLElement;
-      const iconSize =
-        (this._iconSlotRef.getAttribute("size") as IconSize) ?? "md";
+      const iconSize = (this._iconSlotRef.getAttribute("size") as IconSize) ?? "md";
       if (iconSize !== this.iconSize) {
         this.iconSize = iconSize;
       }
