@@ -4,10 +4,17 @@
   "description": "Queensland Government Design System (QGDS) - Web Components",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qld-gov-au/qgds-web-components.git"
+    "url": "git+https://github.com/qld-gov-au/qgds-web-components.git"
   },
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/assets/js/qgds-web-components.js",
+  "module": "./dist/assets/js/qgds-web-components.js",
+  "exports": {
+    ".": {
+      "default": "./dist/assets/js/qgds-web-components.js"
+    },
+    "./styles.css": "./dist/assets/css/qgds-web-components.css"
+  },
   "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
@@ -73,6 +80,10 @@
     "vite-plugin-static-copy": "^3.1.4",
     "vitest": "^4.0.14"
   },
+  "files":[
+    "dist",
+    "custom-elements.json"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
