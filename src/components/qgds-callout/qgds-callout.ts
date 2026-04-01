@@ -14,7 +14,6 @@ export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120360-73541&m=dev
  * @website https://www.designsystem.qld.gov.au/components/callout
- * @tagname qgds-callout
  *
  * @property {string} heading - Callout heading text
  * @property {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6)
@@ -47,17 +46,17 @@ export class QGDSCallout extends LitElement {
   ];
 
   private static readonly headingClasses: Record<HeadingSize, string> = {
-    "xs": "qgds-heading-xs",
-    "sm": "qgds-heading-sm",
-    "md": "qgds-heading-md",
+    xs: "qgds-heading-xs",
+    sm: "qgds-heading-sm",
+    md: "qgds-heading-md",
   };
 
   private static readonly headingDefaults: Record<HeadingLevel, string> = {
-    "h2": "qgds-heading-md",
-    "h3": "qgds-heading-sm",
-    "h4": "qgds-heading-xs",
-    "h5": "qgds-heading-xs",
-    "h6": "qgds-heading-xs",
+    h2: "qgds-heading-md",
+    h3: "qgds-heading-sm",
+    h4: "qgds-heading-xs",
+    h5: "qgds-heading-xs",
+    h6: "qgds-heading-xs",
   };
 
   render() {
@@ -68,11 +67,7 @@ export class QGDSCallout extends LitElement {
 
     return html`
       <div class="callout">
-        ${semanticHeading(
-          this.heading,
-          this.headingLevel,
-          `heading ${headingSizeClass || "qgds-heading-sm"}`,
-        )}
+        ${semanticHeading(this.heading, this.headingLevel, `heading ${headingSizeClass || "qgds-heading-sm"}`)}
 
         <div class="content">
           <slot></slot>

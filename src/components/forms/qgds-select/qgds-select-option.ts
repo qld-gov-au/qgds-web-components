@@ -5,7 +5,7 @@ import { customElement, property } from "lit/decorators.js";
  * QGDS Select Option Web Component
  * Used as a child element within {@link QGDSSelect} or {@link QGDSSelectOptgroup} to define individual options.
  *
- * @element qgds-select-option
+ * @tagname qgds-select-option
  *
  * @example
  * ```html
@@ -63,11 +63,7 @@ export class QGDSSelectOption extends LitElement {
     // Render a semantic <option> element in shadow DOM for accessibility
     // Display label if provided, otherwise use value
     return html`
-      <option
-        .value=${this.value}
-        ?disabled=${this.disabled}
-        ?selected=${this.selected}
-      >
+      <option .value=${this.value} ?disabled=${this.disabled} ?selected=${this.selected}>
         ${
           // Using || instead of ?? because we want empty string to be falsy
           // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing

@@ -7,7 +7,8 @@ import type { QGDSSelectOption } from "./qgds-select-option.js";
  * Used as a child element within {@link QGDSSelect} to group related options with a label.
  * Only accepts {@link QGDSSelectOption} elements as children - other elements will be ignored.
  *
- * @element qgds-select-optgroup
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321345
+ * @website https://www.designsystem.qld.gov.au/components/select
  *
  * @example
  * ```html
@@ -40,7 +41,7 @@ export class QGDSSelectOptgroup extends LitElement {
   getOptions(): QGDSSelectOption[] {
     // Query light DOM children directly
     return Array.from(this.children).filter(
-      (el) => el.tagName.toLowerCase() === "qgds-select-option",
+      (el) => el.tagName.toLowerCase() === "qgds-select-option"
     ) as QGDSSelectOption[];
   }
 
@@ -52,15 +53,13 @@ export class QGDSSelectOptgroup extends LitElement {
     const assignedElements = slot.assignedElements({ flatten: true });
 
     // Check for invalid elements
-    const invalidElements = assignedElements.filter(
-      (el) => el.tagName.toLowerCase() !== "qgds-select-option",
-    );
+    const invalidElements = assignedElements.filter((el) => el.tagName.toLowerCase() !== "qgds-select-option");
 
     if (invalidElements.length > 0) {
       console.warn(
         "qgds-select-optgroup only accepts qgds-select-option elements as children. " +
           "The following invalid elements will be ignored:",
-        invalidElements,
+        invalidElements
       );
     }
   };

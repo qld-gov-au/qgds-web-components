@@ -48,10 +48,7 @@ const renderButton = ({
 
   const attachListener = (el?: Element) => {
     if (el) {
-      el.addEventListener(
-        eventTitle ?? "onClick",
-        handleEvent as EventListener,
-      );
+      el.addEventListener(eventTitle ?? "onClick", handleEvent as EventListener);
     }
   };
 
@@ -71,20 +68,15 @@ const renderButton = ({
         event-title="${ifDefined(eventTitle)}"
         id="${ifDefined(uniqueID)}"
       >
-        <qgds-icon
-          slot="icon"
-          icon-id="${iconId}"
-          size="${iconSize}"
-          aria-label="${ifDefined(ariaLabel)}"
-        >
-        </qgds-icon>
+        <qgds-icon slot="icon" icon-id="${iconId}" size="${iconSize}" aria-label="${ifDefined(ariaLabel)}"> </qgds-icon>
       </qgds-button>
     </div>
   `;
 };
 
 const meta: Meta<QGDSButtonStoryArgs> = {
-  title: "Components/QGDS Button",
+  title: "Components/Button",
+  component: "qgds-button",
   tags: ["autodocs"],
   args: {
     ...args,

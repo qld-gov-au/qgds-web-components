@@ -14,8 +14,6 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  * Used to progressively disclose content behind a native browser details/summary disclosure widget.
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
- * @website https://www.designsystem.qld.gov.au/components/details
- * @tagname qgds-details
  *
  * @property {string} [summary-text] - The visible label shown in the summary trigger.
  * @property {DetailsSize} [size] - Size variant controlling height and font size ("xs", "sm", "md", "lg"). Default is "md".
@@ -73,7 +71,7 @@ export class QGDSDetails extends LitElement {
         id: this.id || null, // Include the id if it exists, otherwise null
         open: this._open, // boolean indicating whether the details is now open or closed
       },
-      originalEvent, // pass the original toggle event for reference in handlers
+      originalEvent // pass the original toggle event for reference in handlers
     );
   };
 
