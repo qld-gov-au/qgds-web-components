@@ -1,70 +1,68 @@
 @use "../tools/mixins" as m;
 
 // ALl text based elements, lists, etc. These are the most basic styles for content within the body of the page, and are usually overridden within components. These are not slotted-specific, but they can be overridden by slotted styles if used within a component that includes the reset-slotted mixin.
-.qgds {
-  p,
-  ul,
-  ol,
-  li,
-  blockquote,
-  pre,
-  code,
-  summary {
-    line-height: var(--qgds-line-height-default, 1.45);
-  }
+p,
+ul,
+ol,
+li,
+blockquote,
+pre,
+code,
+summary {
+  line-height: var(--qgds-line-height-default, 1.45);
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    line-height: var(--qgds-line-height-heading, 1.25);
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--qgds-line-height-heading, 1.25);
+}
 
-  a {
-    &,
-    &:link {
-      color: var(--qgds-color-link-default);
-      text-decoration: {
-        line: var(--qgds-link-decoration, underline);
-        thickness: var(--qgds-link-decoration-thickness, 0.5px);
-        style: solid;
-        color: var(--qgds-color-underline-default, #3f7ab4);
-      }
-
-      text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+a {
+  &,
+  &:link {
+    color: var(--qgds-color-link-default);
+    text-decoration: {
+      line: var(--qgds-link-decoration, underline);
+      thickness: var(--qgds-link-decoration-thickness, 0.5px);
+      style: solid;
+      color: var(--qgds-color-underline-default, #3f7ab4);
     }
+
+    text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+  }
+
+  &:hover {
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    text-decoration-color: currentColor;
+  }
+
+  &:active {
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
+    text-decoration-color: var(--qgds-color-underline-default, #005eb8);
+  }
+
+  @include m.focusable() {
+    border-radius: 1px;
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    text-decoration-color: currentColor;
+  }
+
+  &:visited {
+    color: var(--qgds-color-link-visited);
+    text-decoration-color: var(--qgds-color-underline-visited, #8b63b0);
 
     &:hover {
-      color: var(--qgds-color-link-default);
-      text-decoration-line: var(--qgds-link-decoration-hover, underline);
-      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
-      text-decoration-color: currentColor;
-    }
-
-    &:active {
-      color: var(--qgds-color-link-default);
-      text-decoration-line: var(--qgds-link-decoration-hover, underline);
-      text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
-      text-decoration-color: var(--qgds-color-underline-default, #005eb8);
-    }
-
-    @include m.focusable() {
-      border-radius: 1px;
-      color: var(--qgds-color-link-default);
-      text-decoration-line: var(--qgds-link-decoration-hover, underline);
-      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
-      text-decoration-color: currentColor;
-    }
-
-    &:visited {
-      color: var(--qgds-color-link-visited);
-      text-decoration-color: var(--qgds-color-underline-visited, #8b63b0);
-
-      &:hover {
-        text-decoration-color: var(--qgds-color-underline-visited-hover, #551a8b);
-      }
+      text-decoration-color: var(--qgds-color-underline-visited-hover, #551a8b);
     }
   }
 }
