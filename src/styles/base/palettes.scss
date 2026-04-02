@@ -1,6 +1,6 @@
 @use "../qgds-tokens/" as *;
 
-:root,
+:where(.qgds),
 [data-qgds-theme="light"] {
   @extend %qgds-color-palette-global;
   @extend %qgds-color-palette-default !optional;

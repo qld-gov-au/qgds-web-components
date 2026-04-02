@@ -1,5 +1,5 @@
 // CSS keyframes animations, because these are global.
-@keyframes fade-in {
+@keyframes qgds-fade-in {
   from {
     opacity: 0;
   }
@@ -9,7 +9,7 @@
   }
 }
 
-@keyframes fade-out {
+@keyframes qgds-fade-out {
   from {
     opacity: 1;
   }
@@ -19,7 +19,7 @@
   }
 }
 
-@keyframes spin {
+@keyframes qgds-spin {
   to {
     transform: rotate(360deg);
   }
