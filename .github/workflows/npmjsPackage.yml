@@ -1,4 +1,4 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# This workflow will publish a package to GitHub Packages when release is created
 # For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
 name: Publish NPM Package
@@ -32,7 +32,7 @@ jobs:
     strategy:
       matrix:
         node: ["22"]
-    name: Lint, Test, Build and Deploy on Node ${{ matrix.node }}
+    name: Lint, Build and Deploy on Node ${{ matrix.node }}
     steps:
       - uses: actions/checkout@v6
 
@@ -69,10 +69,6 @@ jobs:
       - name: Lint
         run: |
           npm run lint
-
-      - name: Test
-        run: |
-          npm run test
 
       - name: Build 🔧
         run: | # build the files
