@@ -70,6 +70,9 @@ export abstract class QGDSFormField extends LitElement {
   @property({ type: Boolean, attribute: "readonly" })
   readOnly?: boolean = false;
 
+  @property({ type: Boolean, attribute: "native-validate" })
+  nativeValidate?: boolean = false;
+
   // ── Internals ──────────────────────────────────────────────────────────────
 
   protected _internals: ElementInternals;
@@ -150,7 +153,9 @@ export abstract class QGDSFormField extends LitElement {
   protected handleChange = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
     this._syncFormValue();
-    this._validateAndUpdateValidityState();
+    if (this._internalValidate) {
+      this._validateAndUpdateValidityState();
+    }
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
   };
@@ -163,8 +168,9 @@ export abstract class QGDSFormField extends LitElement {
     return this.value;
   }
 
-  private get _formNoValidate(): boolean {
-    return this._internals.form?.noValidate ?? false;
+  protected get _internalValidate(): boolean {
+    if (this._internals.form?.noValidate) return false;
+    return this.nativeValidate ?? false;
   }
 
   /**
@@ -189,7 +195,7 @@ export abstract class QGDSFormField extends LitElement {
 
   /** Override in subclasses to customise the validation message. */
   protected _getValidationMessage(): string | undefined {
-    if (this._formNoValidate) {
+    if (!this._internalValidate) {
       return this.validationMessage;
     }
     return this._nativeInput?.validationMessage ?? "";
@@ -202,7 +208,7 @@ export abstract class QGDSFormField extends LitElement {
    */
   protected _computeIsValid(): boolean {
     const input = this._nativeInput;
-    return input && !this._formNoValidate ? input.checkValidity() : true;
+    return input ? input.checkValidity() : true;
   }
 
   /** Auto-validation logic — syncs native input validity into ElementInternals. */
