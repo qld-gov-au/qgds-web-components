@@ -9,7 +9,7 @@ blockquote,
 pre,
 code,
 summary {
-  line-height: var(--line-height-default, 1.45);
+  line-height: var(--qgds-line-height-default, 1.45);
 }
 
 h1,
@@ -18,7 +18,7 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: var(--line-height-heading, 1.25);
+  line-height: var(--qgds-line-height-heading, 1.25);
 }
 
 a {

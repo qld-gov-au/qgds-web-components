@@ -16,16 +16,16 @@
   --qgds-link-decoration-thickness-hover: 2px;
 
   // Breakpoints
-  --breakpoint-xs: #{$breakpoint-xs};
-  --breakpoint-sm: #{$breakpoint-sm};
-  --breakpoint-md: #{$breakpoint-md};
-  --breakpoint-lg: #{$breakpoint-lg};
-  --breakpoint-xl: #{$breakpoint-xl};
+  --qgds-breakpoint-xs: #{$breakpoint-xs};
+  --qgds-breakpoint-sm: #{$breakpoint-sm};
+  --qgds-breakpoint-md: #{$breakpoint-md};
+  --qgds-breakpoint-lg: #{$breakpoint-lg};
+  --qgds-breakpoint-xl: #{$breakpoint-xl};
 
   // Line height utility
-  --line-height-default: 1.45;
-  --line-height-heading: 1.25;
-  --line-height-none: 1;
+  --qgds-line-height-default: 1.45;
+  --qgds-line-height-heading: 1.25;
+  --qgds-line-height-none: 1;
 }
 
 @include meta.load-css("../icons/icons.variables");
@@ -39,7 +39,7 @@ body {
   margin: 0;
   font-size: 1rem;
   font-family: var(--qgds-font-family);
-  line-height: var(--line-height-default);
+  line-height: var(--qgds-line-height-default);
   color: var(--qgds-color-text-default);
   -webkit-font-smoothing: antialiased;
 }

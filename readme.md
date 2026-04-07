@@ -74,6 +74,44 @@ To watch for updates while also running live reload in storybook, run this in a 
 npx cem analyze --watch
 ```
 
+## CSS Namespacing
+
+QGDS styles are namespaced to prevent collisions with host application styles or third-party libraries.
+
+### Rules
+
+- All CSS custom properties on `:root` use the `--qgds-` prefix (e.g. `--qgds-color-action-primary`, `--qgds-line-height-default`).
+- All global CSS classes use the `qgds-` prefix (e.g. `qgds-form-control`, `qgds-palette-default`).
+- Typography and element rules (`p`, `h1–h6`, `a`, etc.) are scoped to the `.qgds` container class and will not affect content outside it.
+
+### Integration
+
+Wrap your QGDS content in a container with the `qgds` class. Components themselves work anywhere — they use shadow DOM encapsulation — but the element-level typography styles only apply inside `.qgds`.
+
+```html
+<div class="qgds">
+  <!-- Typography rules apply here -->
+  <p>Styled by QGDS.</p>
+  <a href="#">Styled link</a>
+
+  <!-- Components work inside or outside .qgds -->
+  <qgds-button label="Submit"></qgds-button>
+</div>
+
+<!-- Unaffected by QGDS typography rules -->
+<p>Host application content, untouched.</p>
+```
+
+A palette class can be combined with the namespace class:
+
+```html
+<div class="qgds qgds-palette-default">
+  ...
+</div>
+```
+
+Storybook automatically applies both classes to every story via the global decorator in `.storybook/preview.ts`.
+
 ## VS Code Extensions
 
 See `.vscode/extension.json` for recommended extensions.
