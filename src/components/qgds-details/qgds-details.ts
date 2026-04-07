@@ -8,7 +8,7 @@ import "../qgds-icon/qgds-icon.js";
 
 import { QgdsEvents } from "../../utils/events/event-controller";
 
-export type DetailsSize = "xs" | "sm" | "md" | "lg";
+type DetailsSize = "xs" | "sm" | "md" | "lg";
 
 /**
  * Used to progressively disclose content behind a native browser details/summary disclosure widget.

@@ -6,8 +6,6 @@ import componentCSS from "./qgds-checkbox.styles.scss?inline";
 import { FormValidationState } from "../../../types/forms";
 import { classMap } from "lit/directives/class-map.js";
 
-export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
-
 /**
  * A styled checkbox input that works standalone or inside `<qgds-field-group>`.
  * Re-dispatches a composed `change` event from the host so `qgds-field-group`

@@ -8,7 +8,6 @@ import {
 } from "../qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
-export type QGDSCheckboxGroupProps = InstanceType<typeof QGDSCheckboxGroup>;
 
 /**
  * Headless group wrapper for `<qgds-checkbox>` elements.
