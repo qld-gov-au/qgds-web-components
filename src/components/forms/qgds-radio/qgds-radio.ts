@@ -5,8 +5,6 @@ import { FormValidationState } from "../../../types/forms";
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-radio.styles.scss?inline";
 
-export type QGDSRadioProps = InstanceType<typeof QGDSRadio>;
-
 /**
  * A styled radio input that works standalone or inside `<qgds-field-group>`.
  * Re-dispatches a composed `change` event from the host so `qgds-field-group`

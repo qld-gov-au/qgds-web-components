@@ -21,9 +21,6 @@ type CardActions = "none" | "single" | "mutiple";
 
 type CardFeatures = "arrow" | "leading-icon" | "stacked-icon" | "image" | "links" | "footer" | "footer-tags";
 
-/** Export the component's type for use in other files/stories */
-export type QGDSCardProps = InstanceType<typeof QGDSCard>;
-
 // ============================================================================
 // COMPONENT DOCUMENTATION
 // ============================================================================
