@@ -70,7 +70,7 @@ const preview: Preview = {
       const paletteName = context?.globals?.globalPalette || "default";
 
       return html`
-        <div class="qgds-palette-${paletteName}" style="padding: 2rem">${Story()}</div>
+        <div class="qgds qgds-palette-${paletteName}" style="padding: 2rem">${Story()}</div>
       `;
     },
   ],

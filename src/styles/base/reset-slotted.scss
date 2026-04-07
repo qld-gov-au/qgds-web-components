@@ -33,6 +33,6 @@ qgds-details {
   /* Interactive */
   a {
     color: var(--slotted-a-color, var(--qgds-color-link-default));
-    text-decoration: var(--slotted-a-text-decoration, var(--text-decoration, none));
+    text-decoration: var(--slotted-a-text-decoration, var(--qgds-link-decoration, none));
   }
 }

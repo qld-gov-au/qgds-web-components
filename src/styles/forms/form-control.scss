@@ -19,16 +19,9 @@
   --placeholder-fg-focus: var(--qgds-color-text-lighter, #636363);
 
   // Other variables
-  --border-top-width: 0.125rem;
-  --border-right-width: 0.125rem;
-  --border-bottom-width: 0.125rem;
-  --border-left-width: 0.125rem;
-  --border-width: var(--border-top-width) var(--border-right-width) var(--border-bottom-width) var(--border-left-width);
   --border-radius: 0.25rem;
 
-  // padding
-  --padding-y: #{f.remify(12px)};
-  --padding-x: #{f.remify(16px)};
+  @include m.border-padding(2px, f.remify(12px) f.remify(16px));
 
   appearance: none;
   font-size: f.remify(16px);
@@ -41,13 +34,9 @@
   border: {
     style: solid;
     color: var(--border);
-    width: var(--border-width); // stylelint-disable-line
     radius: var(--border-radius);
   }
 
-  // Calc for padding to align with design, which overlays border, and to ensure no pixel shift if border is removed.
-  padding-inline: calc(var(--padding-x) - var(--border-left-width)) calc(var(--padding-x) - var(--border-right-width));
-  padding-block: calc(var(--padding-y) - var(--border-top-width)) calc(var(--padding-y) - var(--border-bottom-width));
   transition: none; // no transitions until a holistic decision at design system level
 
   &::placeholder {

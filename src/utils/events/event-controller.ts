@@ -1,26 +1,19 @@
 /**
  * QGDS Events Controller
  
- * A lightweight central event dispatcher for QGDS components.
- *
- * This controller provides a typed low-level dispatcher for standardised event names.
- *
- * Features:
- * - **Auto-prefixing**: Prefixes event names (default: "qgds-").
- * - **Standardised Payloads**: Automatically attaches timestamps and handles analytics sanitisation.
+ * A lightweight central event dispatcher for QGDS components. This controller provides a typed low-level dispatcher for standardised event names.
  *
  * @example
- * // Initialization
+ * // Initialisation
  * events = new QgdsEvents(this);
  *
  * // Example with detail payload
  * this.events.dispatch("toggle", { open: true }, originalEvent);
  *
  * @param host - The component host element.
- * @param options - Configuration for prefixing, timestamps, and dataLayer integration.
- */
+ * @param options - Configuration for prefixing and timestamps.
+*/
 
-// Generic event payload type
 type EventPayload = Record<string, unknown>;
 
 export const EventNames = [
@@ -76,7 +69,7 @@ export class QgdsEvents {
   dispatch(
     name: QgdsControlledEventName, // Fixed type from 'typeof EventNames'
     detail: EventPayload = {},
-    originalEvent?: Event,
+    originalEvent?: Event
   ): boolean {
     // Adds prefix and ensures event name is valid
     const eventName = this.toEventName(name);
@@ -96,7 +89,7 @@ export class QgdsEvents {
         bubbles: true,
         composed: true,
         cancelable: true,
-      }),
+      })
     );
   }
 

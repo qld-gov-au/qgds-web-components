@@ -1,6 +1,6 @@
 @use "../qgds-tokens/" as *;
 
-:root,
+:where(.qgds),
 [data-qgds-theme="light"] {
   @extend %qgds-color-palette-global;
   @extend %qgds-color-palette-default !optional;
@@ -49,8 +49,3 @@
   background: var(--qgds-color-background);
   color: var(--qgds-color-text-default);
 }
-
-// [data-qgds-theme=dark] {
-//   @extend %qgds-color-palette-dark-global;
-//   @extend %qgds-color-palette-dark-bright; // weird huh?
-// }

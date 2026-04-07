@@ -458,27 +458,37 @@ export const AutoValidation: Story = {
         hint="Required"
         indicate-if="required"
         required
+        native-validate
       ></qgds-text-input>
 
-      <qgds-select id="av-pet" name="av-pet" label="Favourite pet" hint="Required" indicate-if="required" required>
+      <qgds-select
+        id="av-pet"
+        name="av-pet"
+        label="Favourite pet"
+        hint="Required"
+        indicate-if="required"
+        required
+        native-validate
+      >
         <qgds-select-option value="dog" label="Dog"></qgds-select-option>
         <qgds-select-option value="cat" label="Cat"></qgds-select-option>
         <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
       </qgds-select>
 
-      <qgds-radio-group
+      <qgds-checkbox-group
         id="av-priority"
         name="av-priority"
         label="Priority"
         hint="Required"
         indicate-if="required"
         required
-        @qgds-change=${action("radio-group:qgds-change")}
+        native-validate
+        @qgds-change=${action("checkbox-group:qgds-change")}
       >
-        <qgds-radio value="low" label="Low"></qgds-radio>
-        <qgds-radio value="medium" label="Medium"></qgds-radio>
-        <qgds-radio value="high" label="High"></qgds-radio>
-      </qgds-radio-group>
+        <qgds-checkbox value="low" label="Low"></qgds-checkbox>
+        <qgds-checkbox value="medium" label="Medium"></qgds-checkbox>
+        <qgds-checkbox value="high" label="High"></qgds-checkbox>
+      </qgds-checkbox-group>
 
       <div style=${buttonRowStyle}>
         <button type="submit" style=${buttonStyle}>Validate &amp; Submit</button>

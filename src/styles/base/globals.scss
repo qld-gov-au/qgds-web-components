@@ -1,7 +1,6 @@
 @use "sass:map";
+@use "sass:meta";
 @use "../qgds-tokens/" as *;
-
-// reset and/or normalize styles, box-sizing definition, etc. This is the first layer which generates actual CSS.
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -10,27 +9,29 @@
   --qgds-list-padding: 1.5rem; // Custom property for list padding, default to 1.5rem
 
   // Text decoration for links and interactive elements
-  --text-decoration: underline;
-  --text-decoration-hover: underline;
-  --text-underline-offset: 0.3em;
-  --text-decoration-thickness: 0.5px;
-  --text-decoration-thickness-hover: 2px;
+  --qgds-link-decoration: underline;
+  --qgds-link-decoration-hover: underline;
+  --qgds-link-underline-offset: 0.3em;
+  --qgds-link-decoration-thickness: 0.5px;
+  --qgds-link-decoration-thickness-hover: 2px;
 
   // Breakpoints
-  --breakpoint-xs: $qgds-media-xs;
-  --breakpoint-sm: $qgds-media-sm;
-  --breakpoint-md: $qgds-media-md;
-  --breakpoint-lg: $qgds-media-lg;
-  --breakpoint-xl: $qgds-media-xl;
+  --qgds-breakpoint-xs: #{$breakpoint-xs};
+  --qgds-breakpoint-sm: #{$breakpoint-sm};
+  --qgds-breakpoint-md: #{$breakpoint-md};
+  --qgds-breakpoint-lg: #{$breakpoint-lg};
+  --qgds-breakpoint-xl: #{$breakpoint-xl};
 
   // Line height utility
-  --line-height-default: 1.5;
-  --line-height-heading: 1.25;
-  --line-height-none: 1;
+  --qgds-line-height-default: 1.45;
+  --qgds-line-height-heading: 1.25;
+  --qgds-line-height-none: 1;
 }
 
+@include meta.load-css("../icons/icons.variables");
+
+// Global Styling for HTML elements - generic/global namespace primary for body content
 html {
-  box-sizing: border-box;
   font-size: 100%;
 }
 
@@ -38,6 +39,7 @@ body {
   margin: 0;
   font-size: 1rem;
   font-family: var(--qgds-font-family);
-  line-height: var(--line-height-default);
+  line-height: var(--qgds-line-height-default);
   color: var(--qgds-color-text-default);
+  -webkit-font-smoothing: antialiased;
 }

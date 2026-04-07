@@ -1,7 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { resetStyles } from "../../styles";
+import { baseStyles } from "../../styles";
 import { semanticHeading } from "../../utils";
 
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
@@ -28,7 +28,7 @@ export type QGDSInpageNavProps = InstanceType<typeof QGDSInpageNav>;
 @customElement("qgds-inpage-nav")
 export class QGDSInpageNav extends LitElement {
   static styles = [
-    resetStyles,
+    baseStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,

@@ -10,8 +10,7 @@ import "./qgds-details.ts";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } =
-  getStorybookHelpers<QGDSDetails>("qgds-details");
+const { args, argTypes, template } = getStorybookHelpers<QGDSDetails>("qgds-details");
 
 /**
  * Storybook args interface using kebab-case attribute names from CEM.
@@ -20,7 +19,8 @@ const { args, argTypes, template } =
 type QGDSDetailsStoryArgs = typeof args;
 
 const meta: Meta<QGDSDetailsStoryArgs> = {
-  title: "Components/QGDS Details",
+  title: "Components/Details",
+  component: "qgds-details",
   tags: ["autodocs"],
   args: {
     ...args,
@@ -31,9 +31,9 @@ const meta: Meta<QGDSDetailsStoryArgs> = {
     template(
       storyArgs,
       html`<p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum
-        efficitur egestas. Aenean sed pretium mauris.
-      </p>`,
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum efficitur egestas. Aenean sed pretium
+        mauris.
+      </p>`
     ),
 };
 
@@ -81,7 +81,7 @@ export const RichContent: Story = {
           <li>Recent utility bill or bank statement</li>
           <li>Tax file number — <a href="#">how to find your TFN</a></li>
         </ul>
-      `,
+      `
     ),
 };
 
@@ -94,8 +94,7 @@ export const EventDispatch: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "Open and close the details element, then inspect emitted events in the Actions panel.",
+        story: "Open and close the details element, then inspect emitted events in the Actions panel.",
       },
     },
   },
@@ -106,7 +105,8 @@ export const EventDispatch: Story = {
         size="${ifDefined(storyArgs.size)}"
         id="input-helper-1"
         name="whatever"
-        data-test="2024-06-20">
+        data-test="2024-06-20"
+      >
         <p>Open and close this disclosure, then check Storybook Actions.</p>
       </qgds-details>
     </div>

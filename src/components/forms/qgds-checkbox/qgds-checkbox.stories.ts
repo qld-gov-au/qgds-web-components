@@ -12,7 +12,8 @@ const { args, argTypes } = getStorybookHelpers<QGDSCheckbox>("qgds-checkbox");
 type QGDSCheckboxStoryArgs = typeof args;
 
 const meta: Meta<QGDSCheckboxStoryArgs> = {
-  title: "Components/QGDS Checkbox",
+  title: "Components/Forms/Checkbox",
+  component: "qgds-checkbox",
   tags: ["autodocs"],
   args: {
     ...args,

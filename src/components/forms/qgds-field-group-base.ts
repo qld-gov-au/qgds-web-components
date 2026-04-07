@@ -30,9 +30,11 @@ export interface ResolvedInput {
  * `<qgds-radio-group>` instead.
  */
 export abstract class QGDSFieldGroupBase extends QGDSFormField {
+
   // Calls the subclass override — prototype dispatch is dynamic even during
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
+
 
   /** Return the starting value for this group type. */
   protected abstract _initialValue(): FieldGroupValue;
@@ -91,13 +93,16 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    */
   protected override _getValidationMessage(): string | undefined {
     if (!this.required) return "";
-    return this._groupHasValue() ? "" : "This field is required.";
+    return this._groupHasValue() ? "" : this.requiredErrorMessage;
   }
 
   /**
    * Override to validate against `_value` without touching `nativeInput`.
    * Groups have no single native input element — validity is computed
    * directly from the aggregated selection state.
+   *
+   * Uses the first slotted input as the `validationAnchor` so the browser
+   * can focus it directly during form-submission validation.
    */
   protected override _validateAndUpdateValidityState(): void {
     const hasValue = this._groupHasValue();
@@ -105,7 +110,8 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     const message = this._getValidationMessage();
 
     if (!isValid) {
-      this._internals.setValidity({ valueMissing: true }, message);
+      const anchorElement = this._getFirstSlottedInputElement();
+      this._internals.setValidity({ valueMissing: true }, message, anchorElement);
     } else {
       this._internals.setValidity({});
     }
@@ -129,6 +135,41 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
     this.validationMessage = undefined;
   }
 
+  override focus(): void {
+    this._focusFirstInput();
+  }
+
+  /**
+   * Get the first slotted input element for use as validation anchor.
+   * Returns the actual HTMLInputElement (either native or from custom element's shadow DOM).
+   */
+  private _getFirstSlottedInputElement(): HTMLElement | undefined {
+    const firstInput = this.querySelector<HTMLInputElement | (Element & { focus(): void })>(
+      this.groupItemName
+    );
+
+    if (!firstInput) return undefined;
+
+    // If it's a native input, return it directly
+    if (firstInput instanceof HTMLInputElement) {
+      return firstInput;
+    }
+
+    // If it's a custom element with shadow DOM, try to get its internal input
+    if (firstInput instanceof HTMLElement && firstInput.shadowRoot) {
+      const shadowInput = firstInput.shadowRoot.querySelector('input');
+      if (shadowInput) return shadowInput;
+    }
+
+    // Fallback to the custom element itself
+    return firstInput instanceof HTMLElement ? firstInput : undefined;
+  }
+
+  private _focusFirstInput = (): void => {
+    const firstInput = this._getFirstSlottedInputElement();
+    firstInput?.focus();
+  };
+
   private _handleChange = (e: Event): void => {
     e.stopPropagation();
 
@@ -138,12 +179,16 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     this._applyChange(input, source);
     this._syncFormValue();
-    this._validateAndUpdateValidityState();
+    if (this._internalValidate) {
+      this._validateAndUpdateValidityState();
+    }
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._value }, e);
   };
 
   protected abstract groupItemName: string;
+
+  protected requiredErrorMessage = "This field is required.";
 
   protected update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
@@ -163,6 +208,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
   }
 
   renderInput() {
+    // Directly slot the inputs - validation anchor points to the first slotted input
     return html`<slot></slot>`;
   }
 }

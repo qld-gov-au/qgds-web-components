@@ -1,0 +1,214 @@
+:host {
+  --pagination-justify-content: flex-start;
+
+  /* Container query setup for responsive behaviour */
+  display: block;
+  container-type: inline-size;
+  container-name: pagination;
+}
+
+.pagination {
+  --pg-border: var(--qgds-color-action-primary);
+  --pg-link-fg: var(--qgds-color-link-default);
+  --icon-fg: var(--qgds-color-action-secondary);
+  --icon-hover-fg: var(--qgds-color-action-secondary-hover);
+  --pg-border-radius: 4px;
+  --pg-size: 2rem; /* Standardizing size */
+
+  display: flex;
+  justify-content: var(--pagination-justify-content);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0.75rem;
+}
+
+/* Base Link Styles */
+.base-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: var(--pg-size);
+  text-decoration: none;
+  border-radius: var(--pg-border-radius);
+  box-sizing: border-box;
+}
+
+.base-icon {
+  inline-size: var(--pg-size);
+  block-size: var(--pg-size);
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+/* Page Numbers (1, 2, 3) */
+.page-link {
+  /* Dimensions */
+  inline-size: var(--pg-size); /* 2rem / 32px */
+  block-size: var(--pg-size);
+
+  /* Reset border to 0 to ensure box-shadow starts at the absolute edge */
+  border: none;
+
+  /* State 1: 1px "Border" sitting at the 32px perimeter */
+  box-shadow: inset 0 0 0 1px var(--qgds-color-border);
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--pg-link-fg);
+  transition:
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  /* Interactive states */
+  &:hover,
+  &:focus {
+    /* State 2: Shadow grows to 2px internally. The footprint remains exactly 32px. */
+    box-shadow: inset 0 0 0 2px var(--qgds-color-action-secondary);
+    text-decoration: none;
+  }
+
+  &:focus {
+    /* Focus ring should usually be external to avoid clashing with the internal shadow */
+    outline: 2px solid var(--qgds-color-focus-default);
+    outline-offset: 2px;
+  }
+
+  &.active {
+    /* State 3: Active page usually loses the inner border for a solid fill */
+    background: var(--qgds-color-action-primary);
+    color: var(--qgds-color-link-on-action);
+    box-shadow: none;
+    font-weight: var(--qgds-fw-bold, 700);
+
+    &:hover,
+    &:focus {
+      box-shadow: var(--qgds-elevation-1);
+      background: var(--qgds-color-action-primary-hover);
+    }
+  }
+}
+
+.page-link-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Prev/Next Navigation */
+.prev-link,
+.next-link {
+  gap: 0.25rem;
+  color: var(--pg-link-fg);
+  text-decoration: underline 1px var(--pg-link-fg);
+  text-underline-offset: 0.2em;
+
+  .base-icon {
+    color: var(--icon-fg);
+    transition: color 0.2s ease;
+  }
+
+  &:hover .base-icon {
+    --qgds-icon-color: var(--icon-hover-fg);
+  }
+
+  &.is-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+    text-decoration: none;
+  }
+}
+
+.prev-link {
+  /* Creates additional space between "Back" label and Page 1 (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-end: 0.25rem;
+}
+
+.next-link {
+  /* Creates additional space between "Next" label and last page (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-start: 0.25rem;
+}
+
+/* Focus State (Unified) */
+.page-link:focus,
+.prev-link:focus,
+.next-link:focus {
+  outline: 2px solid var(--qgds-color-focus-default);
+  outline-offset: 2px;
+}
+
+/* Visually hide non-pinned page items */
+.page-item {
+  display: none;
+
+  &.is-pinned-desktop,
+  &.is-active,
+  &.page-more-leading,
+  &.page-more-trailing {
+    display: flex;
+  }
+}
+
+.is-start-range .page-item.page-more-leading {
+  display: none;
+}
+
+.is-end-range .page-item.page-more-trailing {
+  display: none;
+}
+
+/********** Responsive **********/
+@container pagination (max-width: 480px) {
+  /* Hides all pinned items */
+  .page-item.is-pinned-desktop {
+    display: none;
+  }
+
+  /* Displays all pinned-mobile items */
+  .page-item.is-pinned-mobile {
+    display: flex;
+  }
+
+  .page-item.page-more-leading,
+  .is-start-range .page-item.page-more-leading {
+    display: flex;
+  }
+
+  .page-item.page-more-trailing,
+  .is-end-range .page-item.page-more-trailing {
+    display: flex;
+  }
+
+  .is-mobile-start-range .page-item.page-more-leading,
+  .is-mobile-end-range .page-item.page-more-trailing {
+    display: none;
+  }
+}
+
+@container pagination (max-width: 400px) {
+  /* Hides Prev and Next labels on smaller container, relying on icons only for prev/next */
+  .prev-link,
+  .next-link {
+    .label {
+      display: none;
+    }
+
+    /* Remove extra padding when labels are hidden */
+    padding-inline: 0;
+  }
+}
+
+@container pagination (max-width: 280px) {
+  /* Edge case at very small viewports, reduces page gaps */
+  .pagination {
+    gap: 0.5rem;
+  }
+
+  .prev-link,
+  .next-link {
+    padding-inline: 0;
+  }
+}

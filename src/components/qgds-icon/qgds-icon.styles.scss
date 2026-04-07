@@ -15,7 +15,7 @@
 .qgds-icon {
   display: flex;
   inline-size: var(--_qgds-icon-size); // set as dynamic style prop in component logic
-  line-height: var(--line-height-none, 1);
+  line-height: var(--qgds-line-height-none, 1);
   block-size: var(--_qgds-icon-size);
   background-position: center center;
   background-repeat: no-repeat;
@@ -26,7 +26,7 @@
   vertical-align: top;
   mask-image: var(--qgds-icon-svg);
   color: var(--qgds-icon-color);
-  background-color: currentcolor;
+  background-color: currentColor;
 }
 
 /* Multicolour icons use background-image instead of mask-image */
