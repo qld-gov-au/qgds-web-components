@@ -1,13 +1,20 @@
 {
   "name": "@qld-gov-au/qgds-web-components",
-  "version": "0.3.0-alpha",
+  "version": "0.3.1",
   "description": "Queensland Government Design System (QGDS) - Web Components",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qld-gov-au/qgds-web-components.git"
+    "url": "git+https://github.com/qld-gov-au/qgds-web-components.git"
   },
   "type": "module",
-  "main": "src/index.ts",
+  "main": "./dist/assets/js/qgds-web-components.js",
+  "module": "./dist/assets/js/qgds-web-components.js",
+  "exports": {
+    ".": {
+      "default": "./dist/assets/js/qgds-web-components.js"
+    },
+    "./styles.css": "./dist/assets/css/qgds-web-components.css"
+  },
   "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
@@ -24,6 +31,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --stats-json",
     "chromatic": "chromatic --build-script-name build-storybook",
+    "chromatic:storybooks": "node scripts/list-chromatic-stories.js",
     "lint": "npm run lint:ts && npm run lint:styles",
     "lint:ts": "eslint . --max-warnings 0",
     "lint:ts:fix": "eslint . --fix",
@@ -73,6 +81,10 @@
     "vite-plugin-static-copy": "^3.1.4",
     "vitest": "^4.0.14"
   },
+  "files":[
+    "dist",
+    "custom-elements.json"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
