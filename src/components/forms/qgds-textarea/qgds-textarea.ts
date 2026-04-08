@@ -1,4 +1,4 @@
-import { html, TemplateResult, nothing, css, unsafeCSS } from "lit";
+import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -60,9 +60,8 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
       minlength=${ifDefined(this.minLength)}
       aria-describedby="${ifDefined(this._ariaDescribedBy)}"
       @change=${this.handleChange}
-    >
-${this.value ?? nothing}</textarea
-    >`;
+      .value=${this.value ?? ""}
+    ></textarea>`;
   }
 }
 
