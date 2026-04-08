@@ -52,8 +52,6 @@
 
     // add units to $padding if 0
     @for $i from 1 through list.length($padding) {
-      @debug list.nth($padding, $i);
-      @debug meta.type-of(list.nth($padding, $i));
       @if math.is-unitless(list.nth($padding, $i)) {
         $padding: list.set-nth($padding, $i, list.nth($padding, $i) * 1px);
       }

@@ -11,8 +11,6 @@ import "../qgds-icon/qgds-icon";
 import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-pagination.styles.scss?inline";
 
-export type QGDSPaginationProps = InstanceType<typeof QGDSPagination>;
-
 /** Renders pagination controls and emits navigation intents.
  *
  * @uikit pagination
