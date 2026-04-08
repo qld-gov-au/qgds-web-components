@@ -15,8 +15,8 @@ on:
         type: choice
         description: Manually Publish Version
         options:
-          - No
-          - Yes
+          - "No"
+          - "Yes"
       release_tag:
         type: choice
         description: NPM dist-tag to publish under
@@ -163,5 +163,18 @@ jobs:
       - name: Publish - Skipped
         if: ${{ env.DO_DEPLOYMENT != 'true' }}
         run: |
-          echo "### Publish skipped" >> $GITHUB_STEP_SUMMARY
-          echo "DO_DEPLOYMENT: github.event_name: ${{ github.event_name != 'workflow_dispatch'}} || github.event.inputs.force: ${{ github.event.inputs.force == 'Yes' }}"  >> $GITHUB_STEP_SUMMARY
+          {
+            echo "### Publish skipped"
+            echo ""
+            echo "| Check | Result |"
+            echo "|---|---|"
+            echo "| github.event_name | ${{ github.event_name }} |"
+            echo "| github.repository | ${{ github.repository }} |"
+            echo "| github.event.inputs.force | ${{ github.event.inputs.force }} |"
+            echo "| github.event.inputs.release_tag | ${{ github.event.inputs.release_tag }} |"
+            echo "| is_workflow_dispatch | ${{ github.event_name == 'workflow_dispatch' }} |"
+            echo "| is_target_repo | ${{ github.repository == 'qld-gov-au/qgds-web-components' }} |"
+            echo "| force_is_Yes | ${{ github.event.inputs.force == 'Yes' }} |"
+            echo "| tag_is_alpha | ${{ github.event.inputs.release_tag == 'alpha' }} |"
+            echo "| DO_DEPLOYMENT | ${{ env.DO_DEPLOYMENT }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
