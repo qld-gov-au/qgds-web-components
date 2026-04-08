@@ -25,10 +25,10 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 @customElement("qgds-blockquote")
 export class QGDSBlockquote extends LitElement {
   @property({ type: String, attribute: "reference-url", useDefault: true })
-  referenceURL: string = "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes";
+  referenceURL: string = "";
 
   @property({ type: String, reflect: true, attribute: "reference-text", useDefault: true })
-  referenceText: string = "Sir Tim Berners-Lee";
+  referenceText: string = "";
 
   static styles = [
     baseStyles,
