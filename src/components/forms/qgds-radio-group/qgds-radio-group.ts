@@ -8,7 +8,6 @@ import {
 } from "../qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
-export type QGDSRadioGroupProps = InstanceType<typeof QGDSRadioGroup>;
 
 /**
  * Headless group wrapper for `<qgds-radio>` elements.
