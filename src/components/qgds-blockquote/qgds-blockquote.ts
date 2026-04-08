@@ -17,10 +17,10 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
  *
  * @slot - Default content slot accepts general typographic HTML content, including paragraphs, lists, and links.
  *
- * @cssprop {color} --blockquote-background - Override the background color of the blockquote.
- * @cssprop {color} --blockquote-border - Override the border color of the blockquote.
- * @cssprop {color} --blockquote-text - Override the text color within the blockquote.
- * @cssprop {color} --blockquote-reference - Override the reference text color within the blockquote.
+ * @cssprop {color} --bg - Override the background color of the blockquote.
+ * @cssprop {color} --border - Override the border color of the blockquote.
+ * @cssprop {color} --fg - Override the text color within the blockquote.
+ * @cssprop {color} --reference-fg - Override the reference text color within the blockquote.
  */
 
 @customElement("qgds-blockquote")
