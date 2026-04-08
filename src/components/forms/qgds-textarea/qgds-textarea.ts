@@ -60,7 +60,7 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
       minlength=${ifDefined(this.minLength)}
       aria-describedby="${ifDefined(this._ariaDescribedBy)}"
       @change=${this.handleChange}
-      .value=${this.value}
+      .value=${this.value ?? ""}
     ></textarea>`;
   }
 }
