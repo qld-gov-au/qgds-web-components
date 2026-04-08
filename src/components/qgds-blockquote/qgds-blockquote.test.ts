@@ -14,11 +14,14 @@ describe("qgds-blockquote", () => {
     element.remove();
   });
 
-  it("should render with default properties", async () => {
-    // Wait for the component to complete its first render
+  it("renders custom reference url and text", async () => {
+    element.setAttribute(
+      "reference-url",
+      "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes"
+    );
+    element.setAttribute("reference-text", "Sir Tim Berners-Lee");
     await element.updateComplete;
 
-    // Verify default property values
     expect(element.referenceURL).toBe(
       "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes"
     );
