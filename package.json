@@ -44,6 +44,7 @@
     "@types/node": "^24.10.1",
     "@vitest/browser-playwright": "^4.0.14",
     "@vitest/coverage-v8": "^4.0.14",
+    "@vitest/ui": "^4.0.14",
     "@wc-toolkit/cem-utilities": "^1.5.4",
     "@wc-toolkit/jsdoc-tags": "^1.1.0",
     "@wc-toolkit/storybook-helpers": "^10.0.0",
