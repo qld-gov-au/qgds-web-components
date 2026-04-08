@@ -1,8 +1,9 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-blockquote.styles.scss?inline";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 
@@ -24,10 +25,10 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 
 @customElement("qgds-blockquote")
 export class QGDSBlockquote extends LitElement {
-  @property({ type: String, attribute: "reference-url", useDefault: true })
+  @property({ type: String, attribute: "reference-url" })
   referenceURL: string = "";
 
-  @property({ type: String, reflect: true, attribute: "reference-text", useDefault: true })
+  @property({ type: String, attribute: "reference-text" })
   referenceText: string = "";
 
   static styles = [
@@ -39,9 +40,9 @@ export class QGDSBlockquote extends LitElement {
 
   render() {
     return html`
-      <figure class="blockquote">
-        <blockquote cite="${this.referenceURL}"><slot></slot></blockquote>
-        <figcaption class="quote-source">${this.referenceText}</figcaption>
+      <figure>
+        <blockquote cite="${ifDefined(this.referenceURL)}"><slot></slot></blockquote>
+        ${this.referenceText ? html`<figcaption>${this.referenceText}</figcaption>` : nothing}
       </figure>
     `;
   }

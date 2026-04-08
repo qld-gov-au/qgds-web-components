@@ -1,23 +1,24 @@
 @use "../../styles/tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-blockquote { --background: pink; }
 :host {
   // Fallback values align with QGDS design tokens
-  --blockquote-background: var(--qgds-color-background, #f5f5f5);
-  --blockquote-text: var(--qgds-color-text-heading, #000053);
-  --blockquote-reference: var(--qgds-color-text-default, #353535);
-  --blockquote-border: var(--qgds-color-accent-design-accent, #0078d4);
+  --bg: var(--qgds-color-background, #f5f5f5);
+  --fg: var(--qgds-color-text-heading, #000053);
+  --reference-fg: var(--qgds-color-text-default, #353535);
+  --border: var(--qgds-color-accent-design-accent, #0078d4);
 }
 
 // Component container
 figure {
   @include m.border-padding(0 0 0 4px, 0.5rem 1rem 0.5rem 2rem);
 
-  border-color: var(--blockquote-border);
+  border-color: var(--border);
   border-style: solid;
-  background: var(--blockquote-background);
-  color: var(--blockquote-text);
+  background: var(--bg);
+  color: var(--fg);
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -31,15 +32,15 @@ figure {
 }
 
 blockquote {
-  color: var(--blockquote-text);
+  color: var(--fg);
   font-weight: 600;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: f.snap-line-height(1.4);
 }
 
 figcaption {
-  color: var(--blockquote-reference);
+  color: var(--reference-fg);
   font-size: 0.875rem;
-  line-height: 1.25rem;
+  line-height: f.snap-line-height(1.5);
   font-weight: 400;
 }
