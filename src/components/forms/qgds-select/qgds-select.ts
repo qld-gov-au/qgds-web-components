@@ -10,26 +10,6 @@ import { QGDSSelectOptgroup } from "./qgds-select-optgroup";
 import { FormVariant, IFormControl } from "../../../types/forms";
 
 /**
- * Event detail for change events
- */
-export interface QGDSSelectChangeDetail {
-  value: string | string[];
-  multiple: boolean;
-}
-
-/**
- * Custom change event
- */
-export type QGDSSelectChangeEvent = CustomEvent<QGDSSelectChangeDetail>;
-
-/**
- * Event map for type-safe event listeners
- */
-export interface QGDSSelectEventMap {
-  change: QGDSSelectChangeEvent;
-}
-
-/**
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
