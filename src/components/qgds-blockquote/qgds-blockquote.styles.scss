@@ -7,7 +7,7 @@
   // Fallback values align with QGDS design tokens
   --bg: var(--qgds-color-background, #f5f5f5);
   --fg: var(--qgds-color-text-heading, #000053);
-  --reference-fg: var(--qgds-color-text-default, #353535);
+  --cite-fg: var(--qgds-color-text-default, #353535);
   --border: var(--qgds-color-accent-design-accent, #0078d4);
 }
 
@@ -39,7 +39,7 @@ blockquote {
 }
 
 figcaption {
-  color: var(--reference-fg);
+  color: var(--cite-fg);
   font-size: 0.875rem;
   line-height: f.snap-line-height(1.5);
   font-weight: 400;

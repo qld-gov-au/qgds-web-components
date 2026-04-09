@@ -14,18 +14,13 @@ describe("qgds-blockquote", () => {
     element.remove();
   });
 
-  it("renders custom reference url and text", async () => {
-    element.setAttribute(
-      "reference-url",
-      "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes"
-    );
-    element.setAttribute("reference-text", "Sir Tim Berners-Lee");
+  it("renders custom cite and cite-label", async () => {
+    element.setAttribute("cite", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
+    element.setAttribute("cite-label", "Sir Tim Berners-Lee");
     await element.updateComplete;
 
-    expect(element.referenceURL).toBe(
-      "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes"
-    );
-    expect(element.referenceText).toBe("Sir Tim Berners-Lee");
+    expect(element.cite).toBe("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
+    expect(element.citeLabel).toBe("Sir Tim Berners-Lee");
   });
 
   it("renders HTML passed to the slot", async () => {

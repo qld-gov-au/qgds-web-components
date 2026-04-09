@@ -25,7 +25,7 @@ export default meta;
 export const Default: Story = {
   args: {
     "default-slot": "<p>This is an important blockquote message.</p>",
-    "reference-text": "Source: John Doe, 2024",
-    "reference-url": "https://example.com/source",
+    "cite-label": "Source: John Doe, 2024",
+    cite: "https://example.com/source",
   },
 };

@@ -12,24 +12,24 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=133254-206549&t=FIwjIg0V3JbsLmNw-0
  *
- * @property {string} referenceURL - The URL of the source of the quote
- * @property {string} referenceText - The text for the citation
+ * @property {string} cite - The URL of the source of the quote
+ * @property {string} citeLabel - The text for the citation
  *
  * @slot - Default content slot accepts general typographic HTML content, including paragraphs, lists, and links.
  *
  * @cssprop {color} --bg - Override the background color of the blockquote.
  * @cssprop {color} --border - Override the border color of the blockquote.
  * @cssprop {color} --fg - Override the text color within the blockquote.
- * @cssprop {color} --reference-fg - Override the reference text color within the blockquote.
+ * @cssprop {color} --cite-fg - Override the citation text color within the blockquote.
  */
 
 @customElement("qgds-blockquote")
 export class QGDSBlockquote extends LitElement {
-  @property({ type: String, attribute: "reference-url" })
-  referenceURL: string = "";
+  @property({ type: String, attribute: "cite" })
+  cite: string = "";
 
-  @property({ type: String, attribute: "reference-text" })
-  referenceText: string = "";
+  @property({ type: String, attribute: "cite-label" })
+  citeLabel: string = "";
 
   static styles = [
     baseStyles,
@@ -41,8 +41,8 @@ export class QGDSBlockquote extends LitElement {
   render() {
     return html`
       <figure>
-        <blockquote cite="${ifDefined(this.referenceURL)}"><slot></slot></blockquote>
-        ${this.referenceText ? html`<figcaption>${this.referenceText}</figcaption>` : nothing}
+        <blockquote cite="${ifDefined(this.cite)}"><slot></slot></blockquote>
+        ${this.citeLabel ? html`<figcaption>${this.citeLabel}</figcaption>` : nothing}
       </figure>
     `;
   }
