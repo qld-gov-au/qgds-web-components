@@ -9,7 +9,7 @@ import "../qgds-icon/qgds-icon.js";
 
 import { QgdsEvents } from "../../utils/events/event-controller";
 
-type DetailsSize = "xs" | "sm" | "md" | "lg";
+type DetailsSize = "sm" | "md" | "lg" | "xl";
 
 /**
  * Used to progressively disclose content behind a native browser details/summary disclosure widget.
@@ -17,7 +17,7 @@ type DetailsSize = "xs" | "sm" | "md" | "lg";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
  * @property {string} [summary-text] - The visible label shown in the summary trigger.
- * @property {DetailsSize} [size] - Size variant controlling height and font size ("xs", "sm", "md", "lg"). Default is "sm".
+ * @property {DetailsSize} [size] - Size variant controlling height and font size ("sm", "md", "lg", "xl"). Default is "sm".
  *
  * @slot - Default slot accepts general typographic HTML content (paragraphs, lists, links).
  *
@@ -50,7 +50,7 @@ export class QGDSDetails extends LitElement {
   @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";
 
-  @property({ type: String, useDefault: true })
+  @property({ type: String, reflect: true, useDefault: true })
   size: DetailsSize = "sm";
 
   @property({ type: String, attribute: "aria-label" })

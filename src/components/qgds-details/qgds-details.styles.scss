@@ -25,11 +25,6 @@ Scoped CSS: qgds-details
 }
 
 // Size variants — only box size and font scale; icon stays at sm
-:host([size="xs"]) {
-  --min-block-size: 2rem;
-  --font-size: 0.75rem;
-}
-
 :host([size="sm"]) {
   --min-block-size: 2.25rem;
   --font-size: 0.875rem;

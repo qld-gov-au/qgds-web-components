@@ -51,9 +51,6 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <qgds-details summary-text="Tiny (xs)" size="xs">
-        <p>Content inside a small details component.</p>
-      </qgds-details>
       <qgds-details summary-text="Small (sm)" size="sm">
         <p>Content inside a small details component.</p>
       </qgds-details>
@@ -62,6 +59,9 @@ export const Sizes: Story = {
       </qgds-details>
       <qgds-details summary-text="Large (lg)" size="lg">
         <p>Content inside a large details component.</p>
+      </qgds-details>
+      <qgds-details summary-text="Extra Large (xl)" size="xl">
+        <p>Content inside an extra large details component.</p>
       </qgds-details>
     </div>
   `,

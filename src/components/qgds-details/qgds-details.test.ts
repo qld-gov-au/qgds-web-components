@@ -47,15 +47,17 @@ describe("qgds-details", () => {
 
     const details = element.shadowRoot?.querySelector("details");
     expect(details).toBeTruthy();
-    if (!details) {
-      throw new Error("details element was not rendered");
+
+    if (details) {
+      // Manually trigger toggle events to test event handling
+      details.open = true;
+      details.dispatchEvent(new Event("toggle", { bubbles: true, composed: true }));
+      await element.updateComplete;
+
+      details.open = false;
+      details.dispatchEvent(new Event("toggle", { bubbles: true, composed: true }));
+      await element.updateComplete;
     }
-
-    details.open = true;
-    details.dispatchEvent(new Event("toggle", { bubbles: true }));
-
-    details.open = false;
-    details.dispatchEvent(new Event("toggle", { bubbles: true }));
 
     expect(qgdsToggleDetails.map((detail) => detail.open)).toEqual([true, false]);
     expect(qgdsToggleDetails[0]?.id).toBe("details-1");
@@ -72,25 +74,45 @@ describe("qgds-details", () => {
   });
 
   it("applies size variants correctly", async () => {
-    // Test xs
-    element.size = "xs";
-    await element.updateComplete;
-    expect(element.size).toBe("xs");
+    const summary = element.shadowRoot?.querySelector("summary div");
+    const icon = element.shadowRoot?.querySelector("qgds-icon");
+    expect(summary).toBeTruthy();
+    expect(icon).toBeTruthy();
+
+    // Helper to get the --font-size CSS custom property value
+    const getFontSizeVar = () => {
+      const styles = getComputedStyle(element);
+      return styles.getPropertyValue("--font-size").trim();
+    };
 
     // Test sm (default)
     element.size = "sm";
     await element.updateComplete;
-    expect(element.size).toBe("sm");
+    expect(getFontSizeVar()).toBe("0.875rem");
+    expect(icon?.getAttribute("size")).toBe("sm"); // Icon stays sm
 
     // Test md
     element.size = "md";
     await element.updateComplete;
-    expect(element.size).toBe("md");
+    expect(getFontSizeVar()).toBe("1rem");
+    expect(icon?.getAttribute("size")).toBe("sm");
 
     // Test lg
     element.size = "lg";
     await element.updateComplete;
-    expect(element.size).toBe("lg");
+    expect(getFontSizeVar()).toBe("1.25rem");
+    expect(icon?.getAttribute("size")).toBe("sm");
+
+    // Test xl
+    element.size = "xl";
+    await element.updateComplete;
+    expect(getFontSizeVar()).toBe("1.5rem");
+    expect(icon?.getAttribute("size")).toBe("sm");
+
+    // Verify font-size is actually applied to summary text
+    if (summary) {
+      expect(getComputedStyle(summary).fontSize).not.toBe("");
+    }
   });
 
   it("renders chevron icon", async () => {
@@ -122,27 +144,26 @@ describe("qgds-details", () => {
     await element.updateComplete;
 
     const details = element.shadowRoot?.querySelector("details");
+    const summary = element.shadowRoot?.querySelector("summary");
     expect(details).toBeTruthy();
-    if (!details) {
-      throw new Error("details element was not rendered");
+    expect(summary).toBeTruthy();
+
+    if (details && summary) {
+      // Initially closed
+      expect(details.open).toBe(false);
+
+      // Click summary to open details
+      summary.click();
+      await element.updateComplete;
+
+      expect(details.open).toBe(true);
+
+      // Click summary again to close details
+      summary.click();
+      await element.updateComplete;
+
+      expect(details.open).toBe(false);
     }
-
-    // Initially closed
-    expect(details.open).toBe(false);
-
-    // Open details
-    details.open = true;
-    details.dispatchEvent(new Event("toggle"));
-    await element.updateComplete;
-
-    expect(details.open).toBe(true);
-
-    // Close details
-    details.open = false;
-    details.dispatchEvent(new Event("toggle"));
-    await element.updateComplete;
-
-    expect(details.open).toBe(false);
   });
 
   it("renders slotted content", async () => {
@@ -170,12 +191,14 @@ describe("qgds-details", () => {
     });
 
     const details = element.shadowRoot?.querySelector("details");
-    if (!details) {
-      throw new Error("details element was not rendered");
-    }
+    expect(details).toBeTruthy();
 
-    details.open = true;
-    details.dispatchEvent(new Event("toggle", { bubbles: true }));
+    if (details) {
+      // Manually trigger toggle event to test event handling
+      details.open = true;
+      details.dispatchEvent(new Event("toggle", { bubbles: true, composed: true }));
+      await element.updateComplete;
+    }
 
     expect(eventDetails.length).toBe(1);
     expect(eventDetails[0]?.id).toBeNull();
