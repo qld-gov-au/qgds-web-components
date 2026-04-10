@@ -24,8 +24,9 @@ export default meta;
 
 export const Default: Story = {
   args: {
-    "default-slot": "<p>This is an important blockquote message.</p>",
-    "cite-label": "Source: John Doe, 2024",
+    "default-slot":
+      "<p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able to create things we cannot ourselves imagine.</p>",
+    "cite-label": "Sir Tim Berners-Lee",
     cite: "https://example.com/source",
   },
 };
