@@ -1,0 +1,143 @@
+@use "../../styles/tools/functions" as f;
+@use "../../styles/tools/mixins" as m;
+
+:host {
+  display: block;
+}
+
+.search-input {
+  display: inline-flex;
+  align-items: stretch;
+  max-inline-size: 100%;
+  border-radius: 0.25rem;
+
+  @include m.focusable($is-focus-within: true, $offset-outline: 1px);
+
+  &.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+// ── Field wrap (input + decorative icon) ─────────────────────────────────────
+
+.field-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  inset-inline-start: f.remify(12px);
+  pointer-events: none;
+  
+  --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
+}
+
+// ── Input ─────────────────────────────────────────────────────────────────────
+
+.input {
+  appearance: none;
+  font-size: f.remify(16px);
+  line-height: f.snap-line-height(1.45);
+  inline-size: 100%;
+  block-size: f.remify(48px);
+  color: var(--qgds-color-text-default, #353535);
+  background-color: var(--qgds-color-background, #ffffff);
+  border: 2px solid var(--qgds-color-border-alt, #848484);
+  border-inline-end-width: 0;
+  border-radius: 0.25rem 0 0 0.25rem;
+  padding-block: f.remify(12px);
+
+  // icon width (24px) + left offset (12px) + gap (8px)
+  padding-inline: f.remify(44px) f.remify(12px);
+
+  &::placeholder {
+    color: var(--qgds-color-text-lighter, #636363);
+  }
+
+  // Remove native search clear button (webkit)
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
+    border-color: var(--qgds-color-action-primary-hover, #003e96);
+  }
+
+  &.is-filled {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
+    border-radius: 0.25rem 0 0;
+    border-block-start-width: 0;
+    border-inline-end-width: 0;
+
+    &:focus {
+      border-block-start-width: 0.125rem;
+      border-inline-start-width: 0.125rem;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: var(--qgds-color-background, #ffffff);
+    }
+  }
+
+  // Icon-only mode: no decorative icon inside input
+  :host([icon-only]) & {
+    padding-inline-start: f.remify(12px);
+  }
+}
+
+// ── Button ────────────────────────────────────────────────────────────────────
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: f.remify(8px);
+  block-size: f.remify(48px);
+  padding-inline: f.remify(20px);
+  font-size: f.remify(16px);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  border: 2px solid transparent;
+  border-radius: 0 0.25rem 0.25rem 0;
+  color: #ffffff;
+  background-color: var(--qgds-color-action-primary, #005eb8);
+
+  --qgds-icon-color: #ffffff;
+
+  transition: background-color 0.1s ease;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: var(--qgds-color-action-primary-hover, #003e96);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--qgds-color-action-primary-hover, #003e96);
+  }
+
+  // Icon-only: square button, no horizontal padding
+  &.icon-only {
+    padding-inline: 0;
+    inline-size: f.remify(48px);
+  }
+}
