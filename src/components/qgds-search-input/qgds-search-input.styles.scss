@@ -1,5 +1,6 @@
 @use "../../styles/tools/functions" as f;
 @use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
   display: block;
@@ -33,8 +34,12 @@
   position: absolute;
   inset-inline-start: f.remify(12px);
   pointer-events: none;
-  
+
   --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
+
+  @media (max-width: bp.$md) {
+    display: none;
+  }
 }
 
 // ── Input ─────────────────────────────────────────────────────────────────────
@@ -54,6 +59,10 @@
 
   // icon width (24px) + left offset (12px) + gap (8px)
   padding-inline: f.remify(44px) f.remify(12px);
+
+  @media (max-width: bp.$md) {
+    padding-inline-start: f.remify(12px);
+  }
 
   &::placeholder {
     color: var(--qgds-color-text-lighter, #636363);
