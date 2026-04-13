@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import { baseStyles } from "../../styles";
+import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
 
@@ -58,16 +58,25 @@ export class QGDSSearchInput extends LitElement {
   variant?: FormVariant;
 
   static styles = [
-    ...baseStyles,
+    baseStyles,
+    utilitiesStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
   ];
 
+  /**
+   * Input event handler to update the `value` property as the user types.
+   * @param e 
+   */
   private _handleInput = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
   };
 
+  /**
+   * Handle Enter key to trigger search without needing to click the button.
+   * @param e 
+   */
   private _handleKeyDown = (e: KeyboardEvent): void => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -75,6 +84,9 @@ export class QGDSSearchInput extends LitElement {
     }
   };
 
+  /**
+   * Dispatch the custom "qgds-search" event with the current value when the search button is clicked.
+   */
   private _handleButtonClick = (): void => {
     this._dispatchSearch();
   };
