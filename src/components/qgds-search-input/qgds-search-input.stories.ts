@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { action } from "storybook/actions";
+import { html } from "lit";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSSearchInput, tagName } from "./qgds-search-input";
 import "./qgds-search-input";
@@ -14,7 +16,9 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args,
   argTypes,
-  render: (args) => template(args),
+  render: (args) => html`
+    <div @qgds-search=${action("qgds-search")}>${template(args)}</div>
+  `,
 };
 
 export default meta;
