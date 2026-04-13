@@ -1,0 +1,23 @@
+@use "sass:meta";
+@use "sass:math";
+
+///
+/// @param {Number} $num-lines [1] - The number of lines to truncate to. Must be a unitless number.
+/// @output
+@mixin truncate($num-lines: 1) {
+  // validate $num-lines must be a unitless number
+  @if not(meta.type-of($num-lines) == number and math.unit($num-lines) == "") {
+    @error "Invalid value for $num-lines: #{$num-lines}. Must be a unitless number.";
+  }
+
+  @if $num-lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $num-lines;
+    overflow: hidden;
+  }
+}
