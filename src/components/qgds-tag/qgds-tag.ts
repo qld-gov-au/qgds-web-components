@@ -126,13 +126,8 @@ export class QGDSTag extends LitElement {
                 aria-label="Remove ${this.label}"
                 @click="${this.handleDismiss}"
               >
-                <qgds-icon icon-id="alert-cancel" size="md" class="hidden-hover" aria-hidden="true"></qgds-icon>
-                <qgds-icon
-                  icon-id="alert-cancel-filled"
-                  size="md"
-                  class="hidden-default"
-                  aria-hidden="true"
-                ></qgds-icon>
+                <qgds-icon icon-id="alert-cancel" size="md" class="default-icon" aria-hidden="true"></qgds-icon>
+                <qgds-icon icon-id="alert-cancel-filled" size="md" class="hover-icon" aria-hidden="true"></qgds-icon>
               </button>
             `
           : ""}

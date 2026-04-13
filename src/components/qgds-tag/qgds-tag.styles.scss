@@ -43,7 +43,7 @@
     @include t.truncate();
   }
 
-  &-remove {
+  &-dismiss {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -53,23 +53,28 @@
     margin-inline: t.remify(4px) calc(var(--padding-x) * -1);
     background: transparent;
     border: none;
-    color: blue;
+    color: var(--qgds-color-action-secondary, #307edb);
     cursor: pointer;
     font-size: 1.25rem;
     line-height: 1;
     border-radius: 50%;
 
-    &:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: -2px;
-    }
+    @include t.focusable($offset-outline: false);
 
-    &:is(:hover, :active, :focus) qgds-icon.hidden-hover {
+    .hover-icon {
       display: none;
     }
 
-    &:not(:hover, :active, :focus) qgds-icon.hidden-default {
-      display: none;
+    &:is(:hover, :active, :focus) {
+      color: var(--qgds-color-action-secondary-hover, #004ea7);
+
+      .default-icon {
+        display: none;
+      }
+
+      .hover-icon {
+        display: inline-flex;
+      }
     }
   }
 

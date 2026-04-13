@@ -6,12 +6,7 @@
 /// @param {String} $custom-selector [null] - If passed, will override $is-focus-within and apply focus styles instead to a custom selector string. @see SearchInput
 /// @content
 
-@mixin focusable(
-  $offset-outline: true,
-  $is-focus-within: false,
-  $outline-width: 3px,
-  $custom-selector: null
-) {
+@mixin focusable($offset-outline: true, $is-focus-within: false, $outline-width: 3px, $custom-selector: null) {
   // outline styles without the pseudo state to allow for transition animations.
   $initial-offset: 0 - $outline-width;
   $outline-offset: $offset-outline;
@@ -19,17 +14,13 @@
   @if $offset-outline == true {
     $outline-offset: 2px;
   } @else if $offset-outline == false {
-    $outline-offset: 0px;
+    $outline-offset: $initial-offset;
   }
 
   outline: transparent solid $outline-width;
   outline-offset: $initial-offset;
 
-  $selector: if(
-    $custom-selector,
-    $custom-selector,
-    if($is-focus-within, ":focus-within", ":focus")
-  );
+  $selector: if($custom-selector, $custom-selector, if($is-focus-within, ":focus-within", ":focus"));
 
   &#{$selector} {
     outline: var(--qgds-color-focus-default, #002e85) solid $outline-width;
