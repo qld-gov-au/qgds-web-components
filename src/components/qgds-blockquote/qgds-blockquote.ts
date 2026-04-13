@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-blockquote.styles.scss?inline";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 
@@ -40,7 +41,7 @@ export class QGDSBlockquote extends LitElement {
   render() {
     return html`
       <figure>
-        <blockquote><slot></slot></blockquote>
+        <blockquote cite="${ifDefined(this.citeUrl)}"><slot></slot></blockquote>
         ${this.citeLabel
           ? html`<figcaption>
               <cite>
