@@ -1,10 +1,27 @@
 @use "sass:list";
 @use "sass:meta";
 @use "sass:math";
+@use "sass:string";
+
+// Helper function to process a single value: add units to unitless numbers, pass through strings (CSS vars/functions)
+@function process-value($value) {
+  @if meta.type-of($value) == number {
+    @if math.is-unitless($value) {
+      @return $value * 1px;
+    }
+    @return $value;
+  } @else if meta.type-of($value) == string {
+    // Pass through CSS variables and functions as-is
+    @return string.unquote($value);
+  } @else {
+    @return $value;
+  }
+}
 
 ///
 /// Apply border-width-aware padding, in order to mirror design tools and retain vertical and horizontal rhythm.
 /// This mixin will create CSS custom properties which can be edited in component states to add, remove or change border widths without content shifting around.
+/// Supports CSS custom properties and other CSS functions (e.g., var(), calc()).
 /// `--border-top-width`
 /// `--border-right-width`
 /// `--border-bottom-width`
@@ -13,53 +30,41 @@
 /// `--padding-right`
 /// `--padding-bottom`
 /// `--padding-left`
-/// @param $border-width [0] - A single border-width or space-separated list, compatible with CSS border-width shorthand.
-/// @param $padding [0] - A single padding value or space-separated list, compatible with CSS padding shorthand.
+/// @param $border-width [0] - A single border-width or space-separated list, compatible with CSS border-width shorthand. Can include CSS variables (e.g., var(--my-border)).
+/// @param $padding [0] - A single padding value or space-separated list, compatible with CSS padding shorthand. Can include CSS variables (e.g., 1px 0 var(--padding-x)).
 @mixin border-padding($border-width: 0, $padding: 0) {
   // border-width and padding may be valid CSS short-hand values, so a list of values.
   // The evaluated css property must include a unit (px) for calc to work.
-  @if meta.type-of($border-width) == number {
-    @if math.is-unitless($border-width) {
-      // add units to border-widths if 0
-      $border-width: $border-width * 1px;
-    }
+  @if meta.type-of($border-width) == number or meta.type-of($border-width) == string {
+    $border-width: process-value($border-width);
   } @else if meta.type-of($border-width) == list {
     // A little validation
     @if list.length($border-width) > 4 {
       @error "Too many $border-widths, max is 4.";
     }
 
-    // add units to border-widths if 0
+    // Process each border-width value
     @for $i from 1 through list.length($border-width) {
-      @if math.is-unitless(list.nth($border-width, $i)) {
-        $border-width: list.set-nth($border-width, $i, list.nth($border-width, $i) * 1px);
-      }
+      $border-width: list.set-nth($border-width, $i, process-value(list.nth($border-width, $i)));
     }
   } @else {
-    @error "invalid type #{type-of($border-width)} for $border-width. Please use a valid CSS border-width shorthand value.";
+    @error "invalid type #{type-of($border-width)} for $border-width. Please use a valid CSS border-width shorthand value or CSS variable.";
   }
 
-  @if meta.type-of($padding) == number {
-    @if math.is-unitless($padding) {
-      // add units to $padding if 0
-      $padding: $padding * 1px; // multiplication keeps
-    }
+  @if meta.type-of($padding) == number or meta.type-of($padding) == string {
+    $padding: process-value($padding);
   } @else if meta.type-of($padding) == list {
     // A little validation
     @if list.length($padding) > 4 {
       @error "Too many $paddings, max is 4.";
     }
 
-    // add units to $padding if 0
+    // Process each padding value
     @for $i from 1 through list.length($padding) {
-      @debug list.nth($padding, $i);
-      @debug meta.type-of(list.nth($padding, $i));
-      @if math.is-unitless(list.nth($padding, $i)) {
-        $padding: list.set-nth($padding, $i, list.nth($padding, $i) * 1px);
-      }
+      $padding: list.set-nth($padding, $i, process-value(list.nth($padding, $i)));
     }
   } @else {
-    @error "invalid type for $padding. Please use a valid CSS padding shorthand value.";
+    @error "invalid type for $padding. Please use a valid CSS padding shorthand value or CSS variable.";
   }
 
   $num-borders: list.length($border-width);
