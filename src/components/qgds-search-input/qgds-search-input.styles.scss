@@ -11,7 +11,7 @@
   max-inline-size: 100%;
   border-radius: 0.25rem;
 
-  @include m.focusable($is-focus-within: true, $offset-outline: 1px);
+  @include m.focusable($custom-selector: ":has(.input:focus)", $offset-outline: 1px);
 
   &.is-disabled {
     opacity: 0.5;
@@ -120,8 +120,10 @@
 
   transition: background-color 0.1s ease;
 
-  &:focus {
-    outline: none;
+  @include m.focusable($offset-outline: 2px) {
+    border-radius: 0.25rem;
+    position: relative;
+    z-index: 1;
   }
 
   &:hover:not(:disabled),
