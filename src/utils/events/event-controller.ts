@@ -17,6 +17,7 @@
 type EventPayload = Record<string, unknown>;
 
 export const EventNames = [
+  "click",
   "select",
   "change",
   "toggle",
