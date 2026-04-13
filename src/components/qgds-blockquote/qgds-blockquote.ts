@@ -3,7 +3,6 @@ import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-blockquote.styles.scss?inline";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 
@@ -12,7 +11,7 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=133254-206549&t=FIwjIg0V3JbsLmNw-0
  *
- * @property {string} cite - The URL of the source of the quote
+ * @property {string} citeUrl - The URL of the source of the quote
  * @property {string} citeLabel - The text for the citation
  *
  * @slot - Default content slot accepts general typographic HTML content, including paragraphs, lists, and links.
@@ -25,8 +24,8 @@ export type QGDSBlockquoteProps = InstanceType<typeof QGDSBlockquote>;
 
 @customElement("qgds-blockquote")
 export class QGDSBlockquote extends LitElement {
-  @property({ type: String, attribute: "cite" })
-  cite: string = "";
+  @property({ type: String, attribute: "cite-url" })
+  citeUrl: string = "";
 
   @property({ type: String, attribute: "cite-label" })
   citeLabel: string = "";
@@ -41,8 +40,14 @@ export class QGDSBlockquote extends LitElement {
   render() {
     return html`
       <figure>
-        <blockquote cite="${ifDefined(this.cite)}"><slot></slot></blockquote>
-        ${this.citeLabel ? html`<figcaption>${this.citeLabel}</figcaption>` : nothing}
+        <blockquote><slot></slot></blockquote>
+        ${this.citeLabel
+          ? html`<figcaption>
+              <cite>
+                ${this.citeUrl ? html`<a href="${this.citeUrl}">${this.citeLabel}</a>` : html`${this.citeLabel}`}
+              </cite>
+            </figcaption>`
+          : nothing}
       </figure>
     `;
   }

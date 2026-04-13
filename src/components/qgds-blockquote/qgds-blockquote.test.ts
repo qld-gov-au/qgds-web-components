@@ -15,11 +15,11 @@ describe("qgds-blockquote", () => {
   });
 
   it("renders custom cite and cite-label", async () => {
-    element.setAttribute("cite", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
+    element.setAttribute("cite-url", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
     element.setAttribute("cite-label", "Sir Tim Berners-Lee");
     await element.updateComplete;
 
-    expect(element.cite).toBe("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
+    expect(element.citeUrl).toBe("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/blockquote#attributes");
     expect(element.citeLabel).toBe("Sir Tim Berners-Lee");
   });
 

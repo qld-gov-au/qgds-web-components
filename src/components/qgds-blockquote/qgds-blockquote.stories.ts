@@ -27,6 +27,6 @@ export const Default: Story = {
     "default-slot":
       "<p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able to create things we cannot ourselves imagine.</p>",
     "cite-label": "Sir Tim Berners-Lee",
-    cite: "https://example.com/source",
+    "cite-url": "https://example.com/source",
   },
 };
