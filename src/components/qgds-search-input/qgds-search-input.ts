@@ -18,7 +18,6 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @prop {String} [value] - The current value of the search field.
  * @prop {String} [placeholder="Search"] - Placeholder text for the input.
  * @prop {String} [name] - Name attribute passed to the underlying input.
- * @prop {String} [button-label="Search"] - Label for the search button.
  * @prop {Boolean} [disabled=false] - Disables the input and button.
  * @prop {FormVariant} [variant] - Visual style of the input. "filled" uses a shaded background with only a bottom border.
  *
@@ -43,9 +42,6 @@ export class QGDSSearchInput extends LitElement {
 
   @property({ type: String })
   name?: string;
-
-  @property({ type: String, attribute: "button-label" })
-  buttonLabel: string = "Search";
 
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
@@ -119,11 +115,11 @@ export class QGDSSearchInput extends LitElement {
           class="btn"
           type="button"
           ?disabled=${this.disabled}
-          aria-label=${this.buttonLabel}
+          aria-label="Search"
           @click=${this._handleButtonClick}
         >
           <qgds-icon class="btn-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
-          <span class="btn-label">${this.buttonLabel}</span>
+          <span class="btn-label">Search</span>
         </button>
       </div>
     `;
