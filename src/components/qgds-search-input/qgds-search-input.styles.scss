@@ -10,7 +10,7 @@
 }
 
 .search-input {
-  display: inline-flex;
+  display: flex;
   align-items: stretch;
   max-inline-size: 100%;
   border-radius: 0.25rem;
@@ -40,7 +40,7 @@
 
   --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
-  @container search-input (max-width: 768px) {
+  @container search-input (max-width: 400px) {
     display: none;
   }
 }
@@ -63,7 +63,7 @@
   // icon width (24px) + left offset (12px) + gap (8px)
   padding-inline: f.remify(44px) f.remify(12px);
 
-  @container search-input (max-width: 768px) {
+  @container search-input (max-width: 400px) {
     padding-inline-start: f.remify(12px);
   }
 
@@ -158,7 +158,7 @@
   }
 
   // Responsive: icon-only mode at small container sizes
-  @container search-input (max-width: 768px) {
+  @container search-input (max-width: 400px) {
     padding-inline: 0;
     inline-size: clamp(2.5rem, 6cqi, 3rem);
 
