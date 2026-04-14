@@ -105,11 +105,6 @@
       background-color: var(--qgds-color-neutral-white, #ffffff);
     }
   }
-
-  // Icon-only mode: no decorative icon inside input
-  :host([icon-only]) & {
-    padding-inline-start: f.remify(12px);
-  }
 }
 
 // ── Button ────────────────────────────────────────────────────────────────────
@@ -125,6 +120,7 @@
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
+  min-inline-size: f.remify(48px);
   cursor: pointer;
   user-select: none;
   border: 2px solid transparent;
@@ -153,9 +149,25 @@
     background-color: var(--qgds-color-action-primary-hover, #003e96);
   }
 
-  // Icon-only: square button, no horizontal padding
-  &.icon-only {
+  .btn-icon {
+    display: none;
+  }
+
+  .btn-label {
+    display: inline;
+  }
+
+  // Responsive: icon-only mode at small container sizes
+  @container search-input (max-width: 768px) {
     padding-inline: 0;
-    inline-size: f.remify(48px);
+    inline-size: clamp(2.5rem, 6cqi, 3rem);
+
+    .btn-icon {
+      display: inline;
+    }
+
+    .btn-label {
+      display: none;
+    }
   }
 }

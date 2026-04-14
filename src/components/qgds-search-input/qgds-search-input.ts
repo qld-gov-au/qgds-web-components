@@ -18,8 +18,7 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @prop {String} [value] - The current value of the search field.
  * @prop {String} [placeholder="Search"] - Placeholder text for the input.
  * @prop {String} [name] - Name attribute passed to the underlying input.
- * @prop {String} [button-label="Search"] - Label for the search button. Also used as aria-label when icon-only.
- * @prop {Boolean} [icon-only=false] - Render an icon-only button instead of the labelled button.
+ * @prop {String} [button-label="Search"] - Label for the search button.
  * @prop {Boolean} [disabled=false] - Disables the input and button.
  * @prop {FormVariant} [variant] - Visual style of the input. "filled" uses a shaded background with only a bottom border.
  *
@@ -30,26 +29,23 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * <!-- Default -->
  * <qgds-search-input placeholder="Search this site"></qgds-search-input>
  *
- * <!-- Responsive / icon only -->
- * <qgds-search-input icon-only></qgds-search-input>
+ * <!-- Responsive behavior handled automatically via container queries -->
+ * <qgds-search-input></qgds-search-input>
  * ```
  */
 @customElement(tagName)
 export class QGDSSearchInput extends LitElement {
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   value: string = "";
 
   @property({ type: String })
-  placeholder: string = "Search";
+  placeholder?: string;
 
   @property({ type: String })
   name?: string;
 
   @property({ type: String, attribute: "button-label" })
   buttonLabel: string = "Search";
-
-  @property({ type: Boolean, reflect: true, attribute: "icon-only" })
-  iconOnly: boolean = false;
 
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
@@ -67,7 +63,7 @@ export class QGDSSearchInput extends LitElement {
 
   /**
    * Input event handler to update the `value` property as the user types.
-   * @param e 
+   * @param e
    */
   private _handleInput = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
@@ -75,7 +71,7 @@ export class QGDSSearchInput extends LitElement {
 
   /**
    * Handle Enter key to trigger search without needing to click the button.
-   * @param e 
+   * @param e
    */
   private _handleKeyDown = (e: KeyboardEvent): void => {
     if (e.key === "Enter") {
@@ -106,14 +102,7 @@ export class QGDSSearchInput extends LitElement {
     return html`
       <div class=${classMap({ "search-input": true, "is-disabled": !!this.disabled })}>
         <div class="field-wrap">
-          ${!this.iconOnly
-            ? html`<qgds-icon
-                class="search-icon"
-                icon-id="search"
-                size="md"
-                aria-hidden="true"
-              ></qgds-icon>`
-            : null}
+          <qgds-icon class="search-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
           <input
             class=${classMap({ input: true, "is-filled": this.variant === "filled" })}
             type="search"
@@ -121,21 +110,20 @@ export class QGDSSearchInput extends LitElement {
             .value=${this.value}
             placeholder=${this.placeholder}
             ?disabled=${this.disabled}
-            aria-label=${this.iconOnly ? this.buttonLabel : "Search"}
+            aria-label="Search"
             @input=${this._handleInput}
             @keydown=${this._handleKeyDown}
           />
         </div>
         <button
-          class=${classMap({ btn: true, "icon-only": this.iconOnly })}
+          class="btn"
           type="button"
           ?disabled=${this.disabled}
-          aria-label=${this.iconOnly ? this.buttonLabel : ifDefined(undefined)}
+          aria-label=${this.buttonLabel}
           @click=${this._handleButtonClick}
         >
-          ${this.iconOnly
-            ? html`<qgds-icon icon-id="search" size="md" aria-hidden="true"></qgds-icon>`
-            : this.buttonLabel}
+          <qgds-icon class="btn-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
+          <span class="btn-label">${this.buttonLabel}</span>
         </button>
       </div>
     `;
