@@ -33,7 +33,7 @@ type Size = "sm" | "lg";
  * @cssprop --border-hover - The hover-state border color of the tag.
  * @cssprop --border-focus - The focus-state border color of the tag.
  *
- * @event qgds-click - Dispatched when the tag is clicked.
+ * @event qgds-click - Dispatched when the variant=action tag is clicked.
  * @event qgds-dismiss - Dispatched when the remove button is clicked. detail contains the label of the tag.
  *
  * @example

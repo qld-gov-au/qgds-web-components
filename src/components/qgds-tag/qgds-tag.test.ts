@@ -22,8 +22,6 @@ describe("qgds-tag", () => {
       const label = element.shadowRoot?.querySelector(".qgds-tag-label");
       expect(label?.textContent).toBe("Test Tag");
     });
-
-    // TODO: default and info variants render small, action and dismissible render large
   });
 
   describe("Remove functionality", () => {
