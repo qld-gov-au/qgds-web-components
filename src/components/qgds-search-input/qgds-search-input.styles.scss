@@ -3,7 +3,10 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
+  /* Container query setup for responsive behaviour */
   display: block;
+  container-type: inline-size;
+  container-name: search-input;
 }
 
 .search-input {
@@ -37,7 +40,7 @@
 
   --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
-  @media (max-width: bp.$md) {
+  @container search-input (max-width: 768px) {
     display: none;
   }
 }
@@ -60,7 +63,7 @@
   // icon width (24px) + left offset (12px) + gap (8px)
   padding-inline: f.remify(44px) f.remify(12px);
 
-  @media (max-width: bp.$md) {
+  @container search-input (max-width: 768px) {
     padding-inline-start: f.remify(12px);
   }
 
@@ -79,12 +82,12 @@
   }
 
   &:hover:not(:disabled) {
-    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
     border-color: var(--qgds-color-action-primary-hover, #003e96);
   }
 
   &.is-filled {
-    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
     border-radius: 0.25rem 0 0;
     border-block-start-color: transparent;
     border-inline-start-color: transparent;
@@ -119,17 +122,17 @@
   block-size: f.remify(48px);
   padding-inline: f.remify(20px);
   font-size: f.remify(16px);
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
   user-select: none;
   border: 2px solid transparent;
   border-radius: 0 0.25rem 0.25rem 0;
-  color: #ffffff;
+  color: var(--qgds-color-link-on-action, #ffffff);
   background-color: var(--qgds-color-action-primary, #005eb8);
 
-  --qgds-icon-color: #ffffff;
+  --qgds-icon-color: var(--qgds-color-link-on-action, #ffffff);
 
   transition: background-color 0.1s ease;
 
