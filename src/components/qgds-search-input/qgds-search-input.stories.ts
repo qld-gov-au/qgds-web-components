@@ -30,14 +30,6 @@ export const Default: Story = {
   },
 };
 
-export const IconOnly: Story = {
-  args: {
-    ...args,
-    "icon-only": true,
-    placeholder: "Search",
-  },
-};
-
 export const Filled: Story = {
   args: {
     ...Default.args,
