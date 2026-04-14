@@ -4,7 +4,7 @@
 @use "sass:string";
 
 // Helper function to process a single value: add units to unitless numbers, pass through strings (CSS vars/functions)
-@function process-value($value) {
+@function _process-value($value) {
   @if meta.type-of($value) == number {
     @if math.is-unitless($value) {
       @return $value * 1px;
@@ -36,7 +36,7 @@
   // border-width and padding may be valid CSS short-hand values, so a list of values.
   // The evaluated css property must include a unit (px) for calc to work.
   @if meta.type-of($border-width) == number or meta.type-of($border-width) == string {
-    $border-width: process-value($border-width);
+    $border-width: _process-value($border-width);
   } @else if meta.type-of($border-width) == list {
     // A little validation
     @if list.length($border-width) > 4 {
@@ -45,14 +45,14 @@
 
     // Process each border-width value
     @for $i from 1 through list.length($border-width) {
-      $border-width: list.set-nth($border-width, $i, process-value(list.nth($border-width, $i)));
+      $border-width: list.set-nth($border-width, $i, _process-value(list.nth($border-width, $i)));
     }
   } @else {
     @error "invalid type #{type-of($border-width)} for $border-width. Please use a valid CSS border-width shorthand value or CSS variable.";
   }
 
   @if meta.type-of($padding) == number or meta.type-of($padding) == string {
-    $padding: process-value($padding);
+    $padding: _process-value($padding);
   } @else if meta.type-of($padding) == list {
     // A little validation
     @if list.length($padding) > 4 {
@@ -61,7 +61,7 @@
 
     // Process each padding value
     @for $i from 1 through list.length($padding) {
-      $padding: list.set-nth($padding, $i, process-value(list.nth($padding, $i)));
+      $padding: list.set-nth($padding, $i, _process-value(list.nth($padding, $i)));
     }
   } @else {
     @error "invalid type for $padding. Please use a valid CSS padding shorthand value or CSS variable.";
