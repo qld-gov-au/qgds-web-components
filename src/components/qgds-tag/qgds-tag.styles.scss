@@ -126,9 +126,4 @@
 
     @include t.focusable();
   }
-
-  &.is-dismissible {
-    // empty block
-    line-height: 1lh;
-  }
 }

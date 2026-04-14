@@ -17,6 +17,9 @@ type Size = "sm" | "lg";
  * A web component for displaying tags with various styles and variants.
  * Used to label, categorize, or highlight content.
  *
+ * @uikit pagination
+ * @website https://www.designsystem.qld.gov.au/components/tag
+ *
  * @prop {string} label - The label/text content of the tag. Required.
  * @prop {Variant} [variant = "default"] - The variant of the tag .
  * @prop {string} [href] - If provided, the tag will render as a link pointing to this URL. This will also force the action variant styling.
@@ -94,8 +97,7 @@ export class QGDSTag extends LitElement {
       "qgds-tag": true,
       "is-info": this._variant === "info",
       "is-action": this._variant === "action",
-      "is-dismissible": this._variant === "dismissible",
-      "is-lg": this.size === "lg" || this._variant === "action" || this.variant === "dismissible",
+      "is-lg": this.size === "lg" || this.variant === "dismissible",
     });
 
     if (this.href) {
