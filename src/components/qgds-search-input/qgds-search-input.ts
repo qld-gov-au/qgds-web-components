@@ -5,6 +5,7 @@ import { classMap } from "lit/directives/class-map.js";
 import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
+import { QgdsEvents } from "../../utils/events/event-controller";
 
 export const tagName = "qgds-search-input";
 export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
@@ -49,6 +50,9 @@ export class QGDSSearchInput extends LitElement {
   @property({ type: String })
   variant?: FormVariant;
 
+  // Shared helper for dispatching qgds custom events.
+  private events = new QgdsEvents(this);
+
   static styles = [
     baseStyles,
     utilitiesStyles,
@@ -84,14 +88,7 @@ export class QGDSSearchInput extends LitElement {
   };
 
   private _dispatchSearch(): void {
-    this.dispatchEvent(
-      new CustomEvent("qgds-search", {
-        detail: { value: this.value },
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-      })
-    );
+    this.events.dispatch("search", { value: this.value });
   }
 
   render() {
