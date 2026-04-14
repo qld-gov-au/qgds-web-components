@@ -58,3 +58,50 @@ export const WithValue: Story = {
     value: "Queensland",
   },
 };
+
+export const AllVariants: Story = {
+  decorators: [
+    (story) => {
+      return html`<div>
+        <style>
+          qgds-search-input:not(:last-child) {
+            margin-bottom: 20px;
+          }
+        </style>
+        ${story()}
+      </div>`;
+    },
+  ],
+  render: (args) => {
+    return html`
+      <qgds-search-input placeholder="${args.placeholder}" variant="outlined">
+      </qgds-search-input>
+
+      <qgds-search-input placeholder="${args.placeholder}" variant="filled">
+      </qgds-search-input>
+    `;
+  },
+  args: {
+    ...Default.args,
+  },
+};
+
+export const AllVariantsSoft: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "soft" },
+};
+
+export const AllVariantsMuted: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "muted" },
+};
+
+export const AllVariantsBold: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "bold" },
+};
+
+export const AllVariantsDeep: Story = {
+  ...AllVariants,
+  globals: { globalPalette: "deep" },
+};
