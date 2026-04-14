@@ -44,6 +44,7 @@
   }
 
   &-dismiss {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -93,11 +94,11 @@
 
   &.is-action {
     --_bg: var(--bg, transparent);
-    --_fg: var(--fg, var(--qgds-color-action-primary, #005eb8));
-    --_border: var(--border, var(--qgds-color-action-primary, #005eb8));
+    --_fg: var(--fg, var(--qgds-color-link-default, #005eb8));
+    --_border: var(--border, var(--qgds-color-link-default, #005eb8));
 
     text-decoration: none transparent;
-    text-decoration-thickness: var(--qgds-link-underline-thickness, 0.5px);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
     text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
 
     &:hover {
@@ -105,7 +106,10 @@
       color: var(--fg-hover, var(--qgds-color-link-on-action, #ffffff));
       border-color: var(--border-hover, var(--qgds-color-action-primary-hover, #003e96));
       text-decoration: underline currentColor;
-      text-decoration-thickness: var(--qgds-link-underline-thickness-hover, 2px);
+      text-decoration-thickness: var(
+        --qgds-link-decoration-thickness,
+        0.5px
+      ); // override the default hover thickness to thin
     }
 
     &:active,
@@ -114,7 +118,10 @@
       color: var(--fg-focus, var(--qgds-color-link-on-action, #ffffff));
       border-color: var(--border-focus, var(--qgds-color-action-primary-hover, #003e96));
       text-decoration: underline currentColor;
-      text-decoration-thickness: var(--qgds-link-underline-thickness-hover, 2px);
+      text-decoration-thickness: var(
+        --qgds-link-decoration-thickness,
+        0.5px
+      ); // override the default hover thickness to thin
     }
 
     @include t.focusable();

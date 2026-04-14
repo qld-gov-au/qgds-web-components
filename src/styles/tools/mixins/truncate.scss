@@ -12,8 +12,9 @@
 
   @if $num-lines == 1 {
     white-space: nowrap;
-    overflow: hidden;
+    overflow-x: clip;
     text-overflow: ellipsis;
+    min-inline-size: 0; // Ensure it can shrink properly in flex/grid contexts
   } @else {
     display: -webkit-box;
     -webkit-box-orient: vertical;

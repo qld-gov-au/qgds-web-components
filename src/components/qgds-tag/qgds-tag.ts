@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -69,26 +69,18 @@ export class QGDSTag extends LitElement {
     return this.href || this.onclick ? "action" : this.variant;
   }
 
-  // TODO: improve exact onclick behaviour (property vs event)
-  private handleDismiss = (e: PointerEvent) => {
-    if (this.onclick) {
-      this.onclick(e);
-    } else {
-      this._events.dispatch("dismiss", { label: this.label }, e);
-      // Remove the element from the DOM
+  private _handleDismiss = (e: PointerEvent) => {
+    const dismissEvent = this._events.create("dismiss", { label: this.label }, e);
+    this._events.dispatch(dismissEvent);
+    // Only remove if the event wasn't cancelled
+    if (!dismissEvent.defaultPrevented) {
       this.remove();
     }
   };
 
-  private handleClick = (e: PointerEvent) => {
-    if (this.onclick) {
-      this.onclick(e);
-    } else {
-      this._events.dispatch("click", { label: this.label }, e);
-    }
+  private _handleClick = (e: PointerEvent) => {
+    this._events.dispatch("click", { label: this.label }, e);
   };
-
-  // TODO: support textContent as label (get raw textContent if given)
 
   constructor() {
     super();
@@ -112,25 +104,25 @@ export class QGDSTag extends LitElement {
     }
 
     if (this._variant === "action") {
-      return html`<button class="${classes}" @click=${this.handleClick}> <span class="qgds-tag-label">${this.label}<span></button>`;
+      return html`<button class="${classes}" @click=${this._handleClick}> <span class="qgds-tag-label">${this.label}<span></button>`;
     }
 
     return html`
-      <div class="${classes}" part="tag">
-        <span class="qgds-tag-label" part="label">${this.label}</span>
+      <div class="${classes}">
+        <span class="qgds-tag-label">${this.label}</span>
         ${this._variant === "dismissible"
           ? html`
               <button
                 class="qgds-tag-dismiss"
                 type="button"
                 aria-label="Remove ${this.label}"
-                @click="${this.handleDismiss}"
+                @click="${this._handleDismiss}"
               >
                 <qgds-icon icon-id="alert-cancel" size="md" class="default-icon" aria-hidden="true"></qgds-icon>
                 <qgds-icon icon-id="alert-cancel-filled" size="md" class="hover-icon" aria-hidden="true"></qgds-icon>
               </button>
             `
-          : ""}
+          : nothing}
       </div>
     `;
   }

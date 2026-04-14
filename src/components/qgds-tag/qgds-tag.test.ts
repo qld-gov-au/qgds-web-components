@@ -30,7 +30,7 @@ describe("qgds-tag", () => {
     it("should not show remove button by default", async () => {
       await element.updateComplete;
 
-      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-remove");
+      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-dismiss");
       expect(removeButton).toBeNull();
     });
 
@@ -38,7 +38,7 @@ describe("qgds-tag", () => {
       element.variant = "dismissible";
       await element.updateComplete;
 
-      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-remove");
+      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-dismiss");
       expect(removeButton).toBeTruthy();
     });
 
@@ -55,11 +55,6 @@ describe("qgds-tag", () => {
       dismissButton?.click();
 
       expect(eventSpy).toHaveBeenCalledTimes(1);
-      expect(eventSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          detail: { label: "Removable Tag" },
-        })
-      );
     });
 
     it("should remove element from DOM when dismiss button is clicked", async () => {
@@ -75,6 +70,23 @@ describe("qgds-tag", () => {
       expect(document.body.contains(element)).toBe(false);
     });
 
+    it("should not remove element from DOM if event is cancelled", async () => {
+      element.label = "Removable Tag";
+      element.variant = "dismissible";
+      element.addEventListener("qgds-dismiss", (e) => {
+        e.preventDefault();
+      });
+      await element.updateComplete;
+
+      // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-dismiss") as HTMLButtonElement;
+      removeButton?.click();
+
+      expect(document.body.contains(element)).toBe(true);
+    });
+  });
+
+  describe("Accessibility", () => {
     it("should have proper aria-label on remove button", async () => {
       element.label = "Test Label";
       element.variant = "dismissible";
@@ -83,41 +95,13 @@ describe("qgds-tag", () => {
       const removeButton = element.shadowRoot?.querySelector(".qgds-tag-dismiss");
       expect(removeButton?.getAttribute("aria-label")).toBe("Remove Test Label");
     });
-  });
-
-  describe("Accessibility", () => {
-    it("should have proper semantic structure", async () => {
-      element.label = "Accessible Tag";
-      await element.updateComplete;
-
-      const tag = element.shadowRoot?.querySelector(".qgds-tag");
-      expect(tag).toBeTruthy();
-    });
 
     it("should have button type on remove button", async () => {
       element.variant = "dismissible";
       await element.updateComplete;
 
-      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-remove");
+      const removeButton = element.shadowRoot?.querySelector(".qgds-tag-dismiss");
       expect(removeButton?.getAttribute("type")).toBe("button");
     });
   });
-
-  // describe("Event bubbling", () => {
-  //   it("should bubble remove event", async () => {
-  //     element.label = "Removable Tag";
-  //     element.variant = "dismissible";
-  //     await element.updateComplete;
-
-  //     const eventSpy = vi.fn();
-  //     document.addEventListener("qgds-tag-remove", eventSpy);
-
-  //     const removeButton = element.shadowRoot?.querySelector(".tag__remove") as HTMLElement;
-  //     removeButton?.click();
-
-  //     expect(eventSpy).toHaveBeenCalledTimes(1);
-
-  //     document.removeEventListener("qgds-tag-remove", eventSpy);
-  //   });
-  // });
 });

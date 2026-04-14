@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { action } from "storybook/actions";
 import { html } from "lit";
 import type { QGDSTag } from "./qgds-tag";
 import "./qgds-tag";
@@ -16,31 +17,33 @@ const meta: Meta<Args> = {
   args,
   tags: ["autodocs"],
   render: (args: Args) => template(args),
+  beforeEach({ canvasElement }) {
+    const handleClick = (e: Event) => {
+      action("qgds-click")((e as CustomEvent).detail);
+    };
+    const handleDismiss = (e: Event) => {
+      action("qgds-dismiss")((e as CustomEvent).detail);
+    };
+    canvasElement.addEventListener("qgds-click", handleClick);
+    canvasElement.addEventListener("qgds-dismiss", handleDismiss);
+
+    return () => {
+      canvasElement.removeEventListener("qgds-click", handleClick);
+      canvasElement.removeEventListener("qgds-dismiss", handleDismiss);
+    };
+  },
 };
 
 export default meta;
 type Story = StoryObj<Args>;
 
 /**
- * The default tag variant
+ * Default tag variant for general use
  */
-export const AllVariants: Story = {
+export const Default: Story = {
   args: {
     label: "Default Tag",
-    variant: "default",
   },
-  render: (args) =>
-    html`<div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
-      ${template({
-        ...args,
-        variant: "default",
-        label: "cDefault Default Default DefaultDefaultDefaultv Default Default Default",
-      })}
-      ${template({ ...args, variant: "info", label: "Information" })}
-      ${template({ ...args, label: "Action link", href: "#" })}
-      ${template({ ...args, variant: "action", label: "Action button" })}
-      ${template({ ...args, variant: "dismissible", label: "Dismissible" })}
-    </div>`,
 };
 
 /**
@@ -48,46 +51,97 @@ export const AllVariants: Story = {
  */
 export const Info: Story = {
   args: {
-    label: "Info",
+    label: "Informational Tag",
     variant: "info",
   },
 };
 
 /**
- * Removable tag with close button
+ * Action tag variant for clickable tags
  */
-export const Removable: Story = {
+export const Action: Story = {
+  render: (args) =>
+    html`<div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+      ${template({ ...args, variant: "action", label: 'Actionable tag via variant="action" (renders as button)' })}
+      ${template({ ...args, href: "#", label: "Actionable tag via href (renders as link)" })}
+    </div>`,
+};
+
+/**
+ * Dismissible tag variant with a close button for removable tags
+ */
+export const Dismissible: Story = {
   args: {
-    label: "Click × to remove",
-    variant: "default",
-    removable: true,
+    label: "Dismissible (Applied Filter) Tag",
+    variant: "dismissible",
   },
 };
 
 /**
- * Multiple tags grouped together
+ * All Variants - default palette
  */
-export const MultipleTagsStory: Story = {
-  render: () => html`
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <qgds-tag label="React" variant="default"></qgds-tag>
-      <qgds-tag label="TypeScript" variant="info"></qgds-tag>
-      <qgds-tag label="Active" variant="success"></qgds-tag>
-      <qgds-tag label="Deprecated" variant="warning"></qgds-tag>
-      <qgds-tag label="Breaking" variant="error"></qgds-tag>
-    </div>
-  `,
+export const AllVariantsDefault: Story = {
+  args: {
+    label: "Default Tag",
+    variant: "default",
+  },
+  globals: { globalPalette: "default" },
+  render: (args) =>
+    html`<div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+      ${template({
+        ...args,
+        variant: "default",
+        label: "Default",
+      })}
+      ${template({ ...args, variant: "info", label: "Information" })}
+      ${template({ ...args, label: "Action link", href: "#" })}
+      ${template({ ...args, variant: "action", label: "Action button" })}
+      ${template({
+        ...args,
+        variant: "dismissible",
+        label: "Dismissible",
+      })}
+    </div>`,
 };
 
 /**
- * Interactive removable tags
+ * All Variants - Soft palette
  */
-export const RemovableTagsStory: Story = {
-  render: () => html`
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <qgds-tag label="Feature" variant="success" removable></qgds-tag>
-      <qgds-tag label="Enhancement" variant="info" removable></qgds-tag>
-      <qgds-tag label="Bug Fix" variant="warning" removable></qgds-tag>
-    </div>
-  `,
+export const AllVariantsSoft: Story = {
+  ...AllVariantsDefault,
+  globals: { globalPalette: "soft" },
+};
+
+/**
+ * All Variants - Muted palette
+ */
+export const AllVariantsMuted: Story = {
+  ...AllVariantsDefault,
+  globals: { globalPalette: "muted" },
+};
+
+/**
+ * All Variants - Bold Palette
+ */
+export const AllVariantsBold: Story = {
+  ...AllVariantsDefault,
+  globals: { globalPalette: "bold" },
+};
+
+/**
+ * All Variants - Deep Palette
+ */
+export const AllVariantsDeep: Story = {
+  ...AllVariantsDefault,
+  globals: { globalPalette: "deep" },
+};
+
+/**
+ * Truncation Example - demonstrates truncation behavior with long text
+ */
+export const TruncationExample: Story = {
+  args: {
+    label: "This is an example of a very long tag label that should be truncated with an ellipsis",
+  },
+  globals: { viewport: "mobile2" },
 };
