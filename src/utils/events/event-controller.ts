@@ -40,6 +40,7 @@ export const EventNames = [
   "ready",
   "success",
   "failure",
+  "search",
 ] as const;
 
 export type QgdsControlledEventName = (typeof EventNames)[number];
