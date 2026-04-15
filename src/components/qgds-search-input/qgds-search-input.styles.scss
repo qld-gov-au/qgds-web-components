@@ -1,6 +1,5 @@
 @use "../../styles/tools/functions" as f;
 @use "../../styles/tools/mixins" as m;
-@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
   /* Container query setup for responsive behaviour */
@@ -9,13 +8,11 @@
   container-name: search-input;
 }
 
-.search-input {
+.search-input-wrapper {
+  position: relative;
   display: flex;
   align-items: stretch;
   max-inline-size: 100%;
-  border-radius: 0.25rem;
-
-  @include m.focusable($custom-selector: ":has(.input:focus)", $offset-outline: 1px);
 
   &.is-disabled {
     opacity: 0.5;
@@ -24,19 +21,15 @@
   }
 }
 
-// ── Field wrap (input + decorative icon) ─────────────────────────────────────
-
-.field-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
+// ── Decorative search icon ───────────────────────────────────────────────────
 
 .search-icon {
   position: absolute;
   inset-inline-start: f.remify(12px);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
+  z-index: 1;
 
   --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
@@ -45,30 +38,22 @@
   }
 }
 
-// ── Input ─────────────────────────────────────────────────────────────────────
+// ── Input (using qgds-form-control) ───────────────────────────────────────────
 
-.input {
-  appearance: none;
-  font-size: f.remify(16px);
-  line-height: f.snap-line-height(1.45);
-  inline-size: 100%;
-  block-size: f.remify(48px);
-  color: var(--qgds-color-text-default, #353535);
-  background-color: var(--qgds-color-background, #ffffff);
-  border: 2px solid var(--qgds-color-border-alt, #848484);
+.search-input {
+  // Override form-control defaults for search-specific behavior
+  max-inline-size: 100%;
+  flex: 1;
   border-inline-end-width: 0;
-  border-radius: 0.25rem 0 0 0.25rem;
-  padding-block: f.remify(12px);
+  border-radius: 0.25rem;
 
-  // icon width (24px) + left offset (12px) + gap (8px)
-  padding-inline: f.remify(44px) f.remify(12px);
+  // Left: icon width (24px) + left offset (12px) + gap (8px)
+  // Right: button width (approx 88px for "Search" + padding)
+  padding-inline: f.remify(44px) f.remify(100px);
 
   @container search-input (max-width: 400px) {
-    padding-inline-start: f.remify(12px);
-  }
-
-  &::placeholder {
-    color: var(--qgds-color-text-lighter, #636363);
+    // Icon-only button width (48px) + some gap
+    padding-inline: f.remify(12px) f.remify(60px);
   }
 
   // Remove native search clear button (webkit)
@@ -76,55 +61,34 @@
     display: none;
   }
 
-  &:focus {
-    outline: none;
-    border-color: var(--qgds-color-neutral-lighter, #ebebeb);
-  }
-
-  &:hover:not(:disabled) {
-    background-color: var(--qgds-color-background-shade, #f5f5f5);
-    border-color: var(--qgds-color-action-primary-hover, #003e96);
-  }
-
   &.is-filled {
-    background-color: var(--qgds-color-background-shade, #f5f5f5);
-    border-radius: 0.25rem 0 0;
-    border-block-start-color: transparent;
-    border-inline-start-color: transparent;
-
-    &:focus {
-      border-block-start-color: var(--qgds-color-neutral-lighter, #ebebeb);
-      border-inline-start-color: var(--qgds-color-neutral-lighter, #ebebeb);
-      border-radius: 0.25rem 0 0 0.25rem;
-      background-color: var(--qgds-color-neutral-white, #ffffff);
-    }
-
-    &:hover:not(:disabled) {
-      border-block-start-color: transparent;
-      border-inline-start-color: transparent;
-      background-color: var(--qgds-color-neutral-white, #ffffff);
-    }
+    border-start-end-radius: 0.25rem;
+    border-end-end-radius: 0.25rem;
   }
 }
 
 // ── Button ────────────────────────────────────────────────────────────────────
 
-.btn {
+.search-btn {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: f.remify(8px);
-  block-size: f.remify(48px);
   padding-inline: f.remify(20px);
   font-size: f.remify(16px);
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
-  min-inline-size: f.remify(48px);
   cursor: pointer;
   user-select: none;
-  border: 2px solid transparent;
-  border-radius: 0 0.25rem 0.25rem 0;
+  border: none;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
   color: var(--qgds-color-link-on-action, #ffffff);
   background-color: var(--qgds-color-action-primary, #005eb8);
 
@@ -132,10 +96,11 @@
 
   transition: background-color 0.1s ease;
 
+  // Button has its own focus outline
   @include m.focusable($offset-outline: 2px) {
     border-radius: 0.25rem;
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    z-index: 2;
   }
 
   &:hover:not(:disabled),
@@ -149,24 +114,24 @@
     background-color: var(--qgds-color-action-primary-hover, #003e96);
   }
 
-  .btn-icon {
+  .search-btn-icon {
     display: none;
   }
 
-  .btn-label {
+  .search-btn-label {
     display: inline;
   }
 
   // Responsive: icon-only mode at small container sizes
   @container search-input (max-width: 400px) {
     padding-inline: 0;
-    inline-size: clamp(2.5rem, 6cqi, 3rem);
+    inline-size: f.remify(48px);
 
-    .btn-icon {
+    .search-btn-icon {
       display: inline;
     }
 
-    .btn-label {
+    .search-btn-label {
       display: none;
     }
   }
