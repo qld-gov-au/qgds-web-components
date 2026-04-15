@@ -20,11 +20,11 @@ const meta: Meta<Args> = {
     chromatic: {
       //🔶 Test default story in all different modes
       modes: {
-        default: { globals: { globalPalette: "default" } },
-        soft: { globals: { globalPalette: "soft" } },
-        muted: { globals: { globalPalette: "muted" } },
-        bold: { globals: { globalPalette: "bold" } },
-        deep: { globals: { globalPalette: "deep" } },
+        default: { globalPalette: "default" },
+        soft: { globalPalette: "soft" },
+        muted: { globalPalette: "muted" },
+        bold: { globalPalette: "bold" },
+        deep: { globalPalette: "deep" },
       },
     },
   },
