@@ -16,16 +16,6 @@ const meta: Meta<Args> = {
   args,
   argTypes,
   render: (args) => template(args),
-};
-export default meta;
-
-export const Default: Story = {
-  args: {
-    "default-slot":
-      "<p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able to create things we cannot ourselves imagine.</p>",
-    "cite-label": "Sir Tim Berners-Lee",
-    "cite-url": "https://example.com/source",
-  },
   parameters: {
     chromatic: {
       //🔶 Test default story in all different modes
@@ -37,5 +27,15 @@ export const Default: Story = {
         deep: { globals: { globalPalette: "deep" } },
       },
     },
+  },
+};
+export default meta;
+
+export const Default: Story = {
+  args: {
+    "default-slot":
+      "<p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able to create things we cannot ourselves imagine.</p>",
+    "cite-label": "Sir Tim Berners-Lee",
+    "cite-url": "https://example.com/source",
   },
 };
