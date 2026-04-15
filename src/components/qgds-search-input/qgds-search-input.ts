@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import { baseStyles, utilitiesStyles } from "../../styles";
+import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
 import { QgdsEvents } from "../../utils/events/event-controller";
@@ -55,6 +55,7 @@ export class QGDSSearchInput extends LitElement {
 
   static styles = [
     baseStyles,
+    formStyles,
     utilitiesStyles,
     css`
       ${unsafeCSS(componentCSS)}
@@ -93,30 +94,32 @@ export class QGDSSearchInput extends LitElement {
 
   render() {
     return html`
-      <div class=${classMap({ "search-input": true, "is-disabled": !!this.disabled })}>
-        <div class="field-wrap">
-          <qgds-icon class="search-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
-          <input
-            class=${classMap({ input: true, "is-filled": this.variant === "filled" })}
-            type="search"
-            name=${ifDefined(this.name)}
-            .value=${this.value}
-            placeholder=${this.placeholder}
-            ?disabled=${this.disabled}
-            aria-label="Search"
-            @input=${this._handleInput}
-            @keydown=${this._handleKeyDown}
-          />
-        </div>
+      <div class=${classMap({ "search-input-wrapper": true, "is-disabled": !!this.disabled })}>
+        <qgds-icon class="search-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
+        <input
+          class=${classMap({
+            "qgds-form-control": true,
+            "search-input": true,
+            "is-filled": this.variant === "filled",
+          })}
+          type="search"
+          name=${ifDefined(this.name)}
+          .value=${this.value}
+          placeholder=${this.placeholder}
+          ?disabled=${this.disabled}
+          aria-label="Search"
+          @input=${this._handleInput}
+          @keydown=${this._handleKeyDown}
+        />
         <button
-          class="btn"
+          class="search-btn"
           type="button"
           ?disabled=${this.disabled}
           aria-label="Search"
           @click=${this._handleButtonClick}
         >
-          <qgds-icon class="btn-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
-          <span class="btn-label">Search</span>
+          <qgds-icon class="search-btn-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
+          <span class="search-btn-label">Search</span>
         </button>
       </div>
     `;

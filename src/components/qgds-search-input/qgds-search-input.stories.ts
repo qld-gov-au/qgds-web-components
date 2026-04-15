@@ -44,13 +44,6 @@ export const Disabled: Story = {
   },
 };
 
-export const WithValue: Story = {
-  args: {
-    ...Default.args,
-    value: "Queensland",
-  },
-};
-
 export const AllVariants: Story = {
   decorators: [
     (story) => {
