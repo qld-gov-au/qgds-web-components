@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-
+import { chromaticModes } from "../../../.storybook/modes";
 import type { QGDSBlockquote } from "./qgds-blockquote";
 import "./qgds-blockquote";
 
@@ -17,16 +17,7 @@ const meta: Meta<Args> = {
   argTypes,
   render: (args) => template(args),
   parameters: {
-    chromatic: {
-      //🔶 Test default story in all different modes
-      modes: {
-        default: { globalPalette: "default" },
-        soft: { globalPalette: "soft" },
-        muted: { globalPalette: "muted" },
-        bold: { globalPalette: "bold" },
-        deep: { globalPalette: "deep" },
-      },
-    },
+    ...chromaticModes,
   },
 };
 export default meta;
