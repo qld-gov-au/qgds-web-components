@@ -12,6 +12,7 @@ export default defineConfig({
       enabled: true,
       headless: true,
       provider: playwright({}),
+      screenshotFailures: false,
       instances: [
         {
           browser: "chromium",
@@ -24,11 +25,7 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json", "html"],
       include: ["src/**/*.ts"],
-      exclude: [
-        "src/**/*.test.ts",
-        "src/**/*.stories.ts",
-        "src/**/*.d.ts",
-      ],
+      exclude: ["src/**/*.test.ts", "src/**/*.stories.ts", "src/**/*.d.ts"],
     },
   },
 });
