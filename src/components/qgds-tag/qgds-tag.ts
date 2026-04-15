@@ -7,6 +7,7 @@ import componentCSS from "./qgds-tag.styles.scss?inline";
 // import { ICON_NAMES } from "../qgds-icon/icon-names";
 import "../qgds-icon/qgds-icon";
 import { QgdsEvents } from "../../utils";
+import { IconName } from "../qgds-icon/icon-names";
 
 type Variant = "default" | "info" | "action" | "dismissible";
 type Size = "sm" | "lg";
@@ -100,6 +101,9 @@ export class QGDSTag extends LitElement {
       "is-lg": this.size === "lg" || this.variant === "dismissible",
     });
 
+    const defaultIcon = "alert-cancel" satisfies IconName;
+    const hoverIcon = "alert-cancel-filled" satisfies IconName;
+
     if (this.href) {
       return html`<a href="${this.href}" target=${ifDefined(this.target)} class="${classes}" >
         <span class="qgds-tag-label">${this.label}<span></a>`;
@@ -120,8 +124,8 @@ export class QGDSTag extends LitElement {
                 aria-label="Remove ${this.label}"
                 @click="${this._handleDismiss}"
               >
-                <qgds-icon icon-id="alert-cancel" size="md" class="default-icon" aria-hidden="true"></qgds-icon>
-                <qgds-icon icon-id="alert-cancel-filled" size="md" class="hover-icon" aria-hidden="true"></qgds-icon>
+                <qgds-icon icon-id="${defaultIcon}" size="md" class="default-icon" aria-hidden="true"></qgds-icon>
+                <qgds-icon icon-id="${hoverIcon}" size="md" class="hover-icon" aria-hidden="true"></qgds-icon>
               </button>
             `
           : nothing}
