@@ -19,22 +19,26 @@
     cursor: not-allowed;
     pointer-events: none;
   }
-}
 
-// ── Decorative search icon ───────────────────────────────────────────────────
+  // ── Decorative search icon ───────────────────────────────────────────────────
+  .search-icon {
+    position: absolute;
+    inset-inline-start: f.remify(12px);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
 
-.search-icon {
-  position: absolute;
-  inset-inline-start: f.remify(12px);
-  inset-block-start: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 1;
+    --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
-  --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
+    @container search-input (max-width: 400px) {
+      display: none;
+    }
+  }
 
-  @container search-input (max-width: 400px) {
-    display: none;
+  // In filled variant, when input is focused, change icon color
+  &:has(.search-input.is-filled:focus) .search-icon {
+    --qgds-icon-color: var(--qgds-color-neutral-dark, #78797e);
   }
 }
 
