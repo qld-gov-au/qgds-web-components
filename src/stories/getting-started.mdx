@@ -1,0 +1,49 @@
+import { Meta, Title, Subtitle, Description } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started" parameters={{ docs: { page: null } }} />
+
+# QGDS Web Components
+
+Start here to install, register, and use QGDS Web Components in your app.
+
+## Install
+
+```bash
+npm install @qld-gov-au/qgds-web-components
+```
+
+## Register Components
+
+Import the package once in your app entry point so custom elements are registered:
+
+```ts
+import "@qld-gov-au/qgds-web-components";
+```
+
+## Use a Component
+
+```html
+<qgds-button label="Continue"></qgds-button>
+```
+
+## Import Styles
+
+If your setup requires explicit stylesheet imports:
+
+```ts
+import "@qld-gov-au/qgds-web-components/styles.css";
+```
+
+## Accessibility
+
+Components are built with accessibility in mind. Accessible outcomes still depend on:
+
+- semantic page structure
+- meaningful labels and content
+- correct usage in context
+
+## Next Steps
+
+- Explore component docs in the sidebar.
+- Start with common primitives like Button, Callout, and Form controls.
+- Validate behaviour and accessibility in your own app context.
