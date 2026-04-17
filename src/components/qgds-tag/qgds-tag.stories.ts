@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
+import { chromaticModes } from "../../modes";
 import { html } from "lit";
 import type { QGDSTag } from "./qgds-tag";
 import "./qgds-tag";
@@ -78,12 +79,15 @@ export const Dismissible: Story = {
 };
 
 /**
- * All Variants - default palette
+ * All Variants - with Chromatic modes
  */
 export const AllVariantsDefault: Story = {
   args: {
     label: "Default Tag",
     variant: "default",
+  },
+  parameters: {
+    ...chromaticModes,
   },
   globals: { globalPalette: "default" },
   render: (args) =>
@@ -102,38 +106,6 @@ export const AllVariantsDefault: Story = {
         label: "Dismissible",
       })}
     </div>`,
-};
-
-/**
- * All Variants - Soft palette
- */
-export const AllVariantsSoft: Story = {
-  ...AllVariantsDefault,
-  globals: { globalPalette: "soft" },
-};
-
-/**
- * All Variants - Muted palette
- */
-export const AllVariantsMuted: Story = {
-  ...AllVariantsDefault,
-  globals: { globalPalette: "muted" },
-};
-
-/**
- * All Variants - Bold Palette
- */
-export const AllVariantsBold: Story = {
-  ...AllVariantsDefault,
-  globals: { globalPalette: "bold" },
-};
-
-/**
- * All Variants - Deep Palette
- */
-export const AllVariantsDeep: Story = {
-  ...AllVariantsDefault,
-  globals: { globalPalette: "deep" },
 };
 
 /**
