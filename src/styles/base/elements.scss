@@ -22,6 +22,8 @@ h6 {
 }
 
 a {
+  border-radius: 1px; // Keep this at lowest specificity. Required for rounded focus outline.
+
   &,
   &:link {
     color: var(--qgds-color-link-default);
@@ -50,7 +52,6 @@ a {
   }
 
   @include m.focusable() {
-    border-radius: 1px;
     color: var(--qgds-color-link-default);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);

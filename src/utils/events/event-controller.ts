@@ -17,6 +17,7 @@
 type EventPayload = Record<string, unknown>;
 
 export const EventNames = [
+  "click",
   "select",
   "change",
   "toggle",
@@ -64,13 +65,13 @@ export class QgdsEvents {
   }
 
   /**
-   * Dispatch a custom event using a controlled event name set.
+   * Create a custom event with standardized metadata and options.
+   * @param name - The event name from the controlled event names set
+   * @param detail - Optional detail payload to include in the event
+   * @param originalEvent - Optional original event that triggered this event
+   * @returns A CustomEvent object
    */
-  dispatch(
-    name: QgdsControlledEventName, // Fixed type from 'typeof EventNames'
-    detail: EventPayload = {},
-    originalEvent?: Event
-  ): boolean {
+  create(name: QgdsControlledEventName, detail: EventPayload = {}, originalEvent?: Event): CustomEvent {
     // Adds prefix and ensures event name is valid
     const eventName = this.toEventName(name);
 
@@ -83,14 +84,31 @@ export class QgdsEvents {
       originalEvent,
     };
 
-    return this.host.dispatchEvent(
-      new CustomEvent(eventName, {
-        detail: payload,
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-      })
-    );
+    return new CustomEvent(eventName, {
+      detail: payload,
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
+  }
+
+  /**
+   * Dispatch a custom event using a controlled event name set or dispatch an already created CustomEvent.
+   * @overload
+   * dispatch(name: QgdsControlledEventName, detail?: EventPayload, originalEvent?: Event): boolean
+   * @overload
+   * dispatch(event: CustomEvent): boolean
+   */
+  dispatch(nameOrEvent: QgdsControlledEventName | CustomEvent, detail?: EventPayload, originalEvent?: Event): boolean {
+    let event: CustomEvent;
+
+    if (nameOrEvent instanceof CustomEvent) {
+      event = nameOrEvent;
+    } else {
+      event = this.create(nameOrEvent, detail, originalEvent);
+    }
+
+    return this.host.dispatchEvent(event);
   }
 
   /* Tidy up event names and apply prefix */

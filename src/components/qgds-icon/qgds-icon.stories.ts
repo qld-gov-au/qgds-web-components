@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSIcon } from "./qgds-icon.ts";
-import "./qgds-icon.ts";
+import type { QGDSIcon } from "./qgds-icon";
+import "./qgds-icon";
 import { ICON_NAMES } from "./icon-names.js";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
