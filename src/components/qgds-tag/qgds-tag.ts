@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -18,8 +18,9 @@ type Size = "sm" | "lg";
  * A web component for displaying tags with various styles and variants.
  * Used to label, categorize, or highlight content.
  *
- * @uikit pagination
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120418-68636
  * @website https://www.designsystem.qld.gov.au/components/tag
+ * @tagname qgds-tag
  *
  * @prop {string} label - The label/text content of the tag. Required.
  * @prop {Variant} [variant = "default"] - The variant of the tag .
@@ -59,13 +60,7 @@ export class QGDSTag extends LitElement {
   @property({ type: String }) href?: string;
   @property({ type: String }) target?: string;
 
-  static styles = [
-    resetStyles,
-    elementsStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, elementsStyles, unsafeCSS(componentCSS)];
 
   private _events: QgdsEvents;
 
