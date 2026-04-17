@@ -37,7 +37,7 @@ type DetailsSize = "xs" | "sm" | "md" | "lg";
  */
 @customElement("qgds-details")
 export class QGDSDetails extends LitElement {
-  private events: QgdsEvents = new QgdsEvents(this, { pushToDataLayer: true });
+  private events: QgdsEvents = new QgdsEvents(this);
 
   static styles = [
     baseStyles,

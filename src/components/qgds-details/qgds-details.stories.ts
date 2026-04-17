@@ -5,8 +5,8 @@ import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { action } from "storybook/actions";
 
-import type { QGDSDetails } from "./qgds-details.ts";
-import "./qgds-details.ts";
+import type { QGDSDetails } from "./qgds-details";
+import "./qgds-details";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
