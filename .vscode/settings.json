@@ -33,5 +33,6 @@
   "somesass.workspace.exclude": ["**/.git/**", "**/node_modules/**", "dist/"],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "js/ts.tsdk.path": "node_modules\\typescript\\lib"
 }
