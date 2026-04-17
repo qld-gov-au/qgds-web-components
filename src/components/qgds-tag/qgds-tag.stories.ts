@@ -89,7 +89,6 @@ export const AllVariantsDefault: Story = {
   parameters: {
     ...chromaticModes,
   },
-  globals: { globalPalette: "default" },
   render: (args) =>
     html`<div style="display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
       ${template({
