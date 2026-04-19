@@ -17,7 +17,13 @@ const meta: Meta<Args> = {
   args,
   argTypes,
   render: (args) => html`
-    <div @qgds-search=${action("qgds-search")}>${template(args)}</div>
+    <div
+      @qgds-search=${(e: CustomEvent) => {
+        action("qgds-search")(e.detail);
+      }}
+    >
+      ${template(args)}
+    </div>
   `,
 };
 
@@ -59,11 +65,9 @@ export const AllVariants: Story = {
   ],
   render: (args) => {
     return html`
-      <qgds-search-input placeholder="${args.placeholder}" variant="outlined">
-      </qgds-search-input>
+      <qgds-search-input placeholder="${args.placeholder}" variant="outlined"> </qgds-search-input>
 
-      <qgds-search-input placeholder="${args.placeholder}" variant="filled">
-      </qgds-search-input>
+      <qgds-search-input placeholder="${args.placeholder}" variant="filled"> </qgds-search-input>
     `;
   },
   args: {

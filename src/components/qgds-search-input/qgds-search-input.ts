@@ -15,6 +15,8 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * Standalone component — does not extend QGDSFormField and has no form association.
  *
  * @tagname qgds-search-input
+ * 
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97871
  *
  * @prop {String} [value] - The current value of the search field.
  * @prop {String} [placeholder="Search"] - Placeholder text for the input.
