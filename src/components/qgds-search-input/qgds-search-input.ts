@@ -84,14 +84,7 @@ export class QGDSSearchInput extends LitElement {
     }
   };
 
-  /**
-   * Dispatch the custom "qgds-search" event with the current value when the search button is clicked.
-   */
-  private _handleButtonClick = (): void => {
-    this._dispatchSearch();
-  };
-
-  private _dispatchSearch(): void {
+  private _dispatchSearch = (): void => {
     this.events.dispatch("search", { value: this.value });
   }
 
@@ -119,7 +112,7 @@ export class QGDSSearchInput extends LitElement {
           type="button"
           ?disabled=${this.disabled}
           aria-label="Search"
-          @click=${this._handleButtonClick}
+          @click=${this._dispatchSearch}
         >
           <qgds-icon class="search-btn-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
           <span class="search-btn-label">Search</span>
