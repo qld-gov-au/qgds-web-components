@@ -17,6 +17,7 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @tagname qgds-search-input
  * 
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97871
+ * @website https://www.designsystem.qld.gov.au/components/search-input
  *
  * @prop {String} [value] - The current value of the search field.
  * @prop {String} [placeholder="Search"] - Placeholder text for the input.
