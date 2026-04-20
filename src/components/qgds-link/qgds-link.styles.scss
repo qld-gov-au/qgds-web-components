@@ -1,0 +1,186 @@
+:host {
+  --qgds-link-padding: unset;
+  --qgds-link-icon-size: unset;
+  --qgds-link-font-size: unset;
+  --qgds-link-font-weight: unset;
+  --qgds-link-margin-inline-start: unset;
+  --qgds-link-icon-weight: unset;
+  --qgds-link-width: unset;
+  --qgds-link-justify-content: unset;
+  --qgds-link-background-colour: unset;
+  --qgds-icon-svg: unset;
+  --icon-direction: 1;
+  --qgds-link-flex-direction: unset;
+  --qgds-link-border-end-colour: unset;
+  --qgds-link-border-end-width: unset;
+  --qgds-link-border-end-style: unset;
+  --qgds-link-padding-inline-start: unset;
+  --qgds-icon-margin-start: unset;
+
+  inline-size: var(--qgds-link-width, max-content);
+  display: inline-block;
+  border-block-end: var(--qgds-link-border-end-width) var(--qgds-link-border-end-style) var(--qgds-link-border-end-colour);
+  padding-inline-start: var(--qgds-link-padding-inline-start);
+}
+
+a,
+button,
+span {
+  --animation-move-distance: 0.5rem;
+  --animation-shrink-scale: 0.75;
+  --animation-grow-scale: 1.25;
+
+  display: flex;
+  flex-direction: var(--qgds-link-flex-direction, row);
+  align-items: center;
+  justify-content: var(--qgds-link-justify-content);
+  gap: 0.75rem;
+  color: var(--qgds-color-link-default);
+  text-decoration: underline;
+  background: var(--qgds-link-background-colour, none);
+  cursor: pointer;
+  padding-block: 0 var(--qgds-link-padding);
+  margin-inline-start: var(--qgds-link-margin-inline-start);
+  font-size: var(--qgds-link-font-size, inherit);
+  font-weight: var(--qgds-link-font-weight, inherit);
+  text-decoration-thickness: 0.5px;
+  text-underline-offset: 6px;
+  transition: text-decoration-thickness var(--qgds-transition-time) ease;
+  inline-size: var(--qgds-link-width);
+  
+  // &.qgds-icon {
+  //   &::before {
+  //     content: "";
+  //     display: flex;
+  //     inline-size: var(--qgds-link-icon-size, 1.25rem);
+  //     line-height: var(--qgds-line-height-none, 1);
+  //     block-size: var(--qgds-link-icon-size, 1.25rem);
+  //     background-position: center center;
+  //     background-repeat: no-repeat;
+  //     mask-position: center center;
+  //     mask-repeat: no-repeat;
+  //     mask-size: contain;
+  //     background-size: contain;
+  //     vertical-align: top;
+  //     mask-image: var(--qgds-icon-svg);
+  //     color: var(--qgds-icon-color);
+  //     background-color: currentColor;
+  //   }
+  // }
+
+  &:hover {
+    text-decoration-thickness: 2px;
+    transition: text-decoration-thickness var(--qgds-transition-time) ease;
+  }
+
+  &:focus-visible {
+    outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
+    outline-offset: 2px;
+    border-radius: var(--qgds-border-radius);
+  }
+}
+
+qgds-icon {
+  margin-inline-start: var(--qgds-icon-margin-start);
+}
+
+:host([disabled]) {
+  a,
+  button, span {
+    color: var(--qgds-color-disabled);
+    pointer-events: none;
+    text-decoration: none;
+  }
+}
+
+:host([trailing-icon]) {
+  a,
+  button,
+  span {
+    flex-direction: var(--qgds-link-flex-direction, row-reverse);
+    justify-content: flex-end;
+  }
+}
+
+:host([stretch]) {
+  --qgds-link-width: 100%;
+
+  inline-size: var(--qgds-link-width, 100%);
+
+  a,
+  button,
+  span {
+    qgds-icon {
+      margin-inline: 0 var(--icon-spacing, auto);
+    }
+  }
+}
+
+:host([trailing-icon][stretch]) {
+  a,
+  button,
+  span {
+    qgds-icon {
+      margin-inline: var(--icon-spacing, auto) 0;
+    }
+  }
+}
+
+// Span-specific overrides — must come after a, button, span to win via source order
+// stylelint-disable-next-line no-descending-specificity
+span {
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+  color: var(--qgds-color-text-default);
+}
+
+// Animations — driven by the reflected animation attribute on :host
+// Shared base transition (lower specificity — must come before per-animation hover rules)
+:host([animation="leftToRight"]) a:hover qgds-icon,
+:host([animation="leftToRight"]) button:hover qgds-icon {
+  transform: translateX(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="rightToLeft"]) a:hover qgds-icon,
+:host([animation="rightToLeft"]) button:hover qgds-icon {
+  transform: translateX(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="topToBottom"]) a:hover qgds-icon,
+:host([animation="topToBottom"]) button:hover qgds-icon {
+  transform: translateY(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="bottomToTop"]) a:hover qgds-icon,
+:host([animation="bottomToTop"]) button:hover qgds-icon {
+  transform: translateY(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="scaleIn"]) a:hover qgds-icon,
+:host([animation="scaleIn"]) button:hover qgds-icon {
+  transform: scale(var(--animation-grow-scale, 1.25)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="scaleOut"]) a:hover qgds-icon,
+:host([animation="scaleOut"]) button:hover qgds-icon {
+  transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px; // stylelint-disable-line
+  height: 1px; // stylelint-disable-line
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); /* Deprecated but used for backward compatibility */
+  border: 0;
+  white-space: nowrap; /* Prevents visual artifacts */
+}

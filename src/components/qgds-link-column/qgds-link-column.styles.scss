@@ -1,0 +1,79 @@
+:host {
+    display: block;
+
+    --icon-spacing: auto; // Not using
+    --link-flex-direction: row-reverse;
+    --link-width: 100%;
+
+    // --qgds-link-margin-inline-start: 0;
+    // --qgds-link-flex-direction: row-reverse;
+    --qgds-icon-spacing-start: auto;
+    --qgds-icon-spacing-end: 0;
+    --qgds-icon-margin-start: auto;
+}
+
+.items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.heading {
+    margin-block: 0 1rem;
+    margin-inline: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--qgds-color-text-heading);
+    line-height: 1.4;
+    padding-block-end: 0.75rem;
+    border-block-end: 3px solid var(--qgds-color-border-alt);
+}
+
+// Horizontal: always grid, default 1 column
+:host([layout="horizontal"]) .items {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 clamp(2rem, 4vw, 4rem);
+}
+
+// Horizontal + columns override
+:host([layout="horizontal"][columns="2"]) .items {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+:host([layout="horizontal"][columns="3"]) .items {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+// Vertical multi-column: only needed for 2 and 3
+// Uses :not([layout="horizontal"]) so it works when layout attr is absent (default vertical)
+:host([columns="2"]:not([layout="horizontal"])) .items {
+    column-count: 2;
+    column-gap: clamp(2rem, 4vw, 4rem);
+}
+
+:host([columns="3"]:not([layout="horizontal"])) .items {
+    column-count: 3;
+    column-gap: clamp(2rem, 4vw, 4rem);
+}
+
+// Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)
+@media (width <= 48em) {
+    :host([layout="horizontal"][columns="2"]) .items,
+    :host([layout="horizontal"][columns="3"]) .items {
+        grid-template-columns: 1fr;
+    }
+
+    :host([columns="2"]:not([layout="horizontal"])) .items,
+    :host([columns="3"]:not([layout="horizontal"])) .items {
+        column-count: 1;
+    }
+}
+
+qgds-call-to-action {
+    display: block;
+    inline-size: fit-content;
+    grid-column: 1 / -1;
+    column-span: all;
+    margin-inline-start: auto;
+}
