@@ -53,11 +53,14 @@
 
   // Left: icon width (24px) + left offset (12px) + gap (8px)
   // Right: button width (approx 88px for "Search" + padding)
-  padding-inline: f.remify(44px) f.remify(100px);
+  // Use custom properties so border-padding mixin compensates when borders appear (e.g. filled:focus)
+  --padding-left: #{f.remify(44px)};
+  --padding-right: #{f.remify(100px)};
 
   @container search-input (max-width: 400px) {
     // Icon-only button width (48px) + some gap
-    padding-inline: f.remify(12px) f.remify(60px);
+    --padding-left: #{f.remify(12px)};
+    --padding-right: #{f.remify(60px)};
   }
 
   // Remove native search clear button (webkit)
@@ -67,7 +70,11 @@
 
   &.is-filled {
     border-start-end-radius: 0.25rem;
-    border-end-end-radius: 0.25rem;
+    border-end-start-radius: 0;
+
+    &:focus {
+      border-end-start-radius: 0.25rem;
+    }
   }
 }
 
