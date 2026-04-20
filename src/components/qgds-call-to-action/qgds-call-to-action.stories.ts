@@ -1,26 +1,42 @@
-import { html } from "lit";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import "./qgds-call-to-action.js";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QgdsCallToAction } from "./qgds-call-to-action.js";
+import "./qgds-call-to-action.js";
 
+const { args, argTypes, template } = getStorybookHelpers<QgdsCallToAction>("qgds-call-to-action");
 
-const meta: Meta<QgdsCallToAction> = {
+type Args = typeof args;
+type Story = StoryObj<Args>;
+
+const meta: Meta<Args> = {
   title: "Components/Call To Action",
   component: "qgds-call-to-action",
   tags: ["autodocs"],
-  argTypes: {
-    label: { control: "text" },
-    href: { control: "text" },
-    isViewAll: { control: "boolean" },
+  args: {
+    ...args,
+    label: "View all",
+    href: "#",
   },
+  argTypes,
+  render: (args) => template(args),
 };
+
 export default meta;
 
-type Story = StoryObj<QgdsCallToAction>;
-
+/** Default call to action with an arrow-right icon. */
 export const Default: Story = {
-  args: { label: "View all", href: "#", isViewAll: true },
-  render: ({ label, href, isViewAll }) => html`
-    <qgds-call-to-action label=${label} href=${href} ?is-view-all=${isViewAll}></qgds-call-to-action>
-  `,
+  args: {
+    label: "View all",
+    href: "#",
+  },
+};
+
+/** View all variant — uses the larger view-all icon. */
+export const ViewAll: Story = {
+  name: "View All",
+  args: {
+    label: "View all services",
+    href: "#",
+    "is-view-all": true,
+  },
 };

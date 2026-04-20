@@ -1,11 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { ICON_NAMES } from "../qgds-icon/icon-names.js";
+import type { QgdsLinkItem } from "./qgds-link-item.js";
 import "./qgds-link-item.js";
 
-const meta: Meta = {
+const { args, argTypes, template } = getStorybookHelpers<QgdsLinkItem>("qgds-link-item");
+
+type Args = typeof args;
+
+const meta: Meta<Args> = {
   title: "Components/Link Item",
+  component: "qgds-link-item",
   tags: ["autodocs"],
   decorators: [
     (story) =>
@@ -13,35 +19,38 @@ const meta: Meta = {
         ${story()}
       </ul>`,
   ],
+  args: {
+    ...args,
+    label: "Environment and sustainability",
+    href: "/topics/environment",
+    "icon-name": "arrow-right",
+    animation: "leftToRight",
+  },
   argTypes: {
-    label: { control: "text" },
-    href: { control: "text" },
-    description: { control: "text" },
-    disabled: { control: "boolean" },
-    viewAll: { control: "boolean" },
-    iconName: {
+    ...argTypes,
+    "icon-name": {
       control: { type: "select" },
       options: ["", ...ICON_NAMES],
       labels: { "": "None" },
       table: { category: "Icon" },
     },
-    iconSize: {
+    "icon-size": {
       control: { type: "select" },
       options: ["", "sm", "md", "lg", "xl"],
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
       table: { category: "Icon" },
     },
-    trailingIcon: {
+    "trailing-icon": {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
     },
     stretch: {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
     },
-    onlyIcon: {
+    "only-icon": {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
     },
     animation: {
       control: { type: "select" },
@@ -51,131 +60,58 @@ const meta: Meta = {
       table: { category: "Animation" },
     },
   },
+  render: (args) => template(args),
 };
 
 export default meta;
-type Story = StoryObj;
 
+type Story = StoryObj<Args>;
+
+/** Default link item with arrow-right icon and leftToRight animation. */
 export const Default: Story = {
   args: {
     label: "Environment and sustainability",
     href: "/topics/environment",
-    iconName: "arrow-right",
-    iconSize: "",
+    "icon-name": "arrow-right",
     animation: "leftToRight",
-    description: "",
-    disabled: false,
-    viewAll: false,
-    stretch: false,
-    trailingIcon: false,
-    onlyIcon: false,
   },
-  render: (args) => html`
-    <qgds-link-item
-      label=${args.label}
-      href=${args.href}
-      icon-name=${args.iconName}
-      icon-size=${ifDefined(args.iconSize ?? undefined)}
-      animation=${args.animation}
-      ?disabled=${args.disabled}
-      ?view-all=${args.viewAll}
-      ?stretch=${args.stretch}
-      ?trailing-icon=${args.trailingIcon}
-      ?only-icon=${args.onlyIcon}
-      .description=${args.description}
-    ></qgds-link-item>
-  `,
 };
 
+/** Link item with a description shown below the label. */
 export const WithDescription: Story = {
   args: {
     label: "Transport and infrastructure",
     href: "/topics/transport",
-    iconName: "arrow-right",
-    iconSize: "",
+    "icon-name": "arrow-right",
     animation: "leftToRight",
     description: "Roads, public transport, cycling and walking.",
-    disabled: false,
-    viewAll: false,
-    stretch: false,
-    trailingIcon: false,
-    onlyIcon: false,
   },
-  render: (args) => html`
-    <qgds-link-item
-      label=${args.label}
-      href=${args.href}
-      icon-name=${args.iconName}
-      icon-size=${ifDefined(args.iconSize ?? undefined)}
-      animation=${args.animation}
-      .description=${args.description}
-      ?disabled=${args.disabled}
-      ?stretch=${args.stretch}
-      ?trailing-icon=${args.trailingIcon}
-      ?only-icon=${args.onlyIcon}
-    ></qgds-link-item>
-  `,
 };
 
+/** Disabled state — the link is not interactive. */
 export const Disabled: Story = {
   args: {
     label: "Health and wellbeing",
     href: "/topics/health",
-    iconName: "arrow-right",
-    iconSize: "",
+    "icon-name": "arrow-right",
     animation: "leftToRight",
-    description: "",
     disabled: true,
-    viewAll: false,
-    stretch: false,
-    trailingIcon: false,
-    onlyIcon: false,
   },
-  render: (args) => html`
-    <qgds-link-item
-      label=${args.label}
-      href=${args.href}
-      icon-name=${args.iconName}
-      icon-size=${ifDefined(args.iconSize ?? undefined)}
-      animation=${args.animation}
-      ?disabled=${args.disabled}
-      ?stretch=${args.stretch}
-      ?trailing-icon=${args.trailingIcon}
-      ?only-icon=${args.onlyIcon}
-    ></qgds-link-item>
-  `,
 };
 
+/** View-all variant — no separator border, positioned after the list. */
 export const ViewAll: Story = {
   name: "View All",
   args: {
     label: "View all topics",
     href: "/topics",
-    iconName: "arrow-right",
-    iconSize: "",
+    "icon-name": "arrow-right",
     animation: "leftToRight",
-    description: "",
-    disabled: false,
-    viewAll: true,
-    stretch: false,
-    trailingIcon: false,
-    onlyIcon: false,
+    "view-all": true,
   },
-  render: (args) => html`
-    <qgds-link-item
-      label=${args.label}
-      href=${args.href}
-      icon-name=${args.iconName}
-      icon-size=${ifDefined(args.iconSize ?? undefined)}
-      animation=${args.animation}
-      ?view-all=${args.viewAll}
-      ?stretch=${args.stretch}
-      ?trailing-icon=${args.trailingIcon}
-      ?only-icon=${args.onlyIcon}
-    ></qgds-link-item>
-  `,
 };
 
+/** Link item with nested sub-items rendered in the default slot. */
 export const WithNestedItems: Story = {
   args: {
     stretch: false,

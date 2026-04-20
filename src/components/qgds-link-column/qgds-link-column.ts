@@ -8,6 +8,35 @@ import "../qgds-call-to-action/qgds-call-to-action.js";
 
 export type LinkColumnDirection = "vertical" | "horizontal";
 
+/**
+ * A navigation landmark that organises a set of `<qgds-link-item>` elements into a titled column.
+ * Supports vertical and horizontal layouts, multi-column grids, and an optional view-all CTA.
+ *
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
+ *
+ * @property {string} [heading] - The visible heading text rendered above the link list.
+ * @property {string} [aria-label] - Accessible label for the `<nav>` element. Falls back to `heading`.
+ * @property {number} [heading-level] - Heading rank for the heading element (1–6). Defaults to 3.
+ * @property {LinkColumnDirection} [layout] - Layout direction: "vertical" (default) or "horizontal".
+ * @property {number} [columns] - Number of columns (1–3). Defaults to 1.
+ * @property {boolean} [has-view-all] - When true and `view-all-url` is set, renders a `<qgds-call-to-action>` at the end.
+ * @property {string} [view-all-label] - Label for the view-all CTA. Defaults to "View all services".
+ * @property {string} [view-all-url] - URL for the view-all CTA.
+ *
+ * @slot - Accepts `<qgds-link-item>` elements only. Non-conforming children are hidden with a console warning.
+ *
+ * @cssprop {length|string} --qgds-icon-spacing-start - Override icon spacing at the start.
+ * @cssprop {length|string} --qgds-icon-spacing-end - Override icon spacing at the end.
+ * @cssprop {length|string} --qgds-icon-margin-start - Override icon inline-start margin.
+ *
+ * @example
+ * ```html
+ * <qgds-link-column heading="Our services" heading-level="2" layout="vertical" columns="2" has-view-all view-all-url="/services">
+ *   <qgds-link-item label="Planning" href="/planning"></qgds-link-item>
+ *   <qgds-link-item label="Environment" href="/environment"></qgds-link-item>
+ * </qgds-link-column>
+ * ```
+ */
 @customElement("qgds-link-column")
 export class QgdsLinkColumn extends LitElement {
   static styles = [
@@ -16,12 +45,6 @@ export class QgdsLinkColumn extends LitElement {
       ${unsafeCSS(componentCSS)}
     `,
   ];
-
-  // SEN
-  // Note: we want to have a dynamic grid flow
-  // So we will need a way to set the colunm minmax width value
-  // Also maybe a way to also set the number of columns and use media queries to
-  // control when to manipulate column numbers.
 
   @property({ type: String, reflect: true }) heading = "";
   @property({ type: String, reflect: true, attribute: "aria-label" })

@@ -7,6 +7,44 @@ import { baseStyles } from "../../styles";
 export type Animations = "" | "leftToRight" | "rightToLeft" | "topToBottom" | "bottomToTop" | "scaleIn" | "scaleOut";
 export type IconSize = "sm" | "md" | "lg" | "xl";
 
+/**
+ * A primitive link component that renders either an `<a>` or `<span>` based on the presence of an `href`.
+ * Supports icons, animations, and accessible labelling.
+ *
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
+ *
+ * @property {string} [label] - The visible link label text.
+ * @property {string} [href] - The destination URL. When provided renders an `<a>`, otherwise a `<span>`.
+ * @property {boolean} [disabled] - Prevents navigation and click events when true.
+ * @property {string} [icon-name] - The icon identifier to display (e.g. "arrow-right", "view-all").
+ * @property {IconSize} [icon-size] - Size of the icon ("sm", "md", "lg", "xl"). Defaults to "md".
+ * @property {boolean} [trailing-icon] - When true, places the icon after the label text.
+ * @property {boolean} [stretch] - When true, the link expands to fill available width.
+ * @property {Animations} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
+ * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only).
+ *
+ * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
+ * @cssprop {length} --qgds-link-icon-size - Override the icon size.
+ * @cssprop {length|string} --qgds-link-font-size - Override the link font size.
+ * @cssprop {number|string} --qgds-link-font-weight - Override the link font weight.
+ * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
+ * @cssprop {length|string} --qgds-link-width - Override the link width.
+ * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
+ * @cssprop {color} --qgds-link-background-colour - Override the link background colour.
+ * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
+ * @cssprop {color} --qgds-link-border-end-colour - Override the block-end border colour.
+ * @cssprop {length} --qgds-link-border-end-width - Override the block-end border width.
+ * @cssprop {string} --qgds-link-border-end-style - Override the block-end border style.
+ * @cssprop {length} --qgds-link-padding-inline-start - Override the inline-start padding.
+ * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
+ *
+ * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
+ *
+ * @example
+ * ```html
+ * <qgds-link label="Learn more" href="/about" icon-name="arrow-right" trailing-icon></qgds-link>
+ * ```
+ */
 @customElement("qgds-link")
 export class QgdsLink extends LitElement {
   static styles = [
@@ -67,7 +105,7 @@ export class QgdsLink extends LitElement {
 
   protected _dispatchClickEvent() {
     this.dispatchEvent(
-      new CustomEvent("s-click", {
+      new CustomEvent("qgds-click", {
         bubbles: true,
         composed: true,
         detail: { href: this.href, label: this.label },

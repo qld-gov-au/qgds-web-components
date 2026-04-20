@@ -1,53 +1,36 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html, type TemplateResult } from "lit";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { html } from "lit";
+import type { QgdsLinkColumn } from "./qgds-link-column.js";
 import "./qgds-link-column.js";
 import "../qgds-link-item/qgds-link-item.js";
-import type { LinkColumnDirection } from "./qgds-link-column.js";
 
-const meta: Meta = {
+const { args, argTypes, template } = getStorybookHelpers<QgdsLinkColumn>("qgds-link-column");
+
+type Args = typeof args;
+
+const meta: Meta<Args> = {
   title: "Components/Link Column",
+  component: "qgds-link-column",
   tags: ["autodocs"],
-  argTypes: {
-    heading: { control: "text" },
-    ariaLabel: { control: "text" },
-    headingLevel: { control: { type: "range", min: 1, max: 6, step: 1 } },
-    columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
-    direction: { control: "radio", options: ["vertical", "horizontal"] },
-    hasViewAll: { control: "boolean" },
-    viewAllLabel: { control: "text" },
-    viewAllURL: { control: "text" },
-  },
-};
-
-export default meta;
-type Story = StoryObj;
-
-const col = (args: Record<string, unknown>, children: TemplateResult) => html`
-  <qgds-link-column
-    .heading=${args.heading}
-    .ariaLabel=${args.ariaLabel}
-    .headingLevel=${(args.headingLevel as number) ?? 3}
-    .columns=${args.columns}
-    .direction=${args.direction as LinkColumnDirection}
-    .hasViewAll=${args.hasViewAll as boolean}
-    .viewAllLabel=${args.viewAllLabel}
-    .viewAllURL=${args.viewAllURL}
-  >
-    ${children}
-  </qgds-link-column>
-`;
-
-export const Default: Story = {
   args: {
+    ...args,
     heading: "Transport and motoring",
+    "heading-level": 3,
     columns: 3,
-    direction: "vertical",
-    hasViewAll: false,
-    viewAllLabel: "View all services",
-    viewAllURL: "#",
+    layout: "vertical",
+    "has-view-all": false,
+    "view-all-label": "View all services",
+    "view-all-url": "#",
+  },
+  argTypes: {
+    ...argTypes,
+    "heading-level": { control: { type: "range", min: 1, max: 6, step: 1 } },
+    columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
+    layout: { control: "radio", options: ["vertical", "horizontal"] },
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Driver licence" href="#driver-licence"></qgds-link-item>
@@ -61,16 +44,34 @@ export const Default: Story = {
     ),
 };
 
+export default meta;
+
+type Story = StoryObj<Args>;
+
+/** Default link column with a heading and vertical multi-column layout. */
+export const Default: Story = {
+  args: {
+    heading: "Transport and motoring",
+    columns: 3,
+    layout: "vertical",
+    "has-view-all": false,
+    "view-all-label": "View all services",
+    "view-all-url": "#",
+  },
+};
+
+/** Link column with no heading — the nav landmark is unnamed (triggers a console warning). */
 export const NoHeading: Story = {
   args: {
+    heading: "",
     columns: 2,
-    direction: "vertical",
-    hasViewAll: false,
-    viewAllLabel: "View all services",
-    viewAllURL: "#",
+    layout: "vertical",
+    "has-view-all": false,
+    "view-all-label": "View all services",
+    "view-all-url": "#",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Driver licence" href="#driver-licence"></qgds-link-item>
@@ -80,18 +81,20 @@ export const NoHeading: Story = {
     ),
 };
 
+/** No heading with an explicit aria-label to satisfy WCAG 2.4.1. */
 export const NoHeadingWithAriaLabel: Story = {
   name: "No Heading (with aria-label)",
   args: {
-    ariaLabel: "Transport services",
+    heading: "",
+    "aria-label": "Transport services",
     columns: 2,
-    direction: "vertical",
-    hasViewAll: false,
-    viewAllLabel: "View all services",
-    viewAllURL: "#",
+    layout: "vertical",
+    "has-view-all": false,
+    "view-all-label": "View all services",
+    "view-all-url": "#",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Driver licence" href="#driver-licence"></qgds-link-item>
@@ -101,17 +104,18 @@ export const NoHeadingWithAriaLabel: Story = {
     ),
 };
 
+/** Link column with a View All call-to-action at the bottom. */
 export const WithViewAll: Story = {
   args: {
     heading: "Transport and motoring",
     columns: 2,
-    direction: "vertical",
-    hasViewAll: true,
-    viewAllLabel: "View all transport services",
-    viewAllURL: "#view-all",
+    layout: "vertical",
+    "has-view-all": true,
+    "view-all-label": "View all transport services",
+    "view-all-url": "#view-all",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Driver licence" href="#driver-licence"></qgds-link-item>
@@ -121,17 +125,18 @@ export const WithViewAll: Story = {
     ),
 };
 
+/** Single-column layout with description text on each item. */
 export const WithDescription: Story = {
   args: {
     heading: "Transport and motoring",
     columns: 1,
-    direction: "vertical",
-    hasViewAll: false,
-    viewAllLabel: "View all services",
-    viewAllURL: "#",
+    layout: "vertical",
+    "has-view-all": false,
+    "view-all-label": "View all services",
+    "view-all-url": "#",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item
@@ -195,17 +200,18 @@ export const WithDescription: Story = {
     ),
 };
 
+/** Three-column vertical layout with many links — a typical popular services component. */
 export const SimpleLinks: Story = {
   args: {
     heading: "Popular services",
     columns: 3,
-    direction: "vertical",
-    hasViewAll: true,
-    viewAllLabel: "View all",
-    viewAllURL: "#",
+    layout: "vertical",
+    "has-view-all": true,
+    "view-all-label": "View all",
+    "view-all-url": "#",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Pay a fine" href="#"></qgds-link-item>
@@ -224,17 +230,18 @@ export const SimpleLinks: Story = {
     ),
 };
 
+/** Three-column horizontal layout — links flow left-to-right across columns. */
 export const SimpleLinksHorizontal: Story = {
   args: {
     heading: "Popular services",
     columns: 3,
-    direction: "horizontal",
-    hasViewAll: true,
-    viewAllLabel: "View all",
-    viewAllURL: "#",
+    layout: "horizontal",
+    "has-view-all": true,
+    "view-all-label": "View all",
+    "view-all-url": "#",
   },
   render: (args) =>
-    col(
+    template(
       args,
       html`
         <qgds-link-item label="Pay a fine" href="#"></qgds-link-item>

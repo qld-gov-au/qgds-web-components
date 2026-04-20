@@ -1,18 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
-import "./qgds-link.js";
 import { ICON_NAMES } from "../qgds-icon/icon-names.js";
-import type { IconSize } from "./qgds-link.js";
+import type { QgdsLink } from "./qgds-link.js";
+import "./qgds-link.js";
 
-const meta: Meta = {
+const { args, argTypes, template } = getStorybookHelpers<QgdsLink>("qgds-link");
+
+type Args = typeof args;
+
+const meta: Meta<Args> = {
   title: "Components/Link",
+  component: "qgds-link",
   tags: ["autodocs"],
+  args: {
+    ...args,
+    label: "Continue",
+    href: "/next",
+  },
   argTypes: {
-    label: { control: "text" },
-    href: { control: "text" },
-    disabled: { control: "boolean" },
-    iconName: {
+    ...argTypes,
+    "icon-name": {
       control: { type: "select" },
       options: ["", ...ICON_NAMES],
       labels: { "": "None" },
@@ -20,24 +28,24 @@ const meta: Meta = {
         category: "Icon",
       },
     },
-    iconSize: {
+    "icon-size": {
       control: { type: "select" },
       options: ["", "sm", "md", "lg", "xl"],
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
       table: {
         category: "Icon",
       },
     },
-    trailingIcon: {
+    "trailing-icon": {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
       table: {
         category: "Icon",
       },
     },
     stretch: {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
       table: {
         category: "Icon",
       },
@@ -51,74 +59,51 @@ const meta: Meta = {
         category: "Animation",
       },
     },
-    onlyIcon: {
+    "only-icon": {
       control: "boolean",
-      if: { arg: "iconName", truthy: true },
+      if: { arg: "icon-name", truthy: true },
       table: {
         category: "Icon",
       },
     },
   },
+  render: (args) => template(args),
 };
 
 export default meta;
-type Story = StoryObj;
 
-const link = (args: Record<string, unknown>) => html`
-  <qgds-link
-    .label=${args.label}
-    .href=${args.href}
-    .iconName=${args.iconName}
-    .iconSize=${args.iconSize as IconSize}
-    .animation=${ifDefined(!args.disabled && args.href ? args.animation : undefined)}
-    ?disabled=${args.disabled}
-    ?trailing-icon=${args.trailingIcon}
-    ?stretch=${args.stretch}
-    ?only-icon=${args.onlyIcon}
-  ></qgds-link>
-`;
+type Story = StoryObj<Args>;
 
-const defaultArgs = {
-  label: "Continue",
-  href: "/next",
-  disabled: false,
-  iconName: "car",
-  iconSize: "" as IconSize,
-  trailingIcon: false,
-  stretch: false,
-  animation: "",
-  onlyIcon: false,
-};
-
+/** Default link without an icon. */
 export const Default: Story = {
   args: {
-    ...defaultArgs,
+    label: "Continue",
+    href: "/next",
+    "icon-name": "car",
   },
-  render: (args) => link(args),
 };
 
+/** Link with a leading icon. */
 export const WithIcon: Story = {
   args: {
-    ...defaultArgs,
     label: "Read more",
     href: "/more",
-    iconName: "arrow-right",
+    "icon-name": "arrow-right",
   },
-  render: (args) => link(args),
 };
 
+/** Link stretched to fill its container with a trailing icon. */
 export const Stretch: Story = {
   args: {
-    ...defaultArgs,
     label: "Read more",
     href: "/more",
-    iconName: "arrow-right",
-    trailingIcon: true,
+    "icon-name": "arrow-right",
+    "trailing-icon": true,
     stretch: true,
   },
-  render: (args) => link(args),
 };
 
+/** All icon animation variants side by side. */
 export const Animated: Story = {
   parameters: {
     controls: { disable: true },
@@ -163,25 +148,23 @@ export const Animated: Story = {
   `,
 };
 
+/** Icon-only link with a visually hidden label for screen readers. */
 export const IconOnly: Story = {
   name: "Icon Only",
   args: {
-    ...defaultArgs,
     label: "Edit",
     href: "/edit",
-    iconName: "edit",
-    onlyIcon: true,
+    "icon-name": "edit",
+    "only-icon": true,
   },
-  render: (args) => link(args),
 };
 
+/** Disabled state — prevents navigation and events. */
 export const Disabled: Story = {
   args: {
-    ...defaultArgs,
     label: "Unavailable",
     href: "/next",
-    iconName: "lock",
+    "icon-name": "lock",
     disabled: true,
   },
-  render: (args) => link(args),
 };
