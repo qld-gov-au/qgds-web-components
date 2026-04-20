@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { action } from "storybook/actions";
 import { html } from "lit";
+import { chromaticModes } from "../../../.storybook/modes";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSSearchInput, tagName } from "./qgds-search-input";
 import "./qgds-search-input";
@@ -51,6 +52,9 @@ export const Disabled: Story = {
 };
 
 export const AllVariants: Story = {
+  parameters: {
+    ...chromaticModes,
+  },
   decorators: [
     (story) => {
       return html`<div>
@@ -73,24 +77,4 @@ export const AllVariants: Story = {
   args: {
     ...Default.args,
   },
-};
-
-export const AllVariantsSoft: Story = {
-  ...AllVariants,
-  globals: { globalPalette: "soft" },
-};
-
-export const AllVariantsMuted: Story = {
-  ...AllVariants,
-  globals: { globalPalette: "muted" },
-};
-
-export const AllVariantsBold: Story = {
-  ...AllVariants,
-  globals: { globalPalette: "bold" },
-};
-
-export const AllVariantsDeep: Story = {
-  ...AllVariants,
-  globals: { globalPalette: "deep" },
 };
