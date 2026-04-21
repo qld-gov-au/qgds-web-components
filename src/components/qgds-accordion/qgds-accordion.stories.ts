@@ -10,14 +10,13 @@ type Args = typeof args;
 
 const meta: Meta<Args> = {
   title: "Components/Accordion",
-  component: "qgds",
+  component: "qgds-accordion",
   tags: ["autodocs"],
   args: {
     ...args,
     title: "Accordion title",
     "default-slot": "<p>This is the content of the accordion. It can include any HTML elements.</p>",
     "qgds-toggle-event": (e: CustomEvent) => action("qgds-toggle")(e.detail),
-    // toggleHandler: (e: CustomEvent) => action("qgds-toggle")(e.detail),
   },
   argTypes,
   render: (args) => html`
@@ -30,10 +29,17 @@ const meta: Meta<Args> = {
 export default meta;
 type Story = StoryObj<Args>;
 
-export const Closed: Story = {};
+export const Closed: Story = {
+  args: {
+    ...meta.args,
+    title: "This accordion is initially closed.",
+  },
+};
 
 export const Open: Story = {
   args: {
+    ...meta.args,
     "is-open": true,
+    title: "This accordion is initially open.",
   },
 };

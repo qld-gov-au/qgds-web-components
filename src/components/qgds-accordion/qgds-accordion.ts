@@ -1,4 +1,4 @@
-import { LitElement, PropertyValues, html, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -16,6 +16,8 @@ export const tagName = "qgds-accordion";
 /**
  * QGDS Accordion Component
  *
+ * @website "https://www.designsystem.qld.gov.au/components/accordion"
+ * @uikit "https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=5990-98109"
  * @tagname "qgds-accordion"
  *
  * @prop {string} title - The title displayed in the accordion summary.
@@ -46,22 +48,11 @@ export class QGDSAccordion extends LitElement {
   // TODO: connectedCallback() and disconnectedCallback() to manage the URL hash check.
   connectedCallback(): void {
     super.connectedCallback(); // eslint-disable-line
+
+    // fix a bug where toggle event will fire once early when is-open attribute is set to true.
     if (!this.hasUpdated && this.isOpen === true) {
       this._preventFirstToggleEvent = true; // set to false in _handleToggle
     }
-  }
-
-  shouldUpdate(_changedProperties: PropertyValues): boolean {
-    // Because <details> is itself managing its own open state, and toggle event will update this.isOpen,
-    // we should cancel the update if props and detailsref state match.
-    if (
-      _changedProperties.size === 1 &&
-      _changedProperties.has("isOpen") &&
-      this.isOpen === this._detailsRef.value?.open
-    ) {
-      return false;
-    }
-    return true;
   }
 
   private _handleToggle = (e: ToggleEvent): void => {
