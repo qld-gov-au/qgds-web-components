@@ -89,6 +89,7 @@ describe("qgds-link", () => {
 
   it("renders label as screen-reader only when only-icon is set", async () => {
     element.setAttribute("label", "Home");
+    element.setAttribute("icon-name", "home");
     element.setAttribute("only-icon", "");
     element.setAttribute("href", "#home");
     await element.updateComplete;
