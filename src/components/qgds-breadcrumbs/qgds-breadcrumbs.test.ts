@@ -213,7 +213,7 @@ describe("qgds-breadcrumbs-item", () => {
     element.textContent = "Current page";
     await waitForRender(element);
 
-    const listItem = element.shadowRoot?.querySelector("li");
+    const listItem = element.shadowRoot?.querySelector("div.breadcrumb-item");
     const anchor = element.shadowRoot?.querySelector("a");
     const slot = listItem?.querySelector("slot");
     const slottedText = slot
