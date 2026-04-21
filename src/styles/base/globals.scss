@@ -1,6 +1,8 @@
 @use "sass:map";
 @use "sass:meta";
 @use "../qgds-tokens/" as *;
+@use "../icons/icons.list" as icons;
+@use "../tools/functions" as f;
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -26,9 +28,11 @@
   --qgds-line-height-default: 1.45;
   --qgds-line-height-heading: 1.25;
   --qgds-line-height-none: 1;
-}
 
-@include meta.load-css("../icons/icons.variables");
+  @each $name, $svg in icons.$icon-names {
+    --qgds-icon-#{$name}: url("#{f.svg-encode($svg)}");
+  }
+}
 
 // Global Styling for HTML elements - generic/global namespace primary for body content
 html {

@@ -22,6 +22,7 @@ export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
 export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-item";
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
+export { QGDSSearchInput } from "./components/qgds-search-input/qgds-search-input";
 export { QGDSRadioGroup } from "./components/forms/qgds-radio-group/qgds-radio-group";
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";

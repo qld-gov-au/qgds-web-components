@@ -40,6 +40,12 @@
         "message": "Expected placeholder to be kebab-case, optionally prefixed with _ for private placeholders"
       }
     ],
+    "scss/at-function-pattern": [
+      "^_?[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      {
+        "message": "Expected function to be kebab-case, optionally prefixed with _ for private placeholders"
+      }
+    ],
     "value-keyword-case": [
       "lower",
       {
