@@ -1,14 +1,12 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { resetStyles } from "../../styles";
+import { baseStyles } from "../../styles";
 import { semanticHeading } from "../../utils";
 
 import componentCSS from "./qgds-inpage-nav.styles.scss?inline";
 
 type headingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-
-export type QGDSInpageNavProps = InstanceType<typeof QGDSInpageNav>;
 
 /** QGDS In-page Navigation Web Component
  * In-page navigation is a vertical list of links that helps users scan the contents of a page and navigate to different sections of the page
@@ -28,7 +26,7 @@ export type QGDSInpageNavProps = InstanceType<typeof QGDSInpageNav>;
 @customElement("qgds-inpage-nav")
 export class QGDSInpageNav extends LitElement {
   static styles = [
-    resetStyles,
+    baseStyles,
     css`
       ${unsafeCSS(componentCSS)}
     `,

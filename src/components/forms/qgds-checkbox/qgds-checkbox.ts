@@ -6,14 +6,13 @@ import componentCSS from "./qgds-checkbox.styles.scss?inline";
 import { FormValidationState } from "../../../types/forms";
 import { classMap } from "lit/directives/class-map.js";
 
-export type QGDSCheckboxProps = InstanceType<typeof QGDSCheckbox>;
-
 /**
  * A styled checkbox input that works standalone or inside `<qgds-field-group>`.
  * Re-dispatches a composed `change` event from the host so `qgds-field-group`
  * can intercept it across the shadow DOM boundary.
  *
- * @tagname qgds-checkbox
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321348&p=f
+ * @website https://www.designsystem.qld.gov.au/components/checkbox
  *
  * @prop {string} value - The value submitted when the checkbox is checked.
  * @prop {string} label - Visible label text.

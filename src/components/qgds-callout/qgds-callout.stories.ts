@@ -10,7 +10,7 @@ type Args = typeof args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
-  title: "Components/QGDS Callout",
+  title: "Components/Callout",
   component: "qgds-callout",
   tags: ["autodocs"],
   args,

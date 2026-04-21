@@ -13,13 +13,15 @@
 @import "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;900&display=swap";
 
 @layer base {
-  @include meta.load-css("base/reset");
-  @include meta.load-css("base/reset-slotted");
-  @include meta.load-css("base/globals");
-  @include meta.load-css("base/elements");
-  @include meta.load-css("base/palettes");
-  @include meta.load-css("base/icons");
+  :where(.qgds) {
+    @include meta.load-css("base/reset");
+    @include meta.load-css("base/reset-slotted");
+    @include meta.load-css("base/elements");
+  }
+
   @include meta.load-css("base/animations");
+  @include meta.load-css("base/globals");
+  @include meta.load-css("base/palettes");
 }
 
 @layer utilities {

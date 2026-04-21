@@ -1,9 +1,8 @@
-import { html, TemplateResult, nothing, css, unsafeCSS } from "lit";
+import { html, TemplateResult, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { QGDSFormField } from "../qgds-form-field";
-import { resetStyles, formStyles, utilitiesStyles } from "../../../styles";
 import componentCSS from "./qgds-textarea.styles.scss?inline";
 import { IFormControl, FormVariant } from "../../../types/forms";
 
@@ -36,17 +35,11 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
   @property({ type: Boolean }) spellcheck: HTMLTextAreaElement["spellcheck"] = false;
 
   static styles = [
-    resetStyles,
-    formStyles,
-    utilitiesStyles,
+    ...super.styles,
     css`
       ${unsafeCSS(componentCSS)}
     `,
   ];
-
-  // private _handleInput = (e: Event): void => {
-  //   this.value = (e.target as HTMLTextAreaElement).value;
-  // };
 
   protected renderInput(): TemplateResult {
     return html`<textarea
@@ -67,9 +60,8 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
       minlength=${ifDefined(this.minLength)}
       aria-describedby="${ifDefined(this._ariaDescribedBy)}"
       @change=${this.handleChange}
-    >
-${this.value ?? nothing}</textarea
-    >`;
+      .value=${this.value ?? ""}
+    ></textarea>`;
   }
 }
 

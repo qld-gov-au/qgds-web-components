@@ -8,7 +8,6 @@ import {
 } from "../qgds-field-group-base";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
-export type QGDSCheckboxGroupProps = InstanceType<typeof QGDSCheckboxGroup>;
 
 /**
  * Headless group wrapper for `<qgds-checkbox>` elements.
@@ -45,6 +44,8 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
   }
 
   protected groupItemName = "qgds-checkbox";
+
+  protected override requiredErrorMessage = "Please select an item in the list";
 
   protected _applyChange(input: ResolvedInput): void {
     if (input.type !== "checkbox") return;

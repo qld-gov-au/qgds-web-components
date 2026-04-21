@@ -10,30 +10,11 @@ import { QGDSSelectOptgroup } from "./qgds-select-optgroup";
 import { FormVariant, IFormControl } from "../../../types/forms";
 
 /**
- * Event detail for change events
- */
-export interface QGDSSelectChangeDetail {
-  value: string | string[];
-  multiple: boolean;
-}
-
-/**
- * Custom change event
- */
-export type QGDSSelectChangeEvent = CustomEvent<QGDSSelectChangeDetail>;
-
-/**
- * Event map for type-safe event listeners
- */
-export interface QGDSSelectEventMap {
-  change: QGDSSelectChangeEvent;
-}
-
-/**
  * A native select dropdown component for form inputs.
  * Only accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as children.
  *
- * @element qgds-select
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=11056-321345
+ * @website https://www.designsystem.qld.gov.au/components/select
  *
  * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
  * @prop {String} [placeholder] - Placeholder text shown as the first (unselectable) option.
@@ -176,7 +157,9 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
       const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
       this.value = selectedOptions.join(",");
       this._syncFormValue();
-      this._validateAndUpdateValidityState();
+      if (this._internalValidate) {
+        this._validateAndUpdateValidityState();
+      }
       // Dispatch typed custom event with proper value type
       this.events.dispatch(
         "change",

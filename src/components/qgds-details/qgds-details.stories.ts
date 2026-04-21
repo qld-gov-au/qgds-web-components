@@ -1,17 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { action } from "storybook/actions";
-
 import type { QGDSDetails } from "./qgds-details.ts";
-import "./qgds-details.ts";
+import "./qgds-details.js";
 
-// Get auto-generated args, argTypes, and template from Custom Elements Manifest
-// The template function handles attribute/property name mapping automatically
-const { args, argTypes, template } =
-  getStorybookHelpers<QGDSDetails>("qgds-details");
+const { args, argTypes, template } = getStorybookHelpers<QGDSDetails>("qgds-details");
 
 /**
  * Storybook args interface using kebab-case attribute names from CEM.
@@ -20,20 +15,26 @@ const { args, argTypes, template } =
 type QGDSDetailsStoryArgs = typeof args;
 
 const meta: Meta<QGDSDetailsStoryArgs> = {
-  title: "Components/QGDS Details",
+  title: "Components/Details",
+  component: "qgds-details",
   tags: ["autodocs"],
   args: {
     ...args,
     "summary-text": "More information",
+    "aria-label": "test aria label",
   },
   argTypes,
   render: (storyArgs) =>
     template(
       storyArgs,
       html`<p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum
-        efficitur egestas. Aenean sed pretium mauris.
-      </p>`,
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum efficitur egestas. Aenean sed pretium
+          mauris.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum efficitur egestas. Aenean sed pretium
+          mauris.
+        </p>`
     ),
 };
 
@@ -50,9 +51,6 @@ export const Default: Story = {
 export const Sizes: Story = {
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <qgds-details summary-text="Tiny (xs)" size="xs">
-        <p>Content inside a small details component.</p>
-      </qgds-details>
       <qgds-details summary-text="Small (sm)" size="sm">
         <p>Content inside a small details component.</p>
       </qgds-details>
@@ -61,6 +59,9 @@ export const Sizes: Story = {
       </qgds-details>
       <qgds-details summary-text="Large (lg)" size="lg">
         <p>Content inside a large details component.</p>
+      </qgds-details>
+      <qgds-details summary-text="Extra Large (xl)" size="xl">
+        <p>Content inside an extra large details component.</p>
       </qgds-details>
     </div>
   `,
@@ -81,7 +82,7 @@ export const RichContent: Story = {
           <li>Recent utility bill or bank statement</li>
           <li>Tax file number — <a href="#">how to find your TFN</a></li>
         </ul>
-      `,
+      `
     ),
 };
 
@@ -94,36 +95,20 @@ export const EventDispatch: Story = {
   parameters: {
     docs: {
       description: {
-        story:
-          "Open and close the details element, then inspect emitted events in the Actions panel.",
+        story: "Open and close the details element, then inspect emitted events in the Actions panel.",
       },
     },
   },
   render: (storyArgs) => html`
     <div>
-      <qgds-details
-        summary-text="${storyArgs["summary-text"]}"
-        size="${ifDefined(storyArgs.size)}"
-        id="input-helper-1"
-        name="whatever"
-        data-test="2024-06-20">
+      <qgds-details summary-text="${storyArgs["summary-text"]}" size="${ifDefined(storyArgs.size)}" id="input-helper-1">
         <p>Open and close this disclosure, then check Storybook Actions.</p>
       </qgds-details>
     </div>
   `,
   play: ({ canvasElement }) => {
-    // Storybook demo only.
-    // Play executes when the story renders, or a control changes. We use this hook to:
-    // 1. attach an event listener,
-    // 2. listen for any dispatched "qgds-toggle" events,
-    // 3. and log the event payload to the Actions panel
-
-    // Other clients would use their own methods to listen for "qgds-toggle", and react to the event as needed.
-    // thing.addEventListener("qgds-toggle", doSomething()}
-
     const logToggle = action("qgds-toggle");
     const details = canvasElement.querySelector("qgds-details");
-
     details?.addEventListener("qgds-toggle", (e) => {
       logToggle((e as CustomEvent).detail);
     });

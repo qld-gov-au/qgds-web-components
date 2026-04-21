@@ -19,17 +19,7 @@ import componentCSS from "./qgds-card.styles.scss?inline";
 /** Define custom types for your component properties here */
 type CardActions = "none" | "single" | "mutiple";
 
-type CardFeatures =
-  | "arrow"
-  | "leading-icon"
-  | "stacked-icon"
-  | "image"
-  | "links"
-  | "footer"
-  | "footer-tags";
-
-/** Export the component's type for use in other files/stories */
-export type QGDSCardProps = InstanceType<typeof QGDSCard>;
+type CardFeatures = "arrow" | "leading-icon" | "stacked-icon" | "image" | "links" | "footer" | "footer-tags";
 
 // ============================================================================
 // COMPONENT DOCUMENTATION
@@ -40,7 +30,6 @@ export type QGDSCardProps = InstanceType<typeof QGDSCard>;
  *
  * @uikit https://www.figma.com/design/fc8Ng3GB7fbkL37WGKXwai/Queensland-Government-Design-System--UI-Kit--Community-?node-id=120360-98159&m=dev
  * @website https://www.designsystem.qld.gov.au/components/card
- * @tagname qgds-card
  *
  * @property {string} action - Action describes the card's primary behaviour: No action (non clickable), Single Action, Multiple Actions.
  * @property {string} variant - The variant describes the range of configurations a card can have. Card with arrow, Card with image, stacked icon, leading icon, image and footer, footer
@@ -211,14 +200,8 @@ export class QGDSCard extends LitElement {
           this.hasFooterLinks || this.hasFooterTags
             ? html`
                 <div class="footer">
-                  <slot
-                    name="footer-links"
-                    @slotchange=${this.handleLinksSlot}
-                  ></slot>
-                  <slot
-                    name="footer-tags"
-                    @slotchange=${this.handleTagsSlot}
-                  ></slot>
+                  <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
+                  <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
                 </div>
               `
             : ""

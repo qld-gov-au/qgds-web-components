@@ -5,18 +5,17 @@
   line-height: 1.5;
   list-style: none;
 
-  /* Links */
-  a,
-  a:visited {
-    color: var(--qgds-color-link-default, #005eb8);
-    text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
-    text-decoration-thickness: 0.5px;
-    text-decoration-style: solid;
-    text-underline-offset: 0.3em;
-  }
+  // Visited states require reset to default values
+  a {
+    &,
+    &:link,
+    &:visited {
+      color: var(--qgds-color-link-default, #005eb8);
+      text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+    }
 
-  a:hover {
-    text-decoration-color: var(--qgds-color-underline-default-hover, #003e96);
-    text-decoration-thickness: 2px;
+    &:hover {
+      text-decoration-color: var(--qgds-color-underline-default-hover, #003e96);
+    }
   }
 }

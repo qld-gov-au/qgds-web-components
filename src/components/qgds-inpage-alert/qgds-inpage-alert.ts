@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
 import styles from "./qgds-inpage-alert.styles.scss?inline";
 //import display from "../../styles/typography/qgds-display.scss?inline";
-import { resetStyles, typographyStyles } from "../../styles";
+import { baseStyles } from "../../styles";
 import { IconName } from "../qgds-icon/icon-names";
 import { semanticHeading } from "../../utils";
 
@@ -14,15 +14,17 @@ type HeadingLevel = 2 | 3 | 4 | 5 | 6;
  * QGDS in-page alert
  * In-page alerts are a helpful tool for informing users about essential updates or modifications on a webpage, all while capturing their attention without disrupting their ongoing task. Usually positioned at the top of a page after a submit action, these alerts are designed to be noticeable yet unobtrusive.
  *
- * @element qgds-inpage-alert
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-98125&p=f&t=t7qJTAaoKBjwJfej-0
+ * @website https://www.designsystem.qld.gov.au/components/in-page-alert
  *
  * @prop {AlertVariant} [variant="info"] The alert variant, either "error", "info", "success", "warning".
  * @prop {string} [heading] The alert heading text.
  * @prop {HeadingLevel} [headingLevel=3] Determines the heading level (h2-h6)
  *
- * @cssprop --icon-color Override the color of the displayed icon
- * @cssprop --background Override the color of the background.
+ * @cssprop --icon-fg Override the color of the displayed icon
+ * @cssprop --bg Override the color of the background.
  * @cssprop --border Override the border color.
+ * @cssprop --border-width Override the border width.
  *
  * @slot - Default content slot.
  */
@@ -54,8 +56,7 @@ export class QGDSInpageAlert extends LitElement {
 
   // Define styles for the component
   static styles = [
-    resetStyles,
-    typographyStyles,
+    baseStyles,
 
     css`
       ${unsafeCSS(styles)}

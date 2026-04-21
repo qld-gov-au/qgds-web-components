@@ -1,5 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import componentCSS from "./qgds-details.styles.scss?inline";
 import { baseStyles } from "../../styles";
@@ -8,17 +9,15 @@ import "../qgds-icon/qgds-icon.js";
 
 import { QgdsEvents } from "../../utils/events/event-controller";
 
-export type DetailsSize = "xs" | "sm" | "md" | "lg";
+type DetailsSize = "sm" | "md" | "lg" | "xl";
 
 /**
  * Used to progressively disclose content behind a native browser details/summary disclosure widget.
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
- * @website https://www.designsystem.qld.gov.au/components/details
- * @tagname qgds-details
  *
  * @property {string} [summary-text] - The visible label shown in the summary trigger.
- * @property {DetailsSize} [size] - Size variant controlling height and font size ("xs", "sm", "md", "lg"). Default is "md".
+ * @property {DetailsSize} [size] - Size variant controlling height and font size ("sm", "md", "lg", "xl"). Default is "sm".
  *
  * @slot - Default slot accepts general typographic HTML content (paragraphs, lists, links).
  *
@@ -39,7 +38,7 @@ export type DetailsSize = "xs" | "sm" | "md" | "lg";
  */
 @customElement("qgds-details")
 export class QGDSDetails extends LitElement {
-  private events: QgdsEvents = new QgdsEvents(this, { pushToDataLayer: true });
+  private events: QgdsEvents = new QgdsEvents(this);
 
   static styles = [
     baseStyles,
@@ -51,8 +50,11 @@ export class QGDSDetails extends LitElement {
   @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";
 
-  @property({ type: String, useDefault: true })
-  size: DetailsSize = "md";
+  @property({ type: String, reflect: true, useDefault: true })
+  size: DetailsSize = "sm";
+
+  @property({ type: String, attribute: "aria-label" })
+  ariaLabel: string | null = null;
 
   /** Internal open/closed state — toggled by native browser interaction */
   @state() private _open: boolean = false;
@@ -73,18 +75,20 @@ export class QGDSDetails extends LitElement {
         id: this.id || null, // Include the id if it exists, otherwise null
         open: this._open, // boolean indicating whether the details is now open or closed
       },
-      originalEvent, // pass the original toggle event for reference in handlers
+      originalEvent // pass the original toggle event for reference in handlers
     );
   };
 
   render() {
     return html`
       <details ?open=${this._open} @toggle=${this.handleToggle}>
-        <summary class="summary">
-          <span class="icon">
-            <qgds-icon icon-id="chevron-right" size="sm"></qgds-icon>
-          </span>
-          <span class="text">${this.summaryText}</span>
+        <summary aria-label=${ifDefined(this.ariaLabel ?? undefined)}>
+          <div>
+            <span class="icon">
+              <qgds-icon icon-id="chevron-right" size="sm"></qgds-icon>
+            </span>
+            <span class="text">${this.summaryText}</span>
+          </div>
         </summary>
         <div class="content">
           <slot></slot>

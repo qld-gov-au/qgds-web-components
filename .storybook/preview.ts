@@ -69,9 +69,7 @@ const preview: Preview = {
       // Get the selected palette from global types (storybook toolbar)
       const paletteName = context?.globals?.globalPalette || "default";
 
-      return html`
-        <div class="qgds-palette-${paletteName}" style="padding: 2rem">${Story()}</div>
-      `;
+      return html` <div class="qgds qgds-palette-${paletteName}" style="padding: 2rem">${Story()}</div> `;
     },
   ],
 };

@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import type { QGDSIcon } from "./qgds-icon.ts";
-import "./qgds-icon.ts";
+import type { QGDSIcon } from "./qgds-icon";
+import "./qgds-icon";
 import { ICON_NAMES } from "./icon-names.js";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
@@ -17,7 +17,8 @@ const { args, argTypes, template } = getStorybookHelpers<QGDSIcon>("qgds-icon");
 type QGDSIconStoryArgs = typeof args;
 
 const meta: Meta<QGDSIconStoryArgs> = {
-  title: "Components/QGDS Icon",
+  title: "Components/Icon",
+  component: "qgds-icon",
   tags: ["autodocs"],
   args: {
     ...args,
@@ -86,7 +87,7 @@ export const AllIcons: Story = {
             ></qgds-icon>
             <span class="icon-name">${iconName}</span>
           </div>
-        `,
+        `
       )}
     </section>
   `,

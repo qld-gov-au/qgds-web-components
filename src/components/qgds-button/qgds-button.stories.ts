@@ -3,10 +3,10 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { ref } from "lit/directives/ref.js";
-import "../qgds-icon/qgds-icon.ts";
+import "../qgds-icon/qgds-icon";
 import { ICON_NAMES } from "../qgds-icon/icon-names";
 import type { QGDSButton } from "./qgds-button";
-import "./qgds-button.ts";
+import "./qgds-button";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
@@ -75,7 +75,8 @@ const renderButton = ({
 };
 
 const meta: Meta<QGDSButtonStoryArgs> = {
-  title: "Components/QGDS Button",
+  title: "Components/Button",
+  component: "qgds-button",
   tags: ["autodocs"],
   args: {
     ...args,
