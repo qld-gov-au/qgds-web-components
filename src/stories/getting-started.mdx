@@ -12,12 +12,26 @@ Start here to install, register, and use QGDS Web Components in your app.
 npm install @qld-gov-au/qgds-web-components
 ```
 
-## Register Components
+## Import Styles
 
-Import the package once in your app entry point so custom elements are registered:
+QGDS Web Components require a global stylesheet to render with correct typography, spacing, and colours. Import the stylesheet in your app entrypoint:
 
 ```ts
+import "@qld-gov-au/qgds-web-components/styles.css";
+```
+
+## Import Components
+
+Components are self-registering, they'll be available for use as soon as you import them.
+
+```js
+// import all components
 import "@qld-gov-au/qgds-web-components";
+
+// or, import just the components you need
+import "@qld-gov-au/qgds-web-components/button";
+import "@qld-gov-au/qgds-web-components/callout";
+import "@qld-gov-au/qgds-web-components/inpage-nav";
 ```
 
 ## Use a Component
@@ -26,12 +40,24 @@ import "@qld-gov-au/qgds-web-components";
 <qgds-button label="Continue"></qgds-button>
 ```
 
-## Import Styles
+## Hello world
 
-If your setup requires explicit stylesheet imports:
+```html
+<html>
+  <head>
+    <script type="module">
+      import "@qld-gov-au/qgds-web-components/styles";
 
-```ts
-import "@qld-gov-au/qgds-web-components/styles.css";
+      import "@qld-gov-au/qgds-web-components/button";
+      import "@qld-gov-au/qgds-web-components/callout";
+    </script>
+  </head>
+  <body>
+    <h1>Hello world</h1>
+    <qgds-callout heading="Notice">This is the QGDS Callout component.</qgds-callout>
+    <qgds-button label="Continue"></qgds-button>
+  </body>
+</html>
 ```
 
 ## Accessibility
