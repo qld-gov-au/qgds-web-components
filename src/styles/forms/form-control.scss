@@ -83,6 +83,8 @@
     --border-left-width: 0px; // px unit required for use in calc()
 
     &:focus {
+      @extend %qgds-color-palette-default;
+
       --border-top-width: 0.125rem;
       --border-right-width: 0.125rem;
       --border-left-width: 0.125rem;
