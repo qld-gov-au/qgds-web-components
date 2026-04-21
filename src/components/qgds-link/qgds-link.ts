@@ -21,7 +21,7 @@ export type IconSize = "sm" | "md" | "lg" | "xl";
  * @property {boolean} [trailing-icon] - When true, places the icon after the label text.
  * @property {boolean} [stretch] - When true, the link expands to fill available width.
  * @property {Animations} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
- * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only).
+ * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
  *
  * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
@@ -66,8 +66,8 @@ export class QgdsLink extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "only-icon" }) onlyIcon = false;
 
   updated(changedProps: Map<string, unknown>) {
-    if (changedProps.has("animation")) {
-      if (this.animation) {
+    if (changedProps.has("iconName") || changedProps.has("animation")) {
+      if (this.iconName && this.animation) {
         this.setAttribute("animation", this.animation);
       } else {
         this.removeAttribute("animation");
@@ -85,17 +85,21 @@ export class QgdsLink extends LitElement {
         this.setAttribute("icon-name", this.iconName);
       } else {
         this.removeAttribute("icon-name");
+        this.removeAttribute("icon-size");
+        this.removeAttribute("trailing-icon");
+        this.removeAttribute("stretch");
+        this.removeAttribute("only-icon");
       }
     }
     if (changedProps.has("iconSize")) {
-      if (this.iconSize) {
+      if (this.iconName && this.iconSize) {
         this.setAttribute("icon-size", this.iconSize);
       } else {
         this.removeAttribute("icon-size");
       }
     }
     if (changedProps.has("stretch")) {
-      if (this.stretch) {
+      if (this.iconName && this.stretch) {
         this.setAttribute("stretch", "");
       } else {
         this.removeAttribute("stretch");
@@ -134,8 +138,15 @@ export class QgdsLink extends LitElement {
     // Only set aria-label when there is no visible text — visible label text
     // is already the accessible name and aria-label would override it.
     const ariaLabel = this.label ? undefined : (iconLabel ?? undefined);
-    const labelContent = this.onlyIcon ? html`<span class="sr-only">${this.label}</span>` : this.label;
-    const iconStyle = [`--qgds-icon-svg: var(--qgds-icon-${this.iconName})`].filter(Boolean).join("; ");
+    const labelContent = this.iconName && this.onlyIcon ? html`<span class="sr-only">${this.label}</span>` : this.label;
+    const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
+    const iconTemplate = this.iconName
+      ? html`<qgds-icon
+          icon-id=${ifDefined(this.iconName || undefined)}
+          size=${this.iconSize || "md"}
+          aria-label=${this.label ? "" : this.iconName || "icon"}
+        ></qgds-icon>`
+      : "";
 
     return hasHref
       ? html`
@@ -145,24 +156,10 @@ export class QgdsLink extends LitElement {
             @click=${(e: MouseEvent) => this._onClick(e)}
             style=${iconStyle}
           >
-            <qgds-icon
-              icon-id=${ifDefined(this.iconName || undefined)}
-              size=${this.iconSize || "md"}
-              aria-label=${this.label ? "" : this.iconName || "icon"}
-            ></qgds-icon>
-            ${labelContent}
+            ${iconTemplate} ${labelContent}
           </a>
         `
-      : html`
-          <span style=${iconStyle} aria-label=${ifDefined(ariaLabel)}>
-            <qgds-icon
-              icon-id=${ifDefined(this.iconName || undefined)}
-              size=${this.iconSize || "md"}
-              aria-label=${this.label ? "" : this.iconName || "icon"}
-            ></qgds-icon>
-            ${labelContent}
-          </span>
-        `;
+      : html` <span style=${iconStyle} aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} ${labelContent} </span> `;
   }
 }
 

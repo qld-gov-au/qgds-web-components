@@ -19,10 +19,6 @@ import "../qgds-icon/qgds-icon.js";
  * @property {string} [animation] - Icon animation variant. Auto-set to "leftToRight" inside `<qgds-link-column>`.
  * @property {string} [description] - Optional supporting text shown below the link.
  * @property {boolean} [disabled] - When true, disables the link.
- * @property {boolean} [view-all] - When true, applies view-all styling (no border, full-width, auto-positioned).
- * @property {boolean} [only-icon] - When true, renders the label as screen-reader only text.
- * @property {boolean} [stretch] - When true, stretches the link to fill available width.
- * @property {boolean} [trailing-icon] - When true, places the icon after the label. Defaults to true.
  *
  * @slot - Accepts nested `<qgds-link-item>` elements for a sub-list. Non-`qgds-link-item` elements are removed.
  *
@@ -50,15 +46,18 @@ export class QgdsLinkItem extends LitElement {
 
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
-  @property({ type: String, attribute: "icon-name" }) iconName = "";
-  @property({ type: String, attribute: "icon-size" }) iconSize: "" | "sm" | "md" | "lg" | "xl" = "";
-  @property({ type: String }) animation = "";
+  @property({ type: String, attribute: "icon-name" }) iconName: "" | "arrow-right" = "";
+  @property({ type: String, attribute: "icon-size" }) iconSize: "" | "sm" | "md" = "";
+  @property({ type: String }) animation:
+    | ""
+    | "leftToRight"
+    | "rightToLeft"
+    | "topToBottom"
+    | "bottomToTop"
+    | "scaleIn"
+    | "scaleOut" = "";
   @property({ type: String }) description = "";
   @property({ type: Boolean }) disabled = false;
-  @property({ type: Boolean, attribute: "view-all" }) viewAll = false;
-  @property({ type: Boolean, attribute: "only-icon" }) onlyIcon = false;
-  @property({ type: Boolean }) stretch = false;
-  @property({ type: Boolean, attribute: "trailing-icon" }) trailingIcon = true;
 
   @state() private _hasNestedItems = false;
 
@@ -106,13 +105,12 @@ export class QgdsLinkItem extends LitElement {
       <qgds-link
         .label=${this.label}
         .href=${this.href}
-        .iconName=${this.iconName}
-        .iconSize=${this.iconSize}
-        .animation=${this.animation}
+        .iconName=${ifDefined(this.iconName || undefined)}
+        .iconSize=${ifDefined(this.iconName ? this.iconSize : undefined)}
+        .animation=${ifDefined(this.iconName ? this.animation : undefined)}
         .disabled=${this.disabled}
-        ?only-icon=${this.onlyIcon}
-        ?stretch=${ifDefined(this.stretch || undefined)}
-        ?trailing-icon=${ifDefined(this.trailingIcon || undefined)}
+        stretch
+        trailing-icon
       ></qgds-link>
       ${this.description ? html`<p class="description">${this.description}</p>` : ""}
       ${this._hasNestedItems

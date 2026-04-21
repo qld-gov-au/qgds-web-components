@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-link-item";
 import "../qgds-link/qgds-link";
 import type { QgdsLinkItem } from "./qgds-link-item";
+import type { QgdsLink } from "../qgds-link/qgds-link";
 
 describe("qgds-link-item", () => {
   let element: QgdsLinkItem;
@@ -22,8 +23,9 @@ describe("qgds-link-item", () => {
     expect(element.href).toBe("");
     expect(element.description).toBe("");
     expect(element.disabled).toBe(false);
-    expect(element.trailingIcon).toBe(true);
-    expect(element.viewAll).toBe(false);
+    expect(element.iconName).toBe("");
+    expect(element.iconSize).toBe("");
+    expect(element.animation).toBe("");
   });
 
   it("sets role='listitem' on host element", async () => {
@@ -70,14 +72,33 @@ describe("qgds-link-item", () => {
 
   it("does not override icon-name if already set when inside qgds-link-column", async () => {
     element.remove();
-    element.setAttribute("icon-name", "chevron-right");
+    element.setAttribute("icon-name", "arrow-right");
     const column = document.createElement("qgds-link-column");
     column.appendChild(element);
     document.body.appendChild(column);
     await element.updateComplete;
 
-    expect(element.iconName).toBe("chevron-right");
+    expect(element.iconName).toBe("arrow-right");
 
     column.remove();
+  });
+
+  it("passes iconName to the inner qgds-link", async () => {
+    element.setAttribute("icon-name", "arrow-right");
+    await element.updateComplete;
+
+    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    expect(link?.iconName).toBe("arrow-right");
+  });
+
+  it("does not pass iconSize or animation to inner qgds-link when iconName is empty", async () => {
+    element.setAttribute("icon-size", "md");
+    element.setAttribute("animation", "leftToRight");
+    await element.updateComplete;
+
+    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    expect(link?.iconName).toBeFalsy();
+    expect(link?.iconSize).toBeFalsy();
+    expect(link?.animation).toBeFalsy();
   });
 });

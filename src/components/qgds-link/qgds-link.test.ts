@@ -105,4 +105,76 @@ describe("qgds-link", () => {
     expect(element.trailingIcon).toBe(true);
     expect(element.hasAttribute("trailing-icon")).toBe(true);
   });
+
+  describe("no icon-name (icon suppressed)", () => {
+    it("suppresses qgds-icon when icon-name is empty", async () => {
+      await element.updateComplete;
+
+      const icon = element.shadowRoot?.querySelector("qgds-icon");
+      expect(icon).toBeFalsy();
+    });
+
+    it("removes icon-size attribute when icon-name is cleared", async () => {
+      element.setAttribute("icon-name", "arrow-right");
+      element.setAttribute("icon-size", "md");
+      await element.updateComplete;
+
+      element.removeAttribute("icon-name");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("icon-size")).toBe(false);
+    });
+
+    it("removes trailing-icon attribute when icon-name is cleared", async () => {
+      element.setAttribute("icon-name", "arrow-right");
+      element.setAttribute("trailing-icon", "");
+      await element.updateComplete;
+
+      element.removeAttribute("icon-name");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("trailing-icon")).toBe(false);
+    });
+
+    it("removes stretch attribute when icon-name is cleared", async () => {
+      element.setAttribute("icon-name", "arrow-right");
+      element.setAttribute("stretch", "");
+      await element.updateComplete;
+
+      element.removeAttribute("icon-name");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("stretch")).toBe(false);
+    });
+
+    it("removes only-icon attribute when icon-name is cleared", async () => {
+      element.setAttribute("icon-name", "arrow-right");
+      element.setAttribute("only-icon", "");
+      await element.updateComplete;
+
+      element.removeAttribute("icon-name");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("only-icon")).toBe(false);
+    });
+
+    it("removes animation attribute when icon-name is cleared", async () => {
+      element.setAttribute("icon-name", "arrow-right");
+      element.setAttribute("animation", "leftToRight");
+      await element.updateComplete;
+
+      element.removeAttribute("icon-name");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("animation")).toBe(false);
+    });
+
+    it("does not apply icon CSS custom property when icon-name is empty", async () => {
+      element.setAttribute("href", "/test");
+      await element.updateComplete;
+
+      const anchor = element.shadowRoot?.querySelector("a");
+      expect(anchor?.getAttribute("style") ?? "").toBe("");
+    });
+  });
 });

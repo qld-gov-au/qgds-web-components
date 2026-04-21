@@ -47,26 +47,6 @@ span {
   text-underline-offset: 6px;
   transition: text-decoration-thickness var(--qgds-transition-time) ease;
   inline-size: var(--qgds-link-width);
-  
-  // &.qgds-icon {
-  //   &::before {
-  //     content: "";
-  //     display: flex;
-  //     inline-size: var(--qgds-link-icon-size, 1.25rem);
-  //     line-height: var(--qgds-line-height-none, 1);
-  //     block-size: var(--qgds-link-icon-size, 1.25rem);
-  //     background-position: center center;
-  //     background-repeat: no-repeat;
-  //     mask-position: center center;
-  //     mask-repeat: no-repeat;
-  //     mask-size: contain;
-  //     background-size: contain;
-  //     vertical-align: top;
-  //     mask-image: var(--qgds-icon-svg);
-  //     color: var(--qgds-icon-color);
-  //     background-color: currentColor;
-  //   }
-  // }
 
   &:hover {
     text-decoration-thickness: 2px;
