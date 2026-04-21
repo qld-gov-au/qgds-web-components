@@ -51,7 +51,8 @@
       {
         "camelCaseSvgKeywords": true
       }
-    ]
+    ],
+    "media-feature-name-no-unknown": null
   },
   "ignoreFiles": ["dist/**/*", "storybook-static/**/*", "node_modules/**/*", "coverage/**/*", "**/*.js", "**/*.ts"]
 }

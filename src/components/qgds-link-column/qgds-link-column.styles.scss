@@ -1,12 +1,11 @@
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
 :host {
     display: block;
 
-    --icon-spacing: auto; // Not using
+    --icon-spacing: auto; 
     --link-flex-direction: row-reverse;
     --link-width: 100%;
-
-    // --qgds-link-margin-inline-start: 0;
-    // --qgds-link-flex-direction: row-reverse;
     --qgds-icon-spacing-start: auto;
     --qgds-icon-spacing-end: 0;
     --qgds-icon-margin-start: auto;
@@ -33,7 +32,7 @@
 :host([layout="horizontal"]) .items {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0 clamp(2rem, 4vw, 4rem);
+    column-gap: clamp(2rem, 4vw, 4rem);
 }
 
 // Horizontal + columns override
@@ -57,14 +56,33 @@
     column-gap: clamp(2rem, 4vw, 4rem);
 }
 
+
 // Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)
-@media (width <= 48em) {
-    :host([layout="horizontal"][columns="2"]) .items,
+@media (width <= bp.$lg) {
+    :host([layout="horizontal"][columns="3"]) .items {
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+
+    :host([columns="3"]:not([layout="horizontal"])) .items {
+        column-count: 2;
+        column-gap: 2rem;
+    }
+}
+
+@media (width <= bp.$md) {
+    :host([layout="horizontal"][columns="2"]) .items {
+        grid-template-columns: 1fr;
+    }
+
+    :host([columns="2"]:not([layout="horizontal"])) .items {
+        column-count: 1;
+    }
+
     :host([layout="horizontal"][columns="3"]) .items {
         grid-template-columns: 1fr;
     }
 
-    :host([columns="2"]:not([layout="horizontal"])) .items,
     :host([columns="3"]:not([layout="horizontal"])) .items {
         column-count: 1;
     }
@@ -76,4 +94,8 @@ qgds-call-to-action {
     grid-column: 1 / -1;
     column-span: all;
     margin-inline-start: auto;
+}
+
+::slotted(qgds-link-item) {
+    max-inline-size: 46rem;
 }
