@@ -22,6 +22,7 @@ export const tagName = "qgds-accordion";
  *
  * @prop {string} title - The title displayed in the accordion summary.
  * @prop {boolean} isOpen - Reflects the open state of the accordion. Can be used to programmatically control the accordion.
+ * @prop {string} id - if the window.location.hash equals this id, the accordion will be set to to open.
  *
  * @slot default - The content to be revealed when the accordion is expanded. Can include any HTML elements.
  *
@@ -53,7 +54,23 @@ export class QGDSAccordion extends LitElement {
     if (!this.hasUpdated && this.isOpen === true) {
       this._preventFirstToggleEvent = true; // set to false in _handleToggle
     }
+
+    // check the hash and set isOpen to true, also set up hashchange listener
+    this._handleHash();
+    window.addEventListener("hashchange", this._handleHash);
   }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback(); // eslint-disable-line
+
+    window.removeEventListener("hashchange", this._handleHash);
+  }
+
+  private _handleHash = () => {
+    if (window.location.hash === `#${this.id}`) {
+      this.isOpen = true;
+    }
+  };
 
   private _handleToggle = (e: ToggleEvent): void => {
     // prevent firing on first update, if isOpen is true

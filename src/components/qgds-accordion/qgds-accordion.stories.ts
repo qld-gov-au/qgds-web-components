@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import type { QGDSAccordion } from "./qgds-accordion";
 import "./qgds-accordion";
 import { action } from "storybook/actions";
@@ -20,7 +21,12 @@ const meta: Meta<Args> = {
   },
   argTypes,
   render: (args) => html`
-    <qgds-accordion title=${args.title} ?is-open=${args["is-open"]} @qgds-toggle=${args["qgds-toggle-event"]}>
+    <qgds-accordion
+      id="${ifDefined(args.id)}"
+      title=${args.title}
+      ?is-open=${args["is-open"]}
+      @qgds-toggle=${args["qgds-toggle-event"]}
+    >
       ${args["default-slot"]}
     </qgds-accordion>
   `,
@@ -42,4 +48,18 @@ export const Open: Story = {
     "is-open": true,
     title: "This accordion is initially open.",
   },
+};
+
+export const OpenOnHashChange: Story = {
+  args: {
+    ...meta.args,
+    id: "myaccordion",
+    title: 'This will open if window.location.hash = "myaccordion"',
+  },
+  decorators: [
+    (story) =>
+      html`<p>An accordion will auto-open if <code>window.location.hash</code> equals its id attribute.</p>
+        <p><a href="#myaccordion">Click me and see it in action.</a></p>
+        ${story()}`,
+  ],
 };
