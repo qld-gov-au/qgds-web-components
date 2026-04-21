@@ -1,0 +1,97 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
+
+// Public API: CSS custom properties that can be overridden from Light DOM
+// Example: qgds-breadcrumbs { --background: pink; }
+:host {
+  // Fallback values align with QGDS design tokens
+  --bg-breadcrumb-vertical: var(--qgds-color-background-shade, #f5f5f5);
+  --fg: var(--qgds-color-site-title, #005eb8);
+  --fg-vertical-item: var(--qgds-color-text-default, #353535);
+  --fg-underline: var(--qgds-color-underline-default, #3f7ab4);
+  --fg-vertical-item-hover: var(--qgds-color-underline-default-hover, #003e96);
+  --fg-active: var(--qgds-color-text-lighter, #636363);
+  --border: var(--qgds-color-accent-design-accent, #0078d4);
+  --bg-expander-hover: rgba(var(--qgds-color-neutral-black, #131212), 0.1);
+  --dropdown-box-shadow: 0px 1px 2px rgb(0 0 0 / 0.3), 0px 2px 6px 2px rgb(0 0 0 / 0.15);
+}
+
+nav {
+  display: block;
+}
+
+ol.breadcrumb {
+  display: inline-flex;
+  inline-size: auto;
+  max-inline-size: 100%;
+  flex-wrap: nowrap;
+}
+
+.base-icon {
+  color: var(--fg-icon);
+  margin-inline: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  &::after {
+    background-color: var(--fg);
+    mask-image: var(--qgds-icon-more-horizontal);
+    mask-position: center center;
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    content: " ";
+  }
+
+  &:hover,
+  &:focus {
+    //  background-color: rgba($core-default-color-neutral-black, 0.1);
+    background-color: #1312121a;
+  }
+  @include m.focusable($offset-outline: 3px);
+}
+
+.breadcrumb-collapse-wrapper {
+  position: absolute;
+  margin-block-start: 3rem;
+  max-block-size: 0;
+  overflow: hidden;
+  pointer-events: none;
+  inline-size: 360px;
+  border-radius: 4px;
+  transition: max-block-size 0.5s ease-out;
+}
+
+.breadcrumb-vertical {
+  padding: 0;
+  background-color: var(--bg-breadcrumb-vertical);
+  border-block-end: 4px solid var(--border);
+  display: flex;
+  flex-direction: column;
+
+  li {
+    display: block;
+  }
+}
+
+.expanded {
+  .breadcrumb-collapse-wrapper {
+    max-block-size: 100%;
+    box-shadow: var(--dropdown-box-shadow);
+    pointer-events: all;
+    transition: max-block-size 0.5s ease-in;
+    z-index: 1;
+  }
+}
