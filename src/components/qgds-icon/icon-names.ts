@@ -1,8 +1,9 @@
 // This file is auto-generated. Do not edit directly!
-// Generated from src/styles/utilities/_icons.list.scss
+// Generated from src/styles/icons/_icons.list.scss
 
 export const ICON_NAMES = [
   "accessibility",
+  "alert-cancel-filled",
   "alert-cancel",
   "alert-danger",
   "alert-error",

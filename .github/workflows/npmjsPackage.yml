@@ -4,7 +4,7 @@
 name: Publish NPM Package
 
 on:
-  push:
+  #push:
   #On versioned releases
   #tags:
   #  - v*.*.*
@@ -120,7 +120,10 @@ jobs:
 
       # Ensure npm 11.5.1 or later is installed
       - name: Update npm
-        run: npm install -g "npm@11.11.0"
+        run: |
+          echo "installing via incremental upgrade to use latest npm in node 22 (not required in node 24+)"
+          npm install -g npm@~11.10.0
+          npm install -g npm@latest
 
       - run: npm ci
 

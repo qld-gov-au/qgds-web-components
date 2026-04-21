@@ -1,0 +1,149 @@
+@use "../../styles/tools/functions" as f;
+@use "../../styles/tools/mixins" as m;
+
+:host {
+  /* Container query setup for responsive behaviour */
+  display: block;
+  container-type: inline-size;
+  container-name: search-input;
+}
+
+.search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  max-inline-size: 100%;
+
+  &.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  // ── Decorative search icon ───────────────────────────────────────────────────
+  .search-icon {
+    position: absolute;
+    inset-inline-start: f.remify(12px);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
+
+    --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
+
+    @container search-input (max-width: 400px) {
+      display: none;
+    }
+  }
+
+  // In filled variant, when input is focused, change icon color
+  &:has(.search-input.is-filled:focus) .search-icon {
+    --qgds-icon-color: var(--qgds-color-neutral-dark, #78797e);
+  }
+}
+
+// ── Input (using qgds-form-control) ───────────────────────────────────────────
+
+.search-input {
+  // Override form-control defaults for search-specific behavior
+  max-inline-size: 100%;
+  flex: 1;
+  border-inline-end-width: 0;
+  border-radius: 0.25rem;
+
+  // Left: icon width (24px) + left offset (12px) + gap (8px)
+  // Right: button width (approx 88px for "Search" + padding)
+  // Use custom properties so border-padding mixin compensates when borders appear (e.g. filled:focus)
+  --padding-left: #{f.remify(44px)};
+  --padding-right: #{f.remify(100px)};
+
+  @container search-input (max-width: 400px) {
+    // Icon-only button width (48px) + some gap
+    --padding-left: #{f.remify(12px)};
+    --padding-right: #{f.remify(60px)};
+  }
+
+  // Remove native search clear button (webkit)
+  &::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  &.is-filled {
+    border-start-end-radius: 0.25rem;
+    border-end-start-radius: 0;
+
+    &:focus {
+      border-end-start-radius: 0.25rem;
+    }
+  }
+}
+
+// ── Button ────────────────────────────────────────────────────────────────────
+
+.search-btn {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: f.remify(8px);
+  padding-inline: f.remify(20px);
+  font-size: f.remify(16px);
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: 0.25rem;
+  border-end-end-radius: 0.25rem;
+  color: var(--qgds-color-link-on-action, #ffffff);
+  background-color: var(--qgds-color-action-primary, #005eb8);
+
+  --qgds-icon-color: var(--qgds-color-link-on-action, #ffffff);
+
+  transition: background-color 0.1s ease;
+
+  // Button has its own focus outline
+  @include m.focusable($offset-outline: 2px) {
+    border-radius: 0.25rem;
+    position: absolute;
+    z-index: 2;
+  }
+
+  &:hover:not(:disabled),
+  &:focus:not(:disabled) {
+    background-color: var(--qgds-color-action-primary-hover, #003e96);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--qgds-color-action-primary-hover, #003e96);
+  }
+
+  .search-btn-icon {
+    display: none;
+  }
+
+  .search-btn-label {
+    display: inline;
+  }
+
+  // Responsive: icon-only mode at small container sizes
+  @container search-input (max-width: 400px) {
+    padding-inline: 0;
+    inline-size: f.remify(48px);
+
+    .search-btn-icon {
+      display: inline;
+    }
+
+    .search-btn-label {
+      display: none;
+    }
+  }
+}
