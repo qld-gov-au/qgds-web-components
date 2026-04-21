@@ -119,4 +119,63 @@ describe("qgds-link-column", () => {
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('No "heading" or "aria-label"'));
     warnSpy.mockRestore();
   });
+
+  describe("heading-level attribute suppression", () => {
+    it("removes heading-level attribute when heading is empty (default)", async () => {
+      element.setAttribute("aria-label", "Services");
+      element.setAttribute("heading-level", "3");
+      document.body.appendChild(element);
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(false);
+    });
+
+    it("keeps heading-level attribute when heading is set", async () => {
+      element.setAttribute("heading", "Our services");
+      element.setAttribute("heading-level", "2");
+      document.body.appendChild(element);
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(true);
+      expect(element.getAttribute("heading-level")).toBe("2");
+    });
+
+    it("preserves headingLevel property value when heading-level attribute is suppressed", async () => {
+      element.setAttribute("aria-label", "Services");
+      element.setAttribute("heading-level", "2");
+      document.body.appendChild(element);
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(false);
+      expect(element.headingLevel).toBe(2);
+    });
+
+    it("restores heading-level attribute when heading is set after being empty", async () => {
+      element.setAttribute("aria-label", "Services");
+      document.body.appendChild(element);
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(false);
+
+      element.setAttribute("heading", "Our services");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(true);
+      expect(element.getAttribute("heading-level")).toBe("3");
+    });
+
+    it("removes heading-level attribute when heading is cleared", async () => {
+      element.setAttribute("heading", "Our services");
+      element.setAttribute("heading-level", "2");
+      document.body.appendChild(element);
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(true);
+
+      element.removeAttribute("heading");
+      await element.updateComplete;
+
+      expect(element.hasAttribute("heading-level")).toBe(false);
+    });
+  });
 });

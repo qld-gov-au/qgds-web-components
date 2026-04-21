@@ -49,8 +49,21 @@ export class QgdsLinkColumn extends LitElement {
   @property({ type: String, reflect: true }) heading = "";
   @property({ type: String, reflect: true, attribute: "aria-label" })
   ariaLabel = "";
-  @property({ type: Number, reflect: true, attribute: "heading-level" })
-  headingLevel = 3;
+  @property({ type: Number, attribute: "heading-level" })
+  get headingLevel() {
+    return this._headingLevel;
+  }
+
+  set headingLevel(val: number) {
+    if (this._managingHeadingLevel) return;
+    const old = this._headingLevel;
+    this._headingLevel = Number.isFinite(val) && val > 0 ? Math.round(val) : old;
+    this.requestUpdate("headingLevel", old);
+  }
+
+  private _headingLevel = 3;
+  private _managingHeadingLevel = false;
+
   @property({
     type: String,
     reflect: true,
@@ -84,11 +97,28 @@ export class QgdsLinkColumn extends LitElement {
     this.requestUpdate("columns", old);
   }
 
+  private _syncHeadingLevelAttr() {
+    this._managingHeadingLevel = true;
+    if (this.heading) {
+      this.setAttribute("heading-level", String(this.headingLevel));
+    } else {
+      this.removeAttribute("heading-level");
+    }
+    this._managingHeadingLevel = false;
+  }
+
   protected firstUpdated(): void {
     if (!this.heading && !this.ariaLabel) {
       console.warn(
         '<qgds-link-column>: No "heading" or "aria-label" provided. The <nav> landmark is using a generic fallback label ("Navigation"). For WCAG 2.4.1 compliance, provide a meaningful "heading" or "aria-label" attribute that describes the purpose of this navigation.'
       );
+    }
+    this._syncHeadingLevelAttr();
+  }
+
+  updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has("heading") || changedProps.has("headingLevel")) {
+      this._syncHeadingLevelAttr();
     }
   }
 
