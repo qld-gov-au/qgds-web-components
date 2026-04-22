@@ -9,6 +9,7 @@
   --fg-underline-hover: var(--qgds-color-underline-default-hover, #003e96);
   --fg-active: var(--qgds-color-text-lighter, #636363);
   --fg-icon: var(--qgds-color-action-secondary, #307edb);
+  --fg-underline-hover-thickness: var(--qgds-underline-hover-thickness, 2px);
 }
 
 :host([is-last]) {
@@ -43,6 +44,7 @@
 
     &:hover {
       text-decoration-color: var(--fg-underline-hover);
+      text-decoration-thickness: var(--fg-underline-hover-thickness);
     }
 
     /* stylelint-disable-next-line no-descending-specificity */
@@ -71,6 +73,8 @@
 
     &:hover {
       text-decoration: underline;
+      text-decoration-color: var(--fg-underline-hover);
+      text-decoration-thickness: var(--fg-underline-hover-thickness);
       color: var(--fg-vertical-item-hover);
       background-color: var(--bg-breadcrumb-vertical-hover);
     }

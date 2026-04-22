@@ -34,15 +34,16 @@ export class QGDSBreadcrumbs extends LitElement {
   @property({ type: Boolean }) private collapsedOnLoad = false;
   @property({ type: Boolean }) private expanded = false;
 
-  private toggleExpand = async (ev: Event) => {
+  private _toggleExpand = async (ev: Event) => {
     ev.stopPropagation();
     this.expanded = !this.expanded;
+
     await this.updateComplete;
 
     const targetItem = this.items[1] as QGDSBreadcrumbsItem;
     await targetItem?.updateComplete;
-
     targetItem.focus(); // if you implemented focus() in child
+    document.removeEventListener("click", this.closeMenu);
     document.addEventListener("click", this.closeMenu, { once: true });
   };
 
@@ -59,7 +60,7 @@ export class QGDSBreadcrumbs extends LitElement {
     `,
   ];
 
-  private firstUpdated() {
+  firstUpdated() {
     this.initBreadcrumb();
   }
 
@@ -101,7 +102,6 @@ export class QGDSBreadcrumbs extends LitElement {
     this.collapsedOnLoad = this.items.length > maxLength;
     if (!this.collapsedOnLoad) {
       this.items[this.items.length - 1].setAttribute("is-last", "true");
-      return this.items.map((item) => html`${item}`);
     }
   }
 
@@ -119,14 +119,14 @@ export class QGDSBreadcrumbs extends LitElement {
       item.setAttribute("inside-vertical", "true");
     });
 
-    const element: QGDSBreadcrumbsItem = this.items[this.items.length - 1] as QGDSBreadcrumbsItem;
-    element.isLast = true;
-    document.removeEventListener("click", this.closeMenu);
+    const lastElement: QGDSBreadcrumbsItem = this.items[this.items.length - 1] as QGDSBreadcrumbsItem;
+    lastElement.isLast = true;
+
     return html`
       ${first}
 
-      <qgds-breadcrumbs-item class="breadcrumb-item breadcrumb-toggle ${this.expanded ? "expanded" : ""}">
-        <button class="breadcrumb-toggle-link" aria-label="Expand breadcrumbs" @click=${this.toggleExpand}></button>
+      <qgds-breadcrumbs-item class="breadcrumb-item breadcrumb-toggle ${this.expanded ? "expanded" : ""}" tabindex="0">
+        <button class="breadcrumb-toggle-link" aria-label="Expand breadcrumbs" @click=${this._toggleExpand}></button>
         <qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>
         <div class="breadcrumb-collapse-wrapper">
           <ol class="breadcrumb-vertical">
@@ -134,8 +134,14 @@ export class QGDSBreadcrumbs extends LitElement {
           </ol>
         </div>
       </qgds-breadcrumbs-item>
-      ${secondLast} ${element}
+      ${secondLast} ${lastElement}
     `;
+  }
+
+  disconnectedCallback() {
+    // eslint-disable-next-line wc/guard-super-call
+    super.disconnectedCallback();
+    document.removeEventListener("click", this.closeMenu);
   }
 
   render() {
