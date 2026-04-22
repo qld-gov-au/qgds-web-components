@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import type { QGDSAccordion } from "./qgds-accordion";
 import "./qgds-accordion";
 import { action } from "storybook/actions";
@@ -16,7 +17,7 @@ const meta: Meta<Args> = {
   args: {
     ...args,
     title: "Accordion title",
-    "default-slot": "<p>This is the content of the accordion. It can include any HTML elements.</p>",
+    "default-slot": "<p>This is the <strong>content</strong>.</p>",
     "qgds-toggle-event": (e: CustomEvent) => action("qgds-toggle")(e.detail),
   },
   argTypes,
@@ -27,7 +28,7 @@ const meta: Meta<Args> = {
       ?is-open=${args["is-open"]}
       @qgds-toggle=${args["qgds-toggle-event"]}
     >
-      ${args["default-slot"]}
+      ${unsafeHTML(args["default-slot"] as string)}
     </qgds-accordion>
   `,
 };

@@ -93,10 +93,13 @@ export class QGDSAccordion extends LitElement {
         ?open=${this.isOpen}
         @toggle=${this._handleToggle}
       >
-        <summary>
-          <span class="title">${this.title}</span><qgds-icon icon-id="chevron-up" size="md"></qgds-icon>
+        <summary class="summary">
+          <span class="summary-text">${this.title}</span
+          ><qgds-icon class="summary-icon" icon-id="chevron-up" size="md"></qgds-icon>
         </summary>
-        <slot></slot>
+        <div class="content">
+          <slot></slot>
+        </div>
       </details>
     `;
   }
