@@ -109,8 +109,8 @@ export class QgdsLinkItem extends LitElement {
         .iconSize=${ifDefined(this.iconName ? this.iconSize : undefined)}
         .animation=${ifDefined(this.iconName ? this.animation : undefined)}
         .disabled=${this.disabled}
-        stretch
-        trailing-icon
+        .stretch=${!!this.iconName}
+        .trailingIcon=${!!this.iconName}
       ></qgds-link>
       ${this.description ? html`<p class="description">${this.description}</p>` : ""}
       ${this._hasNestedItems

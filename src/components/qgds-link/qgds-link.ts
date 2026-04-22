@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link.styles.scss?inline";
 import { baseStyles } from "../../styles";
+import "../qgds-icon/qgds-icon.js";
 
 export type Animations = "" | "leftToRight" | "rightToLeft" | "topToBottom" | "bottomToTop" | "scaleIn" | "scaleOut";
 export type IconSize = "sm" | "md" | "lg" | "xl";

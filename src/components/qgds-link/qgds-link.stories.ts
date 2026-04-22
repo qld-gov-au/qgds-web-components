@@ -54,9 +54,9 @@ const meta: Meta<Args> = {
       control: { type: "select" },
       options: ["", "leftToRight", "rightToLeft", "topToBottom", "bottomToTop", "scaleIn", "scaleOut"],
       labels: { "": "None" },
-      if: { arg: "disabled", truthy: false },
+      if: { arg: "icon-name", truthy: true },
       table: {
-        category: "Animation",
+        category: "Icon Animation",
       },
     },
     "only-icon": {
@@ -77,9 +77,8 @@ type Story = StoryObj<Args>;
 /** Default link without an icon. */
 export const Default: Story = {
   args: {
-    label: "Continue",
-    href: "/next",
-    "icon-name": "car",
+    label: "qgds link",
+    href: "#",
   },
 };
 
@@ -87,7 +86,7 @@ export const Default: Story = {
 export const WithIcon: Story = {
   args: {
     label: "Read more",
-    href: "/more",
+    href: "#",
     "icon-name": "arrow-right",
   },
 };
@@ -96,7 +95,7 @@ export const WithIcon: Story = {
 export const Stretch: Story = {
   args: {
     label: "Read more",
-    href: "/more",
+    href: "#",
     "icon-name": "arrow-right",
     "trailing-icon": true,
     stretch: true,
@@ -105,45 +104,75 @@ export const Stretch: Story = {
 
 /** All icon animation variants side by side. */
 export const Animated: Story = {
-  parameters: {
-    controls: { disable: true },
+  args: {
+    href: "#",
+    "icon-name": "calendar",
+    "trailing-icon": true,
+    iconSize: "md",
+    stretch: true,
   },
-  render: () => html`
+  render: (args) => html`
     <div style="display: flex; flex-direction: column; gap: 1rem;">
       <qgds-link
         label="leftToRight"
         href="#"
-        icon-name="calendar"
-        stretch
-        trailing-icon
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
         animation="leftToRight"
-      ></qgds-link>
+      >
+      </qgds-link>
       <qgds-link
         label="rightToLeft"
         href="#"
-        icon-name="calendar"
-        stretch
-        trailing-icon
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
         animation="rightToLeft"
-      ></qgds-link>
+      >
+      </qgds-link>
       <qgds-link
         label="topToBottom"
         href="#"
-        icon-name="calendar"
-        stretch
-        trailing-icon
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
         animation="topToBottom"
-      ></qgds-link>
+      >
+      </qgds-link>
       <qgds-link
         label="bottomToTop"
         href="#"
-        icon-name="calendar"
-        stretch
-        trailing-icon
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
         animation="bottomToTop"
-      ></qgds-link>
-      <qgds-link label="scaleIn" href="#" icon-name="calendar" stretch trailing-icon animation="scaleIn"></qgds-link>
-      <qgds-link label="scaleOut" href="#" icon-name="calendar" stretch trailing-icon animation="scaleOut"></qgds-link>
+      >
+      </qgds-link>
+      <qgds-link
+        label="scaleIn"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
+        animation="scaleIn"
+      >
+      </qgds-link>
+      <qgds-link
+        label="scaleOut"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?trailing-icon="${args["trailing-icon"]}"
+        animation="scaleOut"
+      >
+      </qgds-link>
     </div>
   `,
 };

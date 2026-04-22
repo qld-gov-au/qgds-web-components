@@ -125,11 +125,11 @@ export const WithViewAll: Story = {
     ),
 };
 
-/** Single-column layout with description text on each item. */
+/** Two-column layout with description text on each item. */
 export const WithDescription: Story = {
   args: {
     heading: "Transport and motoring",
-    columns: 1,
+    columns: 2,
     layout: "vertical",
     "has-view-all": false,
     "view-all-label": "View all services",
