@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
-
+import "../qgds-icon/qgds-icon.js";
 import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
 
 /** QGDS Breadcrumb Item Web Component
