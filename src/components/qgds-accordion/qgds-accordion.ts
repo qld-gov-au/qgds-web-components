@@ -2,12 +2,8 @@ import { LitElement, html, unsafeCSS } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-// import { ifDefined } from "lit/directives/if-defined.js";
-
 import { QgdsEvents } from "../../utils/events/event-controller";
-
 import "../qgds-icon/qgds-icon";
-
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-accordion.styles.scss?inline";
 
@@ -46,7 +42,6 @@ export class QGDSAccordion extends LitElement {
     this.events = new QgdsEvents(this);
   }
 
-  // TODO: connectedCallback() and disconnectedCallback() to manage the URL hash check.
   connectedCallback(): void {
     super.connectedCallback(); // eslint-disable-line
 

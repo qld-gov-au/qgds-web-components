@@ -48,7 +48,7 @@ a {
     color: var(--qgds-color-link-default);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
-    text-decoration-color: var(--qgds-color-underline-default, #005eb8);
+    text-decoration-color: currentColor;
   }
 
   @include m.focusable() {

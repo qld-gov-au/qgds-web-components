@@ -6,7 +6,6 @@ import "./qgds-accordion-group";
 import type { QGDSAccordion } from "./../qgds-accordion/qgds-accordion";
 import "./../qgds-accordion/qgds-accordion";
 import { Closed, Open } from "./../qgds-accordion/qgds-accordion.stories";
-// import { action } from "storybook/actions";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSAccordionGroup>("qgds-accordion-group");
 const { template: childTemplate } = getStorybookHelpers<QGDSAccordion>("qgds-accordion");
@@ -29,6 +28,33 @@ const meta: Meta<Args> = {
 export default meta;
 type Story = StoryObj<Args>;
 
-export const ShowControls: Story = {
+export const ShowControlsTrue: Story = {
   args: { showControls: true },
+};
+
+export const ShowControlsAutoWith2Children: Story = {
+  args: {
+    showControls: "auto",
+  },
+  render: (args) => template(args, html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })}}`),
+};
+
+export const ShowControlsAutoWith3Children: Story = {
+  args: {
+    showControls: "auto",
+  },
+  render: (args) =>
+    template(
+      args,
+      html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })})`
+    ),
+};
+
+export const InvalidContent: Story = {
+  render: (args) =>
+    template(
+      args,
+      html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })}
+        <p>An invalid element</p> `
+    ),
 };

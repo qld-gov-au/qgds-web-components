@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  isolation: auto; // share stacking context as siblings so focus ring can overlay next accordion.
 
   --border: var(--qgds-color-border);
   --border-width: 1px;

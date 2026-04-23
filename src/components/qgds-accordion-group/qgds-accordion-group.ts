@@ -1,8 +1,7 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state, queryAssignedElements } from "lit/decorators.js";
-
+import { classMap } from "lit/directives/class-map.js";
 import "../qgds-icon/qgds-icon";
-
 import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-accordion-group.styles.scss?inline";
 import { QGDSAccordion } from "../qgds-accordion/qgds-accordion";
@@ -93,8 +92,18 @@ export class QGDSAccordionGroup extends LitElement {
 
   render() {
     return html`<div class="qgds-accordion-group" @qgds-toggle=${this._handleToggle}>
-      ${this._showControls ? html`<button @click=${this._openOrCloseAll}>${this._openAllLabel}</button>` : nothing}
-      <slot @slotchange=${this._handleSlotChange}></slot>
+      ${this._showControls
+        ? html`<button
+            class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
+            @click=${this._openOrCloseAll}
+          >
+            ${this._openAllLabel}
+            <qgds-icon class="controls-icon" icon-id="chevron-down" size="xs" aria-hidden="true"></qgds-icon>
+          </button>`
+        : nothing}
+      <div class="accordions">
+        <slot @slotchange=${this._handleSlotChange}></slot>
+      </div>
     </div>`;
   }
 }
