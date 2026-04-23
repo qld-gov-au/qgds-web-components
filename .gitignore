@@ -15,6 +15,7 @@ prettier.json
 custom-elements.json
 *__screenshots__/
 _dev/
+*.tgz
 
 # Chromatic
 chromatic-diagnostics.json

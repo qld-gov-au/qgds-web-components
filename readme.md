@@ -26,11 +26,18 @@ npm install @qld-gov-au/qgds-web-components@alpha
 
 ### Basic Usage
 
-Import the component bundle and optional stylesheet in your app entrypoint:
+Import the QGDS stylesheet and required components in your app entrypoint:
 
 ```js
+import "@qld-gov-au/qgds-web-components/styles";
+
+// Importing the main package registers all components globally, but you can also import individual components as needed:
 import "@qld-gov-au/qgds-web-components";
-import "@qld-gov-au/qgds-web-components/styles.css";
+
+// or, import just the components you need
+import "@qld-gov-au/qgds-web-components/button";
+import "@qld-gov-au/qgds-web-components/callout";
+import "@qld-gov-au/qgds-web-components/inpage-nav";
 ```
 
 Use components in your markup:
@@ -49,9 +56,9 @@ An **alpha** release Storybook, containing example code and API documentation fo
 - Browser support and SSR compatibility are still being validated during alpha
 - Please report issues via the GitHub repository issue tracker, or through the QGDS Design System team channel qgdesignsystem@qld.gov.au.
 
-## Getting Started (Development & Contribution)
+## Contributing
 
-To begin working with the current state of the components, clone the repository:
+To contribute to the project, begin working with the current state of the components by cloning the repository:
 
 ```bash
 git clone https://github.com/qld-gov-au/qgds-web-components.git
@@ -105,9 +112,7 @@ Wrap your QGDS content in a container with the `qgds` class. Components themselv
 A palette class can be combined with the namespace class:
 
 ```html
-<div class="qgds qgds-palette-default">
-  ...
-</div>
+<div class="qgds qgds-palette-default">...</div>
 ```
 
 Storybook automatically applies both classes to every story via the global decorator in `.storybook/preview.ts`.

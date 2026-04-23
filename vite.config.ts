@@ -1,13 +1,45 @@
 /// <reference types="vitest/config" />
 // vite.config.ts
 import { defineConfig } from "vite";
-import path from "path";
+import path from "node:path";
+import glob from "fast-glob";
 import { fileURLToPath } from "url";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { visualizer } from "rollup-plugin-visualizer";
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+/**
+ * Resolves component entry points for the Vite build.
+ * Maps 'src/components/qgds-button/qgds-button.ts' to 'button'
+ */
+export function resolveComponentInputs(): Record<string, string> {
+  // Use glob.sync instead of globSync
+  const entries: string[] = glob.sync(["src/components/**/index.ts", "src/components/**/qgds-[!.]*.ts"], {
+    // This is the crucial fix: prevent story files from becoming entry points
+    ignore: ["**/*.stories.ts", "**/*.test.ts", "**/*.styles.ts"],
+  });
+
+  const inputs: Record<string, string> = {};
+
+  for (const entry of entries) {
+    const dirName = path.dirname(entry).split(path.sep).pop();
+
+    if (dirName?.startsWith("qgds-")) {
+      const shortName = dirName.replace("qgds-", "");
+      const isIndex = path.basename(entry) === "index.ts";
+
+      if (isIndex || !inputs[shortName]) {
+        // Use path.resolve to provide Rollup with the absolute path
+        inputs[shortName] = path.resolve(process.cwd(), entry);
+      }
+    }
+  }
+
+  return inputs;
+}
 
 export default defineConfig({
   css: {
@@ -22,15 +54,34 @@ export default defineConfig({
     sourcemap: true,
     minify: true,
     target: "es2020",
-    rollupOptions: {
-      input: {
-        "qgds-web-components": "./src/index.ts",
-        "qgds-web-components-css": "./src/styles/main.scss",
+    lib: {
+      entry: {
+        // The key 'index' will be used for the main library bundle
+        index: path.resolve(__dirname, "src/index.ts"),
+        ...resolveComponentInputs(),
       },
+      formats: ["es"],
+    },
+    rollupOptions: {
       output: {
-        // All JS assets from input object:
-        // Automatically puts any JS entry into the assets/js/ folder using its input key
-        entryFileNames: "assets/js/[name].js",
+        entryFileNames: (chunkInfo) => {
+          // If the entry is our 'index' key, put it in the dist/assets/js root
+          if (chunkInfo.name === "index") {
+            return "assets/js/qgds-web-components.js";
+          }
+          // Everything else (the components) goes into the dist/assets/js/components folder
+          return "assets/js/components/[name].js";
+        },
+
+        manualChunks: (id) => {
+          // Force all storybook and preview-api related files into one chunk
+          if (id.includes("storybook") || id.includes("@storybook") || id.includes("preview-api")) {
+            return "storybook-vendor";
+          }
+        },
+
+        chunkFileNames: "assets/js/chunks/[name]-[hash].js",
+
         // Other non JS assets from input object (CSS/Images):
         assetFileNames: (assetInfo) => {
           //Original filename
@@ -71,6 +122,7 @@ export default defineConfig({
         },
       ],
     }) as any,
+    visualizer({ open: false, filename: "_dev/bundle-analysis.html" }),
   ],
   resolve: {
     alias: {
