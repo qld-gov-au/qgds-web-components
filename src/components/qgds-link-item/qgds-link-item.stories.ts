@@ -27,7 +27,7 @@ const meta: Meta<Args> = {
     ...argTypes,
     "icon-name": {
       control: { type: "select" },
-      options: ["", "arrow-right"],
+      options: ["", "arrow-right", "external-link"],
       labels: { "": "None" },
       table: { category: "Icon" },
     },
@@ -44,6 +44,10 @@ const meta: Meta<Args> = {
       if: { arg: "icon-name", truthy: true },
       table: { category: "Icon" },
     },
+    hasBorder: {
+      control: "boolean",
+      table: { category: "Appearance" },
+    },
   },
   render: (args) => template(args),
 };
@@ -59,6 +63,7 @@ export const Default: Story = {
     href: "/topics/environment",
     "icon-name": "arrow-right",
     animation: "leftToRight",
+    "has-border": true,
   },
 };
 
@@ -70,26 +75,33 @@ export const WithDescription: Story = {
     "icon-name": "arrow-right",
     animation: "leftToRight",
     description: "Roads, public transport, cycling and walking.",
+    "has-border": true,
   },
 };
 
 /** Link item with nested sub-items rendered in the default slot. */
 export const WithNestedItems: Story = {
   args: {
+    label: "Transport and infrastructure",
+    href: "/topics/transport",
     animation: "leftToRight",
     "icon-name": "arrow-right",
     "icon-size": "md",
+    description: "",
+    "has-border": true,
   },
 
   name: "With Nested Items",
 
   render: (args) => html`
     <qgds-link-item
-      label="Environment and sustainability"
-      href="/topics/environment"
+      label="${args.label}"
+      href="${args.href}"
       icon-name="${args["icon-name"]}"
       animation="${args.animation}"
       icon-size="${args["icon-size"]}"
+      description="${args.description}"
+      ?has-border="${args["has-border"]}"
     >
       <qgds-link-item
         label="Water quality"
@@ -97,6 +109,8 @@ export const WithNestedItems: Story = {
         icon-name="${args["icon-name"]}"
         animation="${args.animation}"
         icon-size="${args["icon-size"]}"
+        description="${args.description}"
+        ?has-border="${args["has-border"]}"
       ></qgds-link-item>
       <qgds-link-item
         label="Air quality"
@@ -104,6 +118,8 @@ export const WithNestedItems: Story = {
         icon-name="${args["icon-name"]}"
         animation="${args.animation}"
         icon-size="${args["icon-size"]}"
+        description="${args.description}"
+        ?has-border="${args["has-border"]}"
       >
         <qgds-link-item
           label="Bad Air quality"
@@ -111,6 +127,8 @@ export const WithNestedItems: Story = {
           icon-name="${args["icon-name"]}"
           animation="${args.animation}"
           icon-size="${args["icon-size"]}"
+          description="${args.description}"
+          ?has-border="${args["has-border"]}"
         ></qgds-link-item>
         <qgds-link-item
           label="OK Air quality"
@@ -118,6 +136,8 @@ export const WithNestedItems: Story = {
           icon-name="${args["icon-name"]}"
           animation="${args.animation}"
           icon-size="${args["icon-size"]}"
+          description="${args.description}"
+          ?has-border="${args["has-border"]}"
         ></qgds-link-item>
         <qgds-link-item
           label="Good Air quality"
@@ -125,6 +145,8 @@ export const WithNestedItems: Story = {
           icon-name="${args["icon-name"]}"
           animation="${args.animation}"
           icon-size="${args["icon-size"]}"
+          description="${args.description}"
+          ?has-border="${args["has-border"]}"
         ></qgds-link-item>
       </qgds-link-item>
       <qgds-link-item
@@ -133,6 +155,8 @@ export const WithNestedItems: Story = {
         icon-name="${args["icon-name"]}"
         animation="${args.animation}"
         icon-size="${args["icon-size"]}"
+        description="${args.description}"
+        ?has-border="${args["has-border"]}"
       ></qgds-link-item>
     </qgds-link-item>
   `,
