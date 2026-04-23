@@ -1,16 +1,13 @@
 :host {
   --qgds-link-item-padding-top: unset;
-  --qgds-link-padding: 0.75rem;
+  --qgds-link-padding:calc(1rem - 1px);
   --qgds-link-margin-inline-start: auto;
   --qgds-link-width: 100%;
-  
-  // --qgds-link-border-end-colour: var(--qgds-color-border);
-  // --qgds-link-border-end-width: 1px;
-  // --qgds-link-border-end-style: solid;
+  --qgds-link-font-weight: 600;
 
   display: block;
   break-inside: avoid;
-  padding-block-start: var(--qgds-link-item-padding-top, 0.75rem);
+  padding-block-start: var(--qgds-link-item-padding-top, 1rem);
 }
 
 :host > qgds-link {
@@ -18,6 +15,12 @@
 }
 
 :host([has-border]) > qgds-link {
+  --qgds-link-border-end-colour: var(--qgds-color-border);
+  --qgds-link-border-end-width: 1px;
+  --qgds-link-border-end-style: solid;
+}
+
+:host([description]) > qgds-link {
   --qgds-link-border-end-colour: var(--qgds-color-border);
   --qgds-link-border-end-width: 1px;
   --qgds-link-border-end-style: solid;
@@ -44,9 +47,10 @@
   }
 }
 
-.description {
-  margin-block: 0 0.75rem;
+.description  {
+  margin-block: 1.25rem 0;
   margin-inline: 0;
+  font-size: 14px;
   color: var(--qgds-color-text-default);
 }
 

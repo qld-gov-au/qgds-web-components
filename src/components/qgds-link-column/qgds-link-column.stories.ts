@@ -142,7 +142,7 @@ export const WithDescription: Story = {
         <qgds-link-item
           label="Driver licence"
           href="#driver-licence"
-          description="Apply for, renew or replace your driver licence"
+          description="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penat."
         ></qgds-link-item>
         <qgds-link-item
           label="Vehicle registration"
