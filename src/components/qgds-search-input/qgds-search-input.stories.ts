@@ -1,0 +1,80 @@
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { action } from "storybook/actions";
+import { html } from "lit";
+import { chromaticModes } from "../../../.storybook/modes";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { QGDSSearchInput, tagName } from "./qgds-search-input";
+import "./qgds-search-input";
+
+const { args, argTypes, template } = getStorybookHelpers<QGDSSearchInput>(tagName);
+
+type Args = typeof args;
+type Story = StoryObj<Args>;
+
+const meta: Meta<Args> = {
+  title: "Components/Search input",
+  component: tagName,
+  tags: ["autodocs"],
+  args,
+  argTypes,
+  render: (args) => html`
+    <div
+      @qgds-search=${(e: CustomEvent) => {
+        action("qgds-search")(e.detail);
+      }}
+    >
+      ${template(args)}
+    </div>
+  `,
+};
+
+export default meta;
+
+export const Default: Story = {
+  args: {
+    ...args,
+    placeholder: "Search",
+  },
+};
+
+export const Filled: Story = {
+  args: {
+    ...Default.args,
+    variant: "filled",
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+  },
+};
+
+export const AllVariants: Story = {
+  parameters: {
+    ...chromaticModes,
+  },
+  decorators: [
+    (story) => {
+      return html`<div>
+        <style>
+          qgds-search-input:not(:last-child) {
+            margin-bottom: 20px;
+          }
+        </style>
+        ${story()}
+      </div>`;
+    },
+  ],
+  render: (args) => {
+    return html`
+      <qgds-search-input placeholder="${args.placeholder}" variant="outlined"> </qgds-search-input>
+
+      <qgds-search-input placeholder="${args.placeholder}" variant="filled"> </qgds-search-input>
+    `;
+  },
+  args: {
+    ...Default.args,
+  },
+};
