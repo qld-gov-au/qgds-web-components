@@ -26,6 +26,7 @@ describe("qgds-link-item", () => {
     expect(element.iconName).toBe("");
     expect(element.iconSize).toBe("");
     expect(element.animation).toBe("");
+    expect(element.hasBorder).toBe(false);
   });
 
   it("sets role='listitem' on host element", async () => {
@@ -100,5 +101,30 @@ describe("qgds-link-item", () => {
     expect(link?.iconName).toBeFalsy();
     expect(link?.iconSize).toBeFalsy();
     expect(link?.animation).toBeFalsy();
+  });
+
+  it("accepts external-link as icon-name", async () => {
+    element.setAttribute("icon-name", "external-link");
+    await element.updateComplete;
+
+    expect(element.iconName).toBe("external-link");
+    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    expect(link?.iconName).toBe("external-link");
+  });
+
+  it("reflects hasBorder as an attribute when set to true", async () => {
+    element.hasBorder = true;
+    await element.updateComplete;
+
+    expect(element.getAttribute("hasborder")).toBe("");
+  });
+
+  it("removes hasBorder attribute when set to false", async () => {
+    element.setAttribute("hasborder", "");
+    await element.updateComplete;
+    element.hasBorder = false;
+    await element.updateComplete;
+
+    expect(element.hasAttribute("hasborder")).toBe(false);
   });
 });
