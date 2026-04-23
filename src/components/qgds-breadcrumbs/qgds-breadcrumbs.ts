@@ -42,9 +42,14 @@ export class QGDSBreadcrumbs extends LitElement {
 
     const targetItem = this.items[1] as QGDSBreadcrumbsItem;
     await targetItem?.updateComplete;
-    targetItem.focus(); // if you implemented focus() in child
-    document.removeEventListener("click", this.closeMenu);
-    document.addEventListener("click", this.closeMenu, { once: true });
+    if (this.expanded) {
+      targetItem.focus();
+    }
+    if (this.expanded) {
+      document.addEventListener("click", this.closeMenu, { once: true });
+    } else {
+      document.removeEventListener("click", this.closeMenu);
+    }
   };
 
   private closeMenu = () => {
@@ -106,7 +111,7 @@ export class QGDSBreadcrumbs extends LitElement {
   }
 
   private _renderItems() {
-    if (!this.items.length) {
+    if (!this.collapsedOnLoad) {
       return html`<slot></slot>`;
     }
 
