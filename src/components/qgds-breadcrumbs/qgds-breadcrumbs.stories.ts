@@ -7,7 +7,6 @@ import "./qgds-breadcrumbs";
 import "./qgds-breadcrumbs-item";
 
 import type { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
-import { chromaticModes } from "../../../.storybook/modes";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSBreadcrumbs>("qgds-breadcrumbs");
 
@@ -45,9 +44,6 @@ type Story = StoryObj<QGDSBreadcrumbsStoryArgs>;
 export const Default: Story = {
   args: {
     "aria-label": "Breadcrumbs",
-  },
-  parameters: {
-    ...chromaticModes,
   },
   render: (storyArgs) =>
     template(
