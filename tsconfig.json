@@ -4,7 +4,10 @@
     "module": "ESNext", // Lets bundlers optimize modules
     "moduleResolution": "bundler",
     "outDir": "dist",
-    "rootDirs": ["src", ".storybook"],
+    "rootDirs": [
+      "src",
+      ".storybook"
+    ],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -15,8 +18,17 @@
     "downlevelIteration": true, // Ensures correct transpilation of iterators/for..of
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "types": ["vite/client"]
+    "types": [
+      "vite/client"
+    ]
   },
-  "include": ["src", "build.ts", ".storybook"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "src",
+    "build.ts",
+    ".storybook"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
