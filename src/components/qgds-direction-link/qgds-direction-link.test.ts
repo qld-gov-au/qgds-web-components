@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-direction-link";
 import "../qgds-link/qgds-link";
-import type { QgdsDirectionLink } from "./qgds-direction-link";
+import type { QGDSDirectionLink } from "./qgds-direction-link";
 
 describe("qgds-direction-link", () => {
-  let element: QgdsDirectionLink;
+  let element: QGDSDirectionLink;
 
   beforeEach(() => {
     element = document.createElement("qgds-direction-link");
@@ -21,7 +21,6 @@ describe("qgds-direction-link", () => {
     expect(element.label).toBe("");
     expect(element.href).toBe("");
     expect(element.direction).toBe("right");
-    expect(element.trailing).toBe(false);
     expect(element.animation).toBe(true);
   });
 
@@ -56,12 +55,17 @@ describe("qgds-direction-link", () => {
     expect(link?.href).toBe("/next");
   });
 
-  it("forwards trailing to the inner qgds-link trailingIcon", async () => {
-    element.trailing = true;
+  it.each([
+    ["up", true],
+    ["down", true],
+    ["right", true],
+    ["left", false],
+  ] as const)("derives trailingIcon for direction=%s → %s", async (direction, trailing) => {
+    element.direction = direction;
     await element.updateComplete;
 
     const link = element.shadowRoot?.querySelector("qgds-link");
-    expect(link?.trailingIcon).toBe(true);
+    expect(link?.trailingIcon).toBe(trailing);
   });
 
   it("clears animation on the inner qgds-link when animation=false", async () => {

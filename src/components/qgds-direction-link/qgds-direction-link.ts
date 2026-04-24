@@ -26,32 +26,31 @@ const ANIMATION_BY_DIRECTION = {
  * @property {string} [label] - The visible link label text.
  * @property {string} [href] - The destination URL.
  * @property {Direction} [direction] - The arrow direction ("up", "down", "left", "right"). Defaults to "right".
- * @property {boolean} [trailing] - When true, places the arrow after the label text.
  * @property {boolean} [animation] - When true (default), animates the arrow in the matching direction. Set to false to disable.
  *
  * @example
  * ```html
- * <qgds-direction-link label="Next" href="/next" direction="right" trailing></qgds-direction-link>
+ * <qgds-direction-link label="Next" href="/next" direction="right"></qgds-direction-link>
  * ```
  */
 @customElement("qgds-direction-link")
-export class QgdsDirectionLink extends LitElement {
+export class QGDSDirectionLink extends LitElement {
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
   @property({ type: String, reflect: true }) direction: Direction = "right";
-  @property({ type: Boolean, reflect: true }) trailing = false;
   @property({ type: Boolean, reflect: true }) animation = true;
 
   render() {
     const iconName = ICON_BY_DIRECTION[this.direction];
     const animation = this.animation ? ANIMATION_BY_DIRECTION[this.direction] : "";
+    const trailingIcon = this.direction !== "left";
     return html`
       <qgds-link
         .label=${this.label}
         .href=${this.href}
         .iconName=${iconName}
         .animation=${animation}
-        .trailingIcon=${this.trailing}
+        .trailingIcon=${trailingIcon}
       ></qgds-link>
     `;
   }
@@ -59,6 +58,6 @@ export class QgdsDirectionLink extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-direction-link": QgdsDirectionLink;
+    "qgds-direction-link": QGDSDirectionLink;
   }
 }
