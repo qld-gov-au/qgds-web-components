@@ -6,6 +6,7 @@ import "./qgds-accordion-group";
 import type { QGDSAccordion } from "./../qgds-accordion/qgds-accordion";
 import "./../qgds-accordion/qgds-accordion";
 import { Closed, Open } from "./../qgds-accordion/qgds-accordion.stories";
+import { chromaticModes } from "../../../.storybook/modes";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSAccordionGroup>("qgds-accordion-group");
 const { template: childTemplate } = getStorybookHelpers<QGDSAccordion>("qgds-accordion");
@@ -20,41 +21,24 @@ const meta: Meta<Args> = {
   render: (args) =>
     template(
       args,
-      html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })}
-        <p>An invlaid element</p> `
+      html`${childTemplate({ ...Open.args })} ${childTemplate({ ...Closed.args })} ${childTemplate({ ...Closed.args })}`
     ),
 };
 
 export default meta;
 type Story = StoryObj<Args>;
 
-export const ShowControlsTrue: Story = {
-  args: { showControls: true },
-};
-
-export const ShowControlsAutoWith2Children: Story = {
-  args: {
-    showControls: "auto",
+export const Default: Story = {
+  parameters: {
+    ...chromaticModes,
   },
-  render: (args) => template(args, html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })}}`),
 };
 
-export const ShowControlsAutoWith3Children: Story = {
-  args: {
-    showControls: "auto",
-  },
-  render: (args) =>
-    template(
-      args,
-      html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })})`
-    ),
-};
-
-export const InvalidContent: Story = {
-  render: (args) =>
-    template(
-      args,
-      html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })}
-        <p>An invalid element</p> `
-    ),
-};
+// export const InvalidContent: Story = {
+//   render: (args) =>
+//     template(
+//       args,
+//       html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })}
+//         <p>An invalid element</p> `
+//     ),
+// };

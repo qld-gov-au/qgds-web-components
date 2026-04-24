@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, PropertyValues, html, unsafeCSS } from "lit";
 import { ref, createRef } from "lit/directives/ref.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -18,7 +18,6 @@ export const tagName = "qgds-accordion";
  *
  * @prop {string} title - The title displayed in the accordion summary.
  * @prop {boolean} isOpen - Reflects the open state of the accordion. Can be used to programmatically control the accordion.
- * @prop {string} id - if the window.location.hash equals this id, the accordion will be set to to open.
  *
  * @slot default - The content to be revealed when the accordion is expanded. Can include any HTML elements.
  *
@@ -35,6 +34,7 @@ export class QGDSAccordion extends LitElement {
   private events: QgdsEvents;
   private _preventFirstToggleEvent = false; // set to false on firstUpdated()
   private _detailsRef = createRef<HTMLDetailsElement>();
+  private _scrollIntoView: HTMLElement | null = null;
 
   constructor() {
     super();
@@ -51,8 +51,8 @@ export class QGDSAccordion extends LitElement {
     }
 
     // check the hash and set isOpen to true, also set up hashchange listener
-    this._handleHash();
     window.addEventListener("hashchange", this._handleHash);
+    this._handleHash();
   }
 
   disconnectedCallback(): void {
@@ -61,9 +61,26 @@ export class QGDSAccordion extends LitElement {
     window.removeEventListener("hashchange", this._handleHash);
   }
 
+  protected updated(_changedProperties: PropertyValues): void {
+    if (this._scrollIntoView) {
+      this._scrollIntoView.scrollIntoView();
+      this._scrollIntoView = null;
+    }
+  }
+
   private _handleHash = () => {
-    if (window.location.hash === `#${this.id}`) {
+    const hash = window.location.hash;
+    if (!hash) return;
+    if (hash === `#${this.id}`) {
+      this._scrollIntoView = this;
       this.isOpen = true;
+      this.requestUpdate();
+    }
+
+    if (this.querySelector(hash)) {
+      this._scrollIntoView = this.querySelector(hash);
+      this.isOpen = true;
+      this.requestUpdate();
     }
   };
 

@@ -15,9 +15,9 @@ export const tagName = "qgds-accordion-group";
  * @uikit "https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=5990-98109"
  * @tagname "qgds-accordion-group"
  *
- * @prop {true | false | "auto"} [showControls = "auto"] - Show "Open all" / "Close all" controls. If auto, will display if 3 or more items.
+ * @prop {true | false | "auto"} [showControls = "auto"] - Show "Open all" / "Close all" controls. If set to "auto", controls will displayed if 3 or more accordions as children items.
  *
- * @slot default - Any number of `qgds-accordion`s.
+ * @slot default - Any number of `qgds-accordion`s. All other elements will not be rendered.
  *
  */
 @customElement(tagName)

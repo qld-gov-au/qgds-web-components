@@ -6,6 +6,7 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import type { QGDSAccordion } from "./qgds-accordion";
 import "./qgds-accordion";
 import { action } from "storybook/actions";
+import { chromaticModes } from "../../../.storybook/modes";
 
 const { args, argTypes } = getStorybookHelpers<QGDSAccordion>("qgds-accordion");
 type Args = typeof args;
@@ -36,18 +37,21 @@ const meta: Meta<Args> = {
 export default meta;
 type Story = StoryObj<Args>;
 
-export const Closed: Story = {
-  args: {
-    ...meta.args,
-    title: "This accordion is initially closed.",
-  },
-};
-
 export const Open: Story = {
   args: {
     ...meta.args,
     "is-open": true,
     title: "This accordion is initially open.",
+  },
+  parameters: {
+    ...chromaticModes,
+  },
+};
+
+export const Closed: Story = {
+  args: {
+    ...meta.args,
+    title: "This accordion is initially closed.",
   },
 };
 
@@ -59,8 +63,30 @@ export const OpenOnHashChange: Story = {
   },
   decorators: [
     (story) =>
-      html`<p>An accordion will auto-open if <code>window.location.hash</code> equals its id attribute.</p>
-        <p><a href="#myaccordion">Click me and see it in action.</a></p>
-        ${story()}`,
+      html`<div style="height: 50vh; overflow: scroll;">
+        <p>An accordion will auto-open if <code>window.location.hash</code> equals its id attribute.</p>
+        <p style="margin-bottom: 100vh;"><a href="#myaccordion">Click me and see it in action.</a></p>
+        ${story()}
+      </div>`,
+  ],
+};
+
+export const OpenContentWithinOnHashChange: Story = {
+  args: {
+    ...meta.args,
+    title: 'This will open to display nested content if window.location.hash = "nestedcontent"',
+    "default-slot":
+      '<p>This paragraph contains a <span id="nestedcontent"> nested element</span> which can be linked to. The accordion will be rendered as open when linked to via window.location.hash </p>',
+  },
+  decorators: [
+    (story) =>
+      html`<div style="height: 50vh; overflow: scroll;">
+        <p>
+          An accordion will auto-open if <code>window.location.hash</code> equals an element's id within its content
+          area.
+        </p>
+        <p style="margin-bottom: 100vh;"><a href="#nestedcontent">Click me and see it in action.</a></p>
+        ${story()}
+      </div>`,
   ],
 };
