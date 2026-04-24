@@ -36,13 +36,6 @@ export class QGDSBreadcrumbsItem extends LitElement {
   connectedCallback() {
     super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
     this.setAttribute("role", "listitem");
-    this.tabIndex = 0;
-  }
-
-  focusLink() {
-    const anchor = this.shadowRoot?.querySelector("a");
-    anchor?.setAttribute("tabindex", "-1");
-    anchor?.focus();
   }
 
   static styles = [
@@ -67,6 +60,15 @@ export class QGDSBreadcrumbsItem extends LitElement {
   // controlled by parent
   @property({ type: Boolean, attribute: "is-last", reflect: true })
   isLast: boolean = false;
+
+  @property({ type: Boolean, attribute: "state-expanded", reflect: true })
+  stateExpanded = false;
+
+  updated(changed: Map<string, unknown>) {
+    if (changed.has("stateExpanded") || changed.has("insideVertical")) {
+      this.tabIndex = this.insideVertical === "true" ? (this.stateExpanded ? 0 : -1) : 0;
+    }
+  }
 
   render() {
     return html`

@@ -40,20 +40,30 @@ export class QGDSBreadcrumbs extends LitElement {
 
     await this.updateComplete;
 
+    this._setExpandedProperty();
+
     const targetItem = this.items[1] as QGDSBreadcrumbsItem;
     await targetItem?.updateComplete;
     if (this.expanded) {
       targetItem.focus();
     }
     if (this.expanded) {
-      document.addEventListener("click", this.closeMenu, { once: true });
+      document.addEventListener("click", this._closeMenu, { once: true });
     } else {
-      document.removeEventListener("click", this.closeMenu);
+      document.removeEventListener("click", this._closeMenu);
     }
   };
 
-  private closeMenu = () => {
+  private _setExpandedProperty() {
+    this.items.forEach((item) => {
+      const child = item as QGDSBreadcrumbsItem;
+      child.stateExpanded = child.insideVertical === "true" ? this.expanded : false;
+    });
+  }
+
+  private _closeMenu = () => {
     this.expanded = this.expanded && false;
+    this._setExpandedProperty();
   };
 
   private items: Element[] = [];
@@ -146,7 +156,7 @@ export class QGDSBreadcrumbs extends LitElement {
   disconnectedCallback() {
     // eslint-disable-next-line wc/guard-super-call
     super.disconnectedCallback();
-    document.removeEventListener("click", this.closeMenu);
+    document.removeEventListener("click", this._closeMenu);
   }
 
   render() {
