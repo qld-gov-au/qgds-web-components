@@ -46,11 +46,11 @@ export class QGDSDirectionLink extends LitElement {
     const trailingIcon = this.direction !== "left";
     return html`
       <qgds-link
-        .label=${this.label}
-        .href=${this.href}
-        .iconName=${iconName}
-        .animation=${animation}
-        .trailingIcon=${trailingIcon}
+        label=${this.label}
+        href=${this.href}
+        icon-name=${iconName}
+        animation=${animation}
+        ?trailing-icon=${trailingIcon}
       ></qgds-link>
     `;
   }
