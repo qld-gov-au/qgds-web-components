@@ -10,12 +10,8 @@
   "main": "./dist/assets/js/qgds-web-components.js",
   "module": "./dist/assets/js/qgds-web-components.js",
   "types": "./dist/types/index.d.ts",
-  "sideEffects": [
-    "./dist/assets/js/qgds-web-components.js",
-    "./dist/assets/js/components/*.js",
-    "**/*.css"
-  ],
   "customElements": "custom-elements.json",
+  "sideEffects": true,
   "scripts": {
     "dev": "vite",
     "build": "npm run analyze && vite build",
