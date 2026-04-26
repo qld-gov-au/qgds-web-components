@@ -4,7 +4,6 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
 import "./qgds-image.js";
 import type { QGDSImage } from "./qgds-image.js";
-import "../qgds-callout/qgds-callout.ts";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSImage>("qgds-image");
 

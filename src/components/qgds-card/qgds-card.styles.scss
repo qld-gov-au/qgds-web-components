@@ -4,29 +4,67 @@ Scoped CSS: qgds-card
 ==========================
 */
 
+@use "../../styles/tools/mixins" as *;
+
 // Public API: CSS custom properties that can be overridden from Light DOM
 
 :host {
   --background: var(--qgds-color-background, #ffffff);
-  --border: var(--qgds-color-border, #848484);
+  --border: var(--qgds-color-border);
   --border-radius: 0.75rem;
+  --image-border-radius: var(--border-radius) var(--border-radius) 1.875rem 0;
+  --image-border-width: 1px;
+  --image-border-color: var(--qgds-color-border);
+  --image-border-style: solid;
 }
 
 .card {
   background: var(--background);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   gap: 1rem;
   min-block-size: 5rem;
+  position: relative;
+}
+
+// Stretched link for single-action cards.
+// Covers the full card surface as a native <a>, giving free browser navigation,
+// right-click, middle-click, and keyboard support without JS navigation.
+.card-link {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.image-wrapper {
+  // Pull the wrapper flush against the outside of the card border so the image
+  // border and card border overlap rather than stack (avoiding a visible 2px gap).
+  margin-block-start: -1px;
+  margin-inline: -1px;
+
+  // CSS custom properties on :host (--image-border-*) cascade into qgds-image's shadow DOM automatically.
+  // ::slotted() is used here for layout-level styles on the element itself.
+  ::slotted(qgds-image),
+  ::slotted(img) {
+    display: block;
+    border-radius: var(--image-border-radius);
+  }
 }
 
 .content-wrapper {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 1.5rem;
+  padding-block: 1.25rem 0;
+  padding-inline: 1.25rem;
+
+  --slotted-content-padding: 0 0 1rem 0;
+  --slotted-list-padding: 1rem;
+  --slotted-content-margin: 0;
+  --slotted-content-line-height: 1.5; /* Fallback for older browsers that don't support logical properties */
 }
 
 .heading {
@@ -35,10 +73,29 @@ Scoped CSS: qgds-card
   line-height: 1.25;
 }
 
-::slotted(*) {
-  margin: 0;
-  padding: 0;
-  line-height: 1.5;
+@include slotted-text();
+
+.footer {
+  display: none; // default state until .has-footer is applied on the card
+  border-block-start: 1px solid var(--qgds-color-border);
+  padding-block: 1.25rem;
+  margin-inline: 1.25rem;
+}
+
+.footer-tags {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 0.5rem;
+
+  ::slotted(qgds-tag) {
+    margin: 0;
+  }
+}
+
+.has-footer {
+  .footer {
+    display: flex;
+  }
 }
 
 .has-elevation,
