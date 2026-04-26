@@ -10,11 +10,7 @@
   "main": "./dist/assets/js/qgds-web-components.js",
   "module": "./dist/assets/js/qgds-web-components.js",
   "types": "./dist/types/index.d.ts",
-  "sideEffects": [
-    "./dist/assets/js/qgds-web-components.js",
-    "./dist/assets/js/components/*.js",
-    "**/*.css"
-  ],
+  "sideEffects": "true",
   "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
