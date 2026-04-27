@@ -8,9 +8,10 @@ import componentCSS from "./qgds-breadcrumbs.styles.scss?inline";
 export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
 
 /**
- * Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.
+ * Breadcrumbs show users where they are in the website hierarchy and how to navigate back or up to previous levels or content. They supports desktop, and mobile/tablet resolutions.
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-98076&p=f&m=dev
+ * @website https://www.designsystem.qld.gov.au/components/breadcrumbs
  *
  * @example
  * <qgds-breadcrumbs>
@@ -31,23 +32,23 @@ export class QGDSBreadcrumbs extends LitElement {
   @property({ type: String, attribute: "aria-label" })
   label: string = "breadcrumbs";
 
-  @property({ type: Boolean }) private collapsedOnLoad = false;
-  @property({ type: Boolean }) private expanded = false;
+  @property({ type: Boolean }) collapsedOnLoad = false;
+  @property({ type: Boolean }) private _expanded = false;
 
   private _toggleExpand = async (ev: Event) => {
     ev.stopPropagation();
-    this.expanded = !this.expanded;
+    this._expanded = !this._expanded;
 
     await this.updateComplete;
 
     this._setExpandedProperty();
 
-    const targetItem = this.items[1] as QGDSBreadcrumbsItem;
+    const targetItem = this._items[1] as QGDSBreadcrumbsItem;
     await targetItem?.updateComplete;
-    if (this.expanded) {
+    if (this._expanded) {
       targetItem.focus();
     }
-    if (this.expanded) {
+    if (this._expanded) {
       document.addEventListener("click", this._closeMenu, { once: true });
     } else {
       document.removeEventListener("click", this._closeMenu);
@@ -55,18 +56,18 @@ export class QGDSBreadcrumbs extends LitElement {
   };
 
   private _setExpandedProperty() {
-    this.items.forEach((item) => {
+    this._items.forEach((item) => {
       const child = item as QGDSBreadcrumbsItem;
-      child.stateExpanded = child.insideVertical === "true" ? this.expanded : false;
+      child.stateExpanded = child.insideVertical === true ? this._expanded : false;
     });
   }
 
   private _closeMenu = () => {
-    this.expanded = this.expanded && false;
+    this._expanded = this._expanded && false;
     this._setExpandedProperty();
   };
 
-  private items: Element[] = [];
+  private _items: Element[] = [];
 
   static styles = [
     baseStyles,
@@ -76,10 +77,10 @@ export class QGDSBreadcrumbs extends LitElement {
   ];
 
   firstUpdated() {
-    this.initBreadcrumb();
+    this._initBreadcrumb();
   }
 
-  private initBreadcrumb() {
+  private _initBreadcrumb() {
     // Set the standard breadcrumb length.
     let maxLength = 5;
 
@@ -95,13 +96,13 @@ export class QGDSBreadcrumbs extends LitElement {
     }
     const slot = this.shadowRoot?.querySelector("slot");
 
-    this.items =
+    this._items =
       slot?.assignedElements({
         flatten: true,
       }) ?? [];
 
     // Return when breadcrumb does not exist.
-    if (!this.items?.length) {
+    if (!this._items?.length) {
       return;
     }
 
@@ -114,9 +115,9 @@ export class QGDSBreadcrumbs extends LitElement {
       maxLength = 3;
     }
     //this.breadcrumbCollapse(breadcrumbList, maxLength);
-    this.collapsedOnLoad = this.items.length > maxLength;
+    this.collapsedOnLoad = this._items.length > maxLength;
     if (!this.collapsedOnLoad) {
-      this.items[this.items.length - 1].setAttribute("is-last", "true");
+      this._items[this._items.length - 1].setAttribute("is-last", "true");
     }
   }
 
@@ -126,22 +127,26 @@ export class QGDSBreadcrumbs extends LitElement {
     }
 
     // collapsed state
-    const first = this.items[0];
-    //const last = this.items[this.items.length - 1];
-    const secondLast = this.items[this.items.length - 2];
-    const middle = this.items.slice(1, -2);
+    const first = this._items[0];
+    const secondLast = this._items[this._items.length - 2];
+    const middle = this._items.slice(1, -2);
     middle.forEach((item) => {
-      item.setAttribute("inside-vertical", "true");
+      (item as QGDSBreadcrumbsItem).insideVertical = true;
     });
 
-    const lastElement: QGDSBreadcrumbsItem = this.items[this.items.length - 1] as QGDSBreadcrumbsItem;
+    const lastElement: QGDSBreadcrumbsItem = this._items[this._items.length - 1] as QGDSBreadcrumbsItem;
     lastElement.isLast = true;
 
     return html`
       ${first}
 
-      <qgds-breadcrumbs-item class="breadcrumb-item breadcrumb-toggle ${this.expanded ? "expanded" : ""}" tabindex="0">
-        <button class="breadcrumb-toggle-link" aria-label="Expand breadcrumbs" @click=${this._toggleExpand}></button>
+      <qgds-breadcrumbs-item class="breadcrumb-item breadcrumb-toggle ${this._expanded ? "expanded" : ""}" tabindex="0">
+        <button
+          type="button"
+          class="breadcrumb-toggle-link"
+          aria-label="Expand breadcrumbs"
+          @click=${this._toggleExpand}
+        ></button>
         <qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>
         <div class="breadcrumb-collapse-wrapper">
           <ol class="breadcrumb-vertical">

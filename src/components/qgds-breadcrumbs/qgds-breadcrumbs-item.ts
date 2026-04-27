@@ -54,8 +54,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: String, attribute: "target" })
   target: string = "";
 
-  @property({ type: String, attribute: "inside-vertical", reflect: true })
-  insideVertical: string = "false";
+  @property({ type: Boolean, attribute: "inside-vertical", reflect: true })
+  insideVertical: boolean = false;
 
   // controlled by parent
   @property({ type: Boolean, attribute: "is-last", reflect: true })
@@ -66,28 +66,25 @@ export class QGDSBreadcrumbsItem extends LitElement {
 
   updated(changed: Map<string, unknown>) {
     if (changed.has("stateExpanded") || changed.has("insideVertical")) {
-      this.tabIndex = this.insideVertical === "true" ? (this.stateExpanded ? 0 : -1) : 0;
+      this.tabIndex = this.insideVertical === true ? (this.stateExpanded ? 0 : -1) : 0;
     }
   }
 
   render() {
     return html`
-      <div
-        class="breadcrumb-item ${this.isLast ? "active" : ""}"
-        aria-current=${this.isLast ? "current page" : nothing}
-      >
+      <div class="breadcrumb-item ${this.isLast ? "active" : ""}" aria-current=${this.isLast ? "page" : nothing}>
         ${this.isLast || !this.href
           ? html`<slot></slot>`
           : html`
               <a
-                class=${this.insideVertical == "true" ? "inside-vertical" : nothing}
+                class=${this.insideVertical === true ? "inside-vertical" : nothing}
                 href=${this.href}
                 rel=${ifDefined(this.rel)}
                 target=${ifDefined(this.target)}
               >
                 <slot></slot>
               </a>
-              ${this.insideVertical == "false"
+              ${this.insideVertical === false
                 ? html`<qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>`
                 : nothing}
             `}

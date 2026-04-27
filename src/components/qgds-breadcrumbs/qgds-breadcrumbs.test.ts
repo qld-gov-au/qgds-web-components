@@ -83,9 +83,7 @@ describe("qgds-breadcrumbs", () => {
     expect(toggleItem).toBeTruthy();
 
     const renderedItems = compactElement.shadowRoot?.querySelectorAll<QGDSBreadcrumbsItem>("qgds-breadcrumbs-item");
-    const insideVerticalItems = Array.from(renderedItems ?? []).filter(
-      (item) => item.getAttribute("inside-vertical") === "true"
-    );
+    const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.insideVertical === true);
     const currentPageItem = Array.from(renderedItems ?? []).find((item) => item.hasAttribute("is-last"));
 
     expect(renderedItems).toHaveLength(7);
@@ -221,7 +219,7 @@ describe("qgds-breadcrumbs-item", () => {
       .map((node) => node.textContent?.trim() ?? "")
       .join("");
 
-    expect(listItem?.getAttribute("aria-current")).toBe("current page");
+    expect(listItem?.getAttribute("aria-current")).toBe("page");
     expect(anchor).toBeNull();
     expect(slottedText).toBe("Current page");
   });
