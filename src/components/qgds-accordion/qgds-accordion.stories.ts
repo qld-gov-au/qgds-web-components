@@ -20,7 +20,7 @@ const meta: Meta<Args> = {
     ...args,
     title: "Accordion title",
     "default-slot": "<p>This is the <strong>content</strong>.</p>",
-    "qgds-toggle-event": (e: CustomEvent) => action("qgds-toggle")(e.detail),
+    "qgds-toggle-event": (e: CustomEvent): void => action("qgds-toggle")(e.detail),
   },
   argTypes,
   render: (args) => html`
@@ -73,6 +73,10 @@ export const Deeplink: Story = {
         ${story()}
       </div>`,
   ],
+  parameters: {
+    // Disables Chromatic's snapshotting on a component level
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const DeeplinkToContent: Story = {
@@ -93,6 +97,10 @@ export const DeeplinkToContent: Story = {
         ${story()}
       </div>`,
   ],
+  parameters: {
+    // Disables Chromatic's snapshotting on a component level
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const Interactions: Story = {
@@ -111,5 +119,9 @@ export const Interactions: Story = {
       await userEvent.click(summary);
     }
     await expect(accordion?.isOpen).toBe(false);
+  },
+  parameters: {
+    // Disables Chromatic's snapshotting on a component level
+    chromatic: { disableSnapshot: true },
   },
 };
