@@ -20,7 +20,7 @@ const meta: Meta<Args> = {
     ...args,
     title: "Accordion title",
     "default-slot": "<p>This is the <strong>content</strong>.</p>",
-    "qgds-toggle-event": (e: CustomEvent): void => action("qgds-toggle")(e.detail),
+    "qgds-toggle-event": (e: CustomEvent) => action("qgds-toggle")(e.detail) as unknown,
   },
   argTypes,
   render: (args) => html`
