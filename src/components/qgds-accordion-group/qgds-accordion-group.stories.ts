@@ -33,12 +33,3 @@ export const Default: Story = {
     ...chromaticModes,
   },
 };
-
-// export const InvalidContent: Story = {
-//   render: (args) =>
-//     template(
-//       args,
-//       html`${childTemplate({ ...Closed.args })} ${childTemplate({ ...Open.args })} ${childTemplate({ ...Open.args })}
-//         <p>An invalid element</p> `
-//     ),
-// };

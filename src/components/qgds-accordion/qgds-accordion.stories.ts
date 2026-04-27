@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -7,8 +7,9 @@ import type { QGDSAccordion } from "./qgds-accordion";
 import "./qgds-accordion";
 import { action } from "storybook/actions";
 import { chromaticModes } from "../../../.storybook/modes";
+import { expect } from "storybook/test";
 
-const { args, argTypes } = getStorybookHelpers<QGDSAccordion>("qgds-accordion");
+const { args, argTypes } = getStorybookHelpers<QGDSAccordion>("qgds-accordion", { setComponentVariable: true });
 type Args = typeof args;
 
 const meta: Meta<Args> = {
@@ -55,7 +56,7 @@ export const Closed: Story = {
   },
 };
 
-export const OpenOnHashChange: Story = {
+export const Deeplink: Story = {
   args: {
     ...meta.args,
     id: "myaccordion",
@@ -64,14 +65,17 @@ export const OpenOnHashChange: Story = {
   decorators: [
     (story) =>
       html`<div style="height: 50vh; overflow: scroll;">
-        <p>An accordion will auto-open if <code>window.location.hash</code> equals its id attribute.</p>
+        <p>
+          An accordion will auto-open if <code>window.location.hash</code> equals its id attribute, then scroll into
+          view.
+        </p>
         <p style="margin-bottom: 100vh;"><a href="#myaccordion">Click me and see it in action.</a></p>
         ${story()}
       </div>`,
   ],
 };
 
-export const OpenContentWithinOnHashChange: Story = {
+export const DeeplinkToContent: Story = {
   args: {
     ...meta.args,
     title: 'This will open to display nested content if window.location.hash = "nestedcontent"',
@@ -82,11 +86,30 @@ export const OpenContentWithinOnHashChange: Story = {
     (story) =>
       html`<div style="height: 50vh; overflow: scroll;">
         <p>
-          An accordion will auto-open if <code>window.location.hash</code> equals an element's id within its content
-          area.
+          An accordion will auto-open if <code>window.location.hash</code> equals the id of an element within its
+          content area, then scroll into view.
         </p>
         <p style="margin-bottom: 100vh;"><a href="#nestedcontent">Click me and see it in action.</a></p>
         ${story()}
       </div>`,
   ],
+};
+
+export const Interactions: Story = {
+  args: {
+    ...Closed.args,
+  },
+  play: async ({ canvasElement, userEvent }) => {
+    const accordion = canvasElement.querySelector("qgds-accordion");
+    await accordion?.updateComplete;
+    const summary = accordion?.shadowRoot?.querySelector(".summary");
+    if (summary) {
+      await userEvent.click(summary);
+    }
+    await expect(accordion?.isOpen).toBe(true);
+    if (summary) {
+      await userEvent.click(summary);
+    }
+    await expect(accordion?.isOpen).toBe(false);
+  },
 };

@@ -13,7 +13,7 @@ export const tagName = "qgds-accordion";
  * QGDS Accordion Component
  *
  * @website "https://www.designsystem.qld.gov.au/components/accordion"
- * @uikit "https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=5990-98109"
+ * @uikit "https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-98109"
  * @tagname "qgds-accordion"
  *
  * @prop {string} title - The title displayed in the accordion summary.
@@ -27,6 +27,7 @@ export const tagName = "qgds-accordion";
 @customElement(tagName)
 export class QGDSAccordion extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
+  // static shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   @property({ type: String }) title = "";
   @property({ type: Boolean, attribute: "is-open", reflect: true }) isOpen = false;
@@ -84,7 +85,7 @@ export class QGDSAccordion extends LitElement {
     }
   };
 
-  private _handleToggle = (e: ToggleEvent): void => {
+  private _handleToggle = async (e: ToggleEvent): Promise<void> => {
     // prevent firing on first update, if isOpen is true
     if (this._preventFirstToggleEvent) {
       this._preventFirstToggleEvent = false;
@@ -92,6 +93,7 @@ export class QGDSAccordion extends LitElement {
     }
 
     this.isOpen = e.newState === "open";
+    await this.updateComplete;
     this.events.dispatch("toggle", { isOpen: this.isOpen }, e);
   };
 

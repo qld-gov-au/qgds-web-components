@@ -23,8 +23,6 @@
 }
 
 .summary {
-  position: relative;
-  z-index: 1;
   list-style: none; // remove the native ::marker
   display: flex;
   color: var(--qgds-color-link-default);

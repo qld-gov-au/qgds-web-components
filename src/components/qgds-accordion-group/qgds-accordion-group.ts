@@ -12,7 +12,7 @@ export const tagName = "qgds-accordion-group";
  * QGDS Accordion Group Component
  *
  * @website "https://www.designsystem.qld.gov.au/components/accordion"
- * @uikit "https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=5990-98109"
+ * @uikit "https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-98109"
  * @tagname "qgds-accordion-group"
  *
  * @prop {true | false | "auto"} [showControls = "auto"] - Show "Open all" / "Close all" controls. If set to "auto", controls will displayed if 3 or more accordions as children items.
@@ -71,6 +71,11 @@ export class QGDSAccordionGroup extends LitElement {
         node.parentNode?.removeChild(node);
       }
     });
+
+    if (this._accordions.length !== this._numAccordions) {
+      this._numAccordions = this._accordions.length;
+      this.requestUpdate();
+    }
   };
 
   private _handleToggle = (_e: CustomEvent): void => {
@@ -94,6 +99,7 @@ export class QGDSAccordionGroup extends LitElement {
     return html`<div class="qgds-accordion-group" @qgds-toggle=${this._handleToggle}>
       ${this._showControls
         ? html`<button
+            type="button"
             class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
             @click=${this._openOrCloseAll}
           >
