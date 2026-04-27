@@ -25,17 +25,9 @@
 
   // If $replace string is found
   @if $index and $replace-with != $replace {
-    // Create a new string. Then we loop through each character in the string, and append them to the new string only if they are not part of the $replace string.
-    $new-string: string.quote(string.slice($string, 1, $index - 1));
-
-    @for $i from $index through string.length($string) {
-      @if $i < $index or $i >= $index + string.length($replace) {
-        $new-string: $new-string + string.slice($string, $i, $i);
-      }
-    }
-
-    $new-string: string.insert($new-string, $replace-with, $index);
-    @return string-replace($new-string, $replace, $replace-with);
+    $before: string.slice($string, 1, $index - 1);
+    $after: string.slice($string, $index + string.length($replace));
+    @return string-replace($before + $replace-with + $after, $replace, $replace-with);
   }
 
   // else nothing to do - return original $string
