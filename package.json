@@ -9,12 +9,7 @@
   "type": "module",
   "main": "./dist/assets/js/qgds-web-components.js",
   "module": "./dist/assets/js/qgds-web-components.js",
-  "exports": {
-    ".": {
-      "default": "./dist/assets/js/qgds-web-components.js"
-    },
-    "./styles.css": "./dist/assets/css/qgds-web-components.css"
-  },
+  "types": "./dist/types/index.d.ts",
   "customElements": "custom-elements.json",
   "scripts": {
     "dev": "vite",
@@ -49,7 +44,7 @@
     "@storybook/addon-vitest": "^10.3.3",
     "@storybook/web-components-vite": "^10.3.3",
     "@types/eslint__js": "^8.42.3",
-    "@types/node": "^24.10.1",
+    "@types/node": "^24.12.2",
     "@vitest/browser-playwright": "^4.0.14",
     "@vitest/coverage-v8": "^4.0.14",
     "@wc-toolkit/cem-utilities": "^1.5.4",
@@ -57,6 +52,7 @@
     "@wc-toolkit/storybook-helpers": "^10.0.0",
     "@wc-toolkit/type-parser": "^1.2.0",
     "chromatic": "^13.3.4",
+    "custom-element-vs-code-integration": "^1.5.0",
     "eslint": "^9.39.1",
     "eslint-plugin-json": "^4.0.1",
     "eslint-plugin-lit": "^2.1.1",
@@ -68,6 +64,7 @@
     "postcss": "^8.5.6",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.6.2",
+    "rollup-plugin-visualizer": "^6.0.11",
     "sass": "^1.70.0",
     "storybook": "^10.3.3",
     "stylelint": "^16.26.1",
@@ -80,7 +77,7 @@
     "vite-plugin-static-copy": "^3.1.4",
     "vitest": "^4.0.14"
   },
-  "files":[
+  "files": [
     "dist",
     "custom-elements.json"
   ],
@@ -88,6 +85,19 @@
   "license": "ISC",
   "dependencies": {
     "@wc-toolkit/cem-sorter": "^1.0.1",
+    "fast-glob": "^3.3.3",
     "lit": "^3.3.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/assets/js/qgds-web-components.js"
+    },
+    "./styles": "./dist/assets/css/qgds-web-components.css",
+    "./*": {
+      "types": "./dist/types/components/*/index.d.ts",
+      "default": "./dist/assets/js/components/*.js"
+    },
+    "./custom-elements.json": "./custom-elements.json"
   }
 }
