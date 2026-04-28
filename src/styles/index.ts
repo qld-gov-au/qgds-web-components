@@ -1,4 +1,4 @@
-import { css, unsafeCSS } from "lit";
+import { unsafeCSS } from "lit";
 
 // Import specific stylesheets for granular control
 import animationsCSS from "./base/animations.scss?inline";
@@ -11,32 +11,13 @@ import typographyCSS from "./base/typography.scss?inline";
 import utilitiesCSS from "./utilities/_index.scss?inline";
 
 // EXPORTS
-export const animationsStyles = css`
-  ${unsafeCSS(animationsCSS)}
-`;
-export const resetStyles = [
-  css`
-    ${unsafeCSS(resetCSS)}
-  `,
-  css`
-    ${unsafeCSS(resetHostCSS)}
-  `,
-];
-export const typographyStyles = css`
-  ${unsafeCSS(typographyCSS)}
-`;
-export const formStyles = css`
-  ${unsafeCSS(formsCSS)}
-`;
-export const utilitiesStyles = css`
-  ${unsafeCSS(utilitiesCSS)}
-`;
-export const elementsStyles = css`
-  ${unsafeCSS(elementsCSS)}
-`;
-export const printStyles = css`
-  ${unsafeCSS(printCSS)}
-`;
+export const animationsStyles = unsafeCSS(animationsCSS);
+export const resetStyles = [unsafeCSS(resetCSS), unsafeCSS(resetHostCSS)];
+export const typographyStyles = unsafeCSS(typographyCSS);
+export const formStyles = unsafeCSS(formsCSS);
+export const utilitiesStyles = unsafeCSS(utilitiesCSS);
+export const elementsStyles = unsafeCSS(elementsCSS);
+export const printStyles = unsafeCSS(printCSS);
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
 export const baseStyles = [resetStyles, elementsStyles, typographyStyles /*, ...other styles */];

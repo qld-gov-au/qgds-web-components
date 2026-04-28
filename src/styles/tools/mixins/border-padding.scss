@@ -116,6 +116,7 @@
   }
   //stylelint-enable
 
+  border-style: solid;
   border-block-width: var(--border-top-width) var(--border-bottom-width);
   border-inline-width: var(--border-left-width) var(--border-right-width);
   padding-block: calc(var(--padding-top) - var(--border-top-width))
