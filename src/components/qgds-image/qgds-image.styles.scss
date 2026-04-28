@@ -31,7 +31,8 @@ div {
   border-radius: var(--image-border-radius);
 }
 
-figure, div { 
+figure,
+div {
   display: block;
 
   &.align-left {
@@ -39,19 +40,19 @@ figure, div {
     margin-inline-start: 0;
     float: inline-start;
   }
-  
+
   &.align-right {
     margin: 1rem;
     margin-inline-end: 0;
     float: inline-end;
   }
-  
 }
 
 figure img,
 div img {
   display: block;
   aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
+  max-inline-size: 100%;
   object-fit: cover;
   border-radius: inherit;
   outline: var(--image-border-width) var(--image-border-style) var(--image-border-color);
@@ -93,4 +94,3 @@ figcaption {
     }
   }
 }
-

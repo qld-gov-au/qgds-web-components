@@ -16,7 +16,8 @@ import componentCSS from "./qgds-card.styles.scss?inline";
 // ============================================================================
 
 export type CardAction = "none" | "single" | "multiple";
-export type CardVariant = "arrow" | "leading-icon" | "stacked-icon" | "footer" | "footer-tags";
+export type ImagePosition = "none" | "start" | "end";
+export type CardVariant = "none" | "arrow" | "leading-icon" | "stacked-icon" | "feature";
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 export type QGDSCardProps = InstanceType<typeof QGDSCard>;
 
@@ -31,12 +32,13 @@ export type QGDSCardProps = InstanceType<typeof QGDSCard>;
  * @website https://www.designsystem.qld.gov.au/components/card
  *
  * @prop {CardAction} [action="none"] - Card's primary behaviour: "none" (non-clickable), "single" (whole card is a link), "multiple" (independent footer links).
- * @prop {CardVariant} [variant="arrow"] - Visual configuration of the card. Image display is inferred automatically from slotted content.
+ * @prop {CardVariant} [variant="none"] - Visual configuration of the card. Image display is inferred automatically from slotted content.
  * @prop {string} [palette="default"] - QGDS colour palette applied to the card.
  * @prop {string} heading - The card's heading text.
  * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
  * @prop {string} [href] - URL for single-action cards.
  * @prop {string} [target="_self"] - Link target for single-action cards.
+ * @prop {ImagePosition} [imagePosition="start"] - Position of the image for feature variant cards (start or end).
  * @prop {string} [ariaLabel] - Accessible name override when the heading is insufficient.
  * @prop {0|1|2|3|4} [elevation] - Shadow depth (0 = none, 4 = highest).
  *
@@ -94,7 +96,7 @@ export class QGDSCard extends LitElement {
   action: CardAction = "none";
 
   @property({ type: String, reflect: true, useDefault: true })
-  variant: CardVariant = "arrow";
+  variant: CardVariant = "none";
 
   @property({ type: String, reflect: true, useDefault: true })
   palette: string = "default";
@@ -110,6 +112,9 @@ export class QGDSCard extends LitElement {
 
   @property({ type: String, useDefault: true })
   target: string = "_self";
+
+  @property({ type: String, attribute: "image-position", reflect: true, useDefault: true })
+  imagePosition: ImagePosition = "start";
 
   @property({ type: String, attribute: "aria-label" })
   ariaLabel: string | null = null;
@@ -146,12 +151,26 @@ export class QGDSCard extends LitElement {
   // ==========================================================================
 
   render() {
-    const isSingle = this.action === "single";
-    const hasHref = isSingle && !!this.href;
+    const isSingle = this.action === "single" && !!this.href;
+    const hasHref = !!this.href;
     const accessibleLabel = this.ariaLabel ?? this.heading ?? undefined;
 
+    const headingContent = hasHref
+      ? html`<a
+          href=${ifDefined(this.href)}
+          target=${ifDefined(this.target)}
+          rel=${ifDefined(this.target === "_blank" ? "noopener noreferrer" : undefined)}
+          aria-label=${ifDefined(this.ariaLabel ?? undefined)}
+          @click=${this._handleClick}
+          >${this.heading}</a
+        >`
+      : this.heading;
+
     const cardClasses = {
+      "is-single": isSingle,
+      "is-feature": this.variant === "feature",
       "has-image": this.hasImage,
+      "image-end": this.imagePosition === "end",
       "has-footer": this.hasFooterLinks || this.hasFooterTags,
       "has-footer-links": this.hasFooterLinks,
       "has-footer-tags": this.hasFooterTags,
@@ -173,41 +192,32 @@ export class QGDSCard extends LitElement {
         @click=${!hasHref && isSingle ? this._handleClick : nothing}
         @keydown=${!hasHref && isSingle ? this._handleKeydown : nothing}
       >
-        ${hasHref
-          ? html`<a
-              class="card-link"
-              href=${ifDefined(this.href)}
-              target=${ifDefined(this.target)}
-              rel=${ifDefined(this.target === "_blank" ? "noopener noreferrer" : undefined)}
-              aria-label=${ifDefined(accessibleLabel)}
-              @click=${this._handleClick}
-            ></a>`
-          : nothing}
-        <div class="image-wrapper">
+        <div class="image-wrap">
           <slot name="image" @slotchange=${this.handleImageSlot}></slot>
         </div>
 
-        <div class="content-wrapper">
-          ${semanticHeading(this.heading, this.headingLevel, "heading")}
+        <div class="content-wrap">
+          ${semanticHeading(headingContent, this.headingLevel, "heading")}
+
           <div class="content">
             <slot name="main"></slot>
           </div>
-        </div>
 
-        <div class="footer">
-          <slot
-            name="footer"
-            @slotchange=${(e: Event) => {
-              (e.target as HTMLSlotElement).assignedElements();
-            }}
-          ></slot>
+          <div class="footer">
+            <slot
+              name="footer"
+              @slotchange=${(e: Event) => {
+                (e.target as HTMLSlotElement).assignedElements();
+              }}
+            ></slot>
 
-          <div class="footer-links">
-            <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
-          </div>
+            <div class="footer-links">
+              <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
+            </div>
 
-          <div class="footer-tags">
-            <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
+            <div class="footer-tags">
+              <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
+            </div>
           </div>
         </div>
       </div>
