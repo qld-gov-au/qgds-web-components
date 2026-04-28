@@ -1,0 +1,75 @@
+@use "../../styles/tools";
+
+:host {
+  display: block;
+  isolation: auto; // share stacking context as siblings so focus ring can overlay next accordion.
+
+  --border: var(--qgds-color-border);
+  --border-width: 1px;
+  --padding: #{tools.remify(16px)};
+}
+
+.qgds-accordion {
+  &::details-content {
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      content-visibility 0.2s allow-discrete;
+  }
+
+  &[open]::details-content {
+    opacity: 1;
+  }
+}
+
+.summary {
+  list-style: none; // remove the native ::marker
+  display: flex;
+  color: var(--qgds-color-link-default);
+  font-weight: 600;
+  font-size: tools.remify(20px);
+  line-height: tools.snap-line-height(1.25);
+  text-decoration: {
+    line: var(--qgds-link-decoration, underline);
+    thickness: var(--qgds-link-decoration-thickness, 0.5px);
+    style: solid;
+    color: var(--qgds-color-underline-default, #3f7ab4);
+  }
+
+  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+  background-color: var(--qgds-color-background-shade);
+  border-color: var(--border);
+  @include tools.border-padding(var(--border-width), var(--padding));
+
+  &:hover {
+    background-color: var(--qgds-color-background);
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+  }
+
+  @include tools.focusable() {
+    border-radius: 1px;
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+  }
+
+  &-text {
+    flex: 1;
+  }
+
+  &-icon {
+    color: var(--qgds-color-action-secondary);
+    align-self: center;
+    transition: transform 0.2s ease-out;
+
+    [open] & {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.content {
+  border-color: var(--border);
+  @include tools.border-padding(0 var(--border-width) var(--border-width) var(--border-width), var(--padding));
+}

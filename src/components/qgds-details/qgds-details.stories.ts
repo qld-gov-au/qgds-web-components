@@ -3,8 +3,9 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { action } from "storybook/actions";
-import type { QGDSDetails } from "./qgds-details.ts";
-import "./qgds-details.js";
+
+import type { QGDSDetails } from "./qgds-details";
+import "./qgds-details";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSDetails>("qgds-details");
 
