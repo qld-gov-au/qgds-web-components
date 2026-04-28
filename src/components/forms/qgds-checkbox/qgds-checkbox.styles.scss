@@ -1,13 +1,29 @@
 /*
 ==========================
 Scoped CSS: qgds-checkbox
-Placeholder styles — replace once Figma design is confirmed.
 ==========================
 */
 @use "../../../styles/tools/mixins" as m;
 
 :host {
+  // Box dimensions, scaled per size variant.
+  --qgds-checkbox-size: 2rem; // md, 32px
+  --qgds-checkbox-tick-block: 1rem;
+  --qgds-checkbox-tick-inline: 0.5rem;
+  --qgds-checkbox-tick-inset-block: 0.25rem;
+  --qgds-checkbox-tick-inset-inline: 0.575rem;
+  --qgds-checkbox-tick-thickness: 3px;
+
   display: block;
+}
+
+:host([size="sm"]) {
+  --qgds-checkbox-size: 1.5rem; // 24px
+  --qgds-checkbox-tick-block: 0.75rem;
+  --qgds-checkbox-tick-inline: 0.375rem;
+  --qgds-checkbox-tick-inset-block: 0.125rem;
+  --qgds-checkbox-tick-inset-inline: 0.375rem;
+  --qgds-checkbox-tick-thickness: 2px;
 }
 
 :host([disabled]) {
@@ -15,21 +31,27 @@ Placeholder styles — replace once Figma design is confirmed.
   opacity: 0.5;
 }
 
+.label-text {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
 .checkbox {
   align-items: center;
   cursor: pointer;
   display: inline-flex;
   gap: 0.5rem;
-  padding: 0.25rem;
 
   input[type="checkbox"] {
     appearance: none;
-    block-size: 2rem; // 28px including 2px border (box-sizing: border-box)
+    block-size: var(--qgds-checkbox-size);
     border: 2px solid var(--qgds-color-light-text, #353535);
     box-sizing: border-box;
     cursor: inherit;
     flex-shrink: 0;
-    inline-size: 2rem;
+    inline-size: var(--qgds-checkbox-size);
     margin: 0;
     position: relative;
     transition: background-color 0.15s ease;
@@ -38,15 +60,14 @@ Placeholder styles — replace once Figma design is confirmed.
       background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
     }
 
-    // Checkmark via rotated border — no fill
     &:checked::after {
-      border-block-end: 3px solid var(--qgds-color-light-text, #353535);
-      border-inline-end: 3px solid var(--qgds-color-light-text, #353535);
-      block-size: 1rem;
+      border-block-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-light-text, #353535);
+      border-inline-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-light-text, #353535);
+      block-size: var(--qgds-checkbox-tick-block);
       content: "";
-      inline-size: 0.5rem;
-      inset-block-start: 0.25rem;
-      inset-inline-start: 0.575rem;
+      inline-size: var(--qgds-checkbox-tick-inline);
+      inset-block-start: var(--qgds-checkbox-tick-inset-block);
+      inset-inline-start: var(--qgds-checkbox-tick-inset-inline);
       position: absolute;
       transform: rotate(45deg);
     }
@@ -54,23 +75,30 @@ Placeholder styles — replace once Figma design is confirmed.
     @include m.focusable();
   }
 
-  // Status variants — box-shadow adds a flush outer border without conflicting with the focus outline
-  &.is-valid {
-    input[type="checkbox"] {
-      box-shadow: 0 0 0 2px var(--qgds-color-status-success-default, #339d37);
+  // Status — colour the border, and the checkmark when checked.
+  &.is-valid input[type="checkbox"] {
+    border-color: var(--qgds-color-status-success-default, #339d37);
+
+    &:checked::after {
+      border-block-end-color: var(--qgds-color-status-success-default, #339d37);
+      border-inline-end-color: var(--qgds-color-status-success-default, #339d37);
     }
   }
 
-  &.is-invalid {
-    input[type="checkbox"] {
-      box-shadow: 0 0 0 2px var(--qgds-color-status-error-default, #e22339);
+  &.is-invalid input[type="checkbox"] {
+    border-color: var(--qgds-color-status-error-default, #e22339);
+
+    &:checked::after {
+      border-block-end-color: var(--qgds-color-status-error-default, #e22339);
+      border-inline-end-color: var(--qgds-color-status-error-default, #e22339);
     }
   }
-}
 
-.label-text {
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5rem;
+  // Disabled — `not-allowed` must cover the input target too; `cursor: pointer`
+  // on the label otherwise masks `:host([disabled])`.
+  &:has(input:disabled),
+  &:has(input:disabled) input[type="checkbox"],
+  &:has(input:disabled) .label-text {
+    cursor: not-allowed;
+  }
 }

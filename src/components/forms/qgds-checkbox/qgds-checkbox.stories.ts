@@ -25,6 +25,7 @@ const meta: Meta<QGDSCheckboxStoryArgs> = {
     <qgds-checkbox
       label="${storyArgs.label ?? "Option"}"
       value="${storyArgs.value ?? "option"}"
+      size=${storyArgs.size ?? "md"}
       validation-state=${storyArgs["validation-state"]}
       ?checked=${storyArgs.checked}
       ?disabled=${storyArgs.disabled}
@@ -38,6 +39,10 @@ type Story = StoryObj<QGDSCheckboxStoryArgs>;
 
 export const Default: Story = {
   args: { label: "Accept terms", value: "terms", checked: true },
+};
+
+export const Small: Story = {
+  args: { label: "Compact option", value: "compact", size: "sm", checked: true },
 };
 
 export const Disabled: Story = {
