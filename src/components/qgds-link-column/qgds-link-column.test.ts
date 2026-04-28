@@ -23,9 +23,8 @@ describe("qgds-link-column", () => {
     expect(element.headingLevel).toBe(3);
     expect(element.direction).toBe("vertical");
     expect(element.columns).toBe(1);
-    expect(element.hasViewAll).toBe(false);
     expect(element.viewAllLabel).toBe("View all services");
-    expect(element.viewAllURL).toBe("");
+    expect(element.viewAllURL).toBe("#");
   });
 
   it("renders a <nav> element", async () => {
@@ -74,8 +73,7 @@ describe("qgds-link-column", () => {
     expect(nav?.getAttribute("aria-label")).toBe("Our services");
   });
 
-  it("renders qgds-call-to-action when has-view-all and view-all-url are set", async () => {
-    element.setAttribute("has-view-all", "");
+  it("renders qgds-call-to-action when view-all-url is set", async () => {
     element.setAttribute("view-all-url", "/services");
     element.setAttribute("aria-label", "Services");
     document.body.appendChild(element);
@@ -86,7 +84,6 @@ describe("qgds-link-column", () => {
   });
 
   it("does not render qgds-call-to-action when view-all-url is empty", async () => {
-    element.setAttribute("has-view-all", "");
     element.setAttribute("aria-label", "Services");
     document.body.appendChild(element);
     await element.updateComplete;

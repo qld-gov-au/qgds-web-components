@@ -3,10 +3,12 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link.styles.scss?inline";
 import { baseStyles } from "../../styles";
+import { QgdsEvents } from "../../utils";
 import "../qgds-icon/qgds-icon.js";
+import type { IconSize } from "../qgds-icon/qgds-icon.js";
 
 export type Animations = "" | "leftToRight" | "rightToLeft" | "topToBottom" | "bottomToTop" | "scaleIn" | "scaleOut";
-export type IconSize = "sm" | "md" | "lg" | "xl";
+export type { IconSize };
 
 /**
  * A primitive link component that renders either an `<a>` or `<span>` based on the presence of an `href`.
@@ -16,10 +18,10 @@ export type IconSize = "sm" | "md" | "lg" | "xl";
  *
  * @property {string} [label] - The visible link label text.
  * @property {string} [href] - The destination URL. When provided renders an `<a>`, otherwise a `<span>`.
- * @property {boolean} [disabled] - Prevents navigation and click events when true.
+ * @property {boolean} [is-disabled] - Prevents navigation and click events when true.
  * @property {string} [icon-name] - The icon identifier to display (e.g. "arrow-right", "view-all").
  * @property {IconSize} [icon-size] - Size of the icon ("sm", "md", "lg", "xl"). Defaults to "md".
- * @property {boolean} [trailing-icon] - When true, places the icon after the label text.
+ * @property {boolean} [has-trailing-icon] - When true, places the icon after the label text.
  * @property {boolean} [stretch] - When true, the link expands to fill available width.
  * @property {Animations} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
  * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
@@ -43,7 +45,7 @@ export type IconSize = "sm" | "md" | "lg" | "xl";
  *
  * @example
  * ```html
- * <qgds-link label="Learn more" href="/about" icon-name="arrow-right" trailing-icon></qgds-link>
+ * <qgds-link label="Learn more" href="/about" icon-name="arrow-right" has-trailing-icon></qgds-link>
  * ```
  */
 @customElement("qgds-link")
@@ -56,97 +58,35 @@ export class QgdsLink extends LitElement {
   ];
 
   @property({ type: String, reflect: true }) label = "";
-  @property({ type: String }) href = "";
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String, attribute: "icon-name" }) iconName = "";
-  @property({ type: String, attribute: "icon-size" }) iconSize: IconSize | "" = "";
-  @property({ type: Boolean, reflect: true, attribute: "trailing-icon" })
-  trailingIcon = false;
-  @property({ type: Boolean }) stretch = false;
-  @property({ type: String }) animation: Animations = "";
+  @property({ type: String, reflect: true }) href? = "";
+  @property({ type: Boolean, reflect: true, attribute: "is-disabled" }) isDisabled = false;
+  @property({ type: String, reflect: true, attribute: "icon-name" }) iconName = "";
+  @property({ type: String, reflect: true, attribute: "icon-size" }) iconSize: IconSize = "md";
+  @property({ type: Boolean, reflect: true, attribute: "has-trailing-icon" })
+  hasTrailingIcon = false;
+  @property({ type: Boolean, reflect: true }) stretch = false;
+  @property({ type: String, reflect: true }) animation?: Animations;
   @property({ type: Boolean, reflect: true, attribute: "only-icon" }) onlyIcon = false;
 
-  updated(changedProps: Map<string, unknown>) {
-    if (changedProps.has("iconName") || changedProps.has("animation")) {
-      if (this.iconName && this.animation) {
-        this.setAttribute("animation", this.animation);
-      } else {
-        this.removeAttribute("animation");
-      }
-    }
-    if (changedProps.has("href")) {
-      if (this.href) {
-        this.setAttribute("href", this.href);
-      } else {
-        this.removeAttribute("href");
-      }
-    }
-    if (changedProps.has("iconName")) {
-      if (this.iconName) {
-        this.setAttribute("icon-name", this.iconName);
-      } else {
-        this.removeAttribute("icon-name");
-        this.removeAttribute("icon-size");
-        this.removeAttribute("trailing-icon");
-        this.removeAttribute("stretch");
-        this.removeAttribute("only-icon");
-      }
-    }
-    if (changedProps.has("iconSize")) {
-      if (this.iconName && this.iconSize) {
-        this.setAttribute("icon-size", this.iconSize);
-      } else {
-        this.removeAttribute("icon-size");
-      }
-    }
-    if (changedProps.has("stretch")) {
-      if (this.iconName && this.stretch) {
-        this.setAttribute("stretch", "");
-      } else {
-        this.removeAttribute("stretch");
-      }
-    }
-  }
-
-  protected _dispatchClickEvent() {
-    this.dispatchEvent(
-      new CustomEvent("qgds-click", {
-        bubbles: true,
-        composed: true,
-        detail: { href: this.href, label: this.label },
-      })
-    );
-  }
+  private events = new QgdsEvents(this);
 
   protected _onClick(e: MouseEvent) {
-    if (this.disabled) {
+    if (this.isDisabled) {
       e.preventDefault();
       return;
     }
-    this._dispatchClickEvent();
-    if (!this.href.startsWith("#")) return;
-    const id = this.href.slice(1);
-    if (!id) return;
-    const target = document.getElementById(id);
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: "smooth" });
+    this.events.dispatch("click", { href: this.href, label: this.label }, e);
   }
 
   render() {
     const hasHref = !!this.href;
-    const iconLabel = this.iconName || undefined;
     // Only set aria-label when there is no visible text — visible label text
     // is already the accessible name and aria-label would override it.
-    const ariaLabel = this.label ? undefined : (iconLabel ?? undefined);
+    const ariaLabel = this.label ? undefined : this.iconName || undefined;
     const labelContent = this.iconName && this.onlyIcon ? html`<span class="sr-only">${this.label}</span>` : this.label;
     const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
     const iconTemplate = this.iconName
-      ? html`<qgds-icon
-          icon-id=${ifDefined(this.iconName || undefined)}
-          size=${this.iconSize || "md"}
-          aria-label=${this.label ? "" : this.iconName || "icon"}
-        ></qgds-icon>`
+      ? html`<qgds-icon icon-id=${this.iconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
       : "";
 
     return hasHref
@@ -160,7 +100,7 @@ export class QgdsLink extends LitElement {
             ${iconTemplate} ${labelContent}
           </a>
         `
-      : html` <span style=${iconStyle} aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} ${labelContent} </span> `;
+      : html` <span aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} ${labelContent} </span> `;
   }
 }
 

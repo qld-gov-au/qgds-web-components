@@ -19,10 +19,10 @@ describe("qgds-link", () => {
 
     expect(element.label).toBe("");
     expect(element.href).toBe("");
-    expect(element.disabled).toBe(false);
+    expect(element.isDisabled).toBe(false);
     expect(element.iconName).toBe("");
     expect(element.iconSize).toBe("");
-    expect(element.trailingIcon).toBe(false);
+    expect(element.hasTrailingIcon).toBe(false);
     expect(element.stretch).toBe(false);
     expect(element.animation).toBe("");
     expect(element.onlyIcon).toBe(false);
@@ -75,7 +75,7 @@ describe("qgds-link", () => {
 
   it("does not dispatch qgds-click when disabled", async () => {
     element.setAttribute("href", "#services");
-    element.setAttribute("disabled", "");
+    element.setAttribute("is-disabled", "");
     await element.updateComplete;
 
     const events: CustomEvent[] = [];
@@ -99,12 +99,12 @@ describe("qgds-link", () => {
     expect(srOnly?.textContent).toBe("Home");
   });
 
-  it("reflects trailing-icon attribute", async () => {
-    element.setAttribute("trailing-icon", "");
+  it("reflects has-trailing-icon attribute", async () => {
+    element.setAttribute("has-trailing-icon", "");
     await element.updateComplete;
 
-    expect(element.trailingIcon).toBe(true);
-    expect(element.hasAttribute("trailing-icon")).toBe(true);
+    expect(element.hasTrailingIcon).toBe(true);
+    expect(element.hasAttribute("has-trailing-icon")).toBe(true);
   });
 
   describe("no icon-name (icon suppressed)", () => {
@@ -126,15 +126,15 @@ describe("qgds-link", () => {
       expect(element.hasAttribute("icon-size")).toBe(false);
     });
 
-    it("removes trailing-icon attribute when icon-name is cleared", async () => {
+    it("removes has-trailing-icon attribute when icon-name is cleared", async () => {
       element.setAttribute("icon-name", "arrow-right");
-      element.setAttribute("trailing-icon", "");
+      element.setAttribute("has-trailing-icon", "");
       await element.updateComplete;
 
       element.removeAttribute("icon-name");
       await element.updateComplete;
 
-      expect(element.hasAttribute("trailing-icon")).toBe(false);
+      expect(element.hasAttribute("has-trailing-icon")).toBe(false);
     });
 
     it("removes stretch attribute when icon-name is cleared", async () => {

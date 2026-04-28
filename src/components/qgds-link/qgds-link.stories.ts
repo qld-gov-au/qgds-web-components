@@ -17,6 +17,7 @@ const meta: Meta<Args> = {
     ...args,
     label: "Continue",
     href: "/next",
+    "icon-size": "md",
   },
   argTypes: {
     ...argTypes,
@@ -36,7 +37,7 @@ const meta: Meta<Args> = {
         category: "Icon",
       },
     },
-    "trailing-icon": {
+    "has-trailing-icon": {
       control: "boolean",
       if: { arg: "icon-name", truthy: true },
       table: {
@@ -97,84 +98,9 @@ export const Stretch: Story = {
     label: "Read more",
     href: "#",
     "icon-name": "arrow-right",
-    "trailing-icon": true,
+    "has-trailing-icon": true,
     stretch: true,
   },
-};
-
-/** All icon animation variants side by side. */
-export const Animated: Story = {
-  args: {
-    href: "#",
-    "icon-name": "calendar",
-    "trailing-icon": true,
-    iconSize: "md",
-    stretch: true,
-  },
-  render: (args) => html`
-    <div style="display: flex; flex-direction: column; gap: 1rem;">
-      <qgds-link
-        label="leftToRight"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="leftToRight"
-      >
-      </qgds-link>
-      <qgds-link
-        label="rightToLeft"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="rightToLeft"
-      >
-      </qgds-link>
-      <qgds-link
-        label="topToBottom"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="topToBottom"
-      >
-      </qgds-link>
-      <qgds-link
-        label="bottomToTop"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="bottomToTop"
-      >
-      </qgds-link>
-      <qgds-link
-        label="scaleIn"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="scaleIn"
-      >
-      </qgds-link>
-      <qgds-link
-        label="scaleOut"
-        href="#"
-        icon-name="${args["icon-name"]}"
-        icon-size="${args["icon-size"]}"
-        ?stretch="${args.stretch}"
-        ?trailing-icon="${args["trailing-icon"]}"
-        animation="scaleOut"
-      >
-      </qgds-link>
-    </div>
-  `,
 };
 
 /** Icon-only link with a visually hidden label for screen readers. */
@@ -194,6 +120,81 @@ export const Disabled: Story = {
     label: "Unavailable",
     href: "/next",
     "icon-name": "lock",
-    disabled: true,
+    "is-disabled": true,
   },
+};
+
+/** All icon animation variants side by side. */
+export const Animated: Story = {
+  args: {
+    href: "#",
+    "icon-name": "calendar",
+    "has-trailing-icon": true,
+    iconSize: "md",
+    stretch: true,
+  },
+  render: (args) => html`
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <qgds-link
+        label="leftToRight"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="leftToRight"
+      >
+      </qgds-link>
+      <qgds-link
+        label="rightToLeft"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="rightToLeft"
+      >
+      </qgds-link>
+      <qgds-link
+        label="topToBottom"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="topToBottom"
+      >
+      </qgds-link>
+      <qgds-link
+        label="bottomToTop"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="bottomToTop"
+      >
+      </qgds-link>
+      <qgds-link
+        label="scaleIn"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="scaleIn"
+      >
+      </qgds-link>
+      <qgds-link
+        label="scaleOut"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="scaleOut"
+      >
+      </qgds-link>
+    </div>
+  `,
 };

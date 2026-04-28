@@ -1,9 +1,9 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link-item.styles.scss?inline";
 import { resetStyles } from "../../styles";
 import "../qgds-link/qgds-link.js";
+import type { Animations, IconSize } from "../qgds-link/qgds-link.js";
 import "../qgds-icon/qgds-icon.js";
 
 /**
@@ -18,7 +18,7 @@ import "../qgds-icon/qgds-icon.js";
  * @property {string} [icon-size] - Size of the icon ("sm", "md", "lg", "xl").
  * @property {string} [animation] - Icon animation variant. Auto-set to "leftToRight" inside `<qgds-link-column>`.
  * @property {string} [description] - Optional supporting text shown below the link.
- * @property {boolean} [disabled] - When true, disables the link.
+ * @property {boolean} [is-disabled] - When true, disables the link.
  *
  * @slot - Accepts nested `<qgds-link-item>` elements for a sub-list. Non-`qgds-link-item` elements are removed.
  *
@@ -46,19 +46,11 @@ export class QgdsLinkItem extends LitElement {
 
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
-  @property({ type: String, attribute: "icon-name" }) iconName: "" | "arrow-right" | "external-link" = "";
-  @property({ type: String, attribute: "icon-size" }) iconSize: "" | "sm" | "md" = "";
-  @property({ type: Boolean, reflect: true }) hasBorder = false;
-  @property({ type: String }) animation:
-    | ""
-    | "leftToRight"
-    | "rightToLeft"
-    | "topToBottom"
-    | "bottomToTop"
-    | "scaleIn"
-    | "scaleOut" = "";
-  @property({ type: String }) description = "";
-  @property({ type: Boolean }) disabled = false;
+  @property({ type: String, attribute: "icon-name" }) iconName: "" | "arrow-right" = "arrow-right";
+  @property({ type: String, attribute: "icon-size" }) iconSize: IconSize | "" = "md";
+  @property({ type: String }) animation: Animations = "";
+  @property({ type: String }) description?: string = "";
+  @property({ type: Boolean, attribute: "is-disabled" }) isDisabled = false;
 
   @state() private _hasNestedItems = false;
 
@@ -76,42 +68,24 @@ export class QgdsLinkItem extends LitElement {
     this._hasNestedItems = assigned.length > 0;
   };
 
-  updated(changedProps: Map<string, unknown>) {
-    if (changedProps.has("description")) {
-      if (this.description) {
-        this.setAttribute("description", this.description);
-      } else {
-        this.removeAttribute("description");
-      }
-    }
-  }
-
   connectedCallback() {
     super.connectedCallback?.();
     if (!this.hasAttribute("role")) {
       this.setAttribute("role", "listitem");
-    }
-    if (this.closest("qgds-link-column")) {
-      if (!this.iconName) {
-        this.iconName = "arrow-right";
-      }
-      if (!this.animation) {
-        this.animation = "leftToRight";
-      }
     }
   }
 
   render() {
     return html`
       <qgds-link
-        .label=${this.label}
-        .href=${this.href}
-        .iconName=${ifDefined(this.iconName || undefined)}
-        .iconSize=${ifDefined(this.iconName ? this.iconSize : undefined)}
-        .animation=${ifDefined(this.iconName ? this.animation : undefined)}
-        .disabled=${this.disabled}
-        .stretch=${!!this.iconName}
-        .trailingIcon=${!!this.iconName}
+        label=${this.label}
+        href=${this.href}
+        icon-name=${this.iconName}
+        icon-size=${this.iconName ? this.iconSize : ""}
+        animation=${this.iconName ? this.animation : ""}
+        ?is-disabled=${this.isDisabled}
+        ?stretch=${!!this.iconName}
+        ?has-trailing-icon=${!!this.iconName}
       ></qgds-link>
       ${this.description ? html`<p class="description">${this.description}</p>` : ""}
       ${this._hasNestedItems

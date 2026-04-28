@@ -64,7 +64,7 @@ qgds-icon {
   margin-inline-start: var(--qgds-icon-margin-start);
 }
 
-:host([disabled]) {
+:host([is-disabled]) {
   a,
   button, span {
     color: var(--qgds-color-disabled);
@@ -73,7 +73,7 @@ qgds-icon {
   }
 }
 
-:host([trailing-icon]) {
+:host([has-trailing-icon]) {
   a,
   button,
   span {
@@ -96,7 +96,7 @@ qgds-icon {
   }
 }
 
-:host([trailing-icon][stretch]) {
+:host([has-trailing-icon][stretch]) {
   a,
   button,
   span {

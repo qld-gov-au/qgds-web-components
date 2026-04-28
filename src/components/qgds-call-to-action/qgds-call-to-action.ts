@@ -46,7 +46,7 @@ export class QgdsCallToAction extends LitElement {
         icon-name="${this.isViewAll ? "view-all" : "arrow-right"}"
         animation="leftToRight"
         icon-size=${this.isViewAll ? "lg" : "md"}
-        trailing-icon
+        has-trailing-icon
       ></qgds-link>
     `;
   }
