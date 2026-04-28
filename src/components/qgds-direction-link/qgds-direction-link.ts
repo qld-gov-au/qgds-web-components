@@ -42,15 +42,15 @@ export class QGDSDirectionLink extends LitElement {
 
   render() {
     const iconName = ICON_BY_DIRECTION[this.direction];
-    const animation = this.animation ? ANIMATION_BY_DIRECTION[this.direction] : "";
+    const animation = this.animation ? ANIMATION_BY_DIRECTION[this.direction] : null;
     const trailingIcon = this.direction !== "left";
     return html`
       <qgds-link
         label=${this.label}
         href=${this.href}
         icon-name=${iconName}
-        animation=${animation}
-        ?trailing-icon=${trailingIcon}
+        .animation=${animation}
+        .hasTrailingIcon=${trailingIcon}
       ></qgds-link>
     `;
   }

@@ -65,10 +65,20 @@ export class QgdsLink extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "has-trailing-icon" })
   hasTrailingIcon = false;
   @property({ type: Boolean, reflect: true }) stretch = false;
-  @property({ type: String, reflect: true }) animation?: Animations;
+  @property({ type: String, reflect: true }) animation?: Animations | null;
   @property({ type: Boolean, reflect: true, attribute: "only-icon" }) onlyIcon = false;
 
   private events = new QgdsEvents(this);
+
+  updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("iconName") && !this.iconName && changedProperties.get("iconName")) {
+      this.removeAttribute("icon-size");
+      this.removeAttribute("has-trailing-icon");
+      this.removeAttribute("stretch");
+      this.removeAttribute("only-icon");
+      this.removeAttribute("animation");
+    }
+  }
 
   protected _onClick(e: MouseEvent) {
     if (this.isDisabled) {

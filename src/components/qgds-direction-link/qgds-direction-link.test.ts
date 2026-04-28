@@ -65,7 +65,7 @@ describe("qgds-direction-link", () => {
     await element.updateComplete;
 
     const link = element.shadowRoot?.querySelector("qgds-link");
-    expect(link?.trailingIcon).toBe(trailing);
+    expect(link?.hasTrailingIcon).toBe(trailing);
   });
 
   it("clears animation on the inner qgds-link when animation=false", async () => {
@@ -74,6 +74,7 @@ describe("qgds-direction-link", () => {
     await element.updateComplete;
 
     const link = element.shadowRoot?.querySelector("qgds-link");
+    await link?.updateComplete;
     expect(link?.animation).toBeFalsy();
     expect(link?.hasAttribute("animation")).toBe(false);
   });

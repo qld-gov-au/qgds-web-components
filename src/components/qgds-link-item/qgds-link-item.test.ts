@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-link-item";
 import "../qgds-link/qgds-link";
+import "../qgds-link-column/qgds-link-column";
 import type { QgdsLinkItem } from "./qgds-link-item";
 import type { QgdsLink } from "../qgds-link/qgds-link";
 
@@ -62,6 +63,7 @@ describe("qgds-link-item", () => {
     const column = document.createElement("qgds-link-column");
     column.appendChild(element);
     document.body.appendChild(column);
+    await column.updateComplete;
     await element.updateComplete;
 
     expect(element.iconName).toBe("arrow-right");
@@ -92,6 +94,7 @@ describe("qgds-link-item", () => {
   });
 
   it("does not pass iconSize or animation to inner qgds-link when iconName is empty", async () => {
+    element.iconName = "";
     element.setAttribute("icon-size", "md");
     element.setAttribute("animation", "leftToRight");
     await element.updateComplete;

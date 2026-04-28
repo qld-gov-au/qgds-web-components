@@ -111,6 +111,12 @@ export class QgdsLinkColumn extends LitElement {
       );
     }
     this._syncHeadingLevelAttr();
+    // slotchange fires before the @slotchange listener is ready on first render;
+    // configure any link-items already in the light DOM.
+    this.querySelectorAll("qgds-link-item").forEach((item) => {
+      if (!item.iconName) item.iconName = "arrow-right";
+      if (!item.animation) item.animation = "leftToRight";
+    });
   }
 
   updated(changedProps: Map<string, unknown>) {
