@@ -12,11 +12,11 @@ import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
  * @website https://www.designsystem.qld.gov.au/components/breadcrumbs
  *
  * @example
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" href="#section1">Section 1</qgds-breadcrumbs-item>
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" href="#section2">Section 2</qgds-breadcrumbs-item>
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" href="#section3">Section 3</qgds-breadcrumbs-item>
+ * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section1">Section 1</qgds-breadcrumbs-item>
+ * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section2">Section 2</qgds-breadcrumbs-item>
+ * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section3">Section 3</qgds-breadcrumbs-item>
  *
- * @property href - The target URL or anchor for the breadcrumb item
+ * @property url - The target URL or anchor for the breadcrumb item
  * @property rel - The relationship of the linked resource to the current document
  * @property target - Specifies whether to open the link in same tab or new tab
  * @property inside-vertical - Specifies whether the breadcrumb item is inside the vertical dropdown
@@ -45,8 +45,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
     `,
   ];
 
-  @property({ type: String, attribute: "href" })
-  href: string = "";
+  @property({ type: String, attribute: "url" })
+  url: string = "";
 
   @property({ type: String, attribute: "rel" })
   rel: string = "";
@@ -72,13 +72,13 @@ export class QGDSBreadcrumbsItem extends LitElement {
 
   render() {
     return html`
-      <div class="breadcrumb-item ${this.isLast ? "active" : ""}" aria-current=${this.isLast ? "page" : nothing}>
-        ${this.isLast || !this.href
+      <div class="breadcrumbs-item ${this.isLast ? "active" : ""}" aria-current=${this.isLast ? "page" : nothing}>
+        ${this.isLast || !this.url
           ? html`<slot></slot>`
           : html`
               <a
                 class=${this.insideVertical === true ? "inside-vertical" : nothing}
-                href=${this.href}
+                href=${this.url}
                 rel=${ifDefined(this.rel)}
                 target=${ifDefined(this.target)}
               >

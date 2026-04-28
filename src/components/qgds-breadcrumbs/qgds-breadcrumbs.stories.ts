@@ -30,11 +30,11 @@ const meta: Meta<QGDSBreadcrumbsStoryArgs> = {
     template(
       storyArgs,
       html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
       `
     ),
 };
@@ -49,11 +49,11 @@ export const Default: Story = {
     template(
       storyArgs,
       html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
       `
     ),
 };
@@ -66,19 +66,19 @@ export const WithLongText: Story = {
     template(
       storyArgs,
       html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#home">Home Page</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page1"
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home Page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page1"
           >Page 1 is having a very long name that is longer than the others</qgds-breadcrumbs-item
         >
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page2">Page 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page3">Page 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page4">Page 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page5">Page 5</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page6"
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page2">Page 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page3">Page 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page4">Page 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page5">Page 5</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page6"
           >Parent page is having a very long name that is longer than the others, a very long name that is longer than
           the others</qgds-breadcrumbs-item
         >
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" href="#page7"
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page7"
           >Current page is having a very long name that is longer than the others which is very long name that is longer
           than the others</qgds-breadcrumbs-item
         >
