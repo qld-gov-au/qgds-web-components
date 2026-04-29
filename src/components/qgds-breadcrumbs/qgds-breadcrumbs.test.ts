@@ -52,13 +52,13 @@ describe("qgds-breadcrumbs", () => {
     });
 
     document.body.appendChild(breadcrumbs);
-    await waitForRender(breadcrumbs);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
 
     const slot = breadcrumbs.shadowRoot?.querySelector("slot");
     const assignedItems = slot?.assignedElements() as QGDSBreadcrumbsItem[] | undefined;
 
     expect(assignedItems).toHaveLength(items.length);
-    expect(assignedItems?.[2]?.hasAttribute("is-last")).toBe(true);
+    expect(assignedItems?.[2]?.isLast).toBe(true);
 
     breadcrumbs.remove();
   });
@@ -84,7 +84,7 @@ describe("qgds-breadcrumbs", () => {
 
     const renderedItems = compactElement.shadowRoot?.querySelectorAll<QGDSBreadcrumbsItem>("qgds-breadcrumbs-item");
     const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.isDropdownItem === true);
-    const currentPageItem = Array.from(renderedItems ?? []).find((item) => item.hasAttribute("is-last"));
+    const currentPageItem = Array.from(renderedItems ?? []).find((item) => item.isLast === true);
 
     expect(renderedItems).toHaveLength(7);
     expect(insideVerticalItems).toHaveLength(3);

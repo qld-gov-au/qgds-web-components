@@ -10,19 +10,16 @@ import type { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSBreadcrumbs>("qgds-breadcrumbs");
 
-type QGDSBreadcrumbsStoryArgs = typeof args;
+type Args = typeof args;
 
-const meta: Meta<QGDSBreadcrumbsStoryArgs> = {
+const meta: Meta<Args> = {
   title: "Components/Breadcrumbs",
   component: "qgds-breadcrumbs",
   subcomponents: {
     "Breadcrumb Item": "qgds-breadcrumbs-item",
   },
   tags: ["autodocs"],
-  args: {
-    ...args,
-    "aria-label": "Breadcrumbs",
-  },
+  args: args,
   argTypes: {
     ...argTypes,
   },
@@ -39,7 +36,7 @@ const meta: Meta<QGDSBreadcrumbsStoryArgs> = {
     ),
 };
 export default meta;
-type Story = StoryObj<QGDSBreadcrumbsStoryArgs>;
+type Story = StoryObj<Args>;
 
 export const Default: Story = {
   args: {
@@ -47,7 +44,7 @@ export const Default: Story = {
   },
   render: (storyArgs) =>
     template(
-      storyArgs,
+      { ...storyArgs, ["aria-label"]: "Breadcrumbs with default items" },
       html`
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
@@ -64,7 +61,7 @@ export const WithLongText: Story = {
   },
   render: (storyArgs) =>
     template(
-      storyArgs,
+      { ...storyArgs, ["aria-label"]: "Breadcrumbs with long text" },
       html`
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home Page</qgds-breadcrumbs-item>
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page1"

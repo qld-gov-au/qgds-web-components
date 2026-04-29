@@ -146,7 +146,9 @@ export class QGDSBreadcrumbs extends LitElement {
           class="breadcrumb-toggle-link"
           aria-label="Expand breadcrumbs"
           @click=${this._toggleExpand}
-        ></button>
+        >
+          <qgds-icon aria-label="Home icon" icon-id="more-horizontal" size="lg"></qgds-icon>
+        </button>
         <qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>
         <div class="breadcrumb-collapse-wrapper">
           <ol class="breadcrumb-vertical">
