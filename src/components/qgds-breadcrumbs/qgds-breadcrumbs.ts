@@ -54,9 +54,6 @@ export class QGDSBreadcrumbs extends LitElement {
     await targetItem?.updateComplete;
     if (this._isMenuOpen) {
       targetItem.focus();
-    }
-    if (this._isMenuOpen) {
-      document.addEventListener("click", this._closeMenu, { once: true });
     } else {
       document.removeEventListener("click", this._closeMenu);
     }
@@ -65,7 +62,7 @@ export class QGDSBreadcrumbs extends LitElement {
   private _setExpandedChildren() {
     this._items.forEach((item) => {
       const child = item as QGDSBreadcrumbsItem;
-      child.stateExpanded = child.insideVertical === true ? this._isMenuOpen : false;
+      child.stateExpanded = child.isDropdownItem === true ? this._isMenuOpen : false;
     });
   }
 
@@ -131,7 +128,7 @@ export class QGDSBreadcrumbs extends LitElement {
     const secondLast = this._items[this._items.length - 2];
     const middle = this._items.slice(1, -2);
     middle.forEach((item) => {
-      (item as QGDSBreadcrumbsItem).insideVertical = true;
+      (item as QGDSBreadcrumbsItem).isDropdownItem = true;
     });
 
     const lastElement: QGDSBreadcrumbsItem = this._items[this._items.length - 1] as QGDSBreadcrumbsItem;
@@ -159,6 +156,11 @@ export class QGDSBreadcrumbs extends LitElement {
       </qgds-breadcrumbs-item>
       ${secondLast} ${lastElement}
     `;
+  }
+
+  connectedCallback() {
+    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    document.addEventListener("click", this._closeMenu);
   }
 
   disconnectedCallback() {

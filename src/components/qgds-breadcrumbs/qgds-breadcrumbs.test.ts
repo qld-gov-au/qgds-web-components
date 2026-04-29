@@ -83,7 +83,7 @@ describe("qgds-breadcrumbs", () => {
     expect(toggleItem).toBeTruthy();
 
     const renderedItems = compactElement.shadowRoot?.querySelectorAll<QGDSBreadcrumbsItem>("qgds-breadcrumbs-item");
-    const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.insideVertical === true);
+    const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.isDropdownItem === true);
     const currentPageItem = Array.from(renderedItems ?? []).find((item) => item.hasAttribute("is-last"));
 
     expect(renderedItems).toHaveLength(7);

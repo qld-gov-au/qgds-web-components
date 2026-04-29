@@ -4,6 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
 import "../qgds-icon/qgds-icon.js";
 import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
+import { classMap } from "lit/directives/class-map.js";
 
 /** QGDS Breadcrumb Item Web Component
  * Used as a child element within {@link qgds-breadcrumbs} to define individual breadcrumb items.
@@ -19,7 +20,7 @@ import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
  * @property url - The target URL or anchor for the breadcrumb item
  * @property rel - The relationship of the linked resource to the current document
  * @property target - Specifies whether to open the link in same tab or new tab
- * @property inside-vertical - Specifies whether the breadcrumb item is inside the vertical dropdown
+ * @property is-dropdown-item - Specifies whether the breadcrumb item is inside the vertical dropdown
  * @property is-last - Specifies whether the breadcrumb item is the last item in the sequence
  *
  */
@@ -54,8 +55,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: String, attribute: "target" })
   target: string = "";
 
-  @property({ type: Boolean, attribute: "inside-vertical", reflect: true })
-  insideVertical: boolean = false;
+  @property({ type: Boolean, attribute: "is-dropdown-item", reflect: true })
+  isDropdownItem: boolean = false;
 
   // controlled by parent
   @property({ type: Boolean, attribute: "is-last", reflect: true })
@@ -65,8 +66,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
   stateExpanded = false;
 
   updated(changed: Map<string, unknown>) {
-    if (changed.has("stateExpanded") || changed.has("insideVertical")) {
-      this.tabIndex = this.insideVertical === true ? (this.stateExpanded ? 0 : -1) : 0;
+    if (changed.has("stateExpanded") || changed.has("isDropdownItem")) {
+      this.tabIndex = this.isDropdownItem === true ? (this.stateExpanded ? 0 : -1) : 0;
     }
   }
 
@@ -77,14 +78,16 @@ export class QGDSBreadcrumbsItem extends LitElement {
           ? html`<slot></slot>`
           : html`
               <a
-                class=${this.insideVertical === true ? "inside-vertical" : nothing}
+                class=${classMap({
+                  "dropdown-item": this.isDropdownItem === true,
+                })}
                 href=${this.url}
                 rel=${ifDefined(this.rel)}
                 target=${ifDefined(this.target)}
               >
                 <slot></slot>
               </a>
-              ${this.insideVertical === false
+              ${this.isDropdownItem === false
                 ? html`<qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>`
                 : nothing}
             `}
