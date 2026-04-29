@@ -1,0 +1,77 @@
+@use "../../styles/tools";
+
+:host {
+  display: block;
+}
+
+// pull items up account for 1px border
+::slotted(qgds-accordion:not(:first-child)) {
+  margin-block-start: -1px;
+}
+
+.qgds-accordion-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.controls {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: tools.remify(8px);
+  margin-block-end: tools.remify(8px);
+  color: var(--qgds-color-link-default);
+  font-weight: 400;
+  font-size: tools.remify(14px);
+  line-height: tools.snap-line-height(1.25);
+  text-decoration: {
+    line: var(--qgds-link-decoration, underline);
+    thickness: var(--qgds-link-decoration-thickness, 0.5px);
+    style: solid;
+    color: var(--qgds-color-underline-default, #3f7ab4);
+  }
+
+  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+  border-radius: 1px;
+
+  &:hover {
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    text-decoration-color: currentColor;
+  }
+
+  &:active {
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
+    text-decoration-color: currentColor;
+  }
+
+  @include tools.focusable() {
+    color: var(--qgds-color-link-default);
+    text-decoration-line: var(--qgds-link-decoration-hover, underline);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    text-decoration-color: currentColor;
+  }
+
+  &-icon {
+    color: var(--qgds-color-action-secondary);
+    transition: transform 0.2s ease-out;
+
+    .controls.is-close-all & {
+      transform: rotate(-180deg);
+    }
+
+    .controls:hover &,
+    .controls:focus &,
+    .controls:active & {
+      color: var(--qgds-color-action-secondary-hover);
+    }
+  }
+}
+
+.accordions {
+  align-self: stretch;
+}
