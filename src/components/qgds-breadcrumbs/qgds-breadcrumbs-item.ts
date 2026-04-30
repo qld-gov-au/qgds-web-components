@@ -21,7 +21,7 @@ import { classMap } from "lit/directives/class-map.js";
  * @property rel - The relationship of the linked resource to the current document
  * @property target - Specifies whether to open the link in same tab or new tab
  * @property is-dropdown-item - Specifies whether the breadcrumb item is inside the vertical dropdown
- * @property is-last - Specifies whether the breadcrumb item is the last item in the sequence
+ * @property isLast - Specifies whether the breadcrumb item is the last item in the sequence
  *
  */
 
@@ -50,15 +50,15 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: String, attribute: "target" })
   target: string = "";
 
-  @property({ type: Boolean, attribute: "is-dropdown-item", reflect: true })
+  @property({ type: Boolean, attribute: false })
   isDropdownItem: boolean = false;
 
   // controlled by parent
   @property({ type: Boolean, attribute: "is-last", reflect: true })
   isLast: boolean = false;
 
-  @property({ type: Boolean, attribute: "state-expanded", reflect: true })
-  stateExpanded = false;
+  @property({ type: Boolean, attribute: false })
+  isExpanded = false;
 
   // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
   connectedCallback() {
@@ -67,8 +67,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
   }
 
   updated(changed: Map<string, unknown>) {
-    if (changed.has("stateExpanded") || changed.has("isDropdownItem")) {
-      this.tabIndex = this.isDropdownItem === true ? (this.stateExpanded ? 0 : -1) : 0;
+    if (changed.has("isExpanded") || changed.has("isDropdownItem")) {
+      this.tabIndex = this.isDropdownItem === true ? (this.isExpanded ? 0 : -1) : 0;
     }
   }
 

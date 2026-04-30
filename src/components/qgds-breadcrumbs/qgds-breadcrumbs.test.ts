@@ -77,11 +77,8 @@ describe("qgds-breadcrumbs", () => {
     document.body.appendChild(compactElement);
     await waitForRender(compactElement);
 
-    expect(compactElement.isCollapsed).toBe(true);
-
     const toggleItem = compactElement.shadowRoot?.querySelector(".breadcrumb-toggle");
-    expect(toggleItem).toBeTruthy();
-
+    expect(toggleItem).not.toBeNull();
     const renderedItems = compactElement.shadowRoot?.querySelectorAll<QGDSBreadcrumbsItem>("qgds-breadcrumbs-item");
     const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.isDropdownItem === true);
     const currentPageItem = Array.from(renderedItems ?? []).find((item) => item.isLast === true);

@@ -23,8 +23,6 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
  * @property aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
  * @slot - The breadcrumb items, which should be implemented using {@link qgds-breadcrumbs-item}
  *
- * @cssprop {color} --bg - Override the background color of the breadcrumbs.
- * @cssprop {color} --fg - Override the text color within the breadcrumbs.
  */
 
 @customElement("qgds-breadcrumbs")
@@ -39,7 +37,7 @@ export class QGDSBreadcrumbs extends LitElement {
   @property({ type: String, attribute: "aria-label" })
   label: string = "breadcrumbs";
 
-  @state() isCollapsed: boolean = false;
+  @state() private _isCollapsed: boolean = false;
   @state() private _isMenuOpen: boolean = false;
 
   private _items: Element[] = [];
@@ -79,7 +77,7 @@ export class QGDSBreadcrumbs extends LitElement {
   private _setExpandedChildren() {
     this._items.forEach((item) => {
       const child = item as QGDSBreadcrumbsItem;
-      child.stateExpanded = child.isDropdownItem === true ? this._isMenuOpen : false;
+      child.isExpanded = child.isDropdownItem === true ? this._isMenuOpen : false;
     });
   }
 
@@ -123,14 +121,14 @@ export class QGDSBreadcrumbs extends LitElement {
       maxLength = 3;
     }
     //this.breadcrumbCollapse(breadcrumbList, maxLength);
-    this.isCollapsed = this._items.length > maxLength;
-    if (!this.isCollapsed) {
+    this._isCollapsed = this._items.length > maxLength;
+    if (!this._isCollapsed) {
       this._items[this._items.length - 1].setAttribute("is-last", "true");
     }
   }
 
   private _renderItems() {
-    if (!this.isCollapsed) {
+    if (!this._isCollapsed) {
       return html`<slot></slot>`;
     }
 
