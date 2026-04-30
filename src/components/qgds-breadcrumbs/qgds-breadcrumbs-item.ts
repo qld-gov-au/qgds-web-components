@@ -33,11 +33,6 @@ export class QGDSBreadcrumbsItem extends LitElement {
     ...LitElement.shadowRootOptions,
     delegatesFocus: true,
   };
-  // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
-  connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
-    this.setAttribute("role", "listitem");
-  }
 
   static styles = [
     baseStyles,
@@ -65,6 +60,12 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: Boolean, attribute: "state-expanded", reflect: true })
   stateExpanded = false;
 
+  // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
+  connectedCallback() {
+    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    this.setAttribute("role", "listitem");
+  }
+
   updated(changed: Map<string, unknown>) {
     if (changed.has("stateExpanded") || changed.has("isDropdownItem")) {
       this.tabIndex = this.isDropdownItem === true ? (this.stateExpanded ? 0 : -1) : 0;
@@ -72,8 +73,9 @@ export class QGDSBreadcrumbsItem extends LitElement {
   }
 
   render() {
+    const ariaCurrent = this.isLast ? "page" : undefined;
     return html`
-      <div class="breadcrumbs-item ${this.isLast ? "active" : ""}" aria-current=${this.isLast ? "page" : nothing}>
+      <div class="breadcrumbs-item ${this.isLast ? "active" : ""}" aria-current=${ifDefined(ariaCurrent)}>
         ${this.isLast || !this.url
           ? html`<slot></slot>`
           : html`
