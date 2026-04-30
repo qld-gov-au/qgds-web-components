@@ -26,18 +26,6 @@ Scoped CSS: qgds-card
   background: transparent !important;
 }
 
-@media (min-width: #{bp.$md}) {
-  :host {
-    --_padding-wrap: 1.25rem;
-  }
-}
-
-@media (min-width: #{bp.$lg}) {
-  :host {
-    --_padding-wrap: 1.5rem;
-  }
-}
-
 .card {
   background: var(--background);
   border: 1px solid var(--border);
@@ -47,38 +35,29 @@ Scoped CSS: qgds-card
   min-block-size: 5rem;
   overflow: hidden;
   position: relative;
-
-  &.is-single {
-    &:hover {
-      box-shadow: var(--qgds-elevation-2);
-    }
-
-    .heading > a::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      z-index: 1;
-    }
-  }
+  transition: box-shadow 180ms ease-out;
 
   .image-wrap {
     // Pull the wrapper flush against the outside of the card border so the image
     // border and card border overlap rather than stack (avoiding a visible 2px gap).
     margin-block-start: -1px;
     margin-inline: -1px;
-
-    // CSS custom properties on :host (--image-border-*) cascade into qgds-image's shadow DOM automatically.
-    // ::slotted() is used here for layout-level styles on the element itself.
-    ::slotted(qgds-image),
-    ::slotted(img) {
-      inline-size: 100%;
-      display: block;
-      border-radius: var(--image-border-radius);
-    }
+    display: none;
+    overflow: hidden;
 
     img {
+      display: block;
       inline-size: 100%;
+      block-size: 100%;
+      object-fit: cover;
+      border: var(--image-border-width) var(--image-border-style) var(--image-border-color);
+      border-radius: var(--image-border-radius);
+    }
+  }
+
+  &.has-image {
+    .image-wrap {
+      display: block;
     }
   }
 
@@ -106,38 +85,28 @@ Scoped CSS: qgds-card
     padding-block-end: 0;
   }
 
-  &.is-feature {
-    display: flex;
-    flex-flow: row nowrap;
-    inline-size: 100%;
+  &.is-single {
+    // Mobile first (xs to md), single action cards have a default box-shadow to indicate interaction, which is then removed on hover
+    box-shadow: var(--qgds-elevation-2);
+    transition: box-shadow 180ms ease-out;
 
-    // Ensure inner .image-wrap and .content-wrap cover 50% each, and that the image fills its half of the card.
-
-    .image-wrap,
-    .content-wrap {
-      flex: 1 1 50%;
-      margin-block: -1px;
-      margin-inline-start: -1px;
+    .heading > a {
+      transition:
+        color 180ms ease-out,
+        text-decoration-color 180ms ease-out,
+        text-decoration-thickness 180ms ease-out;
     }
 
-    .image-wrap {
-      ::slotted(qgds-image),
-      ::slotted(img) {
-        --image-border-radius: 0 0 1.875rem 0;
-      }
+    &:hover {
+      box-shadow: none;
     }
-  }
 
-  &.is-feature.image-end {
-    flex-direction: row-reverse;
-
-    .image-wrap {
-      margin-inline: 0 -1px;
-
-      ::slotted(qgds-image),
-      ::slotted(img) {
-        --image-border-radius: 0 0 0 1.875rem;
-      }
+    .heading > a::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      z-index: 1;
     }
   }
 
@@ -146,41 +115,151 @@ Scoped CSS: qgds-card
   }
 
   .footer {
-    display: none; // default state until .has-footer is applied on the card
+    // default state until .has-footer is applied on the card
+    display: none;
     border-block-start: 1px solid var(--qgds-color-border);
     padding-block-start: 1.25rem;
   }
 
-  .footer-tags {
-    display: flex;
-    flex-flow: row wrap;
-    gap: 0.5rem;
-
-    ::slotted(qgds-tag) {
-      margin: 0;
-    }
-  }
-
   &.has-footer {
     .footer {
+      display: block;
+    }
+  }
+
+  &.has-footer-tags {
+    .footer {
       display: flex;
+      flex-flow: row wrap;
+      gap: 0.5rem;
+
+      ::slotted(qgds-tag) {
+        margin: 0;
+      }
+    }
+  }
+
+  &.has-footer-text {
+    .footer {
+      font-weight: 600;
+      font-size: 1.25rem;
+      line-height: 1.2;
     }
   }
 }
 
-.has-elevation,
-.has-elevation-1 {
-  box-shadow: var(--qgds-elevation-1);
+@media (prefers-reduced-motion: reduce) {
+  .card.is-single {
+    transition: none;
+
+    .heading > a {
+      transition: none;
+    }
+  }
 }
 
-.has-elevation-2 {
-  box-shadow: var(--qgds-elevation-2);
+// Medium and above
+@media (min-width: #{bp.$md}) {
+  :host {
+    --_padding-wrap: 1.25rem;
+  }
+
+  .card {
+    &.is-feature {
+      inline-size: 100%;
+      min-block-size: 18.75rem; // 300px
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: 1fr;
+      align-items: stretch;
+
+      .image-wrap {
+        grid-column: 1 / span 6;
+        grid-row: 1;
+        margin-block: -1px;
+        margin-inline-start: -1px;
+
+        img {
+          --image-border-radius: 0 0 1.875rem 0;
+        }
+      }
+
+      .content-wrap {
+        grid-column: 7 / span 6;
+        grid-row: 1;
+        margin-block: -1px;
+      }
+
+      &.is-feature.image-end {
+        .content-wrap {
+          grid-column: 1 / span 6;
+        }
+
+        .image-wrap {
+          grid-column: 7 / span 6;
+          margin-inline: 0 -1px;
+
+          ::slotted(qgds-image),
+          ::slotted(img) {
+            --image-border-radius: 0;
+          }
+        }
+      }
+    }
+  }
 }
 
-.has-elevation-3 {
-  box-shadow: var(--qgds-elevation-3);
-}
+// Large and above
+@media (min-width: #{bp.$lg}) {
+  :host {
+    --_padding-wrap: 1.5rem;
+  }
 
-.has-elevation-4 {
-  box-shadow: var(--qgds-elevation-4);
+  .card {
+    box-shadow: none; // Remove box-shadow for feature cards at lg+ breakpoint
+
+    &.is-single {
+      box-shadow: none;
+
+      .heading > a {
+        /* Explicitly define the starting point and the transition */
+        text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
+        transition:
+          color 180ms ease-out,
+          text-decoration-color 180ms ease-out,
+          text-decoration-thickness 180ms ease-out;
+      }
+
+      &:hover {
+        box-shadow: var(--qgds-elevation-2);
+
+        .heading > a {
+          /* Re-declare the specific property here to ensure the transition "sees" it */
+          text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+        }
+      }
+    }
+
+    &.is-feature {
+      block-size: 440px;
+
+      .image-wrap {
+        grid-column: 1 / span 8;
+      }
+
+      .content-wrap {
+        grid-column: 9 / span 4;
+      }
+    }
+
+    &.is-feature.image-end {
+      .content-wrap {
+        grid-column: 1 / span 4;
+      }
+
+      .image-wrap {
+        grid-column: 5 / span 8;
+      }
+    }
+  }
 }
