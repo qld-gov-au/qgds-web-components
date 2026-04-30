@@ -44,24 +44,25 @@ button {
     //  background-color: rgba($core-default-color-neutral-black, 0.1);
     background-color: #1312121a;
   }
-  @include m.focusable($offset-outline: 3px);
+  @include m.focusable();
 }
 
 .breadcrumb-collapse-wrapper {
+  interpolate-size: allow-keywords;
   position: absolute;
   margin-block-start: 3rem;
-  max-block-size: 0;
+  block-size: 0;
   overflow: hidden;
   pointer-events: none;
   inline-size: 360px;
   border-radius: 4px;
-  transition: max-block-size 0.5s ease-out;
+  transition: block-size 0.3s ease-in;
 
   .expanded & {
-    max-block-size: 100%;
+    block-size: auto;
     box-shadow: var(--dropdown-box-shadow);
     pointer-events: all;
-    transition: max-block-size 0.5s ease-in;
+    transition-timing-function: ease-out;
     z-index: 1;
   }
 }
