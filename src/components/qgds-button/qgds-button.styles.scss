@@ -28,6 +28,7 @@
   text-decoration-color: transparent;
   text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
   text-decoration-thickness: 0;
+  transition: text-decoration-thickness 0.2s ease-in-out;
   min-inline-size: var(--min-width);
 
   &:not(.has-icon) {
@@ -36,10 +37,12 @@
 
   &:hover {
     text-decoration: underline;
+    text-decoration-thickness: 2px;
+    transition: text-decoration-thickness 0.2s ease-in-out;
   }
 
   &:active {
-    --text: #000053;
+    --text: var(--qgds-color-link-default, #005eb8);
 
     text-decoration: none;
     background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
@@ -109,7 +112,7 @@
   border-color: var(--btn-border-colour);
 
   &:active {
-    --qgds-icon-color: inherit;
+    --qgds-icon-color: var(--qgds-color-link-default, #005eb8);
 
     border-color: transparent;
   }
@@ -117,18 +120,23 @@
   &:disabled,
   &.disabled {
     --btn-border-colour: var(--qgds-color-disabled, #ccc);
-    --qgds-icon-color: inherit;
+    --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
     background-color: transparent;
   }
 
   &:hover {
     --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
+    --qgds-icon-color: var(--qgds-color-action-secondary-hover, #004EA7);
+
+    background: var(--no-colour);
   }
 
   &:focus {
-    background: var(--qgds-color-background-shade);
-    border-color: transparent;
+    --qgds-icon-color: var(--qgds-color-action-secondary-hover, #004EA7);
+
+    border-color: var(--qgds-color-action-secondary-hover, #004EA7);
+    background: var(--no-colour);
   }
 }
 
@@ -140,18 +148,20 @@
   background: transparent;
 
   &:active {
-    --qgds-icon-color: inherit;
+    --qgds-icon-color: var(--qgds-color-link-default, #005eb8);
   }
 
   &:disabled,
   &.disabled {
-    --qgds-icon-color: inherit;
+    --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
     background: transparent;
   }
 
   &:hover,
   &:focus {
+    --qgds-icon-color: var(--qgds-color-action-secondary-hover, #004EA7);
+
     background-color: var(--qgds-color-background-shade, #f5f5f5);
   }
 }
@@ -166,6 +176,6 @@
   display: block;
 }
 
-qgds-icon[iconid="spinner-step-1"] {
+qgds-icon[icon-id="spinner-step-1"] {
   animation: spin 1s linear infinite;
 }
