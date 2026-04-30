@@ -196,7 +196,7 @@ export const WithIcon: Story = {
   args: {
     ...args,
   },
-  render: (args) => html`
+  render: () => html`
     <qgds-card
       heading="Card with icon"
       variant="icon-stacked"
