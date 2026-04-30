@@ -54,15 +54,18 @@
   }
 
   a.dropdown-item {
-    --fg-vertical-item-hover: var(--qgds-color-underline-default-hover, #005eb8);
+    // --fg-vertical-item-hover: var(--qgds-color-underline-default-hover, #005eb8);
     --fg-underline-hover: var(--qgds-color-underline-default-hover, #003e96);
+    --qgds-link-decoration: none;
+    --qgds-color-link-default: var(--qgds-color-text-default, #353535);
 
-    text-decoration: none;
+    // text-decoration: none;
     padding-block: 0.75rem;
     padding-inline: 1rem;
     display: block;
     inline-size: 100%;
-    color: var(--qgds-color-text-default, #353535);
+
+    // color: var(--qgds-color-text-default, #353535);
     white-space: nowrap; /* Prevents text from wrapping to the next line */
     overflow: hidden; /* Hides any content that overflows the element's box */
     text-overflow: ellipsis;
@@ -71,14 +74,14 @@
 
     &:hover,
     &:focus {
-      text-decoration: underline;
-      text-decoration-color: var(--fg-underline-hover);
-      text-decoration-thickness: var(--fg-underline-hover-thickness);
-      color: var(--fg-vertical-item-hover);
+      // text-decoration: underline;
+      // text-decoration-color: var(--fg-underline-hover);
+      // text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      // color: var(--qgds-color-link-default, #005eb8 );
     }
 
     &:hover {
-      background-color: var(--bg-breadcrumb-vertical-hover);
+      background-color: var(--qgds-color-neutral-lighter, #ebebeb);
     }
 
     &:focus {
