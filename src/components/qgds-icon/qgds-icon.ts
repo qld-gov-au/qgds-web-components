@@ -6,7 +6,7 @@ import componentCSS from "./qgds-icon.styles.scss?inline";
 import { isMulticolourIcon } from "./icons-multicolour.js";
 import type { IconName } from "./icon-names";
 
-export type IconSize = "sm" | "md" | "lg" | "xl";
+export type IconSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 /**
  * QGDS Icon Component
