@@ -42,6 +42,23 @@ export class QGDSBreadcrumbs extends LitElement {
   @state() isCollapsed: boolean = false;
   @state() private _isMenuOpen: boolean = false;
 
+  private _items: Element[] = [];
+
+  connectedCallback() {
+    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    document.addEventListener("click", this._closeMenu);
+  }
+
+  disconnectedCallback() {
+    // eslint-disable-next-line wc/guard-super-call
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._closeMenu);
+  }
+
+  firstUpdated() {
+    this._initBreadcrumb();
+  }
+
   private _toggleExpand = async (ev: Event) => {
     ev.stopPropagation();
     this._isMenuOpen = !this._isMenuOpen;
@@ -70,12 +87,6 @@ export class QGDSBreadcrumbs extends LitElement {
     this._isMenuOpen = false;
     this._setExpandedChildren();
   };
-
-  private _items: Element[] = [];
-
-  firstUpdated() {
-    this._initBreadcrumb();
-  }
 
   private _initBreadcrumb() {
     // Set the standard breadcrumb length.
@@ -158,17 +169,6 @@ export class QGDSBreadcrumbs extends LitElement {
       </qgds-breadcrumbs-item>
       ${secondLast} ${lastElement}
     `;
-  }
-
-  connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
-    document.addEventListener("click", this._closeMenu);
-  }
-
-  disconnectedCallback() {
-    // eslint-disable-next-line wc/guard-super-call
-    super.disconnectedCallback();
-    document.removeEventListener("click", this._closeMenu);
   }
 
   render() {
