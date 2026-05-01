@@ -1,17 +1,10 @@
 @use "../../styles/tools/mixins" as m;
 @use "../../styles/tools/functions" as f;
+@use "../../styles/qgds-tokens/qgds-color-stub";
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 // Example: qgds-breadcrumbs { --background: pink; }
 :host {
-  // Fallback values align with QGDS design tokens
-  --bg-breadcrumb-vertical: var(--qgds-color-background-shade, #f5f5f5);
-  --fg: var(--qgds-color-site-title, #005eb8);
-  --border: var(--qgds-color-accent-design-accent, #0078d4);
-  --dropdown-box-shadow: 0px 1px 2px rgb(0 0 0 / 0.3), 0px 2px 6px 2px rgb(0 0 0 / 0.15);
-}
-
-nav {
   display: block;
 }
 
@@ -23,7 +16,7 @@ ol.breadcrumb {
 }
 
 .base-icon {
-  color: var(--fg-icon);
+  color: var(--qgds-color-action-secondary);
   margin-inline: 0.25rem;
   display: flex;
   flex-direction: column;
@@ -38,6 +31,7 @@ button {
   border: none;
   cursor: pointer;
   padding: 0;
+  color: var(--qgds-color-link-default);
 
   &:hover,
   &:focus {
@@ -59,7 +53,7 @@ button {
   transition-property: block-size, visibility; // transition visibility on collapse;
   transition-duration: 0.3s;
   transition-timing-function: ease-in;
-  box-shadow: var(--dropdown-box-shadow);
+  box-shadow: var(--qgds-elevation-2);
   visibility: hidden;
 
   .expanded & {
@@ -73,13 +67,10 @@ button {
 }
 
 .breadcrumb-vertical {
+  @extend %qgds-color-palette-default;
+
   padding: 0;
-  background-color: var(--bg-breadcrumb-vertical);
-  border-block-end: 4px solid var(--border);
+  border-block-end: 4px solid var(--qgds-color-accent-design-accent, #0078d4);
   display: flex;
   flex-direction: column;
-
-  li {
-    display: block;
-  }
 }

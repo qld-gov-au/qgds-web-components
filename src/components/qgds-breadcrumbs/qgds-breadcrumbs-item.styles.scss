@@ -1,6 +1,5 @@
 @use "../../styles/tools/mixins" as m;
 @use "../../styles/qgds-tokens/qgds-breakpoint";
-@use "../../styles/qgds-tokens/qgds-color-stub";
 
 :host {
   line-height: 2rem;
@@ -15,10 +14,6 @@
 }
 
 .breadcrumbs-item {
-  &:has(a.dropdown-item) {
-    @extend %qgds-color-palette-default;
-  }
-
   display: none;
   line-height: 2rem;
   white-space: nowrap;
