@@ -75,13 +75,16 @@ export class QGDSBreadcrumbsItem extends LitElement {
   render() {
     const ariaCurrent = this.isLast ? "page" : undefined;
     return html`
-      <div class="breadcrumbs-item ${this.isLast ? "active" : ""}" aria-current=${ifDefined(ariaCurrent)}>
+      <div
+        class="${classMap({ "breadcrumbs-item": true, active: this.isLast })}"
+        aria-current=${ifDefined(ariaCurrent)}
+      >
         ${this.isLast || !this.url
           ? html`<slot></slot>`
           : html`
               <a
                 class=${classMap({
-                  "dropdown-item": this.isDropdownItem === true,
+                  "dropdown-item": this.isDropdownItem,
                 })}
                 href=${this.url}
                 rel=${ifDefined(this.rel)}
