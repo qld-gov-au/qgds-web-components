@@ -3,11 +3,6 @@
 @use "../../styles/qgds-tokens/qgds-color-stub";
 
 :host {
-  --fg: var(--qgds-color-site-title, #005eb8);
-  --fg-underline: var(--qgds-color-underline-default, #3f7ab4);
-  --fg-active: var(--qgds-color-text-lighter, #636363);
-  --fg-icon: var(--qgds-color-action-secondary, #307edb);
-
   line-height: 2rem;
 }
 
@@ -40,8 +35,8 @@
 
     &,
     &:visited {
-      color: var(--fg);
-      text-decoration-color: var(--fg-underline);
+      color: var(--qgds-color-link-default);
+      text-decoration-color: var(--qgds-color-underline-default);
     }
 
     &:hover {
@@ -52,13 +47,12 @@
 
   a.dropdown-item {
     --qgds-link-decoration: none;
+    --qgds-color-link-default: var(--qgds-color-text-default, #353535);
 
-    // text-decoration: none;
     padding-block: 0.75rem;
     padding-inline: 1rem;
     display: block;
     inline-size: 100%;
-    color: var(--qgds-color-text-default, #353535);
     text-decoration-color: currentColor;
     margin: 0;
     background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
@@ -67,9 +61,12 @@
     &:hover {
       background-color: var(--qgds-color-neutral-lighter, #ebebeb);
       text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      color: var(--qgds-color-link-default);
     }
 
-    @include m.focusable($offset-outline: -5px);
+    @include m.focusable($offset-outline: -5px) {
+      color: var(--qgds-color-link-default);
+    }
 
     &:active {
       background-color: var(--qgds-color-neutral-white, #f5f5f5);
@@ -122,7 +119,7 @@
 }
 
 .base-icon {
-  color: var(--fg-icon);
+  color: var(--qgds-color-action-secondary, #307edb);
   margin-inline: 0.25rem;
   display: flex;
   flex-direction: column;
@@ -136,6 +133,6 @@
     text-overflow: ellipsis;
     display: inline-block;
     flex-shrink: 999999;
-    color: var(--fg-active);
+    color: var(--qgds-color-text-lighter, #636363);
   }
 }
