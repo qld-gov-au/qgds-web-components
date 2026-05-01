@@ -25,11 +25,7 @@ describe("qgds-breadcrumbs", () => {
   it("renders with the default aria-label", async () => {
     await waitForRender(element);
 
-    expect(element.label).toBe("breadcrumbs");
-
-    const nav = element.shadowRoot?.querySelector("nav");
-    expect(nav).toBeTruthy();
-    expect(nav?.getAttribute("aria-label")).toBe("breadcrumbs");
+    expect(element.ariaLabel).toBe("breadcrumbs");
   });
 
   it("renders breadcrumb items passed as children", async () => {

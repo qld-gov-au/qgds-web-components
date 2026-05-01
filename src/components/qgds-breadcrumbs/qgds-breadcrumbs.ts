@@ -1,7 +1,6 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-breadcrumbs.styles.scss?inline";
 
@@ -20,7 +19,7 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
  *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section3">Section 3</qgds-breadcrumbs-item>
  * </qgds-breadcrumbs>
  *
- * @property aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
+ * @attribute aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
  * @slot - The breadcrumb items, which should be implemented using {@link qgds-breadcrumbs-item}
  *
  */
@@ -34,9 +33,6 @@ export class QGDSBreadcrumbs extends LitElement {
     `,
   ];
 
-  @property({ type: String, attribute: "aria-label" })
-  label: string = "breadcrumbs";
-
   @state() private _isCollapsed: boolean = false;
   @state() private _isMenuOpen: boolean = false;
 
@@ -44,6 +40,8 @@ export class QGDSBreadcrumbs extends LitElement {
 
   connectedCallback() {
     super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    this.role = "navigation";
+    this.ariaLabel = this.ariaLabel ?? "breadcrumbs";
     document.addEventListener("click", this._closeMenu);
   }
 
@@ -112,15 +110,11 @@ export class QGDSBreadcrumbs extends LitElement {
       return;
     }
 
-    const breadcrumbParent = breadcrumb.parentElement;
-    if (!breadcrumbParent) {
-      return;
-    }
-
-    if (breadcrumb.clientWidth >= breadcrumbParent.clientWidth) {
+    if (breadcrumb.clientWidth >= this.clientWidth) {
       maxLength = 3;
     }
     //this.breadcrumbCollapse(breadcrumbList, maxLength);
+
     this._isCollapsed = this._items.length > maxLength;
     if (!this._isCollapsed) {
       this._items[this._items.length - 1].setAttribute("is-last", "true");
@@ -171,11 +165,9 @@ export class QGDSBreadcrumbs extends LitElement {
 
   render() {
     return html`
-      <nav aria-label="${ifDefined(this.label)}">
-        <ol class="breadcrumb">
-          ${this._renderItems()}
-        </ol>
-      </nav>
+      <ol class="breadcrumb">
+        ${this._renderItems()}
+      </ol>
     `;
   }
 }

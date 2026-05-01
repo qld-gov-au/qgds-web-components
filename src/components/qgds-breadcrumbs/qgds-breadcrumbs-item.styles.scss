@@ -113,12 +113,16 @@
   }
 }
 
+// This is all the chevron icons except the one beside the dropdown button
 .base-icon {
   color: var(--qgds-color-action-secondary, #307edb);
   margin-inline: 0.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-self: center;
+  transform: rotate(180deg);
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    transform: none;
+  }
 }
 
 @media (min-width: qgds-breakpoint.$lg) {

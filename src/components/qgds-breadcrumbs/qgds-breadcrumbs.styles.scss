@@ -8,19 +8,17 @@
   display: block;
 }
 
-ol.breadcrumb {
+.breadcrumb {
   display: inline-flex;
-  inline-size: auto;
   max-inline-size: 100%;
   flex-wrap: nowrap;
 }
 
+// This is the chevron icon beside the dropdown button.
 .base-icon {
   color: var(--qgds-color-action-secondary);
   margin-inline: 0.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-self: center;
 }
 
 button {
