@@ -41,9 +41,9 @@ button {
 
   &:hover,
   &:focus {
-    //  background-color: rgba($core-default-color-neutral-black, 0.1);
     background-color: #1312121a;
   }
+
   @include m.focusable();
 }
 
@@ -56,14 +56,19 @@ button {
   pointer-events: none;
   inline-size: 360px;
   border-radius: 4px;
-  transition: block-size 0.3s ease-in;
+  transition-property: block-size, visibility; // transition visibility on collapse;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in;
+  box-shadow: var(--dropdown-box-shadow);
+  visibility: hidden;
 
   .expanded & {
     block-size: auto;
-    box-shadow: var(--dropdown-box-shadow);
     pointer-events: all;
+    transition-property: block-size; // do not transtion visibility on expand;
     transition-timing-function: ease-out;
     z-index: 1;
+    visibility: visible;
   }
 }
 
