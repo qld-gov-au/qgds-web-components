@@ -1,0 +1,26 @@
+:host {
+  --_bg: initial;
+  --_fg: initial;
+}
+
+.qgds-feature-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--_bg, var(--qgds-color-background-shade));
+  color: var(--_fg, var(--qgds-color-action-secondary));
+  padding: 1rem; // default for "sm" size
+
+  qgds-icon {
+    --qgds-icon-size: 2rem;
+  }
+
+  &.size-lg {
+    padding: 2rem;
+
+    qgds-icon {
+      --qgds-icon-size: 4rem;
+    }
+  }
+}
