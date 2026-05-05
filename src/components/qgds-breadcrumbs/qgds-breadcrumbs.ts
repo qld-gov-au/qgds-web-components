@@ -113,7 +113,6 @@ export class QGDSBreadcrumbs extends LitElement {
     if (breadcrumbs.clientWidth >= this.clientWidth) {
       maxLength = 3;
     }
-    //this.breadcrumbsCollapse(breadcrumbsList, maxLength);
 
     this._isCollapsed = this._items.length > maxLength;
     if (!this._isCollapsed) {
