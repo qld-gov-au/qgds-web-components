@@ -7,7 +7,7 @@ Scoped CSS: qgds-checkbox
 
 :host {
   // Box dimensions, scaled per size variant.
-  --qgds-checkbox-size: 2rem; // md, 32px
+  --qgds-checkbox-size: 2rem; // large, 32px
   --qgds-checkbox-tick-block: 1rem;
   --qgds-checkbox-tick-inline: 0.5rem;
   --qgds-checkbox-tick-inset-block: 0.25rem;
@@ -17,7 +17,7 @@ Scoped CSS: qgds-checkbox
   display: block;
 }
 
-:host([size="sm"]) {
+:host([size="small"]) {
   --qgds-checkbox-size: 1.5rem; // 24px
   --qgds-checkbox-tick-block: 0.75rem;
   --qgds-checkbox-tick-inline: 0.375rem;
@@ -76,21 +76,17 @@ Scoped CSS: qgds-checkbox
   }
 
   // Status — colour the border, and the checkmark when checked.
-  &.is-valid input[type="checkbox"] {
-    border-color: var(--qgds-color-status-success-default, #339d37);
-
-    &:checked::after {
-      border-block-end-color: var(--qgds-color-status-success-default, #339d37);
-      border-inline-end-color: var(--qgds-color-status-success-default, #339d37);
+  &.is-valid {
+    input[type="checkbox"] {
+      box-shadow: 0 0 0 2px var(--qgds-color-status-success-default, #339d37);
+      background-color: var(--qgds-color-status-success-lighter, #f2faf4);
     }
   }
 
-  &.is-invalid input[type="checkbox"] {
-    border-color: var(--qgds-color-status-error-default, #e22339);
-
-    &:checked::after {
-      border-block-end-color: var(--qgds-color-status-error-default, #e22339);
-      border-inline-end-color: var(--qgds-color-status-error-default, #e22339);
+  &.is-invalid {
+    input[type="checkbox"] {
+      box-shadow: 0 0 0 2px var(--qgds-color-status-error-default, #e22339);
+      background-color: var(--qgds-color-status-error-lightest, #fff6f6);
     }
   }
 

@@ -22,7 +22,7 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  * @tagname qgds-checkbox-group
  *
  * @prop {string} name - Included in the `qgds-change` detail.
- * @prop {"sm" | "md"} size - Visual size, propagated to all slotted checkboxes. Defaults to `"md"`.
+ * @prop {"small" | "large"} size - Visual size, propagated to all slotted checkboxes. Defaults to `"large"`.
  *
  * @slot - Accepts `<qgds-checkbox>` or any element that dispatches a composed
  *   `change` event and exposes `.type === "checkbox"`, `.value`, `.checked`.
@@ -50,7 +50,7 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
   ];
 
   @property({ type: String, reflect: true })
-  size: "sm" | "md" = "md";
+  size: "small" | "large" = "large";
 
   protected _initialValue(): string[] {
     return [];
@@ -69,7 +69,7 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
   protected override update(changedProperties: PropertyValues): void {
     super.update(changedProperties);
     if (changedProperties.has("size")) {
-      this.querySelectorAll<Element & { size?: "sm" | "md" }>(this.groupItemName).forEach((el) => {
+      this.querySelectorAll<Element & { size?: "small" | "large" }>(this.groupItemName).forEach((el) => {
         el.size = this.size;
       });
     }
