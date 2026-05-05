@@ -32,11 +32,12 @@
   cursor: pointer;
   display: inline-flex;
   gap: 0.5rem;
+  vertical-align: top;
 
   input[type="radio"] {
     appearance: none;
     block-size: var(--qgds-radio-size);
-    border: 2px solid var(--qgds-color-light-text, #353535);
+    border: 2px solid var(--qgds-color-text-default, #353535);
     border-radius: 50%;
     box-sizing: border-box;
     cursor: inherit;
@@ -47,7 +48,7 @@
     transition: background-color 0.15s ease;
 
     &:checked::before {
-      background-color: var(--qgds-color-light-text, #353535);
+      background-color: var(--qgds-color-text-default, #353535);
       block-size: var(--qgds-radio-dot-size);
       border-radius: 50%;
       content: "";
