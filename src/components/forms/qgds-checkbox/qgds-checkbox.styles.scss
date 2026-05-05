@@ -43,6 +43,7 @@ Scoped CSS: qgds-checkbox
   cursor: pointer;
   display: inline-flex;
   gap: 0.5rem;
+  vertical-align: top;
 
   input[type="checkbox"] {
     appearance: none;
