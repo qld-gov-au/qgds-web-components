@@ -20,7 +20,7 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
  * </qgds-breadcrumbs>
  *
  * @attribute aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
- * @slot - The breadcrumb items, which should be implemented using {@link qgds-breadcrumbs-item}
+ * @slot - The breadcrumbs items, which should be implemented using {@link qgds-breadcrumbs-item}
  *
  */
 
@@ -85,15 +85,15 @@ export class QGDSBreadcrumbs extends LitElement {
   };
 
   private _initBreadcrumb() {
-    // Set the standard breadcrumb length.
+    // Set the standard breadcrumbs length.
     let maxLength = 5;
 
-    const breadcrumb = this.shadowRoot?.querySelector(".breadcrumb");
+    const breadcrumbs = this.shadowRoot?.querySelector(".breadcrumbs");
 
-    if (!breadcrumb) {
+    if (!breadcrumbs) {
       return;
     }
-    const expandCrumb = breadcrumb.querySelector(".breadcrumb-toggle");
+    const expandCrumb = breadcrumbs.querySelector(".breadcrumbs-toggle");
     if (expandCrumb) {
       // Breadcrumb has already been initialised.
       return;
@@ -105,15 +105,15 @@ export class QGDSBreadcrumbs extends LitElement {
         flatten: true,
       }) ?? [];
 
-    // Return when breadcrumb does not exist.
+    // Return when breadcrumbs does not exist.
     if (!this._items?.length) {
       return;
     }
 
-    if (breadcrumb.clientWidth >= this.clientWidth) {
+    if (breadcrumbs.clientWidth >= this.clientWidth) {
       maxLength = 3;
     }
-    //this.breadcrumbCollapse(breadcrumbList, maxLength);
+    //this.breadcrumbsCollapse(breadcrumbsList, maxLength);
 
     this._isCollapsed = this._items.length > maxLength;
     if (!this._isCollapsed) {
@@ -140,21 +140,13 @@ export class QGDSBreadcrumbs extends LitElement {
     return html`
       ${first}
 
-      <qgds-breadcrumbs-item
-        class="breadcrumbs-item breadcrumb-toggle ${this._isMenuOpen ? "expanded" : ""}"
-        tabindex="0"
-      >
-        <button
-          type="button"
-          class="breadcrumb-toggle-link"
-          aria-label="Expand breadcrumbs"
-          @click=${this._toggleExpand}
-        >
+      <qgds-breadcrumbs-item class="dropdown ${this._isMenuOpen ? "expanded" : ""}" tabindex="0">
+        <button type="button" class="dropdown-toggle" aria-label="Expand breadcrumbs" @click=${this._toggleExpand}>
           <qgds-icon aria-label="Home icon" icon-id="more-horizontal" size="lg"></qgds-icon>
         </button>
-        <qgds-icon size="xs" icon-id="chevron-right" class="base-icon"></qgds-icon>
-        <div class="breadcrumb-collapse-wrapper">
-          <ol class="breadcrumb-vertical">
+        <qgds-icon size="xs" icon-id="chevron-right" class="chevron-icon"></qgds-icon>
+        <div class="dropdown-menu-wrapper">
+          <ol class="dropdown-menu">
             ${middle.map((item) => html`${item}`)}
           </ol>
         </div>
@@ -165,7 +157,7 @@ export class QGDSBreadcrumbs extends LitElement {
 
   render() {
     return html`
-      <ol class="breadcrumb">
+      <ol class="breadcrumbs">
         ${this._renderItems()}
       </ol>
     `;

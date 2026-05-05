@@ -28,7 +28,7 @@ describe("qgds-breadcrumbs", () => {
     expect(element.ariaLabel).toBe("breadcrumbs");
   });
 
-  it("renders breadcrumb items passed as children", async () => {
+  it("renders breadcrumbs items passed as children", async () => {
     element.remove();
 
     const breadcrumbs = document.createElement("qgds-breadcrumbs");
@@ -59,7 +59,7 @@ describe("qgds-breadcrumbs", () => {
     breadcrumbs.remove();
   });
 
-  it("collapses breadcrumb items when there are more than five", async () => {
+  it("collapses breadcrumbs items when there are more than five", async () => {
     element.remove();
 
     const compactElement = document.createElement("qgds-breadcrumbs");
@@ -73,7 +73,7 @@ describe("qgds-breadcrumbs", () => {
     document.body.appendChild(compactElement);
     await waitForRender(compactElement);
 
-    const toggleItem = compactElement.shadowRoot?.querySelector(".breadcrumb-toggle");
+    const toggleItem = compactElement.shadowRoot?.querySelector(".dropdown");
     expect(toggleItem).not.toBeNull();
     const renderedItems = compactElement.shadowRoot?.querySelectorAll<QGDSBreadcrumbsItem>("qgds-breadcrumbs-item");
     const insideVerticalItems = Array.from(renderedItems ?? []).filter((item) => item.isDropdownItem === true);
@@ -100,15 +100,15 @@ describe("qgds-breadcrumbs", () => {
     document.body.appendChild(compactElement);
     await waitForRender(compactElement);
 
-    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".breadcrumb-toggle-link");
+    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".dropdown-toggle");
     expect(toggleButton).toBeTruthy();
     expect(toggleButton?.getAttribute("aria-label")).toBe("Expand breadcrumbs");
-    expect(toggleButton?.classList.contains("breadcrumb-toggle-link")).toBe(true);
+    expect(toggleButton?.classList.contains("dropdown-toggle")).toBe(true);
 
     compactElement.remove();
   });
 
-  it("expands the collapsed breadcrumb menu when the toggle button is clicked", async () => {
+  it("expands the collapsed breadcrumbs menu when the toggle button is clicked", async () => {
     element.remove();
 
     const compactElement = document.createElement("qgds-breadcrumbs");
@@ -122,8 +122,8 @@ describe("qgds-breadcrumbs", () => {
     document.body.appendChild(compactElement);
     await waitForRender(compactElement);
 
-    const toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".breadcrumb-toggle");
-    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".breadcrumb-toggle-link");
+    const toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".dropdown");
+    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".dropdown-toggle");
 
     expect(toggleItem?.classList.contains("expanded")).toBe(false);
     toggleButton?.click();
@@ -134,7 +134,7 @@ describe("qgds-breadcrumbs", () => {
     compactElement.remove();
   });
 
-  it("collapses an expanded breadcrumb menu when clicking outside", async () => {
+  it("collapses an expanded breadcrumbs menu when clicking outside", async () => {
     element.remove();
 
     const compactElement = document.createElement("qgds-breadcrumbs");
@@ -148,18 +148,18 @@ describe("qgds-breadcrumbs", () => {
     document.body.appendChild(compactElement);
     await waitForRender(compactElement);
 
-    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".breadcrumb-toggle-link");
+    const toggleButton = compactElement.shadowRoot?.querySelector<HTMLButtonElement>(".dropdown-toggle");
 
     toggleButton?.click();
     await waitForRender(compactElement);
 
-    let toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".breadcrumb-toggle");
+    let toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".dropdown");
     expect(toggleItem?.classList.contains("expanded")).toBe(true);
 
     document.body.click();
     await waitForRender(compactElement);
 
-    toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".breadcrumb-toggle");
+    toggleItem = compactElement.shadowRoot?.querySelector<HTMLElement>(".dropdown");
     expect(toggleItem?.classList.contains("expanded")).toBe(false);
 
     compactElement.remove();
