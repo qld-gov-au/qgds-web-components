@@ -15,7 +15,6 @@ export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
-export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
 export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
