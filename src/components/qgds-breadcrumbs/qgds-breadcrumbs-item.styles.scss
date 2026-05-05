@@ -106,10 +106,6 @@
     @media (min-width: qgds-breakpoint.$lg) {
       overflow: clip;
     }
-
-    a:focus {
-      overflow: initial;
-    }
   }
 }
 
