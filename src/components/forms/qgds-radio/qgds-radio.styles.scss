@@ -2,14 +2,14 @@
 
 :host {
   // Box dimensions, scaled per size variant.
-  --qgds-radio-size: 2rem; // md, 32px
+  --qgds-radio-size: 2rem; // large, 32px
   --qgds-radio-dot-size: 1.375rem; // 22px
   --qgds-radio-dot-inset: 3px;
 
   display: block;
 }
 
-:host([size="sm"]) {
+:host([size="small"]) {
   --qgds-radio-size: 1.5rem; // 24px
   --qgds-radio-dot-size: 0.875rem; // 14px
   --qgds-radio-dot-inset: 3px;
