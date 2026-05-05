@@ -48,3 +48,8 @@ body {
   color: var(--qgds-color-text-default);
   -webkit-font-smoothing: antialiased;
 }
+
+qgds-global-alert:first-of-type {
+  --qgds-global-alert-border-width: 0;
+  --qgds-global-alert-border-color: transparent;
+}
