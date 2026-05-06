@@ -16,14 +16,14 @@ export type QGDSFeatureIconSize = "sm" | "lg";
  * @uikit https://www.figma.com/design/APANArEk8nHGbgQk12sR7a/Queensland-Government-Design-System--UI-Kit--Community-?node-id=9652-250374
  * @website https://www.designsystem.qld.gov.au/styles/iconography
  *
- * @prop {string} iconId - The ID of the icon to display (e.g., "home", "alert-success")
+ * @prop {string} iconName - The name of the icon to display (e.g., "home", "alert-success")
  * @prop {"sm" | "lg"} size - The size of the feature icon. Options are "sm" (small) and "lg" (large). Default is "sm".
  **/
 
 @customElement("qgds-feature-icon")
 export class QGDSFeatureIcon extends LitElement {
-  @property({ type: String, attribute: "icon-id" })
-  iconId?: string;
+  @property({ type: String, attribute: "icon-name" })
+  iconName?: string;
 
   @property({ type: String, attribute: "size", reflect: true })
   size: QGDSFeatureIconSize = "sm";
@@ -35,14 +35,14 @@ export class QGDSFeatureIcon extends LitElement {
   ];
 
   render() {
-    if (!this.iconId || this.iconId.trim() === "") {
-      console.warn("QGDSFeatureIcon: An 'icon-id' attribute is required to display an icon.");
-      return html``; // Render nothing if iconId is not provided
+    if (!this.iconName || this.iconName.trim() === "") {
+      console.warn("QGDSFeatureIcon: An 'icon-name' attribute is required to display an icon.");
+      return html``; // Render nothing if iconName is not provided
     }
 
     return html`
       <div class="qgds-feature-icon size-${this.size}">
-        <qgds-icon icon-id=${ifDefined(this.iconId)}></qgds-icon>
+        <qgds-icon icon-id=${ifDefined(this.iconName)}></qgds-icon>
       </div>
     `;
   }

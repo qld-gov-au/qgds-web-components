@@ -13,8 +13,8 @@ describe("qgds-feature-icon", () => {
     element.remove();
   });
 
-  it("renders an icon when icon-id is provided", async () => {
-    element.setAttribute("icon-id", "search");
+  it("renders an icon when icon-name is provided", async () => {
+    element.setAttribute("icon-name", "search");
     document.body.appendChild(element);
     await element.updateComplete;
 

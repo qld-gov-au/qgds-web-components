@@ -13,8 +13,8 @@ import { ICON_NAMES } from "../qgds-icon/icon-names.js";
 // The template function handles attribute/property name mapping automatically
 const { args, argTypes, template } = getStorybookHelpers<QGDSFeatureIcon>("qgds-feature-icon");
 
-// Set up an argType for the icon ID, using ICON_NAMES for the options
-argTypes["icon-id"] = {
+// Set up an argType for the icon name, using ICON_NAMES for the options
+argTypes["icon-name"] = {
   control: "select",
   options: ICON_NAMES,
 } as const;
@@ -32,7 +32,7 @@ const meta: Meta<QGDSFeatureIconStoryArgs> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    "icon-id": "home",
+    "icon-name": "home",
   },
   argTypes,
   render: (storyArgs) => template(storyArgs),
@@ -43,13 +43,13 @@ type Story = StoryObj<QGDSFeatureIconStoryArgs>;
 
 export const Default: Story = {
   args: {
-    "icon-id": "home",
+    "icon-name": "home",
   },
   parameters: {
     ...chromaticModes,
   },
   render: (storyArgs) => html`
-    <qgds-feature-icon icon-id=${ifDefined(storyArgs["icon-id"])}></qgds-feature-icon>
-    <qgds-feature-icon icon-id=${ifDefined(storyArgs["icon-id"])} size="lg"></qgds-feature-icon>
+    <qgds-feature-icon icon-name=${ifDefined(storyArgs["icon-name"])}></qgds-feature-icon>
+    <qgds-feature-icon icon-name=${ifDefined(storyArgs["icon-name"])} size="lg"></qgds-feature-icon>
   `,
 };
