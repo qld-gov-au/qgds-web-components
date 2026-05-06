@@ -1,5 +1,6 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
@@ -81,7 +82,7 @@ export class QGDSCheckbox extends LitElement {
       >
         <input
           type="checkbox"
-          id=${this.id || nothing}
+          id=${ifDefined(this.id)}
           name=${this.name}
           value=${this.value}
           ?checked=${this.checked}
