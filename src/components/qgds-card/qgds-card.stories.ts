@@ -8,6 +8,7 @@ import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QGDSCard } from "./qgds-card";
 import "./qgds-card";
+import { ICON_NAMES } from "../qgds-icon/icon-names";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
 
@@ -26,7 +27,7 @@ const meta: Meta<Args> = {
     ${Object.entries(palettes).map(
       ([palette]) => html`
         <qgds-card heading=${ifDefined(args.heading)} variant=${ifDefined(args.variant)} palette=${palette}>
-          <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
+          ${unsafeHTML(args["default-slot"] as string)}
         </qgds-card>
       `
     )}
@@ -61,61 +62,261 @@ export const Default: Story = {
   },
   args: {
     heading: "Card title",
-    "main-slot": `
+    "default-slot": `
     <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
     `,
   },
 };
 
-export const WithImage: Story = {
+const noActionArgs: Story["args"] = {
+  heading: "Card title",
+  "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+};
+
+export const NoAction: Story = {
+  name: "No Action",
+  parameters: { ...chromaticModes },
+  args: noActionArgs,
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
+          ${unsafeHTML(args["default-slot"] as string)}
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const NoAction_WithFooter: Story = {
+  name: "No Action (Footer)",
+  parameters: { ...chromaticModes },
+  args: noActionArgs,
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
+          ${unsafeHTML(args["default-slot"] as string)}
+          <div slot="footer-text">Footer text</div>
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const NoAction_WithImage: Story = {
+  name: "No Action (Image)",
+  parameters: { ...chromaticModes },
+  args: noActionArgs,
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          action="none"
+          palette=${palette}
+          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-alt="Placeholder image"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const NoAction_WithImageAndFooter: Story = {
+  name: "No Action (Image and Footer)",
+  parameters: { ...chromaticModes },
+  args: noActionArgs,
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          action="none"
+          palette=${palette}
+          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-alt="Placeholder image"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+          <div slot="footer-text">Footer text</div>
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const SingleAction: Story = {
+  name: "Single Action",
   args: {
     heading: "Card title",
-    "main-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    href: "https://www.designsystem.qld.gov.au/components/card",
+  },
+  argTypes: {
+    href: { control: "text" },
+    footerText: { control: "text" },
   },
   render: (args) => html`
-    <!-- Card 1 -->
-    <qgds-card
-      heading=${ifDefined(args.heading)}
-      variant=${ifDefined(args.variant)}
-      palette="default"
-      target="_blank"
-      image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-      image-alt="Placeholder image"
-    >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-    </qgds-card>
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          palette=${palette}
+          target="_blank"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+        </qgds-card>
+      `
+    )}
+  `,
+};
 
-    <!-- Card 2, muted single -->
-    <qgds-card
-      heading="Card (single) with link"
-      variant=${ifDefined(args.variant)}
-      action="single"
-      palette="soft"
-      href="https://www.designsystem.qld.gov.au/components/card"
-      target="_blank"
-      image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-      image-alt="Placeholder image"
-    >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-    </qgds-card>
+export const SingleAction_WithFooter: Story = {
+  name: "Single Action (Footer)",
+  args: {
+    heading: "Card title",
+    "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    href: "https://www.designsystem.qld.gov.au/components/card",
+    footerText: "Footer text",
+  },
+  argTypes: {
+    href: { control: "text" },
+    footerText: { control: "text" },
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          palette=${palette}
+          target="_blank"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+          ${String(args.footerText ?? "").trim().length > 0
+            ? html`<div slot="footer-text">${args.footerText}</div>`
+            : ""}
+        </qgds-card>
+      `
+    )}
+  `,
+};
 
-    <!-- Card 3, deep -->
-    <qgds-card
-      heading="Card (multiple) links"
-      variant=${ifDefined(args.variant)}
-      palette="deep"
-      href="https://www.designsystem.qld.gov.au/components/card"
-      target="_blank"
-      image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-      image-alt="Placeholder image"
-    >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-    </qgds-card>
+export const SingleAction_WithImage: Story = {
+  name: "Single Action (Image)",
+  args: {
+    heading: "Card title",
+    "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    href: "https://www.designsystem.qld.gov.au/components/card",
+    footerText: "",
+  },
+  argTypes: {
+    href: { control: "text" },
+    footerText: { control: "text" },
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          palette=${palette}
+          target="_blank"
+          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-alt="Placeholder image"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+          ${String(args.footerText ?? "").trim().length > 0
+            ? html`<div slot="footer-text">${args.footerText}</div>`
+            : ""}
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const SingleAction_ImageFooter: Story = {
+  name: "Single Action (Image and Footer)",
+  args: {
+    heading: "Card title",
+    "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    href: "https://www.designsystem.qld.gov.au/components/card",
+    footerText: "Footer Text",
+  },
+  argTypes: {
+    href: { control: "text" },
+    footerText: { control: "text" },
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          palette=${palette}
+          target="_blank"
+          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-alt="Placeholder image"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+          ${String(args.footerText ?? "").trim().length > 0
+            ? html`<div slot="footer-text">${args.footerText}</div>`
+            : ""}
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
+export const SingleAction_WithIcon: Story = {
+  name: "Single Action (Icon)",
+  args: {
+    heading: "Card title",
+    "default-slot": `<p>Card content introducing the topic or story. Short introductions are easier to scan.</p>`,
+    href: "https://www.designsystem.qld.gov.au/components/card",
+    variant: "stacked-icon",
+    iconName: "settings",
+  },
+  argTypes: {
+    href: { control: "text" },
+    variant: {
+      control: { type: "select" },
+      options: ["leading-icon", "stacked-icon"],
+    },
+    iconName: {
+      control: { type: "select" },
+      options: [...ICON_NAMES],
+      if: { arg: "variant", eq: "stacked-icon" },
+    },
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          variant=${args.variant ?? "stacked-icon"}
+          icon-name=${ifDefined(args.iconName)}
+          palette=${palette}
+          target="_blank"
+        >
+          ${unsafeHTML(args["default-slot"] as string)}
+        </qgds-card>
+      `
+    )}
   `,
 };
 
 const footerLinksHTML = html`
-  <div slot="footer">
+  <div slot="footer-links">
     <a href="#">Link 1</a>
     <a href="#">Link 2</a>
     <a href="#">Link 3</a>
@@ -123,57 +324,36 @@ const footerLinksHTML = html`
 `;
 
 const footerTagsHTML = html`
-  <div slot="footer">
-    <qgds-tag label="Action" variant="default"></qgds-tag>
-    <qgds-tag label="Action" variant="default"></qgds-tag>
-    <qgds-tag label="Action" variant="default"></qgds-tag>
+  <div slot="footer-tags">
+    <qgds-tag label="Topic" variant="default"></qgds-tag>
+    <qgds-tag label="Topic" variant="default"></qgds-tag>
+    <qgds-tag label="Topic" variant="default"></qgds-tag>
   </div>
+`;
 
-  <div slot="footer">
-    <qgds-tag label="Action" variant="default"></qgds-tag>
-    <qgds-tag label="Action" variant="default"></qgds-tag>
-    <qgds-tag label="Action" variant="default"></qgds-tag>
+const footerTagsActionHTML = html`
+  <div slot="footer-tags">
+    <qgds-tag label="Action" variant="action"></qgds-tag>
+    <qgds-tag label="Action" variant="action"></qgds-tag>
+    <qgds-tag label="Action" variant="action"></qgds-tag>
   </div>
 `;
 
 const footerStoryArgs: Story["args"] = {
   heading: "Card title",
-  "main-slot": `<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure autem, blanditiis reprehenderit illum voluptas amet est sapiente ea debitis voluptate, mollitia porro temporibus explicabo voluptates laudantium itaque nemo qui tenetur.</p>`,
+  "default-slot": `<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure autem, blanditiis reprehenderit illum voluptas amet est sapiente ea debitis voluptate, mollitia porro temporibus explicabo voluptates laudantium itaque nemo qui tenetur.</p>`,
 };
-
-const renderFooterCardPair = (palette: string, args: Args, footerSlot: unknown) => html`
-  <qgds-card
-    heading="No action card"
-    variant=${ifDefined(args.variant)}
-    action="none"
-    image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-    image-alt="Placeholder image"
-    palette=${palette}
-  >
-    <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-    ${footerSlot}
-  </qgds-card>
-
-  <qgds-card
-    heading="Card (single) with link"
-    variant=${ifDefined(args.variant)}
-    action="single"
-    href="https://www.designsystem.qld.gov.au/components/card"
-    target="_blank"
-    image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-    image-alt="Placeholder image"
-    palette=${palette}
-  >
-    <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-    ${footerSlot}
-  </qgds-card>
-`;
 
 export const WithFooterText: Story = {
   args: footerStoryArgs,
   render: (args) => html`
-    ${Object.entries(palettes).map(([palette]) =>
-      renderFooterCardPair(palette, args, html`<div slot="footer">Footer text</div>`)
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
+          ${unsafeHTML(args["default-slot"] as string)}
+          <div slot="footer-text">Footer text</div>
+        </qgds-card>
+      `
     )}
   `,
 };
@@ -181,14 +361,26 @@ export const WithFooterText: Story = {
 export const WithFooterLinks: Story = {
   args: footerStoryArgs,
   render: (args) => html`
-    ${Object.entries(palettes).map(([palette]) => renderFooterCardPair(palette, args, footerLinksHTML))}
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
+          ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
+        </qgds-card>
+      `
+    )}
   `,
 };
 
 export const WithFooterTags: Story = {
   args: footerStoryArgs,
   render: (args) => html`
-    ${Object.entries(palettes).map(([palette]) => renderFooterCardPair(palette, args, footerTagsHTML))}
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
+          ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
+        </qgds-card>
+      `
+    )}
   `,
 };
 
@@ -199,14 +391,13 @@ export const WithIcon: Story = {
   render: () => html`
     <qgds-card
       heading="Card with icon"
-      variant="icon-stacked"
+      variant="stacked-icon"
       href="https://www.designsystem.qld.gov.au/components/card"
       target="_blank"
       palette="default"
       icon-id="home"
     >
-      <!-- Disabled size property??? -->
-      <div slot="main">Card body text</div>
+      Card body text
     </qgds-card>
   `,
 };
@@ -214,87 +405,79 @@ export const WithIcon: Story = {
 export const FeatureCard: Story = {
   args: {
     heading: "Card title",
-    "main-slot": `<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure autem, blanditiis reprehenderit illum voluptas amet est sapiente ea debitis voluptate, mollitia porro temporibus explicabo voluptates laudantium itaque nemo qui tenetur.</p>`,
+    "default-slot": `<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure autem, blanditiis reprehenderit illum voluptas amet est sapiente ea debitis voluptate, mollitia porro temporibus explicabo voluptates laudantium itaque nemo qui tenetur.</p>`,
   },
   render: (args) => html`
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       target="_blank"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
       image-alt="Placeholder image"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
+      ${unsafeHTML(args["default-slot"] as string)}
     </qgds-card>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       action="single"
       href="https://www.designsystem.qld.gov.au/components/card"
       target="_blank"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
       image-alt="Placeholder image"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
+      ${unsafeHTML(args["default-slot"] as string)}
     </qgds-card>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
       image-alt="Placeholder image"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-
-      ${footerTagsHTML}
+      ${unsafeHTML(args["default-slot"] as string)} ${footerTagsHTML}
     </qgds-card>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
       image-alt="Placeholder image"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-
-      ${footerLinksHTML}
+      ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
     </qgds-card>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
       image-alt="Placeholder image"
       image-position="end"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
+      ${unsafeHTML(args["default-slot"] as string)}
     </qgds-card>
 
     <div style="height: 1rem;"></div>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/"
       image-alt="Placeholder image"
       image-position="end"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-
-      ${footerTagsHTML}
+      ${unsafeHTML(args["default-slot"] as string)} ${footerTagsHTML}
     </qgds-card>
 
     <qgds-card
       heading=${ifDefined(args.heading)}
-      variant="feature"
+      layout="feature"
       image-src="https://picsum.photos/seed/qgds-sunny/600/400/"
       image-alt="Placeholder image"
       image-position="end"
     >
-      <div slot="main">${unsafeHTML(args["main-slot"] as string)}</div>
-
-      ${footerLinksHTML}
+      ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
     </qgds-card>
   `,
 

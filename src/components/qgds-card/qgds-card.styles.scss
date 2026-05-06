@@ -10,7 +10,7 @@ Scoped CSS: qgds-card
 // Public API: CSS custom properties that can be overridden from Light DOM
 
 :host {
-  --background: var(--qgds-color-background, #ffffff);
+  --bg: var(--qgds-color-background);
   --border: var(--qgds-color-border);
   --border-radius: 0.75rem;
   --image-border-radius: var(--border-radius) var(--border-radius) 1.875rem 0;
@@ -20,14 +20,10 @@ Scoped CSS: qgds-card
 
   // Responsive spacing tokens — xs/sm base, overridden at md and lg+
   --_padding-wrap: 1rem;
-
-  // Prevent the global palette background from bleeding outside the inner .card's border-radius.
-  // The .card div owns the background and rounds its own corners.
-  background: transparent !important;
 }
 
 .card {
-  background: var(--background);
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   display: inline-flex;
@@ -36,6 +32,10 @@ Scoped CSS: qgds-card
   overflow: hidden;
   position: relative;
   transition: box-shadow 180ms ease-out;
+
+  .feature-icon-wrap {
+    display: none;
+  }
 
   .image-wrap {
     // Pull the wrapper flush against the outside of the card border so the image
@@ -107,6 +107,13 @@ Scoped CSS: qgds-card
       inset: 0;
       border-radius: inherit;
       z-index: 1;
+    }
+  }
+
+  &.has-stacked-icon,
+  &.has-leading-icon {
+    .feature-icon-wrap {
+      display: block;
     }
   }
 
