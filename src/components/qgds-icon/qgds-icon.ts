@@ -67,3 +67,9 @@ export class QGDSIcon extends LitElement {
     `;
   }
 }
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-icon": QGDSIcon;
+  }
+}

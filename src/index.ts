@@ -17,6 +17,7 @@ export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs"
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
+export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
