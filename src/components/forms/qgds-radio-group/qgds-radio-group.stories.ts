@@ -1,36 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
+import { withEventAction } from "../../../../.storybook/storybook-helpers";
 import type { QGDSRadioGroup } from "./qgds-radio-group";
 import "./qgds-radio-group";
 import "../qgds-radio/qgds-radio";
 
-const { args, argTypes } = getStorybookHelpers<QGDSRadioGroup>("qgds-radio-group");
+const { args, argTypes, template } = getStorybookHelpers<QGDSRadioGroup>("qgds-radio-group");
 
 type StoryArgs = typeof args;
 type Story = StoryObj<StoryArgs>;
 
-const renderGroup = (storyArgs: StoryArgs) => html`
-  <qgds-radio-group
-    id=${ifDefined(storyArgs.id ?? "priority")}
-    name=${ifDefined(storyArgs.name ?? "priority")}
-    label=${ifDefined(storyArgs.label ?? "Priority")}
-    hint=${ifDefined(storyArgs.hint ?? "Choose one option.")}
-    size=${ifDefined(storyArgs.size ?? "lg")}
-    indicate-if=${ifDefined(storyArgs["indicate-if"])}
-    validation-state=${ifDefined(storyArgs["validation-state"])}
-    validation-message=${ifDefined(storyArgs["validation-message"])}
-    ?required=${storyArgs.required}
-    ?disabled=${storyArgs.disabled}
-    @qgds-change=${action("qgds-change")}
-  >
-    <qgds-radio value="low" label="Low"></qgds-radio>
-    <qgds-radio value="medium" label="Medium"></qgds-radio>
-    <qgds-radio value="high" label="High"></qgds-radio>
-  </qgds-radio-group>
+const slot = html`
+  <qgds-radio value="low" label="Low"></qgds-radio>
+  <qgds-radio value="medium" label="Medium"></qgds-radio>
+  <qgds-radio value="high" label="High"></qgds-radio>
 `;
 
 const meta: Meta<StoryArgs> = {
@@ -57,7 +42,8 @@ const meta: Meta<StoryArgs> = {
       options: ["required", "optional", "none"],
     },
   },
-  render: renderGroup,
+  decorators: [withEventAction("qgds-change")],
+  render: (storyArgs) => template(storyArgs, slot),
 };
 
 export default meta;
