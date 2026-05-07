@@ -19,7 +19,7 @@ const renderGroup = (storyArgs: StoryArgs) => html`
     name=${ifDefined(storyArgs.name ?? "priority")}
     label=${ifDefined(storyArgs.label ?? "Priority")}
     hint=${ifDefined(storyArgs.hint ?? "Choose one option.")}
-    size=${ifDefined(storyArgs.size ?? "large")}
+    size=${ifDefined(storyArgs.size ?? "lg")}
     indicate-if=${ifDefined(storyArgs["indicate-if"])}
     validation-state=${ifDefined(storyArgs["validation-state"])}
     validation-message=${ifDefined(storyArgs["validation-message"])}
@@ -43,14 +43,14 @@ const meta: Meta<StoryArgs> = {
     name: "priority",
     label: "Priority",
     hint: "Choose one option.",
-    size: "large",
+    size: "lg",
     "indicate-if": "required",
   },
   argTypes: {
     ...argTypes,
     size: {
       control: { type: "select" },
-      options: ["small", "large"],
+      options: ["sm", "lg"],
     },
     "indicate-if": {
       control: { type: "select" },
@@ -104,13 +104,13 @@ export const WithError: Story = {
 // ── Small variants ─────────────────────────────────────────────────────────
 
 export const Small: Story = {
-  args: { size: "small" },
+  args: { size: "sm" },
 };
 
 export const SmallSuccess: Story = {
   name: "Small / Success",
   args: {
-    size: "small",
+    size: "sm",
     "validation-state": "success",
     "validation-message": "Looks good.",
   },
@@ -119,7 +119,7 @@ export const SmallSuccess: Story = {
 export const SmallDisabled: Story = {
   name: "Small / Disabled",
   args: {
-    size: "small",
+    size: "sm",
     disabled: true,
   },
 };

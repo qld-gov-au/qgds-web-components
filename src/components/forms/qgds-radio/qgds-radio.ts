@@ -23,7 +23,7 @@ import componentCSS from "./qgds-radio.styles.scss?inline";
  * @prop {boolean} checked  - Whether this radio is selected.
  * @prop {boolean} disabled - Whether this radio is disabled.
  * @prop {FormValidationState} validationState - Visual validation state.
- * @prop {"small" | "large"} size - Visual size of the radio. Defaults to `"large"`.
+ * @prop {"sm" | "lg"} size - Visual size of the radio. Defaults to `"lg"`.
  *
  * @fires {Event} change - Native composed change event re-dispatched from the host.
  *
@@ -58,7 +58,7 @@ export class QGDSRadio extends LitElement {
   validationState?: FormValidationState;
 
   @property({ type: String, reflect: true })
-  size: "small" | "large" = "large";
+  size: "sm" | "lg" = "lg";
 
   /** Exposed so qgds-field-group can identify this as a radio via duck-typing */
   readonly type = "radio";
