@@ -18,7 +18,7 @@ const meta: Meta<Args> = {
   args: {
     ...args,
     promoType: "indent-text",
-    promoImage: "/src/img/children-walk-school.jpg",
+    promoImage: "https://picsum.photos/seed/qgds-beach/600/400",
     promoImageDescription: "Promotional image",
     contentAlignment: "content-left",
     icon: "design",
@@ -37,50 +37,45 @@ export const Default: Story = {
     ...chromaticModes,
   },
   render: (args) => html`
-    <div style="padding-bottom: 4rem;">
-      <qgds-promotional-panel
-        promoType=${args.promoType}
-        promoImage=${args.promoImage}
-        promoImageDescription=${args.promoImageDescription}
-        contentAlignment=${args.contentAlignment}
-        icon=${args.icon}
-        title=${args.title}
-        abstract=${args.abstract}
-        palette=${args.promoPalette}
+    <qgds-promotional-panel
+      promoType=${args.promoType}
+      promoImage=${args.promoImage}
+      promoImageDescription=${args.promoImageDescription}
+      contentAlignment=${args.contentAlignment}
+      icon=${args.icon}
+      title=${args.title}
+      abstract=${args.abstract}
+      palette=${args.promoPalette}
+    >
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+        suspendisse mi quisque consequat aliquet egestas.
+      </p>
+      <a slot="footer-ctalinks" href="https://www.qld.gov.au" target="_blank" label="Call to Action Link"
+        >Call to Action Link</a
       >
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
-          suspendisse mi quisque consequat aliquet egestas.
-        </p>
-        <a slot="footer-ctalinks" href="https://www.qld.gov.au" target="_blank" label="Call to Action Link"
-          >Call to Action Link</a
-        >
-        <a slot="footer-ctalinks" href="https://www.qld.gov.au" target="_blank" label="Call to Action Last Link"
-          >Call to Action Last Link</a
-        >
-        <qgds-button
-          slot="footer-buttons"
-          target=""
-          type="button"
-          aria-label="Primary Action"
-          label="Primary"
-          variant="primary"
-          href=""
-          id=""
-        >
-        </qgds-button>
-        <qgds-button
-          slot="footer-buttons"
-          target=""
-          type="button"
-          aria-label="Secondary Action"
-          label="Secondary"
-          variant="secondary"
-          href=""
-          id=""
-        >
-        </qgds-button>
-      </qgds-promotional-panel>
-    </div>
+      <qgds-button
+        slot="footer-buttons"
+        target="_self"
+        type="button"
+        aria-label="Primary Action"
+        label="Primary"
+        variant="primary"
+        href="https://www.qld.gov.au"
+        id=""
+      >
+      </qgds-button>
+      <qgds-button
+        slot="footer-buttons"
+        target="_self"
+        type="button"
+        aria-label="Secondary Action"
+        label="Secondary"
+        variant="secondary"
+        href="https://www.qld.gov.au"
+        id=""
+      >
+      </qgds-button>
+    </qgds-promotional-panel>
   `,
 };

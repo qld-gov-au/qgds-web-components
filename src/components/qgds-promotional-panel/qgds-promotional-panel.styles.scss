@@ -1,13 +1,20 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint";
 @use "../../styles/tools";
 
+$component: ".qgds-promo-panel";
+
 :host {
   max-inline-size: 1600px;
   margin-inline: auto;
   display: block;
 }
 
-.qgds-promo-panel {
+#{$component} {
+  --margin-indent: -2.75rem;
+  @media (min-width: qgds-breakpoint.$lg) {
+    --margin-indent: -4rem;
+  }
+
   &-container {
     display: flex;
     flex-direction: column;
@@ -20,14 +27,22 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 4rem;
-      gap: 2rem;
+      padding-block: 2.5rem;
+      padding-inline: 1rem;
+      gap: 1.5rem;
       background-color: var(--qgds-color-background);
+      color: var(--qgds-color-text-default);
 
       @media (min-width: qgds-breakpoint.$md) {
         box-shadow: var(--qgds-elevation-2);
+        padding-block: 2.5rem;
+        padding-inline: 2rem;
+      }
 
-        // box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+      @media (min-width: qgds-breakpoint.$lg) {
+        gap: 2rem;
+        padding-block: 4rem;
+        padding-inline: 3rem;
       }
 
       .main {
@@ -46,13 +61,16 @@
       .promo-abstract {
         color: var(--qgds-color-text-default);
         font-weight: 400;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         line-height: tools.snap-line-height(1.25);
+        @media (min-width: qgds-breakpoint.$md) {
+          font-size: 1.5rem;
+          line-height: tools.snap-line-height(1.3);
+        }
       }
 
-      ::slotted {
+      ::slotted(*) {
         color: var(--qgds-color-text-default);
-        font-weight: 600;
         line-height: tools.snap-line-height(1.25);
       }
 
@@ -61,6 +79,11 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        align-items: stretch;
+
+        @media (min-width: qgds-breakpoint.$md) {
+          align-items: flex-start;
+        }
 
         @media (min-width: qgds-breakpoint.$lg) {
           flex-direction: row;
@@ -73,6 +96,10 @@
       justify-content: center;
       align-items: center;
       flex: 0 0 50%;
+      background-color: var(--qgds-color-background);
+      @media (min-width: qgds-breakpoint.$md) {
+        background-color: transparent;
+      }
 
       img {
         inline-size: 100%;
@@ -80,12 +107,20 @@
         aspect-ratio: 16 / 9;
         object-fit: cover;
         border-end-end-radius: 2rem;
+        @media (min-width: qgds-breakpoint.$md) {
+          box-shadow: var(--qgds-elevation-2);
+        }
       }
     }
 
     &.content-left {
       .content-panel {
         order: 0;
+
+        @media (min-width: qgds-breakpoint.$xxl) {
+          padding-block: 4rem;
+          padding-inline: 9rem 4rem;
+        }
       }
 
       .image-panel {
@@ -100,6 +135,11 @@
         @media (min-width: qgds-breakpoint.$md) {
           order: 1;
         }
+
+        @media (min-width: qgds-breakpoint.$xxl) {
+          padding-block: 4rem;
+          padding-inline: 4rem 9rem;
+        }
       }
 
       .image-panel {
@@ -108,12 +148,66 @@
     }
   }
 
+  &.contained {
+    background-color: var(--qgds-color-background);
+    border-radius: 0;
+    @media (min-width: qgds-breakpoint.$xxl) {
+      border-radius: 3rem;
+    }
+    #{$component}-container {
+      padding-block: 3rem;
+      padding-inline: 1rem;
+      gap: 1.5rem;
+      @media (min-width: qgds-breakpoint.$md) {
+        gap: 2rem;
+        padding: 2rem;
+      }
+      @media (min-width: qgds-breakpoint.$lg) {
+        padding: 3rem;
+        gap: 3rem;
+      }
+      @media (min-width: qgds-breakpoint.$xxl) {
+        padding-block: 4rem;
+        padding-inline: 9rem;
+        gap: 4rem;
+      }
+    }
+
+    .content-panel {
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .image-panel {
+      img {
+        border-radius: 1.25rem;
+      }
+    }
+  }
+
+  &.promo {
+    .content-panel {
+      border-radius: 2rem;
+      box-shadow: none;
+    }
+
+    #{$component}-container {
+      border-radius: 3rem;
+      padding-block: 4rem;
+      padding-inline: 9rem;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+
   &.indent-text {
     .content-left {
       .content-panel {
-        margin-block-end: -4rem;
-        border-radius: 0 0 3rem;
-
+        @media (min-width: qgds-breakpoint.$md) {
+          margin-block-end: var(--margin-indent);
+          border-radius: 0 0 3rem;
+        }
         @media (min-width: qgds-breakpoint.$xxl) {
           border-radius: 3rem 0 3rem 3rem;
         }
@@ -134,8 +228,10 @@
 
     .content-right {
       .content-panel {
-        margin-block-end: -4rem;
-        border-radius: 0 0 0 3rem;
+        @media (min-width: qgds-breakpoint.$md) {
+          margin-block-end: var(--margin-indent);
+          border-radius: 0 0 0 3rem;
+        }
 
         @media (min-width: qgds-breakpoint.$xxl) {
           border-radius: 0 3rem 3rem;
@@ -147,6 +243,7 @@
           @media (min-width: qgds-breakpoint.$md) {
             border-radius: 0;
           }
+
           @media (min-width: qgds-breakpoint.$xxl) {
             border-radius: 0;
           }
@@ -166,11 +263,14 @@
       }
 
       .image-panel {
-        margin-block-end: -4rem;
+        @media (min-width: qgds-breakpoint.$md) {
+          margin-block-end: var(--margin-indent);
+        }
 
         img {
-          border-radius: 0 0 0 3rem;
-
+          @media (min-width: qgds-breakpoint.$md) {
+            border-radius: 0 0 0 3rem;
+          }
           @media (min-width: qgds-breakpoint.$xxl) {
             border-radius: 0 3rem 3rem;
           }
@@ -188,11 +288,14 @@
       }
 
       .image-panel {
-        margin-block-end: -4rem;
+        @media (min-width: qgds-breakpoint.$md) {
+          margin-block-end: var(--margin-indent);
+        }
 
         img {
-          border-end-end-radius: 3rem;
-
+          @media (min-width: qgds-breakpoint.$md) {
+            border-end-end-radius: 3rem;
+          }
           @media (min-width: qgds-breakpoint.$xxl) {
             border-radius: 3rem 0 3rem 3rem;
           }

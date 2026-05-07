@@ -14,6 +14,7 @@ export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
+export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";

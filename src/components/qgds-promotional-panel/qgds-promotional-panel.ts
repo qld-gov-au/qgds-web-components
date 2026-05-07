@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-promotional-panel.styles.scss?inline";
 import "../qgds-button/qgds-button";
-import "../qgds-icon/qgds-icon";
+import "../qgds-feature-icon/qgds-feature-icon";
 
 export type QGDSPromotionalPanelProps = InstanceType<typeof QGDSPromotionalPanel>;
 
@@ -56,7 +56,7 @@ export class QGDSPromotionalPanel extends LitElement {
 
   render() {
     return html`
-      <section class="qgds-promo-panel ${this.promoType}" palette=${this.promoPalette}>
+      <section class="qgds-promo-panel ${this.promoType}">
         <div
           class="qgds-promo-panel-container ${this.contentAlignment}"
           style=${this.isPromo ? `background-image:url(${this.promoImage})` : nothing}
@@ -73,7 +73,7 @@ export class QGDSPromotionalPanel extends LitElement {
             ${this.icon
               ? html`
                   <div class="icon-container">
-                    <qgds-icon class="base-icon" size="md" icon-id=${this.icon}></qgds-icon>
+                    <qgds-feature-icon class="base-icon" icon-name=${this.icon}></qgds-feature-icon>
                   </div>
                 `
               : nothing}
