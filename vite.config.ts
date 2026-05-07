@@ -5,7 +5,8 @@ import path from "node:path";
 import glob from "fast-glob";
 import { fileURLToPath } from "url";
 import { viteStaticCopy } from "vite-plugin-static-copy";
-import { visualizer } from "rollup-plugin-visualizer";
+
+const visualizer = await import("rollup-plugin-visualizer").then((m) => m.visualizer).catch(() => null);
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 const __filename = fileURLToPath(import.meta.url);
@@ -122,7 +123,7 @@ export default defineConfig({
         },
       ],
     }) as any,
-    visualizer({ open: false, filename: "_dev/bundle-analysis.html" }),
+    visualizer ? visualizer({ open: false, filename: "_dev/bundle-analysis.html" }) : null,
   ],
   resolve: {
     alias: {

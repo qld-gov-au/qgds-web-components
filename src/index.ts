@@ -13,6 +13,7 @@ export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
+export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";

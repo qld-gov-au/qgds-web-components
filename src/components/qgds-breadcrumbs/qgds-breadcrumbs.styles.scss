@@ -1,0 +1,74 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
+@use "../../styles/qgds-tokens/qgds-color-stub";
+
+// Public API: CSS custom properties that can be overridden from Light DOM
+// Example: qgds-breadcrumbs { --background: pink; }
+:host {
+  display: block;
+}
+
+.breadcrumbs {
+  display: inline-flex;
+  max-inline-size: 100%;
+  flex-wrap: nowrap;
+}
+
+// This is the chevron icon beside the dropdown button.
+.chevron-icon {
+  color: var(--qgds-color-action-secondary);
+  margin-inline: 0.25rem;
+  align-self: center;
+}
+
+.dropdown-toggle {
+  display: flex;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--qgds-color-link-default);
+
+  &:hover,
+  &:focus {
+    background-color: #1312121a;
+  }
+
+  @include m.focusable();
+}
+
+.dropdown-menu-wrapper {
+  interpolate-size: allow-keywords;
+  position: absolute;
+  margin-block-start: 3rem;
+  block-size: 0;
+  overflow: hidden;
+  pointer-events: none;
+  inline-size: 360px;
+  border-radius: 4px;
+  transition-property: block-size, visibility; // transition visibility on collapse;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in;
+  box-shadow: var(--qgds-elevation-2);
+  visibility: hidden;
+
+  .expanded & {
+    block-size: auto;
+    pointer-events: all;
+    transition-property: block-size; // do not transtion visibility on expand;
+    transition-timing-function: ease-out;
+    z-index: 1;
+    visibility: visible;
+  }
+}
+
+.dropdown-menu {
+  @extend %qgds-color-palette-default;
+
+  padding: 0;
+  border-block-end: 4px solid var(--qgds-color-accent-design-accent, #0078d4);
+  display: flex;
+  flex-direction: column;
+}

@@ -101,7 +101,7 @@ export class QGDSButton extends LitElement {
       loading: this.isLoading,
       [`btn-${this.variant}`]: true,
       disabled: this.disabled || this.isLoading,
-      "has-icon": this.hasIcon,
+      "has-icon": this.hasIcon || this.isLoading,
       "trailing-icon": this.trailingIcon,
     };
 
