@@ -1,0 +1,30 @@
+:host {
+  --qgds-link-item-padding-top: unset;
+  --qgds-link-padding:calc(1rem - 1px);
+  --qgds-link-margin-inline-start: auto;
+  --qgds-link-width: 100%;
+  --qgds-link-font-weight: 600;
+
+  display: block;
+  break-inside: avoid;
+  padding-block-start: var(--qgds-link-item-padding-top, 1rem);
+}
+
+:host > qgds-link {
+  display: block;
+}
+
+.description {
+  margin-block: 0 0.75rem;
+  margin-inline: 0;
+  font-size: 14px;
+  color: var(--qgds-color-text-default);
+}
+
+div[role="list"] {
+  list-style: none;
+
+  ::slotted(qgds-link-item) {
+    --qgds-link-padding-inline-start: 1rem;
+  }
+}
