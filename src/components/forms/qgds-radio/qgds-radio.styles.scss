@@ -9,7 +9,7 @@
   display: block;
 }
 
-:host([size="small"]) {
+:host([size="sm"]) {
   --qgds-radio-size: 1.5rem; // 24px
   --qgds-radio-dot-size: 0.875rem; // 14px
   --qgds-radio-dot-inset: 3px;
