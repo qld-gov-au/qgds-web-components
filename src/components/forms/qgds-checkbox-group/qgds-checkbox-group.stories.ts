@@ -1,36 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
+import { withEventAction } from "../../../../.storybook/storybook-helpers";
 import type { QGDSCheckboxGroup } from "./qgds-checkbox-group";
 import "./qgds-checkbox-group";
 import "../qgds-checkbox/qgds-checkbox";
 
-const { args, argTypes } = getStorybookHelpers<QGDSCheckboxGroup>("qgds-checkbox-group");
+const { args, argTypes, template } = getStorybookHelpers<QGDSCheckboxGroup>("qgds-checkbox-group");
 
 type StoryArgs = typeof args;
 type Story = StoryObj<StoryArgs>;
 
-const renderGroup = (storyArgs: StoryArgs) => html`
-  <qgds-checkbox-group
-    id=${ifDefined(storyArgs.id ?? "interests")}
-    name=${ifDefined(storyArgs.name ?? "interests")}
-    label=${ifDefined(storyArgs.label ?? "Interests")}
-    hint=${ifDefined(storyArgs.hint ?? "Select all that apply.")}
-    size=${ifDefined(storyArgs.size ?? "lg")}
-    indicate-if=${ifDefined(storyArgs["indicate-if"])}
-    validation-state=${ifDefined(storyArgs["validation-state"])}
-    validation-message=${ifDefined(storyArgs["validation-message"])}
-    ?required=${storyArgs.required}
-    ?disabled=${storyArgs.disabled}
-    @qgds-change=${action("qgds-change")}
-  >
-    <qgds-checkbox value="design" label="Design"></qgds-checkbox>
-    <qgds-checkbox value="code" label="Code"></qgds-checkbox>
-    <qgds-checkbox value="research" label="Research"></qgds-checkbox>
-  </qgds-checkbox-group>
+const slot = html`
+  <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+  <qgds-checkbox value="code" label="Code"></qgds-checkbox>
+  <qgds-checkbox value="research" label="Research"></qgds-checkbox>
 `;
 
 const meta: Meta<StoryArgs> = {
@@ -57,7 +42,8 @@ const meta: Meta<StoryArgs> = {
       options: ["required", "optional", "none"],
     },
   },
-  render: renderGroup,
+  decorators: [withEventAction("qgds-change")],
+  render: (storyArgs) => template(storyArgs, slot),
 };
 
 export default meta;
