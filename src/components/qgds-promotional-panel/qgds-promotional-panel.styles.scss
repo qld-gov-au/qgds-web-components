@@ -93,7 +93,6 @@ $component: ".qgds-promo-panel";
 
       .footer-ctalinks-container {
         ::slotted(qgds-call-to-action) {
-          --qgds-link-font-size: 1.25rem;
           --qgds-icon-size: 2rem;
 
           margin-block-start: 0;
