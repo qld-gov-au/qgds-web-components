@@ -5,7 +5,8 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
 import type { QGDSPromotionalPanel } from "./qgds-promotional-panel";
 import "./qgds-promotional-panel";
-
+import "../qgds-button/qgds-button";
+import "../qgds-call-to-action/qgds-call-to-action";
 const { args, argTypes, template } = getStorybookHelpers<QGDSPromotionalPanel>("qgds-promotional-panel");
 
 type Args = typeof args;
@@ -51,9 +52,8 @@ export const Default: Story = {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
         suspendisse mi quisque consequat aliquet egestas.
       </p>
-      <a slot="footer-ctalinks" href="https://www.qld.gov.au" target="_blank" label="Call to Action Link"
-        >Call to Action Link</a
-      >
+      <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
       <qgds-button
         slot="footer-buttons"
         target="_self"

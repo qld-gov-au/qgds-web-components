@@ -11,6 +11,7 @@ $component: ".qgds-promo-panel";
 
 #{$component} {
   --margin-indent: -2.75rem;
+
   @media (min-width: qgds-breakpoint.$lg) {
     --margin-indent: -4rem;
   }
@@ -87,6 +88,15 @@ $component: ".qgds-promo-panel";
 
         @media (min-width: qgds-breakpoint.$lg) {
           flex-direction: row;
+        }
+      }
+
+      .footer-ctalinks-container {
+        ::slotted(qgds-call-to-action) {
+          --qgds-link-font-size: 1.25rem;
+          --qgds-icon-size: 2rem;
+
+          margin-block-start: 0;
         }
       }
     }

@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-promotional-panel.styles.scss?inline";
-import "../qgds-button/qgds-button";
+
 import "../qgds-feature-icon/qgds-feature-icon";
 
 export type QGDSPromotionalPanelProps = InstanceType<typeof QGDSPromotionalPanel>;
