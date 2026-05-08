@@ -1,7 +1,18 @@
 @use "../../../styles/tools/mixins" as m;
 
 :host {
+  // Box dimensions, scaled per size variant.
+  --qgds-radio-size: 2rem; // large, 32px
+  --qgds-radio-dot-size: 1.375rem; // 22px
+  --qgds-radio-dot-inset: 3px;
+
   display: block;
+}
+
+:host([size="sm"]) {
+  --qgds-radio-size: 1.5rem; // 24px
+  --qgds-radio-dot-size: 0.875rem; // 14px
+  --qgds-radio-dot-inset: 3px;
 }
 
 :host([disabled]) {
@@ -9,63 +20,71 @@
   opacity: 0.5;
 }
 
+.label-text {
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+
 .radio {
   align-items: center;
   cursor: pointer;
   display: inline-flex;
   gap: 0.5rem;
-  padding: 0.25rem;
+  vertical-align: top;
 
   input[type="radio"] {
     appearance: none;
-    block-size: 2rem;
-    border: 2px solid var(--qgds-color-light-text, #353535);
+    block-size: var(--qgds-radio-size);
+    border: 2px solid var(--qgds-color-text-default, #353535);
     border-radius: 50%;
     box-sizing: border-box;
     cursor: inherit;
     flex-shrink: 0;
-    inline-size: 2rem;
+    inline-size: var(--qgds-radio-size);
     margin: 0;
     position: relative;
     transition: background-color 0.15s ease;
 
     &:hover {
-      background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+      background-color: var(--qgds-color-background-shade, #f5f5f5);
     }
 
-    // Inner filled dot — 22px, centered via absolute inset
-    // border (2px) + gap (2px) = 4px from each outer edge → 30 - 8 = 22px ✓
     &:checked::before {
-      background-color: var(--qgds-color-light-text, #353535);
-      block-size: 1.375rem; // 22px
+      background-color: var(--qgds-color-text-default, #353535);
+      block-size: var(--qgds-radio-dot-size);
       border-radius: 50%;
       content: "";
-      inline-size: 1.375rem;
-      inset-block-start: 3px; // 3 gap from inside of 2px border
-      inset-inline-start: 3px;
+      inline-size: var(--qgds-radio-dot-size);
+      inset-block-start: var(--qgds-radio-dot-inset);
+      inset-inline-start: var(--qgds-radio-dot-inset);
       position: absolute;
     }
 
-    @include m.focusable($offset-outline: 3px);
+    @include m.focusable($custom-selector: ":focus-visible", $offset-outline: 3px);
   }
 
   // Status variants — box-shadow adds a flush outer border without conflicting with the focus outline
   &.is-valid {
     input[type="radio"] {
       box-shadow: 0 0 0 2px var(--qgds-color-status-success-default, #339d37);
+      background-color: var(--qgds-color-status-success-lighter, #f2faf4);
     }
   }
 
   &.is-invalid {
     input[type="radio"] {
       box-shadow: 0 0 0 2px var(--qgds-color-status-error-default, #e22339);
+      background-color: var(--qgds-color-status-error-lightest, #fff6f6);
     }
   }
-}
 
-.label-text {
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5rem;
+  // Disabled — `not-allowed` covers the input target too; `cursor: pointer`
+  // on the label otherwise masks `:host([disabled])`.
+  &:has(input:disabled),
+  &:has(input:disabled) input[type="radio"],
+  &:has(input:disabled) .label-text {
+    cursor: not-allowed;
+  }
 }
