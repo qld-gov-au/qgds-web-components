@@ -6,7 +6,7 @@ import componentCSS from "./qgds-icon.styles.scss?inline";
 import { isMulticolourIcon } from "./icons-multicolour.js";
 import type { IconName } from "./icon-names";
 
-export type IconSize = "sm" | "md" | "lg" | "xl";
+export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
 /**
  * QGDS Icon Component
@@ -19,7 +19,7 @@ export type IconSize = "sm" | "md" | "lg" | "xl";
  * @website https://www.designsystem.qld.gov.au/styles/iconography
  *
  * @attr {IconName} icon-id - The ID of the icon to display (e.g., "home", "alert-success").
- * @attr {IconSize} size - The size of the icon. Options are "sm", "md", "lg", "xl". Default is "md".
+ * @attr {IconSize} size - The size of the icon. Options are "xs", "sm", "md", "lg", "xl", "xxl". Default is "md".
  * @attr {string} aria-label - The aria-label for the icon for accessibility.
  *
  * @cssprop --qgds-icon-color - The color of single-colour icons (applies to mask-image icons).

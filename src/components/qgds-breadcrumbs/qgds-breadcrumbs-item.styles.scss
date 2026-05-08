@@ -1,0 +1,133 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint";
+
+:host {
+  line-height: 2rem;
+}
+
+:host([is-last]) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  flex-shrink: 999999;
+}
+
+.breadcrumbs-item {
+  display: none;
+  line-height: 2rem;
+  white-space: nowrap;
+  inline-size: 100%;
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    display: inline-flex;
+  }
+
+  a {
+    inline-size: 100%;
+    display: block;
+    line-height: 1.5rem;
+
+    &,
+    &:visited {
+      color: var(--qgds-color-link-default);
+      text-decoration-color: var(--qgds-color-underline-default);
+    }
+
+    &:hover {
+      text-decoration-color: currentColor;
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    }
+  }
+
+  a.dropdown-item {
+    --qgds-link-decoration: none;
+    --qgds-color-link-default: var(--qgds-color-text-default, #353535);
+
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    display: block;
+    inline-size: 100%;
+    text-decoration-color: currentColor;
+    margin: 0;
+    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
+    @include m.truncate();
+
+    &:hover {
+      background-color: var(--qgds-color-neutral-lighter, #ebebeb);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      color: var(--qgds-color-link-default);
+    }
+
+    @include m.focusable($offset-outline: -5px) {
+      color: var(--qgds-color-link-default);
+    }
+
+    &:active {
+      background-color: var(--qgds-color-neutral-white, #f5f5f5);
+    }
+  }
+}
+
+:host(:nth-last-child(2)) {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
+
+  &:has(a:focus) {
+    overflow: initial;
+  }
+
+  .breadcrumbs-item,
+  & a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .breadcrumbs-item {
+    overflow: hidden;
+    font-size: 0.875rem;
+    flex-direction: row-reverse;
+    display: inline-flex;
+
+    &:has(a:focus) {
+      overflow: initial;
+    }
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      display: inline-flex;
+      font-size: 1rem;
+      flex-direction: row;
+    }
+  }
+
+  .breadcrumbs-item a {
+    overflow: hidden;
+    @media (min-width: qgds-breakpoint.$lg) {
+      overflow: clip;
+    }
+  }
+}
+
+// This is all the chevron icons except the one beside the dropdown button
+.chevron-icon {
+  color: var(--qgds-color-action-secondary, #307edb);
+  margin-inline: 0.25rem;
+  align-self: center;
+  transform: rotate(180deg);
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    transform: none;
+  }
+}
+
+@media (min-width: qgds-breakpoint.$lg) {
+  .active {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    flex-shrink: 999999;
+    color: var(--qgds-color-text-lighter, #636363);
+  }
+}
