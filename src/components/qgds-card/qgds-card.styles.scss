@@ -5,25 +5,40 @@ Scoped CSS: qgds-card
 */
 
 @use "../../styles/tools/mixins" as *;
+@use "../../styles/tools";
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 // Public API: CSS custom properties that can be overridden from Light DOM
 
 :host {
   --bg: var(--qgds-color-background);
+  --fg: var(--qgds-color-text-default);
   --border: var(--qgds-color-border);
   --border-radius: 0.75rem;
   --image-border-radius: var(--border-radius) var(--border-radius) 1.875rem 0;
   --image-border-width: 1px;
   --image-border-color: var(--qgds-color-border);
   --image-border-style: solid;
-
-  // Responsive spacing tokens — xs/sm base, overridden at md and lg+
-  --_padding-wrap: 1rem;
 }
 
 .card {
+  // Responsive spacing and type tokens — xs/sm base, overridden at md and above
+  --_padding-wrap: 1rem;
+  --_heading-size: #{tools.remify(20px)};
+  --_heading-line-height: #{tools.snap-line-height(1.2)};
+
+  @media (min-width: #{bp.$md}) {
+    --_padding-wrap: 1.25rem;
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    --_padding-wrap: 1.5rem;
+    --_heading-size: #{tools.remify(24px)};
+    --_heading-line-height: #{tools.snap-line-height(1.3)};
+  }
+
   background: var(--bg);
+  color: var(--fg);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   display: inline-flex;
@@ -31,7 +46,8 @@ Scoped CSS: qgds-card
   min-block-size: 5rem;
   overflow: hidden;
   position: relative;
-  transition: box-shadow 180ms ease-out;
+
+  // transition: box-shadow 180ms ease-out;
 
   .feature-icon-wrap {
     display: none;
@@ -76,26 +92,39 @@ Scoped CSS: qgds-card
   }
 
   .heading {
-    padding-block: 0 0.5rem;
+    font-size: var(--_heading-size);
+    line-height: var(--_heading-line-height);
+    color: var(--qgds-color-text-heading);
+    font-weight: 600;
+    text-wrap-style: pretty;
+    padding: 0;
     margin: 0;
-    line-height: 1.5;
   }
 
   .content {
     padding-block-end: 0;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.75rem;
+
+    a,
+    a:visited {
+      color: var(--qgds-color-link-default);
+      text-decoration-color: currentColor;
+    }
+  }
+
+  .footer {
+    // default state until .has-footer is applied on the card
+    display: none;
+    color: var(--qgds-color-text-heading);
+    border-block-start: 1px solid var(--qgds-color-border);
+    padding-block-start: 1.25rem;
   }
 
   &.is-single {
     // Mobile first (xs to md), single action cards have a default box-shadow to indicate interaction, which is then removed on hover
     box-shadow: var(--qgds-elevation-2);
-    transition: box-shadow 180ms ease-out;
-
-    .heading > a {
-      transition:
-        color 180ms ease-out,
-        text-decoration-color 180ms ease-out,
-        text-decoration-thickness 180ms ease-out;
-    }
 
     &:hover {
       box-shadow: none;
@@ -121,13 +150,6 @@ Scoped CSS: qgds-card
     padding-block-end: 1.25rem;
   }
 
-  .footer {
-    // default state until .has-footer is applied on the card
-    display: none;
-    border-block-start: 1px solid var(--qgds-color-border);
-    padding-block-start: 1.25rem;
-  }
-
   &.has-footer {
     .footer {
       display: block;
@@ -146,6 +168,23 @@ Scoped CSS: qgds-card
     }
   }
 
+  &.has-footer-links {
+    // Links in footer are "CTA style" however icon placement is left of the label. Their font-weight is 600;
+    --qgds-link-font-weight: 600;
+    --qgds-link-width: 100%;
+    --qgds-link-justify-content: flex-start;
+
+    .footer {
+      display: flex;
+      flex-flow: column nowrap;
+      gap: 0.75rem;
+
+      ::slotted(qgds-link) {
+        min-inline-size: 0;
+      }
+    }
+  }
+
   &.has-footer-text {
     .footer {
       font-weight: 600;
@@ -153,26 +192,57 @@ Scoped CSS: qgds-card
       line-height: 1.2;
     }
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  .card.is-single {
-    transition: none;
+  &.has-stacked-icon {
+    .feature-icon-wrap {
+      margin-block-end: 1.25rem;
+    }
 
-    .heading > a {
-      transition: none;
+    .content-wrap {
+      align-items: center;
+      text-align: center;
+    }
+
+    .heading,
+    .content,
+    .footer {
+      inline-size: 100%;
+    }
+  }
+
+  &.has-stacked-icon.has-footer-tags {
+    .footer {
+      justify-content: center;
+    }
+  }
+
+  &.has-leading-icon {
+    .feature-icon-wrap {
+      margin-inline-end: 1rem;
+      align-self: center;
+    }
+
+    .content-wrap {
+      flex-flow: row nowrap;
+    }
+
+    .content {
+      display: flex;
+      flex-flow: column nowrap;
     }
   }
 }
 
-// Medium and above
+// Medium and above (layout)
 @media (min-width: #{bp.$md}) {
-  :host {
-    --_padding-wrap: 1.25rem;
-  }
-
   .card {
     &.is-feature {
+      // Default feature ratio: image/content = 8:4
+      --_content-col-start: 9;
+      --_content-col-length: 4;
+      --_image-col-start: 1;
+      --_image-col-length: 8;
+
       inline-size: 100%;
       min-block-size: 18.75rem; // 300px
       display: grid;
@@ -181,7 +251,7 @@ Scoped CSS: qgds-card
       align-items: stretch;
 
       .image-wrap {
-        grid-column: 1 / span 6;
+        grid-column: var(--_image-col-start) / span var(--_image-col-length);
         grid-row: 1;
         margin-block: -1px;
         margin-inline-start: -1px;
@@ -192,81 +262,71 @@ Scoped CSS: qgds-card
       }
 
       .content-wrap {
-        grid-column: 7 / span 6;
+        grid-column: var(--_content-col-start) / span var(--_content-col-length);
         grid-row: 1;
         margin-block: -1px;
       }
 
-      &.is-feature.image-end {
-        .content-wrap {
-          grid-column: 1 / span 6;
+      // Left aligned image
+      &.ratio-8-4 {
+        --_content-col-start: 9;
+        --_content-col-length: 4;
+        --_image-col-start: 1;
+        --_image-col-length: 8;
+      }
+
+      // Left aligned image, 50/50 ratio
+      &.ratio-6-6 {
+        --_content-col-start: 7;
+        --_content-col-length: 6;
+        --_image-col-start: 1;
+        --_image-col-length: 6;
+      }
+    }
+
+    &.is-feature.image-end {
+      // Inverse, right aligned image
+      &.ratio-8-4 {
+        --_content-col-start: 1;
+        --_content-col-length: 4;
+        --_image-col-start: 5;
+        --_image-col-length: 8;
+      }
+
+      // Right aligned image, 50/50 ratio
+      &.ratio-6-6 {
+        --_content-col-start: 1;
+        --_content-col-length: 6;
+        --_image-col-start: 7;
+        --_image-col-length: 6;
+      }
+
+      .image-wrap {
+        img {
+          --image-border-radius: 0 0 0.75rem 0;
         }
 
-        .image-wrap {
-          grid-column: 7 / span 6;
-          margin-inline: 0 -1px;
-
-          ::slotted(qgds-image),
-          ::slotted(img) {
-            --image-border-radius: 0;
-          }
-        }
+        margin-inline: 0 -1px;
       }
     }
   }
 }
 
-// Large and above
+// Large and above (layout and interaction)
 @media (min-width: #{bp.$lg}) {
-  :host {
-    --_padding-wrap: 1.5rem;
-  }
-
   .card {
     box-shadow: none; // Remove box-shadow for feature cards at lg+ breakpoint
 
     &.is-single {
       box-shadow: none;
 
-      .heading > a {
-        /* Explicitly define the starting point and the transition */
-        text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
-        transition:
-          color 180ms ease-out,
-          text-decoration-color 180ms ease-out,
-          text-decoration-thickness 180ms ease-out;
-      }
-
       &:hover {
         box-shadow: var(--qgds-elevation-2);
-
-        .heading > a {
-          /* Re-declare the specific property here to ensure the transition "sees" it */
-          text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
-        }
       }
     }
 
     &.is-feature {
       block-size: 440px;
-
-      .image-wrap {
-        grid-column: 1 / span 8;
-      }
-
-      .content-wrap {
-        grid-column: 9 / span 4;
-      }
-    }
-
-    &.is-feature.image-end {
-      .content-wrap {
-        grid-column: 1 / span 4;
-      }
-
-      .image-wrap {
-        grid-column: 5 / span 8;
-      }
     }
   }
 }

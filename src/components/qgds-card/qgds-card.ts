@@ -2,18 +2,22 @@ import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+
+// Utils
 import { QgdsEvents } from "../../utils";
-
-import "../qgds-image/qgds-image";
-import "../qgds-tag/qgds-tag";
-
-import { baseStyles } from "../../styles";
 import { semanticHeading } from "../../utils";
-import componentCSS from "./qgds-card.styles.scss?inline";
-
 import { type IconName } from "../qgds-icon/icon-names.js";
 export type { IconName };
-//import { QGDSFeatureIcon } from "../qgds-feature-icon/qgds-feature-icon";
+
+// Import dependent components
+import "../qgds-image/qgds-image";
+import "../qgds-tag/qgds-tag";
+import "../qgds-link/qgds-link";
+import "../qgds-feature-icon/qgds-feature-icon";
+
+// Styles
+import { baseStyles } from "../../styles";
+import componentCSS from "./qgds-card.styles.scss?inline";
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -46,12 +50,12 @@ export type { IconName };
 
 export type CardAction = "none" | "single" | "multiple";
 export type CardLayout = "default" | "feature";
+export type FeatureRatios = "8-4" | "6-6";
 export type CardVariant = "none" | "arrow" | "leading-icon" | "stacked-icon";
 export type ImagePosition = "none" | "start" | "end";
-export type Elevation = 0 | 1 | 2 | 3 | 4;
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
-
 export type QGDSCardProps = InstanceType<typeof QGDSCard>;
+type FooterType = "none" | "text" | "links" | "tags";
 
 // ============================================================================
 // COMPONENT
@@ -73,8 +77,8 @@ export type QGDSCardProps = InstanceType<typeof QGDSCard>;
  * @prop {string} imageAlt - The alternative text for the card's image
  * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
  * @prop {ImagePosition} [imagePosition="start"] - Position of the image for feature variant cards (start or end).
+ * @prop {FeatureRatios} [featureRatio="8-4"] - Image/content column ratio for feature layout cards.
  * @prop {IconName} [iconName] - Name of the icon for the card (used for "leading-icon" and "stacked-icon" variants). Refer qgds-icon for available icons.
- * @prop {Elevation} [elevation] - Shadow depth (0 = none, 4 = highest).
  * @prop {string} [target="_self"] - Link target for single-action cards.
  * @prop {string} [ariaLabel] - Accessible name override when the heading is insufficient.
  *
@@ -170,11 +174,11 @@ export class QGDSCard extends LitElement {
   @property({ type: String, attribute: "image-position", reflect: true, useDefault: true })
   imagePosition?: ImagePosition = "start";
 
+  @property({ type: String, attribute: "feature-ratio", reflect: true, useDefault: true })
+  featureRatio: FeatureRatios = "8-4";
+
   @property({ type: String, attribute: "aria-label" })
   ariaLabel: string | null = null;
-
-  @property({ type: Number, reflect: true })
-  elevation?: Elevation;
 
   // ==========================================================================
   // STATE (Private, reactive)
@@ -194,6 +198,9 @@ export class QGDSCard extends LitElement {
     const hasImage = !!this.imageSrc?.trim();
     const accessibleLabel = this.ariaLabel ?? this.heading ?? undefined;
 
+    const iconSize = this.variant === "stacked-icon" ? "lg" : "sm";
+    const footerType = this.resolveFooterType();
+
     const headingContent = hasHref
       ? html`<a
           href=${ifDefined(this.href)}
@@ -210,10 +217,12 @@ export class QGDSCard extends LitElement {
       "is-feature": this.layout === "feature",
       "has-image": hasImage,
       "image-end": this.imagePosition === "end",
-      "has-footer": this.hasFooterLinks || this.hasFooterTags || this.hasFooterText,
-      "has-footer-links": this.hasFooterLinks,
-      "has-footer-tags": this.hasFooterTags,
-      "has-footer-text": this.hasFooterText,
+      "ratio-8-4": this.featureRatio === "8-4",
+      "ratio-6-6": this.featureRatio === "6-6",
+      "has-footer": footerType !== "none",
+      "has-footer-links": footerType === "links",
+      "has-footer-tags": footerType === "tags",
+      "has-footer-text": footerType === "text",
       "has-arrow": this.variant === "arrow",
       "has-stacked-icon": this.variant === "stacked-icon",
       "has-leading-icon": this.variant === "leading-icon",
@@ -232,26 +241,22 @@ export class QGDSCard extends LitElement {
         <div class="image-wrap">
           <img src=${ifDefined(this.imageSrc)} alt=${ifDefined(this.imageAlt)} />
         </div>
-        
-        <div class="feature-icon-wrap">
-          <qgds-feature-icon name="icon" icon-name=${ifDefined(this.iconName)}></qgds-feature-icon>
-        </div>
 
         <div class="content-wrap">
-          ${semanticHeading(headingContent, this.headingLevel, "heading")}
-
-            <div class="content">
-              <slot></slot>
-            </div>
-            
-            <div class="footer">
-              <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
-              <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
-              <slot name="footer-text" @slotchange=${this.handleFooterTextSlot}></slot>
-            </div>
-            
+          <div class="feature-icon-wrap">
+            <qgds-feature-icon size=${ifDefined(iconSize)} icon-name=${ifDefined(this.iconName)}></qgds-feature-icon>
           </div>
 
+          <div class="content">
+            ${semanticHeading(headingContent, this.headingLevel, "heading")}
+            <slot></slot>
+          </div>
+
+          <div class="footer">
+            <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
+            <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
+            <slot name="footer-text" @slotchange=${this.handleFooterTextSlot}></slot>
+          </div>
         </div>
       </div>
     `;
@@ -261,11 +266,29 @@ export class QGDSCard extends LitElement {
   // PRIVATE METHODS (Slot handlers)
   // ==========================================================================
 
+  // Footer precedence is deterministic: tags > links > text > none.
+  private resolveFooterType = (): FooterType => {
+    if (this.hasFooterTags) {
+      return "tags";
+    }
+
+    if (this.hasFooterLinks) {
+      return "links";
+    }
+
+    if (this.hasFooterText) {
+      return "text";
+    }
+
+    return "none";
+  };
+
   private handleLinksSlot = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     const assigned = slot.assignedElements();
     const hasLinkElements = assigned.some(
-      (el) => el.tagName.toLowerCase() === "a" || el.tagName.toLowerCase() === "qgds-link"
+      (el) =>
+        el.tagName.toLowerCase() === "a" || el.tagName.toLowerCase() === "qgds-link" || el.querySelector("a, qgds-link")
     );
     this.hasFooterLinks = assigned.length > 0 && hasLinkElements;
   };
@@ -273,7 +296,10 @@ export class QGDSCard extends LitElement {
   private handleTagsSlot = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     const assigned = slot.assignedElements();
-    const hasTagElements = assigned.some((el) => el.tagName.toLowerCase() === "qgds-tag");
+    const hasTagElements = assigned.some(
+      (el) => el.tagName.toLowerCase() === "qgds-tag" || el.querySelector("qgds-tag")
+    );
+
     this.hasFooterTags = assigned.length > 0 && hasTagElements;
   };
 
