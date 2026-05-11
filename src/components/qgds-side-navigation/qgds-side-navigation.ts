@@ -1,12 +1,13 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import breakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
-import { debounce } from "../../utils";
+import { debounce, validateSlotContent } from "../../utils";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-side-navigation.styles.scss?inline";
 import "../qgds-accordion/qgds-accordion";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { type QGDSSideNavigationItem } from "./qgds-side-navigation-item";
 
 export const tagname = "qgds-side-navigation";
 /**
@@ -57,20 +58,27 @@ export class QGDSSideNavigation extends LitElement {
     this._isMobileView = window.innerWidth < breakpoint.MD;
   }, 100);
 
-  /*
-  @slotchange=${(e: Event) =>
-          validateSlotContent(e.target as HTMLSlotElement, { "qgds-side-navigation-item": 1 })}
-
-          @slotchange=${(e: Event) => validateSlotContent(e.target as HTMLSlotElement, "qgds-side-navigation-item")}
-*/
+  private _handleSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    switch (slot.name) {
+      case "heading":
+        validateSlotContent(slot, { "qgds-side-navigation-item": 1 });
+        break;
+      default: {
+        const isValid = validateSlotContent(slot, "qgds-side-navigation-item");
+        if (isValid) {
+          const items = slot.assignedElements() as QGDSSideNavigationItem[];
+          if (items.length) items[0].isFirst = true;
+        }
+      }
+    }
+  };
 
   private _renderSideNav = () => html`
-    <h2 class="heading">
-      <slot name="heading"></slot>
-    </h2>
+    <h2 class="qgds-display-sm"><slot name="heading" @slotchange=${this._handleSlotChange}></slot></h2>
 
-    <div role="list" class="list">
-      <slot></slot>
+    <div role="list" class="qgds-side-navigation-list">
+      <slot @slotchange=${this._handleSlotChange}></slot>
     </div>
   `;
 

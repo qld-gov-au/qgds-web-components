@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-// import { html } from "lit";
+import { html } from "lit";
+import { chromaticModes } from "../../../.storybook/modes";
 
 import { type QGDSSideNavigation, tagname } from "./qgds-side-navigation";
 import "./qgds-side-navigation";
@@ -9,8 +10,7 @@ import "./qgds-side-navigation-item";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSSideNavigation>(tagname);
 const {
-  // args: itemArgs,
-  // argTypes: itemArgTypes,
+  args: itemArgs, // using default args prevents an an undefined slot bug.
   template: itemTemplate,
 } = getStorybookHelpers<QGDSSideNavigationItem>(itemTagName);
 
@@ -23,42 +23,35 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args,
   argTypes,
-  render: (args, itemArgs) =>
-    template(
-      { ...args, mobileHeading: "" },
-      // prettier-ignore
-      itemTemplate({ ...itemArgs, slot: "heading", label: "Here is the heading", href: "" })
-      // itemTemplate({ slot: "heading", label: "Here is the heading", href: "" })
-    ),
 };
-
-// <qgds-side-navigation-item slot="heading" href=""  label="Here is the heading"></qgds-side-navigation-item>
 
 export default meta;
 
 export const DesktopView: StoryObj<Args> = {
   globals: {},
-};
-/*
-
-${itemTemplate({ slot: "header", label: "Here is the header", href: "" })}
-      ${itemTemplate({ label: "Level 1 first", href: "" })}
-      ${itemTemplate({ label: "Level 1 second", href: "" }, 
+  parameters: {
+    ...chromaticModes,
+  },
+  render: (args) =>
+    template(
+      { ...args },
+      // prettier-ignore
+      html`
+      ${itemTemplate({ ...itemArgs, slot: "heading", label: "Here is the heading", href: "#" })}
+      ${itemTemplate({ ...itemArgs, label: "Level 1 first", href: "#" })}
+      ${itemTemplate({ ...itemArgs, label: "Level 1 second, no link" }, 
         html`
-        ${itemTemplate({ label: "Level 2 first", href: "" })}
-        ${itemTemplate({ label: "Level 2 second", href: "" },
+        ${itemTemplate({ ...itemArgs, label: "Level 2 first", href: "#" })}
+        ${itemTemplate({ ...itemArgs, label: "Level 2 second, no link", },
           html`
-          ${itemTemplate({ label: "Level 3 first", href: "" })}
-          ${itemTemplate({ label: "Level 3 second", href: "" })}
-          ${itemTemplate({ label: "Level 3 third", href: "" })}`
+          ${itemTemplate({ ...itemArgs, label: "Level 3 first is active", href: "#", "is-active":true })}
+          ${itemTemplate({ ...itemArgs, label: "Level 3 second, no link"})}
+          ${itemTemplate({ ...itemArgs, label: "Level 3 with an incredibly long title, whatever shall be done with all this text? I mean its just really really REALLY long, indeed. It just goes on and on and on and on, like a never ending story (great movie by the way - just the first one - the sequels leave a lot to be desired). Oh my me.", href: "#" })}`
         )}
-        ${itemTemplate({ label: "Level 2 third", href: "" })}
-        ${itemTemplate({ label: "Level 2 fourth", href: ""})}
-        ${itemTemplate({ label: "Level 2 fifth", href: "" })}
-        ${itemTemplate({ label: "Level 2 sixth", href: "" })}
-        ${itemTemplate({ label: "Level 2 seventh", href: "" })}`
+        ${itemTemplate({ ...itemArgs, label: "Level 2 with an incredibly long title, whatever shall be done with all this text? I mean its just really really REALLY long, indeed. It just goes on and on and on and on, like a never ending story (great movie by the way - just the first one - the sequels leave a lot to be desired). Oh my me.", href: "#" })}
+        ${itemTemplate({ ...itemArgs, label: "Level 2 fourth", href: "#"})}`
       )}
-      ${itemTemplate({ label: "Level 1 third", href: "" })}
-      ${itemTemplate({ label: "Level 1 fourth", href: "" })}
-
-*/
+      ${itemTemplate({ ...itemArgs, label: "Level 1 with an incredibly long title, whatever shall be done with all this text? I mean its just really really REALLY long, indeed. It just goes on and on and on and on, like a never ending story (great movie by the way - just the first one - the sequels leave a lot to be desired). Oh my me.", href: "#" })}
+      ${itemTemplate({ ...itemArgs, label: "Level 1 fourth", href: "#" })}`
+    ),
+};

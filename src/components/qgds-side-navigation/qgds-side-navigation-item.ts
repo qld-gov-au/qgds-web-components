@@ -1,10 +1,10 @@
-import { LitElement, html, unsafeCSS, css } from "lit";
+import { LitElement, html, unsafeCSS, css, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 
-import { resetStyles } from "../../styles";
+import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-side-navigation.styles.scss?inline";
-// import { ifDefined } from "lit/directives/if-defined.js";
-// import { validateSlotContent } from "../../utils";
+import { validateSlotContent } from "../../utils";
 
 export const tagname = "qgds-side-navigation-item";
 /**
@@ -16,14 +16,16 @@ export const tagname = "qgds-side-navigation-item";
  *
  * @property {string} [href] The item's target url
  * @property {string} [label=""] The item's visible label
- * @property {number} [level=1] The level in list heirarchy.
+ * @property {boolean} [isActive=false] Used to mark the current or active navigation item.
+ * @property {number} [level=1] The level in list heirarchy. This property is controlled by the element's parent, and shouldn't be changed.
+ * @property {boolean} [isFirst=false] Used to track if the element is first item in the list. This property is controlled by the element's parent, and shouldn't be changed.
  *
  * @slot default - any number of QGDSSideNavigationItems, nested up to 3 deep.
  */
 @customElement(tagname)
 export class QGDSSideNavigationItem extends LitElement {
   static styles = [
-    resetStyles,
+    baseStyles,
     css`
       :host {
         display: block;
@@ -33,9 +35,14 @@ export class QGDSSideNavigationItem extends LitElement {
   ];
 
   @property({ type: String }) href?: string;
-  @property({ type: String }) label = "";
+  @property({ type: String, reflect: true }) label = "";
+  @property({ type: Boolean, attribute: "is-active" }) isActive = false;
   @property({ type: Number, attribute: false }) level = 1;
+  @property({ type: Boolean, attribute: false }) isFirst = false;
   @state() private _hasItems = false;
+  private get _isHeading() {
+    return this.getAttribute("slot") === "heading";
+  }
 
   connectedCallback(): void {
     super.connectedCallback?.();
@@ -43,36 +50,48 @@ export class QGDSSideNavigationItem extends LitElement {
   }
 
   private _handleSlotChange = (e: Event): void => {
-    // console.log("slotchanged");
-
     const slot = e.target as HTMLSlotElement;
-    // a textNode should be assumed as label
+    // Convert a textNode to the label
     const nodes = slot.assignedNodes();
-    // for (const node of nodes) {
-    //   if (node.nodeType === 3 && node.nodeValue?.trim()) {
-    //     this.label = node.nodeValue.trim();
-    //     break;
-    //   }
-    // }
+    for (const node of nodes) {
+      if (node.nodeType === 3 && node.nodeValue?.trim()) {
+        this.label = node.nodeValue.trim();
+        break;
+      } else if (node.nodeName === "QGDS-SIDE-NAVIGATION-ITEM") {
+        (node as QGDSSideNavigationItem).level = this.level + 1;
+        this._hasItems = true;
+      }
+    }
     // then only allow qgds-side-navigation-items
-    // validateSlotContent(slot, "QGDS-NAVIGATION-ITEM");
-    // update reactive state
-    this._hasItems = nodes.some((node) => node.nodeName === "QGDS-NAVIGATION-ITEM");
+    validateSlotContent(slot, "QGDS-SIDE-NAVIGATION-ITEM");
   };
 
   private _renderChildren = () => {
     return this._hasItems
-      ? html`<div role="list"><slot @slotchange=${this._handleSlotChange}></slot></div>`
+      ? html`<div class="qgds-side-navigation-list" role="list">
+          <slot @slotchange=${this._handleSlotChange}></slot>
+        </div>`
       : html`<slot @slotchange=${this._handleSlotChange}></slot>`; // the slot should remain to listen to updates even if empty
   };
 
   render() {
-    return this.href
-      ? html`<a href="${this.href}">${this.label}</a>${this._renderChildren()}`
-      : html`<span>${this.label}${this._renderChildren()}</span>`;
+    const classes = classMap({
+      "qgds-side-navigation-item": true,
+      "is-heading": this._isHeading,
+      "is-active": this.isActive,
+      "is-first-item": this.isFirst,
+      "is-level-1": this.level === 1 && !this._isHeading,
+      "is-level-2": this.level === 2,
+      "is-level-3": this.level === 3,
+    });
+    return html`${this.href && !this.isActive
+      ? html`<a class="${classes}" href="${this.href}">${this.label}</a>`
+      : html`<span class="${classes}">${this.label}</span>`}
+    ${!this._isHeading ? this._renderChildren() : nothing}`;
   }
 }
 
+//
 declare global {
   interface HTMLElementTagNameMap {
     [tagname]: QGDSSideNavigationItem;

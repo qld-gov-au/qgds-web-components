@@ -1,9 +1,9 @@
-@use "../qgds-tokens/" as *;
+@use "../qgds-tokens/qgds-color-stub";
 
 :where(.qgds),
 [data-qgds-theme="light"] {
   @extend %qgds-color-palette-global;
-  @extend %qgds-color-palette-default !optional;
+  @extend %qgds-color-palette-default;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
@@ -17,28 +17,28 @@
 
 .qgds-palette-soft,
 [palette="soft"] {
-  @extend %qgds-color-palette-soft !optional;
+  @extend %qgds-color-palette-soft;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
 .qgds-palette-muted,
 [palette="muted"] {
-  @extend %qgds-color-palette-muted !optional;
+  @extend %qgds-color-palette-muted;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
 .qgds-palette-bold,
 [palette="bold"] {
-  @extend %qgds-color-palette-bold !optional;
+  @extend %qgds-color-palette-bold;
 
   --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }
 
 .qgds-palette-deep,
 [palette="deep"] {
-  @extend %qgds-color-palette-deep !optional;
+  @extend %qgds-color-palette-deep;
 
   --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }
