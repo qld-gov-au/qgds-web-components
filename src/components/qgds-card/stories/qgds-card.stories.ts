@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { palettes } from "@/utils/palettes";
-import { chromaticModes } from "@storybook-config/modes";
+import { palettes } from "../../../utils/palettes";
+import { chromaticModes } from "../../../../.storybook/modes";
+
 import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QGDSCard } from "../qgds-card";
