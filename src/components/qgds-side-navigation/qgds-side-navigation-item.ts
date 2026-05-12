@@ -1,8 +1,8 @@
-import { LitElement, html, unsafeCSS, css, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
-import { baseStyles } from "../../styles";
+import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-side-navigation.styles.scss?inline";
 import { validateSlotContent } from "../../utils";
 
@@ -24,15 +24,7 @@ export const tagname = "qgds-side-navigation-item";
  */
 @customElement(tagname)
 export class QGDSSideNavigationItem extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      :host {
-        display: block;
-      }
-    `,
-    unsafeCSS(componentCSS),
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String }) href?: string;
   @property({ type: String, reflect: true }) label = "";
