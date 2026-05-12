@@ -38,7 +38,7 @@ export class QGDSSideNavigationItem extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback?.();
-    this.role = "listitem";
+    if (!this._isHeading) this.role = "listitem";
   }
 
   private _handleSlotChange = (e: Event): void => {
