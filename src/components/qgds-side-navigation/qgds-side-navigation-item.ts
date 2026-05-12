@@ -14,7 +14,7 @@ export const tagname = "qgds-side-navigation-item";
  * @website https://www.designsystem.qld.gov.au/components/side-navigation
  * @tagname "qgds-side-navigation-item"
  *
- * @property {string} [href] The item's target url
+ * @property {string} [href] The item's target url. If left blank, will render as a span without interactive states
  * @property {string} [label=""] The item's visible label
  * @property {boolean} [isActive=false] Used to mark the current or active navigation item.
  * @property {number} [level=1] The level in list heirarchy. This property is controlled by the element's parent, and shouldn't be changed.

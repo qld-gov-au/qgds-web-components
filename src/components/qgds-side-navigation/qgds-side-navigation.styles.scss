@@ -5,6 +5,7 @@
   display: block;
 }
 
+// The default accordion padding is not desired.
 qgds-accordion {
   :first-child {
     margin-block-start: -8px;

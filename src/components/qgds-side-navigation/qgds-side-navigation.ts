@@ -44,7 +44,7 @@ export class QGDSSideNavigation extends LitElement {
   connectedCallback(): void {
     super.connectedCallback?.();
     this.role = this.role ?? "navigation";
-    this._isMobileView = window.innerWidth < breakpoint.MD;
+    this._setIsMobileView();
     window.addEventListener("resize", this._handleResize);
   }
 
@@ -53,9 +53,13 @@ export class QGDSSideNavigation extends LitElement {
     window.removeEventListener("resize", this._handleResize);
   }
 
+  private _setIsMobileView = (): void => {
+    this._isMobileView = window.innerWidth < breakpoint.LG;
+  };
+
   // debounce prevents spamming updates.
   private _handleResize = debounce(() => {
-    this._isMobileView = window.innerWidth < breakpoint.MD;
+    this._setIsMobileView();
   }, 100);
 
   private _handleSlotChange = (e: Event) => {
