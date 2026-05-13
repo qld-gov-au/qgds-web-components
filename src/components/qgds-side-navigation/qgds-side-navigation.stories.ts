@@ -65,7 +65,9 @@ export const MobileView: StoryObj<Args> = {
   },
   parameters: {
     chromatic: {
-      modes: allModes.MD,
+      modes: {
+        mobile: allModes.MD,
+      },
     },
   },
   play: async ({ canvas, userEvent }) => {
