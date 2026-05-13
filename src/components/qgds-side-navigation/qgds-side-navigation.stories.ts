@@ -24,17 +24,6 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args,
   argTypes,
-};
-
-export default meta;
-
-export const DesktopView: StoryObj<Args> = {
-  globals: {
-    viewport: "LG",
-  },
-  parameters: {
-    ...chromaticModes,
-  },
   render: (args) =>
     template(
       { ...args },
@@ -59,8 +48,18 @@ export const DesktopView: StoryObj<Args> = {
     ),
 };
 
+export default meta;
+
+export const DesktopView: StoryObj<Args> = {
+  globals: {
+    viewport: "LG",
+  },
+  parameters: {
+    ...chromaticModes,
+  },
+};
+
 export const MobileView: StoryObj = {
-  ...DesktopView,
   globals: {
     viewport: "MD",
   },
