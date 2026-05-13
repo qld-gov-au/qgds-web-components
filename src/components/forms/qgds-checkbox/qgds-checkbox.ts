@@ -1,5 +1,6 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { baseStyles } from "../../../styles";
 import componentCSS from "./qgds-checkbox.styles.scss?inline";
@@ -19,6 +20,7 @@ import { classMap } from "lit/directives/class-map.js";
  * @prop {string} name  - Input name, required when used outside a field group.
  * @prop {boolean} checked  - Whether the checkbox is checked.
  * @prop {boolean} disabled - Whether the checkbox is disabled.
+ * @prop {"sm" | "lg"} size - Visual size of the checkbox. Defaults to `"lg"`.
  *
  * @fires {Event} change - Native composed change event re-dispatched from the host.
  *
@@ -49,6 +51,9 @@ export class QGDSCheckbox extends LitElement {
 
   @property({ type: String, attribute: "validation-state", reflect: true })
   validationState?: FormValidationState;
+
+  @property({ type: String, reflect: true })
+  size: "sm" | "lg" = "lg";
 
   /** Exposed so qgds-field-group can identify this as a checkbox via duck-typing */
   readonly type = "checkbox";
@@ -81,7 +86,7 @@ export class QGDSCheckbox extends LitElement {
       >
         <input
           type="checkbox"
-          id=${this.id || nothing}
+          id=${ifDefined(this.id)}
           name=${this.name}
           value=${this.value}
           ?checked=${this.checked}

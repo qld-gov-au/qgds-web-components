@@ -1,0 +1,15 @@
+:host {
+    --icon-spacing: 0;
+    --qgds-link-icon-size: 2rem;
+    --qgds-link-font-size: 1rem;
+    --qgds-link-font-weight: 600;
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: auto;
+
+    margin-block-start: 2rem;
+    display: flex;
+}
+
+:host([is-view-all]) {
+    --qgds-link-font-size: 1.25rem;
+}

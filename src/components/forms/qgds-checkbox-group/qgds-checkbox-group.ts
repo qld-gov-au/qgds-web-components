@@ -1,4 +1,5 @@
-import { customElement } from "lit/decorators.js";
+import { html, css, unsafeCSS, PropertyValues } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
 import {
   QGDSFieldGroupBase,
@@ -6,6 +7,7 @@ import {
   type FieldGroupValue,
   type ResolvedInput,
 } from "../qgds-field-group-base";
+import componentCSS from "./qgds-checkbox-group.styles.scss?inline";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 
@@ -20,6 +22,7 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  * @tagname qgds-checkbox-group
  *
  * @prop {string} name - Included in the `qgds-change` detail.
+ * @prop {"sm" | "lg"} size - Visual size, propagated to all slotted checkboxes. Defaults to `"lg"`.
  *
  * @slot - Accepts `<qgds-checkbox>` or any element that dispatches a composed
  *   `change` event and exposes `.type === "checkbox"`, `.value`, `.checked`.
@@ -39,6 +42,16 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  */
 @customElement("qgds-checkbox-group")
 export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
+  static styles = [
+    ...super.styles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
+
+  @property({ type: String, reflect: true })
+  size: "sm" | "lg" = "lg";
+
   protected _initialValue(): string[] {
     return [];
   }
@@ -51,5 +64,18 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
     if (input.type !== "checkbox") return;
     const current = Array.isArray(this._value) ? [...this._value] : [];
     this._value = input.checked ? [...current, input.value] : current.filter((v) => v !== input.value);
+  }
+
+  update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+    if (changedProperties.has("size")) {
+      this.querySelectorAll<Element & { size?: "sm" | "lg" }>(this.groupItemName).forEach((el) => {
+        el.size = this.size;
+      });
+    }
+  }
+
+  override renderInput() {
+    return html`<div class="qgds-checkbox-group"><slot></slot></div>`;
   }
 }

@@ -1,5 +1,5 @@
 :host {
-  --qgds-icon-color: inherit;
+  --qgds-icon-color: unset;
   --qgds-icon-size-xs: 1rem;
   --qgds-icon-size-sm: 1.25rem;
   --qgds-icon-size-md: 1.5rem;
@@ -25,7 +25,7 @@
   background-size: contain;
   vertical-align: top;
   mask-image: var(--qgds-icon-svg);
-  color: var(--qgds-icon-color);
+  color: var(--qgds-icon-color, inherit);
   background-color: currentColor;
 }
 

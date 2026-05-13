@@ -36,21 +36,21 @@ a {
   }
 
   &:hover {
-    color: var(--qgds-color-link-default);
+    color: var(--qgds-color-link-hover);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
     text-decoration-color: currentColor;
   }
 
   &:active {
-    color: var(--qgds-color-link-default);
+    color: var(--qgds-color-link-hover);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
     text-decoration-color: currentColor;
   }
 
   @include m.focusable() {
-    color: var(--qgds-color-link-default);
+    color: var(--qgds-color-link-hover);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
     text-decoration-color: currentColor;
