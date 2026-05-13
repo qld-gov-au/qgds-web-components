@@ -63,6 +63,11 @@ export const MobileView: StoryObj = {
   globals: {
     viewport: "MD",
   },
+  parameters: {
+    chromatic: {
+      modes: { viewport: "MD" },
+    },
+  },
   play: async ({ canvas, userEvent }) => {
     const nav: QGDSSideNavigation = canvas.getByRole("navigation");
     // Wait for the debounced mobileview to trigger.
