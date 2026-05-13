@@ -12,4 +12,4 @@ export default {
   LG,
   XL,
   XXL,
-};
+} as const;

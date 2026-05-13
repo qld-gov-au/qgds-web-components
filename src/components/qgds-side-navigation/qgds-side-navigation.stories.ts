@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { expect } from "storybook/test";
-import { chromaticModes } from "../../../.storybook/modes";
+import { chromaticModes, allModes } from "../../../.storybook/modes";
 
 import { type QGDSSideNavigation, tagname } from "./qgds-side-navigation";
 import "./qgds-side-navigation";
@@ -59,13 +59,13 @@ export const DesktopView: StoryObj<Args> = {
   },
 };
 
-export const MobileView: StoryObj = {
+export const MobileView: StoryObj<Args> = {
   globals: {
     viewport: "MD",
   },
   parameters: {
     chromatic: {
-      modes: { viewport: "MD" },
+      modes: allModes.MD,
     },
   },
   play: async ({ canvas, userEvent }) => {
