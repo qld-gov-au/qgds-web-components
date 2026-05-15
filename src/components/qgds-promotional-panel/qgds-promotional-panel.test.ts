@@ -18,20 +18,20 @@ describe("qgds-promotional-panel", () => {
     expect(customElements.get("qgds-promotional-panel")).toBeDefined();
   });
 
-  it("renders title, abstract, image, and icon by default", async () => {
-    element.title = "Promo title";
+  it("renders heading, abstract, image, and iconName by default", async () => {
+    element.heading = "Promo heading";
     element.abstract = "Promo abstract";
-    element.promoImage = "/assets/promo.png";
-    element.promoImageDescription = "Promo image alt";
+    element.imageUrl = "/assets/promo.png";
+    element.imageDescription = "Promo image alt";
 
     await element.updateComplete;
 
-    const title = element.shadowRoot?.querySelector("h2");
+    const heading = element.shadowRoot?.querySelector("h2");
     const abstract = element.shadowRoot?.querySelector(".promo-abstract");
-    const image = element.shadowRoot?.querySelector("img.promo-panel-image");
+    const image = element.shadowRoot?.querySelector("img.panel-image");
     const icon = element.shadowRoot?.querySelector("qgds-feature-icon");
 
-    expect(title?.textContent).toBe("Promo title");
+    expect(heading?.textContent).toBe("Promo heading");
     expect(abstract?.textContent).toBe("Promo abstract");
     expect(image).toBeTruthy();
     expect(image?.getAttribute("src")).toBe("/assets/promo.png");
@@ -49,11 +49,11 @@ describe("qgds-promotional-panel", () => {
   });
 
   it("applies contentAlignment class to the panel container", async () => {
-    element.contentAlignment = "content-right";
+    element.contentAlignment = "content-end";
     await element.updateComplete;
 
-    const container = element.shadowRoot?.querySelector(".qgds-promo-panel-container");
-    expect(container?.classList.contains("content-right")).toBe(true);
+    const container = element.shadowRoot?.querySelector(".container");
+    expect(container?.classList.contains("content-end")).toBe(true);
   });
 
   it("renders footer slot content instead of fallback text", async () => {
@@ -72,15 +72,15 @@ describe("qgds-promotional-panel", () => {
     expect(buttonSlot?.assignedNodes().some((node) => node.textContent?.trim() === "Footer Button")).toBe(true);
   });
 
-  it("uses background-image and hides the inline img when promoType is promo", async () => {
-    element.promoType = "promo";
-    element.promoImage = "https://example.com/promo.png";
+  it("uses background-image and hides the inline img when variant is promo", async () => {
+    element.variant = "promo";
+    element.imageUrl = "https://example.com/promo.png";
 
     await element.updateComplete;
 
-    const container = element.shadowRoot?.querySelector(".qgds-promo-panel-container");
-    const image = element.shadowRoot?.querySelector("img.promo-panel-image");
-    const fallback = element.shadowRoot?.querySelector(".promo-panel-image");
+    const container = element.shadowRoot?.querySelector(".container");
+    const image = element.shadowRoot?.querySelector("img.panel-image");
+    const fallback = element.shadowRoot?.querySelector(".panel-image");
 
     expect(container?.getAttribute("style")).toContain("background-image:url(https://example.com/promo.png)");
     expect(image).toBeFalsy();
