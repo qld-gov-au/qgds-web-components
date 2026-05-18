@@ -25,7 +25,7 @@ const storyRender = (args: Args) => html`
     heading="${ifDefined(args.heading)}"
     action-label="${ifDefined(args["action-label"])}"
     action-href="${ifDefined(args["action-href"])}"
-    .isDismissible="${args["is-dismissible"] ?? true}"
+    .isDismissible="${args["is-dismissible"] ?? false}"
     >${unsafeHTML(String(args["default-slot"] ?? ""))}</qgds-global-alert
   >
 `;

@@ -1,6 +1,7 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
+import "../qgds-link/qgds-link";
 import styles from "./qgds-global-alert.styles.scss?inline";
 import { baseStyles } from "../../styles";
 import type { IconName } from "../qgds-icon/icon-names";
@@ -20,7 +21,8 @@ export type GlobalAlertVariant = "critical" | "warning" | "general";
  * @prop {string} [heading] An optional heading for the alert.
  * @prop {string} [actionLabel] Text for the optional action link.
  * @prop {string} [actionHref] URL for the optional action link.
- * @prop {boolean} [isDismissible=true] Whether a close button is shown to allow the user to dismiss the alert.
+ * @prop {boolean} [isDismissible=false] Whether a close button is shown to allow the user to dismiss the alert.
+ * @prop {boolean} [isDismissed=false] Whether the alert has been dismissed. Can be set externally to track or control dismissed state.
  *
  * @slot - Default content slot for the alert message. Supports rich content such as <strong> tags.
  *
@@ -43,10 +45,11 @@ export class QGDSGlobalAlert extends LitElement {
   actionHref?: string;
 
   // Dismissible property
-  @property({ type: Boolean, reflect: true })
-  isDismissible: boolean = true;
+  @property({ type: Boolean, reflect: true, attribute: "is-dismissible" })
+  isDismissible: boolean = false;
 
-  @state() private _dismissed = false;
+  @property({ type: Boolean, reflect: true, attribute: "is-dismissed" })
+  isDismissed: boolean = false;
 
   static styles = [
     baseStyles,
@@ -68,7 +71,7 @@ export class QGDSGlobalAlert extends LitElement {
   };
 
   private _handleDismiss = () => {
-    this._dismissed = true;
+    this.isDismissed = true;
     this.dispatchEvent(
       new CustomEvent("qgds-global-alert-dismiss", {
         bubbles: true,
@@ -78,8 +81,8 @@ export class QGDSGlobalAlert extends LitElement {
   };
 
   render() {
-    if (this._dismissed) {
-      return html``;
+    if (this.isDismissed) {
+      return nothing;
     }
 
     const ariaLabel = QGDSGlobalAlert.ariaLabels[this.variant];
@@ -88,17 +91,23 @@ export class QGDSGlobalAlert extends LitElement {
       <div role="region" aria-label="${ariaLabel}" class="global-alert is-${this.variant}">
         <div class="main">
           <div class="content">
-            <h3 class="heading">${this.heading}</h3>
+            <h3 class="heading">
+              <qgds-icon aria-hidden="true" icon-id="${QGDSGlobalAlert.icons[this.variant]}" size="sm"></qgds-icon>
+              ${this.heading}
+            </h3>
             <slot></slot>
 
             ${this.actionLabel && this.actionHref
               ? html`
-                  <div class="action">
-                    <a href="${this.actionHref}">
-                      <span>${this.actionLabel}</span>
-                      <qgds-icon icon-id="arrow-right" size="md"></qgds-icon>
-                    </a>
-                  </div>
+                  <qgds-link
+                    href="${this.actionHref}"
+                    icon-name="arrow-right"
+                    icon-size="md"
+                    label="${this.actionLabel}"
+                    has-trailing-icon
+                    animation="leftToRight"
+                  >
+                  </qgds-link>
                 `
               : ""}
           </div>
