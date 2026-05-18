@@ -1,8 +1,8 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
 import styles from "./qgds-loading-spinner.styles.scss?inline";
-import { baseStyles } from "../../styles";
+import { resetStyles, utilitiesStyles } from "../../styles";
 import type { IconSize } from "../qgds-icon/qgds-icon";
 
 /**
@@ -14,15 +14,12 @@ import type { IconSize } from "../qgds-icon/qgds-icon";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=49314-16705
  * @website https://www.designsystem.qld.gov.au/components/loading-spinner
  *
- * @prop {IconSize} [size="md"] The size of the spinner icon: "sm", "md", "lg", or "xl".
+ * @prop {IconSize} [size="md"] The size of the spinner icon: "xs", "sm", "md", "lg", "xl" or "xxl".
  * @prop {string} [label="Loading"] Text used as the accessible label. Also shown visually when labelVisible is true.
- * @prop {boolean} [labelVisible=false] Whether to display the label text visually below the spinner.
- * @prop {boolean} [stacked=false] When true, stacks the icon and label vertically. When false, displays them inline horizontally.
+ * @prop {boolean} [isLabelVisible=false] Whether to display the label text visually below the spinner.
+ * @prop {boolean} [isStacked=false] When true, stacks the icon and label vertically. When false, displays them inline horizontally.
  *
  */
-
-// Talk about this tommorrow morning
-// note @cssprop --qgds-loading-spinner-color Override the spinner icon colour. caused some issues
 
 @customElement("qgds-loading-spinner")
 export class QGDSLoadingSpinner extends LitElement {
@@ -32,25 +29,20 @@ export class QGDSLoadingSpinner extends LitElement {
   @property({ type: String, useDefault: true })
   label: string = "Loading";
 
-  @property({ type: Boolean, attribute: "label-visible", reflect: true })
-  labelVisible: boolean = false;
+  @property({ type: Boolean, attribute: "is-label-visible", reflect: true })
+  isLabelVisible: boolean = false;
 
-  @property({ type: Boolean, reflect: true })
-  stacked: boolean = false;
+  @property({ type: Boolean, attribute: "is-stacked", reflect: true })
+  isStacked: boolean = false;
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(styles)}
-    `,
-  ];
+  static styles = [resetStyles, utilitiesStyles, unsafeCSS(styles)];
 
   render() {
     return html`
-      <div class="loading-spinner ${this.stacked ? "is-stacked" : ""}" role="status" aria-label="${this.label}">
+      <div class="loading-spinner ${this.isStacked ? "is-stacked" : ""}" role="status" aria-label="${this.label}">
         <qgds-icon class="spinner-icon" icon-id="spinner-step-1" size="${this.size}" aria-hidden="true"></qgds-icon>
 
-        ${this.labelVisible
+        ${this.isLabelVisible
           ? html`<span class="label">${this.label}</span>`
           : html`<span class="sr-only">${this.label}</span>`}
       </div>

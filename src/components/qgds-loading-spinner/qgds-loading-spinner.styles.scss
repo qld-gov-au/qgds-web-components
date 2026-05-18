@@ -27,25 +27,14 @@
   }
 }
 
-.spinner-icon {
-  animation: qgds-spin 1s linear infinite;
+@media (prefers-reduced-motion: no-preference) {
+  .spinner-icon {
+    animation: qgds-spin 1s linear infinite;
+  }
 }
 
 .label {
   font-size: 1rem;
   color: var(--qgds-color-text-heading);
   font-weight: 700;
-}
-
-// Screen-reader only utility — identical pattern to global sr-only
-.sr-only {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }

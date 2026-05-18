@@ -19,8 +19,8 @@ describe("qgds-loading-spinner", () => {
 
     expect(element.size).toBe("md");
     expect(element.label).toBe("Loading");
-    expect(element.labelVisible).toBe(false);
-    expect(element.stacked).toBe(false);
+    expect(element.isLabelVisible).toBe(false);
+    expect(element.isStacked).toBe(false);
   });
 
   it("renders the status role for accessibility", async () => {
@@ -61,7 +61,7 @@ describe("qgds-loading-spinner", () => {
     expect(icon?.getAttribute("aria-hidden")).toBe("true");
   });
 
-  it("hides label visually when labelVisible is false", async () => {
+  it("hides label visually when isLabelVisible is false", async () => {
     await element.updateComplete;
 
     const srOnly = element.shadowRoot?.querySelector(".sr-only");
@@ -71,8 +71,8 @@ describe("qgds-loading-spinner", () => {
     expect(visibleLabel).toBeNull();
   });
 
-  it("shows label visually when labelVisible is true", async () => {
-    element.labelVisible = true;
+  it("shows label visually when isLabelVisible is true", async () => {
+    element.isLabelVisible = true;
     await element.updateComplete;
 
     const visibleLabel = element.shadowRoot?.querySelector(".label");
@@ -83,15 +83,15 @@ describe("qgds-loading-spinner", () => {
     expect(srOnly).toBeNull();
   });
 
-  it("reflects labelVisible as attribute", async () => {
-    element.labelVisible = true;
+  it("reflects isLabelVisible as attribute", async () => {
+    element.isLabelVisible = true;
     await element.updateComplete;
 
-    expect(element.hasAttribute("label-visible")).toBe(true);
+    expect(element.hasAttribute("is-label-visible")).toBe(true);
   });
 
   it("updates visible label text when label changes", async () => {
-    element.labelVisible = true;
+    element.isLabelVisible = true;
     element.label = "Please wait";
     await element.updateComplete;
 
@@ -106,18 +106,18 @@ describe("qgds-loading-spinner", () => {
     expect(spinner?.classList.contains("is-stacked")).toBe(false);
   });
 
-  it("adds is-stacked class when stacked is true", async () => {
-    element.stacked = true;
+  it("adds is-stacked class when isStacked is true", async () => {
+    element.isStacked = true;
     await element.updateComplete;
 
     const spinner = element.shadowRoot?.querySelector(".loading-spinner");
     expect(spinner?.classList.contains("is-stacked")).toBe(true);
   });
 
-  it("reflects stacked as attribute", async () => {
-    element.stacked = true;
+  it("reflects isStacked as attribute", async () => {
+    element.isStacked = true;
     await element.updateComplete;
 
-    expect(element.hasAttribute("stacked")).toBe(true);
+    expect(element.hasAttribute("is-stacked")).toBe(true);
   });
 });
