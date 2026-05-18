@@ -1,4 +1,5 @@
-import { customElement } from "lit/decorators.js";
+import { html, css, unsafeCSS, PropertyValues } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
 import {
   QGDSFieldGroupBase,
@@ -6,6 +7,7 @@ import {
   type FieldGroupValue,
   type ResolvedInput,
 } from "../qgds-field-group-base";
+import componentCSS from "./qgds-radio-group.styles.scss?inline";
 
 export type { FieldGroupValue, FieldGroupChangeDetail };
 
@@ -21,6 +23,7 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  * @website https://www.designsystem.qld.gov.au/components/radio
  *
  * @prop {string} name - Included in the `qgds-change` detail.
+ * @prop {"sm" | "lg"} size - Visual size, propagated to all slotted radios. Defaults to `"lg"`.
  *
  * @slot - Accepts `<qgds-radio>` or any element that dispatches a composed
  *   `change` event and exposes `.type === "radio"`, `.value`, `.checked`.
@@ -40,6 +43,16 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  */
 @customElement("qgds-radio-group")
 export class QGDSRadioGroup extends QGDSFieldGroupBase {
+  static styles = [
+    ...super.styles,
+    css`
+      ${unsafeCSS(componentCSS)}
+    `,
+  ];
+
+  @property({ type: String, reflect: true })
+  size: "sm" | "lg" = "lg";
+
   protected _initialValue(): string {
     return "";
   }
@@ -54,5 +67,18 @@ export class QGDSRadioGroup extends QGDSFieldGroupBase {
     this.querySelectorAll<Element & { checked?: boolean }>(this.groupItemName).forEach((el) => {
       if (el !== source) el.checked = false;
     });
+  }
+
+  protected override update(changedProperties: PropertyValues): void {
+    super.update(changedProperties);
+    if (changedProperties.has("size")) {
+      this.querySelectorAll<Element & { size?: "sm" | "lg" }>(this.groupItemName).forEach((el) => {
+        el.size = this.size;
+      });
+    }
+  }
+
+  override renderInput() {
+    return html`<div class="qgds-radio-group"><slot></slot></div>`;
   }
 }
