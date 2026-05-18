@@ -157,7 +157,7 @@ export const WithLongDescription: Story = {
   decorators: [
     (story) => {
       return html`
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div style="display: flex; flex-direction: column; gap: 1rem; width: 600px">
           <p>Complex images like charts need detailed descriptions for accessibility:</p>
           ${story()}
           <qgds-callout heading="Detailed Description:" heading-level="h3">
