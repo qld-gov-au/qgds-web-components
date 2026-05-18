@@ -43,7 +43,6 @@ const GLOBAL_TABLE_CSS = /* css */ `
     &[has-sticky-header] tfoot {
         position: sticky;
         inset-block-end: 0;
-        z-index: 1;
         box-shadow: 0 -2px 0 var(--qgds-color-border-alt, #848484);
 
         td {
@@ -85,9 +84,6 @@ const GLOBAL_TABLE_CSS = /* css */ `
               text-align: left;
             }
           }
-          // tr:last-child td {
-          //   border-bottom: none;
-          // }
         }
   
         tfoot { 
@@ -137,7 +133,6 @@ const GLOBAL_TABLE_CSS = /* css */ `
   
       tbody td,
       tfoot td {
-        // background-color: var(--qgds-color-background, #ffffff);
         color: var(--qgds-color-text-default, #353535);
         padding-inline: 0.75rem calc(0.75rem - 1px);
         padding-block: 0.75rem;
@@ -151,8 +146,14 @@ const GLOBAL_TABLE_CSS = /* css */ `
         border-top: 2px solid var(--qgds-color-border-alt, #848484);
         border-bottom: none;
         padding-block: 0.75rem;
+        background-color: var(--qgds-color-background, #fff);
+        border-radius: inherit;
       }
   
+      ::-webkit-scrollbar {
+        width: 0;
+      }
+
       /* ── Utility classes (for CMS-authored markup) ──────────────────────────── */
       .cell--numeric {
         text-align: right;
