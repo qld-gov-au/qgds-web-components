@@ -52,7 +52,7 @@ Scoped CSS: qgds-card
     display: none;
   }
 
-  .image-wrap {
+  .card-image-wrap {
     // Pull the wrapper flush against the outside of the card border so the image
     // border and card border overlap rather than stack (avoiding a visible 2px gap).
     margin-block-start: -1px;
@@ -60,18 +60,19 @@ Scoped CSS: qgds-card
     display: none;
     overflow: hidden;
 
-    img {
+    qgds-image {
       display: block;
       inline-size: 100%;
       block-size: 100%;
       object-fit: cover;
       border: var(--_image-border-width) var(--_image-border-style) var(--_image-border-color);
       border-radius: var(--_image-border-radius);
+      overflow: hidden;
     }
   }
 
   &.has-image {
-    .image-wrap {
+    .card-image-wrap {
       display: block;
     }
   }
@@ -245,7 +246,7 @@ Scoped CSS: qgds-card
       flex-flow: row nowrap;
       align-items: stretch;
 
-      .image-wrap {
+      .card-image-wrap {
         inline-size: var(--_feature-image-basis);
         flex: 0 0 var(--_feature-image-basis);
         margin-block: -1px;
@@ -253,9 +254,9 @@ Scoped CSS: qgds-card
       }
 
       qgds-image {
-        --image-block-size: 100%;
-        --image-inline-size: 100%;
-        --image-border-radius: 0 0 1.875rem 0;
+        --image-block-size: 100%; // host variable on qgds-image
+        --image-inline-size: 100%; // host variable on qgds-image
+        --_image-border-radius: 0 0 1.875rem 0; // Internal variable on cards compenent, allows API override
       }
 
       .content-wrap {
@@ -272,10 +273,10 @@ Scoped CSS: qgds-card
       flex-flow: row-reverse nowrap;
 
       qgds-image {
-        --image-border-radius: 0 0.75rem 0.75rem 0;
+        --_image-border-radius: 0 0.75rem 0.75rem 0;
       }
 
-      .image-wrap {
+      .card-image-wrap {
         margin-inline: 0 -1px;
       }
     }
