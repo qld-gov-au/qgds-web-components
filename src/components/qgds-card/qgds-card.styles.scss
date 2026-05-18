@@ -15,10 +15,6 @@ Scoped CSS: qgds-card
   --fg: var(--qgds-color-text-default);
   --border: var(--qgds-color-border);
   --border-radius: 0.75rem;
-  --image-border-radius: var(--border-radius) var(--border-radius) 1.875rem 0;
-  --image-border-width: 1px;
-  --image-border-color: var(--qgds-color-border);
-  --image-border-style: solid;
 }
 
 .card {
@@ -26,6 +22,10 @@ Scoped CSS: qgds-card
   --_padding-wrap: 1rem;
   --_heading-size: #{tools.remify(20px)};
   --_heading-line-height: #{tools.snap-line-height(1.2)};
+  --_image-border-radius: var(--border-radius) var(--border-radius) 1.875rem 0;
+  --_image-border-width: 1px;
+  --_image-border-color: var(--qgds-color-border);
+  --_image-border-style: solid;
 
   @media (min-width: #{bp.$md}) {
     --_padding-wrap: 1.25rem;
@@ -47,8 +47,6 @@ Scoped CSS: qgds-card
   overflow: hidden;
   position: relative;
 
-  // transition: box-shadow 180ms ease-out;
-
   .feature-icon-wrap {
     display: none;
   }
@@ -66,8 +64,8 @@ Scoped CSS: qgds-card
       inline-size: 100%;
       block-size: 100%;
       object-fit: cover;
-      border: var(--image-border-width) var(--image-border-style) var(--image-border-color);
-      border-radius: var(--image-border-radius);
+      border: var(--_image-border-width) var(--_image-border-style) var(--_image-border-color);
+      border-radius: var(--_image-border-radius);
     }
   }
 
@@ -237,69 +235,40 @@ Scoped CSS: qgds-card
 @media (min-width: #{bp.$md}) {
   .card {
     &.is-feature {
-      // Default feature ratio: image/content = 8:4
-      --_content-col-start: 9;
-      --_content-col-length: 4;
-      --_image-col-start: 1;
-      --_image-col-length: 8;
+      --_feature-image-basis: 50%;
+      --_feature-content-basis: calc(100% - var(--_feature-image-basis));
 
       inline-size: 100%;
       min-block-size: 18.75rem; // 300px
-      display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      grid-template-rows: 1fr;
+      display: flex;
+      flex-flow: row nowrap;
       align-items: stretch;
 
       .image-wrap {
-        grid-column: var(--_image-col-start) / span var(--_image-col-length);
-        grid-row: 1;
+        inline-size: var(--_feature-image-basis);
+        flex: 0 0 var(--_feature-image-basis);
         margin-block: -1px;
         margin-inline-start: -1px;
+      }
 
-        img {
-          --image-border-radius: 0 0 1.875rem 0;
-        }
+      qgds-image {
+        --_image-block-size: 100%;
+        --_image-border-radius: 0 0 1.875rem 0;
       }
 
       .content-wrap {
-        grid-column: var(--_content-col-start) / span var(--_content-col-length);
-        grid-row: 1;
+        inline-size: var(--_feature-content-basis);
+        flex: 0 0 var(--_feature-content-basis);
         margin-block: -1px;
-      }
-
-      // Left aligned image
-      &.ratio-8-4 {
-        --_content-col-start: 9;
-        --_content-col-length: 4;
-        --_image-col-start: 1;
-        --_image-col-length: 8;
-      }
-
-      // Left aligned image, 50/50 ratio
-      &.ratio-6-6 {
-        --_content-col-start: 7;
-        --_content-col-length: 6;
-        --_image-col-start: 1;
-        --_image-col-length: 6;
       }
     }
 
-    &.is-feature.image-end {
-      // Inverse, right aligned image
-      &.ratio-8-4 {
-        --_content-col-start: 1;
-        --_content-col-length: 4;
-        --_image-col-start: 5;
-        --_image-col-length: 8;
-      }
+    &.is-feature.image-start {
+      flex-flow: row nowrap;
+    }
 
-      // Right aligned image, 50/50 ratio
-      &.ratio-6-6 {
-        --_content-col-start: 1;
-        --_content-col-length: 6;
-        --_image-col-start: 7;
-        --_image-col-length: 6;
-      }
+    &.is-feature.image-end {
+      flex-flow: row-reverse nowrap;
 
       .image-wrap {
         img {
@@ -327,6 +296,15 @@ Scoped CSS: qgds-card
 
     &.is-feature {
       block-size: 440px;
+    }
+  }
+}
+
+// XL and above (layout) - feature card shifts to approx 2:1 image/content split
+@media (min-width: #{bp.$xl}) {
+  .card {
+    &.is-feature {
+      --_feature-image-basis: 66.66%;
     }
   }
 }

@@ -33,7 +33,7 @@ import componentCSS from "./qgds-card.styles.scss?inline";
 
   layout (spatial arrangement)
   ├── "default"    Standard stacked layout
-  └── "feature"    Wide image grid at md+ viewports (image-position: start | end)
+  └── "feature"    Wide image/content row at md+ viewports (image-position: start | end)
 
   variant (visual treatment — applies within any action/layout combination)
   ├── "none"         Plain card, no indicator
@@ -50,7 +50,6 @@ import componentCSS from "./qgds-card.styles.scss?inline";
 
 export type CardAction = "none" | "single" | "multiple";
 export type CardLayout = "default" | "feature";
-export type FeatureRatios = "8-4" | "6-6";
 export type CardVariant = "none" | "arrow" | "leading-icon" | "stacked-icon";
 export type ImagePosition = "none" | "start" | "end";
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
@@ -68,26 +67,26 @@ type FooterType = "none" | "text" | "links" | "tags";
  * @website https://www.designsystem.qld.gov.au/components/card
  *
  * @prop {CardAction} [action="none"] - Card's primary behaviour: "none" (non-clickable), "single" (whole card is a link), "multiple" (independent footer links).
- * @prop {CardLayout} [layout="default"] - Spatial layout of the card: "default" (standard stacked layout) or "feature" (wide image layout at larger viewports).
+ * @prop {CardLayout} [layout="default"] - Spatial layout of the card: "default" (standard stacked layout) or "feature" (side-by-side image/content layout at larger viewports).
  * @prop {CardVariant} [variant="none"] - Visual treatment of the card: "arrow", "leading-icon", or "stacked-icon".
  * @prop {string} [palette="default"] - QGDS colour palette applied to the card.
  * @prop {string} heading - The card's heading text.
+ * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
+ * @prop {string} [ariaLabel] - Accessible name override when the heading is insufficient.
  * @prop {string} [href] - URL for single-action cards.
+ * @prop {string} [target="_self"] - Link target for single-action cards.
  * @prop {string} imageSrc - The source URL for the card's image
  * @prop {string} imageAlt - The alternative text for the card's image
- * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
  * @prop {ImagePosition} [imagePosition="start"] - Position of the image for feature variant cards (start or end).
- * @prop {FeatureRatios} [featureRatio="8-4"] - Image/content column ratio for feature layout cards.
  * @prop {IconName} [iconName] - Name of the icon for the card (used for "leading-icon" and "stacked-icon" variants). Refer qgds-icon for available icons.
- * @prop {string} [target="_self"] - Link target for single-action cards.
- * @prop {string} [ariaLabel] - Accessible name override when the heading is insufficient.
  *
  * @slot (default) - The card's main body text.
  * @slot footer-text - Plain text or heading in the card footer.
  * @slot footer-links - CTA links in the card footer (used with action="multiple").
  * @slot footer-tags - Tag chips in the card footer (used with action="multiple").
  *
- * @cssprop --background - Override the card background colour.
+ * @cssprop --bg - Override the card background colour.
+ * @cssprop --fg - Override the card foreground colour.
  * @cssprop --border - Override the card border colour.
  * @cssprop --border-radius - Override the card border radius.
  *
@@ -165,17 +164,8 @@ export class QGDSCard extends LitElement {
   @property({ type: String, attribute: "icon-name" })
   iconName?: IconName;
 
-  @property({ type: String, attribute: "video-src" })
-  videoSrc?: string;
-
-  @property({ type: String, attribute: "video-alt" })
-  videoAlt?: string;
-
-  @property({ type: String, attribute: "image-position", reflect: true, useDefault: true })
+  @property({ type: String, attribute: "image-position" })
   imagePosition?: ImagePosition = "start";
-
-  @property({ type: String, attribute: "feature-ratio", reflect: true, useDefault: true })
-  featureRatio: FeatureRatios = "8-4";
 
   @property({ type: String, attribute: "aria-label" })
   ariaLabel: string | null = null;
@@ -193,13 +183,14 @@ export class QGDSCard extends LitElement {
   // ==========================================================================
 
   render() {
-    const isSingle = this.action === "single" && !!this.href;
-    const hasHref = !!this.href;
-    const hasImage = !!this.imageSrc?.trim();
+    const isSingle = Boolean(this.action === "single");
+    const hasHref = Boolean(this.href);
+    const hasImage = Boolean(this.imageSrc?.trim());
     const accessibleLabel = this.ariaLabel ?? this.heading ?? undefined;
-
     const iconSize = this.variant === "stacked-icon" ? "lg" : "sm";
     const footerType = this.resolveFooterType();
+
+    const imageAspect = this.layout === "feature" ? undefined : "3:2";
 
     const headingContent = hasHref
       ? html`<a
@@ -217,8 +208,6 @@ export class QGDSCard extends LitElement {
       "is-feature": this.layout === "feature",
       "has-image": hasImage,
       "image-end": this.imagePosition === "end",
-      "ratio-8-4": this.featureRatio === "8-4",
-      "ratio-6-6": this.featureRatio === "6-6",
       "has-footer": footerType !== "none",
       "has-footer-links": footerType === "links",
       "has-footer-tags": footerType === "tags",
@@ -232,15 +221,19 @@ export class QGDSCard extends LitElement {
     return html`
       <div
         class="card ${classMap(cardClasses)}"
-        role=${ifDefined(!hasHref && isSingle ? "button" : undefined)}
-        aria-label=${ifDefined(!hasHref && isSingle ? accessibleLabel : undefined)}
-        tabindex=${ifDefined(!hasHref && isSingle ? 0 : undefined)}
-        @click=${!hasHref && isSingle ? this._handleClick : nothing}
-        @keydown=${!hasHref && isSingle ? this._handleKeydown : nothing}
+        role=${ifDefined(isSingle && !hasHref ? "button" : undefined)}
+        aria-label=${ifDefined(isSingle && !hasHref ? accessibleLabel : undefined)}
+        tabindex=${ifDefined(isSingle && !hasHref ? 0 : undefined)}
+        @click=${isSingle && !hasHref ? this._handleClick : nothing}
+        @keydown=${isSingle && !hasHref ? this._handleKeydown : nothing}
       >
-        <div class="image-wrap">
-          <img src=${ifDefined(this.imageSrc)} alt=${ifDefined(this.imageAlt)} />
-        </div>
+        ${hasImage
+          ? html`<qgds-image
+              alt="${ifDefined(this.imageAlt)}"
+              aspect="${ifDefined(imageAspect)}"
+              src="${ifDefined(this.imageSrc)}"
+            ></qgds-image>`
+          : nothing}
 
         <div class="content-wrap">
           <div class="feature-icon-wrap">

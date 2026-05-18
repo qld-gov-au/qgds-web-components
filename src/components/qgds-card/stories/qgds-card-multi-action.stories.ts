@@ -8,7 +8,7 @@ import { chromaticModes } from "../../../../.storybook/modes";
 import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
-import type { FeatureRatios, ImagePosition, QGDSCard } from "../qgds-card";
+import type { ImagePosition, QGDSCard } from "../qgds-card";
 import "../qgds-card";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
@@ -51,7 +51,7 @@ const meta: Meta<Args> = {
 };
 export default meta;
 
-const mutliActionArgs: Story["args"] = {
+const multiActionArgs: Story["args"] = {
   ...args,
   action: "multiple",
   heading: "Card Heading",
@@ -71,13 +71,11 @@ const footerTagsActionHTML = html`
   <qgds-tag slot="footer-tags" label="Action" variant="action"></qgds-tag>
 `;
 
-const featureRatios: FeatureRatios[] = ["8-4", "6-6"];
-
 export const MultipleAction: Story = {
-  name: "Default",
+  name: "With Footer Tags",
   parameters: { ...chromaticModes },
   args: {
-    ...mutliActionArgs,
+    ...multiActionArgs,
   },
   render: (args) => html`
     ${Object.entries(palettes).map(
@@ -88,31 +86,6 @@ export const MultipleAction: Story = {
           href=${ifDefined(args.href)}
           palette=${palette}
           target="_blank"
-        >
-          ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-        </qgds-card>
-      `
-    )}
-  `,
-};
-
-export const MultipleAction_WithImage: Story = {
-  name: "With Image",
-  parameters: { ...chromaticModes },
-  args: {
-    ...mutliActionArgs,
-  },
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action=${ifDefined(args.action)}
-          href=${ifDefined(args.href)}
-          palette=${palette}
-          target="_blank"
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-          image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
         </qgds-card>
@@ -122,10 +95,10 @@ export const MultipleAction_WithImage: Story = {
 };
 
 export const MultipleAction_WithFooterLinks: Story = {
-  name: "Footer Links",
+  name: "With Footer Links",
   parameters: { ...chromaticModes },
   args: {
-    ...mutliActionArgs,
+    ...multiActionArgs,
   },
   render: (args) => html`
     ${Object.entries(palettes).map(
@@ -145,26 +118,45 @@ export const MultipleAction_WithFooterLinks: Story = {
   `,
 };
 
+export const MultipleAction_WithImage: Story = {
+  name: "With Image",
+  parameters: { ...chromaticModes },
+  args: {
+    ...multiActionArgs,
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          action=${ifDefined(args.action)}
+          href=${ifDefined(args.href)}
+          palette=${palette}
+          target="_blank"
+          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-alt="Placeholder image"
+        >
+          ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
 export const MultipleAction_FeatureCard: Story = {
   name: "Feature Card",
   parameters: { ...chromaticModes },
   args: {
-    ...mutliActionArgs,
-    "feature-ratio": "8-4",
+    ...multiActionArgs,
     "image-position": "start",
   },
   argTypes: {
-    "feature-ratio": {
-      control: { type: "select" },
-      options: [...featureRatios],
-    },
     "image-position": {
       control: { type: "select" },
       options: ["start", "end"],
     },
   },
   render: (args) => {
-    const featureRatio = args["feature-ratio"] as FeatureRatios | undefined;
     const imagePosition = args["image-position"] as ImagePosition | undefined;
 
     return html`
@@ -174,7 +166,6 @@ export const MultipleAction_FeatureCard: Story = {
             heading=${ifDefined(args.heading)}
             action="${ifDefined(args.action)}"
             layout="feature"
-            feature-ratio=${ifDefined(featureRatio)}
             image-position=${ifDefined(imagePosition)}
             palette=${palette}
             target="_blank"
@@ -191,7 +182,6 @@ export const MultipleAction_FeatureCard: Story = {
             heading=${ifDefined(args.heading)}
             action="${ifDefined(args.action)}"
             layout="feature"
-            feature-ratio=${ifDefined(featureRatio)}
             image-position=${ifDefined(imagePosition)}
             palette=${palette}
             target="_blank"
@@ -213,78 +203,66 @@ export const MultipleAction_FeatureCard: Story = {
         }
       </style>
 
-      <div style="display: flex; flex-flow: column nowrap; gap: 1rem; inline-size: 1140px;">${Story()}</div>
+      <div style="display: flex; flex-flow: column nowrap; gap: 1rem;">${Story()}</div>
     `,
   ],
 };
 
-export const MultipleAction_FeatureCard_AllRatios: Story = {
-  name: "Feature Card/All Ratios",
+export const MultipleAction_FeatureCard_AllPositions: Story = {
+  name: "Feature Card/All Positions",
   parameters: { ...chromaticModes },
   args: {
-    ...mutliActionArgs,
+    ...multiActionArgs,
   },
   render: (args) => html`
     <div style="display: grid; gap: 1rem; inline-size: min(100%, 1140px);">
-      ${featureRatios.map(
-        (ratio) => html`
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action=${ifDefined(args.action)}
-            layout="feature"
-            feature-ratio=${ratio}
-            image-position="start"
-            target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-          </qgds-card>
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action=${ifDefined(args.action)}
-            layout="feature"
-            feature-ratio=${ratio}
-            image-position="end"
-            target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-          </qgds-card>
-        `
-      )}
+      <qgds-card
+        heading=${ifDefined(args.heading)}
+        action=${ifDefined(args.action)}
+        layout="feature"
+        image-position="start"
+        target="_blank"
+        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-alt="Placeholder image"
+      >
+        ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
+      </qgds-card>
+      <qgds-card
+        heading=${ifDefined(args.heading)}
+        action=${ifDefined(args.action)}
+        layout="feature"
+        image-position="end"
+        target="_blank"
+        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-alt="Placeholder image"
+      >
+        ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
+      </qgds-card>
     </div>
 
     <div style="display: grid; gap: 1rem; inline-size: min(100%, 1140px);">
-      ${featureRatios.map(
-        (ratio) => html`
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action=${ifDefined(args.action)}
-            layout="feature"
-            feature-ratio=${ratio}
-            image-position="start"
-            target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-          </qgds-card>
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action=${ifDefined(args.action)}
-            layout="feature"
-            feature-ratio=${ratio}
-            image-position="end"
-            target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-          </qgds-card>
-        `
-      )}
+      <qgds-card
+        heading=${ifDefined(args.heading)}
+        action=${ifDefined(args.action)}
+        layout="feature"
+        image-position="start"
+        target="_blank"
+        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-alt="Placeholder image"
+      >
+        ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
+      </qgds-card>
+      <qgds-card
+        heading=${ifDefined(args.heading)}
+        action=${ifDefined(args.action)}
+        layout="feature"
+        image-position="end"
+        target="_blank"
+        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-alt="Placeholder image"
+      >
+        ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
+      </qgds-card>
     </div>
   `,
   decorators: [
