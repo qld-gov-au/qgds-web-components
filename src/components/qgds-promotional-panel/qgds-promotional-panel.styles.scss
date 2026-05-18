@@ -4,7 +4,7 @@
 $component: ".promo-panel";
 
 :host {
-  max-inline-size: 1600px;
+  max-inline-size: tools.remify(1600px);
   margin-inline: auto;
   display: block;
 }

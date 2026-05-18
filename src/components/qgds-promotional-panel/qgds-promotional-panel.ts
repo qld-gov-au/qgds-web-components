@@ -6,11 +6,11 @@ import componentCSS from "./qgds-promotional-panel.styles.scss?inline";
 
 import "../qgds-feature-icon/qgds-feature-icon";
 import { semanticHeading } from "../../utils";
+import { IconName } from "../qgds-icon/icon-names";
 
 export type QGDSPromotionalPanelProps = InstanceType<typeof QGDSPromotionalPanel>;
 
 type ContentAlignments = "content-start" | "content-end";
-type IconTypes = "design" | "phone" | "email" | "chat" | "search";
 type Variants = "indent-text" | "indent-image" | "contained" | "promo";
 type HeadingLevels = "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -21,7 +21,7 @@ type HeadingLevels = "h2" | "h3" | "h4" | "h5" | "h6";
  *
  * @attribute {Variants} variant - The type of the promotional panel
  * @attribute {ContentAlignments} [contentAlignment] - The alignment of the content within the promotional panel
- * @attribute {IconTypes} [iconName] - The type of the icon to display in the promotional panel. Refer to qgds-icon for available icons
+ * @attribute {IconName} [iconName] - The type of the icon to display in the promotional panel. Refer to qgds-icon for available icons
  * @attribute {HeadingLevels} [headingLevel] - The semantic level of the heading (h2, h3, h4, h5, h6)
  *
  * @attribute {string} imageUrl - The URL of the promotional image
@@ -43,7 +43,7 @@ export class QGDSPromotionalPanel extends LitElement {
 
   @property({ type: String, attribute: "variant" }) variant: Variants = "indent-text";
   @property({ type: String, attribute: "content-alignment" }) contentAlignment: ContentAlignments = "content-start";
-  @property({ type: String, attribute: "icon-name" }) iconName: IconTypes = "design";
+  @property({ type: String, attribute: "icon-name" }) iconName: IconName = "design";
 
   @property({ type: String, attribute: "heading-level", useDefault: true }) headingLevel: HeadingLevels = "h2";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
