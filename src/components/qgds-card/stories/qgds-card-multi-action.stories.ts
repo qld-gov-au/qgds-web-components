@@ -4,8 +4,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 import { chromaticModes } from "../../../../.storybook/modes";
+import { withEventAction } from "../../../../.storybook/storybook-helpers";
 
-import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
 import type { ImagePosition, QGDSCard } from "../qgds-card";
@@ -16,6 +16,8 @@ const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
+const demoImageSrc = "https://picsum.photos/id/206/600/400";
+
 const meta: Meta<Args> = {
   title: "Components/Card/Multiple Action",
   component: "qgds-card",
@@ -25,10 +27,11 @@ const meta: Meta<Args> = {
     action: "multiple",
     heading: "Card Heading",
     "default-slot": "Card content goes here. This is an example of a card with multiple actions.",
-    href: "https://media.tenor.com/4YCgHLAsE3UAAAAj/rick-roll.gif",
+    href: "https://example.com",
   },
   argTypes,
   decorators: [
+    withEventAction("qgds-click"),
     (Story) =>
       html` <style>
           qgds-card {
@@ -38,15 +41,9 @@ const meta: Meta<Args> = {
 
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">${Story()}</div>`,
   ],
-  beforeEach({ canvasElement }) {
-    const handleClick = (e: Event) => {
-      action("qgds-click")((e as CustomEvent).detail);
-    };
-    canvasElement.addEventListener("qgds-click", handleClick);
 
-    return () => {
-      canvasElement.removeEventListener("qgds-click", handleClick);
-    };
+  parameters: {
+    eventAction: { name: "qgds-click" },
   },
 };
 export default meta;
@@ -56,7 +53,7 @@ const multiActionArgs: Story["args"] = {
   action: "multiple",
   heading: "Card Heading",
   "default-slot": "Card content goes here. This is an example of a card with multiple actions.",
-  href: "https://media.tenor.com/4YCgHLAsE3UAAAAj/rick-roll.gif",
+  href: "https://example.com",
 };
 
 const footerLinksHTML = html`
@@ -108,7 +105,7 @@ export const MultipleAction_WithFooterLinks: Story = {
           action="${ifDefined(args.action)}"
           palette=${palette}
           target="_blank"
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
@@ -133,7 +130,7 @@ export const MultipleAction_WithImage: Story = {
           href=${ifDefined(args.href)}
           palette=${palette}
           target="_blank"
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
@@ -169,7 +166,7 @@ export const MultipleAction_FeatureCard: Story = {
             image-position=${ifDefined(imagePosition)}
             palette=${palette}
             target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+            image-src=${demoImageSrc}
             image-alt="Placeholder image"
           >
             ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
@@ -185,7 +182,7 @@ export const MultipleAction_FeatureCard: Story = {
             image-position=${ifDefined(imagePosition)}
             palette=${palette}
             target="_blank"
-            image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+            image-src=${demoImageSrc}
             image-alt="Placeholder image"
           >
             ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
@@ -222,7 +219,7 @@ export const MultipleAction_FeatureCard_AllPositions: Story = {
         layout="feature"
         image-position="start"
         target="_blank"
-        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-src=${demoImageSrc}
         image-alt="Placeholder image"
       >
         ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
@@ -233,7 +230,7 @@ export const MultipleAction_FeatureCard_AllPositions: Story = {
         layout="feature"
         image-position="end"
         target="_blank"
-        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-src=${demoImageSrc}
         image-alt="Placeholder image"
       >
         ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
@@ -247,7 +244,7 @@ export const MultipleAction_FeatureCard_AllPositions: Story = {
         layout="feature"
         image-position="start"
         target="_blank"
-        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-src=${demoImageSrc}
         image-alt="Placeholder image"
       >
         ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
@@ -258,7 +255,7 @@ export const MultipleAction_FeatureCard_AllPositions: Story = {
         layout="feature"
         image-position="end"
         target="_blank"
-        image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+        image-src=${demoImageSrc}
         image-alt="Placeholder image"
       >
         ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}

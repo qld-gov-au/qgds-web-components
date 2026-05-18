@@ -4,7 +4,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 import { chromaticModes } from "../../../../.storybook/modes";
-import { action } from "storybook/actions";
+import { withEventAction } from "../../../../.storybook/storybook-helpers";
+
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { ICON_NAMES, type IconName } from "../../qgds-icon/icon-names";
 
@@ -16,6 +17,8 @@ const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
+const demoImageSrc = "https://picsum.photos/id/124/600/400";
+
 const meta: Meta<Args> = {
   title: "Components/Card/Single Action",
   component: "qgds-card",
@@ -25,6 +28,8 @@ const meta: Meta<Args> = {
   },
   argTypes,
   decorators: [
+    withEventAction("qgds-click"),
+
     (Story) =>
       html` <style>
           qgds-card {
@@ -34,15 +39,9 @@ const meta: Meta<Args> = {
 
         <div style="display: flex; gap: 1rem; flex-wrap: wrap;">${Story()}</div>`,
   ],
-  beforeEach({ canvasElement }) {
-    const handleClick = (e: Event) => {
-      action("qgds-click")((e as CustomEvent).detail);
-    };
-    canvasElement.addEventListener("qgds-click", handleClick);
 
-    return () => {
-      canvasElement.removeEventListener("qgds-click", handleClick);
-    };
+  parameters: {
+    eventAction: { name: "qgds-click" },
   },
 };
 export default meta;
@@ -130,7 +129,7 @@ export const SingleAction_WithImage: Story = {
           action="single"
           palette=${palette}
           target="_blank"
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)}
@@ -163,7 +162,7 @@ export const SingleAction_ImageFooter: Story = {
           action="single"
           palette=${palette}
           target="_blank"
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)}
