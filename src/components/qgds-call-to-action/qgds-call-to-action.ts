@@ -26,7 +26,7 @@ import "../qgds-link/qgds-link.js";
  * ```
  */
 @customElement("qgds-call-to-action")
-export class QgdsCallToAction extends LitElement {
+export class QGDSCallToAction extends LitElement {
   static styles = [
     resetStyles,
     css`
@@ -54,6 +54,6 @@ export class QgdsCallToAction extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-call-to-action": QgdsCallToAction;
+    "qgds-call-to-action": QGDSCallToAction;
   }
 }
