@@ -11,6 +11,7 @@ Scoped CSS: qgds-image
   --image-border-style: unset;
   --image-margin: unset;
   --image-block-size: unset;
+  --image-inline-size: unset;
   --figure-border: unset;
   --figure-padding: unset;
   --figure-border-radius: inherit;
@@ -51,6 +52,7 @@ div {
 
 .image-wrap {
   block-size: var(--image-block-size);
+  inline-size: var(--image-inline-size);
 }
 
 figure img,
@@ -59,6 +61,7 @@ div img {
   aspect-ratio: var(--ratio-w, auto) / var(--ratio-h, auto);
   max-inline-size: 100%;
   block-size: var(--image-block-size);
+  inline-size: var(--image-inline-size);
   object-fit: cover;
   border-radius: inherit;
   outline: var(--image-border-width) var(--image-border-style) var(--image-border-color);

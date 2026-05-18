@@ -15,6 +15,8 @@ Scoped CSS: qgds-card
   --fg: var(--qgds-color-text-default);
   --border: var(--qgds-color-border);
   --border-radius: 0.75rem;
+
+  display: inline-block;
 }
 
 .card {
@@ -41,7 +43,7 @@ Scoped CSS: qgds-card
   color: var(--fg);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
@@ -251,12 +253,12 @@ Scoped CSS: qgds-card
       }
 
       qgds-image {
-        --_image-block-size: 100%;
-        --_image-border-radius: 0 0 1.875rem 0;
+        --image-block-size: 100%;
+        --image-inline-size: 100%;
+        --image-border-radius: 0 0 1.875rem 0;
       }
 
       .content-wrap {
-        inline-size: var(--_feature-content-basis);
         flex: 0 0 var(--_feature-content-basis);
         margin-block: -1px;
       }
@@ -269,11 +271,11 @@ Scoped CSS: qgds-card
     &.is-feature.image-end {
       flex-flow: row-reverse nowrap;
 
-      .image-wrap {
-        img {
-          --image-border-radius: 0 0 0.75rem 0;
-        }
+      qgds-image {
+        --image-border-radius: 0 0.75rem 0.75rem 0;
+      }
 
+      .image-wrap {
         margin-inline: 0 -1px;
       }
     }

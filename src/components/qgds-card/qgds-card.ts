@@ -276,11 +276,13 @@ export class QGDSCard extends LitElement {
         @keydown=${isSingle && !hasHref ? this._handleKeydown : nothing}
       >
         ${hasImage
-          ? html`<qgds-image
-              alt="${ifDefined(this.imageAlt)}"
-              aspect="${ifDefined(imageAspect)}"
-              src="${ifDefined(this.imageSrc)}"
-            ></qgds-image>`
+          ? html` <div class="image-wrap">
+              <qgds-image
+                alt="${ifDefined(this.imageAlt)}"
+                aspect="${ifDefined(imageAspect)}"
+                src="${ifDefined(this.imageSrc)}"
+              ></qgds-image>
+            </div>`
           : nothing}
 
         <div class="content-wrap">
