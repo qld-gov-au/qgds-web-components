@@ -43,7 +43,6 @@ Scoped CSS: qgds-card
   border-radius: var(--border-radius);
   display: inline-flex;
   flex-direction: column;
-  min-block-size: 5rem;
   overflow: hidden;
   position: relative;
 
@@ -239,7 +238,7 @@ Scoped CSS: qgds-card
       --_feature-content-basis: calc(100% - var(--_feature-image-basis));
 
       inline-size: 100%;
-      min-block-size: 18.75rem; // 300px
+      min-block-size: #{tools.remify(300px)}; // 300px
       display: flex;
       flex-flow: row nowrap;
       align-items: stretch;
@@ -295,7 +294,7 @@ Scoped CSS: qgds-card
     }
 
     &.is-feature {
-      block-size: 440px;
+      block-size: #{tools.remify(440px)};
     }
   }
 }

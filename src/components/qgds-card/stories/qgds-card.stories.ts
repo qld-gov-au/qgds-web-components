@@ -5,8 +5,8 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 import { chromaticModes } from "../../../../.storybook/modes";
 
-import { action } from "storybook/actions";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { withEventAction } from "../../../storybook-helpers";
 import type { QGDSCard } from "../qgds-card";
 import "../qgds-card";
 
@@ -39,6 +39,8 @@ const meta: Meta<Args> = {
     )}
   `,
   decorators: [
+    withEventAction("qgds-click"),
+
     (Story) => html`
       <style>
         qgds-card {
@@ -50,15 +52,8 @@ const meta: Meta<Args> = {
     `,
   ],
 
-  beforeEach({ canvasElement }) {
-    const handleClick = (e: Event) => {
-      action("qgds-click")((e as CustomEvent).detail);
-    };
-    canvasElement.addEventListener("qgds-click", handleClick);
-
-    return () => {
-      canvasElement.removeEventListener("qgds-click", handleClick);
-    };
+  parameters: {
+    eventAction: { name: "qgds-toggle" },
   },
 };
 export default meta;

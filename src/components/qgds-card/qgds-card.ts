@@ -104,22 +104,6 @@ export class QGDSCard extends LitElement {
     `,
   ];
 
-  // ==========================================================================
-  // Events
-  // ==========================================================================
-  private _events: QgdsEvents;
-
-  private _handleClick = (e: PointerEvent) => {
-    this._events.dispatch("click", { label: this.heading, href: this.href }, e);
-  };
-
-  private _handleKeydown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      this._events.dispatch("click", { label: this.heading, href: this.href }, e);
-    }
-  };
-
   constructor() {
     super();
 
@@ -179,6 +163,70 @@ export class QGDSCard extends LitElement {
   @state() private hasFooterText = false;
 
   // ==========================================================================
+  // Events
+  // ==========================================================================
+  private _events: QgdsEvents;
+
+  private _handleClick = (e: PointerEvent) => {
+    this._events.dispatch("click", { label: this.heading, href: this.href }, e);
+  };
+
+  private _handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      this._events.dispatch("click", { label: this.heading, href: this.href }, e);
+    }
+  };
+
+  // ==========================================================================
+  // PRIVATE METHODS (Slot handlers)
+  // ==========================================================================
+
+  // Footer precedence is deterministic: tags > links > text > none.
+  private get footerType(): FooterType {
+    if (this.hasFooterTags) {
+      return "tags";
+    }
+
+    if (this.hasFooterLinks) {
+      return "links";
+    }
+
+    if (this.hasFooterText) {
+      return "text";
+    }
+
+    return "none";
+  }
+
+  private handleLinksSlot = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    const assigned = slot.assignedElements();
+    const hasLinkElements = assigned.some(
+      (el) =>
+        el.tagName.toLowerCase() === "a" || el.tagName.toLowerCase() === "qgds-link" || el.querySelector("a, qgds-link")
+    );
+    this.hasFooterLinks = assigned.length > 0 && hasLinkElements;
+  };
+
+  private handleTagsSlot = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    const assigned = slot.assignedElements();
+    const hasTagElements = assigned.some(
+      (el) => el.tagName.toLowerCase() === "qgds-tag" || el.querySelector("qgds-tag")
+    );
+
+    this.hasFooterTags = assigned.length > 0 && hasTagElements;
+  };
+
+  private handleFooterTextSlot = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    const assigned = slot.assignedElements();
+    const hasText = assigned.some((el) => el.textContent?.trim().length > 0);
+    this.hasFooterText = assigned.length > 0 && hasText;
+  };
+
+  // ==========================================================================
   // RENDER
   // ==========================================================================
 
@@ -188,7 +236,7 @@ export class QGDSCard extends LitElement {
     const hasImage = Boolean(this.imageSrc?.trim());
     const accessibleLabel = this.ariaLabel ?? this.heading ?? undefined;
     const iconSize = this.variant === "stacked-icon" ? "lg" : "sm";
-    const footerType = this.resolveFooterType();
+    const footerType = this.footerType;
 
     const imageAspect = this.layout === "feature" ? undefined : "3:2";
 
@@ -254,56 +302,7 @@ export class QGDSCard extends LitElement {
       </div>
     `;
   }
-
-  // ==========================================================================
-  // PRIVATE METHODS (Slot handlers)
-  // ==========================================================================
-
-  // Footer precedence is deterministic: tags > links > text > none.
-  private resolveFooterType = (): FooterType => {
-    if (this.hasFooterTags) {
-      return "tags";
-    }
-
-    if (this.hasFooterLinks) {
-      return "links";
-    }
-
-    if (this.hasFooterText) {
-      return "text";
-    }
-
-    return "none";
-  };
-
-  private handleLinksSlot = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    const assigned = slot.assignedElements();
-    const hasLinkElements = assigned.some(
-      (el) =>
-        el.tagName.toLowerCase() === "a" || el.tagName.toLowerCase() === "qgds-link" || el.querySelector("a, qgds-link")
-    );
-    this.hasFooterLinks = assigned.length > 0 && hasLinkElements;
-  };
-
-  private handleTagsSlot = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    const assigned = slot.assignedElements();
-    const hasTagElements = assigned.some(
-      (el) => el.tagName.toLowerCase() === "qgds-tag" || el.querySelector("qgds-tag")
-    );
-
-    this.hasFooterTags = assigned.length > 0 && hasTagElements;
-  };
-
-  private handleFooterTextSlot = (e: Event) => {
-    const slot = e.target as HTMLSlotElement;
-    const assigned = slot.assignedElements();
-    const hasText = assigned.some((el) => el.textContent?.trim().length > 0);
-    this.hasFooterText = assigned.length > 0 && hasText;
-  };
 }
-
 // ============================================================================
 // TYPE DECLARATIONS
 // ============================================================================
