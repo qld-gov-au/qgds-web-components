@@ -18,7 +18,7 @@ describe("qgds-global-alert", () => {
     await element.updateComplete;
 
     expect(element.variant).toBe("warning");
-    expect(element.isDismissible).toBe(true);
+    expect(element.isDismissible).toBe(false);
     expect(element.heading).toBeUndefined();
     expect(element.actionLabel).toBeUndefined();
     expect(element.actionHref).toBeUndefined();
@@ -87,10 +87,10 @@ describe("qgds-global-alert", () => {
     element.actionHref = "https://example.com";
     await element.updateComplete;
 
-    const action = element.shadowRoot?.querySelector(".action a");
+    const action = element.shadowRoot?.querySelector("qgds-link");
     expect(action).not.toBeNull();
     expect(action?.getAttribute("href")).toBe("https://example.com");
-    expect(action?.querySelector("span")?.textContent).toBe("Learn more");
+    expect(action?.getAttribute("label")).toBe("Learn more");
   });
 
   it("does not render an action link when actionLabel or actionHref is missing", async () => {
@@ -103,6 +103,7 @@ describe("qgds-global-alert", () => {
   });
 
   it("renders a dismiss button when isDismissible is true", async () => {
+    element.isDismissible = true;
     await element.updateComplete;
 
     const button = element.shadowRoot?.querySelector(".close button");
@@ -119,6 +120,7 @@ describe("qgds-global-alert", () => {
   });
 
   it("hides the alert and fires qgds-global-alert-dismiss when dismiss button is clicked", async () => {
+    element.isDismissible = true;
     await element.updateComplete;
 
     const dismissHandler = vi.fn();
