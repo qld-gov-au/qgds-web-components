@@ -15,6 +15,8 @@ Scoped CSS: qgds-image
   --figure-border: unset;
   --figure-padding: unset;
   --figure-border-radius: inherit;
+
+  display: block;
 }
 
 figure {
@@ -22,11 +24,6 @@ figure {
   border: var(--figure-border);
   border-radius: var(--figure-border-radius);
   margin: 0;
-  inline-size: min-content;
-
-  &.is-vertical {
-    inline-size: min-content;
-  }
 }
 
 div {
@@ -51,7 +48,6 @@ div {
 }
 
 .image-wrap {
-  block-size: var(--image-block-size);
   inline-size: var(--image-inline-size);
 }
 
