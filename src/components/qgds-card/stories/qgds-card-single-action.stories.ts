@@ -20,7 +20,7 @@ type Story = StoryObj<Args>;
 const demoImageSrc = "https://picsum.photos/id/124/600/400";
 
 const meta: Meta<Args> = {
-  title: "Components/Card/Single Action",
+  title: "Components/Card/Single Action Link",
   component: "qgds-card",
   tags: ["!autodocs"],
   args: {
@@ -55,7 +55,6 @@ const singleActionArgs: Story["args"] = {
 
 export const SingleAction: Story = {
   name: "Default",
-  parameters: { ...chromaticModes },
   args: singleActionArgs,
   argTypes: {
     href: { control: "text" },
@@ -80,7 +79,6 @@ export const SingleAction: Story = {
 
 export const SingleAction_WithFooter: Story = {
   name: "With Footer",
-  parameters: { ...chromaticModes },
   args: {
     ...singleActionArgs,
     footerText: "Footer text",
@@ -111,7 +109,6 @@ export const SingleAction_WithFooter: Story = {
 
 export const SingleAction_WithImage: Story = {
   name: "With Image",
-  parameters: { ...chromaticModes },
   args: {
     ...singleActionArgs,
     footerText: "",
@@ -143,7 +140,7 @@ export const SingleAction_WithImage: Story = {
 };
 
 export const SingleAction_ImageFooter: Story = {
-  name: "Image and Footer",
+  name: "With Image and Footer",
   parameters: { ...chromaticModes },
   args: {
     ...singleActionArgs,

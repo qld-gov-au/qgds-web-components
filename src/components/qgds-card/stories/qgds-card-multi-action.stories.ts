@@ -19,7 +19,7 @@ type Story = StoryObj<Args>;
 const demoImageSrc = "https://picsum.photos/id/206/600/400";
 
 const meta: Meta<Args> = {
-  title: "Components/Card/Multiple Action",
+  title: "Components/Card/Multiple Action Links",
   component: "qgds-card",
   tags: ["!autodocs"],
   args: {
@@ -70,7 +70,6 @@ const footerTagsActionHTML = html`
 
 export const MultipleAction: Story = {
   name: "With Footer Tags",
-  parameters: { ...chromaticModes },
   args: {
     ...multiActionArgs,
   },
@@ -93,7 +92,6 @@ export const MultipleAction: Story = {
 
 export const MultipleAction_WithFooterLinks: Story = {
   name: "With Footer Links",
-  parameters: { ...chromaticModes },
   args: {
     ...multiActionArgs,
   },
@@ -105,8 +103,6 @@ export const MultipleAction_WithFooterLinks: Story = {
           action="${ifDefined(args.action)}"
           palette=${palette}
           target="_blank"
-          image-src=${demoImageSrc}
-          image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
         </qgds-card>
@@ -117,7 +113,6 @@ export const MultipleAction_WithFooterLinks: Story = {
 
 export const MultipleAction_WithImage: Story = {
   name: "With Image",
-  parameters: { ...chromaticModes },
   args: {
     ...multiActionArgs,
   },
@@ -141,7 +136,7 @@ export const MultipleAction_WithImage: Story = {
 };
 
 export const MultipleAction_FeatureCard: Story = {
-  name: "Feature Card",
+  name: "Feature Card (Palettes)",
   parameters: { ...chromaticModes },
   args: {
     ...multiActionArgs,
@@ -206,8 +201,7 @@ export const MultipleAction_FeatureCard: Story = {
 };
 
 export const MultipleAction_FeatureCard_AllPositions: Story = {
-  name: "Feature Card/All Positions",
-  parameters: { ...chromaticModes },
+  name: "Feature Card (Layouts)",
   args: {
     ...multiActionArgs,
   },

@@ -19,6 +19,8 @@ import "../qgds-card";
 
 const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
 
+const demoImageSrc = "https://picsum.photos/id/322/600/400";
+
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
@@ -60,7 +62,7 @@ const meta: Meta<Args> = {
 export default meta;
 
 export const Default: Story = {
-  name: "No Action/Default",
+  name: "Default",
   parameters: {
     ...chromaticModes,
   },
@@ -78,8 +80,7 @@ const noActionArgs: Story["args"] = {
 };
 
 export const NoAction: Story = {
-  name: "No Action/Body Only",
-  parameters: { ...chromaticModes },
+  name: "Content Only",
   args: noActionArgs,
   render: (args) => html`
     ${Object.entries(palettes).map(
@@ -93,8 +94,7 @@ export const NoAction: Story = {
 };
 
 export const NoAction_WithFooter: Story = {
-  name: "No Action/With Footer",
-  parameters: { ...chromaticModes },
+  name: "With Footer",
   args: noActionArgs,
   render: (args) => html`
     ${Object.entries(palettes).map(
@@ -109,8 +109,7 @@ export const NoAction_WithFooter: Story = {
 };
 
 export const NoAction_WithImage: Story = {
-  name: "No Action/With Image",
-  parameters: { ...chromaticModes },
+  name: "With Image",
   args: noActionArgs,
   render: (args) => html`
     ${Object.entries(palettes).map(
@@ -119,7 +118,7 @@ export const NoAction_WithImage: Story = {
           heading=${ifDefined(args.heading)}
           action="none"
           palette=${palette}
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)}
@@ -130,7 +129,7 @@ export const NoAction_WithImage: Story = {
 };
 
 export const NoAction_WithImageAndFooter: Story = {
-  name: "No Action/With Image and Footer",
+  name: "With Image and Footer",
   parameters: { ...chromaticModes },
   args: noActionArgs,
   render: (args) => html`
@@ -140,7 +139,7 @@ export const NoAction_WithImageAndFooter: Story = {
           heading=${ifDefined(args.heading)}
           action="none"
           palette=${palette}
-          image-src="https://picsum.photos/seed/qgds-sunny/600/400/?blur"
+          image-src=${demoImageSrc}
           image-alt="Placeholder image"
         >
           ${unsafeHTML(args["default-slot"] as string)}
