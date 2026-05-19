@@ -10,6 +10,13 @@ import "../qgds-icon/qgds-icon.js";
 
 export type VideoSource = "youtube" | "vimeo" | "custom" | "";
 export type VideoAspect = "16x9" | "4x3" | "1x1" | "21x9";
+/**
+ * Compactness of the play-button overlay. Controls padding, height, and text visibility.
+ * - `"xl"` (default) — full Watch + duration row.
+ * - `"md"` — 32px tall, 12px inline padding.
+ * - `"sm"` — 24px tall, 12px inline padding, "Watch" text hidden.
+ */
+export type VideoSize = "xl" | "md" | "sm";
 
 /**
  * The core "click to play" video player surface — a thumbnail with a Watch/duration
@@ -28,6 +35,7 @@ export type VideoAspect = "16x9" | "4x3" | "1x1" | "21x9";
  * @property {VideoAspect} [aspect-ratio] - Aspect ratio of the player. Defaults to "16x9".
  * @property {boolean} [autoplay] - When true, sets `autoplay=1` in the iframe URL on initial render.
  * @property {boolean} [controls] - When true (default), shows native provider controls.
+ * @property {VideoSize} [size] - Play-button compactness: `"xl"` (default), `"md"` (32px), or `"sm"` (24px, no text).
  *
  * @event qgds-play - Fired when the user activates the thumbnail to play. Detail: `{ source, videoId }`.
  *
@@ -58,6 +66,7 @@ export class QGDSVideoPlayer extends LitElement {
   aspectRatio: VideoAspect = "16x9";
   @property({ type: Boolean }) autoplay = false;
   @property({ type: Boolean, useDefault: true }) controls = true;
+  @property({ type: String, reflect: true }) size: VideoSize = "xl";
 
   /** Internal: switches from thumbnail view to iframe view. */
   @state() private _playing = false;
@@ -139,8 +148,8 @@ export class QGDSVideoPlayer extends LitElement {
                 ></span>
                 <span class="video-nav">
                   <span class="video-watch">
-                    <qgds-icon icon-id="play-circle" size="md"></qgds-icon>
-                    <span>Watch</span>
+                    <qgds-icon icon-id="play-circle" size=${this.size === "xl" ? "lg" : "md"}></qgds-icon>
+                    <span class="video-watch-text">Watch</span>
                   </span>
                   ${this.duration
                     ? html`

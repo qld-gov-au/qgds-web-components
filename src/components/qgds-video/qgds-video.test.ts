@@ -46,17 +46,25 @@ describe("qgds-video", () => {
     expect(assigned?.[0]).toBe(customPlayer);
   });
 
-  it("defaults size to 'full' and reflects it to the attribute when changed", async () => {
+  it("defaults size to 'xl' and reflects it to the attribute when changed", async () => {
     await element.updateComplete;
-    expect(element.size).toBe("full");
+    expect(element.size).toBe("xl");
 
-    element.size = "two-thirds";
+    element.size = "md";
     await element.updateComplete;
-    expect(element.getAttribute("size")).toBe("two-thirds");
+    expect(element.getAttribute("size")).toBe("md");
 
-    element.size = "half";
+    element.size = "sm";
     await element.updateComplete;
-    expect(element.getAttribute("size")).toBe("half");
+    expect(element.getAttribute("size")).toBe("sm");
+  });
+
+  it("forwards size to the inner qgds-video-player", async () => {
+    element.size = "sm";
+    await element.updateComplete;
+
+    const player = element.shadowRoot?.querySelector("qgds-video-player");
+    expect(player?.getAttribute("size")).toBe("sm");
   });
 
   it("renders the caption from the caption attribute", async () => {

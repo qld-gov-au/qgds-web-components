@@ -7,17 +7,9 @@ import { baseStyles } from "../../styles";
 
 import "../qgds-icon/qgds-icon.js";
 import "../qgds-video-player/qgds-video-player.js";
-import type { VideoSource, VideoAspect } from "../qgds-video-player/qgds-video-player.js";
+import type { VideoSource, VideoAspect, VideoSize } from "../qgds-video-player/qgds-video-player.js";
 
-export type { VideoSource, VideoAspect };
-
-/**
- * Width variants. Mirrors the BS5 column-based sizes:
- * - `"full"` → 12 cols, fills the container.
- * - `"two-thirds"` → 8 cols (66.67% of the parent, capped at 864px per the Figma spec).
- * - `"half"` → 6 cols (50% of the parent).
- */
-export type VideoSize = "full" | "two-thirds" | "half";
+export type { VideoSource, VideoAspect, VideoSize };
 
 /**
  * A video card composed of `<qgds-video-player>` (the click-to-play surface), an optional
@@ -39,7 +31,7 @@ export type VideoSize = "full" | "two-thirds" | "half";
  * @property {boolean} [autoplay] - Forwarded to the default `qgds-video-player`.
  * @property {boolean} [controls] - Forwarded to the default `qgds-video-player`.
  * @property {string} [caption] - Plain-text caption rendered below the player.
- * @property {VideoSize} [size] - Card width: `"full"` (12 cols), `"two-thirds"` (8 cols, max 864px), or `"half"` (6 cols). Defaults to `"full"`.
+ * @property {VideoSize} [size] - Card width + play-button density: `"xl"` (12 cols, default), `"md"` (8 cols, max 864px), or `"sm"` (6 cols). Forwarded to the inner `qgds-video-player`.
  *
  * @slot player - Replaces the default `<qgds-video-player>`. The source/etc attributes are ignored when used.
  * @slot caption - Rich-HTML caption shown below the player. Overrides the `caption` attribute.
@@ -78,7 +70,7 @@ export class QGDSVideo extends LitElement {
   @property({ type: Boolean }) autoplay = false;
   @property({ type: Boolean, useDefault: true }) controls = true;
   @property({ type: String }) caption = "";
-  @property({ type: String, reflect: true }) size: VideoSize = "full";
+  @property({ type: String, reflect: true }) size: VideoSize = "xl";
 
   @state() private _transcriptOpen = false;
   @state() private _hasTranscript = false;
@@ -119,6 +111,7 @@ export class QGDSVideo extends LitElement {
             .aspectRatio=${this.aspectRatio}
             .autoplay=${this.autoplay}
             .controls=${this.controls}
+            .size=${this.size}
           ></qgds-video-player>
         </slot>
 

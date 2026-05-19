@@ -118,6 +118,25 @@ Core video surface — no border / shadow / outer card chrome.
   );
 }
 
+// Compact sizes — reduce padding-x to 12px and pin the row height.
+:host([size="md"]) .video-watch,
+:host([size="md"]) .video-duration {
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+:host([size="sm"]) .video-watch,
+:host([size="sm"]) .video-duration {
+  padding-block: 12px;
+  padding-inline: 16px;
+}
+
+// In the smallest size, hide the "Watch" label — the icon alone communicates intent
+// and the parent `<a>` still has an accessible aria-label.
+:host([size="sm"]) .video-watch-text {
+  display: none;
+}
+
 .video-thumbnail:hover .video-watch,
 .video-thumbnail:focus-visible .video-watch {
   background-color: var(--qgds-video-nav-bg-hover);
