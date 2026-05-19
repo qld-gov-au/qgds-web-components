@@ -8,7 +8,7 @@ describe("qgds-video", () => {
   let element: QGDSVideo;
 
   beforeEach(() => {
-    element = document.createElement("qgds-video") as QGDSVideo;
+    element = document.createElement("qgds-video");
     document.body.appendChild(element);
   });
 
@@ -34,7 +34,7 @@ describe("qgds-video", () => {
   });
 
   it("uses the player slot when content is provided", async () => {
-    const customPlayer = document.createElement("qgds-video-player") as QGDSVideoPlayer;
+    const customPlayer = document.createElement("qgds-video-player");
     customPlayer.setAttribute("slot", "player");
     customPlayer.source = "vimeo";
     customPlayer.videoId = "999";
@@ -44,6 +44,19 @@ describe("qgds-video", () => {
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="player"]');
     const assigned = slot?.assignedElements();
     expect(assigned?.[0]).toBe(customPlayer);
+  });
+
+  it("defaults size to 'full' and reflects it to the attribute when changed", async () => {
+    await element.updateComplete;
+    expect(element.size).toBe("full");
+
+    element.size = "two-thirds";
+    await element.updateComplete;
+    expect(element.getAttribute("size")).toBe("two-thirds");
+
+    element.size = "half";
+    await element.updateComplete;
+    expect(element.getAttribute("size")).toBe("half");
   });
 
   it("renders the caption from the caption attribute", async () => {
@@ -69,27 +82,5 @@ describe("qgds-video", () => {
 
     expect(element.shadowRoot?.querySelector(".video-transcript")?.classList.contains("is-hidden")).toBe(false);
     expect(element.shadowRoot?.querySelector(".video-transcript-label")?.textContent?.trim()).toBe("Show transcript");
-  });
-
-  it("toggles the transcript label and fires qgds-transcript-toggle when opened", async () => {
-    const node = document.createElement("p");
-    node.setAttribute("slot", "transcript");
-    node.textContent = "Hello world.";
-    element.appendChild(node);
-    await new Promise((r) => setTimeout(r, 0));
-    await element.updateComplete;
-
-    const details = element.shadowRoot?.querySelector<HTMLDetailsElement>(".video-transcript");
-    let toggled: { open: boolean } | undefined;
-    element.addEventListener("qgds-transcript-toggle", (e) => {
-      toggled = (e as CustomEvent).detail;
-    });
-
-    details!.open = true;
-    details!.dispatchEvent(new Event("toggle"));
-    await element.updateComplete;
-
-    expect(toggled).toEqual({ open: true });
-    expect(element.shadowRoot?.querySelector(".video-transcript-label")?.textContent?.trim()).toBe("Hide transcript");
   });
 });

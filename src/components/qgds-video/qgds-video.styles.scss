@@ -7,11 +7,26 @@ Outer card frame + caption + transcript. Player visuals live in qgds-video-playe
 
 :host {
   --qgds-video-border-radius: 0.5rem;
-  --qgds-video-shadow:
-    0 2px 6px 2px rgb(0 0 0 / 0.15),
-    0 1px 2px rgb(0 0 0 / 0.3);
+  --qgds-video-shadow: 0 2px 6px 2px rgb(0 0 0 / 0.15), 0 1px 2px rgb(0 0 0 / 0.3);
 
+  // Declaring the host as an inline-size container lets internal rules use
+  // `@container qgds-video (…)` to adapt to the host's own width.
+  box-sizing: border-box;
+  container-type: inline-size;
+  container-name: qgds-video;
   display: block;
+}
+
+// Size variants — fractions of the parent's inline-size (BS5 col-12 / col-8 / col-6).
+// Per Figma: the 8-col variant caps at 864px so 720p / 480p source videos do not
+// get scaled past their native resolution on home / landing pages.
+:host([size="two-thirds"]) {
+  inline-size: 66.6667%;
+  max-inline-size: 864px;
+}
+
+:host([size="half"]) {
+  inline-size: 50%;
 }
 
 .video {
@@ -56,7 +71,7 @@ Outer card frame + caption + transcript. Player visuals live in qgds-video-playe
   padding-block: 0.75rem;
   padding-inline: 1rem;
   cursor: pointer;
-  color: var(--qgds-color-action-primary-default, #005eb8);
+  color: var(--qgds-color-link-default, #005eb8);
   list-style: none;
   user-select: none;
 
@@ -71,7 +86,7 @@ Outer card frame + caption + transcript. Player visuals live in qgds-video-playe
 }
 
 .video-transcript-leading {
-  color: var(--qgds-color-action-primary-default, #005eb8);
+  color: var(--qgds-color-action-secondary, #307EDB);
   flex-shrink: 0;
 }
 
@@ -83,7 +98,7 @@ Outer card frame + caption + transcript. Player visuals live in qgds-video-playe
 }
 
 .video-transcript-chevron {
-  color: var(--qgds-color-action-primary-default, #005eb8);
+  color: var(--qgds-color-action-secondary, #307EDB);
   flex-shrink: 0;
 }
 
