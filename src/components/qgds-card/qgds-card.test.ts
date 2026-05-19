@@ -98,6 +98,23 @@ describe("qgds-card", () => {
     });
   });
 
+  describe("Single card with arrow variant", () => {
+    it("renders an arrow icon and applies appropriate classes", async () => {
+      element.action = "single";
+      element.variant = "arrow";
+
+      await element.updateComplete;
+
+      const card = element.shadowRoot?.querySelector(".card");
+      const icon = element.shadowRoot?.querySelector("qgds-icon");
+
+      expect(card?.classList.contains("is-single")).toBe(true);
+      expect(card?.classList.contains("has-arrow")).toBe(true);
+      expect(icon).toBeTruthy();
+      expect(icon?.getAttribute("icon-id")).toBe("arrow-right");
+    });
+  });
+
   describe("multi-action", () => {
     it("recognises embedded qgds-links in the footer", async () => {
       element.action = "multiple";

@@ -172,6 +172,31 @@ export const SingleAction_ImageFooter: Story = {
   `,
 };
 
+export const SingleAction_ArrowIcon: Story = {
+  name: "Arrow Icon",
+  args: {
+    ...singleActionArgs,
+  },
+  argTypes: {
+    href: { control: "text" },
+  },
+  render: (args) => html`
+    ${Object.entries(palettes).map(
+      ([palette]) => html`
+        <qgds-card
+          heading=${ifDefined(args.heading)}
+          href=${ifDefined(args.href)}
+          action="single"
+          palette=${palette}
+          target="_blank"
+          variant="arrow"
+        >
+        </qgds-card>
+      `
+    )}
+  `,
+};
+
 export const SingleAction_WithStackedIcon: Story = {
   name: "Stacked Icon",
   parameters: { ...chromaticModes },

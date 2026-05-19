@@ -91,6 +91,18 @@ Scoped CSS: qgds-card
     --slotted-last-child-padding-block-end: 0;
   }
 
+  // Adjust layout for cards with arrow variant
+  &.has-arrow .content-wrap {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+
+    qgds-icon {
+      --qgds-icon-color: var(--qgds-color-action-secondary);
+    }
+  }
+
   .heading {
     font-size: var(--_heading-size);
     line-height: var(--_heading-line-height);

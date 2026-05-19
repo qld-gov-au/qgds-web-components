@@ -14,6 +14,7 @@ import "../qgds-image/qgds-image";
 import "../qgds-tag/qgds-tag";
 import "../qgds-link/qgds-link";
 import "../qgds-feature-icon/qgds-feature-icon";
+import "../qgds-icon/qgds-icon";
 
 // Styles
 import { baseStyles } from "../../styles";
@@ -68,12 +69,12 @@ type FooterType = "none" | "text" | "links" | "tags";
  *
  * @prop {CardAction} [action="none"] - Card's primary behaviour: "none" (non-clickable), "single" (whole card is a link), "multiple" (independent footer links).
  * @prop {CardLayout} [layout="default"] - Spatial layout of the card: "default" (standard stacked layout) or "feature" (side-by-side image/content layout at larger viewports).
- * @prop {CardVariant} [variant="none"] - Visual treatment of the card: "arrow", "leading-icon", or "stacked-icon".
- * @prop {string} [palette="default"] - QGDS colour palette applied to the card.
+ * @prop {CardVariant} [variant="none"] - Alternate card variants: "arrow", "leading-icon", or "stacked-icon".
+ * @prop {string} [palette="default"] - Colour palette applied to the card.
  * @prop {string} heading - The card's heading text.
  * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
  * @prop {string} [ariaLabel] - Accessible name override when the heading is insufficient.
- * @prop {string} [href] - URL for single-action cards.
+ * @prop {string} [href] - URL for single-action cards, and primary link for multiple-action cards.
  * @prop {string} [target="_self"] - Link target for single-action cards.
  * @prop {string} imageSrc - The source URL for the card's image
  * @prop {string} imageAlt - The alternative text for the card's image
@@ -234,10 +235,16 @@ export class QGDSCard extends LitElement {
     const isSingle = Boolean(this.action === "single");
     const hasHref = Boolean(this.href);
     const hasImage = Boolean(this.imageSrc?.trim());
+    const hasArrow = Boolean(this.variant === "arrow");
     const accessibleLabel = this.ariaLabel ?? this.heading ?? undefined;
     const iconSize = this.variant === "stacked-icon" ? "lg" : "sm";
-    const footerType = this.footerType;
-
+    const footerType = this.footerType; //getter
+    const effectiveFooterType: FooterType = hasArrow ? "none" : footerType;
+    const showImage = hasImage && !hasArrow;
+    const showFeatureIcon =
+      !hasArrow && (this.variant.includes("stacked-icon") || this.variant.includes("leading-icon"));
+    const showBodyContent = !hasArrow;
+    const showFooter = !hasArrow;
     const imageAspect = this.layout === "feature" ? undefined : "3:2";
 
     const headingContent = hasHref
@@ -254,13 +261,13 @@ export class QGDSCard extends LitElement {
     const cardClasses = {
       "is-single": isSingle,
       "is-feature": this.layout === "feature",
-      "has-image": hasImage,
+      "has-image": showImage,
       "image-end": this.imagePosition === "end",
-      "has-footer": footerType !== "none",
-      "has-footer-links": footerType === "links",
-      "has-footer-tags": footerType === "tags",
-      "has-footer-text": footerType === "text",
-      "has-arrow": this.variant === "arrow",
+      "has-footer": effectiveFooterType !== "none",
+      "has-footer-links": effectiveFooterType === "links",
+      "has-footer-tags": effectiveFooterType === "tags",
+      "has-footer-text": effectiveFooterType === "text",
+      "has-arrow": hasArrow,
       "has-stacked-icon": this.variant === "stacked-icon",
       "has-leading-icon": this.variant === "leading-icon",
       "is-multiple": this.action === "multiple",
@@ -275,7 +282,7 @@ export class QGDSCard extends LitElement {
         @click=${isSingle && !hasHref ? this._handleClick : nothing}
         @keydown=${isSingle && !hasHref ? this._handleKeydown : nothing}
       >
-        ${hasImage
+        ${showImage
           ? html` <div class="card-image-wrap">
               <qgds-image
                 alt="${ifDefined(this.imageAlt)}"
@@ -286,20 +293,28 @@ export class QGDSCard extends LitElement {
           : nothing}
 
         <div class="content-wrap">
-          <div class="feature-icon-wrap">
-            <qgds-feature-icon size=${ifDefined(iconSize)} icon-name=${ifDefined(this.iconName)}></qgds-feature-icon>
-          </div>
+          ${showFeatureIcon
+            ? html`<div class="feature-icon-wrap">
+                <qgds-feature-icon
+                  size=${ifDefined(iconSize)}
+                  icon-name=${ifDefined(this.iconName)}
+                ></qgds-feature-icon>
+              </div>`
+            : nothing}
 
           <div class="content">
             ${semanticHeading(headingContent, this.headingLevel, "heading")}
-            <slot></slot>
+            ${showBodyContent ? html`<slot></slot>` : nothing}
           </div>
 
-          <div class="footer">
-            <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
-            <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
-            <slot name="footer-text" @slotchange=${this.handleFooterTextSlot}></slot>
-          </div>
+          ${hasArrow ? html` <qgds-icon size="md" icon-id="arrow-right"></qgds-icon>` : nothing}
+          ${showFooter
+            ? html`<div class="footer">
+                <slot name="footer-links" @slotchange=${this.handleLinksSlot}></slot>
+                <slot name="footer-tags" @slotchange=${this.handleTagsSlot}></slot>
+                <slot name="footer-text" @slotchange=${this.handleFooterTextSlot}></slot>
+              </div>`
+            : nothing}
         </div>
       </div>
     `;
