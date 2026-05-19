@@ -18,14 +18,14 @@ Outer card frame + caption + transcript. Player visuals live in qgds-video-playe
 }
 
 // Size variants — fractions of the parent's inline-size (BS5 col-12 / col-8 / col-6).
-// Per Figma: the 8-col variant caps at 864px so 720p / 480p source videos do not
+// Per Figma: the md (8-col) variant caps at 864px so 720p / 480p source videos do not
 // get scaled past their native resolution on home / landing pages.
-:host([size="two-thirds"]) {
+:host([size="md"]) {
   inline-size: 66.6667%;
   max-inline-size: 864px;
 }
 
-:host([size="half"]) {
+:host([size="sm"]) {
   inline-size: 50%;
 }
 
