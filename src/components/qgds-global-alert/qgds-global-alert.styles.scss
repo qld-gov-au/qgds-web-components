@@ -17,10 +17,6 @@
   --qgds-global-alert-border-color: transparent;
 }
 
-:host([variant="critical"]) {
-  --text-fg: var(--qgds-color-neutral-white);
-}
-
 .global-alert {
   --_bg: initial;
   --qgds-global-alert-border-color: initial;
@@ -95,9 +91,9 @@
 }
 
 qgds-link {
-  --qgds-color-link-default: var(--text-fg, var(--qgds-color-text-default));
-  --qgds-color-underline-default: var(--text-fg, var(--qgds-color-text-default));
-  --qgds-color-link-hover: var(--text-fg, var(--qgds-color-text-default));
+  --qgds-color-link-default: var(--_text-fg);
+  --qgds-color-underline-default: var(--_text-fg);
+  --qgds-color-link-hover: var(--_text-fg);
   --qgds-color-focus-default: var(--_icon-focus-border-colour);
 }
 
