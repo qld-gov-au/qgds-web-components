@@ -125,7 +125,7 @@ export class QGDSVideo extends LitElement {
           @toggle=${this._handleTranscriptToggle}
         >
           <summary class="video-transcript-summary">
-            <qgds-icon class="video-transcript-leading" icon-id="document" size="sm"></qgds-icon>
+            <qgds-icon class="video-transcript-leading" icon-id="transcript" size="sm"></qgds-icon>
             <span class="video-transcript-label">${transcriptLabel}</span>
             <qgds-icon class="video-transcript-chevron" icon-id=${transcriptIcon} size="sm"></qgds-icon>
           </summary>

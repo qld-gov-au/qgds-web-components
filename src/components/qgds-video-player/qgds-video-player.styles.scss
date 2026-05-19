@@ -6,10 +6,10 @@ Core video surface — no border / shadow / outer card chrome.
 */
 
 :host {
-  --qgds-video-nav-bg: var(--qgds-color-action-primary-default, #005eb8);
+  --qgds-video-nav-bg: var(--qgds-color-action-primary, #005eb8);
   --qgds-video-nav-bg-hover: var(--qgds-color-action-primary-hover, #003e96);
   --qgds-video-nav-bg-opacity: 0.9;
-  --qgds-video-nav-color: var(--qgds-color-action-text-default, #ffffff);
+  --qgds-video-nav-color: var(--qgds-color-link-on-action, #ffffff);
 
   display: block;
 }
@@ -89,7 +89,7 @@ Core video surface — no border / shadow / outer card chrome.
   display: inline-flex;
   align-items: stretch;
   color: var(--qgds-video-nav-color);
-  border-end-end-radius: 0.5rem;
+  border-start-end-radius: 0.5rem;
   overflow: clip;
   font-weight: 400;
   transition: background-color 0.25s ease-in-out;
@@ -100,7 +100,7 @@ Core video surface — no border / shadow / outer card chrome.
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding-block: 0.75rem;
+  padding-block: 1rem;
   padding-inline: 1rem;
   transition: background-color 0.25s ease-in-out;
 }
