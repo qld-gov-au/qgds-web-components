@@ -85,4 +85,29 @@ describe("qgds-video-player", () => {
 
     expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube")?.src).toContain("controls=0");
   });
+
+  it("defaults size to 'xl' and reflects it to the attribute", async () => {
+    await element.updateComplete;
+    expect(element.size).toBe("xl");
+
+    element.size = "md";
+    await element.updateComplete;
+    expect(element.getAttribute("size")).toBe("md");
+
+    element.size = "sm";
+    await element.updateComplete;
+    expect(element.getAttribute("size")).toBe("sm");
+  });
+
+  it("renders the Watch text in xl and md, and keeps the span in the DOM in sm (hidden via CSS)", async () => {
+    element.source = "youtube";
+    element.videoId = "abc123";
+    element.thumbnail = "https://example.com/thumb.jpg";
+    element.size = "sm";
+    await element.updateComplete;
+
+    const watchText = element.shadowRoot?.querySelector(".video-watch-text");
+    expect(watchText).toBeTruthy();
+    expect(watchText?.textContent).toBe("Watch");
+  });
 });

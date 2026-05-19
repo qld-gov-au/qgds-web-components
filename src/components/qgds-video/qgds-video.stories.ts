@@ -25,7 +25,7 @@ const meta: Meta<Args> = {
     caption: "Caption text goes here",
     controls: true,
     autoplay: false,
-    size: "full",
+    size: "xl",
   },
   argTypes: {
     ...argTypes,
@@ -39,9 +39,9 @@ const meta: Meta<Args> = {
     },
     size: {
       control: { type: "select" },
-      options: ["full", "two-thirds", "half"],
-      table: { defaultValue: { summary: "full" } },
-      description: "Card width: full = 12 cols, two-thirds = 8 cols (max 864px), half = 6 cols.",
+      options: ["xl", "md", "sm"],
+      table: { defaultValue: { summary: "xl" } },
+      description: "Card width + play-button density: xl = 12 cols, md = 8 cols (max 864px), sm = 6 cols.",
     },
   },
   decorators: [
@@ -100,34 +100,34 @@ export const NoSource: Story = {
   },
 };
 
-/** Width variants — full (12 cols), two-thirds (8 cols, max 864px), half (6 cols). */
+/** Size variants — xl (12 cols), md (8 cols, max 864px, 32px play button), sm (6 cols, 24px play button, icon-only). */
 export const Sizes: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <qgds-video
-        size="full"
+        size="xl"
         source="youtube"
         video-id="LDU_Txk06tM"
         thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
         duration="3:12"
-        caption="Full width (12 cols)"
+        caption="Extra large (12 cols)"
       ></qgds-video>
       <qgds-video
-        size="two-thirds"
+        size="md"
         source="youtube"
         video-id="LDU_Txk06tM"
         thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
         duration="3:12"
-        caption="Two thirds (8 cols, max 864px)"
+        caption="Medium (8 cols, max 864px)"
       ></qgds-video>
       <qgds-video
-        size="half"
+        size="sm"
         source="youtube"
         video-id="LDU_Txk06tM"
         thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
         duration="3:12"
-        caption="Half page (6 cols)"
+        caption="Small (6 cols, icon-only play button)"
       ></qgds-video>
     </div>
   `,
