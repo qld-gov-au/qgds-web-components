@@ -59,7 +59,7 @@ qgds-accordion {
   }
 
   &.is-active {
-    color: var(-qgds-color-text-heading, #000053);
+    color: var(--qgds-color-text-heading, #000053);
     font-weight: 600;
   }
 

@@ -1,10 +1,11 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-side-navigation.styles.scss?inline";
-import { validateSlotContent } from "../../utils";
+import { scrubSlotContent } from "../../utils";
 
 export const tagname = "qgds-side-navigation-item";
 /**
@@ -55,7 +56,7 @@ export class QGDSSideNavigationItem extends LitElement {
       }
     }
     // then only allow qgds-side-navigation-items
-    validateSlotContent(slot, "QGDS-SIDE-NAVIGATION-ITEM");
+    scrubSlotContent(slot, "QGDS-SIDE-NAVIGATION-ITEM");
   };
 
   private _renderChildren = () => {
@@ -76,9 +77,12 @@ export class QGDSSideNavigationItem extends LitElement {
       "is-level-2": this.level === 2,
       "is-level-3": this.level === 3,
     });
+
     return html`${this.href && !this.isActive
       ? html`<a class="${classes}" href="${this.href}">${this.label}</a>`
-      : html`<span class="${classes}">${this.label}</span>`}
+      : html`<span class="${classes}" aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+          >${this.label}</span
+        >`}
     ${!this._isHeading ? this._renderChildren() : nothing}`;
   }
 }

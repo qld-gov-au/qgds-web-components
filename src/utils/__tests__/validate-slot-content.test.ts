@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateSlotContent } from "../validate-slot-content";
+import { scrubSlotContent } from "../scrub-slot-content";
 
 type NodeInput = Node | string;
 
@@ -24,7 +24,7 @@ function createSlotHost(children: NodeInput[]) {
 describe("validateSlotContent", () => {
   it("allows text nodes when allowTextNodes is true", () => {
     const { host, slot } = createSlotHost(["hello world"]);
-    const result = validateSlotContent(slot, undefined, false, true);
+    const result = scrubSlotContent(slot, undefined, false, true);
 
     expect(result).toBe(true);
     expect(host.childNodes.length).toBe(1);
@@ -35,7 +35,7 @@ describe("validateSlotContent", () => {
 
   it("removes text nodes when allowTextNodes is false", () => {
     const { host, slot } = createSlotHost(["hello world"]);
-    const result = validateSlotContent(slot, undefined, false, false);
+    const result = scrubSlotContent(slot, undefined, false, false);
 
     expect(result).toBe(false);
     expect(host.childNodes.length).toBe(0);
@@ -49,7 +49,7 @@ describe("validateSlotContent", () => {
     const invalidElement = document.createElement("p");
     const { host, slot } = createSlotHost([validElement1, validElement2, invalidElement]);
 
-    const result = validateSlotContent(slot, "qgds-link");
+    const result = scrubSlotContent(slot, "qgds-link");
 
     expect(result).toBe(false);
     expect(host.querySelectorAll("qgds-link").length).toBe(2);
@@ -64,7 +64,7 @@ describe("validateSlotContent", () => {
     const invalidElement = document.createElement("p");
     const { host, slot } = createSlotHost([validDiv, validSpan, invalidElement]);
 
-    const result = validateSlotContent(slot, ["div", "span"]);
+    const result = scrubSlotContent(slot, ["div", "span"]);
 
     expect(result).toBe(false);
     expect(host.querySelectorAll("div, span").length).toBe(2);
@@ -81,7 +81,7 @@ describe("validateSlotContent", () => {
     const invalidElement = document.createElement("p");
     const { host, slot } = createSlotHost([allowedOne, allowedTwo, unlimitedOne, unlimitedTwo, invalidElement]);
 
-    const result = validateSlotContent(slot, { "qgds-link": 1, "qgds-link-item": -1 });
+    const result = scrubSlotContent(slot, { "qgds-link": 1, "qgds-link-item": -1 });
 
     expect(result).toBe(false);
     expect(host.querySelectorAll("qgds-link").length).toBe(1);

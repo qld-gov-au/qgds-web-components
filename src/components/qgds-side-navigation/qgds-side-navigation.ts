@@ -1,7 +1,7 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import breakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
-import { debounce, validateSlotContent } from "../../utils";
+import { debounce, scrubSlotContent } from "../../utils";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-side-navigation.styles.scss?inline";
@@ -66,13 +66,15 @@ export class QGDSSideNavigation extends LitElement {
     const slot = e.target as HTMLSlotElement;
     switch (slot.name) {
       case "heading":
-        validateSlotContent(slot, { "qgds-side-navigation-item": 1 });
+        scrubSlotContent(slot, { "qgds-side-navigation-item": 1 });
         break;
       default: {
-        const isValid = validateSlotContent(slot, "qgds-side-navigation-item");
+        const isValid = scrubSlotContent(slot, "qgds-side-navigation-item");
         if (isValid) {
           const items = slot.assignedElements() as QGDSSideNavigationItem[];
-          if (items.length) items[0].isFirst = true;
+          items.forEach((item, i) => {
+            item.isFirst = i === 0;
+          });
         }
       }
     }

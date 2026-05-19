@@ -29,7 +29,7 @@
  *
  *
  */
-export function validateSlotContent(
+export function scrubSlotContent(
   slot: HTMLSlotElement,
   validElements?: string | string[] | Record<string, number>,
   flatten = false,

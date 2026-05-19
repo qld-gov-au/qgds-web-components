@@ -9,26 +9,40 @@ import "./styles/main.scss";
 // =============================================================================
 // QGDS Components
 // =============================================================================
+export { QGDSAccordion } from "./components/qgds-accordion/qgds-accordion";
+export { QGDSAccordionGroup } from "./components/qgds-accordion-group/qgds-accordion-group";
+export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
+export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
+export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
 export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
+export { QGDSCard } from "./components/qgds-card/qgds-card";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
-export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
-export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
-export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
+export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
-export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
+export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
+export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
 export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
 export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-item";
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
-export { QGDSSearchInput } from "./components/qgds-search-input/qgds-search-input";
 export { QGDSRadioGroup } from "./components/forms/qgds-radio-group/qgds-radio-group";
+export { QGDSSearchInput } from "./components/qgds-search-input/qgds-search-input";
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
+export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-option";
+export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-optgroup";
+export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
+export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
+export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+export { QgdsCallToAction } from "./components/qgds-call-to-action/qgds-call-to-action";
+export { QgdsLink } from "./components/qgds-link/qgds-link";
+export { QgdsLinkColumn } from "./components/qgds-link-column/qgds-link-column";
+export { QgdsLinkItem } from "./components/qgds-link-item/qgds-link-item";
 // etc...
 
 // =============================================================================
