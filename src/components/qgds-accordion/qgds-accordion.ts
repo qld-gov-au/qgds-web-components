@@ -27,7 +27,6 @@ export const tagName = "qgds-accordion";
 @customElement(tagName)
 export class QGDSAccordion extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
-  // static shadowRootOptions: ShadowRootInit = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   @property({ type: String }) title = "";
   @property({ type: Boolean, attribute: "is-open", reflect: true }) isOpen = false;
