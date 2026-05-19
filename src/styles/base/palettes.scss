@@ -44,8 +44,7 @@
 }
 
 // Some baseline defaults for background and text colors. These are usually redefined within each component
-[class*="qgds-palette-"],
-[palette] {
+[class*="qgds-palette-"] {
   background: var(--qgds-color-background);
   color: var(--qgds-color-text-default);
 }
