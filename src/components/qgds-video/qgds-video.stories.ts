@@ -25,6 +25,7 @@ const meta: Meta<Args> = {
     caption: "Caption text goes here",
     controls: true,
     autoplay: false,
+    size: "full",
   },
   argTypes: {
     ...argTypes,
@@ -36,10 +37,16 @@ const meta: Meta<Args> = {
       control: { type: "select" },
       options: ["16x9", "4x3", "1x1", "21x9"],
     },
+    size: {
+      control: { type: "select" },
+      options: ["full", "two-thirds", "half"],
+      table: { defaultValue: { summary: "full" } },
+      description: "Card width: full = 12 cols, two-thirds = 8 cols (max 864px), half = 6 cols.",
+    },
   },
   decorators: [
     (story) => html`
-      <div style="max-width: 720px; margin: 1rem;">${story()}</div>
+      <div style="max-width: 960px; margin: 1rem;">${story()}</div>
     `,
   ],
   render: (args) => template(args),
@@ -91,6 +98,39 @@ export const NoSource: Story = {
     duration: "",
     caption: "Placeholder shown when the consumer has not configured a video source.",
   },
+};
+
+/** Width variants — full (12 cols), two-thirds (8 cols, max 864px), half (6 cols). */
+export const Sizes: Story = {
+  parameters: { controls: { disable: true } },
+  render: () => html`
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <qgds-video
+        size="full"
+        source="youtube"
+        video-id="LDU_Txk06tM"
+        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+        duration="3:12"
+        caption="Full width (12 cols)"
+      ></qgds-video>
+      <qgds-video
+        size="two-thirds"
+        source="youtube"
+        video-id="LDU_Txk06tM"
+        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+        duration="3:12"
+        caption="Two thirds (8 cols, max 864px)"
+      ></qgds-video>
+      <qgds-video
+        size="half"
+        source="youtube"
+        video-id="LDU_Txk06tM"
+        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+        duration="3:12"
+        caption="Half page (6 cols)"
+      ></qgds-video>
+    </div>
+  `,
 };
 
 /** Replace the default player via the `player` slot — useful when the player is shared with a Card. */

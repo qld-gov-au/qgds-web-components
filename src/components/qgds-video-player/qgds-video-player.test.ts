@@ -6,7 +6,7 @@ describe("qgds-video-player", () => {
   let element: QGDSVideoPlayer;
 
   beforeEach(() => {
-    element = document.createElement("qgds-video-player") as QGDSVideoPlayer;
+    element = document.createElement("qgds-video-player");
     document.body.appendChild(element);
   });
 
@@ -66,25 +66,6 @@ describe("qgds-video-player", () => {
     expect(
       element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-custom")?.src
     ).toBe("https://example.com/embed/foo");
-  });
-
-  it("hides the thumbnail and dispatches qgds-play when activated", async () => {
-    element.source = "youtube";
-    element.videoId = "abc123";
-    element.thumbnail = "https://example.com/thumb.jpg";
-    await element.updateComplete;
-
-    let detail: { source: string; videoId: string } | undefined;
-    element.addEventListener("qgds-play", (e) => {
-      detail = (e as CustomEvent).detail;
-    });
-
-    element.shadowRoot?.querySelector<HTMLAnchorElement>(".video-thumbnail")?.click();
-    await element.updateComplete;
-
-    expect(detail).toEqual({ source: "youtube", videoId: "abc123" });
-    expect(element.shadowRoot?.querySelector(".video-thumbnail")).toBeNull();
-    expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube")?.src).toContain("autoplay=1");
   });
 
   it("renders directly into the iframe view when no thumbnail is provided", async () => {

@@ -12,6 +12,14 @@ import type { VideoSource, VideoAspect } from "../qgds-video-player/qgds-video-p
 export type { VideoSource, VideoAspect };
 
 /**
+ * Width variants. Mirrors the BS5 column-based sizes:
+ * - `"full"` → 12 cols, fills the container.
+ * - `"two-thirds"` → 8 cols (66.67% of the parent, capped at 864px per the Figma spec).
+ * - `"half"` → 6 cols (50% of the parent).
+ */
+export type VideoSize = "full" | "two-thirds" | "half";
+
+/**
  * A video card composed of `<qgds-video-player>` (the click-to-play surface), an optional
  * caption, and an optional transcript disclosure.
  *
@@ -31,6 +39,7 @@ export type { VideoSource, VideoAspect };
  * @property {boolean} [autoplay] - Forwarded to the default `qgds-video-player`.
  * @property {boolean} [controls] - Forwarded to the default `qgds-video-player`.
  * @property {string} [caption] - Plain-text caption rendered below the player.
+ * @property {VideoSize} [size] - Card width: `"full"` (12 cols), `"two-thirds"` (8 cols, max 864px), or `"half"` (6 cols). Defaults to `"full"`.
  *
  * @slot player - Replaces the default `<qgds-video-player>`. The source/etc attributes are ignored when used.
  * @slot caption - Rich-HTML caption shown below the player. Overrides the `caption` attribute.
@@ -69,6 +78,7 @@ export class QGDSVideo extends LitElement {
   @property({ type: Boolean }) autoplay = false;
   @property({ type: Boolean, useDefault: true }) controls = true;
   @property({ type: String }) caption = "";
+  @property({ type: String, reflect: true }) size: VideoSize = "full";
 
   @state() private _transcriptOpen = false;
   @state() private _hasTranscript = false;
