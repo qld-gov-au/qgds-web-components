@@ -1,0 +1,40 @@
+@use "../../styles/qgds-tokens/qgds-color-stub";
+
+// Public API: CSS custom properties that can be overridden from light DOM
+// Example: qgds-loading-spinner { --qgds-loading-spinner-color: navy; }
+:host {
+  display: inline-flex;
+}
+
+.loading-spinner {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
+  // Set the icon color on the parent so qgds-icon inherits it via its :host { --qgds-icon-color: inherit } rule.
+  // Setting it directly on qgds-icon is overridden by qgds-icon's own :host declaration (inner shadow wins cascade).
+  --qgds-icon-color: var(--qgds-loading-spinner-color, var(--qgds-color-accent-design-accent, currentColor));
+    
+  &.is-stacked {
+    flex-direction: column;
+  }
+}
+
+@keyframes qgds-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .spinner-icon {
+    animation: qgds-spin 1s linear infinite;
+  }
+}
+
+.label {
+  font-size: 1rem;
+  color: var(--qgds-color-text-heading);
+  font-weight: 700;
+}
