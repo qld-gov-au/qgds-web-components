@@ -49,7 +49,7 @@ export type { IconSize };
  * ```
  */
 @customElement("qgds-link")
-export class QgdsLink extends LitElement {
+export class QGDSLink extends LitElement {
   static styles = [
     ...baseStyles,
     css`
@@ -116,6 +116,6 @@ export class QgdsLink extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-link": QgdsLink;
+    "qgds-link": QGDSLink;
   }
 }

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import type { QgdsLinkColumn } from "./qgds-link-column.js";
+import type { QGDSLinkColumn } from "./qgds-link-column.js";
 import "./qgds-link-column.js";
 import "../qgds-link-item/qgds-link-item.js";
 
-const { args, argTypes, template } = getStorybookHelpers<QgdsLinkColumn>("qgds-link-column");
+const { args, argTypes, template } = getStorybookHelpers<QGDSLinkColumn>("qgds-link-column");
 
 type Args = typeof args;
 
