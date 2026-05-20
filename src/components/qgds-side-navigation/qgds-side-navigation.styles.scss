@@ -1,0 +1,101 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
+
+:host {
+  display: block;
+}
+
+:host(qgds-side-navigation-item) {
+  isolation: auto;
+}
+
+// The default accordion padding is not desired.
+qgds-accordion {
+  :first-child {
+    margin-block-start: -8px;
+  }
+
+  :last-child {
+    margin-block-end: -8px;
+  }
+}
+
+.qgds-side-navigation-item {
+  padding: f.remify(16px);
+  font-size: f.remify(14px);
+  line-height: f.snap-line-height();
+  border-radius: 0;
+  display: flex;
+  align-items: baseline;
+  transition-property: color, background-color, text-decoration-color, text-decoration-thickness;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-out;
+  color: var(--qgds-color-text-default);
+  position: relative;
+
+  &:where(a) {
+    text-decoration: {
+      line: var(--qgds-link-decoration, underline);
+      thickness: 0;
+      style: solid;
+      color: transparent;
+    }
+
+    &:hover {
+      background-color: var(--qgds-color-background-shade, #f5f5f5);
+      color: var(--qgds-color-link-default);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      text-decoration-color: currentColor;
+    }
+
+    &:active {
+      color: var(--qgds-color-text-heading, #000053);
+      font-weight: 600;
+    }
+
+    @include m.focusable() {
+      z-index: 1;
+    }
+  }
+
+  &.is-active {
+    color: var(--qgds-color-text-heading, #000053);
+    font-weight: 600;
+  }
+
+  &.is-heading {
+    border-block-end: 2px solid var(--qgds-color-accent-design-accent, #84d3ff);
+    font-size: inherit;
+    color: inherit;
+
+    &:where(a) {
+      &:hover {
+        color: var(--qgds-color-link-default);
+      }
+    }
+  }
+
+  &.is-level-1:not(.is-first-item) {
+    border-block-start: 1px solid var(--qgds-color-border-alt, #848484);
+  }
+
+  &.is-level-2 {
+    padding-inline-start: f.remify(32px);
+    border-block-start: 1px solid var(--qgds-side-navigation-item-level-2-border, #ebebeb);
+  }
+
+  &.is-level-3 {
+    padding-inline-start: f.remify(56px);
+    position: relative;
+
+    &::before {
+      content: "└─";
+      position: absolute;
+      inset-inline-start: f.remify(32px);
+      inset-block-start: f.remify(20);
+      font-size: f.remify(10px);
+      color: var(--qgds-color-border-alt, #848484);
+      font-weight: normal;
+    }
+  }
+}
