@@ -27,7 +27,7 @@ $prefix: "is" !default;
 }
 
 @each $key, $config in config.$utils {
-  $property: map.get($config, property, $key);
+  $property: if(map.has-key($config, property), map.get($config, property), $key);
   $class-name: if(map.has-key($config, class), map.get($config, class), $key);
   $values: map.get($config, values);
 
