@@ -17,6 +17,7 @@
   --qgds-color-link-default: #005eb8;
   --qgds-color-link-hover: #005eb8;
   --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-on-action-active: #000053;
   --qgds-color-link-visited: #551a8b;
   --qgds-color-site-title: #005eb8;
   --qgds-color-text-default: #353535;
@@ -40,6 +41,7 @@
   --qgds-tag-info-bg: var(--qgds-color-neutral-lightest, #f5f5f5);
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
+  --qgds-side-navigation-item-level-2-border: var(--qgds-color-neutral-lighter, #ebebeb);
 }
 
 // ============================================
@@ -60,6 +62,7 @@
   --qgds-color-link-default: #005eb8;
   --qgds-color-link-hover: #005eb8;
   --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-on-action-active: #000053;
   --qgds-color-link-visited: #551a8b;
   --qgds-color-site-title: #005eb8;
   --qgds-color-text-default: #353535;
@@ -83,6 +86,7 @@
   --qgds-tag-info-bg: var(--qgds-color-background-shade);
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
+  --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #bedfff);
 }
 
 // ============================================
@@ -103,6 +107,7 @@
   --qgds-color-link-default: #005eb8;
   --qgds-color-link-hover: #005eb8;
   --qgds-color-link-on-action: #ffffff;
+  --qgds-color-link-on-action-active: #000053;
   --qgds-color-link-visited: #551a8b;
   --qgds-color-site-title: #005eb8;
   --qgds-color-text-default: #353535;
@@ -126,6 +131,7 @@
   --qgds-tag-info-bg: var(--qgds-color-background-shade);
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
+  --qgds-side-navigation-item-level-2-border: var(--qgds-color-neutral-light, #e0e0e0);
 }
 
 // ============================================
@@ -145,6 +151,7 @@
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-hover: #ffffff;
   --qgds-color-link-on-action: #001c37;
+  --qgds-color-link-on-action-active: #000053;
   --qgds-color-link-visited: #f2cdff;
   --qgds-color-site-title: #ffffff;
   --qgds-color-text-default: #ffffff;
@@ -169,6 +176,7 @@
   --qgds-tag-info-bg: var(--qgds-color-background-shade);
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
+  --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #418fed);
 }
 
 // ============================================
@@ -189,6 +197,7 @@
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-hover: #ffffff;
   --qgds-color-link-on-action: #001c37;
+  --qgds-color-link-on-action-active: #000053;
   --qgds-color-link-visited: #f2cdff;
   --qgds-color-site-title: #ffffff;
   --qgds-color-text-default: #ffffff;
@@ -214,6 +223,7 @@
   --qgds-tag-info-bg: var(--qgds-color-background-shade);
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
+  --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #418fed);
 }
 
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES

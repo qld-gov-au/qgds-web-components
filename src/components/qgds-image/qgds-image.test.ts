@@ -198,13 +198,13 @@ describe("qgds-image", () => {
   });
 
   describe("Image dimensions", () => {
-    it("should apply width style to img when specified", async () => {
+    it("should apply inline-size style to wrapper when width is specified", async () => {
       element.setAttribute("width", "800");
       await element.updateComplete;
 
-      const img = element.shadowRoot?.querySelector("img");
-      expect(img?.hasAttribute("style")).toBe(true);
-      const style = img?.getAttribute("style") ?? "";
+      const wrapper = element.shadowRoot?.querySelector(".image-wrap");
+      expect(wrapper?.hasAttribute("style")).toBe(true);
+      const style = wrapper?.getAttribute("style") ?? "";
       expect(style).toContain("inline-size");
     });
 
@@ -218,16 +218,42 @@ describe("qgds-image", () => {
       expect(style).toContain("max-block-size");
     });
 
-    it("should apply both width and height styles to img", async () => {
+    it("should apply inline-size to wrapper and max-block-size to img when both are specified", async () => {
       element.setAttribute("width", "800");
       element.setAttribute("height", "600");
       await element.updateComplete;
 
+      const wrapper = element.shadowRoot?.querySelector(".image-wrap");
+      expect(wrapper?.hasAttribute("style")).toBe(true);
+      const wrapperStyle = wrapper?.getAttribute("style") ?? "";
+      expect(wrapperStyle).toContain("inline-size");
+
       const img = element.shadowRoot?.querySelector("img");
       expect(img?.hasAttribute("style")).toBe(true);
-      const style = img?.getAttribute("style") ?? "";
-      expect(style).toContain("inline-size");
-      expect(style).toContain("max-block-size");
+      const imgStyle = img?.getAttribute("style") ?? "";
+      expect(imgStyle).toContain("max-block-size");
+    });
+
+    it("should derive wrapper inline size from aspect ratio when height is specified", async () => {
+      element.setAttribute("aspect", "2:3");
+      element.setAttribute("height", "240");
+      element.setAttribute("caption", "Aspect ratio: 2:3");
+      await element.updateComplete;
+
+      const figure = element.shadowRoot?.querySelector("figure.image-wrap");
+      expect(figure?.hasAttribute("style")).toBe(true);
+
+      const style = figure?.getAttribute("style") ?? "";
+      expect(style).toContain("inline-size:160px");
+    });
+
+    it("should not force wrapper inline size when height is specified without aspect ratio", async () => {
+      element.setAttribute("height", "240");
+      element.setAttribute("caption", "Free-form image");
+      await element.updateComplete;
+
+      const figure = element.shadowRoot?.querySelector("figure.image-wrap");
+      expect(figure?.hasAttribute("style")).toBe(false);
     });
   });
 

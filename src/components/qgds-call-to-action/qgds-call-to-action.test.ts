@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-call-to-action";
 import "../qgds-link/qgds-link";
-import type { QgdsCallToAction } from "./qgds-call-to-action";
+import type { QGDSCallToAction } from "./qgds-call-to-action";
 
 describe("qgds-call-to-action", () => {
-  let element: QgdsCallToAction;
+  let element: QGDSCallToAction;
 
   beforeEach(() => {
     element = document.createElement("qgds-call-to-action");

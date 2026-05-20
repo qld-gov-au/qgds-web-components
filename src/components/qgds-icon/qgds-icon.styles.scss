@@ -6,7 +6,7 @@
   --qgds-icon-size-lg: 2rem;
   --qgds-icon-size-xl: 2.5rem;
   --qgds-icon-size-xxl: 3rem;
-  --qgds-icon-size: initial;
+  --qgds-icon-size: inherit; // default size, can be overridden by size-specific variables or inline styles
 
   display: inline-block;
   vertical-align: middle;

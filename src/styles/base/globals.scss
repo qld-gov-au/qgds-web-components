@@ -23,6 +23,7 @@
   --qgds-breakpoint-md: #{$breakpoint-md};
   --qgds-breakpoint-lg: #{$breakpoint-lg};
   --qgds-breakpoint-xl: #{$breakpoint-xl};
+  --qgds-breakpoint-xxl: #{$breakpoint-xxl};
 
   // Line height utility
   --qgds-line-height-default: 1.45;
@@ -46,4 +47,5 @@ body {
   line-height: var(--qgds-line-height-default);
   color: var(--qgds-color-text-default);
   -webkit-font-smoothing: antialiased;
+  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
 }

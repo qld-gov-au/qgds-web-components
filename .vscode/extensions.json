@@ -6,6 +6,7 @@
     "github.vscode-pull-request-github",
     "unifiedjs.vscode-mdx",
     "somewhatstationery.some-sass",
-    "stylelint.vscode-stylelint"
+    "stylelint.vscode-stylelint",
+    "runem.lit-plugin"
   ]
 }
