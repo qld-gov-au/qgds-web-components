@@ -27,8 +27,8 @@ export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
-export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
+export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageNav } from "./components/qgds-inpage-nav/qgds-inpage-nav";
 export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-item";
 export { QGDSLink } from "./components/qgds-link/qgds-link";
@@ -45,6 +45,5 @@ export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-o
 export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-option";
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
-export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
