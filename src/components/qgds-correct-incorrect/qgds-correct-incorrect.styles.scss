@@ -1,0 +1,35 @@
+:host {
+  --icon-fg: initial;
+  --bg: initial;
+
+  display: block;
+}
+
+.qgds-correct-incorrect {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  margin-block-end: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--bg);
+
+  &.correct {
+    --bg: var(--qgds-color-status-success-lighter, #e5eef5);
+    --icon-fg: var(--qgds-color-status-success-default, #339d37);
+  }
+
+  &.incorrect {
+    --bg: var(--qgds-color-status-error-lighter, #fdf0f0);
+    --icon-fg: var(--qgds-color-status-error-default, #e22339);
+  }
+
+  .default-icon {
+    flex: 0 0 auto;
+    color: var(--icon-fg);
+  }
+
+  .content {
+    flex: 1 1 auto;
+  }
+}
