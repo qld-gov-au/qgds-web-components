@@ -47,3 +47,4 @@ export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+export { QGDSTag } from "./components/qgds-tag/qgds-tag";
