@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-link";
-import type { QgdsLink } from "./qgds-link";
+import type { QGDSLink } from "./qgds-link";
 
 describe("qgds-link", () => {
-  let element: QgdsLink;
+  let element: QGDSLink;
 
   beforeEach(() => {
     element = document.createElement("qgds-link");
