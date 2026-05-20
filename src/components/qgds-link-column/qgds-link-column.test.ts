@@ -2,10 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "./qgds-link-column";
 import "../qgds-link-item/qgds-link-item";
 import "../qgds-call-to-action/qgds-call-to-action";
-import type { QgdsLinkColumn } from "./qgds-link-column";
+import type { QGDSLinkColumn } from "./qgds-link-column";
 
 describe("qgds-link-column", () => {
-  let element: QgdsLinkColumn;
+  let element: QGDSLinkColumn;
 
   beforeEach(() => {
     element = document.createElement("qgds-link-column");
