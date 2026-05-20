@@ -14,7 +14,8 @@
   "sideEffects": true,
   "scripts": {
     "dev": "vite",
-    "build": "npm run analyze && vite build",
+    "generate:exports": "node scripts/generate-component-exports.js",
+    "build": "npm run generate:exports && npm run analyze && vite build",
     "build:watch": "vite build --watch",
     "serve": "http-server dist -p 8090",
     "demo": "npm run build && (npm run build:watch & http-server dist -p 8090 -o /demo.html)",
@@ -34,7 +35,7 @@
     "lint:styles": "stylelint \"src/**/*.{css,scss}\"",
     "lint:styles:fix": "stylelint \"src/**/*.{css,scss}\" --fix",
     "lint:fix": "npm run lint:ts:fix && npm run lint:styles:fix",
-    "prepare": "husky"
+    "prepare": "husky && npm run generate:exports"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.3",
