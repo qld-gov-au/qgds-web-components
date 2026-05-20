@@ -1,0 +1,21 @@
+$utils: (
+  "display": (
+    property: display,
+    class: "",
+    values: (
+      inline,
+      inline-block,
+      block,
+      grid,
+      inline-grid,
+      table,
+      table-row,
+      table-cell,
+      flex,
+      inline-flex,
+      (
+        "hidden": none,
+      ),
+    ),
+  ),
+);

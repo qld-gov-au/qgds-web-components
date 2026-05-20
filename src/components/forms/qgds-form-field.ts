@@ -16,14 +16,17 @@ import { QgdsEvents } from "../../utils";
  * @prop {String} [label] - The form field's label text.
  * @prop {String} [value] - The current value of the field.
  * @prop {Boolean} [required=false] - Indicates whether the field is required.
- * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none".
+ * @prop {FormIndicateIf} [indicateIf="required"] - Display indicator for "required", "optional", or "none".
  * @prop {String} [hint] - Hint text to guide the user.
  * @prop {FormValidationState} [validationState] - The validation state, either "success" or "error".
  * @prop {String} [validationMessage] - Validation feedback message displayed with the state.
  * @prop {Boolean} [disabled=false] - Disables the field when true.
  * @prop {Boolean} [readOnly=false] - Makes the field read-only when true.
+ * @prop {Boolean} [nativeValidate=false] - opt in to HTML5 client side validation styles, which will render native browser validation popovers and messages rather than component defined and controlled via props. This is not recommended.
  *
  * @slot details - Place any markup to be rendered within additional details.
+ *
+ * @event qgds-change - Fired when the input's value changes
  */
 export abstract class QGDSFormField extends LitElement {
   // ── Static ─────────────────────────────────────────────────────────────────
@@ -100,6 +103,19 @@ export abstract class QGDSFormField extends LitElement {
       .join(" ");
   }
 
+  /**
+   * The value to sync into ElementInternals. Override in subclasses that
+   * track their selection in a separate internal state (e.g. field groups).
+   */
+  protected get _currentValue(): string | string[] | undefined {
+    return this.value;
+  }
+
+  protected get _internalValidate(): boolean {
+    if (this._internals.form?.noValidate) return false;
+    return this.nativeValidate ?? false;
+  }
+
   constructor() {
     super();
     this._internals = this.attachInternals();
@@ -159,19 +175,6 @@ export abstract class QGDSFormField extends LitElement {
 
     this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
   };
-
-  /**
-   * The value to sync into ElementInternals. Override in subclasses that
-   * track their selection in a separate internal state (e.g. field groups).
-   */
-  protected get _currentValue(): string | string[] | undefined {
-    return this.value;
-  }
-
-  protected get _internalValidate(): boolean {
-    if (this._internals.form?.noValidate) return false;
-    return this.nativeValidate ?? false;
-  }
 
   /**
    * Sync the current value into ElementInternals so the field participates
