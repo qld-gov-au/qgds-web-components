@@ -24,7 +24,7 @@
 }
 
 /* Base Link Styles */
-.base-link {
+a.base-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@
 }
 
 /* Page Numbers (1, 2, 3) */
-.page-link {
+a.page-link {
   /* Dimensions */
   inline-size: var(--pg-size); /* 2rem / 32px */
   block-size: var(--pg-size);
@@ -93,14 +93,24 @@
   }
 }
 
-.page-link-placeholder {
+a.page-link-placeholder {
   visibility: hidden;
   pointer-events: none;
 }
 
+a.prev-link {
+  /* Creates additional space between "Back" label and Page 1 (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-end: 0.25rem;
+}
+
+a.next-link {
+  /* Creates additional space between "Next" label and last page (0.75rem gap + 0.25rem padding = 1rem gap) */
+  padding-inline-start: 0.25rem;
+}
+
 /* Prev/Next Navigation */
-.prev-link,
-.next-link {
+a.prev-link,
+a.next-link {
   gap: 0.25rem;
   color: var(--pg-link-fg);
   text-decoration: underline 1px var(--pg-link-fg);
@@ -109,6 +119,10 @@
   .base-icon {
     color: var(--icon-fg);
     transition: color 0.2s ease;
+  }
+
+  &:hover {
+    text-decoration-thickness: 2px;
   }
 
   &:hover .base-icon {
@@ -122,26 +136,16 @@
   }
 }
 
-.prev-link {
-  /* Creates additional space between "Back" label and Page 1 (0.75rem gap + 0.25rem padding = 1rem gap) */
-  padding-inline-end: 0.25rem;
-}
-
-.next-link {
-  /* Creates additional space between "Next" label and last page (0.75rem gap + 0.25rem padding = 1rem gap) */
-  padding-inline-start: 0.25rem;
-}
-
 /* Focus State (Unified) */
-.page-link:focus,
-.prev-link:focus,
-.next-link:focus {
+a.page-link:focus,
+a.prev-link:focus,
+a.next-link:focus {
   outline: 2px solid var(--qgds-color-focus-default);
   outline-offset: 2px;
 }
 
 /* Visually hide non-pinned page items */
-.page-item {
+a.page-item {
   display: none;
 
   &.is-pinned-desktop,
@@ -190,8 +194,8 @@
 
 @container pagination (max-width: 400px) {
   /* Hides Prev and Next labels on smaller container, relying on icons only for prev/next */
-  .prev-link,
-  .next-link {
+  a.prev-link,
+  a.next-link {
     .label {
       display: none;
     }
@@ -207,8 +211,8 @@
     gap: 0.5rem;
   }
 
-  .prev-link,
-  .next-link {
+  a.prev-link,
+  a.next-link {
     padding-inline: 0;
   }
 }
