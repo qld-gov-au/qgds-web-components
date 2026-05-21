@@ -1,8 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-video.js";
-import "../qgds-video-player/qgds-video-player.js";
 import type { QGDSVideo } from "./qgds-video.js";
-import type { QGDSVideoPlayer } from "../qgds-video-player/qgds-video-player.js";
 
 describe("qgds-video", () => {
   let element: QGDSVideo;
@@ -16,56 +14,64 @@ describe("qgds-video", () => {
     element.remove();
   });
 
-  it("renders a default qgds-video-player with the forwarded props", async () => {
+  // ── Player surface ────────────────────────────────────────────────────
+
+  it("renders the placeholder when no source is set", async () => {
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector(".video-no-source")).toBeTruthy();
+  });
+
+  it("shows the thumbnail overlay when source, video-id, and thumbnail are provided", async () => {
     element.source = "youtube";
     element.videoId = "abc123";
-    element.duration = "1:23";
-    element.aspectRatio = "4x3";
+    element.thumbnail = "https://example.com/thumb.jpg";
+    await element.updateComplete;
+
+    expect(element.shadowRoot?.querySelector(".video-thumbnail")).toBeTruthy();
+    expect(element.shadowRoot?.querySelector(".video-watch")?.textContent).toContain("Watch");
+  });
+
+  it("renders a YouTube iframe with the expected src", async () => {
+    element.source = "youtube";
+    element.videoId = "abc123";
+    await element.updateComplete;
+
+    const iframe = element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube");
+    expect(iframe?.src).toContain("youtube.com/embed/abc123");
+    expect(iframe?.src).toContain("autoplay=0");
+    expect(iframe?.src).toContain("controls=1");
+  });
+
+  it("renders a Vimeo iframe with the expected src", async () => {
+    element.source = "vimeo";
+    element.videoId = "999";
+    await element.updateComplete;
+
+    expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-vimeo")?.src).toContain(
+      "player.vimeo.com/video/999"
+    );
+  });
+
+  it("renders a custom iframe using video-id as the full URL", async () => {
+    element.source = "custom";
+    element.videoId = "https://example.com/embed/foo";
+    await element.updateComplete;
+
+    expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-custom")?.src).toBe(
+      "https://example.com/embed/foo"
+    );
+  });
+
+  it("respects controls=false on the iframe URL", async () => {
+    element.source = "youtube";
+    element.videoId = "abc123";
     element.controls = false;
     await element.updateComplete;
 
-    const player = element.shadowRoot?.querySelector<QGDSVideoPlayer>("qgds-video-player");
-    expect(player).toBeTruthy();
-    expect(player?.source).toBe("youtube");
-    expect(player?.videoId).toBe("abc123");
-    expect(player?.duration).toBe("1:23");
-    expect(player?.aspectRatio).toBe("4x3");
-    expect(player?.controls).toBe(false);
+    expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube")?.src).toContain("controls=0");
   });
 
-  it("uses the player slot when content is provided", async () => {
-    const customPlayer = document.createElement("qgds-video-player");
-    customPlayer.setAttribute("slot", "player");
-    customPlayer.source = "vimeo";
-    customPlayer.videoId = "999";
-    element.appendChild(customPlayer);
-    await element.updateComplete;
-
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="player"]');
-    const assigned = slot?.assignedElements();
-    expect(assigned?.[0]).toBe(customPlayer);
-  });
-
-  it("defaults size to 'xl' and reflects it to the attribute when changed", async () => {
-    await element.updateComplete;
-    expect(element.size).toBe("xl");
-
-    element.size = "md";
-    await element.updateComplete;
-    expect(element.getAttribute("size")).toBe("md");
-
-    element.size = "sm";
-    await element.updateComplete;
-    expect(element.getAttribute("size")).toBe("sm");
-  });
-
-  it("forwards size to the inner qgds-video-player", async () => {
-    element.size = "sm";
-    await element.updateComplete;
-
-    const player = element.shadowRoot?.querySelector("qgds-video-player");
-    expect(player?.getAttribute("size")).toBe("sm");
-  });
+  // ── Caption / transcript ──────────────────────────────────────────────
 
   it("renders the caption from the caption attribute", async () => {
     element.caption = "Caption text goes here";
@@ -90,5 +96,27 @@ describe("qgds-video", () => {
 
     expect(element.shadowRoot?.querySelector(".video-transcript")?.classList.contains("is-hidden")).toBe(false);
     expect(element.shadowRoot?.querySelector(".video-transcript-label")?.textContent?.trim()).toBe("Show transcript");
+  });
+
+  // ── Trimmed mode ──────────────────────────────────────────────────────
+
+  it("skips card chrome, caption, and transcript when is-trimmed", async () => {
+    element.isTrimmed = true;
+    element.source = "youtube";
+    element.videoId = "abc123";
+    element.caption = "ignored";
+    await element.updateComplete;
+
+    expect(element.shadowRoot?.querySelector(".video")).toBeNull();
+    expect(element.shadowRoot?.querySelector(".video-caption")).toBeNull();
+    expect(element.shadowRoot?.querySelector(".video-transcript")).toBeNull();
+    expect(element.shadowRoot?.querySelector(".video-player")).toBeTruthy();
+    expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube")).toBeTruthy();
+  });
+
+  it("reflects is-trimmed to the host attribute", async () => {
+    element.isTrimmed = true;
+    await element.updateComplete;
+    expect(element.hasAttribute("is-trimmed")).toBe(true);
   });
 });

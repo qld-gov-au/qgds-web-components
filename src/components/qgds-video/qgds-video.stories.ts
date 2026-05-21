@@ -3,7 +3,6 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
 import "./qgds-video.js";
-import "../qgds-video-player/qgds-video-player.js";
 import type { QGDSVideo } from "./qgds-video.js";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSVideo>("qgds-video");
@@ -25,7 +24,7 @@ const meta: Meta<Args> = {
     caption: "Caption text goes here",
     controls: true,
     autoplay: false,
-    size: "xl",
+    "is-trimmed": false,
   },
   argTypes: {
     ...argTypes,
@@ -36,12 +35,6 @@ const meta: Meta<Args> = {
     "aspect-ratio": {
       control: { type: "select" },
       options: ["16x9", "4x3", "1x1", "21x9"],
-    },
-    size: {
-      control: { type: "select" },
-      options: ["xl", "md", "sm"],
-      table: { defaultValue: { summary: "xl" } },
-      description: "Card width + play-button density: xl = 12 cols, md = 8 cols (max 864px), sm = 6 cols.",
     },
   },
   decorators: [
@@ -100,52 +93,49 @@ export const NoSource: Story = {
   },
 };
 
-/** Size variants — xl (12 cols), md (8 cols, max 864px, 32px play button), sm (6 cols, 24px play button, icon-only). */
-export const Sizes: Story = {
+/** Responsive layout — same component at three host widths. The play-button
+ *  overlay adapts via container queries: full padding ≥ 720px, compact padding
+ *  < 720px, and "Watch" text hidden < 480px. */
+export const Responsive: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <qgds-video
-        size="xl"
-        source="youtube"
-        video-id="LDU_Txk06tM"
-        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-        duration="3:12"
-        caption="Extra large (12 cols)"
-      ></qgds-video>
-      <qgds-video
-        size="md"
-        source="youtube"
-        video-id="LDU_Txk06tM"
-        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-        duration="3:12"
-        caption="Medium (8 cols, max 864px)"
-      ></qgds-video>
-      <qgds-video
-        size="sm"
-        source="youtube"
-        video-id="LDU_Txk06tM"
-        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-        duration="3:12"
-        caption="Small (6 cols, icon-only play button)"
-      ></qgds-video>
+      <div style="inline-size: 100%;">
+        <qgds-video
+          source="youtube"
+          video-id="LDU_Txk06tM"
+          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+          duration="3:12"
+          caption="Full width — full padding, lg play icon, Watch text"
+        ></qgds-video>
+      </div>
+      <div style="inline-size: 66.6667%; max-inline-size: 864px;">
+        <qgds-video
+          source="youtube"
+          video-id="LDU_Txk06tM"
+          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+          duration="3:12"
+          caption="≤ 720px — compact padding, md play icon, Watch text"
+        ></qgds-video>
+      </div>
+      <div style="inline-size: 50%;">
+        <qgds-video
+          source="youtube"
+          video-id="LDU_Txk06tM"
+          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+          duration="3:12"
+          caption="≤ 480px — Watch text hidden"
+        ></qgds-video>
+      </div>
     </div>
   `,
 };
 
-/** Replace the default player via the `player` slot — useful when the player is shared with a Card. */
-export const PlayerSlot: Story = {
-  render: (args) => html`
-    <qgds-video caption=${args.caption ?? "Caption text goes here"}>
-      <qgds-video-player
-        slot="player"
-        source="youtube"
-        video-id="LDU_Txk06tM"
-        thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-        duration="3:12"
-      ></qgds-video-player>
-    </qgds-video>
-  `,
+/** Trimmed — renders only the player surface, no card / caption / transcript. */
+export const Trimmed: Story = {
+  args: {
+    "is-trimmed": true,
+  },
 };
 
 /** With an expandable transcript using the built-in disclosure. */
