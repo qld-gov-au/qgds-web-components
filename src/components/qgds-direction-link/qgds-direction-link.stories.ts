@@ -34,25 +34,6 @@ const meta: Meta<Args> = {
   render: (args) => template(args),
 };
 
-const scrollToElement = (id: string) => (event: Event) => {
-  event.preventDefault();
-
-  document.getElementById(id)?.scrollIntoView({
-    behavior: 'smooth',
-  });
-
-  event.currentTarget?.dispatchEvent(
-    new CustomEvent("scroll-to-element", {
-      detail: {
-        href: `#${id}`,
-        action: `scroll-to-${id}`,
-      },
-      bubbles: true,
-      composed: true,
-    })
-  );
-};
-
 export default meta;
 type Story = StoryObj<Args>;
 
@@ -68,17 +49,19 @@ export const BackToTop: Story = {
     href: "#top",
     direction: "up",
     animation: false,
+    'has-scroll': true,
   },
-  render: (args) =>
-      html`
-        <h2 id="top" style="margin-block: 2rem;">Top of the page</h2>
-        <div style="margin-bottom: 100rem;">Scroll down to see the "Back to top" link.</div>
-        <qgds-direction-link
+  render: (args) => html`
+    <h2 id="top" style="padding-block: 2rem;">Top of the page</h2>
+    <div style="margin-bottom: 100rem;">Scroll down to see the "Back to top" link.</div>
+    <div style="display: flex; justify-content: flex-end;">
+      <qgds-direction-link
           label=${args.label}
           href=${args.href}
           direction=${args.direction}
           ?animation=${args.animation}
-          @click=${scrollToElement('top')}
+          ?has-scroll=${args['has-scroll']}
         ></qgds-direction-link>
-      `
+    </div>
+  `,
 };
