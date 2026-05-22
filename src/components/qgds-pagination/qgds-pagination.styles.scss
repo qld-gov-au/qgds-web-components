@@ -24,7 +24,7 @@
 }
 
 /* Base Link Styles */
-a.base-link {
+.base-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,7 +43,7 @@ a.base-link {
 }
 
 /* Page Numbers (1, 2, 3) */
-a.page-link {
+.page-link {
   /* Dimensions */
   inline-size: var(--pg-size); /* 2rem / 32px */
   block-size: var(--pg-size);
@@ -93,24 +93,24 @@ a.page-link {
   }
 }
 
-a.page-link-placeholder {
+.page-link-placeholder {
   visibility: hidden;
   pointer-events: none;
 }
 
-a.prev-link {
+.prev-link {
   /* Creates additional space between "Back" label and Page 1 (0.75rem gap + 0.25rem padding = 1rem gap) */
   padding-inline-end: 0.25rem;
 }
 
-a.next-link {
+.next-link {
   /* Creates additional space between "Next" label and last page (0.75rem gap + 0.25rem padding = 1rem gap) */
   padding-inline-start: 0.25rem;
 }
 
 /* Prev/Next Navigation */
-a.prev-link,
-a.next-link {
+.prev-link,
+.next-link {
   gap: 0.25rem;
   color: var(--pg-link-fg);
   text-decoration: underline 1px var(--pg-link-fg);
@@ -137,15 +137,15 @@ a.next-link {
 }
 
 /* Focus State (Unified) */
-a.page-link:focus,
-a.prev-link:focus,
-a.next-link:focus {
+.page-link:focus,
+.prev-link:focus,
+.next-link:focus {
   outline: 2px solid var(--qgds-color-focus-default);
   outline-offset: 2px;
 }
 
 /* Visually hide non-pinned page items */
-a.page-item {
+.page-item {
   display: none;
 
   &.is-pinned-desktop,
@@ -194,8 +194,8 @@ a.page-item {
 
 @container pagination (max-width: 400px) {
   /* Hides Prev and Next labels on smaller container, relying on icons only for prev/next */
-  a.prev-link,
-  a.next-link {
+  .prev-link,
+  .next-link {
     .label {
       display: none;
     }
@@ -211,8 +211,8 @@ a.page-item {
     gap: 0.5rem;
   }
 
-  a.prev-link,
-  a.next-link {
+  .prev-link,
+  .next-link {
     padding-inline: 0;
   }
 }

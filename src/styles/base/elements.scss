@@ -22,17 +22,13 @@ h6 {
 }
 
 a {
+  color: var(--qgds-color-link-default);
   border-radius: 1px; // Keep this at lowest specificity. Required for rounded focus outline.
-
-  &,
-  &:link {
-    color: var(--qgds-color-link-default);
-    text-decoration: {
-      line: var(--qgds-link-decoration, underline);
-      thickness: var(--qgds-link-decoration-thickness, 0.5px);
-      style: solid;
-      color: var(--qgds-color-underline-default, #3f7ab4);
-    }
+  text-decoration: {
+    line: var(--qgds-link-decoration, underline);
+    thickness: var(--qgds-link-decoration-thickness, 0.5px);
+    style: solid;
+    color: var(--qgds-color-underline-default, #3f7ab4);
   }
 
   &:hover {
