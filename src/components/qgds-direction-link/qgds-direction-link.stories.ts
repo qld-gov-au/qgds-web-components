@@ -3,7 +3,6 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import type { QGDSDirectionLink } from "./qgds-direction-link.js";
 import "./qgds-direction-link.js";
-import { withEventAction } from "../../../.storybook/storybook-helpers";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSDirectionLink>("qgds-direction-link");
 
@@ -30,7 +29,6 @@ const meta: Meta<Args> = {
       control: "boolean",
     },
   },
-  decorators: [withEventAction("scroll-to-element")],
   render: (args) => template(args),
 };
 
