@@ -73,17 +73,5 @@ export default {
       deprecatedLast: true,
       customFields: ["customProperty"],
     }),
-    {
-      name: "filter-private-methods",
-      analyzePhase({ moduleDoc }) {
-        moduleDoc.declarations?.forEach((declaration) => {
-          if (declaration.members) {
-            declaration.members = declaration.members.filter(
-              (member) => member.privacy !== "private" && member.privacy !== "protected"
-            );
-          }
-        });
-      },
-    },
   ],
 };
