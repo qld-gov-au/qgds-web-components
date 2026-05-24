@@ -27,6 +27,11 @@ export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-c
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
+<<<<<<< HEAD
+=======
+export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
+export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
+>>>>>>> 26490f3 (feat: Early footer concept with slots)
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
@@ -49,4 +54,8 @@ export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-s
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+<<<<<<< HEAD
 export { QGDSVideo } from "./components/qgds-video/qgds-video";
+=======
+export { QGDSTag } from "./components/qgds-tag/qgds-tag";
+>>>>>>> 26490f3 (feat: Early footer concept with slots)
