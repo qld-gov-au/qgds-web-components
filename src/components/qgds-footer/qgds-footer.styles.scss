@@ -1,0 +1,334 @@
+/* 
+==========================
+Scoped CSS: qgds-footer
+==========================
+*/
+
+@use "../../styles/tools/mixins" as *;
+@use "../../styles/tools";
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+:host {
+  --footer-background: var(--qgds-color-background);
+  --footer-text: var(--qgds-color-text-default);
+  --footer-link-color: var(--qgds-color-link-default);
+  --footer-link-hover: var(--qgds-color-link-hover);
+  --footer-padding-block: 2rem;
+  --footer-heading-color: var(--qgds-color-text-heading);
+  --footer-border-color: unset;
+  --aoc-span: 3; // Dynamic AOC column span (3-9 based on missing columns)
+  --site-links-span: 2; // Default site links span (can be increased to 3 if custom links are missing)
+
+  border-block-start: 4px solid var(--footer-border-color, var(--qgds-color-accent-design-accent));
+  display: block;
+  background: var(--footer-background);
+  color: var(--footer-text);
+}
+
+.qgds-footer {
+  padding-block: var(--footer-padding-block);
+  padding-inline: 1rem;
+}
+
+.footer-site-name {
+  display: block;
+  inline-size: 100%;
+  margin-block-end: 2rem;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+
+  // 12-column grid layout at large breakpoint and above
+  // Contact (3 cols) + Custom Links (2 cols) + Site Links (2 cols) + Social (2 cols) + AOC (3-7 cols)
+  @media (min-width: #{bp.$lg}) {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0; // Remove gap since columns have their own padding
+  }
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-inline: 2rem;
+  border-inline-end: 2px solid var(--qgds-color-border);
+
+  &.hidden {
+    display: none;
+  }
+
+  // Grid column spans for 12-column layout
+  @media (min-width: #{bp.$lg}) {
+    // Default: each section spans based on design
+    &.footer-contact {
+      grid-column: span 3; // Contact: 3 columns
+    }
+
+    &.footer-custom {
+      grid-column: span 2; // Custom Links: 2 columns
+    }
+
+    &.footer-site {
+      grid-column: span var(--site-links-span, 2); // Site Links: 2-3 columns
+    }
+
+    &.footer-social {
+      grid-column: span 2; // Social: 2 columns
+    }
+
+    &.footer-aoc {
+      grid-column: span var(--aoc-span, 3); // AOC: 3-9 columns (absorbs missing column space)
+    }
+  }
+
+  // Remove left padding from first column
+  &:first-child {
+    padding-inline-start: 0;
+  }
+
+  // Remove border and right padding from last column
+  &:last-child {
+    border-inline-end: none;
+    padding-inline-end: 0;
+  }
+
+  // Optional removal of border (e.g., between site links and social)
+  &.no-border {
+    border-inline-end: none;
+  }
+
+  // Remove borders and padding on mobile (single column layout)
+  @media (max-width: #{bp.$lg - 1px}) {
+    border-inline-end: none;
+    padding-inline: 0;
+  }
+}
+
+.footer-heading {
+  font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
+  font-weight: 600;
+  font-size: 1.25rem; // 20px
+  line-height: #{tools.snap-line-height(1.2)}; // 24px
+  color: var(--footer-heading-color);
+  margin: 0;
+  padding: 0;
+}
+
+// Contact Section
+.footer-contact {
+  .contact-statement {
+    margin: 0;
+    padding: 0;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  .contact-detail {
+    margin: 0;
+    padding: 0;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  .contact-label {
+    font-weight: 600;
+    margin-inline-end: 0.5rem;
+  }
+
+  .contact-link {
+    color: var(--footer-link-color);
+    text-decoration: underline;
+    text-decoration-color: var(--qgds-color-underline-default, currentColor);
+
+    &:hover {
+      color: var(--footer-link-hover);
+      text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
+    }
+
+    &:visited {
+      color: var(--qgds-color-link-visited, #551a8b);
+      text-decoration-color: var(--qgds-color-underline-visited, currentColor);
+
+      &:hover {
+        text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
+      }
+    }
+
+    @include focusable();
+  }
+}
+
+// Link wrappers (role="list")
+.contact-links-wrapper,
+.main-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
+}
+
+.custom-links-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-block-start: 0.5rem;
+
+  &.empty {
+    display: none;
+  }
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%; // Force link to take full width
+
+    max-inline-size: 100%; // Constrain to container
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal; // Allow text to wrap (overrides any nowrap)
+  }
+}
+
+.site-links-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-block-start: 0.5rem;
+
+  &.empty {
+    display: none;
+  }
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
+}
+
+.social-links-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-width: 100%;
+    --qgds-link-justify-content: flex-start;
+    --qgds-link-max-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
+}
+
+// Social Section
+.footer-social {
+  &.hidden {
+    display: none;
+  }
+
+  .social-links-wrapper {
+    ::slotted(qgds-link) {
+      --qgds-link-width: 100%;
+      --qgds-link-justify-content: flex-start;
+      --qgds-link-max-width: 100%;
+
+      max-inline-size: 100%;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
+      white-space: normal;
+    }
+  }
+}
+
+// Acknowledgement of Country Section
+.footer-aoc {
+  .aoc-content {
+    line-height: #{tools.snap-line-height(1.5)};
+
+    &.empty {
+      display: none;
+    }
+
+    ::slotted(*) {
+      margin: 0;
+      padding: 0;
+      line-height: inherit;
+    }
+
+    ::slotted(p) {
+      margin-block-end: 1rem;
+
+      &:last-child {
+        margin-block-end: 0;
+      }
+    }
+  }
+
+  .footer-logo {
+    margin-block-start: 1rem;
+
+    &.empty {
+      display: none;
+    }
+
+    ::slotted(img),
+    ::slotted(qgds-logo) {
+      max-inline-size: #{tools.remify(200px)};
+      block-size: auto;
+    }
+  }
+
+  .copyright {
+    margin: 0;
+    margin-block-start: 1rem;
+    padding: 0;
+    font-weight: 600;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  .main-link-wrapper {
+    margin-block-start: 0.5rem;
+
+    &.empty {
+      display: none;
+    }
+  }
+}
+
+// Responsive adjustments
+// Mobile: Footer sections stack in natural reading order
+// Contact → Social → AOC
+
+// Ensure proper link spacing in all link slots
+::slotted(qgds-link[role="listitem"]) {
+  display: block;
+}
