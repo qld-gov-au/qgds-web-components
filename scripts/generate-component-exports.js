@@ -45,8 +45,9 @@ function findTsFiles(dir) {
 function extractComponentMetadata(filePath) {
   const content = readFileSync(filePath, "utf-8");
 
-  const customElementMatch = content.match(/@customElement\(\s*["'](qgds-[\w-]+)["']\s*\)/);
-  if (!customElementMatch) return null;
+  // Presence check only — confirms this is a Lit custom element regardless of
+  // whether the tag name is a string literal or a variable reference.
+  if (!/@customElement\s*\(/.test(content)) return null;
 
   const classMatch = content.match(/^export class (QGDS\w+)/m);
   if (!classMatch) {
@@ -54,11 +55,14 @@ function extractComponentMetadata(filePath) {
     const hint = mixedCaseMatch
       ? `\n  Found "${mixedCaseMatch[1]}" — class name must use all-caps QGDS prefix.\n  Rename to "${mixedCaseMatch[1].replace(/^Qgds/i, "QGDS")}" in ${filePath}`
       : `\n  No exported class with QGDS prefix found in ${filePath}\n  Ensure the class is exported and follows the QGDSComponentName convention.`;
-    throw new Error(`Class naming error for <${customElementMatch[1]}>${hint}`);
+    throw new Error(`Class naming error for <${mixedCaseMatch[1]}>${hint}`);
   }
 
+  // Try to capture the tag name when it is a string literal; undefined otherwise.
+  const tagNameMatch = content.match(/@customElement\(\s*["']([\w-]+)["']\s*\)/);
+
   return {
-    tagName: customElementMatch[1],
+    tagName: tagNameMatch?.[1],
     className: classMatch[1],
   };
 }
