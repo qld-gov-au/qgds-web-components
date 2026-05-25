@@ -62,10 +62,10 @@ describe("qgds-video", () => {
     );
   });
 
-  it("respects controls=false on the iframe URL", async () => {
+  it("hides provider controls when hide-controls is set", async () => {
     element.source = "youtube";
     element.videoId = "abc123";
-    element.controls = false;
+    element.hideControls = true;
     await element.updateComplete;
 
     expect(element.shadowRoot?.querySelector<HTMLIFrameElement>("iframe.video-youtube")?.src).toContain("controls=0");
