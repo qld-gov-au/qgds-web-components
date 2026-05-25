@@ -60,7 +60,7 @@ export class QGDSTextInput extends QGDSFormField implements IFormControl {
       ?required=${this.required}
       ?readonly=${this.readOnly}
       ?disabled=${this.disabled}
-      ?spellcheck=${this.spellcheck}
+      spellcheck=${ifDefined(this.spellcheck)}
       maxlength=${ifDefined(this.maxLength)}
       minlength=${ifDefined(this.minLength)}
       pattern=${ifDefined(this.pattern?.toString())}
