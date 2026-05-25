@@ -1,21 +1,154 @@
+@use "../tools/functions" as f;
+@use "sass:map";
+
+$_spacing: (
+  0: 0,
+  2: f.remify(2px),
+  4: f.remify(4px),
+  6: f.remify(6px),
+  8: f.remify(8px),
+  12: f.remify(12px),
+  16: f.remify(16px),
+  24: f.remify(24px),
+);
+$_neg-spacing: ();
+@each $key, $value in $_spacing {
+  @if $value != 0 {
+    $_neg-spacing: map.merge($_neg-spacing, (n#{$key}: #{calc($value * -1)}));
+  }
+}
+
 $utils: (
   "display": (
     property: display,
     class: "",
     values: (
-      inline,
-      inline-block,
-      block,
-      grid,
-      inline-grid,
-      table,
-      table-row,
-      table-cell,
-      flex,
-      inline-flex,
-      (
-        "hidden": none,
-      ),
+      "inline": inline,
+      "inline-block": inline-block,
+      "block": block,
+      "grid": grid,
+      "inline-grid": inline-grid,
+      "table": table,
+      "table-row": table-row,
+      "table-cell": table-cell,
+      "flex": flex,
+      "inline-flex": inline-flex,
+      "hidden": none,
     ),
+  ),
+  "flex": (
+    property: flex,
+    class: "flex",
+    values: 0 1 2 "none",
+  ),
+  "flex-direction": (
+    property: flex-direction,
+    class: "flex",
+    values: row column row-reverse column-reverse,
+  ),
+  "flex-grow": (
+    property: flex-grow,
+    class: "flex",
+    values: (
+      "grow": 1,
+      "grow-0": 0,
+      "grow-1": 1,
+    ),
+  ),
+  "flex-shrink": (
+    property: flex-shrink,
+    class: "flex",
+    values: (
+      "shrink": 1,
+      "shrink-0": 0,
+      "shrink-1": 1,
+    ),
+  ),
+  "flex-wrap": (
+    property: flex-wrap,
+    class: flex,
+    values: wrap nowrap wrap-reverse,
+  ),
+  "justify-content": (
+    property: justify-content,
+    values: (
+      "start": flex-start,
+      "end": flex-end,
+      "center": center,
+      "between": space-between,
+      "around": space-around,
+      "evenly": space-evenly,
+    ),
+  ),
+  "align-items": (
+    property: align-items,
+    values: (
+      "start": flex-start,
+      "end": flex-end,
+      "center": center,
+      "baseline": baseline,
+      "stretch": stretch,
+    ),
+  ),
+  "align-content": (
+    responsive: true,
+    property: align-content,
+    values: (
+      "start": flex-start,
+      "end": flex-end,
+      "center": center,
+      "between": space-between,
+      "around": space-around,
+      "stretch": stretch,
+    ),
+  ),
+  "align-self": (
+    property: align-self,
+    values: (
+      "auto": auto,
+      "start": flex-start,
+      "end": flex-end,
+      "center": center,
+      "baseline": baseline,
+      "stretch": stretch,
+    ),
+  ),
+  "order": (
+    property: order,
+    values: (
+      first: -1,
+      0: 0,
+      1: 1,
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      last: 6,
+    ),
+  ),
+  "gap": (
+    property: gap,
+    class: "gap",
+    values: $_spacing,
+  ),
+  "column-gap": (
+    property: column-gap,
+    class: "gap-x",
+    values: $_spacing,
+  ),
+  "row-gap": (
+    property: row-gap,
+    class: "gap-y",
+    values: $_spacing,
+  ),
+  "margin": (
+    property: margin,
+    class: "m",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
+  "margin-bottom": (
+    property: margin-block-end,
+    class: "mb",
+    values: map.merge($_spacing, $_neg-spacing),
   ),
 );

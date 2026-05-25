@@ -4,7 +4,7 @@
 @use "config";
 @forward "sr-only";
 
-$prefix: "is" !default;
+$prefix: "" !default;
 
 @function _utility-class-name($prefix, $class-name, $modifier) {
   $name: null;
@@ -16,7 +16,11 @@ $prefix: "is" !default;
       $name: "#{$prefix}-#{$modifier}";
     }
   } @else {
-    $name: "#{$prefix}-#{$class-name}-#{$modifier}";
+    @if $prefix == "" {
+      $name: "#{$class-name}-#{$modifier}";
+    } @else {
+      $name: "#{$prefix}-#{$class-name}-#{$modifier}";
+    }
   }
 
   $name: f.string-replace($name, " ", "-");
