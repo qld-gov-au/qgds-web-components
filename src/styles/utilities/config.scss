@@ -18,6 +18,15 @@ $_neg-spacing: ();
   }
 }
 
+///
+/// Each entry in this map represents a set of utility classes. The class names created are a combination of `class` and `values` keys.
+/// The styles are a combination of `property` and `values` values.
+/// Values may a simple list of property values, or a map where $key is the class modifier and $value is the property value
+/// eg:
+/// if `property: display`, `class: ""` and `values: ("hidden": none)`
+/// the output css will be `.hidden { display: none }`
+/// if `property: flex`, `class: "flex"` and `values: 0 1 2 none`
+/// the output css will be `.flex-0 { flex: 0 } .flex-1 { flex: 1 } .flex-2 { flex: 2 } .flex-none { flex: none }`
 $utils: (
   "display": (
     property: display,
