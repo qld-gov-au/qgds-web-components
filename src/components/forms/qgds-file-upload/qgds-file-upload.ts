@@ -4,7 +4,7 @@ import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state } from "lit/decorators.js";
 import { baseStyles, formStyles, utilitiesStyles } from "../../../styles";
 import componentStyles from "./qgds-file-upload.styles.scss?inline";
-import { QgdsEvents } from "../../../utils";
+import { QgdsEvents, readableFileSize, getFileType } from "../../../utils";
 import { QGDSFormField } from "../qgds-form-field";
 
 import "../../qgds-button/qgds-button";
@@ -98,6 +98,10 @@ export class QGDSFileUpload extends QGDSFormField {
       status: "success",
     };
 
+    Object.defineProperty(videoFile.file, "size", { value: 12_345_678, configurable: true });
+    Object.defineProperty(imageFile.file, "size", { value: 12_345, configurable: true });
+    Object.defineProperty(errorFile.file, "size", { value: 12_345_678_910, configurable: true });
+
     this._files = [
       ...this._files,
       successFile,
@@ -119,7 +123,7 @@ export class QGDSFileUpload extends QGDSFormField {
       ? nothing
       : _files.length === 1
         ? html`<qgds-file-status .file=${_files[0].file} status=${_files[0].status}></qgds-file-status>`
-        : html`<ul class="file-list">
+        : html`<ul class="file-upload-list">
             ${repeat(
               _files,
               (fileStatus) => fileStatus.file.name, // key function will track the correct DOM object on add / removal
@@ -149,7 +153,26 @@ class QGDSFileStatus extends LitElement {
 
   private get _iconName(): IconName {
     if (this.status === "error") return "document-error";
-    else return "document";
+    else if (this.file) {
+      switch (getFileType(this.file)) {
+        case "audio":
+          return "audio";
+        case "image":
+          return "image";
+        case "pdf":
+          return "document-pdf";
+        case "spreadsheet":
+          return "document-spreadsheet";
+        case "text":
+          return "document";
+        case "video":
+          return "video";
+        case "word":
+          return "document-word";
+        default:
+          return "document";
+      }
+    } else return "document";
   }
 
   private _events: QgdsEvents;
@@ -176,7 +199,7 @@ class QGDSFileStatus extends LitElement {
       status === "loading"
         ? html`"Uploading..."`
         : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
-            Upload complete - ${file?.size ?? nothing}`;
+            Upload complete - ${file ? readableFileSize(file.size) : nothing}`;
 
     const buttonLabel = status === "loading" ? "Cancel" : "Remove";
     const buttonIcon = status === "loading" ? "alert-cancel" : "delete";
@@ -186,10 +209,12 @@ class QGDSFileStatus extends LitElement {
         ? html`<qgds-loading-spinner size="lg"></qgds-loading-spinner>`
         : html`<qgds-icon icon-id="${_iconName}" size="lg"></qgds-icon>`}
       <div class="flex-grow">
-        <h6 class="qgds-display-xs">${file?.name}</h6>
+        <h6 class="qgds-display-xs mb-8">${file?.name}</h6>
         <p class=${captionClassNames}>${caption}</p>
       </div>
-      <qgds-button variant="tertiary" label=${buttonLabel}><qgds-icon icon-id=${buttonIcon}></qgds-icon></qgds-button>
+      <qgds-button variant="tertiary" label=${buttonLabel}
+        ><qgds-icon slot="icon" icon-id=${buttonIcon}></qgds-icon
+      ></qgds-button>
     </div>`;
   }
 }
