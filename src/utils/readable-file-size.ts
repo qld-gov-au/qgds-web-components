@@ -24,6 +24,6 @@ export const readableFileSize = (size: number): string => {
     unitIndex += 1;
   }
 
-  const formattedValue = value.toFixed(2).replace(/\.00$/, "");
-  return `${formattedValue} ${units[unitIndex]}`;
+  const roundedValue = Math.round(value * 100) / 100;
+  return `${roundedValue} ${units[unitIndex]}`;
 };
