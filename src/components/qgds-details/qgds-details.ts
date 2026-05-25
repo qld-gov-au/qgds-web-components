@@ -4,8 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import componentCSS from "./qgds-details.styles.scss?inline";
 import { baseStyles } from "../../styles";
-
-import "../qgds-icon/qgds-icon.js";
+import "../qgds-icon/qgds-icon";
 
 import { QgdsEvents } from "../../utils/events/event-controller";
 

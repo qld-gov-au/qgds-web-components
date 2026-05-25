@@ -6,7 +6,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 // Utils
 import { QgdsEvents } from "../../utils";
 import { semanticHeading } from "../../utils";
-import { type IconName } from "../qgds-icon/icon-names.js";
+import { type IconName } from "../qgds-icon/icon-names";
 export type { IconName };
 
 // Import dependent components

@@ -7,7 +7,7 @@ import { chromaticModes } from "../../../.storybook/modes";
 import type { QGDSFeatureIcon } from "./qgds-feature-icon";
 import "./qgds-feature-icon";
 
-import { ICON_NAMES } from "../qgds-icon/icon-names.js";
+import { ICON_NAMES } from "../qgds-icon/icon-names";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically

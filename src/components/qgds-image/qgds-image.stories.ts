@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
-import "./qgds-image.js";
-import type { QGDSImage } from "./qgds-image.js";
+import "./qgds-image";
+import type { QGDSImage } from "./qgds-image";
 
-import "../qgds-callout/qgds-callout.js";
+import "../qgds-callout/qgds-callout";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSImage>("qgds-image");
 

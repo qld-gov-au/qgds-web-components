@@ -4,7 +4,7 @@ import { html } from "lit";
 
 import type { QGDSIcon } from "./qgds-icon";
 import "./qgds-icon";
-import { ICON_NAMES } from "./icon-names.js";
+import { ICON_NAMES } from "./icon-names";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically

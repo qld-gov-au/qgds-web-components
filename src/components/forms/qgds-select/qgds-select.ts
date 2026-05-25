@@ -352,5 +352,5 @@ declare global {
 }
 
 // Re-export related components that are tightly coupled with QGDSSelect
-export { QGDSSelectOption } from "./qgds-select-option.js";
-export { QGDSSelectOptgroup } from "./qgds-select-optgroup.js";
+export { QGDSSelectOption } from "./qgds-select-option";
+export { QGDSSelectOptgroup } from "./qgds-select-optgroup";

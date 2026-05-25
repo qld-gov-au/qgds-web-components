@@ -2,9 +2,9 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import componentCSS from "./qgds-link-item.styles.scss?inline";
 import { resetStyles } from "../../styles";
-import "../qgds-link/qgds-link.js";
-import type { Animations, IconSize } from "../qgds-link/qgds-link.js";
-import "../qgds-icon/qgds-icon.js";
+import "../qgds-link/qgds-link";
+import type { Animations, IconSize } from "../qgds-link/qgds-link";
+import "../qgds-icon/qgds-icon";
 
 /**
  * A single navigable item within a `<qgds-link-column>`. Renders a styled link with optional

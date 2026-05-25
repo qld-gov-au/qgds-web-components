@@ -4,8 +4,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link.styles.scss?inline";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils";
-import "../qgds-icon/qgds-icon.js";
-import type { IconSize } from "../qgds-icon/qgds-icon.js";
+import "../qgds-icon/qgds-icon";
+import type { IconSize } from "../qgds-icon/qgds-icon";
 
 export type Animations = "" | "leftToRight" | "rightToLeft" | "topToBottom" | "bottomToTop" | "scaleIn" | "scaleOut";
 export type { IconSize };

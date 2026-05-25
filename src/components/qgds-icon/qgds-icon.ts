@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 import componentCSS from "./qgds-icon.styles.scss?inline";
-import { isMulticolourIcon } from "./icons-multicolour.js";
+import { isMulticolourIcon } from "./icons-multicolour";
 import type { IconName } from "./icon-names";
 
 export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";

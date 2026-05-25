@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-call-to-action.styles.scss?inline";
 import { resetStyles } from "../../styles";
-import "../qgds-link/qgds-link.js";
+import "../qgds-link/qgds-link";
 
 /**
  * A styled call-to-action link used to promote a primary navigation action.

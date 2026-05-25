@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-import type { QGDSCallToAction } from "./qgds-call-to-action.js";
-import "./qgds-call-to-action.js";
+import type { QGDSCallToAction } from "./qgds-call-to-action";
+import "./qgds-call-to-action";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSCallToAction>("qgds-call-to-action");
 

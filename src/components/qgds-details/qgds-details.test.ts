@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import "./qgds-details.js";
-import type { QGDSDetails } from "./qgds-details.js";
+import type { QGDSDetails } from "./qgds-details";
+import "./qgds-details";
 
 describe("qgds-details", () => {
   let element: QGDSDetails;

@@ -8,7 +8,7 @@ import "./qgds-promotional-panel";
 import "../qgds-button/qgds-button";
 import "../qgds-call-to-action/qgds-call-to-action";
 import { palettes } from "../../utils";
-import { ICON_NAMES } from "../qgds-icon/icon-names.js";
+import { ICON_NAMES } from "../qgds-icon/icon-names";
 const { args, argTypes, template } = getStorybookHelpers<QGDSPromotionalPanel>("qgds-promotional-panel");
 
 argTypes["icon-name"] = {

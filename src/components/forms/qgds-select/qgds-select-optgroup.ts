@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import type { QGDSSelectOption } from "./qgds-select-option.js";
+import type { QGDSSelectOption } from "./qgds-select-option";
 
 /**
  * QGDS Select OptGroup Web Component

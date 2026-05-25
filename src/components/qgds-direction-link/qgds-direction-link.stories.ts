@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-import type { QGDSDirectionLink } from "./qgds-direction-link.js";
-import "./qgds-direction-link.js";
+import type { QGDSDirectionLink } from "./qgds-direction-link";
+import "./qgds-direction-link";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSDirectionLink>("qgds-direction-link");
 

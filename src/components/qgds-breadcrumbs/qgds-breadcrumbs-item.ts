@@ -1,10 +1,10 @@
 import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { baseStyles } from "../../styles";
-import "../qgds-icon/qgds-icon.js";
-import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
 import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import "../qgds-icon/qgds-icon";
+import { baseStyles } from "../../styles";
+import componentCSS from "./qgds-breadcrumbs-item.styles.scss?inline";
 
 /** QGDS Breadcrumb Item Web Component
  * Used as a child element within {@link qgds-breadcrumbs} to define individual breadcrumb items.

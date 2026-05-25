@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import "../qgds-link/qgds-link.js";
+import "../qgds-link/qgds-link";
 
 export type Direction = "up" | "down" | "left" | "right";
 
