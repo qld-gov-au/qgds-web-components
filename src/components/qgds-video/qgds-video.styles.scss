@@ -140,7 +140,7 @@ Card frame + caption + transcript + the player surface itself.
 // Compact layout — at narrower host widths, reduce nav padding and shrink the
 // play icon. The icon's size is overridden via its CSS custom property so the
 // component HTML stays static (icon `size` attribute remains "lg").
-@container qgds-video (max-width: f.remify(720px)) {
+@container qgds-video (max-width: 720px) {
   .video-watch,
   .video-duration {
     padding-block: f.remify(12px);
@@ -154,7 +154,7 @@ Card frame + caption + transcript + the player surface itself.
 
 // At the smallest widths, hide the "Watch" label — the icon alone communicates
 // intent and the parent `<a>` still has an accessible aria-label.
-@container qgds-video (max-width: f.remify(480px)) {
+@container qgds-video (max-width: 480px) {
   .video-watch-text {
     display: none;
   }
