@@ -22,7 +22,7 @@ const meta: Meta<Args> = {
     duration: "3:12",
     "aspect-ratio": "16x9",
     caption: "Caption text goes here",
-    controls: true,
+    "hide-controls": false,
     autoplay: false,
     "is-trimmed": false,
   },
@@ -93,41 +93,37 @@ export const NoSource: Story = {
   },
 };
 
-/** Responsive layout — same component at three host widths. The play-button
+/** Responsive layout — same component at three explicit widths. The play-button
  *  overlay adapts via container queries: full padding ≥ 720px, compact padding
- *  < 720px, and "Watch" text hidden < 480px. */
+ *  < 720px, and "Watch" text hidden < 480px. Widths are set directly on each
+ *  `<qgds-video>` so Chromatic snapshots are deterministic. */
 export const Responsive: Story = {
   parameters: { controls: { disable: true } },
   render: () => html`
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      <div style="inline-size: 100%;">
-        <qgds-video
-          source="youtube"
-          video-id="LDU_Txk06tM"
-          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-          duration="3:12"
-          caption="Full width — full padding, lg play icon, Watch text"
-        ></qgds-video>
-      </div>
-      <div style="inline-size: 66.6667%; max-inline-size: 864px;">
-        <qgds-video
-          source="youtube"
-          video-id="LDU_Txk06tM"
-          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-          duration="3:12"
-          caption="≤ 720px — compact padding, md play icon, Watch text"
-        ></qgds-video>
-      </div>
-      <div style="inline-size: 50%;">
-        <qgds-video
-          source="youtube"
-          video-id="LDU_Txk06tM"
-          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
-          duration="3:12"
-          caption="≤ 480px — Watch text hidden"
-        ></qgds-video>
-      </div>
-    </div>
+    <qgds-video
+      style="width: 960px; margin-block-end: 1.5rem;"
+      source="youtube"
+      video-id="LDU_Txk06tM"
+      thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+      duration="3:12"
+      caption="960px — full padding, lg play icon, Watch text"
+    ></qgds-video>
+    <qgds-video
+      style="width: 640px; margin-block-end: 1.5rem;"
+      source="youtube"
+      video-id="LDU_Txk06tM"
+      thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+      duration="3:12"
+      caption="640px — compact padding, md play icon, Watch text"
+    ></qgds-video>
+    <qgds-video
+      style="width: 400px;"
+      source="youtube"
+      video-id="LDU_Txk06tM"
+      thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg"
+      duration="3:12"
+      caption="400px — Watch text hidden"
+    ></qgds-video>
   `,
 };
 

@@ -1,10 +1,11 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import componentCSS from "./qgds-video.styles.scss?inline";
 import { baseStyles } from "../../styles";
+import { QgdsEvents } from "../../utils/events/event-controller";
 
 import "../qgds-icon/qgds-icon.js";
 
@@ -29,15 +30,15 @@ export type VideoAspect = "16x9" | "4x3" | "1x1" | "21x9";
  * @property {string} [duration] - Display duration string (e.g. "3:12") shown on the play nav.
  * @property {VideoAspect} [aspect-ratio] - Aspect ratio of the player. Defaults to "16x9".
  * @property {boolean} [autoplay] - When true, sets `autoplay=1` in the iframe URL on initial render.
- * @property {boolean} [controls] - When true (default), shows native provider controls.
+ * @property {boolean} [hide-controls] - When true, hides native provider controls (`controls=0` in the iframe URL).
  * @property {string} [caption] - Plain-text caption rendered below the player. Ignored when `is-trimmed`.
  * @property {boolean} [is-trimmed] - When true, renders only the player surface (no card, caption, or transcript).
  *
  * @slot caption - Rich-HTML caption shown below the player. Overrides the `caption` attribute. Ignored when `is-trimmed`.
  * @slot transcript - Transcript content. When non-empty, the disclosure header ("Show/Hide transcript") is shown. Ignored when `is-trimmed`.
  *
- * @event qgds-play - Fired when the user activates the thumbnail to play. Detail: `{ source, videoId }`.
- * @event qgds-transcript-toggle - Fired when the transcript is shown/hidden. Detail: `{ open: boolean }`.
+ * @event qgds-play - Fired after the iframe is mounted in response to the user pressing play. Detail includes `{ source, videoId }`.
+ * @event qgds-toggle - Fired when the transcript disclosure opens or closes. Detail includes `{ open: boolean }`.
  *
  * @example
  * ```html
@@ -53,12 +54,7 @@ export type VideoAspect = "16x9" | "4x3" | "1x1" | "21x9";
  */
 @customElement("qgds-video")
 export class QGDSVideo extends LitElement {
-  static styles = [
-    ...baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [...baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String }) source: VideoSource = "";
   @property({ type: String, attribute: "video-id" }) videoId = "";
@@ -67,7 +63,7 @@ export class QGDSVideo extends LitElement {
   @property({ type: String, attribute: "aspect-ratio", reflect: true })
   aspectRatio: VideoAspect = "16x9";
   @property({ type: Boolean }) autoplay = false;
-  @property({ type: Boolean, useDefault: true }) controls = true;
+  @property({ type: Boolean, attribute: "hide-controls" }) hideControls = false;
   @property({ type: String }) caption = "";
   @property({ type: Boolean, attribute: "is-trimmed", reflect: true }) isTrimmed = false;
 
@@ -75,10 +71,12 @@ export class QGDSVideo extends LitElement {
   @state() private _transcriptOpen = false;
   @state() private _hasTranscript = false;
 
+  private events: QgdsEvents = new QgdsEvents(this);
+
   private _buildIframeSrc(autoplay: boolean): string {
     if (!this.videoId) return "";
     const ap = autoplay ? "1" : "0";
-    const ct = this.controls ? "1" : "0";
+    const ct = this.hideControls ? "0" : "1";
     switch (this.source) {
       case "youtube":
         return `https://www.youtube.com/embed/${this.videoId}?rel=0&autoplay=${ap}&controls=${ct}`;
@@ -95,27 +93,17 @@ export class QGDSVideo extends LitElement {
     e.preventDefault();
     if (!this.source || !this.videoId) return;
     this._playing = true;
-    this.dispatchEvent(
-      new CustomEvent("qgds-play", {
-        bubbles: true,
-        composed: true,
-        detail: { source: this.source, videoId: this.videoId },
-      })
-    );
+    // Wait for the iframe to mount before notifying listeners, so they see the
+    // component in its post-play state.
     await this.updateComplete;
     this.renderRoot.querySelector<HTMLIFrameElement>(".video-embed iframe")?.focus();
+    this.events.dispatch("play", { source: this.source, videoId: this.videoId }, e);
   };
 
   private _handleTranscriptToggle = (e: Event): void => {
     const details = e.currentTarget as HTMLDetailsElement;
     this._transcriptOpen = details.open;
-    this.dispatchEvent(
-      new CustomEvent("qgds-transcript-toggle", {
-        bubbles: true,
-        composed: true,
-        detail: { open: this._transcriptOpen },
-      })
-    );
+    this.events.dispatch("toggle", { open: this._transcriptOpen }, e);
   };
 
   private _handleTranscriptSlotChange = (e: Event): void => {
