@@ -3,26 +3,61 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>QGDS Web Components Sandpit Template</title>
+  <title>QGDS Web Components | Template Example</title>
+
+  <!-- CDN Hosted resources serve @latest tagged NPM package. Switch @latest to @alpha, or @vX.X.X for a specific version -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@latest/dist/assets/css/qgds-web-components.min.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@latest/dist/assets/js/qgds-web-components.min.js"
+    type="module"></script>
+
+  <!-- Tailwind Grid -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    /* 
+    Light DOM structural CSS for layout and spacing of components in this template example. 
+    This is not part of the component library and should be adapted or removed as needed for your project.  
+    */
+  </style>
+
 </head>
 
-<body>
+<body class="qgds">
 
-  <!-- Callout -->
-  <qgds-callout>
-    <p>This is a callout component.</p>
-  </qgds-callout>
+  <div>
+    <!-- Attribution bar example  (not built yet) -->
+    <!-- <qgds-attribution-bar></qgds-attribution-bar> -->
 
-  <!-- In-page alert -->
-  <qgds-inpage-alert>
-    <h3 slot="headline">In-page Alert</h3>
-    <p>This is an in-page alert component.</p>
-  </qgds-inpage-alert>
+    <!-- Header component example  (not built yet) -->
+    <!-- <qgds-header></qgds-header> -->
 
-  <!-- Buttons -->
-  <qgds-button>Click Me</qgds-button>
-  <qgds-button palette="dark" size="large" variant="dark">Dark</qgds-button>
-  <qgds-button variant="dark-alt">Dark Alt</qgds-button>
+    <!-- Navbar component example  (not built yet) -->
+    <!-- <qgds-main-nav></qgds-main-nav> -->
+  </div>
+
+  <main class="main-container">
+
+    <div dir="ltr" class="grid grid-cols-12 gap-6">
+      <aside class="col-span-12 lg:col-span-3">
+        <qgds-side-navigation>
+          <qgds-side-navigation-item label="Section 1" href="#section-1"></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Section 2" href="#section-2" is-active></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Section 3" href="#section-3"></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Section 4" href="#section-4"></qgds-side-navigation-item>
+        </qgds-side-navigation>
+      </aside>
+
+      <main class="col-span-12 lg:col-span-9">
+        Right / content column
+      </main>
+    </div>
+
+  </main>
+
+  <!-- Footer component example  (not built yet) -->
+  <!-- <qgds-footer></qgds-footer> -->
 
 </body>
 
