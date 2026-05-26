@@ -54,11 +54,13 @@ export default defineConfig({
     outDir: "dist",
     sourcemap: true,
     minify: true,
+    cssCodeSplit: true,
     target: "es2020",
     lib: {
       entry: {
         // The key 'index' will be used for the main library bundle
         index: path.resolve(__dirname, "src/index.ts"),
+        "qgds-grid": path.resolve(__dirname, "src/styles/grid/index.ts"),
         ...resolveComponentInputs(),
       },
       formats: ["es"],
@@ -95,6 +97,10 @@ export default defineConfig({
           // Clean up the name (remove -js or -css suffixes if they exist)
           name = name.replace("-css", "");
 
+          if (name === "index.css") {
+            return "assets/css/qgds-web-components.css";
+          }
+
           // CSS files are placed in assets/css/ folder
           if (name.endsWith(".css")) {
             return `assets/css/${name}`;
@@ -115,11 +121,21 @@ export default defineConfig({
         {
           src: "src/demo/index-built.html",
           dest: ".",
-          rename: "demo.html",
+          rename: "examples/demo/index.html",
         },
         {
           src: "src/demo/demo.css",
-          dest: "assets/css",
+          dest: "examples/demo/demo.css",
+        },
+        {
+          src: "src/templates/component-list.html",
+          dest: "examples/component-list",
+          rename: "index.html",
+        },
+        {
+          src: "src/templates/content-page.html",
+          dest: "examples/templates",
+          rename: "content-page.html",
         },
       ],
     }) as any,
