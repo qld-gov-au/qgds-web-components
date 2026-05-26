@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>QGDS Web Components Component Review File</title>
+
+  <!-- Project files loaded from alpha tagged version (NPM) -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/css/qgds-web-components.min.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/js/qgds-web-components.min.js"
+    type="module"></script>
+
+
+  <style>
+    /* Basic structure for the component list page */
+
+    body {
+      padding: 2rem;
+    }
+
+    .container {
+      max-inline-size: 1312px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      margin-bottom: 5rem;
+    }
+
+    h2 {
+      margin-top: 4rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-block {
+      margin-bottom: 6rem;
+    }
+
+    .comp-block {
+      margin-bottom: 2rem;
+    }
+
+    .flex-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .flex-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+
+</head>
+
+<body class="qgds">
+
+  <!-- ========================================
+       QGDS Components Kitchen Sink
+       ======================================== -->
+  <div class="container">
+
+    <h1>QGDS Web Components - Component List</h1>
+
+    <div class="section-block">
+      <div class="comp-block">
+        <qgds-button variant="secondary" size="md" label="Default Palette" data-palette="default"></qgds-button>
+        <qgds-button variant="secondary" size="md" label="Soft" data-palette="soft"></qgds-button>
+        <qgds-button variant="secondary" size="md" label="Muted" data-palette="muted"></qgds-button>
+        <qgds-button variant="secondary" size="md" label="Bold" data-palette="bold"></qgds-button>
+        <qgds-button variant="secondary" size="md" label="Deep" data-palette="deep"></qgds-button>
+      </div>
+    </div>
+
+    <div class="section-block">
+      <div class="comp-block">
+        <qgds-inpage-nav>
+          <qgds-inpage-nav-item href="#alerts">Alerts</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#cards-promotional-panels">Cards & Promotional Panels</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#navigation-links">Navigation & Links</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#content-components">Content Components</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#form-components">Form Components</qgds-inpage-nav-item>
+        </qgds-inpage-nav>
+      </div>
+
+      <div class="section-block">
+        <h2 id="alerts">Alerts</h2>
+
+        <div class="comp-block">
+          <qgds-inpage-alert heading="Important notice" heading-level="h3">
+            <p>This is an in-page alert message.</p>
+          </qgds-inpage-alert>
+        </div>
+
+        <div class="comp-block">
+          <qgds-callout heading="Callout heading" heading-level="h3">
+            <p>This is a callout message with important information.</p>
+          </qgds-callout>
+        </div>
+      </div>
+
+      <!-- ======================================== -->
+
+      <div class="section-block">
+        <h2 id="cards-promotional-panels">Cards & Promotional Panels</h2>
+
+        <div class="comp-block flex-row">
+          <qgds-card heading="Card title" action="single" href="#" image-src="https://picsum.photos/600/400"
+            image-alt="Placeholder image">
+            <p>Card content goes here with a brief description.</p>
+          </qgds-card>
+
+          <qgds-card palette="soft" heading="Card title" action="single" href="#"
+            image-src="https://picsum.photos/600/400" image-alt="Placeholder image">
+            <p>Card content goes here with a brief description.</p>
+          </qgds-card>
+
+
+          <qgds-card palette="deep" heading="Card title" action="single" href="#"
+            image-src="https://picsum.photos/600/400" image-alt="Placeholder image">
+            <p>Card content goes here with a brief description.</p>
+          </qgds-card>
+
+        </div>
+
+        <div class="comp-block flex-row">
+          <qgds-card target="_blank" heading="Card Heading" action="multiple" palette="default">
+            Card content goes here. This is an example of a card with multiple
+            actions.
+            <qgds-link slot="footer-links" href="#" icon-name="arrow-right" icon-size="md" label="Label"></qgds-link>
+            <qgds-link slot="footer-links" href="#" icon-name="arrow-right" icon-size="md" label="Label"></qgds-link>
+            <qgds-link slot="footer-links" href="#" icon-name="arrow-right" icon-size="md" label="Label"></qgds-link>
+          </qgds-card>
+
+          <qgds-card target="_blank" heading="Card Heading" action="multiple" palette="default">
+            Card content goes here. This is an example of a card with multiple
+            actions.
+            <qgds-tag slot="footer-tags" label="Topic"></qgds-tag>
+            <qgds-tag slot="footer-tags" label="Topic"></qgds-tag>
+            <qgds-tag slot="footer-tags" label="Topic"></qgds-tag>
+          </qgds-card>
+
+          <qgds-card target="_blank" heading="Card Heading" action="multiple" palette="default">
+            Card content goes here. This is an example of a card with multiple
+            actions.
+
+            <div slot="footer-text">Footer text</div>
+          </qgds-card>
+
+        </div>
+
+        <div class="comp-block">
+          <qgds-promotional-panel variant="indent-text" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+            image-description="Promotional image" content-alignment="content-start" icon-name="home"
+            heading="Title goes here and has a maximum of 65 character limit" heading-level="h2"
+            abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+            palette="">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor,
+              leo vulputate ut odio mattis. Vel suspendisse mi quisque consequat
+              aliquet egestas.
+            </p>
+            <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+              variant="primary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action"
+              label="Secondary" variant="secondary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+          </qgds-promotional-panel>
+        </div>
+      </div>
+
+      <!-- ======================================== -->
+
+      <div class="section-block">
+        <h2 id="navigation-links">Navigation & Links</h2>
+
+        <div class="comp-block">
+          <qgds-breadcrumbs aria-label="Breadcrumbs">
+            <qgds-breadcrumbs-item url="/">Home</qgds-breadcrumbs-item>
+            <qgds-breadcrumbs-item url="/level2">Level 2</qgds-breadcrumbs-item>
+            <qgds-breadcrumbs-item url="/current">Current page</qgds-breadcrumbs-item>
+          </qgds-breadcrumbs>
+        </div>
+        <div class="comp-block">
+          <qgds-call-to-action href="#" is-view-all="" label="View all services"></qgds-call-to-action>
+        </div>
+
+        <div class="comp-block">
+          <qgds-call-to-action href="#" label="Call to action"></qgds-call-to-action>
+        </div>
+
+
+        <div class="comp-block">
+          <qgds-side-navigation heading="Side navigation">
+            <qgds-side-navigation-item label="Side Navigation" href="/"></qgds-side-navigation-item>
+            <qgds-side-navigation-item label="About" href="/about"></qgds-side-navigation-item>
+            <qgds-side-navigation-item label="Services" href="/services" is-active="true"></qgds-side-navigation-item>
+            <qgds-side-navigation-item label="Contact" href="/contact"></qgds-side-navigation-item>
+          </qgds-side-navigation>
+        </div>
+
+        <div class="comp-block">
+          <qgds-pagination current-page="3" total-pages="10" link-base="/page/">
+          </qgds-pagination>
+        </div>
+
+        <div class="comp-block">
+          <qgds-link-column columns="3" layout="horizontal" heading="Popular services" heading-level="3"
+            view-all-label="View all" view-all-url="#view-all">
+            <qgds-link-item label="Pay a fine" href="#"></qgds-link-item>
+            <qgds-link-item label="Register to vote" href="#"></qgds-link-item>
+            <qgds-link-item label="Apply for a grant" href="#"></qgds-link-item>
+            <qgds-link-item label="Renew your passport" href="#"></qgds-link-item>
+            <qgds-link-item label="Update your address" href="#"></qgds-link-item>
+            <qgds-link-item label="Access your tax records" href="#"></qgds-link-item>
+            <qgds-link-item label="Find a service centre" href="#"></qgds-link-item>
+            <qgds-link-item label="Submit a complaint" href="#"></qgds-link-item>
+          </qgds-link-column>
+        </div>
+
+        <div class="comp-block">
+          <qgds-link href="https://example.com" variant="cta">
+            Standard link
+          </qgds-link>
+        </div>
+
+        <div class="comp-block">
+          <qgds-direction-link animation="" direction="left" href="#" label="Previous section"></qgds-direction-link>
+        </div>
+      </div>
+
+      <!-- ======================================== -->
+
+      <div class="section-block">
+        <h2 id="content-components">Content Components</h2>
+
+        <div class="comp-block">
+          <qgds-blockquote cite="Author Name">
+            <p>This is a blockquote with an inspiring or important statement.</p>
+          </qgds-blockquote>
+        </div>
+
+        <div class="comp-block">
+          <qgds-details summary-text="Click to expand" size="md">
+            <p>Hidden content that appears when the details element is expanded.</p>
+          </qgds-details>
+        </div>
+
+        <div class="comp-block">
+          <qgds-accordion-group>
+            <qgds-accordion id="accordion-1" title="This accordion is initially open." is-open="">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
+            <qgds-accordion id="accordion-2" title="Accordion item 2" size="md">
+              <p>Content for accordion item 2.</p>
+            </qgds-accordion>
+            <qgds-accordion id="accordion-3" title="Accordion item 3" size="md">
+              <p>Content for accordion item 3.</p>
+            </qgds-accordion>
+          </qgds-accordion-group>
+        </div>
+
+        <div class="comp-block">
+          <qgds-image src="https://picsum.photos/800/600" alt="Sample image" aspect="16:9"
+            caption="I am the image caption" width="600">
+          </qgds-image>
+        </div>
+
+        <div class="comp-block">
+          <qgds-button variant="primary" size="md" label="Primary"></qgds-button>
+          <qgds-button variant="secondary" size="md" label="Secondary"></qgds-button>
+          <qgds-button variant="tertiary" size="md" label="Tertiary"></qgds-button>
+          <qgds-button href="https://qld.gov.au" variant="tertiary" target="_blank" size="md"
+            label="Link as button"></qgds-button>
+        </div>
+
+        <div class="comp-block">
+          <qgds-tag label="Topic" variant="default"></qgds-tag>
+          <qgds-tag label="Topic" variant="default"></qgds-tag>
+          <qgds-tag label="Topic" variant="default"></qgds-tag>
+        </div>
+
+        <div class="comp-block">
+          <qgds-icon icon-id="home" size="md"></qgds-icon>
+          <qgds-icon icon-id="settings" size="md"></qgds-icon>
+          <qgds-icon icon-id="email" size="md"></qgds-icon>
+        </div>
+
+        <div class="comp-block">
+          <qgds-feature-icon icon-name="home" size="md"></qgds-feature-icon>
+        </div>
+
+        <div class="comp-block">
+          <qgds-loading-spinner is-label-visible="" label="Uploading, please wait" size="md"></qgds-loading-spinner>
+        </div>
+      </div>
+
+      <!-- ======================================== -->
+
+      <div class="section-block">
+        <h2 id="form-components">Form Components</h2>
+
+        <form style="max-width: 600px">
+          <div class="comp-block">
+            <qgds-search-input id="search" name="search" label="Search" placeholder="Enter search term">
+            </qgds-search-input>
+          </div>
+
+          <div class="comp-block">
+            <qgds-text-input id="fullname" name="fullname" label="Full name" hint="Enter your first and last name"
+              required>
+            </qgds-text-input>
+          </div>
+
+          <div class="comp-block">
+            <qgds-text-input id="email" name="email" label="Email address" hint="Heres a hint" type="text" required>
+            </qgds-text-input>
+          </div>
+
+          <div class="comp-block">
+            <qgds-textarea id="message" name="message" label="Message" hint="Please provide details" rows="4">
+            </qgds-textarea>
+          </div>
+
+          <div class="comp-block">
+            <qgds-select id="state" name="state" label="State or territory" required>
+              <qgds-select-optgroup label="Queensland">
+                <qgds-select-option value="seq" label="South East Queensland"></qgds-select-option>
+                <qgds-select-option value="dd" label="Darling Downs"></qgds-select-option>
+                <qgds-select-option value="wb" label="Wide Bay-Burnett"></qgds-select-option>
+                <qgds-select-option value="cq" label="Central Queensland"></qgds-select-option>
+                <qgds-select-option value="miw" label="Mackay, Isaac and Whitsunday"></qgds-select-option>
+                <qgds-select-option value="nq" label="North Queensland"></qgds-select-option>
+                <qgds-select-option value="fnq" label="Far North Queensland"></qgds-select-option>
+              </qgds-select-optgroup>
+
+              <qgds-select-option value="nsw" label="New South Wales"></qgds-select-option>
+              <qgds-select-option value="vic" label="Victoria"></qgds-select-option>
+            </qgds-select>
+          </div>
+
+          <div class="comp-block">
+            <qgds-radio-group id="contact-preference" name="contact-preference" label="Preferred contact method"
+              required @qgds-change="handleChange">
+              <qgds-radio value="email" label="Email"></qgds-radio>
+              <qgds-radio value="phone" label="Phone"></qgds-radio>
+              <qgds-radio value="post" label="Post"></qgds-radio>
+            </qgds-radio-group>
+          </div>
+
+          <div class="comp-block">
+            <qgds-checkbox-group id="interests" name="interests" label="Areas of interest" @qgds-change="handleChange">
+              <qgds-checkbox value="health" label="Health"></qgds-checkbox>
+              <qgds-checkbox value="education" label="Education"></qgds-checkbox>
+              <qgds-checkbox value="transport" label="Transport"></qgds-checkbox>
+              <qgds-checkbox value="environment" label="Environment"></qgds-checkbox>
+            </qgds-checkbox-group>
+          </div>
+
+          <div class="comp-block">
+            <qgds-button id="submit" type="submit" variant="primary">Submit Form</qgds-button>
+            <qgds-button id="reset" type="reset" variant="secondary" style="margin-left: 1rem">Reset</qgds-button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+
+    <script>
+
+      document.addEventListener('qgds-change', (event) => {
+        console.log('Change event:', event);
+      });
+
+      document.addEventListener('qgds-button-click', (event) => {
+        console.log('Button click event:', event);
+
+        if (event.target.matches('qgds-button')) {
+          const button = event.target;
+          const choice = button.dataset.palette || button.getAttribute('data-palette');
+          console.log('Button choice:', choice);
+
+          if (choice) {
+            document.body.classList.remove('qgds-palette-default', 'qgds-palette-soft', 'qgds-palette-muted', 'qgds-palette-bold', 'qgds-palette-deep');
+            document.body.classList.add(`qgds-palette-${choice}`);
+          }
+        }
+      });
+
+      document.addEventListener('qgds-input', (event) => {
+        console.log('Input event:', event);
+      });
+
+      document.addEventListener('qgds-submit', (event) => {
+        event.preventDefault();
+        console.log('Form submitted:', event);
+      });
+
+      document.addEventListener('qgds-reset', (event) => {
+        console.log('Form reset:', event);
+      });
+
+      document.addEventListener('qgds-toggle', (event) => {
+        console.log('Toggle event:', event);
+      });
+
+
+
+    </script>
+
+</body>
+
+</html>
