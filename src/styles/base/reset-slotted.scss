@@ -30,6 +30,16 @@ qgds-details {
     line-height: var(--slotted-content-line-height, inherit);
   }
 
+  table {
+    margin: var(--slotted-table-margin, 0);
+    padding: var(--slotted-table-padding, 0);
+  }
+
+  img {
+    margin: var(--slotted-img-margin, 0);
+    padding: var(--slotted-img-padding, 0);
+  }
+
   /* Interactive */
   a {
     color: var(--slotted-a-color, var(--qgds-color-link-default));
