@@ -1,0 +1,146 @@
+@use "sass:map";
+@use "../qgds-tokens/qgds-breakpoint" as bp;
+
+/** 
+QGDS Grid system, based on a 12 column layout. 
+This is a custom CSS Grid implementation to align layout output with the QGDS 12 column design grid.
+
+UI-Kit reference: 
+https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=58167-17346&m=dev
+
+CSS Grid:
+https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid#browser_compatibility
+*/
+
+$prefix: "qgds-" !default;
+$breakpoints: (
+  "xs": bp.$xs,
+  "sm": bp.$sm,
+  "md": bp.$md,
+  "lg": bp.$lg,
+  "xl": bp.$xl,
+  "xxl": bp.$xxl,
+);
+$container-max-width: bp.$xl;
+$grid-column-count: 12;
+
+@mixin grid-variables {
+  --gutter: 1rem;
+  --gap: var(--gutter);
+  --inner-padding: 1rem;
+
+  @media (min-width: bp.$md) {
+    --gutter: 1.5rem;
+    --gap: var(--gutter);
+    --inner-padding: 2rem;
+  }
+
+  @media (min-width: bp.$lg) {
+    --gutter: 2rem;
+    --gap: var(--gutter);
+  }
+
+  @media (min-width: bp.$xl) {
+    --inner-padding: max(2rem, calc((100vi - #{$container-max-width}) / 2));
+  }
+}
+
+$grid-columns: ();
+
+@for $span from 1 through 12 {
+  $grid-columns: map.merge(
+    $grid-columns,
+    (
+      "#{$span}": span $span,
+    )
+  );
+}
+
+@each $key, $value in $grid-columns {
+  .#{$prefix}col-#{$key} {
+    grid-column: $value;
+  }
+}
+
+@each $breakpoint, $breakpoint-value in $breakpoints {
+  @media (min-width: $breakpoint-value) {
+    @each $key, $value in $grid-columns {
+      .#{$prefix}col-#{$breakpoint}-#{$key} {
+        grid-column: $value;
+      }
+    }
+  }
+}
+
+// Add supporting classes for auto and full width columns
+.#{$prefix}col-auto {
+  grid-column: auto;
+}
+
+.#{$prefix}col {
+  grid-column: auto;
+}
+
+// Containers
+.#{$prefix}portal,
+.#{$prefix}container {
+  @include grid-variables();
+}
+
+.#{$prefix}container,
+.#{$prefix}container-fluid {
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin-inline: auto;
+}
+
+.#{$prefix}container {
+  max-inline-size: $container-max-width;
+  inline-size: min(100%, calc(100% - var(--inner-padding) - var(--inner-padding)));
+}
+
+.#{$prefix}container-fluid {
+  @include grid-variables();
+
+  max-inline-size: 100%;
+  padding-inline: var(--inner-padding);
+}
+
+.#{$prefix}container-fluid > .#{$prefix}container {
+  inline-size: 100%;
+}
+
+// Rows
+.#{$prefix}row {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat($grid-column-count, minmax(0, 1fr));
+  gap: var(--gap) var(--gutter);
+  inline-size: 100%;
+}
+
+.#{$prefix}row-nowrap {
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  overflow-x: auto;
+}
+
+/* Example usage:
+
+<div class="qgds-container-fluid">
+  <div class="qgds-container">
+    <div class="qgds-row">
+      <aside class="qgds-col-12 qgds-col-lg-3"></aside>
+      <main class="qgds-col-12 qgds-col-lg-9"></main>
+    </div>
+  </div>
+</div>  
+
+Wrapper classes:
+.qgds-container
+.qgds-container-fluid
+.qgds-row
+.qgds-row-nowrap
+
+
+*/

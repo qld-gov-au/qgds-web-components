@@ -96,6 +96,7 @@
       "default": "./dist/assets/js/qgds-web-components.js"
     },
     "./styles": "./dist/assets/css/qgds-web-components.css",
+    "./styles/grid": "./dist/assets/css/qgds-grid.css",
     "./*": {
       "types": "./dist/types/components/*/index.d.ts",
       "default": "./dist/assets/js/components/*.js"

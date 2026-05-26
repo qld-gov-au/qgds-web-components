@@ -106,6 +106,7 @@ const output = `/**
  */
 
 import "./styles/main.scss";
+import "./styles/grid/make-grid.scss";
 
 // =============================================================================
 // QGDS Components
