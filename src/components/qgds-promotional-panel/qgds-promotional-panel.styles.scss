@@ -33,6 +33,17 @@ $component: ".promo-panel";
     flex-direction: row;
   }
 
+  .is-indent-image &,
+  .is-indent-text & {
+    &.content-start {
+      @media (min-width: qgds-breakpoint.$xxl) {
+        padding-block: 4rem;
+        padding-inline: 9rem 4rem;
+        margin-inline: -9rem; // This is to offset the padding and align the content panel with the other components in the page
+      }
+    }
+  }
+
   .is-contained & {
     padding-block: 3rem;
     padding-inline: 1rem;
