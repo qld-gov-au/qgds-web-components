@@ -58,18 +58,54 @@ async function slotTable(element: QGDSTable, table: HTMLTableElement): Promise<v
   await new Promise<void>((r) => setTimeout(r, 0));
 }
 
+/**
+ * Creates a minimal MediaQueryList stub.
+ * `initialMatches = true`  → simulate mobile  (<= 699 px)
+ * `initialMatches = false` → simulate desktop (>  699 px)
+ *
+ * Call `instance._simulate(bool)` to fire the "change" listener
+ * exactly as the real MQL would when the viewport crosses the breakpoint.
+ */
+function createMockMql(initialMatches: boolean) {
+  const listeners: ((e: MediaQueryListEvent) => void)[] = [];
+  const mql = {
+    matches: initialMatches,
+    media: "(width <= 699px)",
+    addEventListener(_type: string, fn: (e: MediaQueryListEvent) => void) {
+      listeners.push(fn);
+    },
+    removeEventListener(_type: string, fn: (e: MediaQueryListEvent) => void) {
+      const idx = listeners.indexOf(fn);
+      if (idx !== -1) listeners.splice(idx, 1);
+    },
+    dispatchEvent: () => true,
+    /** Simulate the viewport crossing the breakpoint. */
+    _simulate(newMatches: boolean) {
+      mql.matches = newMatches;
+      const evt = Object.assign(new Event("change"), { matches: newMatches }) as MediaQueryListEvent;
+      listeners.forEach((fn) => fn(evt));
+    },
+  };
+  return mql;
+}
+
 // ── Suite ─────────────────────────────────────────────────────────────────────
 
 describe("qgds-table", () => {
   let element: QGDSTable;
+  let mockMql: ReturnType<typeof createMockMql>;
 
   beforeEach(() => {
+    // Simulate mobile by default so _applyStackLabels does not bail early.
+    mockMql = createMockMql(true);
+    vi.stubGlobal("matchMedia", () => mockMql);
     element = document.createElement("qgds-table");
     document.body.appendChild(element);
   });
 
   afterEach(() => {
     element.remove();
+    vi.unstubAllGlobals();
     vi.restoreAllMocks();
   });
 
@@ -231,6 +267,106 @@ describe("qgds-table", () => {
     cells.forEach((cell) => {
       expect(cell.hasAttribute("data-label")).toBe(false);
     });
+  });
+
+  // ── Stack mode: label lifecycle ───────────────────────────────────────────
+
+  it("clears data-label attributes when switching from stack to scroll", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+    expect(table.querySelector("tbody td")?.getAttribute("data-label")).toBe("Header 1");
+
+    element.responsive = "scroll";
+    await element.updateComplete;
+
+    table.querySelectorAll("tbody td").forEach((cell) => {
+      expect(cell.hasAttribute("data-label")).toBe(false);
+    });
+  });
+
+  it("re-applies data-label attributes when switching back to stack", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+
+    element.responsive = "scroll";
+    await element.updateComplete;
+
+    element.responsive = "stack";
+    await element.updateComplete;
+
+    expect(table.querySelector("tbody tr:first-child td")?.getAttribute("data-label")).toBe("Header 1");
+  });
+
+  it("skips applying data-label when viewport is desktop (mql.matches = false)", async () => {
+    // Slot in scroll mode first so _setupMediaQuery is called (with the desktop
+    // mock) before we switch to stack. That ensures this._mql is set and has
+    // matches=false when _applyStackLabels is invoked from updated().
+    mockMql = createMockMql(false); // simulate desktop
+    element.responsive = "scroll";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+
+    element.responsive = "stack";
+    await element.updateComplete;
+
+    table.querySelectorAll("tbody td").forEach((cell) => {
+      expect(cell.hasAttribute("data-label")).toBe(false);
+    });
+  });
+
+  it("clears data-label when viewport crosses to desktop", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+    expect(table.querySelector("tbody td")?.getAttribute("data-label")).toBe("Header 1");
+
+    mockMql._simulate(false); // cross to desktop
+
+    table.querySelectorAll("tbody td").forEach((cell) => {
+      expect(cell.hasAttribute("data-label")).toBe(false);
+    });
+  });
+
+  it("re-applies data-label when viewport crosses back to mobile", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+
+    mockMql._simulate(false); // cross to desktop — clears labels
+    mockMql._simulate(true); // cross back to mobile — re-applies
+
+    expect(table.querySelector("tbody tr:first-child td")?.getAttribute("data-label")).toBe("Header 1");
+  });
+
+  // ── Stack mode: MutationObserver header sync ──────────────────────────────
+
+  it("re-syncs data-label when a header cell text changes", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+
+    const th = table.querySelector("thead tr:first-child th");
+    if (th) th.textContent = "Renamed Header";
+
+    // Allow MutationObserver callback to fire
+    await new Promise<void>((r) => setTimeout(r, 0));
+
+    expect(table.querySelector("tbody tr:first-child td")?.getAttribute("data-label")).toBe("Renamed Header");
+  });
+
+  it("removes data-label from cells that no longer have a matching header", async () => {
+    element.responsive = "stack";
+    const table = makeTable({ rows: 2, cols: 3 });
+    await slotTable(element, table);
+
+    table.querySelector("thead tr:first-child th:last-child")?.remove();
+
+    await new Promise<void>((r) => setTimeout(r, 0));
+
+    const lastCell = table.querySelector("tbody tr:first-child td:last-child");
+    expect(lastCell?.hasAttribute("data-label")).toBe(false);
   });
 
   // ── Accessibility validation warnings ────────────────────────────────────

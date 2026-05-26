@@ -120,9 +120,20 @@ export class QGDSTable extends LitElement {
   @property({ type: Boolean, attribute: "has-sticky-header", reflect: true })
   hasStickyHeader = false;
 
+  // ── Private observer state ────────────────────────────────────────────────
+  private _mql: MediaQueryList | null = null;
+  private _mqlListener: ((e: MediaQueryListEvent) => void) | null = null;
+  private _headerObserver: MutationObserver | null = null;
+
   connectedCallback() {
     super.connectedCallback(); // eslint-disable-line -- LitElement lifecycle
     ensureGlobalStyles();
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback(); // eslint-disable-line -- LitElement lifecycle
+    this._teardownMediaQuery();
+    this._teardownHeaderObserver();
   }
 
   /** Returns the first slotted `<table>` element, or `undefined`. */
@@ -149,14 +160,25 @@ export class QGDSTable extends LitElement {
     }
   }
 
+  /** Removes all `data-label` attributes previously set on `<tbody td>` cells. */
+  private _clearStackLabels(table: HTMLTableElement): void {
+    table.querySelectorAll("tbody td[data-label]").forEach((cell) => {
+      cell.removeAttribute("data-label");
+    });
+  }
+
   /**
    * For `responsive="stack"`, reads column header text from `<thead th>` and
    * writes it as `data-label` attributes on corresponding `<tbody td>` cells.
    * These labels are displayed via a CSS `::before` pseudo-element on mobile.
    * Only attribute values are modified — cell content is never mutated.
+   *
+   * Skips (no-op) when the viewport is above bp.$md (699px) — labels are
+   * hidden by CSS at that width and will have been cleared by the mql listener.
    */
   private _applyStackLabels(table: HTMLTableElement): void {
     if (this.responsive !== "stack") return;
+    if (this._mql && !this._mql.matches) return; // desktop — skip
     const headers = Array.from(table.querySelectorAll("thead tr:first-child th")).map(
       (th) => th.textContent?.trim() ?? ""
     );
@@ -166,9 +188,56 @@ export class QGDSTable extends LitElement {
         const label = headers[i];
         if (label) {
           cell.setAttribute("data-label", label);
+        } else {
+          cell.removeAttribute("data-label");
         }
       });
     });
+  }
+
+  /**
+   * Watches `<thead>` for text or structure mutations and re-syncs
+   * `data-label` attributes so stale column headers are never shown.
+   */
+  private _setupHeaderObserver(table: HTMLTableElement): void {
+    this._teardownHeaderObserver();
+    const thead = table.querySelector("thead");
+    if (!thead) return;
+    this._headerObserver = new MutationObserver(() => {
+      this._applyStackLabels(table);
+    });
+    this._headerObserver.observe(thead, { subtree: true, childList: true, characterData: true });
+  }
+
+  private _teardownHeaderObserver(): void {
+    this._headerObserver?.disconnect();
+    this._headerObserver = null;
+  }
+
+  /**
+   * Watches the viewport width against bp.$md (699px).
+   * — Crossing into mobile: applies stack labels when `responsive="stack"`.
+   * — Crossing into desktop: clears all `data-label` attributes.
+   */
+  private _setupMediaQuery(table: HTMLTableElement): void {
+    this._teardownMediaQuery();
+    this._mql = window.matchMedia("(width <= 699px)");
+    this._mqlListener = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        this._applyStackLabels(table);
+      } else {
+        this._clearStackLabels(table);
+      }
+    };
+    this._mql.addEventListener("change", this._mqlListener);
+  }
+
+  private _teardownMediaQuery(): void {
+    if (this._mql && this._mqlListener) {
+      this._mql.removeEventListener("change", this._mqlListener);
+    }
+    this._mql = null;
+    this._mqlListener = null;
   }
 
   private _onSlotChange = (): void => {
@@ -178,6 +247,8 @@ export class QGDSTable extends LitElement {
       return;
     }
     this._validateAccessibility(table);
+    this._setupMediaQuery(table);
+    this._setupHeaderObserver(table);
     this._applyStackLabels(table);
   };
 
@@ -201,7 +272,13 @@ export class QGDSTable extends LitElement {
   updated(changedProps: Map<string, unknown>): void {
     if (changedProps.has("responsive")) {
       const table = this._getSlottedTable();
-      if (table) this._applyStackLabels(table);
+      if (table) {
+        if (this.responsive !== "stack") {
+          this._clearStackLabels(table);
+        } else {
+          this._applyStackLabels(table);
+        }
+      }
     }
   }
 

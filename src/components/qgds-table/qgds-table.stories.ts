@@ -318,9 +318,14 @@ export const AllModifiers: Story = {
  */
 export const MultilevelHeadings: Story = {
   name: "Multilevel Headings",
-  args: { responsive: "scroll", "has-border": true, "is-striped": true },
+  args: { responsive: "scroll", "has-border": true, "is-striped": true, "is-hovered": true },
   render: (args) => html`
-    <qgds-table responsive="${args.responsive}" ?has-border=${args["has-border"]} ?is-striped=${args["is-striped"]}>
+    <qgds-table
+      responsive="${args.responsive}"
+      ?has-border=${args["has-border"]}
+      ?is-striped=${args["is-striped"]}
+      is-hovered=${args["is-hovered"]}
+    >
       <table>
         <caption>
           Table caption

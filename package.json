@@ -76,7 +76,9 @@
     "typescript-eslint": "^8.48.1",
     "vite": "^7.3.1",
     "vite-plugin-static-copy": "^3.1.4",
-    "vitest": "^4.0.14"
+    "vitest": "^4.0.14",
+    "@wc-toolkit/cem-sorter": "^1.0.1",
+    "fast-glob": "^3.3.3"
   },
   "files": [
     "dist",
@@ -85,8 +87,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@wc-toolkit/cem-sorter": "^1.0.1",
-    "fast-glob": "^3.3.3",
     "lit": "^3.3.1"
   },
   "exports": {

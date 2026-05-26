@@ -31,7 +31,7 @@ qgds-table {
     }
 
     thead th {
-      background-color: var(--qgds-color-background-shade, #f5f5f5);
+      background-color: var(--qgds-color-background, #f5f5f5);
       color: var(--qgds-color-text-heading, #000053);
       font-weight: 600;
       text-align: start;
@@ -118,7 +118,9 @@ qgds-table {
   &[has-sticky-header] thead th {
     position: sticky;
     inset-block-start: 0;
+    box-shadow: 0 -2px 0 var(--qgds-color-accent-design-accent, #848484) inset;
     z-index: 1;
+    border-block-end: 0;
   }
 
   &[has-sticky-header] tfoot {
@@ -129,6 +131,12 @@ qgds-table {
     td {
       border-block-start: 0;
     }
+  }
+
+  /* Second header row (e.g. column groups) — must follow &[has-sticky-header] thead th
+     in source order because its compiled specificity (0,1,5) is higher. */
+  table thead tr:nth-child(2) th {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
   }
 
   &[is-striped] tbody tr:nth-child(even) td {
