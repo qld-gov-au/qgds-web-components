@@ -1,0 +1,194 @@
+/* ── Base table ─────────────────────────────────────────────────────────── */
+
+qgds-table {
+  /* Base styles first — attribute modifiers below must not precede these
+     or the cascade specificity order will be inverted (no-descending-specificity). */
+
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1rem;
+
+    caption {
+      caption-side: top;
+      text-align: start;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--qgds-color-text-heading, #000053);
+      padding-block: 0.75rem;
+      padding-inline: 0.75rem;
+      border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
+    }
+
+    .caption-subtitle,
+    .subtitle {
+      display: block;
+      font-weight: 400;
+      font-size: 0.875rem;
+      color: var(--qgds-color-text-default, #353535);
+      margin-block-start: 0.25rem;
+    }
+
+    thead th {
+      background-color: var(--qgds-color-background-shade, #f5f5f5);
+      color: var(--qgds-color-text-heading, #000053);
+      font-weight: 600;
+      text-align: start;
+      padding-inline: 0.75rem;
+      padding-block: 1.25rem;
+      border-block-end: 2px solid var(--qgds-color-accent-design-accent, #848484);
+    }
+
+    tbody td,
+    tfoot td {
+      color: var(--qgds-color-text-default, #353535);
+      padding-inline: 0.75rem calc(0.75rem - 1px);
+      padding-block: 0.75rem;
+      border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    tfoot td {
+      font-weight: 600;
+      border-block-start: 2px solid var(--qgds-color-accent-design-accent, #848484);
+      border-block-end: none;
+      padding-block: 0.75rem;
+      background-color: var(--qgds-color-background, #fff);
+      border-radius: inherit;
+    }
+
+    ::-webkit-scrollbar {
+      inline-size: 0;
+    }
+
+    /* ── Utility classes (for CMS-authored markup) ──────────────────────────── */
+
+    /* stylelint-disable selector-class-pattern */
+
+    .cell--numeric {
+      text-align: end;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cell-left-border {
+      border-inline-start: 2px solid var(--qgds-color-accent-design-accent, #848484) !important;
+    }
+
+    .cell--middle {
+      vertical-align: middle !important;
+    }
+
+    .header--width-10 {
+      inline-size: 10%;
+    }
+
+    .header--width-15 {
+      inline-size: 15%;
+    }
+
+    .header--width-20 {
+      inline-size: 20%;
+    }
+
+    .header--width-25 {
+      inline-size: 25%;
+    }
+
+    .header--width-33 {
+      inline-size: 33.333%;
+    }
+
+    .header--width-40 {
+      inline-size: 40%;
+    }
+
+    .header--width-50 {
+      inline-size: 50%;
+    }
+
+    .header--width-75 {
+      inline-size: 75%;
+    }
+
+    /* stylelint-enable selector-class-pattern */
+  }
+
+  &[has-sticky-header] thead th {
+    position: sticky;
+    inset-block-start: 0;
+    z-index: 1;
+  }
+
+  &[has-sticky-header] tfoot {
+    position: sticky;
+    inset-block-end: 0;
+    box-shadow: 0 -2px 0 var(--qgds-color-accent-design-accent, #848484);
+
+    td {
+      border-block-start: 0;
+    }
+  }
+
+  &[is-striped] tbody tr:nth-child(even) td {
+    background-color: var(--qgds-color-background-shade, #f5f5f5);
+  }
+
+  &[is-hovered] tbody tr {
+    &:hover td {
+      background-color: var(--qgds-color-background-shade, #f5f5f5);
+      transition: background-color 0.1s ease;
+    }
+  }
+
+  /* ── Stack mode — mobile responsive stacking ────────────────────────────── */
+
+  @media (width <= 699px) {
+    &[responsive="stack"] {
+      thead {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+
+      tbody {
+        tr {
+          display: block;
+          border-block-end: 2px solid var(--qgds-color-accent-design-accent, #848484);
+        }
+
+        td {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 1rem;
+          padding-block: 0.5rem;
+          padding-inline: 1rem;
+          border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
+          border-radius: inherit;
+
+          &::before {
+            content: attr(data-label);
+            font-weight: 700;
+            color: var(--qgds-color-text-heading, #000053);
+            flex: 0 0 40%;
+            text-align: start;
+          }
+        }
+      }
+
+      tfoot {
+        border-radius: inherit;
+
+        td {
+          display: flex;
+          gap: 1rem;
+        }
+      }
+    }
+  }
+}

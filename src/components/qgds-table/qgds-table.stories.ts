@@ -147,7 +147,7 @@ export default meta;
  * additional decoration. The native `<table>` is passed in unchanged.
  */
 export const Default: Story = {
-  name: "Default",
+  name: "Borderless",
   args: { responsive: "scroll" },
   parameters: { ...chromaticModes },
 };
@@ -157,7 +157,7 @@ export const Default: Story = {
  * well with `is-striped` for dense data tables.
  */
 export const Bordered: Story = {
-  name: "Bordered",
+  name: "Bordered (Default)",
   args: { responsive: "scroll", "has-border": true },
   parameters: { ...chromaticModes },
 };

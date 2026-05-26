@@ -4,7 +4,7 @@
 
 // ── Public custom properties ─────────────────────────────────────────────────
 :host {
-  --table-border-color: var(--qgds-color-border-alt, #848484);
+  --table-border-color: var(--qgds-color-border, #848484);
   --table-scroll-max-height-mobile: 640px;
   --table-scroll-max-height-desktop: 1000px;
 

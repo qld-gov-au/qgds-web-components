@@ -1,218 +1,11 @@
 import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-table.styles.scss?inline";
+import GLOBAL_TABLE_CSS from "./qgds-global-table.styles.scss?inline";
 
 export type TableResponsive = "scroll" | "stack";
-
-/**
- * Document-level stylesheet injected once to style descendants of the slotted
- * `<table>`. Shadow DOM `::slotted()` cannot reach beyond the directly-slotted
- * element, so we use `document.adoptedStyleSheets` with `qgds-table`-scoped
- * selectors. Because slotted elements remain in the light DOM, standard CSS
- * descendant selectors work correctly.
- */
-const GLOBAL_TABLE_CSS = /* css */ `
-  /* ── Base table ─────────────────────────────────────────────────────────── */
-
-  qgds-table {
-    &[is-striped] tbody tr:nth-child(even) td {
-      background-color: var(--qgds-color-background-shade, #f5f5f5);
-    }
-  
-    &[is-hovered] tbody tr{
-        &:nth-child(even):hover td {
-            background-color: #e0e0e0; // This specific hover colour is not defined in QGDS tokens, but we want a slightly darker shade on hover for striped rows to maintain sufficient contrast. Adjust as needed.
-            transition: background-color 0.1s ease;
-        }
-
-        &:hover td {
-            background-color: var(--qgds-color-background-shade, #f5f5f5);
-            transition: background-color 0.1s ease;
-        }
-    }
-  
-    &[has-sticky-header] thead th {
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-  
-    &[has-sticky-header] tfoot {
-        position: sticky;
-        inset-block-end: 0;
-        box-shadow: 0 -2px 0 var(--qgds-color-border-alt, #848484);
-
-        td {
-            border-block-start: 0;}
-    }
-    /* ── Stack mode — mobile responsive stacking ────────────────────────────── */
-  
-    @media (max-width: 699px) {
-      &[responsive="stack"] {
-        thead {
-          position: absolute;
-          inline-size: 1px;
-          block-size: 1px;
-          overflow: hidden;
-          clip: rect(0, 0, 0, 0);
-          white-space: nowrap;
-        }
-  
-        tbody {
-          tr {
-            display: block;
-            border-bottom: 2px solid var(--qgds-color-border-alt, #848484);          
-          }
-  
-          td {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 0.5rem 1rem;
-            border-bottom: 1px solid var(--qgds-color-border, #ebebeb);
-            border-radius: inherit;
-
-            &::before {
-              content: attr(data-label);
-              font-weight: 700;
-              color: var(--qgds-color-text-heading, #000053);
-              flex: 0 0 40%;
-              text-align: left;
-            }
-          }
-        }
-  
-        tfoot { 
-          border-radius: inherit;
-          td {
-            display: flex;
-            gap: 1rem;
-          }
-        }
-      }
-    }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border-spacing: 0;
-      font-size: 1rem;
-  
-      caption {
-        caption-side: top;
-        text-align: left;
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--qgds-color-text-heading, #000053);
-        padding-block: 0.75rem;
-        padding-inline: 0.75rem;
-        border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
-      }
-  
-      .caption-subtitle, .subtitle {
-        display: block;
-        font-weight: 400;
-        font-size: 0.875rem;
-        color: var(--qgds-color-text-default, #353535);
-        margin-block-start: 0.25rem;
-      }
-  
-      thead th {
-        background-color: var(--qgds-color-background-shade, #f5f5f5);
-        color: var(--qgds-color-text-heading, #000053);
-        font-weight: 600;
-        text-align: left;
-        padding-inline: 0.75rem;
-        padding-block: 1.25rem;
-        border-bottom: 2px solid var(--qgds-color-border-alt, #848484);
-      }
-  
-      tbody td,
-      tfoot td {
-        color: var(--qgds-color-text-default, #353535);
-        padding-inline: 0.75rem calc(0.75rem - 1px);
-        padding-block: 0.75rem;
-        border-bottom: 1px solid var(--qgds-color-border, #ebebeb);
-        text-align: left;
-        vertical-align: top;
-      }
-  
-      tfoot td {
-        font-weight: 600;
-        border-top: 2px solid var(--qgds-color-border-alt, #848484);
-        border-bottom: none;
-        padding-block: 0.75rem;
-        background-color: var(--qgds-color-background, #fff);
-        border-radius: inherit;
-      }
-  
-      ::-webkit-scrollbar {
-        width: 0;
-      }
-
-      /* ── Utility classes (for CMS-authored markup) ──────────────────────────── */
-      .cell--numeric {
-        text-align: right;
-        font-variant-numeric: tabular-nums;
-      }
-  
-      .cell-left-border {
-        border-left: 2px solid var(--qgds-color-border-alt, #848484) !important;
-      }
-  
-      .cell--middle {
-        vertical-align: middle !important;
-      }
-  
-      .header--width-10 {
-        width: 10%;
-      }
-      .header--width-15 {
-        width: 15%;
-      }
-      .header--width-20 {
-        width: 20%;
-      }
-      .header--width-25 {
-        width: 25%;
-      }
-      .header--width-33 {
-        width: 33.333%;
-      }
-      .header--width-40 {
-        width: 40%;
-      }
-      .header--width-50 {
-        width: 50%;
-      }
-      .header--width-75 {
-        width: 75%;
-      }
-    }
-  }
-`;
-
-let globalStylesInjected = false;
-
-function ensureGlobalStyles(): void {
-  if (globalStylesInjected) return;
-  try {
-    const sheet = new CSSStyleSheet();
-    sheet.replaceSync(GLOBAL_TABLE_CSS);
-    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
-  } catch {
-    // Fallback for environments without constructable stylesheets support
-    const style = document.createElement("style");
-    style.setAttribute("data-qgds-table", "");
-    style.textContent = GLOBAL_TABLE_CSS;
-    document.head.appendChild(style);
-  }
-  globalStylesInjected = true;
-}
 
 /**
  * A QGDS-styled visual wrapper for native HTML `<table>` elements.
@@ -268,6 +61,33 @@ function ensureGlobalStyles(): void {
  * </qgds-table>
  * ```
  */
+
+/**
+ * Document-level stylesheet injected once to style descendants of the slotted
+ * `<table>`. Shadow DOM `::slotted()` cannot reach beyond the directly-slotted
+ * element, so we use `document.adoptedStyleSheets` with `qgds-table`-scoped
+ * selectors. Because slotted elements remain in the light DOM, standard CSS
+ * descendant selectors work correctly.
+ */
+
+let globalStylesInjected = false;
+
+function ensureGlobalStyles(): void {
+  if (globalStylesInjected) return;
+  try {
+    const sheet = new CSSStyleSheet();
+    sheet.replaceSync(GLOBAL_TABLE_CSS);
+    document.adoptedStyleSheets = [...document.adoptedStyleSheets, sheet];
+  } catch {
+    // Fallback for environments without constructable stylesheets support
+    const style = document.createElement("style");
+    style.setAttribute("data-qgds-table", "");
+    style.textContent = GLOBAL_TABLE_CSS;
+    document.head.appendChild(style);
+  }
+  globalStylesInjected = true;
+}
+
 @customElement("qgds-table")
 export class QGDSTable extends LitElement {
   static styles = [
