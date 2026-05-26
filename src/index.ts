@@ -42,6 +42,7 @@ export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-opt
 export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-optgroup";
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
+export { QGDSTabs } from "./components/qgds-tabs/qgds-tabs";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
