@@ -168,5 +168,6 @@ jobs:
         run: |
           echo "### Publish skipped" >> $GITHUB_STEP_SUMMARY
           echo "DO_DEPLOYMENT: github.event_name: ${{ github.event_name != 'workflow_dispatch'}} || github.event.inputs.force: ${{ github.event.inputs.force == 'Yes' }}"  >> $GITHUB_STEP_SUMMARY
+          echo "Event name: ${{ github.event_name }}"  >> $GITHUB_STEP_SUMMARY
           echo "Force: ${{ github.event.inputs.force }}"  >> $GITHUB_STEP_SUMMARY
           echo "Release Tag: ${{ github.event.inputs.release_tag }}"  >> $GITHUB_STEP_SUMMARY
