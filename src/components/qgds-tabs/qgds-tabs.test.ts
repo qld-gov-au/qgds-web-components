@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import "./qgds-tabs";
 import type { QGDSTabs } from "./qgds-tabs";
@@ -144,5 +144,110 @@ describe("qgds-tabs", () => {
     expect(buttons?.[0].getAttribute("aria-controls")).toBe("panel-0");
     expect(panelA.getAttribute("aria-labelledby")).toBe("tab-0");
     expect(panelA.getAttribute("role")).toBe("tabpanel");
+  });
+
+  it("includes scroll buttons for tab navigation", async () => {
+    element.innerHTML = `
+      <div label="Tab 1">Panel 1</div>
+      <div label="Tab 2">Panel 2</div>
+    `;
+
+    await element.updateComplete;
+    await flush();
+    await element.updateComplete;
+
+    const leftButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-left");
+    const rightButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-right");
+
+    expect(leftButton).toBeTruthy();
+    expect(rightButton).toBeTruthy();
+    expect(leftButton?.getAttribute("aria-label")).toBe("Scroll tab buttons left");
+    expect(rightButton?.getAttribute("aria-label")).toBe("Scroll tab buttons right");
+  });
+
+  it("calls scrollBy when scroll buttons are clicked", async () => {
+    element.innerHTML = `
+      <div label="Tab 1">Panel 1</div>
+      <div label="Tab 2">Panel 2</div>
+    `;
+
+    await element.updateComplete;
+    await flush();
+    await element.updateComplete;
+
+    const nav = element.shadowRoot?.querySelector<HTMLElement>(".nav");
+    const leftButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-left");
+    const rightButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-right");
+
+    expect(nav).toBeTruthy();
+    expect(leftButton).toBeTruthy();
+    expect(rightButton).toBeTruthy();
+
+    if (!nav || !leftButton || !rightButton) return;
+    const scrollSpy = vi.spyOn(nav, "scrollBy");
+
+    rightButton.click();
+    expect(scrollSpy).toHaveBeenCalledWith({
+      left: 200,
+      behavior: "smooth",
+    });
+
+    scrollSpy.mockClear();
+
+    leftButton.click();
+    expect(scrollSpy).toHaveBeenCalledWith({
+      left: -200,
+      behavior: "smooth",
+    });
+  });
+
+  it("toggles scroll button visibility when nav is scrollable", async () => {
+    element.innerHTML = `
+      <div label="Tab 1">Panel 1</div>
+      <div label="Tab 2">Panel 2</div>
+      <div label="Tab 3">Panel 3</div>
+      <div label="Tab 4">Panel 4</div>
+    `;
+
+    await element.updateComplete;
+    await flush();
+    await element.updateComplete;
+
+    const nav = element.shadowRoot?.querySelector<HTMLElement>(".nav");
+    const leftButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-left");
+    const rightButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-right");
+
+    expect(nav).toBeTruthy();
+    expect(leftButton).toBeTruthy();
+    expect(rightButton).toBeTruthy();
+
+    if (!nav || !leftButton || !rightButton) return;
+
+    Object.defineProperty(nav, "scrollWidth", { value: 1200, configurable: true });
+    Object.defineProperty(nav, "clientWidth", { value: 600, configurable: true });
+    Object.defineProperty(nav, "scrollLeft", {
+      value: 0,
+      configurable: true,
+      writable: true,
+    });
+
+    nav.dispatchEvent(new Event("scroll"));
+    await flush();
+    await element.updateComplete;
+
+    expect(leftButton.classList.contains("show")).toBe(false);
+    expect(rightButton.classList.contains("show")).toBe(true);
+
+    Object.defineProperty(nav, "scrollLeft", {
+      value: 700,
+      configurable: true,
+      writable: true,
+    });
+    nav.dispatchEvent(new Event("scroll"));
+    await flush();
+    await element.updateComplete;
+
+    expect(leftButton.classList.contains("show")).toBe(true);
+    expect(rightButton.classList.contains("show")).toBe(false);
   });
 });
