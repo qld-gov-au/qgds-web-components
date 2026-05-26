@@ -47,7 +47,7 @@
 .content-wrapper {
   @extend %qgds-color-palette-default;
 
-  background-color: var(--background, var(--qgds-color-background));
+  background-color: var(--bg, var(--qgds-color-background));
   color: var(--qgds-color-text-default);
   flex: 1 1 auto;
   padding-block: calc(1rem - var(--border-width));

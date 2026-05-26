@@ -7,7 +7,6 @@ import componentCSS from "./qgds-callout.styles.scss?inline";
 
 export type HeadingLevel = "h2" | "h3" | "h4" | "h5" | "h6";
 export type HeadingSize = "xs" | "sm" | "md";
-export type QGDSCalloutProps = InstanceType<typeof QGDSCallout>;
 
 /**
  * Used to highlight important information within content areas. It features a prominent border and background to draw attention to its contents.

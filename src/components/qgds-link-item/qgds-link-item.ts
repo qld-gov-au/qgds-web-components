@@ -36,7 +36,7 @@ import "../qgds-icon/qgds-icon.js";
  * ```
  */
 @customElement("qgds-link-item")
-export class QgdsLinkItem extends LitElement {
+export class QGDSLinkItem extends LitElement {
   static styles = [
     resetStyles,
     css`
@@ -99,6 +99,6 @@ export class QgdsLinkItem extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-link-item": QgdsLinkItem;
+    "qgds-link-item": QGDSLinkItem;
   }
 }

@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -132,6 +132,23 @@ export class QGDSImage extends LitElement {
    */
   private getCaptionId = () => `qgds-img-caption-${Math.random().toString(36).substr(2, 9)}`;
 
+  /**
+   * Derives the explicit inline-size to apply to the wrapper element.
+   * When `width` is set, that value is used directly.
+   * When `aspect` and `height` are both set, the width is calculated from the ratio.
+   * Returns undefined when width should be determined by the parent container.
+   */
+  private get wrapperInlineSize(): string | undefined {
+    if (this.width) return `${this.width}px`;
+    if (this.aspect && this.height) {
+      const [wr, hr] = this.aspect.split(":").map(Number);
+      if (Number.isFinite(wr) && Number.isFinite(hr) && hr > 0) {
+        return `${(this.height * wr) / hr}px`;
+      }
+    }
+    return undefined;
+  }
+
   private inferPriority = () => {
     if (!this.aspect) return "is-horizontal";
     const [w, h] = this.aspect.split(":").map(Number);
@@ -159,13 +176,19 @@ export class QGDSImage extends LitElement {
     const imgStyles = {
       ...(ratio ?? {}),
       ...objectPosition,
-      // Apply explicit dimensions when set (not max, because we want exact size)
-      ...(this.width ? { "inline-size": `${this.width}px` } : {}),
+      // Height constrains the image only — the wrapper grows to fit img + figcaption (req #3)
       ...(this.height ? { "max-block-size": `${this.height}px` } : {}),
     };
 
     // Only render style attribute if there are actual styles to apply
     const hasStyles = Object.keys(imgStyles).length > 0;
+
+    // Wrapper inline-size: applied when width is explicitly set or derivable from aspect + height.
+    // This ensures figcaption always matches the image width (req #1, #2).
+    // Omitted by default so the component fills its container (req #5).
+    const wrapperInlineSize = this.wrapperInlineSize;
+    const wrapperStyles = wrapperInlineSize ? { "inline-size": wrapperInlineSize } : {};
+    const hasWrapperStyles = Object.keys(wrapperStyles).length > 0;
 
     // Accessibility: Determine effective alt text
     const effectiveAlt = this.decorative ? "" : this.alt;
@@ -193,14 +216,14 @@ export class QGDSImage extends LitElement {
         height="${ifDefined(this.height || undefined)}"
         srcset="${ifDefined(this.srcset)}"
         sizes="${ifDefined(this.sizes)}"
-        style=${ifDefined(hasStyles ? styleMap(imgStyles) : undefined)}
+        style=${hasStyles ? styleMap(imgStyles) : nothing}
         loading="${ifDefined(this.loading)}"
         fetchpriority="${ifDefined(this.fetchpriority)}"
         decoding="${ifDefined(this.decoding)}"
         referrerpolicy="${ifDefined(this.referrerpolicy)}"
         role="${ifDefined(this.decorative ? "presentation" : undefined)}"
         aria-hidden="${ifDefined(this.decorative ? "true" : undefined)}"
-        aria-label="${ifDefined(this.ariaLabel)}"
+        aria-label="${ifDefined(this.ariaLabel ?? undefined)}"
         aria-describedby="${ifDefined(ariaDescribedbyValue)}"
       />
     `;
@@ -208,12 +231,14 @@ export class QGDSImage extends LitElement {
     return html`
       ${this.caption
         ? html`
-            <figure class=${classMap(wrapperClasses)}>
+            <figure class=${classMap(wrapperClasses)} style=${hasWrapperStyles ? styleMap(wrapperStyles) : nothing}>
               ${imageTag}
-              <figcaption id="${captionId}">${unsafeHTML(this.caption)}</figcaption>
+              <figcaption id=${ifDefined(captionId)}>${unsafeHTML(this.caption)}</figcaption>
             </figure>
           `
-        : html` <div class=${classMap(wrapperClasses)}>${imageTag}</div>`}
+        : html` <div class=${classMap(wrapperClasses)} style=${hasWrapperStyles ? styleMap(wrapperStyles) : nothing}>
+            ${imageTag}
+          </div>`}
     `;
   }
 }

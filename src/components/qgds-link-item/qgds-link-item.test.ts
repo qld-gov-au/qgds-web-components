@@ -2,11 +2,11 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import "./qgds-link-item";
 import "../qgds-link/qgds-link";
 import "../qgds-link-column/qgds-link-column";
-import type { QgdsLinkItem } from "./qgds-link-item";
-import type { QgdsLink } from "../qgds-link/qgds-link";
+import type { QGDSLinkItem } from "./qgds-link-item";
+import type { QGDSLink } from "../qgds-link/qgds-link";
 
 describe("qgds-link-item", () => {
-  let element: QgdsLinkItem;
+  let element: QGDSLinkItem;
 
   beforeEach(() => {
     element = document.createElement("qgds-link-item");
@@ -89,7 +89,7 @@ describe("qgds-link-item", () => {
     element.setAttribute("icon-name", "arrow-right");
     await element.updateComplete;
 
-    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    const link = element.shadowRoot?.querySelector("qgds-link") as QGDSLink | null;
     expect(link?.iconName).toBe("arrow-right");
   });
 
@@ -99,7 +99,7 @@ describe("qgds-link-item", () => {
     element.setAttribute("animation", "leftToRight");
     await element.updateComplete;
 
-    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    const link = element.shadowRoot?.querySelector("qgds-link") as QGDSLink | null;
     expect(link?.iconName).toBeFalsy();
     expect(link?.iconSize).toBeFalsy();
     expect(link?.animation).toBeFalsy();
@@ -110,7 +110,7 @@ describe("qgds-link-item", () => {
     await element.updateComplete;
 
     expect(element.iconName).toBe("external-link");
-    const link = element.shadowRoot?.querySelector("qgds-link") as QgdsLink | null;
+    const link = element.shadowRoot?.querySelector("qgds-link") as QGDSLink | null;
     expect(link?.iconName).toBe("external-link");
   });
 });

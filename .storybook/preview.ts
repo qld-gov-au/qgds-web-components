@@ -7,6 +7,8 @@ import "../src/styles/main.scss";
 import { palettes } from "../src/utils";
 import customElementsManifest from "../custom-elements.json";
 import DocumentationTemplate from "./templates/DocumentationTemplate.mdx";
+import { MINIMAL_VIEWPORTS } from "storybook/viewport";
+import { QGDSViewports } from "./storybook-helpers";
 
 // Register custom elements manifest for API documentation
 // This enables automatic API tables and controls in Storybook autodocs
@@ -46,6 +48,10 @@ const preview: Preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: "todo",
+    },
+
+    viewport: {
+      options: { ...QGDSViewports, ...MINIMAL_VIEWPORTS },
     },
   },
 

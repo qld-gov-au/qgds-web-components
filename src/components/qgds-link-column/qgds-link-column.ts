@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-link-column.styles.scss?inline";
 import { resetStyles } from "../../styles";
 import "../qgds-link-item/qgds-link-item.js";
-import type { QgdsLinkItem } from "../qgds-link-item/qgds-link-item.js";
+import type { QGDSLinkItem, QGDSLinkItem } from "../qgds-link-item/qgds-link-item.js";
 import "../qgds-call-to-action/qgds-call-to-action.js";
 
 export type LinkColumnDirection = "vertical" | "horizontal";
@@ -38,7 +38,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  * ```
  */
 @customElement("qgds-link-column")
-export class QgdsLinkColumn extends LitElement {
+export class QGDSLinkColumn extends LitElement {
   static styles = [
     resetStyles,
     css`
@@ -134,7 +134,7 @@ export class QgdsLinkColumn extends LitElement {
         );
         (el as HTMLElement).style.display = "none";
       } else {
-        const item = el as QgdsLinkItem;
+        const item = el as QGDSLinkItem;
         if (!item.iconName) item.iconName = "arrow-right";
         if (!item.animation) item.animation = "leftToRight";
       }
@@ -163,6 +163,6 @@ export class QgdsLinkColumn extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-link-column": QgdsLinkColumn;
+    "qgds-link-column": QGDSLinkColumn;
   }
 }

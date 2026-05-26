@@ -4,7 +4,8 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
 import "./qgds-image.js";
 import type { QGDSImage } from "./qgds-image.js";
-import "../qgds-callout/qgds-callout.ts";
+
+import "../qgds-callout/qgds-callout.js";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSImage>("qgds-image");
 
@@ -25,11 +26,9 @@ const meta: Meta<Args> = {
     (Story) => html`
       <style>
         .story-wrapper {
-          max-width: 600px;
           margin: 2rem;
-        }
-        qgds-image {
-          max-width: 600px;
+          display: flex;
+          flex-flow: row wrap;
         }
       </style>
       <div class="story-wrapper">${Story()}</div>
@@ -48,8 +47,7 @@ export const Default: Story = {
 
 export const WithCaption: Story = {
   args: {
-    caption: `Currumbin Beach, Queensland, Australia. Photo by <a href="#">Josh Withers</a> on <a href="#">Unsplash</a>
-      `,
+    caption: `Image caption providing additional context and information about the image content.`,
   },
 };
 
@@ -64,7 +62,6 @@ export const WithRatios: Story = {
             gap: 1rem;
             align-items: baseline;
             margin-bottom: 2rem;
-            width: fit-content;
           }
         </style>
 
@@ -134,9 +131,11 @@ export const DecorativeImage: Story = {
     (story) => {
       return html`
         <div>
-          ${story()}
-          <p>This decorative image has no alt text and is hidden from screen readers:</p>
-          <p>It's purely decorative and doesn't add meaning to the content.</p>
+          <div style="margin-bottom: 2rem">${story()}</div>
+          <p>
+            This decorative image has no alt text and is hidden from screen readers. It's purely decorative and doesn't
+            add meaning to the content.
+          </p>
         </div>
       `;
     },
@@ -158,7 +157,7 @@ export const WithLongDescription: Story = {
   decorators: [
     (story) => {
       return html`
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div style="display: flex; flex-direction: column; gap: 1rem; width: 600px">
           <p>Complex images like charts need detailed descriptions for accessibility:</p>
           ${story()}
           <qgds-callout heading="Detailed Description:" heading-level="h3">
