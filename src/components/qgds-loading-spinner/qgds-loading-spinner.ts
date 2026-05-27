@@ -16,7 +16,7 @@ import type { IconSize } from "../qgds-icon/qgds-icon";
  *
  * @prop {IconSize} [size="md"] The size of the spinner icon: "xs", "sm", "md", "lg", "xl" or "xxl".
  * @prop {string} [label="Loading"] Text used as the accessible label. Also shown visually when labelVisible is true.
- * @prop {boolean} [hideLabel=true] Whether to display the label text visually below the spinner.
+ * @prop {boolean} [hideLabel=false] Whether to display the label text visually below the spinner.
  * @prop {boolean} [isStacked=false] When true, stacks the icon and label vertically. When false, displays them inline horizontally.
  *
  */
