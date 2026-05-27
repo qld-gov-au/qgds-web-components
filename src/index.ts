@@ -36,6 +36,7 @@ export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-
 export { QGDSLink } from "./components/qgds-link/qgds-link";
 export { QGDSLinkColumn } from "./components/qgds-link-column/qgds-link-column";
 export { QGDSLinkItem } from "./components/qgds-link-item/qgds-link-item";
+export { QGDSLogo } from "./components/qgds-logo/qgds-logo";
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
