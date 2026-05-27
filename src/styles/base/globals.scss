@@ -38,6 +38,10 @@
 // Global Styling for HTML elements - generic/global namespace primary for body content
 html {
   font-size: 100%;
+  scroll-behavior: smooth;
+  @media (prefers-reduced-motion) {
+    scroll-behavior: auto;
+  }
 }
 
 body {
