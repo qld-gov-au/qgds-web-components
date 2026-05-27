@@ -53,13 +53,15 @@ nav {
 
   &.active {
     background-color: var(--qgds-color-background);
-    padding-block-start: 0.75rem;
     color: var(--qgds-color-text-heading);
     border: 1px solid var(--qgds-color-border-alt);
     border-block-end: 0 solid var(--qgds-color-background);
     margin-block: 0;
     pointer-events: none;
     cursor: default;
+    justify-content: space-between;
+    padding-block: 0.75rem 0;
+    font-weight: 700;
 
     &::after {
       --border-radius: 0.25rem;
@@ -72,7 +74,6 @@ nav {
       display: block;
       block-size: 0.25rem;
       inline-size: 100%;
-      margin-block-end: calc(-0.75rem - 3px);
     }
   }
 
