@@ -1,5 +1,5 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
-import { customElement, state, queryAssignedElements, property, query } from "lit/decorators.js";
+import { customElement, state, queryAssignedElements, query } from "lit/decorators.js";
 import { baseStyles } from "../../styles";
 import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-tabs.styles.scss?inline";
@@ -45,11 +45,9 @@ export class QGDSTabs extends LitElement {
   @state() private _tabs: TabItem[] = [];
   @state() private _showLeftScroll = false;
   @state() private _showRightScroll = false;
+  @state() private _parentContext = "default";
 
   @query(".nav") private _nav!: HTMLElement;
-
-  @property({ type: String, attribute: false })
-  parentContext: string = "default";
 
   private _observer?: MutationObserver;
 
@@ -72,16 +70,17 @@ export class QGDSTabs extends LitElement {
     });
   }
 
-  updated() {
-    this._initTabsScroll();
+  firstUpdated() {
+    requestAnimationFrame(() => {
+      this._initTabsScroll();
+    });
   }
-
   private _updateParentContext() {
     const paletteList = Object.keys(palettes);
 
     const classList = this.parentElement?.classList;
 
-    this.parentContext = paletteList.find((palette) => classList?.contains(`qgds-palette-${palette}`)) ?? "default";
+    this._parentContext = paletteList.find((palette) => classList?.contains(`qgds-palette-${palette}`)) ?? "default";
   }
 
   private _handleSlotChange = () => {
@@ -178,7 +177,7 @@ export class QGDSTabs extends LitElement {
 
   render() {
     return html`
-      <header role="tablist" class="parent-context-${this.parentContext}">
+      <header role="tablist" class="parent-context-${this._parentContext}">
         <button
           class=${classMap({
             scroll: true,

@@ -6,6 +6,8 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
+
+  --_tab-icon-color: #307edb;
 }
 
 section {
@@ -87,9 +89,9 @@ nav {
   &:hover {
     background-color: var(--qgds-color-action-primary-hover);
     color: var(--qgds-color-link-on-action);
-    text-decoration: underline;
-    text-underline-offset: 30%;
-    text-decoration-thickness: 2px;
+    text-decoration: var(--qgds-link-decoration-hover);
+    text-underline-offset: var(--qgds-link-underline-offset);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover);
   }
 
   &:focus {
@@ -140,7 +142,7 @@ nav {
     border-radius: 50%;
     box-shadow: var(--qgds-elevation-1);
     background-color: var(--qgds-color-neutral-white);
-    color: #307edb;
+    color: var(--_tab-icon-color);
   }
 
   &.scroll-right {
