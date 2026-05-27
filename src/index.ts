@@ -40,7 +40,11 @@ export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-
 export { QGDSLink } from "./components/qgds-link/qgds-link";
 export { QGDSLinkColumn } from "./components/qgds-link-column/qgds-link-column";
 export { QGDSLinkItem } from "./components/qgds-link-item/qgds-link-item";
+<<<<<<< HEAD
 export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
+=======
+export { QGDSLogo } from "./components/qgds-logo/qgds-logo";
+>>>>>>> bfed3e9 (feat: WIP New footer structure and assets)
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
