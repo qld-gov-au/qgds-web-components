@@ -16,7 +16,7 @@ import type { IconSize } from "../qgds-icon/qgds-icon";
  *
  * @prop {IconSize} [size="md"] The size of the spinner icon: "xs", "sm", "md", "lg", "xl" or "xxl".
  * @prop {string} [label="Loading"] Text used as the accessible label. Also shown visually when labelVisible is true.
- * @prop {boolean} [isLabelVisible=false] Whether to display the label text visually below the spinner.
+ * @prop {boolean} [hideLabel=true] Whether to display the label text visually below the spinner.
  * @prop {boolean} [isStacked=false] When true, stacks the icon and label vertically. When false, displays them inline horizontally.
  *
  */
@@ -29,8 +29,8 @@ export class QGDSLoadingSpinner extends LitElement {
   @property({ type: String, useDefault: true })
   label: string = "Loading";
 
-  @property({ type: Boolean, attribute: "is-label-visible", reflect: true })
-  isLabelVisible: boolean = false;
+  @property({ type: Boolean, attribute: "hide-label", reflect: true })
+  hideLabel: boolean = false;
 
   @property({ type: Boolean, attribute: "is-stacked", reflect: true })
   isStacked: boolean = false;
@@ -42,9 +42,9 @@ export class QGDSLoadingSpinner extends LitElement {
       <div class="loading-spinner ${this.isStacked ? "is-stacked" : ""}" role="status" aria-label="${this.label}">
         <qgds-icon class="spinner-icon" icon-id="spinner-step-1" size="${this.size}" aria-hidden="true"></qgds-icon>
 
-        ${this.isLabelVisible
-          ? html`<span class="label">${this.label}</span>`
-          : html`<span class="sr-only">${this.label}</span>`}
+        ${this.hideLabel
+          ? html`<span class="sr-only">${this.label}</span>`
+          : html`<span class="label">${this.label}</span>`}
       </div>
     `;
   }
