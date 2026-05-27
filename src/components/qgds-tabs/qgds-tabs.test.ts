@@ -123,7 +123,9 @@ describe("qgds-tabs", () => {
     await flush();
     await element.updateComplete;
 
-    expect(element.parentContext).toBe("deep");
+    const header = element.shadowRoot?.querySelector<HTMLHeadElement>("header");
+
+    expect(header?.classList.contains("parent-context-deep")).toBe(true);
 
     wrapper.remove();
   });
