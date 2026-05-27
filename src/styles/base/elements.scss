@@ -102,10 +102,25 @@ a {
   margin-block-start: var(--qgds-space-heading-lg);
 }
 
+/* Stacked Headings: H2 + H3 for example */
+:where(.qgds-content) :is(h1, h2, h3, h4, h5) + :is(h2, h3, h4, h5, h6) {
+  margin-block-start: var(--qgds-rhythm-layout); /* Tighter spacing (8px) for subheadings */
+}
+
 :where(.qgds-content) :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
   margin-block-start: var(--qgds-space-heading-text);
 }
 
+/* List Items */
 :where(.qgds-content) li + li {
   margin-block-start: var(--qgds-space-list-item);
+}
+
+/* Tighter Alignment for sub-lists */
+:where(.qgds-content) li :is(ul, ol) {
+  margin-block-start: var(--qgds-space-list-item); /* Tighter alignment for sub-lists */
+}
+
+:where(.qgds-content) + :where(.qgds-content) {
+  padding-block-start: var(--qgds-content-sibling-padding-block-start);
 }
