@@ -47,8 +47,25 @@ export const BackToTop: Story = {
     href: "#top",
     direction: "up",
     animation: false,
-    'has-scroll': true,
   },
+  decorators: [
+    (story) => {
+      const isStandaloneIframe = window === window.top;
+      if (isStandaloneIframe) {
+        return story();
+      }
+
+      return html`
+        <p>
+          The "Back to top" component will scroll to the target element using native CSS scroll-behavior
+        </p>
+        <p style="margin-bottom: 100vh;">
+          <a href="#top">Click me and see it in action.</a>
+        </p>
+        ${story()}
+      `;
+    },
+  ],
   render: (args) => html`
     <h2 id="top" style="padding-block: 2rem;">Top of the page</h2>
     <div style="margin-bottom: 100rem;">Scroll down to see the "Back to top" link.</div>
@@ -58,8 +75,10 @@ export const BackToTop: Story = {
           href=${args.href}
           direction=${args.direction}
           ?animation=${args.animation}
-          ?has-scroll=${args['has-scroll']}
         ></qgds-direction-link>
     </div>
   `,
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
