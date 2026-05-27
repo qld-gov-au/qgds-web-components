@@ -62,14 +62,14 @@ describe("qgds-global-alert", () => {
     element.heading = "Site notice";
     await element.updateComplete;
 
-    const heading = element.shadowRoot?.querySelector("h3.heading");
+    const heading = element.shadowRoot?.querySelector("p.heading");
     expect(heading?.textContent?.trim()).toBe("Site notice");
   });
 
   it("does not render visible heading text when heading is not set", async () => {
     await element.updateComplete;
 
-    const heading = element.shadowRoot?.querySelector("h3.heading");
+    const heading = element.shadowRoot?.querySelector("p.heading");
     expect(heading?.textContent?.trim()).toBe("");
   });
 
