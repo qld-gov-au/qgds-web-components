@@ -14,11 +14,12 @@
   "sideEffects": true,
   "scripts": {
     "dev": "vite",
-    "build": "npm run analyze && vite build",
+    "build": "npm run generate:exports && npm run analyze && vite build",
     "build:watch": "vite build --watch",
     "serve": "http-server dist -p 8090",
     "demo": "npm run build && (npm run build:watch & http-server dist -p 8090 -o /demo.html)",
     "analyze": "custom-elements-manifest analyze && node scripts/post-process-cem.js",
+    "generate:exports": "node scripts/generate-component-exports.js",
     "generate:icons": "node scripts/generate-icon-list.js",
     "test": "vitest --config vitest.config.ts",
     "test:ui": "vitest --config vitest.config.ts --ui",
