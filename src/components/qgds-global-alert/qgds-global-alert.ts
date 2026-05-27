@@ -91,10 +91,10 @@ export class QGDSGlobalAlert extends LitElement {
       <div role="region" aria-label="${ariaLabel}" class="global-alert is-${this.variant}">
         <div class="main">
           <div class="content">
-            <h3 class="heading">
+            <p class="heading">
               <qgds-icon aria-hidden="true" icon-id="${QGDSGlobalAlert.icons[this.variant]}" size="sm"></qgds-icon>
               ${this.heading}
-            </h3>
+            </p>
             <slot></slot>
 
             ${this.actionLabel && this.actionHref

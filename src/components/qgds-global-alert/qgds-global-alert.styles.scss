@@ -21,7 +21,7 @@
   --_bg: initial;
   --qgds-global-alert-border-color: initial;
   --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
-  --_icon-bg: color-mix(in srgb, #000000 , transparent 90%);
+  --_icon-bg: rgb(0 0 0 / 0.1);
   --qgds-icon-svg: initial;
  
   // Variant colours
