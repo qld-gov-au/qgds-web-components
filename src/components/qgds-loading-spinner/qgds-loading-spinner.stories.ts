@@ -29,7 +29,7 @@ export default meta;
 
 export const Default: Story = {};
 
-export const WithOutLabel: Story = {
+export const Minimal: Story = {
   args: {
     ...meta.args,
     "hide-label": true,
