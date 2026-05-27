@@ -19,7 +19,7 @@ describe("qgds-loading-spinner", () => {
 
     expect(element.size).toBe("md");
     expect(element.label).toBe("Loading");
-    expect(element.hideLabel).toBe(true);
+    expect(element.hideLabel).toBe(false);
     expect(element.isStacked).toBe(false);
   });
 
@@ -62,6 +62,7 @@ describe("qgds-loading-spinner", () => {
   });
 
   it("hides label visually when hideLabel is true", async () => {
+    element.hideLabel = true;
     await element.updateComplete;
 
     const srOnly = element.shadowRoot?.querySelector(".sr-only");

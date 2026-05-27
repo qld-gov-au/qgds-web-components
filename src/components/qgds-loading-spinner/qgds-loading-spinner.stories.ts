@@ -18,7 +18,7 @@ const meta: Meta<Args> = {
     ...args,
     size: "md",
     label: "Uploading...",
-    "hide-label": true,
+    "hide-label": false,
     "is-stacked": false,
   },
   argTypes,
@@ -29,10 +29,10 @@ export default meta;
 
 export const Default: Story = {};
 
-export const WithLabel: Story = {
+export const WithOutLabel: Story = {
   args: {
     ...meta.args,
-    "hide-label": false,
+    "hide-label": true,
     label: "Uploading, please wait",
   },
 };
