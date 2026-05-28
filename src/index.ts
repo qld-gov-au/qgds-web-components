@@ -19,7 +19,6 @@ export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSCallToAction } from "./components/qgds-call-to-action/qgds-call-to-action";
 export { QGDSCard } from "./components/qgds-card/qgds-card";
-export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
