@@ -21,6 +21,7 @@ const ANIMATION_BY_DIRECTION = {
 /**
  * A direction link component that wraps `<qgds-link>` with a fixed directional arrow icon.
  *
+ * @website https://www.designsystem.qld.gov.au/components/direction-link
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
  * @property {string} [label] - The visible link label text.
@@ -31,6 +32,12 @@ const ANIMATION_BY_DIRECTION = {
  * @example
  * ```html
  * <qgds-direction-link label="Next" href="/next" direction="right"></qgds-direction-link>
+ * ```
+ * @example
+ * Back to Top links
+ * ```html
+ * <qgds-direction-link label="Back to top" href="#top" direction="up"></qgds-direction-link>
+ * <qgds-direction-link label="Back to top" href="#" direction="up"></qgds-direction-link>
  * ```
  */
 @customElement("qgds-direction-link")
@@ -44,6 +51,7 @@ export class QGDSDirectionLink extends LitElement {
     const iconName = ICON_BY_DIRECTION[this.direction];
     const animation = this.animation ? ANIMATION_BY_DIRECTION[this.direction] : null;
     const trailingIcon = this.direction !== "left";
+
     return html`
       <qgds-link
         label=${this.label}

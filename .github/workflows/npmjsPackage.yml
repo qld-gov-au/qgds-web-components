@@ -80,7 +80,7 @@ jobs:
       HAVE_DEPLOY_KEY: ${{ github.repository == 'qld-gov-au/qgds-web-components' }}
       #When run on push tags, force is '', default for workflow_dispatch is No so you can't trigger without a double action
       WORKFLOW_DEPLOYMENT: ${{ github.event_name != 'workflow_dispatch'  || github.event.inputs.force == 'Yes' }}
-      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && github.event.inputs.force == 'Yes' && github.event.inputs.release_tag == 'alpha' }}
+      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && (github.event.inputs.force == 'Yes' || github.event.inputs.force == true || github.event.inputs.force == 'true') && github.event.inputs.release_tag == 'alpha' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -168,3 +168,6 @@ jobs:
         run: |
           echo "### Publish skipped" >> $GITHUB_STEP_SUMMARY
           echo "DO_DEPLOYMENT: github.event_name: ${{ github.event_name != 'workflow_dispatch'}} || github.event.inputs.force: ${{ github.event.inputs.force == 'Yes' }}"  >> $GITHUB_STEP_SUMMARY
+          echo "Event name: ${{ github.event_name }}"  >> $GITHUB_STEP_SUMMARY
+          echo "Force: ${{ github.event.inputs.force }}"  >> $GITHUB_STEP_SUMMARY
+          echo "Release Tag: ${{ github.event.inputs.release_tag }}"  >> $GITHUB_STEP_SUMMARY
