@@ -40,9 +40,16 @@ if (!cem.modules) {
 
 /**
  * Recursively process declarations to move parsedType to type.text
+ * and strip private members from the public API surface.
  */
 function processDeclarations(declarations) {
   for (const declaration of declarations) {
+    // Strip private members — they are internal implementation details and
+    // should not appear in the public API surface of the manifest.
+    if (declaration.members) {
+      declaration.members = declaration.members.filter((m) => m.privacy !== "private");
+    }
+
     // Process members (fields, methods)
     if (declaration.members) {
       for (const member of declaration.members) {
@@ -75,4 +82,4 @@ for (const module of cem.modules) {
 writeFileSync(cemPath, JSON.stringify(cem, null, 2));
 
 // eslint-disable-next-line no-undef
-console.log("✓ Custom Elements Manifest post-processed: parsedType → type.text");
+console.log("✓ Custom Elements Manifest post-processed: private members stripped, parsedType → type.text");
