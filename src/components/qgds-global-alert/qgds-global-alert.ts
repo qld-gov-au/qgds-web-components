@@ -71,13 +71,26 @@ export class QGDSGlobalAlert extends LitElement {
   };
 
   private _handleDismiss = () => {
+    const dismissEvent = new CustomEvent("qgds-global-alert-dismiss", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+      detail: {
+        variant: this.variant,
+        heading: this.heading,
+        actionLabel: this.actionLabel,
+        actionHref: this.actionHref,
+      },
+    });
+
+    this.dispatchEvent(dismissEvent);
+
+    if (dismissEvent.defaultPrevented) {
+      return;
+    }
+
     this.isDismissed = true;
-    this.dispatchEvent(
-      new CustomEvent("qgds-global-alert-dismiss", {
-        bubbles: true,
-        composed: true,
-      })
-    );
+    this.remove();
   };
 
   render() {

@@ -119,7 +119,7 @@ describe("qgds-global-alert", () => {
     expect(button).toBeNull();
   });
 
-  it("hides the alert and fires qgds-global-alert-dismiss when dismiss button is clicked", async () => {
+  it("removes the alert and fires qgds-global-alert-dismiss when dismiss button is clicked", async () => {
     element.isDismissible = true;
     await element.updateComplete;
 
@@ -131,8 +131,24 @@ describe("qgds-global-alert", () => {
     await element.updateComplete;
 
     expect(dismissHandler).toHaveBeenCalledOnce();
+    expect(element.isDismissed).toBe(true);
+    expect(element.isConnected).toBe(false);
+  });
 
-    const alert = element.shadowRoot?.querySelector(".global-alert");
-    expect(alert).toBeNull();
+  it("does not remove the alert when dismiss event default is prevented", async () => {
+    element.isDismissible = true;
+    await element.updateComplete;
+
+    element.addEventListener("qgds-global-alert-dismiss", (e) => {
+      e.preventDefault();
+    });
+
+    const button = element.shadowRoot?.querySelector<HTMLButtonElement>(".close button");
+    button?.click();
+    await element.updateComplete;
+
+    expect(element.isDismissed).toBe(false);
+    expect(element.isConnected).toBe(true);
+    expect(element.shadowRoot?.querySelector(".global-alert")).not.toBeNull();
   });
 });

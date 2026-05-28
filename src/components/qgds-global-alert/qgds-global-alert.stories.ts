@@ -4,10 +4,12 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
+import { withEventAction } from "../../../.storybook/storybook-helpers";
 
 import "./qgds-global-alert";
 import type { QGDSGlobalAlert } from "./qgds-global-alert";
 
+// Get auto-generated args, argTypes, and template from Custom Elements Manifest
 const { args, argTypes } = getStorybookHelpers<QGDSGlobalAlert>("qgds-global-alert");
 
 type Args = typeof args;
@@ -28,6 +30,7 @@ const meta: Meta<Args> = {
   title: "Components/Global alert",
   component: "qgds-global-alert",
   tags: ["autodocs"],
+  decorators: [withEventAction("qgds-global-alert-dismiss")],
   args: {
     ...args,
     variant: "warning",
@@ -49,6 +52,7 @@ export const Warning: Story = {
     variant: "warning",
     heading: "Site notice",
     "default-slot": "<p>This website is currently undergoing testing</p>",
+    "is-dismissible": false,
   },
   parameters: {
     ...chromaticModes,
@@ -111,20 +115,42 @@ export const NoHeading: Story = {
 };
 
 export const AllVariants: Story = {
+  args: {
+    ...meta.args,
+    "is-dismissible": true,
+  },
   parameters: {
     ...chromaticModes,
   },
   decorators: [(story) => html`<div style="display:flex;flex-direction:column;">${story()}</div>`],
-  render: () => html`
-    <qgds-global-alert variant="critical" heading="Health alert" action-label="Learn more" action-href="#">
+  render: (arg) => html`
+    <qgds-global-alert
+      variant="critical"
+      heading="Health alert"
+      action-label="Learn more"
+      action-href="#"
+      ?is-dismissible="${arg["is-dismissible"]}"
+    >
       <p>Disease outbreak reported in your area</p>
     </qgds-global-alert>
 
-    <qgds-global-alert variant="warning" heading="Site notice" action-label="Learn more" action-href="#">
+    <qgds-global-alert
+      variant="warning"
+      heading="Site notice"
+      action-label="Learn more"
+      action-href="#"
+      ?is-dismissible="${arg["is-dismissible"]}"
+    >
       <p>This website is currently undergoing testing</p>
     </qgds-global-alert>
 
-    <qgds-global-alert variant="general" heading="Update" action-label="Learn more" action-href="#">
+    <qgds-global-alert
+      variant="general"
+      heading="Update"
+      action-label="Learn more"
+      action-href="#"
+      ?is-dismissible="${arg["is-dismissible"]}"
+    >
       <p>New features are now available</p>
     </qgds-global-alert>
   `,
