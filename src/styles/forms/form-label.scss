@@ -17,4 +17,13 @@
     color: var(--qgds-color-text-lighter, #636363);
     line-height: 1; // corrects a visual bug.
   }
+
+  [disabled] &,
+  :host([disabled]) & {
+    &,
+    &-required,
+    &-optional {
+      color: var(--qgds-color-text-lighter, #636363);
+    }
+  }
 }
