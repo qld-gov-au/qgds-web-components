@@ -34,7 +34,7 @@ describe("qgds-textarea", () => {
     element.id = "my-id";
     element.autocomplete = "on";
     await element.updateComplete;
-    const input = element.shadowRoot?.querySelector('input[id="my-id"]');
+    const input = element.shadowRoot?.querySelector('textarea[id="my-id"]');
     const att = input?.getAttribute("autocomplete");
 
     expect(att).toEqual("on");
