@@ -1,7 +1,7 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-
+import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-icon.styles.scss?inline";
 import { isMulticolourIcon } from "./icons-multicolour.js";
 import type { IconName } from "./icon-names";
@@ -41,11 +41,7 @@ export class QGDSIcon extends LitElement {
   @property({ type: String, attribute: "aria-label" })
   ariaLabel: string = "";
 
-  static styles = [
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   private get isMulticolour(): boolean {
     return this.iconId ? isMulticolourIcon(this.iconId) : false;

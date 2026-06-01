@@ -1,7 +1,7 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-
+import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-feature-icon.styles.scss?inline";
 
 import "../qgds-icon/qgds-icon";
@@ -28,11 +28,7 @@ export class QGDSFeatureIcon extends LitElement {
   @property({ type: String, attribute: "size", reflect: true })
   size: QGDSFeatureIconSize = "sm";
 
-  static styles = [
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   render() {
     if (!this.iconName || this.iconName.trim() === "") {

@@ -1,4 +1,4 @@
-import { html, TemplateResult, css, unsafeCSS } from "lit";
+import { html, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -43,12 +43,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
 
   private _mutationObserver?: MutationObserver;
 
-  static styles = [
-    ...super.styles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [...super.styles, unsafeCSS(componentCSS)];
 
   connectedCallback(): void {
     super.connectedCallback?.();

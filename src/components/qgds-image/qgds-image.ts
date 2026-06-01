@@ -1,10 +1,10 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { styleMap } from "lit/directives/style-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-
+import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-image.styles.scss?inline";
 
 export type QGDSImageProps = InstanceType<typeof QGDSImage>;
@@ -103,11 +103,7 @@ export class QGDSImage extends LitElement {
   @property({ type: String, attribute: "align" })
   align?: "left" | "right";
 
-  static styles = [
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   /**
    * Converts a ratio string (e.g., "16:9") to a CSS aspect-ratio value ("16 / 9").
