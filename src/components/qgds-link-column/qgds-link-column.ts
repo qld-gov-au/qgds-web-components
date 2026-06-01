@@ -1,11 +1,12 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { html as staticHtml, unsafeStatic } from "lit/static-html.js";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-link-column.styles.scss?inline";
 import { resetStyles } from "../../styles";
-import "../qgds-link-item/qgds-link-item.js";
-import type { QGDSLinkItem, QGDSLinkItem } from "../qgds-link-item/qgds-link-item.js";
-import "../qgds-call-to-action/qgds-call-to-action.js";
+
+import { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
+//Side effect loads qgds-call-to-action to register tag, and use in view-all CTA slot without needing consumers to also import it.
+import "../qgds-call-to-action/qgds-call-to-action";
 
 export type LinkColumnDirection = "vertical" | "horizontal";
 
@@ -39,12 +40,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  */
 @customElement("qgds-link-column")
 export class QGDSLinkColumn extends LitElement {
-  static styles = [
-    resetStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true }) heading = "";
   @property({ type: String, attribute: "aria-label" })

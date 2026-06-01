@@ -1,0 +1,133 @@
+@use "../../styles/qgds-tokens/qgds-color-stub";
+@use "../../styles/tools";
+
+// Public API: CSS custom properties that can be overridden from light DOM
+// Example: qgds-global-alert { --bg: navy; }
+:host {
+  --bg: initial;
+  --icon-fg: initial;
+  --text-fg: initial;
+
+  display: block;
+  min-block-size: 3.56rem;
+}
+
+:host(:first-of-type) {
+  --qgds-global-alert-border-width: 0;
+  --qgds-global-alert-border-color: transparent;
+}
+
+.global-alert {
+  --_bg: initial;
+  --qgds-global-alert-border-color: initial;
+  --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
+  --_icon-bg: rgb(0 0 0 / 0.1);
+  --qgds-icon-svg: initial;
+ 
+  // Variant colours
+  &.is-critical {
+    --_bg: var(--bg, var(--qgds-color-status-error-default));
+    --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
+    --_icon-focus-border-colour: var(--qgds-color-neutral-white);
+    --qgds-global-alert-border-color: var(--qgds-color-status-error-darker);
+  }
+
+  &.is-warning {
+    --_bg: var(--bg, var(--qgds-color-status-caution-default));
+    --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
+    --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
+    --qgds-global-alert-border-color:var(--qgds-color-status-caution-darker);
+    
+  }
+
+  &.is-general {
+    --_bg: var(--bg, var(--qgds-color-status-info-lighter));
+    --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
+    --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
+    --qgds-global-alert-border-color: var(--qgds-color-status-info-darker);
+  }
+
+  border-block-start: var(--qgds-global-alert-border-width, 1px) solid var(--qgds-global-alert-border-color);
+  background-color: var(--_bg);
+  color: var(--_text-fg);
+}
+
+::slotted(*) {
+    display: block;
+}
+
+.main {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-block: 0.5rem;
+  padding-inline: 0.5rem;
+  max-inline-size: 81rem;
+  margin-inline: auto;
+}
+
+.heading {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 0.75rem;
+}
+
+.message {
+  flex: 1 1 auto;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+qgds-link {
+  --qgds-color-link-default: var(--_text-fg);
+  --qgds-color-underline-default: var(--_text-fg);
+  --qgds-color-link-hover: var(--_text-fg);
+  --qgds-color-focus-default: var(--_icon-focus-border-colour);
+}
+
+.close {
+    display: flex;
+    flex: 0 0 auto;
+    inline-size: 3rem;
+    block-size: 3rem;
+    justify-content: center;
+    align-items: center;
+
+  button {
+    --qgds-color-focus-default: var(--_icon-focus-border-colour);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--_icon-bg);
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 0;
+    inline-size: 2.5rem;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+
+    &:hover {
+        --qgds-icon-size: 2rem;
+
+        inline-size: 3rem;
+    }
+
+    @include tools.focusable()
+
+  }
+
+}

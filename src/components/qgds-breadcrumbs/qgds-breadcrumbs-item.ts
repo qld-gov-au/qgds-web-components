@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
@@ -34,12 +34,7 @@ export class QGDSBreadcrumbsItem extends LitElement {
     delegatesFocus: true,
   };
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, attribute: "url" })
   url: string = "";

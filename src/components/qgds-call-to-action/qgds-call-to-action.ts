@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-call-to-action.styles.scss?inline";
 import { resetStyles } from "../../styles";
@@ -27,12 +27,7 @@ import "../qgds-link/qgds-link.js";
  */
 @customElement("qgds-call-to-action")
 export class QGDSCallToAction extends LitElement {
-  static styles = [
-    resetStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String }) label = "View all";
   @property({ type: String }) href = "#";
