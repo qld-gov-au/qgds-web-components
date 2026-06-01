@@ -43,7 +43,7 @@
   input[type="checkbox"] {
     appearance: none;
     block-size: var(--qgds-checkbox-size);
-    border: 2px solid var(--qgds-color-light-text, #353535);
+    border: 2px solid var(--qgds-color-text-default, #353535);
     box-sizing: border-box;
     cursor: inherit;
     flex-shrink: 0;
@@ -57,8 +57,8 @@
     }
 
     &:checked::after {
-      border-block-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-light-text, #353535);
-      border-inline-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-light-text, #353535);
+      border-block-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-text-default, #353535);
+      border-inline-end: var(--qgds-checkbox-tick-thickness) solid var(--qgds-color-text-default, #353535);
       block-size: var(--qgds-checkbox-tick-block);
       content: "";
       inline-size: var(--qgds-checkbox-tick-inline);
