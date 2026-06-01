@@ -197,7 +197,7 @@ class QGDSFileStatus extends LitElement {
     });
     const caption =
       status === "loading"
-        ? html`"Uploading..."`
+        ? html`Uploading...`
         : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
             Upload complete - ${file ? readableFileSize(file.size) : nothing}`;
 
