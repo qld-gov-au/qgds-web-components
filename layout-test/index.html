@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>QGDS Web Components | Template Examples</title>
+  <script type="module" src="./src/index.ts"></script>
+
+  <style>
+    .page-wrapper {
+      margin-inline: 1rem;
+    }
+
+    @media (min-width: 992px) {
+      .page-wrapper {
+        margin-inline: 2rem;
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1312px;
+      margin-inline: auto;
+      background-color: lightpink;
+      /* LG breakpoint: 1312px and above */
+    }
+
+    /* * XL Breakpoint: 1600px and above  */
+    @media (min-width: 1600px) {
+      .container {
+        background-color: lightgreen;
+      }
+    }
+
+    qgds-promotional-panel {
+      /* temp spacing for testing */
+      margin-block-end: 6rem;
+    }
+
+    @media (min-width: 1600px) {
+      qgds-promotional-panel {
+        margin-inline: -9rem;
+      }
+    }
+
+
+    /* Unrelated CSS for the page */
+    section {
+      margin-block-start: 2rem;
+    }
+
+
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    h2,
+    p {
+      padding-block-start: 1rem;
+    }
+  </style>
+</head>
+
+<body class="qgds">
+
+  <div class="page-wrapper">
+    <main class="container flex-col">
+
+      <h2>Cards & Promotional Panels</h2>
+
+    <div class="comp-block">
+      <qgds-card
+        heading="Card title"
+        action="single"
+        href="#"
+        image-src="https://picsum.photos/600/400"
+        image-alt="Placeholder image"
+      >
+        <p>Card content goes here with a brief description.</p>
+      </qgds-card>
+    </div>
+
+    <div class="comp-block">
+      <qgds-card
+        target="_blank"
+        heading="Card Heading"
+        action="multiple"
+        palette="default"
+      >
+        Card content goes here. This is an example of a card with multiple
+        actions.
+        <qgds-link
+          slot="footer-links"
+          href="#"
+          icon-name="arrow-right"
+          icon-size="md"
+          label="Label"
+        ></qgds-link>
+        <qgds-link
+          slot="footer-links"
+          href="#"
+          icon-name="arrow-right"
+          icon-size="md"
+          label="Label"
+        ></qgds-link>
+        <qgds-link
+          slot="footer-links"
+          href="#"
+          icon-name="arrow-right"
+          icon-size="md"
+          label="Label"
+        ></qgds-link>
+      </qgds-card>
+    </div>
+
+      <section>
+        <h2>H2 Section Heading</h2>
+        <p>This template is a basic full-width container of 1312px. When the viewport width exceeds 1600px, the
+          background color changes to light green.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quo, commodi minus dignissimos quidem corrupti
+          alias modi repudiandae, blanditiis sunt molestias exercitationem repellat illum sequi delectus sed illo cum,
+          recusandae aliquid.</p>
+
+        <section>
+
+          <!-- Insert Promo Panels -->
+          <qgds-promotional-panel variant="indent-text" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+            image-description="Promotional image" content-alignment="content-start" icon-name="home"
+            heading="Indent Text" heading-level="h2"
+            abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+            palette="">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+              suspendisse mi quisque consequat aliquet egestas.
+            </p>
+            <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+              variant="primary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action"
+              label="Secondary" variant="secondary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+          </qgds-promotional-panel>
+
+
+          <qgds-promotional-panel variant="indent-image" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+            image-description="Promotional image" content-alignment="content-start" icon-name="home"
+            heading="Indent Image" heading-level="h2"
+            abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+            palette="">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+              suspendisse mi quisque consequat aliquet egestas.
+            </p>
+            <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+              variant="primary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action"
+              label="Secondary" variant="secondary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+          </qgds-promotional-panel>
+
+          <qgds-promotional-panel variant="contained" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+            image-description="Promotional image" content-alignment="content-start" icon-name="home" heading="Contained"
+            heading-level="h2"
+            abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+            palette="muted">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+              suspendisse mi quisque consequat aliquet egestas.
+            </p>
+            <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+              variant="primary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action"
+              label="Secondary" variant="secondary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+          </qgds-promotional-panel>
+
+
+          <qgds-promotional-panel variant="promo" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+            image-description="Promotional image" content-alignment="content-start" icon-name="home" heading="Promo"
+            heading-level="h2"
+            abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+            palette="">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+              suspendisse mi quisque consequat aliquet egestas.
+            </p>
+            <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+              variant="primary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+            <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action"
+              label="Secondary" variant="secondary" href="https://www.qld.gov.au" id="">
+            </qgds-button>
+          </qgds-promotional-panel>
+
+        </section>
+
+    </main>
+  </div>
+
+</body>
+
+</html>
