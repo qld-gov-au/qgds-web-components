@@ -6,7 +6,7 @@ describe("qgds-skip-links", () => {
   let element: QGDSSkipLinks;
 
   beforeEach(() => {
-    element = document.createElement("qgds-skip-links") as QGDSSkipLinks;
+    element = document.createElement("qgds-skip-links");
     document.body.appendChild(element);
   });
 
