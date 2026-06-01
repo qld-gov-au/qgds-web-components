@@ -18,20 +18,9 @@ const GLOBAL_TABLE_CSS = /* css */ `
   /* ── Base table ─────────────────────────────────────────────────────────── */
 
   qgds-table {
-    &[is-striped] tbody tr:nth-child(even) td {
+    &[is-striped] tbody tr:nth-child(even) td,
+    &[is-striped] tbody tr:nth-child(even) th {
       background-color: var(--qgds-color-background-shade, #f5f5f5);
-    }
-  
-    &[is-hovered] tbody tr{
-        &:nth-child(even):hover td {
-            background-color: #e0e0e0; // This specific hover colour is not defined in QGDS tokens, but we want a slightly darker shade on hover for striped rows to maintain sufficient contrast. Adjust as needed.
-            transition: background-color 0.1s ease;
-        }
-
-        &:hover td {
-            background-color: var(--qgds-color-background-shade, #f5f5f5);
-            transition: background-color 0.1s ease;
-        }
     }
   
     &[has-sticky-header] thead th {
@@ -122,17 +111,27 @@ const GLOBAL_TABLE_CSS = /* css */ `
       }
   
       thead th {
-        background-color: var(--qgds-color-background-shade, #f5f5f5);
+        background-color: var(--qgds-table-header-bg, #f5f5f5);
         color: var(--qgds-color-text-heading, #000053);
         font-weight: 600;
         text-align: left;
         padding-inline: 0.75rem;
         padding-block: 1.25rem;
-        border-bottom: 2px solid var(--qgds-color-border-alt, #848484);
+        border-block-end: 2px solid var(--qgds-color-accent-design-accent, #84d3ff);
       }
-  
+
+      thead th[rowspan] {
+        border-inline-end: 1px solid var(--qgds-color-border, #ebebeb);
+      }
+
+      tbody th {
+        border-inline-end: 1px solid var(--qgds-color-border, #ebebeb);
+      }
+
       tbody td,
+      tbody th,
       tfoot td {
+        font-weight: 400;
         color: var(--qgds-color-text-default, #353535);
         padding-inline: 0.75rem calc(0.75rem - 1px);
         padding-block: 0.75rem;
@@ -143,7 +142,7 @@ const GLOBAL_TABLE_CSS = /* css */ `
   
       tfoot td {
         font-weight: 600;
-        border-top: 2px solid var(--qgds-color-border-alt, #848484);
+        border-top: 2px solid var(--qgds-color-accent-design-accent, #84d3ff);
         border-bottom: none;
         padding-block: 0.75rem;
         background-color: var(--qgds-color-background, #fff);
@@ -159,7 +158,19 @@ const GLOBAL_TABLE_CSS = /* css */ `
         text-align: right;
         font-variant-numeric: tabular-nums;
       }
-  
+      
+      .bg-default,
+      .bg-default > th,
+      .bg-default > td {
+        background-color: var(--qgds-color-background, #fff);
+      }
+
+      .bg-shade,
+      .bg-shade > th,
+      .bg-shade > td {
+        background-color: var(--qgds-color-background-shade);
+      }
+
       .cell-left-border {
         border-left: 2px solid var(--qgds-color-border-alt, #848484) !important;
       }
@@ -230,7 +241,6 @@ function ensureGlobalStyles(): void {
  *   `"scroll"` (default, horizontal overflow on small screens) or
  *   `"stack"` (cells stack vertically with header labels on small screens).
  * @prop {boolean} [is-striped=false] - Alternating row shading.
- * @prop {boolean} [is-hovered=false] - Row background highlight on hover.
  * @prop {boolean} [has-border=false] - Visible border around the outer wrapper.
  * @prop {boolean} [has-sticky-header=false] - Sticks `<thead>` to the top of
  *   the scroll container during vertical scroll.
@@ -285,9 +295,10 @@ export class QGDSTable extends LitElement {
   @property({ type: Boolean, attribute: "is-striped", reflect: true })
   isStriped = false;
 
-  /** Highlights table rows on mouse hover. */
+  /** Highlights table rows on mouse hover.
   @property({ type: Boolean, attribute: "is-hovered", reflect: true })
   isHovered = false;
+  */
 
   /** Renders a visible border around the outer scroll/wrapper container. */
   @property({ type: Boolean, attribute: "has-border", reflect: true })

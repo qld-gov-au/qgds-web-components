@@ -4,7 +4,7 @@
 
 // ── Public custom properties ─────────────────────────────────────────────────
 :host {
-  --table-border-color: var(--qgds-color-border-alt, #848484);
+  --table-border-color: var(--qgds-color-border, #ebebeb);
   --table-scroll-max-height-mobile: 640px;
   --table-scroll-max-height-desktop: 1000px;
 
@@ -24,7 +24,7 @@
   }
 
   // Scroll mode — horizontal overflow + keyboard focus support
-  &.is-scroll {  
+  &.is-scroll {
     max-block-size: var(--table-scroll-max-height-mobile);
 
     @include m.focusable() {
@@ -32,11 +32,11 @@
     }
 
     @media (width >= bp.$md) {
-        max-block-size: var(--table-scroll-max-height-desktop);
-      }
+      max-block-size: var(--table-scroll-max-height-desktop);
+    }
   }
 
-//   Sticky header — requires a capped height and y-scroll on the container
+  //   Sticky header — requires a capped height and y-scroll on the container
   :host([has-sticky-header]) &.is-scroll {
     overflow-y: auto;
     max-block-size: var(--table-scroll-max-height-mobile);
