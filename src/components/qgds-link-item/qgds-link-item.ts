@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import componentCSS from "./qgds-link-item.styles.scss?inline";
 import { resetStyles } from "../../styles";
@@ -37,12 +37,7 @@ import "../qgds-icon/qgds-icon.js";
  */
 @customElement("qgds-link-item")
 export class QGDSLinkItem extends LitElement {
-  static styles = [
-    resetStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";

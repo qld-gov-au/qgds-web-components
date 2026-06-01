@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -98,12 +98,7 @@ export class QGDSCard extends LitElement {
   // ==========================================================================
   // STYLES
   // ==========================================================================
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   constructor() {
     super();
