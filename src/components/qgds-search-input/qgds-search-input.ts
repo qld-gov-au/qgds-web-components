@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -15,7 +15,7 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * Standalone component — does not extend QGDSFormField and has no form association.
  *
  * @tagname qgds-search-input
- * 
+ *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97871
  * @website https://www.designsystem.qld.gov.au/components/search-input
  *
@@ -56,14 +56,7 @@ export class QGDSSearchInput extends LitElement {
   // Shared helper for dispatching qgds custom events.
   private events = new QgdsEvents(this);
 
-  static styles = [
-    baseStyles,
-    formStyles,
-    utilitiesStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, formStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
   /**
    * Input event handler to update the `value` property as the user types.
@@ -86,7 +79,7 @@ export class QGDSSearchInput extends LitElement {
 
   private _dispatchSearch = (): void => {
     this.events.dispatch("search", { value: this.value });
-  }
+  };
 
   render() {
     return html`

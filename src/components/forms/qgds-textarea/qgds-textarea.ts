@@ -1,4 +1,4 @@
-import { html, TemplateResult, css, unsafeCSS } from "lit";
+import { html, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -34,12 +34,7 @@ export class QGDSTextarea extends QGDSFormField implements IFormControl {
   @property({ type: Number, attribute: "minlength" }) minLength?: HTMLTextAreaElement["minLength"];
   @property({ type: Boolean }) spellcheck: HTMLTextAreaElement["spellcheck"] = false;
 
-  static styles = [
-    ...super.styles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [...super.styles, unsafeCSS(componentCSS)];
 
   protected renderInput(): TemplateResult {
     return html`<textarea
