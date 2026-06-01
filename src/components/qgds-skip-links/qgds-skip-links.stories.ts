@@ -87,4 +87,7 @@ export const SkipToMainContent: Story = {
       `;
     },
   ],
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };

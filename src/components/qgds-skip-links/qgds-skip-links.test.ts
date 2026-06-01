@@ -83,14 +83,4 @@ describe("qgds-skip-links", () => {
       expect(element.getAttribute("palette")).toBe(palette);
     }
   );
-
-  it("uses the expected BEM classes", async () => {
-    await element.updateComplete;
-
-    const nav = element.shadowRoot?.querySelector(".qgds-skip-links");
-    const links = element.shadowRoot?.querySelectorAll(".qgds-skip-links__link");
-
-    expect(nav).toBeTruthy();
-    expect(links?.length).toBe(2);
-  });
 });

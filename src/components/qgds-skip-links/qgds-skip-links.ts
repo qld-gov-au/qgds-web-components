@@ -1,9 +1,8 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { baseStyles } from "../../styles";
 
+import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-skip-links.styles.scss?inline";
-// import "../qgds-link/qgds-link.js";
 
 export const tagName = "qgds-skip-links";
 
@@ -14,19 +13,16 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
  *
  * A web component that provides a "Skip to main content" link for improved accessibility. This allows users, especially those using screen readers or keyboard navigation, to bypass repetitive navigation links and jump directly to the main content of the page.
  *
- * @website https://www.designsystem.qld.gov.au/components/skip-link
- * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120418-68636
+ * @website https://www.designsystem.qld.gov.au/components/header
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  * @tagname qgds-skip-links
  *
+ * @property {SkipLinksPalette} palette - The visual palette variant to apply to the skip links, defaults to "bold".
  * @property {string} ariaLabel - The accessible label for the skip link navigation, defaults to "Skip to content links".
  * @property {string} contentTarget - The CSS selector for the main content target, defaults to "#main-content".
  * @property {string} navigationTarget - The CSS selector for the main navigation target, defaults to "#main-nav".
  * @property {string} contentTargetLabel - The label for the content skip link, defaults to "Skip to main content".
  * @property {string} navigationTargetLabel - The label for the navigation skip link, defaults to "Skip to main navigation".
- *
- * @cssprop --bg - The background color of the skip link.
- * @cssprop --fg - The text color of the skip link.
- * @cssprop --fg-focus - The text color of the skip link when focused.
  *
  * @example
  * ```html
@@ -37,7 +33,7 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
  * ```
  * 
  * ```html
- * <qgds-skip-links content-target=“#main-content” navigation-target=“#main-nav”></qgds-skip-links>
+ * <qgds-skip-links palette="soft" content-target=“#main-content” navigation-target=“#main-nav”></qgds-skip-links>
  * ```
  * 
  * ```html
