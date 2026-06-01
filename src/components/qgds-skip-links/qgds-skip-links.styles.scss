@@ -1,0 +1,61 @@
+@use "../../styles/qgds-tokens/qgds-color-stub";
+
+:host {
+  @extend %qgds-color-palette-bold;
+}
+
+:host([palette="default"]) {
+  @extend %qgds-color-palette-default;
+}
+
+:host([palette="soft"]) {
+  @extend %qgds-color-palette-soft;
+}
+
+:host([palette="muted"]) {
+  @extend %qgds-color-palette-muted;
+}
+
+:host([palette="bold"]) {
+  @extend %qgds-color-palette-bold;
+}
+
+:host([palette="deep"]) {
+  @extend %qgds-color-palette-deep;
+}
+
+.qgds-skip-links {
+  line-height: 1;
+
+  &__link {
+    position: absolute;
+    inset-inline-start: -9999px;
+    inline-size: max-content;
+    background-color: var(--qgds-color-background-shade, #003e96);
+    padding: 1.5rem;
+
+    &:focus,
+    &:focus-within {
+      position: static;
+      inset-inline-start: auto;
+      outline: var(--qgds-border-width-wide, 3px) solid var(--qgds-color-focus-default, #c6ffff);
+      outline-offset: -6px;
+      text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
+      text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+    }
+
+    &:hover {
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      text-decoration-color: currentColor;
+    }
+
+    &:visited {
+      color: var(--qgds-color-link-hover, #ffffff);
+      text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+
+      &:hover {
+        text-decoration-color: var(--qgds-color-underline-hover, #ffffff);
+      }
+    }
+  }
+}
