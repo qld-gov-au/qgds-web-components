@@ -1,4 +1,4 @@
-import { html, LitElement, TemplateResult, PropertyValues, nothing } from "lit";
+import { html, LitElement, TemplateResult, PropertyValues, nothing, css } from "lit";
 // import { classMap } from "lit/directives/class-map.js";
 import { property } from "lit/decorators.js";
 import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
@@ -11,17 +11,17 @@ import { QgdsEvents } from "../../utils";
  * form association (via ElementInternals) for all form field inputs.
  *
  * @abstract
- * @prop {String} id - Required unique identifier for the form field.
- * @prop {String} [name] - Required name attribute for form submission.
- * @prop {String} [label] - The form field's label text.
- * @prop {String} [value] - The current value of the field.
- * @prop {Boolean} [required=false] - Indicates whether the field is required.
+ * @prop {string} id - Required unique identifier for the form field.
+ * @prop {string} [name] - Required name attribute for form submission.
+ * @prop {string} [label] - The form field's label text.
+ * @prop {string} [value] - The current value of the field.
+ * @prop {boolean} [required=false] - Indicates whether the field is required.
  * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none".
- * @prop {String} [hint] - Hint text to guide the user.
+ * @prop {string} [hint] - Hint text to guide the user.
  * @prop {FormValidationState} [validationState] - The validation state, either "success" or "error".
- * @prop {String} [validationMessage] - Validation feedback message displayed with the state.
- * @prop {Boolean} [disabled=false] - Disables the field when true.
- * @prop {Boolean} [readOnly=false] - Makes the field read-only when true.
+ * @prop {string} [validationMessage] - Validation feedback message displayed with the state.
+ * @prop {boolean} [disabled=false] - Disables the field when true.
+ * @prop {boolean} [readOnly=false] - Makes the field read-only when true.
  *
  * @slot details - Place any markup to be rendered within additional details.
  */
@@ -30,7 +30,16 @@ export abstract class QGDSFormField extends LitElement {
 
   static formAssociated = true;
 
-  static styles = [baseStyles, formStyles, utilitiesStyles];
+  static styles = [
+    baseStyles,
+    formStyles,
+    css`
+      :host {
+        display: block;
+      }
+    `,
+    utilitiesStyles,
+  ];
 
   /** Set delegatesFocus: true for programatic focus, autofocus */
   static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
@@ -275,7 +284,6 @@ export abstract class QGDSFormField extends LitElement {
 
   render() {
     if (!this.id) {
-      console.warn(`id attribute is required`);
       return html`<p style="color: red;">Error: id attribute is required</p>`;
     }
 
@@ -299,6 +307,6 @@ export abstract class QGDSFormField extends LitElement {
               ${this.validationMessage}
             </p>`
           : nothing}
-      ${this.renderInput()}`;
+      <div>${this.renderInput()}</div>`;
   }
 }

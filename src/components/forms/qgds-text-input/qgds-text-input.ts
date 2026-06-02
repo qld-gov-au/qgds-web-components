@@ -6,6 +6,22 @@ import { QGDSFormField } from "../qgds-form-field";
 import { IFormControl, FormVariant } from "../../../types/forms";
 
 type InputType = "text" | "email" | "password" | "number" | "tel" | "url";
+export type Size = "full" | number;
+
+const sizeConverter = {
+  fromAttribute: (value: string | null): Size | undefined => {
+    if (value === null) return undefined;
+    if (value === "full") return "full";
+    const num = parseInt(value, 10);
+    return isNaN(num) ? undefined : num;
+  },
+  toAttribute: (value: Size | undefined | null): string | null => {
+    if (value === undefined || value === null) return null;
+    if (value === "full") return "full";
+    return isNaN(value) ? null : String(value);
+  },
+};
+
 export const tagName = "qgds-text-input";
 /**
  *
@@ -19,12 +35,14 @@ export const tagName = "qgds-text-input";
  *
  * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
  * @prop {InputType} [type="text"] Provides built in validation for specific types. Either "text"(default), "email", "password", "number", "tel", "url".
- * @prop {String} [placeholder] - Text to display when the value is empty.
- * @prop {String} [value]
- * @prop {Number} [maxLength]
- * @prop {Number} [minLength]
- * @prop {Regex} [pattern]
- * @prop {Boolean} [spellcheck]
+ * @prop {string} [placeholder] - Text to display when the value is empty.
+ * @prop {Size} [size] - Defines the number of visible characters displayed within the input. Also accept the string "full", to create a full-width input.
+ * @prop {string} [autocomplete] - Whether the value of the control can be automatically completed by the browser. See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete
+ * @prop {string} [value]
+ * @prop {number} [maxLength] - Indicates the maximum number of characters allowed to be entered for the value of the `<input>` element, and the maximum number of characters allowed for the value to be valid.
+ * @prop {number} [minLength]
+ * @prop {Regex} [pattern] - specifies a regular expression the form control's value should match. If a non-null value doesn't conform to the constraints set by the pattern value, the ValidityState object's read-only patternMismatch property will be true.
+ * @prop {boolean} [spellcheck=false] - defines whether the element may be checked for spelling errors. Unlike most html boolean attributes this attribute may be set to "false" rather than omitted, to override inheritance.
  *
  * @slot details - place any markup to be rendered within the "Summary" dropdown
  *
@@ -39,33 +57,63 @@ export class QGDSTextInput extends QGDSFormField implements IFormControl {
   @property({ type: String }) variant?: FormVariant;
   @property({ type: String }) type?: InputType;
   @property({ type: String }) placeholder?: HTMLInputElement["placeholder"];
-  @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLInputElement["maxLength"];
-  @property({ type: Number, attribute: "minlength" }) minLength?: HTMLInputElement["minLength"];
-  @property({ type: RegExp }) pattern?: HTMLInputElement["pattern"];
+  @property({ type: Number }) maxLength?: HTMLInputElement["maxLength"]; // do not kebab case, default HTML attribute
+  @property({ type: Number }) minLength?: HTMLInputElement["minLength"]; // do not kebab case, default HTML attribute
+  @property({ type: String }) pattern?: HTMLInputElement["pattern"];
   @property({ type: Boolean }) spellcheck: HTMLInputElement["spellcheck"] = false; // spellcheck is an attribute of HTMLElement already
+  @property({ converter: sizeConverter }) size?: Size;
+  @property({ type: String }) autocomplete?: HTMLInputElement["autocomplete"];
 
   protected renderInput(): TemplateResult {
+    const size = typeof this.size === "number" ? this.size : undefined;
+
+    // The lit vscode plugin chokes on autocomplete attribute because the Typescript defines a dynamic type.
+    // Casting to any disables the typecheck.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autocomplete: any = this.autocomplete === "" ? undefined : this.autocomplete;
+    const {
+      name,
+      id,
+      variant,
+      validationState,
+      type,
+      value,
+      placeholder,
+      required,
+      readOnly,
+      disabled,
+      spellcheck,
+      maxLength,
+      minLength,
+      pattern,
+      _ariaDescribedBy,
+      handleChange,
+    } = this;
+
     return html`<input
-      name="${ifDefined(this.name)}"
-      id=${this.id}
+      name="${ifDefined(name)}"
+      id=${id}
       class=${classMap({
         "qgds-form-control": true,
-        "is-filled": this.variant === "filled",
-        "is-valid": this.validationState === "success",
-        "is-invalid": this.validationState === "error",
+        "is-filled": variant === "filled",
+        "is-valid": validationState === "success",
+        "is-invalid": validationState === "error",
+        "is-full-width": this.size === "full",
       })}
-      type=${this.type ?? "text"}
-      value=${ifDefined(this.value)}
-      placeholder=${ifDefined(this.placeholder)}
-      ?required=${this.required}
-      ?readonly=${this.readOnly}
-      ?disabled=${this.disabled}
-      ?spellcheck=${this.spellcheck}
-      maxlength=${ifDefined(this.maxLength)}
-      minlength=${ifDefined(this.minLength)}
-      pattern=${ifDefined(this.pattern?.toString())}
-      aria-describedby="${ifDefined(this._ariaDescribedBy)}"
-      @change=${this.handleChange}
+      size=${ifDefined(size)}
+      type=${type ?? "text"}
+      value=${ifDefined(value)}
+      placeholder=${ifDefined(placeholder)}
+      autocomplete=${ifDefined(autocomplete)}
+      ?required=${required}
+      ?readonly=${readOnly}
+      ?disabled=${disabled}
+      spellcheck=${ifDefined(spellcheck)}
+      maxlength=${ifDefined(maxLength)}
+      minlength=${ifDefined(minLength)}
+      pattern=${ifDefined(pattern)}
+      aria-describedby=${ifDefined(_ariaDescribedBy)}
+      @change=${handleChange}
     />`;
   }
 }
