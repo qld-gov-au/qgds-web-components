@@ -1,8 +1,7 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
-import styles from "./qgds-inpage-alert.styles.scss?inline";
-//import display from "../../styles/typography/qgds-display.scss?inline";
+import componentCSS from "./qgds-inpage-alert.styles.scss?inline";
 import { baseStyles } from "../../styles";
 import { IconName } from "../qgds-icon/icon-names";
 import { semanticHeading } from "../../utils";
@@ -55,13 +54,7 @@ export class QGDSInpageAlert extends LitElement {
   headingLevel: HeadingLevel = 3;
 
   // Define styles for the component
-  static styles = [
-    baseStyles,
-
-    css`
-      ${unsafeCSS(styles)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   private static readonly icons: Record<AlertVariant, IconName> = {
     error: "alert-danger",

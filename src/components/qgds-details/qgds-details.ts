@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
@@ -40,12 +40,7 @@ type DetailsSize = "sm" | "md" | "lg" | "xl";
 export class QGDSDetails extends LitElement {
   private events: QgdsEvents = new QgdsEvents(this);
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, attribute: "summary-text", useDefault: true })
   summaryText: string = "Summary";

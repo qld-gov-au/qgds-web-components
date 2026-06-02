@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
@@ -31,12 +31,7 @@ export class QGDSBlockquote extends LitElement {
   @property({ type: String, attribute: "cite-label" })
   citeLabel: string = "";
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   render() {
     return html`

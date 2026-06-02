@@ -37,7 +37,7 @@ span {
   justify-content: var(--qgds-link-justify-content);
   gap: 0.5rem;
   color: var(--qgds-color-link-default);
-  text-decoration: underline;
+  text-decoration: var(--qgds-link-decoration);
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
   padding-block: 0 var(--qgds-link-padding);

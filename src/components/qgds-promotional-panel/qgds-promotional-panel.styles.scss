@@ -33,8 +33,17 @@ $component: ".promo-panel";
     flex-direction: row;
   }
 
+  .is-indent-image &,
+  .is-indent-text & {
+    &.content-start {
+      @media (min-width: qgds-breakpoint.$xxl) {
+        padding-block: 4rem;
+      }
+    }
+  }
+
   .is-contained & {
-    padding-block: 3rem;
+    padding-block: 2.5rem;
     padding-inline: 1rem;
     gap: 1.5rem;
     @media (min-width: qgds-breakpoint.$md) {
@@ -54,14 +63,30 @@ $component: ".promo-panel";
 
   .is-promo & {
     border-radius: 0;
-    padding-block: 4rem;
-    padding-inline: 3rem;
+    padding-block: 2.5rem;
+    padding-inline: 1rem;
     background-repeat: no-repeat;
     background-size: cover;
+
+    @media (min-width: qgds-breakpoint.$md) {
+      padding-inline: 2rem;
+      padding-block: 3rem;
+    }
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      padding-inline: 3rem;
+      padding-block: 4rem;
+    }
 
     @media (min-width: qgds-breakpoint.$xxl) {
       border-radius: 3rem;
       padding-inline: 9rem;
+    }
+
+    &.content-start {
+      @media (min-width: qgds-breakpoint.$xxl) {
+        margin-inline: 0; // This is to offset the padding and align the content panel with the other components in the page
+      }
     }
   }
 }
@@ -116,7 +141,12 @@ $component: ".promo-panel";
   .is-promo & {
     border-radius: 2rem;
     box-shadow: none;
-    padding: 4rem;
+    padding-inline: 2rem;
+    padding-block: 2.5rem;
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      padding: 4rem;
+    }
   }
 
   .main {

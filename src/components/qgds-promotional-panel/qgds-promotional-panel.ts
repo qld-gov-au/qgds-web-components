@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { baseStyles } from "../../styles";
@@ -34,12 +34,7 @@ type HeadingLevels = "h2" | "h3" | "h4" | "h5" | "h6";
  */
 @customElement("qgds-promotional-panel")
 export class QGDSPromotionalPanel extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, attribute: "variant" }) variant: Variants = "indent-text";
   @property({ type: String, attribute: "content-alignment" }) contentAlignment: ContentAlignments = "content-start";
