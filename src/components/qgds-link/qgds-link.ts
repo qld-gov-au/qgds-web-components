@@ -40,7 +40,6 @@ export type { IconSize };
  * @cssprop {string} --qgds-link-border-end-style - Override the block-end border style.
  * @cssprop {length} --qgds-link-padding-inline-start - Override the inline-start padding.
  * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
- * @cssprop {string} --qgds-link-decoration - Override the link text decoration.
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
  *

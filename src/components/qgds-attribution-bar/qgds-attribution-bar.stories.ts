@@ -5,26 +5,16 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
 import type { QGDSAttributionBar } from "./qgds-attribution-bar";
 import "./qgds-attribution-bar";
-import "./qgds-custom-html";
 import "../qgds-link/qgds-link";
-import { palettes } from "../../utils";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSAttributionBar>("qgds-attribution-bar");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
-argTypes.palette = {
-  control: { type: "select" },
-  options: [...Object.keys(palettes)],
-};
-
 const meta: Meta<Args> = {
   title: "Components/Attribution Bar",
   component: "qgds-attribution-bar",
-  subcomponents: {
-    "QGDS Custom HTML": "qgds-custom-html",
-  },
   tags: ["autodocs"],
   args,
   argTypes,
@@ -76,19 +66,13 @@ export const Default: Story = {
       }
     </style>
     <qgds-attribution-bar palette=${args.palette}>
-      <qgds-link target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
-      <qgds-link
-        slot="attribution"
-        icon-name="phone"
-        href="https://www.qld.gov.au/contact-us"
-        label="Contact us"
-      ></qgds-link>
-      <qgds-link slot="attribution" href="https://www.qld.gov.au/services" label="Find services"></qgds-link>
-
-      <qgds-custom-html slot="custom">
+      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+      <qgds-link href="https://www.qld.gov.au/services" label="Find services"></qgds-link>
+      <div>
         <details class="dropdown">
           <summary class="dropdown-toggle">
-            <qgds-link label="Menu"></qgds-link>
+            <qgds-link label="Custom Menu"></qgds-link>
           </summary>
 
           <div class="dropdown-menu">
@@ -97,7 +81,7 @@ export const Default: Story = {
             <a href="#">Logout</a>
           </div>
         </details>
-      </qgds-custom-html>
+      </div>
     </qgds-attribution-bar>
   `,
 };

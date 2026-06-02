@@ -2,8 +2,6 @@
 
 :host {
   display: block;
-  background-color: var(--qgds-color-background);
-  box-shadow: var(--qgds-elevation-2);
 }
 
 .attribution-bar {
@@ -13,6 +11,8 @@
   margin-inline: auto;
   padding-block: tools.remify(6px);
   padding-inline: tools.remify(48px);
+  background-color: var(--qgds-color-background);
+  box-shadow: var(--qgds-elevation-2);
 
   ::slotted(*) {
     line-height: tools.remify(24px);
@@ -23,8 +23,8 @@
     --qgds-icon-color: var(--qgds-color-action-secondary);
   }
 
-  &__links,
-  &__attribution {
+  &-links,
+  &-attribution {
     display: flex;
     gap: tools.remify(16px);
   }

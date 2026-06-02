@@ -30,11 +30,11 @@ describe("qgds-attribution-bar", () => {
   });
 
   it("renders all sections", () => {
-    expect(element.shadowRoot?.querySelector(".attribution-bar__collection")).not.toBeNull();
+    expect(element.shadowRoot?.querySelector(".attribution-bar-collection")).not.toBeNull();
 
-    expect(element.shadowRoot?.querySelector(".attribution-bar__attribution")).not.toBeNull();
+    expect(element.shadowRoot?.querySelector(".attribution-bar-attribution")).not.toBeNull();
 
-    expect(element.shadowRoot?.querySelector(".attribution-bar__custom")).not.toBeNull();
+    expect(element.shadowRoot?.querySelector(".attribution-bar-custom")).not.toBeNull();
   });
 
   it("renders the expected slots", () => {
@@ -47,9 +47,9 @@ describe("qgds-attribution-bar", () => {
     expect(slots?.[2].name).toBe("custom");
   });
 
-  it("projects content into the default slot", async () => {
+  it("projects content into the site-name slot", async () => {
     element.innerHTML = `
-      <qgds-link id="collection-link">Collection</qgds-link>
+      <qgds-link slot="site-name" id="collection-link">Collection</qgds-link>
     `;
 
     await element.updateComplete;
@@ -59,9 +59,9 @@ describe("qgds-attribution-bar", () => {
     expect(slotted?.textContent).toBe("Collection");
   });
 
-  it("projects content into the attribution slot", async () => {
+  it("projects content into the default slot", async () => {
     element.innerHTML = `
-      <qgds-link slot="attribution" id="contact-link">Contact us</qgds-link>
+      <qgds-link id="contact-link">Contact us</qgds-link>
     `;
 
     await element.updateComplete;
@@ -71,16 +71,16 @@ describe("qgds-attribution-bar", () => {
     expect(slotted?.textContent).toBe("Contact us");
   });
 
-  it("projects content into the custom slot", async () => {
+  it("projects custom content into the default slot", async () => {
     element.innerHTML = `
-      <qgds-custom-html slot="custom">
+      <div>
         Custom Content
-      </qgds-custom-html>
+      </div>
     `;
 
     await element.updateComplete;
 
-    const slotted = element.querySelector("qgds-custom-html");
+    const slotted = element.querySelector("div");
     expect(slotted).not.toBeNull();
     expect(slotted?.textContent.trim()).toBe("Custom Content");
   });
