@@ -29,4 +29,14 @@ describe("qgds-textarea", () => {
     await element.updateComplete;
     expect(element.shadowRoot?.querySelector('textarea[id="my-id"]')).not.toBeNull();
   });
+
+  it("should pass autocomplete values to the inner input element", async () => {
+    element.id = "my-id";
+    element.autocomplete = "on";
+    await element.updateComplete;
+    const input = element.shadowRoot?.querySelector('textarea[id="my-id"]');
+    const att = input?.getAttribute("autocomplete");
+
+    expect(att).toEqual("on");
+  });
 });
