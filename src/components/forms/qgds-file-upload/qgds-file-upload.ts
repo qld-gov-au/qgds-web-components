@@ -136,7 +136,6 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   protected renderInput(): TemplateResult {
-    // debugger;
     const { _renderFiles } = this;
     return html`${_renderFiles()}`;
   }
@@ -183,7 +182,6 @@ class QGDSFileStatus extends LitElement {
   }
 
   private _handleButtonClick = (e: CustomEvent) => {
-    e.preventDefault();
     e.stopPropagation();
     this._events.dispatch("cancel");
   };
