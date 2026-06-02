@@ -33,18 +33,15 @@ describe("qgds-attribution-bar", () => {
     expect(element.shadowRoot?.querySelector(".attribution-bar-collection")).not.toBeNull();
 
     expect(element.shadowRoot?.querySelector(".attribution-bar-attribution")).not.toBeNull();
-
-    expect(element.shadowRoot?.querySelector(".attribution-bar-custom")).not.toBeNull();
   });
 
   it("renders the expected slots", () => {
     const slots = element.shadowRoot?.querySelectorAll("slot");
 
-    expect(slots).toHaveLength(3);
+    expect(slots).toHaveLength(2);
 
-    expect(slots?.[0].name).toBe("");
-    expect(slots?.[1].name).toBe("attribution");
-    expect(slots?.[2].name).toBe("custom");
+    expect(slots?.[0].name).toBe("site-name");
+    expect(slots?.[1].name).toBe("");
   });
 
   it("projects content into the site-name slot", async () => {
