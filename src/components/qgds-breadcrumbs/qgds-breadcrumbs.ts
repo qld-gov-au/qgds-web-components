@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
 import { baseStyles } from "../../styles";
@@ -26,12 +26,7 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
 
 @customElement("qgds-breadcrumbs")
 export class QGDSBreadcrumbs extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @state() private _isCollapsed: boolean = false;
   @state() private _isMenuOpen: boolean = false;

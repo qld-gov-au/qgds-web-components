@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -74,13 +74,7 @@ export class QGDSButton extends LitElement {
   @state() private hasIcon: boolean = false;
   @state() private _iconSlotRef: HTMLElement | null = null;
 
-  static styles = [
-    resetStyles,
-    animationsStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, animationsStyles, unsafeCSS(componentCSS)];
 
   render() {
     // Check if it's a link or button

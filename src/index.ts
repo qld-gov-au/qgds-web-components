@@ -20,6 +20,7 @@ export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs"
 export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
 export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
+export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSCallToAction } from "./components/qgds-call-to-action/qgds-call-to-action";
 export { QGDSCard } from "./components/qgds-card/qgds-card";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";

@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { FormValidationState } from "../../../types/forms";
@@ -63,12 +63,7 @@ export class QGDSRadio extends LitElement {
   /** Exposed so qgds-field-group can identify this as a radio via duck-typing */
   readonly type = "radio";
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   private _handleChange = (e: Event): void => {
     this.checked = (e.target as HTMLInputElement).checked;
