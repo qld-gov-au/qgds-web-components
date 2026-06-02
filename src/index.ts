@@ -14,6 +14,7 @@ import "./styles/main.scss";
 // =============================================================================
 export { QGDSAccordion } from "./components/qgds-accordion/qgds-accordion";
 export { QGDSAccordionGroup } from "./components/qgds-accordion-group/qgds-accordion-group";
+export { QGDSAttributionBar } from "./components/qgds-attribution-bar/qgds-attribution-bar";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
 export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
