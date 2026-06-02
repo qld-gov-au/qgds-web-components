@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <script src="./src/index.ts" type="module"></script>
+
+  <style>
+
+  </style>
+</head>
+
+<body class="qgds qgds-palette-default">
+
+  <div class="page-wrapper">
+    <header class="page-header">Header</header>
+    <nav class="page-nav">Navbar</nav>
+    <aside class="page-aside">
+      <qgds-side-navigation mobile-heading="In this section">
+        <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 second">
+          <qgds-side-navigation-item href="#" label="Level 2 first"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#"
+            label="Getting a learner motorcycle licence (RE)"></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Level 2 third, no link"></qgds-side-navigation-item>
+        </qgds-side-navigation-item>
+        <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
+      </qgds-side-navigation>
+    </aside>
+    <main class="page-main">
+
+      <div class="content-block">
+        <h1>Main Content</h1>
+        <qgds-callout heading="Hello world">
+          I am a callout component
+        </qgds-callout>
+
+        <qgds-inpage-alert type="warning" heading="In-page alert">
+          I am an in-page alert component
+        </qgds-inpage-alert>
+
+      </div>
+
+      <div class="content-block">
+        I am some random content placed into a second block, without the wrong class name.
+      </div>
+
+    </main>
+    <footer class="page-footer">Footer</footer>
+  </div>
+
+</body>
+
+
+<style>
+  /* -------------------------------------------------------------
+   Base Elements & Grid Assignments
+------------------------------------------------------------- */
+  .page-wrapper {
+    max-width: 1376px;
+    min-height: 100vh;
+    padding-inline: 2rem;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    /* xs, sm: single column */
+    grid-template-rows: auto auto 1fr auto;
+    column-gap: 1rem;
+  }
+
+  .page-header,
+  .page-nav,
+  .page-footer {
+    grid-column: 1 / -1;
+  }
+
+
+  .page-main {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    align-content: start;
+    /* default: full width, no aside */
+  }
+
+  /* All direct children default to 8 of 9 cols */
+  .page-main>* {
+    grid-column: 1 / -1;
+  }
+
+
+  /* md */
+  @media (min-width: 768px) {}
+
+  @media (min-width: 1024px) {
+
+    /* lg, xl */
+    .page-wrapper {
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .page-main {
+      grid-column: 4 / -1;
+    }
+
+    .page-aside {
+      grid-column: 1 / 4;
+    }
+  }
+
+  .page-header,
+  .page-nav,
+  .page-footer {
+    grid-column: 1 / -1;
+  }
+
+  .page-footer {
+    margin-block-start: auto;
+  }
+
+
+  .page-main>.content-block {
+    grid-column: 1 / -2;
+    padding-inline-start: 2rem;
+  }
+</style>
+
+</html>

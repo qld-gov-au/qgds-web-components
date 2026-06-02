@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>QGDS Web Components | Template Examples</title>
+  <script type="module" src="./src/index.ts"></script>
+
+</head>
+
+<body class="qgds qgds-palette-default">
+
+  <div class="qgds-layout-grid">
+
+    <div class="qgds-fluid" style="background: var(--qgds-color-background); color: var(--qgds-color-text-default);"
+      palette="deep">
+      Atttribution bar
+      <qgds-link href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+
+    </div>
+
+    <header class="qgds-fluid"
+      style="height: 120px; background: var(--qgds-color-background); color: var(--qgds-color-text-default)"
+      palette="default">
+      Header — full bleed background, content aligned to 12 cols
+    </header>
+
+    <nav class="qgds-fluid"
+      style="background: var(--qgds-color-background); color: var(--qgds-color-text-default); height: 50px;"
+      palette="deep">
+      Navbar — full bleed background, content aligned to 12 cols
+    </nav>
+
+
+    <div class="qgds-page-body">
+
+      <aside class="qgds-page-aside">
+        <qgds-side-navigation mobile-heading="In this section">
+          <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 1 second">
+            <qgds-side-navigation-item href="#" label="Level 2 first"></qgds-side-navigation-item>
+            <qgds-side-navigation-item href="#"
+              label="Getting a learner motorcycle licence (RE)"></qgds-side-navigation-item>
+            <qgds-side-navigation-item label="Level 2 third, no link"></qgds-side-navigation-item>
+          </qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
+        </qgds-side-navigation>
+      </aside>
+
+      <main class="qgds-page-main">
+        <div class="qgds-content-block">
+          <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
+            <qgds-inpage-nav-item href="#section-1">Introduction</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#section-2">Overview</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#section-3">Getting started</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#section-3">Section 4</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#section-3">Section 5</qgds-inpage-nav-item>
+          </qgds-inpage-nav>
+        </div>
+
+        <div class="qgds-content-block">
+          <h2 id="section-1">Section heading 2</h2>
+
+          <p class="qgds-abstract">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore
+            reprehenderit sequi.</p>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita perferendis eum ducimus harum quaerat
+            quasi est odit tempore commodi provident autem itaque quam officia exercitationem, at enim maxime ab
+            numquam.</p>
+
+          <div class="qgds-flex qgds-gap-x-16">
+            <qgds-button variant="primary" href="#" label="Action"></qgds-button>
+            <qgds-button variant="secondary" href="#" label="Action"></qgds-button>
+          </div>
+
+          <h3>Heading 3</h3>
+
+          <div style="width: 800px">
+            <qgds-image alt="Placeholder image"
+              caption="Image caption providing additional context and information about the image content."
+              src="https://picsum.photos/seed/qgds-watch/800/400"></qgds-image>
+          </div>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore reprehenderit sequi.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore reprehenderit sequi.</p>
+
+          <p>Libero feugiat eu pulvinar ac faucibus elementum sed. Ut nibh in vitae egestas. Massa tellus diam duis
+            cursus et sed
+            elit. Pulvinar et nulla dolor viverra porttitor massa sed tellus. Interdum augue tempus purus scelerisque
+            tincidunt
+            duis. Vulputate a, nulla nunc orci, sed vulputate eget amet. Accumsan convallis ornare sed consectetur
+            suspendisse.</p>
+
+          <h4>Heading 4</h4>
+          <p>Libero feugiat eu pulvinar ac faucibus elementum sed. Ut nibh in vitae egestas. Massa tellus diam duis
+            cursus et sed
+            elit. Pulvinar et nulla dolor viverra porttitor massa sed tellus. Interdum augue tempus purus scelerisque
+            tincidunt
+            duis. Vulputate a, nulla nunc orci, sed vulputate eget amet. Accumsan convallis ornare sed consectetur
+            suspendisse.</p>
+
+          <h2>Heading 2</h2>
+
+          <qgds-callout heading="Callout heading" heading-level="h3" heading-size="xs">
+            I am a callout component, used to highlight important information related to the main content. I can be used
+            for tips, warnings, or other noteworthy content that requires emphasis.
+          </qgds-callout>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+            inventore</p>
+
+          <h3>Heading 3</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+            inventore, magni
+            sint commodi possimus optio impedit porro quisquam atque</p>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+            inventore, magni
+            sint commodi possimus optio impedit porro quisquam atque magni
+            sint commodi possimus optio impedit porro quisquam atque</p>
+
+          <h4>Heading 4</h4>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente ducimus molestias veritatis cupiditate
+            unde esse dicta vero reprehenderit laboriosam ratione sint laudantium</p>
+        </div>
+      </main>
+
+
+    </div>
+
+    <div class="qgds-fluid qgds-flex qgds-justify-content-between" style="padding-block: 1rem;">
+      <span>Last updated: Yesterday</span>
+      <qgds-direction-link href="#top" direction="up" label="Back to top"></qgds-direction-link>
+    </div>
+
+    <footer class="qgds-fluid"
+      style="height: 200px; background: var(--qgds-color-background); color: var(--qgds-color-text-default)"
+      palette="deep">
+      Footer — full bleed background, content aligned to 12 cols
+    </footer>
+
+  </div>
+
+</body>
+
+</html>
