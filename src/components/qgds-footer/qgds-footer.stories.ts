@@ -41,9 +41,6 @@ export default meta;
 type Story = StoryObj<QGDSFooterStoryArgs>;
 
 export const Default: Story = {
-  globals: {
-    viewport: "XL",
-  },
   args: {
     "contact-heading": "Contact us",
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
@@ -151,6 +148,14 @@ export const Default: Story = {
     ...chromaticModes,
     allModes,
   },
+
+  decorators: [
+    (Story, context) => html`
+      <div style="margin-inline: -2rem; margin-block-start: 2rem;" palette="${context.args.palette}">
+        <div style="margin-inline: auto">${Story()}</div>
+      </div>
+    `,
+  ],
 };
 
 export const Minimal: Story = {

@@ -13,41 +13,41 @@ Scoped CSS: qgds-footer
   --fg: var(--qgds-color-text-default);
   --footer-link-fg: var(--qgds-color-link-default);
   --footer-link-hover: var(--qgds-color-link-hover);
-  --footer-padding-block: 2rem;
+  --footer-padding-block: 1.5rem;
+  --footer-padding-inline: 1rem;
+  --footer-outer-gutter: 1rem;
+  --footer-outer-gutter-md-up: 2rem;
   --footer-border-color: unset;
   --footer-column-border-color: var(--qgds-color-border);
   --footer-column-gap: 2rem;
+  --footer-row-gap: 1.5rem;
   --footer-logo-height: 48px;
 
-  border-block-start: 4px solid var(--footer-border-color, var(--qgds-color-accent-design-accent));
-  display: block;
   background: var(--bg);
   color: var(--fg);
+  border-block-start: 4px solid var(--footer-border-color, var(--qgds-color-accent-design-accent));
+  display: block;
+
+  @media (min-width: #{bp.$md}) {
+    --footer-padding-inline: 2rem;
+    --footer-outer-gutter: var(--footer-outer-gutter-md-up);
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    --footer-column-gap: 2rem;
+  }
 }
 
 .qgds-footer {
-  padding-block: var(--footer-padding-block);
-  padding-inline: 1rem;
   max-inline-size: 1312px;
-  margin-inline: auto;
-}
-
-.footer-site-name {
-  display: block;
-  inline-size: 100%;
-  margin-block-end: 2rem;
-}
-
-section {
-  display: none; // Hide footer sections by default
-  flex-direction: column;
-  grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
-}
-
-.footer-container {
+  margin-inline: 0;
   display: grid;
-  grid-template-columns: 1fr; /* Mobile, SM, and MD default */
-  gap: var(--footer-column-gap);
+  justify-self: center;
+  grid-template-columns: 1fr; /* Mobile default - stack sections */
+  grid-template-rows: auto; /* Allow rows to grow based on content */
+  gap: var(--footer-row-gap) var(--footer-column-gap);
+  padding-block: var(--footer-padding-block);
+  background: var(--bg);
 
   // Large Breakpoint and above
   @media (min-width: #{bp.$lg}) {
@@ -56,6 +56,7 @@ section {
       we let the child sections explicitly state how many columns they want to span!
     */
     grid-template-columns: repeat(12, minmax(0, 1fr));
+    margin-inline: var(--footer-outer-gutter);
 
     /* Assume all 5 sections are present by default, and assign columns based on that (3, 2, 2, 2, 3) */
     --colspan-contact: 3;
@@ -64,21 +65,9 @@ section {
     --colspan-social-links: 2;
     --colspan-aoc: 3;
 
-    /* All sections by default */
-    section {
-      padding-inline-end: 2rem;
-      border-inline-end: 2px solid var(--footer-column-border-color);
-
-      // Remove border and right padding from last column
-      &:last-child {
-        border-inline-end: none;
-        padding-inline-end: 0;
-      }
-
-      // Optional removal of border (e.g., between site links and social)
-      &.no-border {
-        border-inline-end: none;
-      }
+    // Optional removal of border (e.g., between site links and social)
+    &.no-border {
+      border-inline-end: none;
     }
 
     // Missing either custom links or social links? Contact and AOC can grow to fill the gap (4, 2, 2, 4)
@@ -116,76 +105,145 @@ section {
     }
   }
 
-  // Contact Section
-  .section-contact {
-    .contact-cta-wrapper {
-      margin-inline-start: 0;
-      margin-block-start: 2rem;
+  // Show sections based on presence of content (links or contact info) - calculated within component classMap
+  &.has-contact .section-contact,
+  &.has-custom-links .section-custom-links,
+  &.has-site-links .section-site-links,
+  &.has-social-links .section-social-links,
+  &.has-aoc-content .section-aoc {
+    display: flex;
+  }
+}
+
+.block {
+  grid-column: 1 / -1;
+  padding-inline: var(--footer-padding-inline);
+  padding-block-end: var(--footer-padding-block);
+  border-block-end: 2px solid var(--qgds-color-border-alt);
+
+  &:last-child {
+    border-block-end: none;
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    padding-inline: 0;
+    border-block-end: none;
+
+    &:first-child {
+      padding-block: var(--footer-padding-block);
     }
 
-    @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
-      flex-flow: row nowrap;
-      justify-content: space-between;
-
-      .contact-cta-wrapper {
-        margin-block-start: 0;
-        margin-inline-start: 2rem;
-      }
+    &:last-child {
+      padding-block: 0 var(--footer-padding-block);
     }
+  }
+}
 
-    .contact-statement {
-      margin-block-end: 1rem;
-      padding: 0;
-      line-height: #{tools.snap-line-height(1.5)};
-    }
+section {
+  display: none; // Hide footer sections by default
+  flex-direction: column;
+  grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
+  padding-block-end: var(--footer-padding-block);
+}
 
-    .contact-detail {
-      margin-block-end: 1rem;
-      padding: 0;
-      line-height: #{tools.snap-line-height(1.5)};
-    }
+.block-linkgroup {
+  display: grid;
+  grid-template-columns: 1fr; /* Stack link groups by default */
+  gap: var(--footer-row-gap, 1.5rem) var(--footer-column-gap, 2rem);
 
-    .contact-label {
-      font-weight: 600;
-      margin-inline-end: 0.5rem;
-    }
+  section {
+    border-block-end: 1px solid var(--qgds-color-border-alt);
+    border-inline-end: none;
 
-    .contact-link {
-      color: var(--footer-link-color);
-      text-decoration: underline;
-      text-decoration-color: var(--qgds-color-underline-default, currentColor);
-
-      &:hover {
-        color: var(--footer-link-hover);
-        text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
-      }
-
-      &:visited {
-        color: var(--qgds-color-link-visited, #551a8b);
-        text-decoration-color: var(--qgds-color-underline-visited, currentColor);
-
-        &:hover {
-          text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
-        }
-      }
-
-      @include focusable();
+    &:last-child {
+      border-block-end: none;
+      padding-block-end: 0;
     }
   }
 
-  // Show sections based on presence of content (links or contact info) - calculated within component classMap
-  &:where(.has-contact) .section-contact,
-  &:where(.has-custom-links) .section-custom-links,
-  &:where(.has-site-links) .section-site-links,
-  &:where(.has-social-links) .section-social-links,
-  &:where(.has-aoc-content) .section-aoc {
-    display: flex;
-    gap: var(--footer-section-gap);
+  @media (min-width: #{bp.$lg}) {
+    grid-template-columns: repeat(8, 1fr); /* 9 columns for link groups on desktop (3 + 2 + 2 + 2), or (4 + 2 + 2 ) */
+    grid-column: 1 / span 8;
+
+    section {
+      border-block-end: none;
+      border-inline-end: 2px solid var(--qgds-color-border-alt);
+      padding-inline-end: 2rem;
+    }
+  }
+}
+
+.block-aoc {
+  grid-column: 1 / -1;
+
+  @media (min-width: #{bp.$lg}) {
+    grid-column: span 4; /* AOC takes 4 columns on desktop by default, can grow to 4 or 6 based on presence of other sections */
+  }
+}
+
+.footer-site-name {
+  display: block;
+}
+
+/* Contact Section */
+// stylelint-disable-next-line
+.section-contact {
+  .contact-cta-wrapper {
+    margin-inline-start: 0;
+    margin-block-start: 2rem;
+  }
+
+  @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    .contact-cta-wrapper {
+      margin-block-start: 0;
+      margin-inline-start: 2rem;
+    }
+  }
+
+  .contact-statement {
+    margin-block-end: 1rem;
+    padding: 0;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  .contact-detail {
+    margin-block-end: 1rem;
+    padding: 0;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  .contact-label {
+    font-weight: 600;
+    margin-inline-end: 0.5rem;
+  }
+
+  .contact-link {
+    color: var(--footer-link-color);
+    text-decoration: underline;
+    text-decoration-color: var(--qgds-color-underline-default, currentColor);
+
+    &:hover {
+      color: var(--footer-link-hover);
+      text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
+    }
+
+    &:visited {
+      color: var(--qgds-color-link-visited, #551a8b);
+      text-decoration-color: var(--qgds-color-underline-visited, currentColor);
+
+      &:hover {
+        text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
+      }
+    }
+
+    @include focusable();
   }
 }
 
 .footer-heading {
-  font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
   font-weight: 600;
   font-size: 1.25rem; // 20px
   line-height: #{tools.snap-line-height(1.2)}; // 24px
@@ -239,12 +297,16 @@ section {
   }
 }
 
+// stylelint-disable-next-line
+.section-site-links {
+  padding-block-end: calc(var(--footer-padding-block) + 0.5rem);
+}
+
 .site-links-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   column-gap: 1.5rem;
-  margin-block-start: 0.5rem;
 
   @media (min-width: #{bp.$md}) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -266,31 +328,30 @@ section {
     hyphens: auto;
     white-space: normal;
   }
-
-  &.empty {
-    display: none;
-  }
 }
 
-// Social Section
+// Social Links Section
+// stylelint-disable-next-line
 .section-social-links {
-  &.hidden {
-    display: none;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  .footer-heading {
+    margin-block-end: 0;
   }
 
-  > nav {
-    display: flex;
-    flex-direction: row;
-    gap: 0.75rem;
+  @media (min-width: #{bp.$lg}) {
+    flex-direction: column;
+    gap: 0;
 
-    @media (min-width: #{bp.$lg}) {
-      flex-direction: column;
+    .footer-heading {
+      margin-block-end: 1rem;
     }
   }
 
-  .social-links-wrapper {
+  nav.social-links-wrapper {
     display: flex;
-    flex-direction: row;
     gap: 0.75rem;
 
     ::slotted(qgds-link) {
@@ -298,17 +359,15 @@ section {
       --qgds-link-margin-inline-start: 0;
       --qgds-link-justify-content: flex-start;
       --qgds-link-max-width: 100%;
-      --qgds-link-show-label: none; // Hide link label by default for social links (assumes icon-only)
+      --qgds-link-show-label: none; // Hide link label by default
 
       max-inline-size: 100%;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      hyphens: auto;
-      white-space: normal;
     }
 
+    /* LG and above, adapt to column layout */
     @media (min-width: #{bp.$lg}) {
       flex-direction: column;
+      gap: 0.75rem;
 
       ::slotted(qgds-link) {
         --qgds-link-show-label: inline-block; // Show link label on desktop for better accessibility (assumes icons + text)
@@ -342,20 +401,22 @@ section {
   }
 
   .footer-logo {
-    display: flex;
+    display: inline-block;
+    block-size: var(--footer-logo-height);
     margin-block-start: 1.5rem;
     margin-inline-end: auto;
     color: var(--footer-text);
-    max-block-size: var(--footer-logo-height);
 
     &.empty {
       display: none;
     }
 
+    svg,
     ::slotted(img),
     ::slotted(svg),
     ::slotted(qgds-logo) {
       block-size: var(--footer-logo-height);
+      inline-size: auto;
     }
   }
 
@@ -373,10 +434,6 @@ section {
     }
   }
 }
-
-// Responsive adjustments
-// Mobile: Footer sections stack in natural reading order
-// Contact → Social → AOC
 
 // Ensure proper link spacing in all link slots
 ::slotted(qgds-link[role="listitem"]) {

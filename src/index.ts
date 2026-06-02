@@ -19,7 +19,6 @@ export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs"
 export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
 export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
-export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSCallToAction } from "./components/qgds-call-to-action/qgds-call-to-action";
 export { QGDSCard } from "./components/qgds-card/qgds-card";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
@@ -28,6 +27,7 @@ export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
 export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
+export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";

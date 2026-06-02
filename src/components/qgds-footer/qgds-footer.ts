@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, css, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -39,9 +39,6 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * @slot footer-logo - Logo image or component.
  * @slot site-main-link - Main government link (e.g., "Queensland Government").
  *
- * @cssprop {color} --footer-background - Override the footer background color.
- * @cssprop {color} --footer-text - Override the footer text color.
- * @cssprop {length} --footer-padding-block - Override the footer block padding.
  *
  * @example
  * ```html
@@ -238,17 +235,19 @@ export class QGDSFooter extends LitElement {
     });
 
     return html`
-      <footer class="qgds-footer">
-        ${this.footerHeading
-          ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name")} `
-          : ""}
+      <footer class="qgds-footer ${footerClassList}">
+        <div class="block block-title">
+          ${this.footerHeading
+            ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name")} `
+            : ""}
+        </div>
 
-        <div class="footer-container ${footerClassList}">
+        <div class="block block-linkgroup">
           <!-- Column 1: Contact Us -->
           <section class="section-contact no-border">
             <div>
               ${semanticHeading(this.contactHeading, this.headingLevel, "footer-heading")}
-              ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : ""}
+              ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
 
               <div class="contact-links-wrapper" role="list">
                 <slot name="contact-link" @slotchange=${this._onContactLinkSlotChange}></slot>
@@ -277,34 +276,30 @@ export class QGDSFooter extends LitElement {
 
           <!-- Column 2: Custom Links -->
           <section class="section-custom-links">
-            <nav aria-labelledby="footer-custom-heading">
-              ${semanticHeading(this.customLinksHeading, this.headingLevel, "footer-heading")}
-              <div class="custom-links-wrapper" role="list">
-                <slot name="footer-custom-link" @slotchange=${this._onCustomLinkSlotChange}></slot>
-              </div>
+            ${semanticHeading(this.customLinksHeading, this.headingLevel, "footer-heading")}
+            <nav class="custom-links-wrapper" aria-labelledby="footer-custom-heading" role="list">
+              <slot name="footer-custom-link" @slotchange=${this._onCustomLinkSlotChange}></slot>
             </nav>
           </section>
 
           <!-- Column 3: Site Links -->
           <section class="section-site-links">
-            <nav aria-labelledby="footer-site-heading">
-              ${semanticHeading(this.siteLinksHeading, this.headingLevel, "footer-heading")}
-              <div class="site-links-wrapper" role="list">
-                <slot name="footer-site-link" @slotchange=${this._onSiteLinkSlotChange}></slot>
-              </div>
+            ${semanticHeading(this.siteLinksHeading, this.headingLevel, "footer-heading")}
+            <nav class="site-links-wrapper" aria-labelledby="footer-site-heading" role="list">
+              <slot name="footer-site-link" @slotchange=${this._onSiteLinkSlotChange}></slot>
             </nav>
           </section>
 
           <!-- Column 4: Social Links -->
           <section class="section-social-links">
-            <nav aria-labelledby="footer-social-heading">
-              ${semanticHeading(this.socialHeading, this.headingLevel, "footer-heading")}
-              <div class="social-links-wrapper" role="list">
-                <slot name="footer-social-link" @slotchange=${this._onSocialLinkSlotChange}></slot>
-              </div>
+            ${semanticHeading(this.socialHeading, this.headingLevel, "footer-heading")}
+            <nav class="social-links-wrapper" aria-labelledby="footer-social-heading" role="list">
+              <slot name="footer-social-link" @slotchange=${this._onSocialLinkSlotChange}></slot>
             </nav>
           </section>
+        </div>
 
+        <div class="block block-aoc">
           <!-- Column 5: Acknowledgement of Country -->
           <section class="section-aoc" aria-labelledby="footer-aoc-heading">
             ${semanticHeading(this.aocHeading, this.headingLevel, "footer-heading")}
