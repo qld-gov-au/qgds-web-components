@@ -14,6 +14,7 @@ import "./styles/main.scss";
 // =============================================================================
 export { QGDSAccordion } from "./components/qgds-accordion/qgds-accordion";
 export { QGDSAccordionGroup } from "./components/qgds-accordion-group/qgds-accordion-group";
+export { QGDSAttributionBar } from "./components/qgds-attribution-bar/qgds-attribution-bar";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
 export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
@@ -46,8 +47,7 @@ export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-o
 export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-option";
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
-export { QGDSTabs } from "./components/qgds-tabs/qgds-tabs";
-export { QGDSTabsItem } from "./components/qgds-tabs/qgds-tabs-item";
+export { QGDSSkipLinks } from "./components/qgds-skip-links/qgds-skip-links";
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";

@@ -1,0 +1,31 @@
+@use "../../styles/tools";
+
+:host {
+  display: block;
+}
+
+.attribution-bar {
+  display: flex;
+  justify-content: space-between;
+  max-inline-size: tools.remify(1312px);
+  margin-inline: auto;
+  padding-block: tools.remify(6px);
+  padding-inline: tools.remify(48px);
+  background-color: var(--qgds-color-background);
+  box-shadow: var(--qgds-elevation-2);
+
+  ::slotted(*) {
+    line-height: tools.remify(24px);
+  }
+
+  ::slotted(qgds-link) {
+    --qgds-link-decoration: none;
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+  }
+
+  &-links,
+  &-attribution {
+    display: flex;
+    gap: tools.remify(16px);
+  }
+}
