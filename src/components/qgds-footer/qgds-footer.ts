@@ -225,18 +225,6 @@ export class QGDSFooter extends LitElement {
   // ==========================================================================
 
   render() {
-    // Calculate AOC column span (absorbs space from missing columns)
-    // Base: 3 columns
-    // + 2 if Custom Links missing
-    // + 2 if Site Links missing
-    // + 2 if Social Links missing
-    const aocSpan = 3 + (!this._hasCustomLinks ? 2 : 0) + (!this._hasSocialLinks ? 2 : 0);
-    // Cap aocSpan at 6 to prevent it from taking more than half the footer (since it should only expand into the space of missing columns)
-    //const cappedAocSpan = Math.min(aocSpan, 6);
-
-    // Entend Site Links column to 3 if both Custom Links and Social Links are missing (to avoid excessive empty space)
-    //const siteLinksSpan = 2 + (!this._hasCustomLinks && !this._hasSocialLinks ? 1 : 0);
-
     // has- class list assigned to footer parent to help grid rendering
     const footerClassList = classMap({
       "has-contact": this._hasContact,

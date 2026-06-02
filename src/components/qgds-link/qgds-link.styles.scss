@@ -8,6 +8,7 @@
   --qgds-link-width: unset;
   --qgds-link-justify-content: unset;
   --qgds-link-background-colour: unset;
+  --qgds-link-show-label: inline-block;
   --qgds-icon-svg: unset;
   --icon-direction: 1;
   --qgds-link-flex-direction: unset;
@@ -153,6 +154,10 @@ span {
 :host([animation="scaleOut"]) button:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
   transition: all var(--qgds-transition-time) ease;
+}
+
+.link-label {
+  display: var(--qgds-link-show-label, inline-block);
 }
 
 .sr-only {

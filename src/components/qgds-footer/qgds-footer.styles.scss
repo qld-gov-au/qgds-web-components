@@ -42,23 +42,12 @@ section {
   display: none; // Hide footer sections by default
   flex-direction: column;
   grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
-  //border: 1px solid white;
 }
 
 .footer-container {
   display: grid;
   grid-template-columns: 1fr; /* Mobile, SM, and MD default */
   gap: var(--footer-column-gap);
-
-  // Show sections based on presence of content (links or contact info) - calculated within component classMap
-  &:where(.has-contact) .section-contact,
-  &:where(.has-custom-links) .section-custom-links,
-  &:where(.has-site-links) .section-site-links,
-  &:where(.has-social-links) .section-social-links,
-  &:where(.has-aoc-content) .section-aoc {
-    display: flex;
-    gap: var(--footer-section-gap);
-  }
 
   // Large Breakpoint and above
   @media (min-width: #{bp.$lg}) {
@@ -126,6 +115,73 @@ section {
       grid-column: span var(--colspan-aoc);
     }
   }
+
+  // Contact Section
+  .section-contact {
+    .contact-cta-wrapper {
+      margin-inline-start: 0;
+      margin-block-start: 2rem;
+    }
+
+    @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
+      flex-flow: row nowrap;
+      justify-content: space-between;
+
+      .contact-cta-wrapper {
+        margin-block-start: 0;
+        margin-inline-start: 2rem;
+      }
+    }
+
+    .contact-statement {
+      margin-block-end: 1rem;
+      padding: 0;
+      line-height: #{tools.snap-line-height(1.5)};
+    }
+
+    .contact-detail {
+      margin-block-end: 1rem;
+      padding: 0;
+      line-height: #{tools.snap-line-height(1.5)};
+    }
+
+    .contact-label {
+      font-weight: 600;
+      margin-inline-end: 0.5rem;
+    }
+
+    .contact-link {
+      color: var(--footer-link-color);
+      text-decoration: underline;
+      text-decoration-color: var(--qgds-color-underline-default, currentColor);
+
+      &:hover {
+        color: var(--footer-link-hover);
+        text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
+      }
+
+      &:visited {
+        color: var(--qgds-color-link-visited, #551a8b);
+        text-decoration-color: var(--qgds-color-underline-visited, currentColor);
+
+        &:hover {
+          text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
+        }
+      }
+
+      @include focusable();
+    }
+  }
+
+  // Show sections based on presence of content (links or contact info) - calculated within component classMap
+  &:where(.has-contact) .section-contact,
+  &:where(.has-custom-links) .section-custom-links,
+  &:where(.has-site-links) .section-site-links,
+  &:where(.has-social-links) .section-social-links,
+  &:where(.has-aoc-content) .section-aoc {
+    display: flex;
+    gap: var(--footer-section-gap);
+  }
 }
 
 .footer-heading {
@@ -136,64 +192,6 @@ section {
   color: var(--fg);
   margin-block-end: 1rem;
   padding: 0;
-}
-
-// Contact Section
-
-.section-contact {
-  .contact-cta-wrapper {
-    margin-inline-start: 0;
-    margin-block-start: 2rem;
-  }
-
-  @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
-    flex-flow: row nowrap;
-    justify-content: space-between;
-
-    .contact-cta-wrapper {
-      margin-block-start: 0;
-      margin-inline-start: 2rem;
-    }
-  }
-
-  .contact-statement {
-    margin-block-end: 1rem;
-    padding: 0;
-    line-height: #{tools.snap-line-height(1.5)};
-  }
-
-  .contact-detail {
-    margin-block-end: 1rem;
-    padding: 0;
-    line-height: #{tools.snap-line-height(1.5)};
-  }
-
-  .contact-label {
-    font-weight: 600;
-    margin-inline-end: 0.5rem;
-  }
-
-  .contact-link {
-    color: var(--footer-link-color);
-    text-decoration: underline;
-    text-decoration-color: var(--qgds-color-underline-default, currentColor);
-
-    &:hover {
-      color: var(--footer-link-hover);
-      text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
-    }
-
-    &:visited {
-      color: var(--qgds-color-link-visited, #551a8b);
-      text-decoration-color: var(--qgds-color-underline-visited, currentColor);
-
-      &:hover {
-        text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
-      }
-    }
-
-    @include focusable();
-  }
 }
 
 // Link wrappers (role="list")

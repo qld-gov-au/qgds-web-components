@@ -17,7 +17,7 @@ describe("qgds-footer", () => {
 
   it("renders with default properties", async () => {
     await element.updateComplete;
-    
+
     const footer = element.shadowRoot?.querySelector("footer");
     expect(footer).toBeTruthy();
     expect(element.contactHeading).toBe("Contact us");
@@ -53,7 +53,7 @@ describe("qgds-footer", () => {
 
     const phoneLink = element.shadowRoot?.querySelector('a[href^="tel:"]');
     const emailLink = element.shadowRoot?.querySelector('a[href^="mailto:"]');
-    
+
     expect(phoneLink).toBeTruthy();
     expect(phoneLink?.textContent?.trim()).toBe("13 QGOV (13 74 68)");
     expect(emailLink).toBeTruthy();
@@ -77,7 +77,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-site-link"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(2);
     expect(assignedElements?.[0].tagName.toLowerCase()).toBe("qgds-link");
   });
@@ -91,7 +91,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-custom-link"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(2);
     expect(assignedElements?.[0].tagName.toLowerCase()).toBe("qgds-link");
   });
@@ -105,7 +105,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-social-link"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(2);
   });
 
@@ -119,7 +119,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="aoc"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(1);
   });
 
@@ -131,7 +131,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-logo"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(1);
     expect(assignedElements?.[0].tagName.toLowerCase()).toBe("img");
   });
@@ -144,7 +144,7 @@ describe("qgds-footer", () => {
 
     const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="site-main-link"]');
     const assignedElements = slot?.assignedElements();
-    
+
     expect(assignedElements?.length).toBe(1);
   });
 
@@ -173,18 +173,21 @@ describe("qgds-footer", () => {
   it("applies aria-labelledby to footer sections", async () => {
     await element.updateComplete;
 
-    const contactSection = element.shadowRoot?.querySelector(".footer-contact");
+    const contactSection = element.shadowRoot?.querySelector(".section-contact");
     expect(contactSection?.getAttribute("aria-labelledby")).toBe("footer-contact-heading");
-    
-    const aocSection = element.shadowRoot?.querySelector(".footer-aoc");
+
+    const aocSection = element.shadowRoot?.querySelector(".section-aoc");
     expect(aocSection?.getAttribute("aria-labelledby")).toBe("footer-aoc-heading");
   });
 
   it("conditionally renders social section only when social links are slotted", async () => {
     await element.updateComplete;
-    
-    let socialSection = element.shadowRoot?.querySelector(".footer-social");
-    expect(socialSection?.classList.contains("hidden")).toBe(true);
+
+    let footerClasses = element.shadowRoot?.querySelector(".footer-container")?.classList;
+    expect(footerClasses?.contains("has-social-links")).toBe(false);
+
+    let socialSection = element.shadowRoot?.querySelector(".section-social-links");
+    expect(socialSection).toBeFalsy();
 
     element.innerHTML = `
       <qgds-link slot="footer-social-link" href="https://facebook.com">Facebook</qgds-link>
@@ -193,8 +196,11 @@ describe("qgds-footer", () => {
     // Wait for slotchange event to propagate and state to update
     await element.updateComplete;
 
-    socialSection = element.shadowRoot?.querySelector(".footer-social");
-    expect(socialSection?.classList.contains("hidden")).toBe(false);
+    socialSection = element.shadowRoot?.querySelector(".section-social-links");
+    expect(socialSection).toBeTruthy();
+
+    footerClasses = element.shadowRoot?.querySelector(".footer-container")?.classList;
+    expect(footerClasses?.contains("has-social-links")).toBe(true);
   });
 
   it("warns when non-qgds-link elements are slotted in link slots", async () => {
@@ -221,13 +227,11 @@ describe("qgds-footer", () => {
     // Create a new element without copyright label to test the warning
     const newElement = document.createElement("qgds-footer");
     const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    
+
     document.body.appendChild(newElement);
     await newElement.updateComplete;
 
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('"copyright-label" attribute is required')
-    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('"copyright-label" attribute is required'));
 
     consoleWarnSpy.mockRestore();
     newElement.remove();
