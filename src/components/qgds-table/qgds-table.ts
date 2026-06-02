@@ -295,11 +295,6 @@ export class QGDSTable extends LitElement {
   @property({ type: Boolean, attribute: "is-striped", reflect: true })
   isStriped = false;
 
-  /** Highlights table rows on mouse hover.
-  @property({ type: Boolean, attribute: "is-hovered", reflect: true })
-  isHovered = false;
-  */
-
   /** Renders a visible border around the outer scroll/wrapper container. */
   @property({ type: Boolean, attribute: "has-border", reflect: true })
   hasBorder = false;

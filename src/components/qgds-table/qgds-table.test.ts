@@ -85,11 +85,6 @@ describe("qgds-table", () => {
     expect(element.isStriped).toBe(false);
   });
 
-  // it("has isHovered defaulting to false", async () => {
-  //   await element.updateComplete;
-  //   expect(element.isHovered).toBe(false);
-  // });
-
   it("has hasBorder defaulting to false", async () => {
     await element.updateComplete;
     expect(element.hasBorder).toBe(false);
@@ -168,12 +163,6 @@ describe("qgds-table", () => {
     await element.updateComplete;
     expect(element.isStriped).toBe(true);
   });
-
-  // it("reflects is-hovered boolean attribute", async () => {
-  //   element.setAttribute("is-hovered", "");
-  //   await element.updateComplete;
-  //   expect(element.isHovered).toBe(true);
-  // });
 
   it("reflects has-border boolean attribute", async () => {
     element.setAttribute("has-border", "");
