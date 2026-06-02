@@ -62,7 +62,9 @@
       position: absolute;
     }
 
-    @include m.focusable($custom-selector: ":focus-visible", $offset-outline: 3px);
+    // `:focus` (the mixin default) so clicking the radio also shows the ring —
+    // `:focus-visible` only fires for keyboard focus on radios/checkboxes/buttons.
+    @include m.focusable($offset-outline: 3px);
   }
 
   // Status variants — box-shadow adds a flush outer border without conflicting with the focus outline

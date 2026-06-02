@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { html as staticHtml, unsafeStatic } from "lit/static-html.js";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-link-column.styles.scss?inline";
@@ -40,12 +40,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  */
 @customElement("qgds-link-column")
 export class QGDSLinkColumn extends LitElement {
-  static styles = [
-    resetStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true }) heading = "";
   @property({ type: String, attribute: "aria-label" })
