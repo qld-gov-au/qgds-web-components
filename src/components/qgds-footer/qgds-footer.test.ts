@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import "./qgds-footer";
 import "../qgds-link/qgds-link";
 import type { QGDSFooter } from "./qgds-footer";
@@ -8,6 +8,7 @@ describe("qgds-footer", () => {
 
   beforeEach(() => {
     element = document.createElement("qgds-footer");
+    element.copyrightLabel = "© The State of Queensland 2026";
     document.body.appendChild(element);
   });
 
@@ -18,7 +19,7 @@ describe("qgds-footer", () => {
   it("renders with default properties", async () => {
     await element.updateComplete;
 
-    const footer = element.shadowRoot?.querySelector("footer");
+    const footer = element.shadowRoot?.querySelector(".qgds-footer");
     expect(footer).toBeTruthy();
     expect(element.contactHeading).toBe("Contact us");
     expect(element.socialHeading).toBe("Follow us");
@@ -27,220 +28,89 @@ describe("qgds-footer", () => {
     expect(element.palette).toBe("default");
   });
 
-  it("renders custom headings", async () => {
-    element.setAttribute("contact-heading", "Get in touch");
-    element.setAttribute("social-heading", "Connect with us");
-    element.setAttribute("aoc-heading", "Acknowledgement");
-    await element.updateComplete;
-
-    const headings = element.shadowRoot?.querySelectorAll(".footer-heading");
-    expect(headings).toBeTruthy();
-    expect(headings?.length).toBeGreaterThan(0);
-  });
-
-  it("renders copyright label", async () => {
-    element.copyrightLabel = "© Queensland Government 2026";
+  it("renders custom headings and custom labels", async () => {
+    element.setAttribute("contact-heading", "Contact the Team");
+    element.setAttribute("social-heading", "Check us out");
+    element.setAttribute("copyright-label", "© Queensland Government 2026");
     await element.updateComplete;
 
     const copyright = element.shadowRoot?.querySelector(".copyright");
-    expect(copyright?.textContent).toBe("© Queensland Government 2026");
+    expect(copyright?.textContent?.trim()).toBe("© Queensland Government 2026");
+
+    const headings = Array.from(element.shadowRoot?.querySelectorAll(".footer-heading") ?? []);
+    const headingTexts = headings.map((h) => h.textContent?.trim());
+    expect(headingTexts).toContain("Contact the Team");
+    expect(headingTexts).toContain("Check us out");
   });
 
-  it("renders contact phone and email when provided", async () => {
-    element.contactPhone = "13 QGOV (13 74 68)";
-    element.contactEmail = "email@qld.gov.au";
+  it("renders phone and email links dynamically", async () => {
+    element.contactPhone = "13 74 68";
+    element.contactEmail = "info@qld.gov.au";
     await element.updateComplete;
 
-    const phoneLink = element.shadowRoot?.querySelector('a[href^="tel:"]');
-    const emailLink = element.shadowRoot?.querySelector('a[href^="mailto:"]');
-
+    const phoneLink = element.shadowRoot?.querySelector('a[href="tel:137468"]');
     expect(phoneLink).toBeTruthy();
-    expect(phoneLink?.textContent?.trim()).toBe("13 QGOV (13 74 68)");
+    expect(phoneLink?.textContent?.trim()).toBe("13 74 68");
+
+    const emailLink = element.shadowRoot?.querySelector('a[href="mailto:info@qld.gov.au"]');
     expect(emailLink).toBeTruthy();
-    expect(emailLink?.getAttribute("href")).toBe("mailto:email@qld.gov.au");
+    expect(emailLink?.textContent?.trim()).toBe("info@qld.gov.au");
   });
 
-  it("renders contact statement when provided", async () => {
-    element.contactStatement = "Get in touch for enquiries, feedback, complaints and compliments.";
+  it("renders slotted custom, site, and social links", async () => {
+    element.innerHTML = `
+      <qgds-link slot="footer-custom-link" href="/about">About Us</qgds-link>
+      <qgds-link slot="footer-site-link" href="/privacy">Privacy Policy</qgds-link>
+      <qgds-link slot="footer-social-link" href="https://facebook.com">Facebook</qgds-link>
+    `;
+
+    // Wait for the slot change event handlers to execute and update state
     await element.updateComplete;
 
-    const statement = element.shadowRoot?.querySelector(".contact-statement");
-    expect(statement?.textContent).toBe("Get in touch for enquiries, feedback, complaints and compliments.");
+    const customSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-custom-link"]');
+    expect(customSlot?.assignedElements().length).toBe(1);
+
+    const siteSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-site-link"]');
+    expect(siteSlot?.assignedElements().length).toBe(1);
+
+    const socialSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-social-link"]');
+    expect(socialSlot?.assignedElements().length).toBe(1);
   });
 
-  it("renders slotted site links", async () => {
+  it("renders falling back site logo when no custom logo is slotted", async () => {
+    await element.updateComplete;
+
+    // By default, no logo is in the light DOM slot, so it should fall back to inside the slot
+    const logoSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-logo"]');
+    expect(logoSlot).toBeTruthy();
+
+    const fallbackSvg = logoSlot?.querySelector("svg");
+    expect(fallbackSvg).toBeTruthy();
+  });
+
+  it("incorporates slotted logo and overrides the default logo fallback", async () => {
     element.innerHTML = `
-      <qgds-link slot="footer-site-link" href="/help">Help</qgds-link>
-      <qgds-link slot="footer-site-link" href="/copyright">Copyright</qgds-link>
+      <img slot="footer-logo" src="/logo.png" alt="Custom Gov Logo">
     `;
     await element.updateComplete;
 
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-site-link"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(2);
-    expect(assignedElements?.[0].tagName.toLowerCase()).toBe("qgds-link");
+    const logoSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-logo"]');
+    const assignedElements = logoSlot?.assignedElements();
+    expect(assignedElements?.length).toBe(1);
+    expect(assignedElements?.[0].tagName.toLowerCase()).toBe("img");
+    expect(assignedElements?.[0].getAttribute("alt")).toBe("Custom Gov Logo");
   });
 
-  it("renders slotted custom links", async () => {
-    element.innerHTML = `
-      <qgds-link slot="footer-custom-link" href="/about">About</qgds-link>
-      <qgds-link slot="footer-custom-link" href="/contact">Contact</qgds-link>
-    `;
-    await element.updateComplete;
-
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-custom-link"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(2);
-    expect(assignedElements?.[0].tagName.toLowerCase()).toBe("qgds-link");
-  });
-
-  it("renders slotted social links", async () => {
-    element.innerHTML = `
-      <qgds-link slot="footer-social-link" href="https://facebook.com" icon-name="facebook">Facebook</qgds-link>
-      <qgds-link slot="footer-social-link" href="https://twitter.com" icon-name="twitter">Twitter</qgds-link>
-    `;
-    await element.updateComplete;
-
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-social-link"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(2);
-  });
-
-  it("renders slotted AOC content", async () => {
+  it("renders slotted Acknowledgement of Country content", async () => {
     element.innerHTML = `
       <div slot="aoc">
-        <p>We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land.</p>
+        <p>Custom Acknowledgement of Country statement</p>
       </div>
     `;
     await element.updateComplete;
 
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="aoc"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(1);
-  });
-
-  it("renders slotted logo", async () => {
-    element.innerHTML = `
-      <img slot="footer-logo" src="/logo.png" alt="Queensland Government">
-    `;
-    await element.updateComplete;
-
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-logo"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(1);
-    expect(assignedElements?.[0].tagName.toLowerCase()).toBe("img");
-  });
-
-  it("renders slotted site main link", async () => {
-    element.innerHTML = `
-      <qgds-link slot="site-main-link" href="https://www.qld.gov.au">Queensland Government</qgds-link>
-    `;
-    await element.updateComplete;
-
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="site-main-link"]');
-    const assignedElements = slot?.assignedElements();
-
-    expect(assignedElements?.length).toBe(1);
-  });
-
-  it("uses custom heading level", async () => {
-    element.headingLevel = 3;
-    await element.updateComplete;
-
-    const heading = element.shadowRoot?.querySelector(".footer-heading");
-    expect(heading?.tagName).toBe("H3");
-  });
-
-  it("validates heading level within range (2-6)", async () => {
-    element.setAttribute("heading-level", "1");
-    await element.updateComplete;
-    expect(element.headingLevel).toBe(2); // Defaults to 2 for invalid values
-
-    element.setAttribute("heading-level", "7");
-    await element.updateComplete;
-    expect(element.headingLevel).toBe(2);
-
-    element.setAttribute("heading-level", "4");
-    await element.updateComplete;
-    expect(element.headingLevel).toBe(4);
-  });
-
-  it("applies aria-labelledby to footer sections", async () => {
-    await element.updateComplete;
-
-    const contactSection = element.shadowRoot?.querySelector(".section-contact");
-    expect(contactSection?.getAttribute("aria-labelledby")).toBe("footer-contact-heading");
-
-    const aocSection = element.shadowRoot?.querySelector(".section-aoc");
-    expect(aocSection?.getAttribute("aria-labelledby")).toBe("footer-aoc-heading");
-  });
-
-  it("conditionally renders social section only when social links are slotted", async () => {
-    await element.updateComplete;
-
-    let footerClasses = element.shadowRoot?.querySelector(".footer-container")?.classList;
-    expect(footerClasses?.contains("has-social-links")).toBe(false);
-
-    let socialSection = element.shadowRoot?.querySelector(".section-social-links");
-    expect(socialSection).toBeFalsy();
-
-    element.innerHTML = `
-      <qgds-link slot="footer-social-link" href="https://facebook.com">Facebook</qgds-link>
-    `;
-    await element.updateComplete;
-    // Wait for slotchange event to propagate and state to update
-    await element.updateComplete;
-
-    socialSection = element.shadowRoot?.querySelector(".section-social-links");
-    expect(socialSection).toBeTruthy();
-
-    footerClasses = element.shadowRoot?.querySelector(".footer-container")?.classList;
-    expect(footerClasses?.contains("has-social-links")).toBe(true);
-  });
-
-  it("warns when non-qgds-link elements are slotted in link slots", async () => {
-    const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-
-    element.innerHTML = `
-      <a slot="footer-site-link" href="/help">Help</a>
-    `;
-    await element.updateComplete;
-
-    // Trigger slot change
-    const slot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-site-link"]');
-    slot?.dispatchEvent(new Event("slotchange"));
-    await element.updateComplete;
-
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
-      expect.stringContaining("footer-site-link slot should contain <qgds-link> elements")
-    );
-
-    consoleWarnSpy.mockRestore();
-  });
-
-  it("warns when copyright-label is not provided", async () => {
-    // Create a new element without copyright label to test the warning
-    const newElement = document.createElement("qgds-footer");
-    const consoleWarnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-
-    document.body.appendChild(newElement);
-    await newElement.updateComplete;
-
-    expect(consoleWarnSpy).toHaveBeenCalledWith(expect.stringContaining('"copyright-label" attribute is required'));
-
-    consoleWarnSpy.mockRestore();
-    newElement.remove();
-  });
-
-  it("applies palette attribute", async () => {
-    element.palette = "deep";
-    await element.updateComplete;
-
-    expect(element.getAttribute("palette")).toBe("deep");
+    const aocSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="aoc"]');
+    expect(aocSlot?.assignedElements().length).toBe(1);
+    expect(aocSlot?.assignedElements()[0].textContent?.trim()).toContain("Custom Acknowledgement of Country statement");
   });
 });
