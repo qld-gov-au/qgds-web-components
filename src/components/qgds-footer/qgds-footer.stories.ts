@@ -3,6 +3,7 @@ import { html } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { palettes } from "../../utils/palettes";
+import { chromaticModes, allModes } from "../../../.storybook/modes"; //allModes
 
 // Import custom element definitions
 import "./qgds-footer";
@@ -23,20 +24,15 @@ const meta: Meta<QGDSFooterStoryArgs> = {
     "contact-heading": "Contact us",
     "social-heading": "Follow us",
     "aoc-heading": "Acknowledgement of Country",
-    "copyright-label": "© The State of Queensland (Organisation) 2026",
+    "copyright-label": "© The State of Queensland 2026",
     "heading-level": 2,
     palette: "default",
-    "hide-site-social-divider": false,
   },
   argTypes: {
     ...argTypes,
     palette: {
       control: { type: "select" },
       options: Object.keys(palettes),
-    },
-    "hide-site-social-divider": {
-      control: { type: "boolean" },
-      description: "Hide the border between site links and social columns",
     },
   },
 };
@@ -45,13 +41,16 @@ export default meta;
 type Story = StoryObj<QGDSFooterStoryArgs>;
 
 export const Default: Story = {
+  globals: {
+    viewport: "XL",
+  },
   args: {
     "contact-heading": "Contact us",
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
     "custom-links-heading": "About us",
     "social-heading": "Follow us",
     "aoc-heading": "Acknowledgement of Country",
-    "copyright-label": "© The State of Queensland (Organisation) 2026",
+    "copyright-label": "© The State of Queensland 2026",
     palette: "bold",
   },
   render: (storyArgs) =>
@@ -74,18 +73,8 @@ export const Default: Story = {
           aria-label="Visit Queensland Government Facebook page"
         ></qgds-link>
 
-        <!-- Custom Links -->
-        <qgds-link slot="footer-custom-link" href="https://www.qld.gov.au/about" label="About Queensland"></qgds-link>
-        <qgds-link
-          slot="footer-custom-link"
-          href="https://www.qld.gov.au/about/how-government-works"
-          label="How government works"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-custom-link"
-          href="https://www.qld.gov.au/about/contact-government"
-          label="Contact government"
-        ></qgds-link>
+        <!-- Contact Buttons via contact-cta slot -->
+        <qgds-button slot="contact-cta" label="Contact us" variant="secondary"></qgds-button>
 
         <!-- Site Links -->
         <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
@@ -122,13 +111,13 @@ export const Default: Story = {
           slot="footer-social-link"
           href="https://www.facebook.com/QueenslandGovernment"
           icon-name="facebook"
-          label="Facebook page"
+          label="Facebook"
         ></qgds-link>
         <qgds-link
           slot="footer-social-link"
           href="https://www.linkedin.com/company/queensland-government"
           icon-name="linkedin"
-          label="LinkedIn page"
+          label="LinkedIn"
         ></qgds-link>
         <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
         <qgds-link
@@ -153,17 +142,15 @@ export const Default: Story = {
           </p>
         </div>
 
-        <!-- Logo -->
-        <img
-          slot="footer-logo"
-          src="https://www.qld.gov.au/__data/assets/image/0026/152474/qg-logo.svg"
-          alt="Queensland Government"
-        />
-
         <!-- Main Government Link -->
         <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
       `
     ),
+
+  parameters: {
+    ...chromaticModes,
+    allModes,
+  },
 };
 
 export const Minimal: Story = {
@@ -171,7 +158,7 @@ export const Minimal: Story = {
     "contact-heading": "Contact us",
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
     "aoc-heading": "Acknowledgement of Country",
-    "copyright-label": "© The State of Queensland (Organisation) 2026",
+    "copyright-label": "© The State of Queensland 2026",
     palette: "default",
   },
 

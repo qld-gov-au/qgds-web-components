@@ -27,11 +27,7 @@ export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-c
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
-<<<<<<< HEAD
-=======
 export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
-export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
->>>>>>> 26490f3 (feat: Early footer concept with slots)
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
@@ -40,11 +36,7 @@ export { QGDSInpageNavItem } from "./components/qgds-inpage-nav/qgds-inpage-nav-
 export { QGDSLink } from "./components/qgds-link/qgds-link";
 export { QGDSLinkColumn } from "./components/qgds-link-column/qgds-link-column";
 export { QGDSLinkItem } from "./components/qgds-link-item/qgds-link-item";
-<<<<<<< HEAD
 export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
-=======
-export { QGDSLogo } from "./components/qgds-logo/qgds-logo";
->>>>>>> bfed3e9 (feat: WIP New footer structure and assets)
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
@@ -58,8 +50,4 @@ export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-s
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
-<<<<<<< HEAD
 export { QGDSVideo } from "./components/qgds-video/qgds-video";
-=======
-export { QGDSTag } from "./components/qgds-tag/qgds-tag";
->>>>>>> 26490f3 (feat: Early footer concept with slots)

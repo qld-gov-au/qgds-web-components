@@ -5,29 +5,31 @@ Scoped CSS: qgds-footer
 */
 
 @use "../../styles/tools/mixins" as *;
-@use "../../styles/tools";
+@use "../../styles/tools" as tools;
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
-  --footer-background: var(--qgds-color-background);
-  --footer-text: var(--qgds-color-text-default);
-  --footer-link-color: var(--qgds-color-link-default);
+  --bg: var(--qgds-color-background);
+  --fg: var(--qgds-color-text-default);
+  --footer-link-fg: var(--qgds-color-link-default);
   --footer-link-hover: var(--qgds-color-link-hover);
   --footer-padding-block: 2rem;
-  --footer-heading-color: var(--qgds-color-text-heading);
   --footer-border-color: unset;
-  --aoc-span: 3; // Dynamic AOC column span (3-9 based on missing columns)
-  --site-links-span: 2; // Default site links span (can be increased to 3 if custom links are missing)
+  --footer-column-border-color: var(--qgds-color-border);
+  --footer-column-gap: 2rem;
+  --footer-logo-height: 48px;
 
   border-block-start: 4px solid var(--footer-border-color, var(--qgds-color-accent-design-accent));
   display: block;
-  background: var(--footer-background);
-  color: var(--footer-text);
+  background: var(--bg);
+  color: var(--fg);
 }
 
 .qgds-footer {
   padding-block: var(--footer-padding-block);
   padding-inline: 1rem;
+  max-inline-size: 1312px;
+  margin-inline: auto;
 }
 
 .footer-site-name {
@@ -36,74 +38,93 @@ Scoped CSS: qgds-footer
   margin-block-end: 2rem;
 }
 
-.footer-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-
-  // 12-column grid layout at large breakpoint and above
-  // Contact (3 cols) + Custom Links (2 cols) + Site Links (2 cols) + Social (2 cols) + AOC (3-7 cols)
-  @media (min-width: #{bp.$lg}) {
-    grid-template-columns: repeat(12, 1fr);
-    gap: 0; // Remove gap since columns have their own padding
-  }
+section {
+  display: none; // Hide footer sections by default
+  flex-direction: column;
+  grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
+  //border: 1px solid white;
 }
 
-.footer-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  padding-inline: 2rem;
-  border-inline-end: 2px solid var(--qgds-color-border);
+.footer-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile, SM, and MD default */
+  gap: var(--footer-column-gap);
 
-  &.hidden {
-    display: none;
+  // Show sections based on presence of content (links or contact info) - calculated within component classMap
+  &:where(.has-contact) .section-contact,
+  &:where(.has-custom-links) .section-custom-links,
+  &:where(.has-site-links) .section-site-links,
+  &:where(.has-social-links) .section-social-links,
+  &:where(.has-aoc-content) .section-aoc {
+    display: flex;
+    gap: var(--footer-section-gap);
   }
 
-  // Grid column spans for 12-column layout
+  // Large Breakpoint and above
   @media (min-width: #{bp.$lg}) {
-    // Default: each section spans based on design
-    &.footer-contact {
-      grid-column: span 3; // Contact: 3 columns
+    /* We define 12 explicit columns. 
+      Instead of assigning fractions to specific blocks on the parent,
+      we let the child sections explicitly state how many columns they want to span!
+    */
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+
+    /* Assume all 5 sections are present by default, and assign columns based on that (3, 2, 2, 2, 3) */
+    --colspan-contact: 3;
+    --colspan-custom-links: 2;
+    --colspan-site-links: 2;
+    --colspan-social-links: 2;
+    --colspan-aoc: 3;
+
+    /* All sections by default */
+    section {
+      padding-inline-end: 2rem;
+      border-inline-end: 2px solid var(--footer-column-border-color);
+
+      // Remove border and right padding from last column
+      &:last-child {
+        border-inline-end: none;
+        padding-inline-end: 0;
+      }
+
+      // Optional removal of border (e.g., between site links and social)
+      &.no-border {
+        border-inline-end: none;
+      }
     }
 
-    &.footer-custom {
-      grid-column: span 2; // Custom Links: 2 columns
+    // Missing either custom links or social links? Contact and AOC can grow to fill the gap (4, 2, 2, 4)
+    &:not(.has-custom-links),
+    &:not(.has-social-links) {
+      --colspan-contact: 4;
+      --colspan-aoc: 4;
     }
 
-    &.footer-site {
-      grid-column: span var(--site-links-span, 2); // Site Links: 2-3 columns
+    // Missing both custom links and social links? Contact, Custom, and Site can grow to fill the gap
+    &:not(.has-social-links, .has-custom-links) {
+      --colspan-contact: 4;
+      --colspan-aoc: 6;
     }
 
-    &.footer-social {
-      grid-column: span 2; // Social: 2 columns
+    /* Assign spans sizes */
+    .section-contact {
+      grid-column: span var(--colspan-contact);
     }
 
-    &.footer-aoc {
-      grid-column: span var(--aoc-span, 3); // AOC: 3-9 columns (absorbs missing column space)
+    .section-custom-links {
+      grid-column: span var(--colspan-custom-links);
     }
-  }
 
-  // Remove left padding from first column
-  &:first-child {
-    padding-inline-start: 0;
-  }
+    .section-site-links {
+      grid-column: span var(--colspan-site-links);
+    }
 
-  // Remove border and right padding from last column
-  &:last-child {
-    border-inline-end: none;
-    padding-inline-end: 0;
-  }
+    .section-social-links {
+      grid-column: span var(--colspan-social-links);
+    }
 
-  // Optional removal of border (e.g., between site links and social)
-  &.no-border {
-    border-inline-end: none;
-  }
-
-  // Remove borders and padding on mobile (single column layout)
-  @media (max-width: #{bp.$lg - 1px}) {
-    border-inline-end: none;
-    padding-inline: 0;
+    .section-aoc {
+      grid-column: span var(--colspan-aoc);
+    }
   }
 }
 
@@ -112,21 +133,37 @@ Scoped CSS: qgds-footer
   font-weight: 600;
   font-size: 1.25rem; // 20px
   line-height: #{tools.snap-line-height(1.2)}; // 24px
-  color: var(--footer-heading-color);
-  margin: 0;
+  color: var(--fg);
+  margin-block-end: 1rem;
   padding: 0;
 }
 
 // Contact Section
-.footer-contact {
+
+.section-contact {
+  .contact-cta-wrapper {
+    margin-inline-start: 0;
+    margin-block-start: 2rem;
+  }
+
+  @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    .contact-cta-wrapper {
+      margin-block-start: 0;
+      margin-inline-start: 2rem;
+    }
+  }
+
   .contact-statement {
-    margin: 0;
+    margin-block-end: 1rem;
     padding: 0;
     line-height: #{tools.snap-line-height(1.5)};
   }
 
   .contact-detail {
-    margin: 0;
+    margin-block-end: 1rem;
     padding: 0;
     line-height: #{tools.snap-line-height(1.5)};
   }
@@ -205,60 +242,65 @@ Scoped CSS: qgds-footer
 }
 
 .site-links-wrapper {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
+  column-gap: 1.5rem;
   margin-block-start: 0.5rem;
+
+  @media (min-width: #{bp.$md}) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
 
   &.empty {
     display: none;
   }
-
-  ::slotted(qgds-link) {
-    --qgds-link-padding: 0;
-    --qgds-link-margin-inline-start: 0;
-    --qgds-link-max-width: 100%;
-    --qgds-link-width: 100%;
-
-    max-inline-size: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    white-space: normal;
-  }
-}
-
-.social-links-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-
-  ::slotted(qgds-link) {
-    --qgds-link-padding: 0;
-    --qgds-link-margin-inline-start: 0;
-    --qgds-link-width: 100%;
-    --qgds-link-justify-content: flex-start;
-    --qgds-link-max-width: 100%;
-
-    max-inline-size: 100%;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    white-space: normal;
-  }
 }
 
 // Social Section
-.footer-social {
+.section-social-links {
   &.hidden {
     display: none;
   }
 
+  > nav {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+
+    @media (min-width: #{bp.$lg}) {
+      flex-direction: column;
+    }
+  }
+
   .social-links-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+
     ::slotted(qgds-link) {
-      --qgds-link-width: 100%;
+      --qgds-link-padding: 0;
+      --qgds-link-margin-inline-start: 0;
       --qgds-link-justify-content: flex-start;
       --qgds-link-max-width: 100%;
+      --qgds-link-show-label: none; // Hide link label by default for social links (assumes icon-only)
 
       max-inline-size: 100%;
       word-wrap: break-word;
@@ -266,11 +308,19 @@ Scoped CSS: qgds-footer
       hyphens: auto;
       white-space: normal;
     }
+
+    @media (min-width: #{bp.$lg}) {
+      flex-direction: column;
+
+      ::slotted(qgds-link) {
+        --qgds-link-show-label: inline-block; // Show link label on desktop for better accessibility (assumes icons + text)
+      }
+    }
   }
 }
 
 // Acknowledgement of Country Section
-.footer-aoc {
+.section-aoc {
   .aoc-content {
     line-height: #{tools.snap-line-height(1.5)};
 
@@ -294,29 +344,31 @@ Scoped CSS: qgds-footer
   }
 
   .footer-logo {
-    margin-block-start: 1rem;
+    display: flex;
+    margin-block-start: 1.5rem;
+    margin-inline-end: auto;
+    color: var(--footer-text);
+    max-block-size: var(--footer-logo-height);
 
     &.empty {
       display: none;
     }
 
     ::slotted(img),
+    ::slotted(svg),
     ::slotted(qgds-logo) {
-      max-inline-size: #{tools.remify(200px)};
-      block-size: auto;
+      block-size: var(--footer-logo-height);
     }
   }
 
   .copyright {
-    margin: 0;
-    margin-block-start: 1rem;
-    padding: 0;
+    margin-block-start: 1.5rem;
     font-weight: 600;
     line-height: #{tools.snap-line-height(1.5)};
   }
 
   .main-link-wrapper {
-    margin-block-start: 0.5rem;
+    margin-block-start: 1.5rem;
 
     &.empty {
       display: none;
