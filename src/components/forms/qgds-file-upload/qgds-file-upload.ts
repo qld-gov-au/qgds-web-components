@@ -182,8 +182,14 @@ class QGDSFileStatus extends LitElement {
     this._events = new QgdsEvents(this);
   }
 
+  private _handleButtonClick = (e: CustomEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this._events.dispatch("cancel");
+  };
+
   render() {
-    const { status, file, _iconName } = this;
+    const { status, file, _iconName, _handleButtonClick } = this;
     const classNames = classMap({
       "is-loading": status === "loading",
       "is-ready": status === "ready",
@@ -195,11 +201,6 @@ class QGDSFileStatus extends LitElement {
       "qgds-validation-message is-error": status === "error",
       "qgds-validation-message is-success": status === "success" || status === "ready",
     });
-    const caption =
-      status === "loading"
-        ? html`Uploading...`
-        : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
-            Upload complete - ${file ? readableFileSize(file.size) : nothing}`;
 
     const buttonLabel = status === "loading" ? "Cancel" : "Remove";
     const buttonIcon = status === "loading" ? "alert-cancel" : "delete";
@@ -210,9 +211,14 @@ class QGDSFileStatus extends LitElement {
         : html`<qgds-icon icon-id="${_iconName}" size="lg"></qgds-icon>`}
       <div class="flex-grow">
         <h6 class="qgds-display-xs mb-8">${file?.name}</h6>
-        <p class=${captionClassNames}>${caption}</p>
+        <p class=${captionClassNames}>
+          ${status === "loading"
+            ? html`Uploading...`
+            : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
+                Upload complete - ${file ? readableFileSize(file.size) : nothing}`}
+        </p>
       </div>
-      <qgds-button variant="tertiary" label=${buttonLabel}
+      <qgds-button variant="tertiary" label=${buttonLabel} @qgds-button-click=${_handleButtonClick}
         ><qgds-icon slot="icon" icon-id=${buttonIcon}></qgds-icon
       ></qgds-button>
     </div>`;
