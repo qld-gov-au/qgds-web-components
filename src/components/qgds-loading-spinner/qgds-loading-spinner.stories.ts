@@ -18,7 +18,7 @@ const meta: Meta<Args> = {
     ...args,
     size: "md",
     label: "Uploading...",
-    "is-label-visible": false,
+    "hide-label": false,
     "is-stacked": false,
   },
   argTypes,
@@ -29,10 +29,10 @@ export default meta;
 
 export const Default: Story = {};
 
-export const WithLabel: Story = {
+export const Minimal: Story = {
   args: {
     ...meta.args,
-    "is-label-visible": true,
+    "hide-label": true,
     label: "Uploading, please wait",
   },
 };
@@ -40,7 +40,7 @@ export const WithLabel: Story = {
 export const Stacked: Story = {
   args: {
     ...meta.args,
-    "is-label-visible": true,
+    "hide-label": false,
     "is-stacked": true,
     label: "Uploading...",
   },
@@ -50,7 +50,7 @@ export const Small: Story = {
   args: {
     ...meta.args,
     size: "sm",
-    "is-label-visible": true,
+    "hide-label": false,
     label: "Uploading...",
   },
 };
@@ -59,7 +59,7 @@ export const Large: Story = {
   args: {
     ...meta.args,
     size: "lg",
-    "is-label-visible": true,
+    "hide-label": false,
     label: "Uploading...",
   },
 };
@@ -68,7 +68,7 @@ export const ExtraLarge: Story = {
   args: {
     ...meta.args,
     size: "xl",
-    "is-label-visible": true,
+    "hide-label": false,
     label: "Uploading...",
   },
 };
@@ -76,10 +76,10 @@ export const ExtraLarge: Story = {
 export const AllSizes: Story = {
   render: () => html`
     <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
-      <qgds-loading-spinner size="sm" label="Loading" .isLabelVisible="${true}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="md" label="Loading" .isLabelVisible="${true}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="lg" label="Loading" .isLabelVisible="${true}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="xl" label="Loading" .isLabelVisible="${true}"></qgds-loading-spinner>
+      <qgds-loading-spinner size="sm" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
+      <qgds-loading-spinner size="md" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
+      <qgds-loading-spinner size="lg" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
+      <qgds-loading-spinner size="xl" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
     </div>
   `,
 };

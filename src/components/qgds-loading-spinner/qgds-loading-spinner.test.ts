@@ -19,7 +19,7 @@ describe("qgds-loading-spinner", () => {
 
     expect(element.size).toBe("md");
     expect(element.label).toBe("Loading");
-    expect(element.isLabelVisible).toBe(false);
+    expect(element.hideLabel).toBe(false);
     expect(element.isStacked).toBe(false);
   });
 
@@ -61,7 +61,8 @@ describe("qgds-loading-spinner", () => {
     expect(icon?.getAttribute("aria-hidden")).toBe("true");
   });
 
-  it("hides label visually when isLabelVisible is false", async () => {
+  it("hides label visually when hideLabel is true", async () => {
+    element.hideLabel = true;
     await element.updateComplete;
 
     const srOnly = element.shadowRoot?.querySelector(".sr-only");
@@ -71,8 +72,8 @@ describe("qgds-loading-spinner", () => {
     expect(visibleLabel).toBeNull();
   });
 
-  it("shows label visually when isLabelVisible is true", async () => {
-    element.isLabelVisible = true;
+  it("shows label visually when hideLabel is false", async () => {
+    element.hideLabel = false;
     await element.updateComplete;
 
     const visibleLabel = element.shadowRoot?.querySelector(".label");
@@ -83,15 +84,15 @@ describe("qgds-loading-spinner", () => {
     expect(srOnly).toBeNull();
   });
 
-  it("reflects isLabelVisible as attribute", async () => {
-    element.isLabelVisible = true;
+  it("reflects hideLabel as attribute", async () => {
+    element.hideLabel = true;
     await element.updateComplete;
 
-    expect(element.hasAttribute("is-label-visible")).toBe(true);
+    expect(element.hasAttribute("hide-label")).toBe(true);
   });
 
   it("updates visible label text when label changes", async () => {
-    element.isLabelVisible = true;
+    element.hideLabel = false;
     element.label = "Please wait";
     await element.updateComplete;
 
