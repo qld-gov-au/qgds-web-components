@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -6,6 +6,7 @@ import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
 import { QgdsEvents } from "../../utils/events/event-controller";
+import { debounce } from "../../utils";
 // Side-effect imports register the suggestion sub-components so consumers can
 // inject them into the `suggestions` slot without importing them separately.
 import "../qgds-search-suggestion-group/qgds-search-suggestion-group.js";
@@ -33,12 +34,13 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @prop {String} [name] - Name attribute passed to the underlying input.
  * @prop {Boolean} [disabled=false] - Disables the input and button.
  * @prop {FormVariant} [variant] - Visual style of the input. "filled" uses a shaded background with only a bottom border.
+ * @prop {Number} [debounce=100] - Milliseconds to debounce the `qgds-input` event by. Submitting (Enter/button) cancels any pending debounced `qgds-input` and fires `qgds-search` immediately.
  *
  * @slot suggestions - Search results / suggestions rendered inside the dropdown panel.
  *   Fill this in response to `qgds-input` after calling your own API. The panel is
  *   hidden automatically when the slot is empty.
  *
- * @fires {CustomEvent<{ value: string }>} qgds-input - Fired on every keystroke. Use this to drive an async suggestions lookup.
+ * @fires {CustomEvent<{ value: string }>} qgds-input - Fired as the user types (debounced by `debounce` ms). Use this to drive an async suggestions lookup.
  * @fires {CustomEvent<{ value: string }>} qgds-search - Fired on button click or Enter key.
  *
  * @csspart panel - The floating suggestions dropdown container.
@@ -68,6 +70,9 @@ export class QGDSSearchInput extends LitElement {
   @property({ type: String })
   variant?: FormVariant;
 
+  @property({ type: Number })
+  debounce: number = 100;
+
   /** Whether the suggestions slot currently has content. */
   @state() private _hasSuggestions = false;
 
@@ -77,7 +82,24 @@ export class QGDSSearchInput extends LitElement {
   // Shared helper for dispatching qgds custom events.
   private events = new QgdsEvents(this);
 
+  /**
+   * Debounced `qgds-input` dispatcher. Rebuilt whenever `debounce` changes
+   * (see `willUpdate`) so the delay always matches the current property.
+   */
+  private _dispatchInputDebounced = debounce(() => this._dispatchInput(), this.debounce);
+
   static styles = [baseStyles, formStyles, unsafeCSS(componentCSS), utilitiesStyles];
+
+  protected willUpdate(changed: PropertyValues): void {
+    if (changed.has("debounce")) {
+      this._dispatchInputDebounced = debounce(() => this._dispatchInput(), Math.max(0, this.debounce));
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback?.();
+    this._dispatchInputDebounced.cancel();
+  }
 
   private get _listboxId(): string {
     return `${this.id || "qgds-search"}-suggestions`;
@@ -85,13 +107,18 @@ export class QGDSSearchInput extends LitElement {
 
   /**
    * Input event handler — updates `value` and notifies listeners so they can
-   * fetch suggestions. The component itself performs no data fetching.
+   * fetch suggestions. The `qgds-input` dispatch is debounced by `debounce` ms.
+   * The component itself performs no data fetching.
    */
   private _handleInput = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
     this._syncOpen();
-    this.events.dispatch("input", { value: this.value });
+    this._dispatchInputDebounced();
   };
+
+  private _dispatchInput(): void {
+    this.events.dispatch("input", { value: this.value });
+  }
 
   /**
    * Handle Enter key to trigger search without needing to click the button.
@@ -139,6 +166,9 @@ export class QGDSSearchInput extends LitElement {
   }
 
   private _dispatchSearch = (): void => {
+    // An explicit submit supersedes any in-flight typing — cancel the pending
+    // debounced suggestion lookup so it can't fire after the user has searched.
+    this._dispatchInputDebounced.cancel();
     this.events.dispatch("search", { value: this.value });
   };
 
