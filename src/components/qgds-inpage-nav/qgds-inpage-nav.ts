@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
@@ -25,12 +25,7 @@ type headingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
 @customElement("qgds-inpage-nav")
 export class QGDSInpageNav extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, attribute: "heading" })
   heading: string = "On this page";

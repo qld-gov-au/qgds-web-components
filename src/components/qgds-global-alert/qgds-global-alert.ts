@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
 import "../qgds-link/qgds-link";
@@ -51,12 +51,7 @@ export class QGDSGlobalAlert extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "is-dismissed" })
   isDismissed: boolean = false;
 
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(styles)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(styles)];
 
   private static readonly icons: Record<GlobalAlertVariant, IconName> = {
     critical: "alert-danger",

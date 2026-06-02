@@ -1,4 +1,4 @@
-import { html, css, unsafeCSS, PropertyValues } from "lit";
+import { html, unsafeCSS, PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import {
@@ -43,12 +43,7 @@ export type { FieldGroupValue, FieldGroupChangeDetail };
  */
 @customElement("qgds-radio-group")
 export class QGDSRadioGroup extends QGDSFieldGroupBase {
-  static styles = [
-    ...super.styles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [...super.styles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true })
   size: "sm" | "lg" = "lg";

@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -29,13 +29,7 @@ import componentCSS from "./qgds-pagination.styles.scss?inline";
 
 @customElement("qgds-pagination")
 export class QGDSPagination extends LitElement {
-  static styles = [
-    baseStyles,
-    utilitiesStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, utilitiesStyles, unsafeCSS(componentCSS)];
 
   // Shared helper for dispatching qgds custom events.
   private events = new QgdsEvents(this);
