@@ -172,18 +172,6 @@ export const Striped: Story = {
 };
 
 /**
- * Row hover highlights the row under the cursor, helping users track
- * which row they are reading in wide tables.
- */
-// Hover state added to backlog, to be scoped by design team and added as future enhancement please. SP.
-
-// export const Hovered: Story = {
-//   name: "Row Hover",
-//   args: { responsive: "scroll", "has-border": true, "is-hovered": true },
-//   parameters: { ...chromaticModes },
-// };
-
-/**
  * The sticky header keeps `<thead>` visible as the user scrolls vertically
  * through a long table. A `max-height` is automatically applied to the
  * scroll container (640 px mobile / 1000 px desktop).
