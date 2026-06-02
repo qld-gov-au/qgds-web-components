@@ -398,42 +398,6 @@ export const ReadOnlyState: Story = {
   `,
 };
 
-// ── Story: indicateIf variants ─────────────────────────────────────────────
-
-/**
- * Shows all three indicateIf variants: "required", "optional", and "none" (default).
- */
-export const IndicateIf: Story = {
-  name: "indicateIf — Required / Optional / None",
-  render: () => html`
-    <div style=${sectionStyle}>
-      <qgds-text-input
-        id="field-required"
-        name="field-required"
-        label="Required field"
-        hint="indicate-if=required shows an asterisk"
-        indicate-if="required"
-        required
-      ></qgds-text-input>
-
-      <qgds-text-input
-        id="field-optional"
-        name="field-optional"
-        label="Optional field"
-        hint="indicate-if=optional shows (optional)"
-        indicate-if="optional"
-      ></qgds-text-input>
-
-      <qgds-text-input
-        id="field-none"
-        name="field-none"
-        label="No indicator"
-        hint="No indicator shown (default)"
-      ></qgds-text-input>
-    </div>
-  `,
-};
-
 // ── Story: Auto-validation on submit ──────────────────────────────────────
 
 /**
