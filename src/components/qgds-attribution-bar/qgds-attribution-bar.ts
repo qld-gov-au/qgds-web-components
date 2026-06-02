@@ -9,6 +9,8 @@ type QGDSPalette = keyof typeof palettes;
 /**
  * An attribution bar may be used within a site header to display site-wide links and actions such as Contact Us and Login
  *
+ * @tagname qgds-attribution-bar
+ *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97586&p=f&m=dev
  *
  * @prop {QGDSPalette} [palette="default"] - Colour palette applied to the attribution bar.
