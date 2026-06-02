@@ -138,6 +138,8 @@ export const WithSuggestions: Story = {
   args: {
     ...Default.args,
     placeholder: "Search Queensland Government",
+    // Wait for a 300ms pause in typing before looking up suggestions.
+    debounce: 300,
   },
   parameters: {
     // Async, interaction-driven — not a meaningful static snapshot.
@@ -196,6 +198,7 @@ export const WithSuggestions: Story = {
     return html`
       <qgds-search-input
         placeholder="${ifDefined(args.placeholder)}"
+        debounce=${ifDefined(args.debounce)}
         @qgds-input=${onInput}
         @qgds-search=${(e: CustomEvent) => {
           action("qgds-search")(e.detail);
