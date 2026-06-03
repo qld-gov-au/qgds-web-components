@@ -6,7 +6,7 @@
  */
 export const readableFileSize = (size: number): string => {
   const units = ["kB", "MB", "GB"];
-  const threshold = 1000;
+  const threshold = 1024;
 
   if (!Number.isFinite(size) || size <= 0) {
     return "0 bytes";
