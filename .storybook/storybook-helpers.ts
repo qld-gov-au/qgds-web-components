@@ -7,8 +7,8 @@ import breakpoint from "../src/styles/qgds-tokens/qgds-breakpoint";
 
 type ActionListener = { name: string; handler: (e: Event) => void };
 
-const ACTION_LISTENER = Symbol("qgds-action-listener");
-type CanvasWithListener = HTMLElement & { [ACTION_LISTENER]?: ActionListener };
+const ACTION_LISTENERS = Symbol("qgds-action-listeners");
+type CanvasWithListener = HTMLElement & { [ACTION_LISTENERS]?: ActionListener[] };
 
 /**
  * Decorator factory: listens on the story's `canvasElement` for a custom event
@@ -18,27 +18,49 @@ type CanvasWithListener = HTMLElement & { [ACTION_LISTENER]?: ActionListener };
  *
  * @example
  *   const meta = {
- *     decorators: [withEventAction("qgds-change")],
+ *     decorators: [withEventActions("qgds-change")],
+ *   };
+ *
+ *   // Multiple event names:
+ *   const meta = {
+ *     decorators: [withEventActions(["qgds-change", "qgds-click", "qgds-cancel")],
  *   };
  *
  *   // Override for a specific story:
  *   export const Custom: Story = {
  *     parameters: { eventAction: { name: "qgds-toggle" } },
  *   };
+ *
+ *   // Multiple Override
+ *   export const Custom: Story = {
+ *     parameters: { eventAction: { name: ["qgds-change", "qgds-click", "qgds-cancel"] },
+ *   };
  */
-export const withEventAction = (defaultEventName: string): Decorator => (storyFn, context) => {
-  const eventName = (context.parameters?.eventAction?.name as string | undefined) ?? defaultEventName;
-  const canvas = context.canvasElement as CanvasWithListener;
+export const withEventActions =
+  (defaultEventNames: string | string[]): Decorator =>
+  (storyFn, context) => {
+    let eventNames = (context.parameters?.eventAction?.name as string | string[] | undefined) ?? defaultEventNames;
+    eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
+    const canvas = context.canvasElement as CanvasWithListener;
+    console.log(canvas);
 
-  const previous = canvas[ACTION_LISTENER];
-  if (previous) canvas.removeEventListener(previous.name, previous.handler);
+    const previous = canvas[ACTION_LISTENERS];
+    if (previous) {
+      for (const listener of previous) {
+        canvas.removeEventListener(listener.name, listener.handler);
+      }
+    }
 
-  const handler = (e: Event) => action(eventName)((e as CustomEvent).detail);
-  canvas.addEventListener(eventName, handler);
-  canvas[ACTION_LISTENER] = { name: eventName, handler };
+    canvas[ACTION_LISTENERS] = [];
 
-  return storyFn();
-};
+    for (const eventName of eventNames) {
+      const handler = (e: Event) => action(eventName)((e as CustomEvent).detail);
+      canvas.addEventListener(eventName, handler);
+      canvas[ACTION_LISTENERS]?.push({ name: eventName, handler });
+    }
+
+    return storyFn();
+  };
 
 /**
  * Creates a Storybook control for palette switching at the component level.
