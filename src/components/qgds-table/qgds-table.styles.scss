@@ -1,0 +1,57 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-color-stub";
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+// ── Public custom properties ─────────────────────────────────────────────────
+:host {
+  --table-border-color: var(--qgds-color-border, #ebebeb);
+  --table-scroll-max-height-mobile: 640px;
+  --table-scroll-max-height-desktop: 1000px;
+
+  display: block;
+}
+
+// ── Scroll / stack wrapper ───────────────────────────────────────────────────
+.table-wrapper {
+  inline-size: 100%;
+  position: relative;
+  overflow-x: auto;
+
+  // Bordered container — driven by [has-border] host attribute
+  :host([has-border]) & {
+    border: 1px solid var(--table-border-color);
+    border-radius: 0.75rem;
+  }
+
+  // Scroll mode — horizontal overflow + keyboard focus support
+  &.is-scroll {
+    max-block-size: var(--table-scroll-max-height-mobile);
+
+    @include m.focusable() {
+      outline-color: var(--qgds-color-focus-default, #002e85);
+    }
+
+    @media (width >= bp.$md) {
+      max-block-size: var(--table-scroll-max-height-desktop);
+    }
+  }
+
+  //   Sticky header — requires a capped height and y-scroll on the container
+  :host([has-sticky-header]) &.is-scroll {
+    overflow-y: auto;
+    max-block-size: var(--table-scroll-max-height-mobile);
+
+    @media (width >= bp.$md) {
+      max-block-size: var(--table-scroll-max-height-desktop);
+    }
+  }
+}
+
+// ── Slotted table — top-level only ───────────────────────────────────────────
+// Descendant styles (thead th, tbody td, tr, etc.) are injected into the
+// document via adoptedStyleSheets (see qgds-table.ts) because ::slotted()
+// cannot reach beyond the directly-slotted element.
+::slotted(table) {
+  inline-size: 100%;
+  table-layout: auto;
+}
