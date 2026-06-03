@@ -6,6 +6,7 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSSearchInput, tagName } from "./qgds-search-input";
 import "./qgds-search-input";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { ref } from "lit/directives/ref.js";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSSearchInput>(tagName);
 
@@ -205,6 +206,48 @@ export const WithSuggestions: Story = {
         }}
       ></qgds-search-input>
       <p style="margin-top: 1rem; color: #636363;">Try typing "camping", "car", or "school".</p>
+    `;
+  },
+};
+
+/**
+ * Data-driven via the `suggestions` JSON-string attribute — the "JSON from light
+ * DOM" pattern, no event wiring needed. The component parses + validates the
+ * attribute (malformed JSON is ignored). Focus the field to reveal the dropdown.
+ *
+ * The attribute is set via a `ref` here only to keep the JSON readable in the
+ * story source; in real markup you would write `suggestions='[…]'` directly.
+ */
+export const SuggestionsFromJson: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
+  render: () => {
+    const json = JSON.stringify([
+      {
+        items: [
+          { label: "camping permits", icon: "search" },
+          { label: "camping in national parks", icon: "search" },
+        ],
+      },
+      {
+        heading: "Related services",
+        feature: true,
+        viewMoreUrl: "/search?q=camping",
+        items: [
+          { label: "Apply for a camping permit", href: "#" },
+          { label: "Find a national park", href: "#" },
+        ],
+      },
+    ]);
+
+    return html`
+      <qgds-search-input
+        placeholder="Search Queensland Government"
+        value="camping"
+        ${ref((el?: Element) => el?.setAttribute("suggestions", json))}
+      ></qgds-search-input>
+      <p style="margin-top: 1rem; color: #636363;">Focus the field to open the dropdown.</p>
     `;
   },
 };
