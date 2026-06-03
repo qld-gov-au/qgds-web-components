@@ -23,11 +23,11 @@
 
   @include m.border-padding(2px, f.remify(12px) f.remify(16px));
 
+  display: inline-block;
   appearance: none;
   font-size: f.remify(16px);
   line-height: f.snap-line-height(1.45);
-  inline-size: 100%;
-  max-inline-size: f.remify(320px);
+  max-inline-size: 100%;
   block-size: f.remify(48px);
   color: var(--fg);
   background-color: var(--bg);
@@ -44,8 +44,9 @@
   }
 
   &:is(textarea) {
+    field-sizing: content; // expand input width when necessary
+    inline-size: 100%;
     block-size: auto;
-    field-sizing: content;
     resize: vertical;
     min-block-size: calc(3lh + var(--padding-top) + var(--padding-bottom)); // 3 lines of text + vertical padding.
   }
@@ -93,7 +94,7 @@
   }
 
   &.is-full-width {
-    max-inline-size: 100%;
+    inline-size: 100%;
   }
 
   &.is-valid {

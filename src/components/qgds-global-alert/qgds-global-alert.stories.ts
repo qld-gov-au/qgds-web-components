@@ -4,7 +4,7 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
-import { withEventAction } from "../../../.storybook/storybook-helpers";
+import { withEventActions } from "../../../.storybook/storybook-helpers";
 
 import "./qgds-global-alert";
 import type { QGDSGlobalAlert } from "./qgds-global-alert";
@@ -30,7 +30,7 @@ const meta: Meta<Args> = {
   title: "Components/Global alert",
   component: "qgds-global-alert",
   tags: ["autodocs"],
-  decorators: [withEventAction("qgds-global-alert-dismiss")],
+  decorators: [withEventActions("qgds-global-alert-dismiss")],
   args: {
     ...args,
     variant: "warning",
