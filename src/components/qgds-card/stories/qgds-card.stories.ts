@@ -5,7 +5,7 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 
 import { chromaticModes } from "../../../../.storybook/modes";
-import { withEventAction } from "../../../../.storybook/storybook-helpers";
+import { withEventActions } from "../../../../.storybook/storybook-helpers";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import type { QGDSCard } from "../qgds-card";
@@ -42,7 +42,7 @@ const meta: Meta<Args> = {
     )}
   `,
   decorators: [
-    withEventAction("qgds-click"),
+    withEventActions("qgds-click"),
 
     (Story) => html`
       <style>
