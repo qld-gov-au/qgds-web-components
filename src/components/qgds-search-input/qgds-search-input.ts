@@ -1,16 +1,24 @@
-import { LitElement, html, unsafeCSS, PropertyValues } from "lit";
+import { LitElement, html, unsafeCSS, PropertyValues, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
+import { repeat } from "lit/directives/repeat.js";
 import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import { debounce } from "../../utils";
+import {
+  normalizeSuggestions,
+  parseSuggestionsAttribute,
+  type SuggestionGroupData,
+} from "./suggestions-data.js";
 // Side-effect imports register the suggestion sub-components so consumers can
 // inject them into the `suggestions` slot without importing them separately.
 import "../qgds-search-suggestion-group/qgds-search-suggestion-group.js";
 import "../qgds-search-suggestion/qgds-search-suggestion.js";
+
+export type { SuggestionGroupData, SuggestionItemData } from "./suggestions-data.js";
 
 export const tagName = "qgds-search-input";
 export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
@@ -35,10 +43,11 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @prop {Boolean} [disabled=false] - Disables the input and button.
  * @prop {FormVariant} [variant] - Visual style of the input. "filled" uses a shaded background with only a bottom border.
  * @prop {Number} [debounce=100] - Milliseconds to debounce the `qgds-input` event by. Submitting (Enter/button) cancels any pending debounced `qgds-input` and fires `qgds-search` immediately.
+ * @prop {SuggestionGroupData[]} [suggestions=[]] - Suggestion groups to render. Settable as a JS array or as a JSON-string attribute. Malformed input is ignored. Takes precedence over the `suggestions` slot.
  *
- * @slot suggestions - Search results / suggestions rendered inside the dropdown panel.
+ * @slot suggestions - Custom suggestions markup, used when the `suggestions` property is empty.
  *   Fill this in response to `qgds-input` after calling your own API. The panel is
- *   hidden automatically when the slot is empty.
+ *   hidden automatically when there is nothing to show.
  *
  * @fires {CustomEvent<{ value: string }>} qgds-input - Fired as the user types (debounced by `debounce` ms). Use this to drive an async suggestions lookup.
  * @fires {CustomEvent<{ value: string }>} qgds-search - Fired on button click or Enter key.
@@ -73,6 +82,25 @@ export class QGDSSearchInput extends LitElement {
   @property({ type: Number })
   debounce: number = 100;
 
+  /**
+   * Suggestion groups to render inside the dropdown. Set as a JS array, or
+   * declaratively as a JSON string attribute (e.g.
+   * `suggestions='[{"heading":"…","items":[{"label":"…","href":"…"}]}]'`).
+   * Malformed input is ignored rather than thrown. When provided, this takes
+   * precedence over the `suggestions` slot.
+   */
+  @property({
+    converter: {
+      fromAttribute: (value: string | null) => parseSuggestionsAttribute(value) ?? [],
+      // Never reflect a (potentially large) array back to an attribute.
+      toAttribute: () => null,
+    },
+  })
+  suggestions: SuggestionGroupData[] = [];
+
+  /** Validated/normalised view of `suggestions`, recomputed in `willUpdate`. */
+  @state() private _groups: SuggestionGroupData[] = [];
+
   /** Whether the suggestions slot currently has content. */
   @state() private _hasSuggestions = false;
 
@@ -93,6 +121,11 @@ export class QGDSSearchInput extends LitElement {
   protected willUpdate(changed: PropertyValues): void {
     if (changed.has("debounce")) {
       this._dispatchInputDebounced = debounce(() => this._dispatchInput(), Math.max(0, this.debounce));
+    }
+    if (changed.has("suggestions")) {
+      // Validate whatever was set (JS array or parsed JSON attribute) before render.
+      this._groups = normalizeSuggestions(this.suggestions);
+      this._syncOpen();
     }
   }
 
@@ -159,10 +192,14 @@ export class QGDSSearchInput extends LitElement {
     this._syncOpen();
   };
 
+  /** True when there are suggestions to show — from data or the slot. */
+  private get _hasContent(): boolean {
+    return this._groups.length > 0 || this._hasSuggestions;
+  }
+
   /** The panel is open when the field has focus and there is something to show. */
   private _syncOpen(): void {
-    const focused = this.matches(":focus-within");
-    this._open = focused && this._hasSuggestions;
+    this._open = this.matches(":focus-within") && this._hasContent;
   }
 
   private _dispatchSearch = (): void => {
@@ -172,8 +209,35 @@ export class QGDSSearchInput extends LitElement {
     this.events.dispatch("search", { value: this.value });
   };
 
+  /** Render validated suggestion groups from the `suggestions` data. */
+  private _renderGroups() {
+    return repeat(
+      this._groups,
+      (group, i) => `${group.heading ?? ""}:${i}`,
+      (group) => html`
+        <qgds-search-suggestion-group
+          heading=${ifDefined(group.heading)}
+          ?feature=${group.feature}
+          view-more-url=${ifDefined(group.viewMoreUrl)}
+          view-more-label=${ifDefined(group.viewMoreLabel)}
+        >
+          ${group.items.map(
+            (item) => html`
+              <qgds-search-suggestion
+                label=${item.label}
+                href=${ifDefined(item.href)}
+                icon=${ifDefined(item.icon)}
+              ></qgds-search-suggestion>
+            `
+          )}
+        </qgds-search-suggestion-group>
+      `
+    );
+  }
+
   render() {
-    const showPanel = this._open && this._hasSuggestions;
+    const showPanel = this._open && this._hasContent;
+    const hasData = this._groups.length > 0;
 
     return html`
       <div
@@ -221,7 +285,12 @@ export class QGDSSearchInput extends LitElement {
           aria-label="Search suggestions"
           ?hidden=${!showPanel}
         >
-          <slot name="suggestions" @slotchange=${this._handleSuggestionsSlotChange}></slot>
+          ${hasData ? this._renderGroups() : nothing}
+          <slot
+            name="suggestions"
+            ?hidden=${hasData}
+            @slotchange=${this._handleSuggestionsSlotChange}
+          ></slot>
         </div>
       </div>
     `;
