@@ -122,16 +122,25 @@ export class QGDSTabs extends LitElement {
 
   private _handleKeydown(event: KeyboardEvent) {
     const total = this._tabs.length;
+    const btnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${this._activeIndex}`)?.offsetWidth ?? 0;
 
     switch (event.key) {
       case "ArrowRight":
         event.preventDefault();
         this._selectTab((this._activeIndex + 1) % total);
+        this._nav.scrollBy({
+          left: btnWidth,
+          behavior: "smooth",
+        });
         break;
 
       case "ArrowLeft":
         event.preventDefault();
         this._selectTab((this._activeIndex - 1 + total) % total);
+        this._nav.scrollBy({
+          left: -1 * btnWidth,
+          behavior: "smooth",
+        });
         break;
     }
   }
