@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import "./qgds-footer";
 import "../qgds-link/qgds-link";
+import "./qgds-footer-contact-item";
 import type { QGDSFooter } from "./qgds-footer";
+import type { QGDSFooterContactItem } from "./qgds-footer-contact-item";
 
 describe("qgds-footer", () => {
   let element: QGDSFooter;
@@ -112,5 +114,52 @@ describe("qgds-footer", () => {
     const aocSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="aoc"]');
     expect(aocSlot?.assignedElements().length).toBe(1);
     expect(aocSlot?.assignedElements()[0].textContent?.trim()).toContain("Custom Acknowledgement of Country statement");
+  });
+});
+
+describe("qgds-footer-contact-item", () => {
+  let element: QGDSFooterContactItem;
+
+  beforeEach(() => {
+    element = document.createElement("qgds-footer-contact-item");
+    document.body.appendChild(element);
+  });
+
+  afterEach(() => {
+    element.remove();
+  });
+
+  it("applies attributes correctly", async () => {
+    element.setAttribute("icon-id", "phone");
+    element.setAttribute("label", "Contact us");
+    element.setAttribute("href", "tel:137468");
+
+    await element.updateComplete;
+
+    expect(element.iconId).toBe("phone");
+    expect(element.label).toBe("Contact us");
+    expect(element.href).toBe("tel:137468");
+  });
+
+  it("does not render an icon when icon-id is invalid", async () => {
+    element.setAttribute("icon-id", "not-a-valid-icon");
+    element.setAttribute("label", "Contact us");
+
+    await element.updateComplete;
+
+    expect(element.iconId).toBe("");
+    expect(element.shadowRoot?.querySelector("qgds-icon")).toBeNull();
+  });
+
+  it("accepts missing icon-id and renders without an icon", async () => {
+    element.setAttribute("label", "Contact us");
+    element.setAttribute("href", "tel:137468");
+
+    await element.updateComplete;
+
+    expect(element.iconId).toBe("");
+    expect(element.shadowRoot?.querySelector("qgds-icon")).toBeNull();
+    expect(element.label).toBe("Contact us");
+    expect(element.href).toBe("tel:137468");
   });
 });
