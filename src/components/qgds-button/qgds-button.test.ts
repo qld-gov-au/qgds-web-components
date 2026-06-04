@@ -159,10 +159,7 @@ describe("qgds-button", () => {
       expect(button?.hasAttribute("disabled")).toBe(true);
 
       // Check that the button has loading class or aria-disabled
-      expect(
-        button?.classList.contains("loading") ??
-          button?.getAttribute("aria-disabled") === "true",
-      ).toBe(true);
+      expect(button?.classList.contains("loading") ?? button?.getAttribute("aria-disabled") === "true").toBe(true);
     });
 
     it("should be disabled when disabled or loading", async () => {
@@ -194,31 +191,86 @@ describe("qgds-button", () => {
   });
 
   describe("Event dispatching", () => {
-    it("should dispatch custom event on click", async () => {
+    it("dispatches qgds-click on button click with standard detail", async () => {
       element.setAttribute("label", "test");
-      element.setAttribute("event-title", "testClick");
+      element.setAttribute("id", "btn-1");
       await element.updateComplete;
 
-      const eventHandler = vi.fn();
-      element.addEventListener("testClick", eventHandler);
+      const eventHandler = vi.fn((e: Event) => e.preventDefault());
+      element.addEventListener("qgds-click", eventHandler);
 
       const button = element.shadowRoot?.querySelector("button");
       button?.click();
 
-      expect(eventHandler).toHaveBeenCalled();
+      expect(eventHandler).toHaveBeenCalledTimes(1);
 
       const event = eventHandler.mock.calls[0]?.[0] as CustomEvent;
-      expect(event?.detail).toBeDefined();
+      expect(event?.detail).toMatchObject({
+        component: "qgds-button",
+        componentID: "btn-1",
+        id: "btn-1",
+        href: undefined,
+        label: "test",
+        variant: "primary",
+      });
+      const detail = event.detail as Record<string, unknown>;
+      expect(typeof detail.timestamp).toBe("number");
+    });
 
-      if (event?.detail && typeof event.detail === "object") {
-        expect((event.detail as Record<string, unknown>).eventTitle).toBe(
-          "testClick",
-        );
-        expect((event.detail as Record<string, unknown>).label).toBe("test");
-        expect((event.detail as Record<string, unknown>).variant).toBe(
-          "primary",
-        );
-      }
+    it("dispatches qgds-click with href detail when rendered as a link", async () => {
+      element.setAttribute("href", "#test-page");
+      element.setAttribute("label", "Go");
+      await element.updateComplete;
+
+      const eventHandler = vi.fn((e: Event) => e.preventDefault());
+      element.addEventListener("qgds-click", eventHandler);
+
+      const link = element.shadowRoot?.querySelector("a");
+      link?.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true, cancelable: true }));
+
+      expect(eventHandler).toHaveBeenCalledTimes(1);
+      const event = eventHandler.mock.calls[0]?.[0] as CustomEvent;
+      expect(event?.detail).toMatchObject({ href: "#test-page", label: "Go" });
+    });
+
+    it("does not dispatch qgds-click when disabled", async () => {
+      element.setAttribute("disabled", "true");
+      await element.updateComplete;
+
+      const eventHandler = vi.fn();
+      element.addEventListener("qgds-click", eventHandler);
+
+      const button = element.shadowRoot?.querySelector("button");
+      button?.click();
+
+      expect(eventHandler).not.toHaveBeenCalled();
+    });
+
+    it("does not dispatch qgds-click when loading", async () => {
+      element.setAttribute("is-loading", "true");
+      await element.updateComplete;
+
+      const eventHandler = vi.fn();
+      element.addEventListener("qgds-click", eventHandler);
+
+      const button = element.shadowRoot?.querySelector("button");
+      button?.click();
+
+      expect(eventHandler).not.toHaveBeenCalled();
+    });
+
+    it("does not dispatch qgds-click for disabled link variant", async () => {
+      element.setAttribute("href", "/test-page");
+      element.setAttribute("disabled", "true");
+      await element.updateComplete;
+
+      const eventHandler = vi.fn();
+      element.addEventListener("qgds-click", eventHandler);
+
+      const link = element.shadowRoot?.querySelector("a");
+      link?.dispatchEvent(new MouseEvent("click", { bubbles: true, composed: true, cancelable: true }));
+
+      expect(eventHandler).not.toHaveBeenCalled();
     });
   });
 });
