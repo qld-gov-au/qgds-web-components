@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { palettes } from "../../utils/palettes";
@@ -7,6 +8,7 @@ import { chromaticModes, allModes } from "../../../.storybook/modes"; //allModes
 
 // Import custom element definitions
 import "./qgds-footer";
+import "./qgds-footer-contact-item";
 import "../qgds-link/qgds-link";
 
 // Import types for controls and API tables
@@ -27,8 +29,6 @@ const meta: Meta<QGDSFooterStoryArgs> = {
     "copyright-label": "© The State of Queensland 2026",
     "heading-level": 2,
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
-    "contact-phone": "13 QGOV (13 74 68)",
-    "contact-email": "email@qld.gov.au",
     palette: "default",
   },
   argTypes: {
@@ -58,26 +58,28 @@ export const Default: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="phone"></qgds-icon>
-          <span class="sr-only">Phone:</span> 13 QGOV (13 74 68)
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="phone"
+          label="Phone"
+          href="tel:137468"
+          value="13 QGOV (13 74 68)"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="email"></qgds-icon>
-          <span class="sr-only">Email:</span>email@qld.gov.au
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="email"
+          label="Email"
+          href="mailto:email@qld.gov.au"
+          value="email@qld.gov.au"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="facebook"></qgds-icon>
-          <a
-            href="https://www.facebook.com/QueenslandGovernment"
-            title="Visit Queensland Government Facebook page"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><span class="sr-only">Facebook:</span>/QueenslandGovernment</a
-          >
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="facebook"
+          href="https://www.facebook.com/QueenslandGovernment"
+          value="/QueenslandGovernment"
+        ></qgds-footer-contact-item>
 
         <!-- Contact Buttons via contact-cta slot -->
         <qgds-button slot="contact-cta" label="Contact us" variant="secondary"></qgds-button>
@@ -160,7 +162,7 @@ export const Default: Story = {
 
   decorators: [
     (Story, context) => html`
-      <div style="margin-inline: -2rem; margin-block-start: 2rem;" palette="${context.args.palette}">
+      <div style="margin-inline: -2rem; margin-block-start: 2rem;" palette=${ifDefined(context.args.palette)}>
         <div style="margin-inline: auto">${Story()}</div>
       </div>
     `,
@@ -181,26 +183,28 @@ export const Minimal: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="phone"></qgds-icon>
-          <span class="sr-only">Phone:</span> 13 QGOV (13 74 68)
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="phone"
+          label="Phone"
+          href="tel:137468"
+          value="13 QGOV (13 74 68)"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="email"></qgds-icon>
-          <span class="sr-only">Email:</span>email@qld.gov.au
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="email"
+          label="Email"
+          href="mailto:email@qld.gov.au"
+          value="email@qld.gov.au"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="facebook"></qgds-icon>
-          <a
-            href="https://www.facebook.com/QueenslandGovernment"
-            title="Visit Queensland Government Facebook page"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><span class="sr-only">Facebook:</span>/QueenslandGovernment</a
-          >
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="facebook"
+          href="https://www.facebook.com/QueenslandGovernment"
+          value="/QueenslandGovernment"
+        ></qgds-footer-contact-item>
 
         <!-- Site Links -->
         <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
@@ -261,26 +265,29 @@ export const WithCustomLinks: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="phone"></qgds-icon>
-          <span class="sr-only">Phone:</span> 13 QGOV (13 74 68)
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="phone"
+          label="Phone"
+          href="tel:137468"
+          value="13 QGOV (13 74 68)"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="email"></qgds-icon>
-          <span class="sr-only">Email:</span>email@qld.gov.au
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="email"
+          label="Email"
+          href="mailto:email@qld.gov.au"
+          value="email@qld.gov.au"
+        ></qgds-footer-contact-item>
 
-        <span slot="contact-link" class="contact-info">
-          <qgds-icon icon-id="facebook"></qgds-icon>
-          <a
-            href="https://www.facebook.com/QueenslandGovernment"
-            title="Visit Queensland Government Facebook page"
-            target="_blank"
-            rel="noopener noreferrer"
-            ><span class="sr-only">Facebook:</span>/QueenslandGovernment</a
-          >
-        </span>
+        <qgds-footer-contact-item
+          slot="contact-link"
+          icon-id="facebook"
+          label="Facebook"
+          href="https://www.facebook.com/QueenslandGovernment"
+          value="/QueenslandGovernment"
+        ></qgds-footer-contact-item>
 
         <!-- Custom Links -->
         <qgds-link slot="footer-custom-link" href="/link-1" label="Custom Link 1"></qgds-link>

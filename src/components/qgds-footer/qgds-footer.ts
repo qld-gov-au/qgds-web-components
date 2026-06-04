@@ -8,6 +8,7 @@ import componentCSS from "./qgds-footer.styles.scss?inline";
 
 import "../qgds-link/qgds-link.js";
 import "../qgds-button/qgds-button.js";
+import "../qgds-icon/qgds-icon.js";
 
 import footerLogo from "./assets/coa-delivering-for-qld.svg?raw";
 
@@ -144,7 +145,6 @@ export class QGDSFooter extends LitElement {
   private _onContactLinkSlotChange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     this._hasContactLinks = slot.assignedElements().length > 0;
-    this._hasContact = this._hasContactLinks || !!this.contactPhone || !!this.contactEmail;
   };
 
   private _onCustomLinkSlotChange = (e: Event) => {
@@ -225,9 +225,16 @@ export class QGDSFooter extends LitElement {
   // ==========================================================================
 
   render() {
+    const isCrowded =
+      (this._hasCustomLinks &&
+        this._hasSiteLinks &&
+        this._hasSocialLinks &&
+        this._hasContactLinks &&
+        this._hasAocContent) ||
+      false;
+
     // has- class list assigned to footer parent to help grid rendering
     const footerClassList = classMap({
-      "has-contact": this._hasContact,
       "has-contact-links": this._hasContactLinks,
       "has-custom-links": this._hasCustomLinks,
       "has-site-links": this._hasSiteLinks,
@@ -235,10 +242,11 @@ export class QGDSFooter extends LitElement {
       "has-aoc-content": this._hasAocContent,
       "has-logo": this._hasLogo,
       "has-main-link": this._hasMainLink,
+      "is-crowded": isCrowded,
     });
 
     return html`
-      <footer class="qgds-footer ${footerClassList}">
+      <footer class="qgds-footer ${footerClassList} ">
         <div class="block block-title">
           ${this.footerHeading
             ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name")} `

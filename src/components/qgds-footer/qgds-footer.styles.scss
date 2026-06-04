@@ -230,42 +230,6 @@ section {
     line-height: #{tools.snap-line-height(1.5)};
   }
 
-  .contact-detail {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0;
-    line-height: #{tools.snap-line-height(1.5)};
-  }
-
-  .contact-label {
-    font-weight: 600;
-    margin-inline-end: 0.5rem;
-  }
-
-  .contact-link {
-    color: var(--footer-link-fg);
-    text-decoration: underline;
-    text-decoration-color: var(--qgds-color-underline-default, currentColor);
-
-    &:hover {
-      color: var(--footer-link-hover);
-      text-decoration-color: var(--qgds-color-underline-default-hover, currentColor);
-    }
-
-    &:visited {
-      color: var(--qgds-color-link-visited, #551a8b);
-      text-decoration-color: var(--qgds-color-underline-visited, currentColor);
-
-      &:hover {
-        text-decoration-color: var(--qgds-color-underline-visited-hover, currentColor);
-      }
-    }
-
-    @include focusable();
-  }
-
   &:has(~ .section-custom-links) {
     border-inline-end: none;
   }
@@ -281,6 +245,7 @@ section {
 }
 
 // Link wrappers (role="list")
+// stylelint-disable-next-line
 .contact-links-wrapper,
 .main-link-wrapper,
 .custom-links-wrapper {
@@ -436,4 +401,11 @@ section {
 // Ensure proper link spacing in all link slots
 ::slotted(qgds-link[role="listitem"]) {
   display: block;
+}
+
+/* When all sections are present, we can reduce the padding and gaps to help with spacing */
+@media (min-width: #{bp.$lg}) and (max-width: #{bp.$xl - 1}) {
+  .is-crowded {
+    // placeholder
+  }
 }
