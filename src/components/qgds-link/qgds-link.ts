@@ -105,7 +105,11 @@ export class QGDSLink extends LitElement {
             ${iconTemplate} <span class="link-label">${labelContent}</span>
           </a>
         `
-      : html` <span aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} <span class="link-label"></span>${labelContent}</span> </span> `;
+      : html`
+          <span aria-label=${ifDefined(ariaLabel)}>
+            ${iconTemplate} <span class="link-label">${labelContent}</span>
+          </span>
+        `;
   }
 }
 

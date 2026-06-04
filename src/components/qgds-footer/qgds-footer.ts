@@ -18,6 +18,7 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * social media links, and Acknowledgement of Country.
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
+ * @website https://www.designsystem.qld.gov.au/components/footer
  *
  * @property {string} [footerHeading="Queensland Government"] - Optional heading for the footer, typically the organisation name.
  * @property {string} [contactHeading="Contact us"] - Heading for the contact section.
@@ -31,7 +32,9 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * @property {string} [palette="default"] - Color palette applied to the footer.
  * @property {boolean} [hideFooterLogo=false] - Option to hide the footer logo.
  *
- * @slot contact-link - Links/buttons for the contact section (e.g., "Contact us" button).
+ * @slot contact-link - Accepts markup to create additional contact links (beyond contact-email and contact-phone HTML attributes, e.g., a social media link).
+ * @slot contact-cta - Call-to-action buttons for the contact section (e.g., "Contact us" button).
+
  * @slot footer-custom-link - Custom links for organization-specific content.
  * @slot footer-site-link - Site information links (Help, Copyright, Disclaimer, Privacy, etc.).
  * @slot footer-social-link - Social media links with icons (Facebook, Twitter, LinkedIn, etc.).
@@ -244,29 +247,31 @@ export class QGDSFooter extends LitElement {
 
         <div class="block block-linkgroup">
           <!-- Column 1: Contact Us -->
-          <section class="section-contact no-border">
+          <section class="section-contact ${this._hasCustomLinks ? "no-border-end" : ""}">
             <div>
               ${semanticHeading(this.contactHeading, this.headingLevel, "footer-heading")}
               ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
 
               <div class="contact-links-wrapper" role="list">
+                ${this.contactPhone
+                  ? html`<p class="contact-detail">
+                      <qgds-icon icon-id="phone" size="sm" aria-hidden="true"></qgds-icon>
+                      <span class="contact-label">Phone:</span>
+                      <a href="tel:${this.contactPhone.replace(/\D/g, "")}" class="contact-link">
+                        ${this.contactPhone}
+                      </a>
+                    </p>`
+                  : ""}
+                ${this.contactEmail
+                  ? html`<p class="contact-detail">
+                      <qgds-icon icon-id="email" size="sm" aria-hidden="true"></qgds-icon>
+                      <span class="contact-label">Email:</span>
+                      <a href="mailto:${this.contactEmail}" class="contact-link"> ${this.contactEmail} </a>
+                    </p>`
+                  : ""}
+
                 <slot name="contact-link" @slotchange=${this._onContactLinkSlotChange}></slot>
               </div>
-
-              ${this.contactPhone
-                ? html`<p class="contact-detail">
-                    <span class="contact-label">Phone:</span>
-                    <a href="tel:${this.contactPhone.replace(/\D/g, "")}" class="contact-link">
-                      ${this.contactPhone}
-                    </a>
-                  </p>`
-                : ""}
-              ${this.contactEmail
-                ? html`<p class="contact-detail">
-                    <span class="contact-label">Email:</span>
-                    <a href="mailto:${this.contactEmail}" class="contact-link"> ${this.contactEmail} </a>
-                  </p>`
-                : ""}
             </div>
 
             <div class="contact-cta-wrapper">
@@ -285,7 +290,7 @@ export class QGDSFooter extends LitElement {
           <!-- Column 3: Site Links -->
           <section class="section-site-links">
             ${semanticHeading(this.siteLinksHeading, this.headingLevel, "footer-heading")}
-            <nav class="site-links-wrapper" aria-labelledby="footer-site-heading" role="list">
+            <nav class="site-links-wrapper" aria-label="${this.siteLinksHeading}" role="list">
               <slot name="footer-site-link" @slotchange=${this._onSiteLinkSlotChange}></slot>
             </nav>
           </section>
@@ -293,7 +298,7 @@ export class QGDSFooter extends LitElement {
           <!-- Column 4: Social Links -->
           <section class="section-social-links">
             ${semanticHeading(this.socialHeading, this.headingLevel, "footer-heading")}
-            <nav class="social-links-wrapper" aria-labelledby="footer-social-heading" role="list">
+            <nav class="social-links-wrapper" aria-label="${this.socialHeading}" role="list">
               <slot name="footer-social-link" @slotchange=${this._onSocialLinkSlotChange}></slot>
             </nav>
           </section>
@@ -301,7 +306,7 @@ export class QGDSFooter extends LitElement {
 
         <div class="block block-aoc">
           <!-- Column 5: Acknowledgement of Country -->
-          <section class="section-aoc" aria-labelledby="footer-aoc-heading">
+          <section class="section-aoc">
             ${semanticHeading(this.aocHeading, this.headingLevel, "footer-heading")}
 
             <div class="${classMap({ "aoc-content": true, empty: !this._hasAocContent })}">

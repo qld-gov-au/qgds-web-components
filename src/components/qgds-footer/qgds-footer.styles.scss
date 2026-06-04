@@ -51,7 +51,7 @@ Scoped CSS: qgds-footer
 
   // Large Breakpoint and above
   @media (min-width: #{bp.$lg}) {
-    /* We define 12 explicit columns. 
+    /* We define 12 explicit columns.
       Instead of assigning fractions to specific blocks on the parent,
       we let the child sections explicitly state how many columns they want to span!
     */
@@ -59,26 +59,30 @@ Scoped CSS: qgds-footer
     margin-inline: var(--footer-outer-gutter);
 
     /* Assume all 5 sections are present by default, and assign columns based on that (3, 2, 2, 2, 3) */
+
+    /* By default, the link groups together take up 9 columns, leaving 3 for AOC - this can be overridden if one or more link sections are missing */
+    --link-group-colspan: 9;
+
+    /* Link group column spans */
     --colspan-contact: 3;
     --colspan-custom-links: 2;
     --colspan-site-links: 2;
     --colspan-social-links: 2;
-    --colspan-aoc: 3;
 
-    // Optional removal of border (e.g., between site links and social)
-    &.no-border {
-      border-inline-end: none;
-    }
+    /* AOC gets the remaining columns (3 by default) */
+    --colspan-aoc: 3;
 
     // Missing either custom links or social links? Contact and AOC can grow to fill the gap (4, 2, 2, 4)
     &:not(.has-custom-links),
     &:not(.has-social-links) {
+      --link-group-colspan: 8; // If either column are missing, the link-group subgrid can reduce from 9 (default) to 8, and allow AOC to expand to 4 cols.
       --colspan-contact: 4;
       --colspan-aoc: 4;
     }
 
     // Missing both custom links and social links? Contact, Custom, and Site can grow to fill the gap
     &:not(.has-social-links, .has-custom-links) {
+      --link-group-colspan: 6; // If both link sections are missing, the remaining link section can grow to fill the gap (e.g., 4.5)
       --colspan-contact: 4;
       --colspan-aoc: 6;
     }
@@ -105,12 +109,17 @@ Scoped CSS: qgds-footer
     }
   }
 
-  // Show sections based on presence of content (links or contact info) - calculated within component classMap
-  &.has-contact .section-contact,
+  // Hides link columns if no links are provided - calculated within component classMap
+  .section-custom-links,
+  .section-site-links,
+  .section-social-links {
+    display: none;
+  }
+
+  // Show link columns based on presence of slotted links - calculated within component classMap
   &.has-custom-links .section-custom-links,
   &.has-site-links .section-site-links,
-  &.has-social-links .section-social-links,
-  &.has-aoc-content .section-aoc {
+  &.has-social-links .section-social-links {
     display: flex;
   }
 }
@@ -140,7 +149,7 @@ Scoped CSS: qgds-footer
 }
 
 section {
-  display: none; // Hide footer sections by default
+  display: flex;
   flex-direction: column;
   grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
   padding-block-end: var(--footer-padding-block);
@@ -151,7 +160,7 @@ section {
   grid-template-columns: 1fr; /* Stack link groups by default */
   gap: var(--footer-row-gap, 1.5rem) var(--footer-column-gap, 2rem);
 
-  section {
+  > section {
     border-block-end: 1px solid var(--qgds-color-border-alt);
     border-inline-end: none;
 
@@ -162,8 +171,12 @@ section {
   }
 
   @media (min-width: #{bp.$lg}) {
-    grid-template-columns: repeat(8, 1fr); /* 9 columns for link groups on desktop (3 + 2 + 2 + 2), or (4 + 2 + 2 ) */
-    grid-column: 1 / span 8;
+    grid-template-columns: repeat(
+      var(--link-group-colspan, 8),
+      1fr
+    ); /* 9 columns for link groups on desktop (3 + 2 + 2 + 2), or (4 + 2 + 2 ) */
+
+    grid-column: 1 / span var(--link-group-colspan, 8);
 
     section {
       border-block-end: none;
@@ -177,7 +190,7 @@ section {
   grid-column: 1 / -1;
 
   @media (min-width: #{bp.$lg}) {
-    grid-column: span 4; /* AOC takes 4 columns on desktop by default, can grow to 4 or 6 based on presence of other sections */
+    grid-column: span var(--colspan-aoc); /* AOC takes 4 columns on desktop by default, can grow to 4 or 6 based on presence of other sections */
   }
 }
 
@@ -186,8 +199,16 @@ section {
 }
 
 /* Contact Section */
-// stylelint-disable-next-line
 .section-contact {
+  .contact-links-wrapper {
+    --qgds-icon-color: var(--qgds-color-accent-design-accent);
+
+    qgds-icon {
+      --qgds-icon-color: var(--qgds-color-accent-design-accent);
+    }
+  }
+
+  /* Wrapper for buttons in the contact column */
   .contact-cta-wrapper {
     margin-inline-start: 0;
     margin-block-start: 2rem;
@@ -210,7 +231,10 @@ section {
   }
 
   .contact-detail {
-    margin-block-end: 1rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0;
     line-height: #{tools.snap-line-height(1.5)};
   }
@@ -221,7 +245,7 @@ section {
   }
 
   .contact-link {
-    color: var(--footer-link-color);
+    color: var(--footer-link-fg);
     text-decoration: underline;
     text-decoration-color: var(--qgds-color-underline-default, currentColor);
 
@@ -241,6 +265,10 @@ section {
 
     @include focusable();
   }
+
+  &:has(~ .section-custom-links) {
+    border-inline-end: none;
+  }
 }
 
 .footer-heading {
@@ -254,7 +282,8 @@ section {
 
 // Link wrappers (role="list")
 .contact-links-wrapper,
-.main-link-wrapper {
+.main-link-wrapper,
+.custom-links-wrapper {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -273,35 +302,12 @@ section {
   }
 }
 
-.custom-links-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-block-start: 0.5rem;
-
-  &.empty {
-    display: none;
-  }
-
-  ::slotted(qgds-link) {
-    --qgds-link-padding: 0;
-    --qgds-link-margin-inline-start: 0;
-    --qgds-link-max-width: 100%;
-    --qgds-link-width: 100%; // Force link to take full width
-
-    max-inline-size: 100%; // Constrain to container
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    white-space: normal; // Allow text to wrap (overrides any nowrap)
-  }
-}
-
 // stylelint-disable-next-line
 .section-site-links {
   padding-block-end: calc(var(--footer-padding-block) + 0.5rem);
 }
 
+.custom-links-wrapper,
 .site-links-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -333,7 +339,6 @@ section {
 // Social Links Section
 // stylelint-disable-next-line
 .section-social-links {
-  display: flex;
   flex-direction: row;
   gap: 1rem;
 
@@ -381,10 +386,6 @@ section {
   .aoc-content {
     line-height: #{tools.snap-line-height(1.5)};
 
-    &.empty {
-      display: none;
-    }
-
     ::slotted(*) {
       margin: 0;
       padding: 0;
@@ -407,10 +408,6 @@ section {
     margin-inline-end: auto;
     color: var(--footer-text);
 
-    &.empty {
-      display: none;
-    }
-
     svg,
     ::slotted(img),
     ::slotted(svg),
@@ -428,11 +425,12 @@ section {
 
   .main-link-wrapper {
     margin-block-start: 1.5rem;
-
-    &.empty {
-      display: none;
-    }
   }
+}
+
+.empty,
+.is-empty {
+  display: none;
 }
 
 // Ensure proper link spacing in all link slots
