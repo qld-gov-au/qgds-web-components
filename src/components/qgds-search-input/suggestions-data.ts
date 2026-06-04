@@ -1,4 +1,12 @@
-import type { SuggestionIcon } from "../qgds-search-suggestion/qgds-search-suggestion.js";
+/**
+ * Allowed leading icon for a suggestion item. Passed through to `<qgds-link-item>`'s
+ * `icon-name`, which renders it as the trailing icon on the link.
+ *
+ * - `arrow-right` — service / page link (default)
+ * - `search` — query suggestion
+ * - `clock` — search history
+ */
+export type SuggestionIcon = "arrow-right" | "search" | "clock";
 
 /** A single suggestion item, as supplied via the `suggestions` JSON. */
 export interface SuggestionItemData {
