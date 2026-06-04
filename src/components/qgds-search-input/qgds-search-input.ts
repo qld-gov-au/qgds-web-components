@@ -13,10 +13,10 @@ import {
   parseSuggestionsAttribute,
   type SuggestionGroupData,
 } from "./suggestions-data.js";
-// Side-effect imports register the suggestion sub-components so consumers can
-// inject them into the `suggestions` slot without importing them separately.
+// Side-effect imports register the components used in the dropdown so consumers
+// can inject them into the `suggestions` slot without importing them separately.
 import "../qgds-search-suggestion-group/qgds-search-suggestion-group.js";
-import "../qgds-search-suggestion/qgds-search-suggestion.js";
+import "../qgds-link-item/qgds-link-item.js";
 
 export type { SuggestionGroupData, SuggestionItemData } from "./suggestions-data.js";
 
@@ -223,11 +223,11 @@ export class QGDSSearchInput extends LitElement {
         >
           ${group.items.map(
             (item) => html`
-              <qgds-search-suggestion
+              <qgds-link-item
                 label=${item.label}
                 href=${ifDefined(item.href)}
-                icon=${ifDefined(item.icon)}
-              ></qgds-search-suggestion>
+                icon-name=${ifDefined(item.icon)}
+              ></qgds-link-item>
             `
           )}
         </qgds-search-suggestion-group>

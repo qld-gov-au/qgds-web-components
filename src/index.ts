@@ -43,7 +43,6 @@ export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-p
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
 export { QGDSRadioGroup } from "./components/forms/qgds-radio-group/qgds-radio-group";
 export { QGDSSearchInput } from "./components/qgds-search-input/qgds-search-input";
-export { QGDSSearchSuggestion } from "./components/qgds-search-suggestion/qgds-search-suggestion";
 export { QGDSSearchSuggestionGroup } from "./components/qgds-search-suggestion-group/qgds-search-suggestion-group";
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
 export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-optgroup";

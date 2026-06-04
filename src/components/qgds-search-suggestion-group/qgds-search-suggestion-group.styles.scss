@@ -29,4 +29,15 @@
 .group-list {
   display: flex;
   flex-direction: column;
+
+  // Match the spacing the previous bespoke suggestion item provided via its
+  // internal padding (0.75rem block / 1rem inline). qgds-link-item brings its
+  // own internal padding, so this is applied as outer margin from the group.
+  ::slotted(qgds-link-item),
+  .view-more {
+    --qgds-link-flex-direction: row;
+
+    margin-inline: 1rem;
+    inline-size: fit-content;
+  }
 }

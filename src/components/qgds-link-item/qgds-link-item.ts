@@ -41,7 +41,7 @@ export class QGDSLinkItem extends LitElement {
 
   @property({ type: String }) label = "";
   @property({ type: String }) href = "";
-  @property({ type: String, attribute: "icon-name" }) iconName: "" | "arrow-right" = "arrow-right";
+  @property({ type: String, attribute: "icon-name" }) iconName: string = "arrow-right";
   @property({ type: String, attribute: "icon-size" }) iconSize: IconSize | "" = "md";
   @property({ type: String }) animation: Animations = "";
   @property({ type: String }) description?: string = "";
