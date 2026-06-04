@@ -84,6 +84,7 @@
 
   &:has(a:focus) {
     overflow: initial;
+    max-inline-size: 100%; // This is to prevent the 2nd last focussed breadcrumb item from being shown scrollbar despite overflow initial on parent div.breadcrumb-item.
   }
 
   .breadcrumbs-item,
