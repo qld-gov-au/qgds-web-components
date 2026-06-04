@@ -27,6 +27,7 @@ export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
 export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
+export { QGDSFooterContactItem } from "./components/qgds-footer/qgds-footer-contact-item";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
