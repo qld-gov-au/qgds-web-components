@@ -27,6 +27,7 @@ export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-c
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
+export { QGDSFileUpload } from "./components/forms/qgds-file-upload/qgds-file-upload";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
@@ -48,6 +49,9 @@ export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-opt
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
 export { QGDSSkipLinks } from "./components/qgds-skip-links/qgds-skip-links";
+export { QGDSTable } from "./components/qgds-table/qgds-table";
+export { QGDSTabs } from "./components/qgds-tabs/qgds-tabs";
+export { QGDSTabsItem } from "./components/qgds-tabs/qgds-tabs-item";
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";

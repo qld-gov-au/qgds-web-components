@@ -2,12 +2,7 @@ import type { StorybookConfig } from "@storybook/web-components-vite";
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [
-    "@chromatic-com/storybook",
-    "@storybook/addon-vitest",
-    "@storybook/addon-a11y",
-    "@storybook/addon-docs",
-  ],
+  addons: ["@chromatic-com/storybook", "@storybook/addon-vitest", "@storybook/addon-a11y", "@storybook/addon-docs"],
   framework: "@storybook/web-components-vite",
   managerHead: (head) => `
     ${head}
@@ -22,6 +17,10 @@ const config: StorybookConfig = {
         font-size: 0.875rem;
         font-weight: 600;
         color: #666;
+      }
+
+      main > div {
+        height: 100%;
       }
     </style>
   `,
