@@ -130,7 +130,7 @@ const mockSearchApi = (query: string): Promise<MockSearchResponse> =>
  * `.suggestions.suggestions__group` dropdown:
  * 1. Listen for `qgds-input`.
  * 2. Call your own API (mocked here).
- * 3. Inject `<qgds-search-suggestion-group>` / `<qgds-link-item>` into the
+ * 3. Inject `<qgds-search-suggestion-group>` / `<qgds-search-suggestion>` into the
  *    `suggestions` slot. A "Related services" group uses the `feature` treatment.
  *
  * The component shows/hides the dropdown automatically based on focus + slot content.
@@ -164,8 +164,8 @@ export const WithSuggestions: Story = {
         const group = document.createElement("qgds-search-suggestion-group");
         group.setAttribute("slot", "suggestions");
         suggestions.forEach((text) => {
-          const item = document.createElement("qgds-link-item");
-          item.iconName = "search";
+          const item = document.createElement("qgds-search-suggestion");
+          item.icon = "search";
           item.label = text;
           item.href = "#";
           item.addEventListener("click", (ev) => {
@@ -187,7 +187,7 @@ export const WithSuggestions: Story = {
         group.feature = true;
         group.viewMoreUrl = `/search?q=${encodeURIComponent(value)}`;
         services.forEach((service) => {
-          const item = document.createElement("qgds-link-item");
+          const item = document.createElement("qgds-search-suggestion");
           item.label = service.title;
           item.href = service.href;
           group.appendChild(item);
@@ -226,8 +226,8 @@ export const SuggestionsFromJson: Story = {
     const json = JSON.stringify([
       {
         items: [
-          { label: "camping permits", icon: "search", href: "/search?q=camping+permits" },
-          { label: "camping in national parks", icon: "search", href: "/search?q=camping+in+national+parks" },
+          { label: "camping permits", icon: "search" },
+          { label: "camping in national parks", icon: "search" },
         ],
       },
       {
@@ -235,8 +235,8 @@ export const SuggestionsFromJson: Story = {
         feature: true,
         viewMoreUrl: "/search?q=camping",
         items: [
-          { label: "Apply for a camping permit", href: "/search?q=apply+for+a+camping+permit" },
-          { label: "Find a national park", href: "/search?q=find+a+national+park" },
+          { label: "Apply for a camping permit", href: "#" },
+          { label: "Find a national park", href: "#" },
         ],
       },
     ]);
@@ -259,12 +259,12 @@ export const SuggestionsLayout: Story = {
   },
   render: () => html`
     <qgds-search-suggestion-group>
-      <qgds-link-item icon-name="search" label="camping permits" href="#"></qgds-link-item>
-      <qgds-link-item icon-name="search" label="camping in national parks" href="#"></qgds-link-item>
+      <qgds-search-suggestion icon="search" label="camping permits"></qgds-search-suggestion>
+      <qgds-search-suggestion icon="search" label="camping in national parks"></qgds-search-suggestion>
     </qgds-search-suggestion-group>
     <qgds-search-suggestion-group heading="Related services" feature view-more-url="/search?q=camping">
-      <qgds-link-item label="Apply for a camping permit" href="#"></qgds-link-item>
-      <qgds-link-item label="Find a national park" href="#"></qgds-link-item>
+      <qgds-search-suggestion label="Apply for a camping permit" href="#"></qgds-search-suggestion>
+      <qgds-search-suggestion label="Find a national park" href="#"></qgds-search-suggestion>
     </qgds-search-suggestion-group>
   `,
 };
