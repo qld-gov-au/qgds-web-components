@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
-import "../qgds-direction-link/qgds-direction-link.js";
+import "../../components/qgds-direction-link/qgds-direction-link.js";
 import "./qgds-content-footer.styles.scss";
 
 interface Args {
