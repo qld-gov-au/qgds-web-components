@@ -4,6 +4,7 @@ import "./qgds-tabs";
 import type { QGDSTabs } from "./qgds-tabs";
 
 const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
 describe("qgds-tabs", () => {
   let element: QGDSTabs;
@@ -213,6 +214,10 @@ describe("qgds-tabs", () => {
 
     await element.updateComplete;
     await flush();
+    await element.updateComplete;
+
+    // Ensure firstUpdated -> requestAnimationFrame -> _initTabsScroll has run
+    await nextFrame();
     await element.updateComplete;
 
     const nav = element.shadowRoot?.querySelector<HTMLElement>(".nav");
