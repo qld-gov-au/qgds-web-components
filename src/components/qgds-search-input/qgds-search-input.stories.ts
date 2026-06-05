@@ -3,10 +3,9 @@ import { action } from "storybook/actions";
 import { html } from "lit";
 import { chromaticModes } from "../../../.storybook/modes";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
-import { QGDSSearchInput, tagName } from "./qgds-search-input";
+import { QGDSSearchInput, tagName, type SuggestionGroupData } from "./qgds-search-input";
 import "./qgds-search-input";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { ref } from "lit/directives/ref.js";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSSearchInput>(tagName);
 
@@ -205,42 +204,109 @@ export const WithSuggestions: Story = {
 };
 
 /**
- * Data-driven via the `suggestions` JSON-string attribute — the "JSON from light
- * DOM" pattern, no event wiring needed. The component parses + validates the
- * attribute (malformed JSON is ignored). Focus the field to reveal the dropdown.
+ * Data-driven via the `suggestions` JSON-string attribute, with two mocked API
+ * responses driving the dropdown:
+ * - **On focus** (empty field) → JSON with two `suggestion` groups (popular
+ *   services + categories) — navigating links.
+ * - **While typing** → JSON with one `autocomplete` group of query completions
+ *   that fill the field and run a search on click.
  *
- * The attribute is set via a `ref` here only to keep the JSON readable in the
- * story source; in real markup you would write `suggestions='[…]'` directly.
+ * The component parses + validates the JSON each time the attribute is set.
  */
 export const SuggestionsFromJson: Story = {
   parameters: {
     chromatic: { disableSnapshot: true },
   },
   render: () => {
-    const json = JSON.stringify([
-      {
-        type: "autocomplete",
-        items: [{ label: "camping permits" }, { label: "camping in national parks" }],
-      },
-      {
-        type: "suggestion",
-        heading: "Related services",
-        feature: true,
-        viewMoreUrl: "/search?q=camping",
-        items: [
-          { label: "Apply for a camping permit", href: "#" },
-          { label: "Find a national park", href: "#" },
-        ],
-      },
-    ]);
+    // Mock API #1 — default suggestions shown on focus: two "suggestion" groups
+    // of navigating links (popular services + categories).
+    const fetchDefaultSuggestions = (): Promise<string> =>
+      new Promise((resolve) =>
+        setTimeout(
+          () =>
+            resolve(
+              JSON.stringify([
+                {
+                  type: "suggestion",
+                  heading: "Popular services",
+                  feature: true,
+                  items: [
+                    { label: "Renew vehicle registration", href: "/services/rego" },
+                    { label: "Apply for a birth certificate", href: "/services/birth-certificate" },
+                    { label: "Find a school", href: "/services/find-a-school" },
+                  ],
+                },
+                {
+                  type: "suggestion",
+                  heading: "Browse categories",
+                  feature: true,
+                  viewMoreUrl: "/categories",
+                  items: [
+                    { label: "Transport and motoring", href: "/categories/transport" },
+                    { label: "Education and training", href: "/categories/education" },
+                  ],
+                },
+              ] satisfies SuggestionGroupData[])
+            ),
+          150
+        )
+      );
+
+    // Mock API #2 — shown while typing: an "autocomplete" group of query
+    // completions (no href; fills the field + searches on click), with a
+    // "suggestion" group of matching related services appended after it.
+    const fetchAutocomplete = (query: string): Promise<string> =>
+      new Promise((resolve) => {
+        const q = query.trim().toLowerCase();
+        const matches = MOCK_QUERIES.filter((text) => text.includes(q)).slice(0, 5);
+        const services = MOCK_SERVICES.filter((s) => s.title.toLowerCase().includes(q)).slice(0, 3);
+
+        const json: SuggestionGroupData[] = [];
+        if (matches.length) {
+          json.push({ type: "autocomplete", items: matches.map((label) => ({ label })) });
+        }
+        if (services.length) {
+          json.push({
+            type: "suggestion",
+            heading: "Related services",
+            feature: true,
+            viewMoreUrl: `/search?q=${encodeURIComponent(query)}`,
+            items: services.map((s) => ({ label: s.title, href: s.href })),
+          });
+        }
+        setTimeout(() => resolve(JSON.stringify(json)), 150);
+      });
+
+    const applyJson = (el: QGDSSearchInput, json: string) => el.setAttribute("suggestions", json);
+
+    // On focus with an empty field → default suggestions.
+    const onFocus = async (e: Event) => {
+      const el = e.currentTarget as QGDSSearchInput;
+      if (el.value.trim()) return;
+      applyJson(el, await fetchDefaultSuggestions());
+    };
+
+    // On typing → autocomplete; clearing the field falls back to default suggestions.
+    const onInput = async (e: Event) => {
+      const el = e.currentTarget as QGDSSearchInput;
+      const { value } = (e as CustomEvent<{ value: string }>).detail;
+      action("qgds-input")(value);
+      applyJson(el, value.trim() ? await fetchAutocomplete(value) : await fetchDefaultSuggestions());
+    };
 
     return html`
       <qgds-search-input
         placeholder="Search Queensland Government"
-        value="camping"
-        ${ref((el?: Element) => el?.setAttribute("suggestions", json))}
+        debounce="300"
+        @focusin=${onFocus}
+        @qgds-input=${onInput}
+        @qgds-search=${(e: CustomEvent) => {
+          action("qgds-search")(e.detail);
+        }}
       ></qgds-search-input>
-      <p style="margin-top: 1rem; color: #636363;">Focus the field to open the dropdown.</p>
+      <p style="margin-top: 1rem; color: #636363;">
+        Focus the empty field for popular services; start typing (e.g. "camping", "school") for autocomplete.
+      </p>
     `;
   },
 };
