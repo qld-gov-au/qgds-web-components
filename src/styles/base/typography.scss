@@ -59,3 +59,10 @@ $_headings: (
     font-size: f.remify(map.get($_sizes, $size));
   }
 }
+
+.qgds-caption {
+  font-size: f.remify(14px);
+  font-weight: 400;
+  line-height: f.snap-line-height(var(--qgds-line-height-default, 1.45));
+  color: var(--qgds-color-text-lighter, #636363);
+}

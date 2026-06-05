@@ -3,6 +3,7 @@ import { customElement, state } from "lit/decorators.js";
 import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-breadcrumbs.styles.scss?inline";
+import { scrubSlotContent } from "../../utils";
 
 export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
 
@@ -94,9 +95,14 @@ export class QGDSBreadcrumbs extends LitElement {
       return;
     }
     const slot = this.shadowRoot?.querySelector("slot");
+    if (!(slot instanceof HTMLSlotElement)) {
+      return;
+    }
+
+    scrubSlotContent(slot, "qgds-breadcrumbs-item");
 
     this._items =
-      slot?.assignedElements({
+      slot.assignedElements({
         flatten: true,
       }) ?? [];
 

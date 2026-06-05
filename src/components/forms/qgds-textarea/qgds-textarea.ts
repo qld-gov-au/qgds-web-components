@@ -1,9 +1,8 @@
-import { html, TemplateResult, unsafeCSS } from "lit";
+import { html, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { QGDSFormField } from "../qgds-form-field";
-import componentCSS from "./qgds-textarea.styles.scss?inline";
 import { IFormControl, FormVariant } from "../../../types/forms";
 
 export const tagName = "qgds-textarea";
@@ -17,45 +16,67 @@ export const tagName = "qgds-textarea";
  * @tagname qgds-textarea
  *
  * @prop {FormVariant} [variant] - The visual style of the input, either "filled" or "outlined".
- * @prop {String} [value]
- * @prop {String} [placeholder] - Text to display when the value is empty.
- * @prop {Number} [maxLength] - Maximum number of characters allowed.
- * @prop {Number} [minLength] - Minimum number of characters required.
- * @prop {Boolean} [spellcheck=false] - Enable browser spell checking.
+ * @prop {string} [value]
+ * @prop {string} [placeholder] - Text to display when the value is empty.
+ * @prop {string} [autocomplete] - Whether the value of the control can be automatically completed by the browser. See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete
+ * @prop {number} [maxLength] - Maximum number of characters allowed.
+ * @prop {number} [minLength] - Minimum number of characters required.
+ * @prop {boolean} [spellcheck=false] - Enable browser spell checking.
  *
  * @slot details - Place any markup to be rendered within additional details.
  */
 @customElement(tagName)
 export class QGDSTextarea extends QGDSFormField implements IFormControl {
   @property({ type: String }) variant?: FormVariant;
-  @property({ type: String }) value?: HTMLInputElement["value"];
+  @property({ type: String }) value?: HTMLTextAreaElement["value"];
   @property({ type: String }) placeholder?: HTMLTextAreaElement["placeholder"];
-  @property({ type: Number, attribute: "maxlength" }) maxLength?: HTMLTextAreaElement["maxLength"];
-  @property({ type: Number, attribute: "minlength" }) minLength?: HTMLTextAreaElement["minLength"];
+  @property({ type: Number }) maxLength?: HTMLTextAreaElement["maxLength"]; // do not kebab case, default HTML attribute
+  @property({ type: Number }) minLength?: HTMLTextAreaElement["minLength"]; // do not kebab case, default HTML attribute
   @property({ type: Boolean }) spellcheck: HTMLTextAreaElement["spellcheck"] = false;
-
-  static styles = [...super.styles, unsafeCSS(componentCSS)];
+  @property({ type: String }) autocomplete?: HTMLTextAreaElement["autocomplete"];
 
   protected renderInput(): TemplateResult {
+    // The lit vscode plugin chokes on autocomplete attribute because the Typescript defines a dynamic type.
+    // Casting to any disables the typecheck.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const autocomplete: any = this.autocomplete === "" ? undefined : this.autocomplete;
+    const {
+      name,
+      id,
+      variant,
+      validationState,
+      value,
+      placeholder,
+      required,
+      readOnly,
+      disabled,
+      spellcheck,
+      maxLength,
+      minLength,
+      _ariaDescribedBy,
+      handleChange,
+    } = this;
+
     return html`<textarea
-      name="${ifDefined(this.name)}"
-      id=${this.id}
+      name="${ifDefined(name)}"
+      id=${id}
       class=${classMap({
-        "qgds-form-control is-full-width": true,
-        "is-filled": this.variant === "filled",
-        "is-valid": this.validationState === "success",
-        "is-invalid": this.validationState === "error",
+        "qgds-form-control": true,
+        "is-filled": variant === "filled",
+        "is-valid": validationState === "success",
+        "is-invalid": validationState === "error",
       })}
-      placeholder=${ifDefined(this.placeholder)}
-      ?required=${this.required}
-      ?readonly=${this.readOnly}
-      ?disabled=${this.disabled}
-      ?spellcheck=${this.spellcheck}
-      maxlength=${ifDefined(this.maxLength)}
-      minlength=${ifDefined(this.minLength)}
-      aria-describedby="${ifDefined(this._ariaDescribedBy)}"
-      @change=${this.handleChange}
-      .value=${this.value ?? ""}
+      placeholder=${ifDefined(placeholder)}
+      autocomplete=${ifDefined(autocomplete)}
+      ?required=${required}
+      ?readonly=${readOnly}
+      ?disabled=${disabled}
+      ?spellcheck=${spellcheck ?? false}
+      maxlength=${ifDefined(maxLength)}
+      minlength=${ifDefined(minLength)}
+      aria-describedby=${ifDefined(_ariaDescribedBy)}
+      @change=${handleChange}
+      .value=${value ?? ""}
     ></textarea>`;
   }
 }

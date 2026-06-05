@@ -42,6 +42,7 @@
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
   --qgds-side-navigation-item-level-2-border: var(--qgds-color-neutral-lighter, #ebebeb);
+  --qgds-table-header-bg: var(--qgds-color-neutral-white, #ffffff);
 }
 
 // ============================================
@@ -87,6 +88,7 @@
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
   --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #bedfff);
+  --qgds-table-header-bg: var(--qgds-color-background-shade);
 }
 
 // ============================================
@@ -132,6 +134,7 @@
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
   --qgds-side-navigation-item-level-2-border: var(--qgds-color-neutral-light, #e0e0e0);
+  --qgds-table-header-bg: var(--qgds-color-background-shade);
 }
 
 // ============================================
@@ -148,6 +151,7 @@
   --qgds-color-border: #418fed;
   --qgds-color-border-alt: #73c2ff;
   --qgds-color-crest-fill: #ffffff;
+  --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-hover: #ffffff;
   --qgds-color-link-on-action: #001c37;
@@ -177,6 +181,7 @@
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
   --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #418fed);
+  --qgds-table-header-bg: var(--qgds-color-background-shade);
 }
 
 // ============================================
@@ -194,6 +199,7 @@
   --qgds-color-border: #418fed;
   --qgds-color-border-alt: #63b1ff;
   --qgds-color-crest-fill: #ffffff;
+  --qgds-color-focus-default: #c6ffff;
   --qgds-color-link-default: #ffffff;
   --qgds-color-link-hover: #ffffff;
   --qgds-color-link-on-action: #001c37;
@@ -224,6 +230,7 @@
   --qgds-tag-info-fg: var(--qgds-color-text-lighter);
   --qgds-tag-info-border: transparent;
   --qgds-side-navigation-item-level-2-border: var(--qgds-color-border, #418fed);
+  --qgds-table-header-bg: var(--qgds-color-background-shade);
 }
 
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES

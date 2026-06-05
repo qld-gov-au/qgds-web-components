@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 
-import { withEventAction } from "../../../../.storybook/storybook-helpers";
+import { withEventActions } from "../../../../.storybook/storybook-helpers";
 import type { QGDSRadioGroup } from "./qgds-radio-group";
 import "./qgds-radio-group";
 import "../qgds-radio/qgds-radio";
@@ -42,7 +42,7 @@ const meta: Meta<StoryArgs> = {
       options: ["required", "optional", "none"],
     },
   },
-  decorators: [withEventAction("qgds-change")],
+  decorators: [withEventActions("qgds-change")],
   render: (storyArgs) => template(storyArgs, slot),
 };
 

@@ -18,7 +18,6 @@ const { args, argTypes } = getStorybookHelpers<QGDSButton>("qgds-button");
  */
 type QGDSButtonStoryArgs = typeof args & {
   iconId?: string;
-  iconSize?: string;
 };
 
 /** QGDS Button Web Component */
@@ -35,9 +34,11 @@ const renderButton = ({
   "event-title": eventTitle,
   id: uniqueID,
   iconId,
-  iconSize,
   type,
 }: QGDSButtonStoryArgs) => {
+  const resolvedLoadingLabel =
+    typeof loadingLabel === "string" && loadingLabel.trim().length > 0 ? loadingLabel : undefined;
+
   // Create a handler that logs the event to console
   const handleEvent = (e: CustomEvent) => {
     // eslint-disable-next-line no-console
@@ -56,19 +57,19 @@ const renderButton = ({
     <div ${ref(attachListener)}>
       <qgds-button
         ?disabled=${disabled ?? false}
-        target="${ifDefined(target)}"
+        ?target="${ifDefined(target)}"
         type=${ifDefined(href ? undefined : type)}
-        aria-label="${ifDefined(ariaLabel ?? undefined)}"
+        ?aria-label="${ifDefined(ariaLabel ?? undefined)}"
         label="${label}"
         ?trailing-icon=${trailingIcon}
         variant="${variant}"
-        href="${ifDefined(href)}"
-        loading-label="${ifDefined(loadingLabel)}"
-        ?is-loading=${isLoading}
+        ?href="${ifDefined(href)}"
+        loading-label="${ifDefined(resolvedLoadingLabel)}"
+        ?is-loading=${ifDefined(isLoading)}
         event-title="${ifDefined(eventTitle)}"
-        id="${ifDefined(uniqueID)}"
+        ?id="${ifDefined(uniqueID)}"
       >
-        <qgds-icon slot="icon" icon-id="${iconId}" size="${iconSize}" aria-label="${ifDefined(ariaLabel)}"> </qgds-icon>
+        <qgds-icon slot="icon" icon-id="${iconId}" size="md" aria-label="${ifDefined(ariaLabel)}"> </qgds-icon>
       </qgds-button>
     </div>
   `;
@@ -93,14 +94,6 @@ const meta: Meta<QGDSButtonStoryArgs> = {
         category: "QGDS Icon",
       },
     },
-    iconSize: {
-      control: "select",
-      options: ["sm", "md", "lg", "xl"],
-      description: "The size of the icon",
-      table: {
-        category: "QGDS Icon",
-      },
-    },
   },
   render: (storyArgs) => renderButton(storyArgs),
   globals: {
@@ -115,7 +108,6 @@ export const Button: Story = {
   args: {
     label: "QGDS Button",
     iconId: "external-link",
-    iconSize: "md",
     variant: "primary",
     type: "button",
   },

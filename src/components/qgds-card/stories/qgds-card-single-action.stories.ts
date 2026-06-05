@@ -4,7 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 import { chromaticModes } from "../../../../.storybook/modes";
-import { withEventAction } from "../../../../.storybook/storybook-helpers";
+import { withEventActions } from "../../../../.storybook/storybook-helpers";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { ICON_NAMES, type IconName } from "../../qgds-icon/icon-names";
@@ -28,7 +28,7 @@ const meta: Meta<Args> = {
   },
   argTypes,
   decorators: [
-    withEventAction("qgds-click"),
+    withEventActions("qgds-click"),
 
     (Story) =>
       html` <style>
