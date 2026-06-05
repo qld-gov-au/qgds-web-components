@@ -3,12 +3,12 @@ import { customElement, property } from "lit/decorators.js";
 
 import componentCSS from "./qgds-search-suggestion-group.styles.scss?inline";
 import { resetStyles } from "../../styles";
-import "../qgds-link-item/qgds-link-item.js";
+import "../qgds-search-suggestion/qgds-search-suggestion.js";
 
 /**
  * A titled group of search suggestions — the web-component equivalent of the BS5
  * `.suggestions-category` inside `.suggestions__group`. Holds a labelled list of
- * `<qgds-link-item>` elements, with an optional "View more" link.
+ * `<qgds-search-suggestion>` items, with an optional "View more" link.
  *
  * Drop one or more of these into the `suggestions` slot of `<qgds-search-input>`.
  *
@@ -21,13 +21,13 @@ import "../qgds-link-item/qgds-link-item.js";
  * @property {string} [view-more-label] - Label for the trailing view-more link. Defaults to "View more".
  * @property {string} [view-more-url] - URL for the trailing view-more link. When unset, no view-more link is shown.
  *
- * @slot - Accepts `<qgds-link-item>` elements.
+ * @slot - Accepts `<qgds-search-suggestion>` items.
  *
  * @example
  * ```html
  * <qgds-search-suggestion-group heading="Related services" feature view-more-url="/search?q=permit">
- *   <qgds-link-item label="Camping permits" href="/permits/camping"></qgds-link-item>
- *   <qgds-link-item label="Event permits" href="/permits/events"></qgds-link-item>
+ *   <qgds-search-suggestion label="Camping permits" href="/permits/camping"></qgds-search-suggestion>
+ *   <qgds-search-suggestion label="Event permits" href="/permits/events"></qgds-search-suggestion>
  * </qgds-search-suggestion-group>
  * ```
  */
@@ -49,12 +49,11 @@ export class QGDSSearchSuggestionGroup extends LitElement {
         <div class="group-list" role="list">
           <slot></slot>
           ${hasViewMore
-            ? html`<qgds-link-item
-                class="view-more"
-                icon-name=""
+            ? html`<qgds-search-suggestion
+                view-more
                 label=${this.viewMoreLabel}
                 href=${this.viewMoreUrl}
-              ></qgds-link-item>`
+              ></qgds-search-suggestion>`
             : nothing}
         </div>
       </div>
