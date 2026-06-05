@@ -16,19 +16,37 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args,
   argTypes,
+  decorators: [withEventActions(["qgds-button-click", "qgds-cancel"])],
   render: (args) => template(args),
 };
 
 export default meta;
 type Story = StoryObj<Args>;
 
+export const Single: Story = {
+  args: {
+    id: "Default",
+    accept: "*",
+    label: "Default ",
+  },
+};
+
+export const Multiple: Story = {
+  args: {
+    id: "Multiple",
+    accept: "*",
+    multiple: true,
+    ["max-files"]: -1,
+    label: "Multiple ",
+  },
+};
+
 export const AllFileStatuses: Story = {
   args: {
     id: "AllFileStatuses",
     accept: "*",
-    maxFiles: -1,
+    ["max-files"]: -1,
     label: "All file statuses",
     hint: "This mocks all supported file type icons and statuses.",
   },
-  decorators: [withEventActions(["qgds-button-click", "qgds-cancel"])],
 };

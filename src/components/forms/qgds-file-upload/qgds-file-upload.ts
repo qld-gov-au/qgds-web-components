@@ -1,16 +1,18 @@
 import { html, LitElement, unsafeCSS, nothing, TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, state, query } from "lit/decorators.js";
 import { baseStyles, formStyles, utilitiesStyles } from "../../../styles";
 import componentStyles from "./qgds-file-upload.styles.scss?inline";
-import { QgdsEvents, readableFileSize, getFileType } from "../../../utils";
+import { QgdsEvents, readableFileSize, getFileType, mimeToExtension, BreakpointController } from "../../../utils";
 import { QGDSFormField } from "../qgds-form-field";
 
 import "../../qgds-button/qgds-button";
-import "../../qgds-icon/qgds-icon";
+import "../../qgds-feature-icon/qgds-feature-icon";
 import "../../qgds-loading-spinner/qgds-loading-spinner";
 import { IconName } from "../../qgds-icon/icon-names";
+import { ifDefined } from "lit/directives/if-defined.js";
+import qgdsBreakpoint from "../../../styles/qgds-tokens/qgds-breakpoint";
 
 export const tagname = "qgds-file-upload";
 type Status = "loading" | "ready" | "error" | "success";
@@ -28,94 +30,32 @@ export class QGDSFileUpload extends QGDSFormField {
   static override styles = [...super.styles, unsafeCSS(componentStyles)];
 
   @property({ type: Number, attribute: "max-files" }) maxFiles?: number = 1;
-  @property({ type: Number, attribute: "min-files" }) minFiles?: number = 0;
-  @property({ type: Number, attribute: "max-size" }) maxSize?: number = 100; // Default 100MB???
+  @property({ type: Number, attribute: "min-files" }) minFiles?: number;
+  @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
+  @property({ type: Boolean }) multiple: boolean = false;
   @property({ type: String }) accept: string = "";
 
   @state() private _files: FileStatus[] = [];
 
+  @query("input[type=file]", true) private _input!: HTMLInputElement;
+
+  private _breakpoint = new BreakpointController(this);
+  private get _isMobile() {
+    return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
+  }
+
   constructor() {
     super();
-    // Mock a File Object for now.
-    const loadingFile: FileStatus = {
-      file: new File(["content"], "loading-file.txt", {
-        type: "text/plain",
-      }),
-      status: "loading",
-    };
-    const textFile: FileStatus = {
-      file: new File(["content"], "text-file.txt", {
-        type: "text/plain",
-      }),
-      status: "ready",
-    };
-    const wordFile: FileStatus = {
-      file: new File(["content"], "word-file.docx", {
-        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      }),
-      status: "ready",
-    };
-    const pdfFile: FileStatus = {
-      file: new File(["content"], "pdf-file.pdf", {
-        type: "application/pdf",
-      }),
-      status: "ready",
-    };
-    const imageFile: FileStatus = {
-      file: new File(["content"], "image-file.jpg", {
-        type: "image/jpeg",
-      }),
-      status: "ready",
-    };
-    const csvFile: FileStatus = {
-      file: new File(["content"], "csv-file.csv", {
-        type: "text/csv",
-      }),
-      status: "ready",
-    };
-    const audioFile: FileStatus = {
-      file: new File(["content"], "audio-file.mp3", {
-        type: "audio/mpeg",
-      }),
-      status: "ready",
-    };
-    const videoFile: FileStatus = {
-      file: new File(["content"], "video-file.mp4", {
-        type: "video/mp4",
-      }),
-      status: "ready",
-    };
-    const errorFile: FileStatus = {
-      file: new File(["content"], "error-file.csv", {
-        type: "text/plain",
-      }),
-      status: "error",
-    };
-    const successFile: FileStatus = {
-      file: new File(["content"], "success-file.csv", {
-        type: "text/plain",
-      }),
-      status: "success",
-    };
-
-    Object.defineProperty(videoFile.file, "size", { value: 12_345_678, configurable: true });
-    Object.defineProperty(imageFile.file, "size", { value: 12_345, configurable: true });
-    Object.defineProperty(errorFile.file, "size", { value: 12_345_678_910, configurable: true });
-
-    this._files = [
-      ...this._files,
-      successFile,
-      errorFile,
-      videoFile,
-      audioFile,
-      csvFile,
-      imageFile,
-      pdfFile,
-      wordFile,
-      textFile,
-      loadingFile,
-    ];
   }
+
+  private _selectFiles = () => {
+    this._input.click();
+  };
+
+  private _handleChange = (e: Event) => {
+    const input = e.target as HTMLInputElement;
+    this._files = input.files ? Array.from(input.files).map((file) => ({ file, status: "ready" })) : [];
+  };
 
   private _renderFiles = () => {
     const { _files } = this;
@@ -136,8 +76,66 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   protected renderInput(): TemplateResult {
-    const { _renderFiles } = this;
-    return html`${_renderFiles()}`;
+    const {
+      accept,
+      required,
+      id,
+      name,
+      readOnly,
+      disabled,
+      maxFiles,
+      maxSize,
+      _ariaDescribedBy,
+      _handleChange,
+      _renderFiles,
+      _selectFiles,
+    } = this;
+    const multiple = this.multiple && ((maxFiles ?? 0) < 0 || (maxFiles ?? 0) > 1);
+    const validFileTypes = this.accept
+      .split(",")
+      .map((item) => {
+        const trimmed = item.trim();
+        // if item start with "." it is a file extension, return without the dot
+        // else it is a mimetype string, evalaute for its file type
+        return trimmed.startsWith(".") ? trimmed.slice(1) : mimeToExtension(trimmed);
+      })
+      .join(", ");
+
+    return html`<div class="file-upload">
+      <div class="file-upload-dropzone">
+        ${this._isMobile
+          ? html`<p class="qgds-display-sm mb-16">Select file${multiple ? "s" : nothing} to upload</p>`
+          : html`<qgds-feature-icon icon-name="upload" size="sm" class="mb-16"></qgds-feature-icon>
+              <p class="qgds-display-md mb-16">
+                Drag and drop file${multiple ? "s" : nothing} here or select file${multiple ? "s" : nothing} to upload
+              </p> `}
+        <p class="qgds-caption">You can upload ${validFileTypes} files.</p>
+        <p class="qgds-caption">Files can’t be larger than ${maxSize} MB.</p>
+        ${(maxFiles ?? 0) > 1 ? html`<p class="qgds-caption">You can upload up to ${maxFiles} files.</p>` : nothing}
+        <qgds-button
+          class="mt-24"
+          variant="secondary"
+          label="Select Files"
+          @qgds-button-click=${_selectFiles}
+        ></qgds-button>
+      </div>
+      <input
+        id=${id}
+        name=${ifDefined(name)}
+        class="file-upload-input"
+        type="file"
+        tabindex="-1"
+        accept=${ifDefined(accept)}
+        ?multiple=${multiple}
+        ?required=${required}
+        ?readonly=${readOnly}
+        ?disabled=${disabled}
+        aria-describedby=${ifDefined(_ariaDescribedBy)}
+        @change=${_handleChange}
+      />
+
+      ${_renderFiles()}
+    </div> `;
   }
 
   // render function is handled by the superClass

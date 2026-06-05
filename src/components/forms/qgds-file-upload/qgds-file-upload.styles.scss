@@ -1,11 +1,33 @@
 @use "../../../styles/tools";
 @use "../../../styles/qgds-tokens/qgds-color-stub";
+@use "../../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
   display: block;
 }
 
 .file-upload {
+  display: flex;
+  flex-direction: column;
+  row-gap: tools.remify(20px);
+
+  &-dropzone {
+    display: block;
+    text-align: center;
+    background-color: var(--qgds-color-background, #ffffff);
+    padding: tools.remify(24px);
+    border: 2px dashed var(--qgds-color-border-alt, #848484);
+    border-radius: 4px;
+
+    @media (width >= #{bp.$lg} ) {
+      padding: tools.remify(32px);
+    }
+  }
+
+  &-input {
+    @include tools.visually-hidden();
+  }
+
   &-list {
     list-style: none;
     padding: 0;
