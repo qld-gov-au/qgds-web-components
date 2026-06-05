@@ -10,7 +10,7 @@ import "../qgds-link/qgds-link.js";
 import "../qgds-button/qgds-button.js";
 import "../qgds-icon/qgds-icon.js";
 
-import footerLogo from "./assets/coa-delivering-for-qld.svg?raw";
+import footerLogoSVG from "./assets/coa-delivering-for-qld.svg?raw";
 
 export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
 
@@ -324,7 +324,7 @@ export class QGDSFooter extends LitElement {
             <div class="${classMap({ "footer-logo": true, empty: this.hideFooterLogo })}">
               <slot name="footer-logo" @slotchange=${this._onLogoSlotChange}>
                 <!-- Fallback logo if no logo provided in slot - ensures CoA is always present in footer -->
-                ${this.hideFooterLogo ? "" : unsafeHTML(footerLogo)}
+                ${this.hideFooterLogo ? "" : unsafeHTML(footerLogoSVG)}
               </slot>
             </div>
 
