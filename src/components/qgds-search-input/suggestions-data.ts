@@ -1,4 +1,4 @@
-import type { SuggestionIcon } from "../qgds-search-suggestion/qgds-search-suggestion.js";
+import type { SuggestionIcon, SuggestionType } from "../qgds-search-suggestion/qgds-search-suggestion.js";
 
 /** A single suggestion item, as supplied via the `suggestions` JSON. */
 export interface SuggestionItemData {
@@ -9,6 +9,7 @@ export interface SuggestionItemData {
 
 /** A titled group of suggestions, as supplied via the `suggestions` JSON. */
 export interface SuggestionGroupData {
+  type: SuggestionType;
   heading?: string;
   feature?: boolean;
   viewMoreUrl?: string;
@@ -25,6 +26,8 @@ const asString = (value: unknown): string | undefined => (typeof value === "stri
 
 const asIcon = (value: unknown): SuggestionIcon | undefined =>
   SUGGESTION_ICONS.includes(value as SuggestionIcon) ? (value as SuggestionIcon) : undefined;
+
+const asType = (value: unknown): SuggestionType => (value === "autocomplete" ? "autocomplete" : "suggestion");
 
 /**
  * Defensively validate and normalise loosely-typed input (e.g. a parsed JSON
@@ -51,6 +54,7 @@ export function normalizeSuggestions(input: unknown): SuggestionGroupData[] {
         .filter((item): item is SuggestionItemData => item !== null);
 
       return {
+        type: asType(group.type),
         heading: asString(group.heading),
         feature: group.feature === true,
         viewMoreUrl: asString(group.viewMoreUrl),

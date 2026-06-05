@@ -20,17 +20,26 @@
 }
 
 .suggestion-link {
+  // Shared by the `<a>` (suggestion) and `<button>` (autocomplete) renderings,
+  // so the button is reset to look identical to the link.
+  appearance: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  inline-size: 100%;
   min-block-size: 3rem;
   padding-block: 0.75rem;
   padding-inline: 1rem;
+  border: 0;
+  background: none;
   color: var(--qgds-color-text-default, #353535);
+  font: inherit;
   font-size: 1rem;
+  text-align: start;
   text-decoration: underline;
   text-decoration-thickness: 0.5px;
   text-decoration-color: transparent;
+  cursor: pointer;
   transition:
     text-decoration-thickness 0.1s ease,
     text-decoration-color 0.1s ease;

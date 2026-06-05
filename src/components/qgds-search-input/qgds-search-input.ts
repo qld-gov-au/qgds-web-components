@@ -172,12 +172,16 @@ export class QGDSSearchInput extends LitElement {
   };
 
   /**
-   * Close the dropdown when focus leaves the component entirely.
-   * `relatedTarget` is null when focus moves outside the shadow tree.
+   * Close the dropdown when focus leaves the component entirely. Focus may land
+   * on a slotted item (light DOM, `this.contains`) or on a suggestion rendered
+   * from the `suggestions` data (shadow DOM, `renderRoot.contains`) — neither of
+   * which should close the panel. `Node.contains` does not cross shadow roots,
+   * so both trees must be checked.
    */
   private _handleFocusOut = (e: FocusEvent): void => {
     const next = e.relatedTarget as Node | null;
-    if (!next || !this.contains(next)) {
+    const stillInside = !!next && (this.contains(next) || this.renderRoot.contains(next));
+    if (!stillInside) {
       this._open = false;
     }
   };
@@ -209,6 +213,19 @@ export class QGDSSearchInput extends LitElement {
     this.events.dispatch("search", { value: this.value });
   };
 
+  /**
+   * An autocomplete item was chosen — fill the field with its value, close the
+   * dropdown, and run a search. Suggestion (link) items navigate instead and
+   * never reach here.
+   */
+  private _handleSuggestionSelect = (e: Event): void => {
+    const detail = (e as CustomEvent<{ value: string }>).detail;
+    if (!detail || typeof detail.value !== "string") return;
+    this.value = detail.value;
+    this._open = false;
+    this._dispatchSearch();
+  };
+
   /** Render validated suggestion groups from the `suggestions` data. */
   private _renderGroups() {
     return repeat(
@@ -216,6 +233,7 @@ export class QGDSSearchInput extends LitElement {
       (group, i) => `${group.heading ?? ""}:${i}`,
       (group) => html`
         <qgds-search-suggestion-group
+          type=${group.type}
           heading=${ifDefined(group.heading)}
           ?feature=${group.feature}
           view-more-url=${ifDefined(group.viewMoreUrl)}
@@ -224,6 +242,7 @@ export class QGDSSearchInput extends LitElement {
           ${group.items.map(
             (item) => html`
               <qgds-search-suggestion
+                type=${group.type}
                 label=${item.label}
                 href=${ifDefined(item.href)}
                 icon=${ifDefined(item.icon)}
@@ -244,6 +263,7 @@ export class QGDSSearchInput extends LitElement {
         class=${classMap({ "search-input-wrapper": true, "is-disabled": !!this.disabled })}
         @focusin=${this._handleFocusIn}
         @focusout=${this._handleFocusOut}
+        @qgds-suggestion-select=${this._handleSuggestionSelect}
       >
         <qgds-icon class="search-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
         <input

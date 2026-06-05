@@ -159,27 +159,21 @@ export const WithSuggestions: Story = {
       clearSuggestions(el);
       if (suggestions.length === 0 && services.length === 0) return;
 
-      // Query suggestions — magnifier icon, fill the field on click.
+      // Autocomplete group — query completions with no href. The component fills
+      // the field and fires qgds-search when one is chosen; no wiring needed here.
       if (suggestions.length > 0) {
         const group = document.createElement("qgds-search-suggestion-group");
         group.setAttribute("slot", "suggestions");
+        group.type = "autocomplete";
         suggestions.forEach((text) => {
           const item = document.createElement("qgds-search-suggestion");
-          item.icon = "search";
           item.label = text;
-          item.href = "#";
-          item.addEventListener("click", (ev) => {
-            ev.preventDefault();
-            el.value = text;
-            clearSuggestions(el);
-            action("qgds-search")(text);
-          });
           group.appendChild(item);
         });
         el.appendChild(group);
       }
 
-      // Related services — featured group with real destination links + view-more.
+      // Suggestion group — featured "Related services" with real destination links.
       if (services.length > 0) {
         const group = document.createElement("qgds-search-suggestion-group");
         group.setAttribute("slot", "suggestions");
@@ -225,12 +219,11 @@ export const SuggestionsFromJson: Story = {
   render: () => {
     const json = JSON.stringify([
       {
-        items: [
-          { label: "camping permits", icon: "search" },
-          { label: "camping in national parks", icon: "search" },
-        ],
+        type: "autocomplete",
+        items: [{ label: "camping permits" }, { label: "camping in national parks" }],
       },
       {
+        type: "suggestion",
         heading: "Related services",
         feature: true,
         viewMoreUrl: "/search?q=camping",
@@ -258,9 +251,9 @@ export const SuggestionsLayout: Story = {
     ...chromaticModes,
   },
   render: () => html`
-    <qgds-search-suggestion-group>
-      <qgds-search-suggestion icon="search" label="camping permits"></qgds-search-suggestion>
-      <qgds-search-suggestion icon="search" label="camping in national parks"></qgds-search-suggestion>
+    <qgds-search-suggestion-group type="autocomplete">
+      <qgds-search-suggestion label="camping permits"></qgds-search-suggestion>
+      <qgds-search-suggestion label="camping in national parks"></qgds-search-suggestion>
     </qgds-search-suggestion-group>
     <qgds-search-suggestion-group heading="Related services" feature view-more-url="/search?q=camping">
       <qgds-search-suggestion label="Apply for a camping permit" href="#"></qgds-search-suggestion>
