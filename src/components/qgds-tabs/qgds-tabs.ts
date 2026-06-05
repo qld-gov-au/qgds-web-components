@@ -187,7 +187,7 @@ export class QGDSTabs extends LitElement {
 
   render() {
     return html`
-      <header role="tablist" class="parent-context-${this._parentContext}">
+      <header class="parent-context-${this._parentContext}">
         <button
           class=${classMap({
             scroll: true,
@@ -200,7 +200,7 @@ export class QGDSTabs extends LitElement {
         >
           <qgds-icon aria-label="Scroll tab buttons left" icon-id="chevron-left" size="sm"></qgds-icon>
         </button>
-        <nav class="nav" @keydown=${(e: KeyboardEvent) => this._handleKeydown(e)}>
+        <nav role="tablist" class="nav" @keydown=${(e: KeyboardEvent) => this._handleKeydown(e)}>
           ${this._tabs.map(
             (tab, index) => html`
               <button

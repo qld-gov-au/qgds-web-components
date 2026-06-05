@@ -88,7 +88,12 @@ export class QGDSBreadcrumbsItem extends LitElement {
                 <slot></slot>
               </a>
               ${this.isDropdownItem === false
-                ? html`<qgds-icon size="xs" icon-id="chevron-right" class="chevron-icon"></qgds-icon>`
+                ? html`<qgds-icon
+                    aria-hidden="true"
+                    size="xs"
+                    icon-id="chevron-right"
+                    class="chevron-icon"
+                  ></qgds-icon>`
                 : nothing}
             `}
       </div>
