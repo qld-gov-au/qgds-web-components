@@ -5,7 +5,7 @@ import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import "../qgds-direction-link/qgds-direction-link.js";
 import "./qgds-content-footer.styles.scss";
 
-type Args = {
+interface Args {
     content: string;
     linkLabel: string;
     linkHref: string;
