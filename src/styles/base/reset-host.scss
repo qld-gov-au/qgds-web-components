@@ -8,6 +8,7 @@ Remove default margins and padding
 Ensure components don't leak styles 
 */
 :host {
+  display: inline-block;
   box-sizing: border-box;
   isolation: isolate;
   margin: 0;
