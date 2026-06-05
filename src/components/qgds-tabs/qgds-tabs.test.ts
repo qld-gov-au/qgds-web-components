@@ -3,8 +3,7 @@ import userEvent from "@testing-library/user-event";
 import "./qgds-tabs";
 import type { QGDSTabs } from "./qgds-tabs";
 
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
-const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+const waitForFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)));
 
 describe("qgds-tabs", () => {
   let element: QGDSTabs;
@@ -29,7 +28,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
@@ -46,7 +45,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
@@ -62,7 +61,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
@@ -70,7 +69,7 @@ describe("qgds-tabs", () => {
 
     buttons?.[1].click();
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     expect(buttons?.[1].getAttribute("aria-selected")).toBe("true");
@@ -89,7 +88,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
@@ -97,14 +96,14 @@ describe("qgds-tabs", () => {
 
     await user.keyboard("{ArrowRight}");
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     expect(buttons?.[1].getAttribute("aria-selected")).toBe("true");
 
     await user.keyboard("{ArrowLeft}");
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     expect(buttons?.[0].getAttribute("aria-selected")).toBe("true");
@@ -121,7 +120,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const header = element.shadowRoot?.querySelector<HTMLHeadElement>("header");
@@ -138,7 +137,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
@@ -156,7 +155,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const leftButton = element.shadowRoot?.querySelector<HTMLButtonElement>("button.scroll-left");
@@ -175,7 +174,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     const nav = element.shadowRoot?.querySelector<HTMLElement>(".nav");
@@ -213,11 +212,7 @@ describe("qgds-tabs", () => {
     `;
 
     await element.updateComplete;
-    await flush();
-    await element.updateComplete;
-
-    // Ensure firstUpdated -> requestAnimationFrame -> _initTabsScroll has run
-    await nextFrame();
+    await waitForFrame();
     await element.updateComplete;
 
     const nav = element.shadowRoot?.querySelector<HTMLElement>(".nav");
@@ -239,7 +234,7 @@ describe("qgds-tabs", () => {
     });
 
     nav.dispatchEvent(new Event("scroll"));
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     expect(leftButton.classList.contains("show")).toBe(false);
@@ -251,7 +246,7 @@ describe("qgds-tabs", () => {
       writable: true,
     });
     nav.dispatchEvent(new Event("scroll"));
-    await flush();
+    await waitForFrame();
     await element.updateComplete;
 
     expect(leftButton.classList.contains("show")).toBe(true);

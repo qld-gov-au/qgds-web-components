@@ -144,7 +144,7 @@ export class QGDSBreadcrumbs extends LitElement {
         <button type="button" class="dropdown-toggle" aria-label="Expand breadcrumbs" @click=${this._toggleExpand}>
           <qgds-icon aria-label="Home icon" icon-id="more-horizontal" size="lg"></qgds-icon>
         </button>
-        <qgds-icon size="xs" icon-id="chevron-right" class="chevron-icon"></qgds-icon>
+        <qgds-icon aria-hidden="true" size="xs" icon-id="chevron-right" class="chevron-icon"></qgds-icon>
         <div class="dropdown-menu-wrapper">
           <ol class="dropdown-menu">
             ${middle.map((item) => html`${item}`)}
