@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 
 import componentCSS from "./qgds-search-suggestion.styles.scss?inline";
 import { resetStyles } from "../../styles";
+import { QgdsEvents } from "../../utils/events/event-controller";
 import "../qgds-icon/qgds-icon.js";
 
 export type SuggestionIcon = "arrow-right" | "search" | "clock";
@@ -55,6 +56,9 @@ export class QGDSSearchSuggestion extends LitElement {
   @property({ type: String }) icon?: SuggestionIcon;
   @property({ type: Boolean, attribute: "view-more", reflect: true }) viewMore = false;
 
+  // Shared helper for dispatching qgds custom events.
+  private events = new QgdsEvents(this);
+
   connectedCallback() {
     super.connectedCallback?.();
     if (!this.hasAttribute("role")) {
@@ -69,13 +73,7 @@ export class QGDSSearchSuggestion extends LitElement {
 
   private _handleAutocompleteClick = (e: Event): void => {
     e.preventDefault();
-    this.dispatchEvent(
-      new CustomEvent("qgds-suggestion-select", {
-        bubbles: true,
-        composed: true,
-        detail: { value: this.label },
-      })
-    );
+    this.events.dispatch("suggestion-select", { value: this.label }, e);
   };
 
   private _renderIcon() {
