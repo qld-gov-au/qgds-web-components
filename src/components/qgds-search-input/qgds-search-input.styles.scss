@@ -6,9 +6,6 @@
   display: block;
   container-type: inline-size;
   container-name: search-input;
-
-  --qgds-search-suggestions-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 1px 3px 1px rgb(0 0 0 / 0.1);
-  --qgds-search-suggestions-radius: 0.5rem;
 }
 
 .search-input-wrapper {
@@ -151,8 +148,6 @@
   }
 }
 
-// ── Suggestions dropdown panel (BS5 `.suggestions.suggestions__group`) ────────
-
 .search-suggestions {
   position: absolute;
   inset-inline: 0;
@@ -160,10 +155,10 @@
   z-index: 10;
   overflow: hidden auto;
   max-block-size: 70vh;
-  border-radius: var(--qgds-search-suggestions-radius);
+  border-radius: 0.5rem;
   border-block-end: 0.25rem solid var(--qgds-color-action-secondary, #307edb);
   background-color: var(--qgds-color-background, #ffffff);
-  box-shadow: var(--qgds-search-suggestions-shadow);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 1px 3px 1px rgb(0 0 0 / 0.1);
 
   &[hidden] {
     display: none;

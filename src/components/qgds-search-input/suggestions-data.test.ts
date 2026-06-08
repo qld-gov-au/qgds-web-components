@@ -65,6 +65,20 @@ describe("normalizeSuggestions", () => {
     ]);
   });
 
+  it("keeps valid anchor targets and drops unknown ones", () => {
+    const result = normalizeSuggestions([
+      {
+        items: [
+          { label: "New tab", href: "/a", target: "_blank" },
+          { label: "Same tab", href: "/b", target: "_self" },
+          { label: "Bad target", href: "/c", target: "popup" },
+        ],
+      },
+    ]);
+
+    expect(result[0].items.map((i) => i.target)).toEqual(["_blank", "_self", undefined]);
+  });
+
   it("discards groups that end up with no valid items", () => {
     const result = normalizeSuggestions([
       { heading: "Empty", items: [] },

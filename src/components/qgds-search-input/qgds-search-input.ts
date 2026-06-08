@@ -245,6 +245,7 @@ export class QGDSSearchInput extends LitElement {
                 type=${group.type}
                 label=${item.label}
                 href=${ifDefined(item.href)}
+                target=${ifDefined(item.target)}
                 icon=${ifDefined(item.icon)}
               ></qgds-search-suggestion>
             `

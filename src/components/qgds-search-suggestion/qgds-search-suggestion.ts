@@ -1,5 +1,6 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import componentCSS from "./qgds-search-suggestion.styles.scss?inline";
 import { resetStyles } from "../../styles";
@@ -15,6 +16,9 @@ export type SuggestionIcon = "arrow-right" | "search" | "clock";
  *   parent `<qgds-search-input>` and triggers a search instead of navigating.
  */
 export type SuggestionType = "autocomplete" | "suggestion";
+
+/** Anchor `target` values supported by a suggestion link. */
+export type SuggestionTarget = "_self" | "_blank" | "_parent" | "_top";
 
 /**
  * A single item within a `<qgds-search-suggestion-group>` — the web-component
@@ -32,6 +36,7 @@ export type SuggestionType = "autocomplete" | "suggestion";
  *
  * @property {string} [label] - Visible text. Falls back to the default slot content.
  * @property {string} [href] - Destination URL (used in "suggestion" mode). Defaults to "#".
+ * @property {"_self" | "_blank" | "_parent" | "_top"} [target] - Anchor target (used in "suggestion" mode). When "_blank", `rel="noopener noreferrer"` is added automatically.
  * @property {SuggestionType} [type] - "suggestion" (link, default) or "autocomplete" (fills + searches).
  * @property {SuggestionIcon} [icon] - Leading icon. Defaults to "search" for autocomplete, "arrow-right" otherwise.
  * @property {boolean} [view-more] - Renders as a "View more" style link with no leading icon.
@@ -52,9 +57,10 @@ export class QGDSSearchSuggestion extends LitElement {
 
   @property({ type: String }) label = "";
   @property({ type: String }) href = "#";
+  @property({ type: String }) target?: SuggestionTarget;
   @property({ type: String, reflect: true }) type: SuggestionType = "suggestion";
   @property({ type: String }) icon?: SuggestionIcon;
-  @property({ type: Boolean, attribute: "view-more", reflect: true }) viewMore = false;
+  @property({ type: Boolean, attribute: "view-more", reflect: true }) isViewMore = false;
 
   // Shared helper for dispatching qgds custom events.
   private events = new QgdsEvents(this);
@@ -77,14 +83,14 @@ export class QGDSSearchSuggestion extends LitElement {
   };
 
   private _renderIcon() {
-    return this.viewMore
+    return this.isViewMore
       ? nothing
       : html`<qgds-icon class="suggestion-icon" icon-id=${this._icon} size="sm" aria-hidden="true"></qgds-icon>`;
   }
 
   render() {
     // Autocomplete items are not links — they fill the field and search.
-    if (this.type === "autocomplete" && !this.viewMore) {
+    if (this.type === "autocomplete" && !this.isViewMore) {
       return html`
         <button type="button" class="suggestion-link" @click=${this._handleAutocompleteClick}>
           ${this._renderIcon()}
@@ -93,8 +99,16 @@ export class QGDSSearchSuggestion extends LitElement {
       `;
     }
 
+    // Only emit rel="noopener noreferrer" when opening in a new tab.
+    const rel = this.target === "_blank" ? "noopener noreferrer" : undefined;
     return html`
-      <a class="suggestion-link" href=${this.href} tabindex="0">
+      <a
+        class="suggestion-link"
+        href=${this.href}
+        tabindex="0"
+        target=${ifDefined(this.target)}
+        rel=${ifDefined(rel)}
+      >
         ${this._renderIcon()}
         <span class="suggestion-label"><slot>${this.label}</slot></span>
       </a>

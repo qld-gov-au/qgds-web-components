@@ -3,10 +3,6 @@
 :host {
   display: block;
   cursor: pointer;
-
-  &:hover {
-    background-color: var(--qgds-color-background-shade, #f5f5f5);
-  }
 }
 
 .suggestion-icon {
@@ -43,6 +39,10 @@
   transition:
     text-decoration-thickness 0.1s ease,
     text-decoration-color 0.1s ease;
+
+  &:hover {
+    background-color: var(--qgds-color-neutral-light, #e0e0e0);
+  }
 
   &:hover,
   &:hover .suggestion-label {
