@@ -1,9 +1,14 @@
-import type { SuggestionIcon, SuggestionType } from "../qgds-search-suggestion/qgds-search-suggestion.js";
+import type {
+  SuggestionIcon,
+  SuggestionTarget,
+  SuggestionType,
+} from "../qgds-search-suggestion/qgds-search-suggestion.js";
 
 /** A single suggestion item, as supplied via the `suggestions` JSON. */
 export interface SuggestionItemData {
   label: string;
   href?: string;
+  target?: SuggestionTarget;
   icon?: SuggestionIcon;
 }
 
@@ -18,6 +23,7 @@ export interface SuggestionGroupData {
 }
 
 const SUGGESTION_ICONS: readonly SuggestionIcon[] = ["arrow-right", "search", "clock"];
+const SUGGESTION_TARGETS: readonly SuggestionTarget[] = ["_self", "_blank", "_parent", "_top"];
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -26,6 +32,9 @@ const asString = (value: unknown): string | undefined => (typeof value === "stri
 
 const asIcon = (value: unknown): SuggestionIcon | undefined =>
   SUGGESTION_ICONS.includes(value as SuggestionIcon) ? (value as SuggestionIcon) : undefined;
+
+const asTarget = (value: unknown): SuggestionTarget | undefined =>
+  SUGGESTION_TARGETS.includes(value as SuggestionTarget) ? (value as SuggestionTarget) : undefined;
 
 const asType = (value: unknown): SuggestionType => (value === "autocomplete" ? "autocomplete" : "suggestion");
 
@@ -49,7 +58,7 @@ export function normalizeSuggestions(input: unknown): SuggestionGroupData[] {
         .map((item): SuggestionItemData | null => {
           const label = asString(item.label);
           if (!label) return null;
-          return { label, href: asString(item.href), icon: asIcon(item.icon) };
+          return { label, href: asString(item.href), target: asTarget(item.target), icon: asIcon(item.icon) };
         })
         .filter((item): item is SuggestionItemData => item !== null);
 

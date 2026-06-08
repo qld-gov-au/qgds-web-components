@@ -183,6 +183,7 @@ export const WithSuggestions: Story = {
           const item = document.createElement("qgds-search-suggestion");
           item.label = service.title;
           item.href = service.href;
+          item.target = "_blank"; // open service pages in a new tab
           group.appendChild(item);
         });
         el.appendChild(group);
@@ -231,8 +232,8 @@ export const SuggestionsFromJson: Story = {
                   heading: "Popular services",
                   feature: true,
                   items: [
-                    { label: "Renew vehicle registration", href: "/services/rego" },
-                    { label: "Apply for a birth certificate", href: "/services/birth-certificate" },
+                    { label: "Renew vehicle registration", href: "/services/rego", target: "_blank" },
+                    { label: "Apply for a birth certificate", href: "/services/birth-certificate", target: "_blank" },
                     { label: "Find a school", href: "/services/find-a-school" },
                   ],
                 },
@@ -322,8 +323,8 @@ export const SuggestionsLayout: Story = {
       <qgds-search-suggestion label="camping in national parks"></qgds-search-suggestion>
     </qgds-search-suggestion-group>
     <qgds-search-suggestion-group heading="Related services" feature view-more-url="/search?q=camping">
-      <qgds-search-suggestion label="Apply for a camping permit" href="#"></qgds-search-suggestion>
-      <qgds-search-suggestion label="Find a national park" href="#"></qgds-search-suggestion>
+      <qgds-search-suggestion label="Apply for a camping permit" href="#" target="_blank"></qgds-search-suggestion>
+      <qgds-search-suggestion label="Find a national park" href="#" target="_self"></qgds-search-suggestion>
     </qgds-search-suggestion-group>
   `,
 };
