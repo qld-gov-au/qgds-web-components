@@ -102,14 +102,10 @@ export class QGDSLink extends LitElement {
             @click=${(e: MouseEvent) => this._onClick(e)}
             style=${iconStyle}
           >
-            ${iconTemplate} <span class="link-label">${labelContent}</span>
+            ${iconTemplate} ${labelContent}
           </a>
         `
-      : html`
-          <span aria-label=${ifDefined(ariaLabel)}>
-            ${iconTemplate} <span class="link-label">${labelContent}</span>
-          </span>
-        `;
+      : html` <span aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} ${labelContent} </span> `;
   }
 }
 
