@@ -104,8 +104,4 @@ qgds-call-to-action {
   :host([columns="3"]:not([layout="horizontal"])) .items {
     column-count: 1;
   }
-
-  ::slotted(qgds-link-item:last-child) {
-    border-block-end: none;
-  }
 }
