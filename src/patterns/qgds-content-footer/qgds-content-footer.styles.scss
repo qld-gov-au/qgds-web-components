@@ -1,0 +1,15 @@
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+.qgds-content-footer {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  inline-size: 100%;
+  max-inline-size: 1312px;
+  margin-inline: auto;
+
+  @media (min-width: #{bp.$md}) {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
