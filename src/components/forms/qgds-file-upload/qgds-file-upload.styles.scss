@@ -22,6 +22,15 @@
     @media (width >= #{bp.$lg} ) {
       padding: tools.remify(32px);
     }
+
+    &.is-dragover {
+      background-color: var(--qgds-color-background-shade, #f5f5f5);
+
+      // prevent drag leave firing on hover children.
+      & * {
+        pointer-events: none;
+      }
+    }
   }
 
   &-input {
