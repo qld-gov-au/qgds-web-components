@@ -51,6 +51,9 @@ export class QGDSFileUpload extends QGDSFormField {
   @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
   @property({ type: Boolean }) multiple: boolean = false;
   @property({ type: String }) accept: string = "";
+  @property({ attribute: false }) get files(): FileList | null {
+    return this._input?.files ?? null;
+  }
 
   @state() private _files: FileStatus[] = [];
   // What if this becomes a DataTransfer object to add and remove File Objects and sync with the input:
@@ -69,6 +72,10 @@ export class QGDSFileUpload extends QGDSFormField {
   private _breakpoint = new BreakpointController(this);
   private get _isMobile() {
     return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
+  }
+
+  private get _fileLimitReached() {
+    return (this.files?.length ?? 0) >= this.maxFiles;
   }
 
   // private _dataTransfer = new DataTransfer();
@@ -165,11 +172,11 @@ export class QGDSFileUpload extends QGDSFormField {
       required,
       id,
       name,
-      readOnly,
       disabled,
       maxFiles,
       maxSize,
       _ariaDescribedBy,
+      _fileLimitReached,
       _isDragover,
       _handleCancel,
       _handleChange,
@@ -197,11 +204,12 @@ export class QGDSFileUpload extends QGDSFormField {
             .join(", ");
 
     const fileOrFiles = multiple ? "files" : "file";
-    const isUploadAvailable = maxFiles > this._files.length;
+    // const isUploadAvailable = maxFiles > this._files.length;
 
     return html`<div class="file-upload" @qgds-cancel=${_handleCancel}>
-      ${isUploadAvailable
-        ? html`<div
+      ${_fileLimitReached
+        ? nothing
+        : html`<div
             class=${classMap({ "file-upload-dropzone": true, "is-dragover": _isDragover })}
             @dragenter=${_handleDragEnter}
             @dragover=${_preventDefaults}
@@ -223,8 +231,7 @@ export class QGDSFileUpload extends QGDSFormField {
               label="Select ${fileOrFiles}"
               @qgds-button-click=${_selectFiles}
             ></qgds-button>
-          </div>`
-        : nothing}
+          </div>`}
       <input
         id=${id}
         name=${ifDefined(name)}
@@ -234,9 +241,11 @@ export class QGDSFileUpload extends QGDSFormField {
         accept=${ifDefined(accept)}
         ?multiple=${multiple}
         ?required=${required}
-        ?readonly=${readOnly}
         ?disabled=${disabled}
         aria-describedby=${ifDefined(_ariaDescribedBy)}
+        @click=${(e: PointerEvent) => {
+          if (_fileLimitReached) _preventDefaults(e);
+        }}
         @change=${_handleChange}
       />
 
