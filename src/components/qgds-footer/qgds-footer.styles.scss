@@ -365,32 +365,32 @@ section {
       }
     }
   }
+}
 
-  .footer-logo {
-    display: inline-block;
+.footer-logo {
+  display: inline-block;
+  block-size: var(--footer-logo-height);
+  margin-block-start: 1.5rem;
+  margin-inline-end: auto;
+  color: var(--footer-text);
+
+  svg,
+  ::slotted(img),
+  ::slotted(svg),
+  ::slotted(qgds-logo) {
     block-size: var(--footer-logo-height);
-    margin-block-start: 1.5rem;
-    margin-inline-end: auto;
-    color: var(--footer-text);
-
-    svg,
-    ::slotted(img),
-    ::slotted(svg),
-    ::slotted(qgds-logo) {
-      block-size: var(--footer-logo-height);
-      inline-size: auto;
-    }
+    inline-size: auto;
   }
+}
 
-  .copyright {
-    margin-block-start: 1.5rem;
-    font-weight: 600;
-    line-height: #{tools.snap-line-height(1.5)};
-  }
+.copyright {
+  margin-block-start: 1.5rem;
+  font-weight: 600;
+  line-height: #{tools.snap-line-height(1.5)};
+}
 
-  .main-link-wrapper {
-    margin-block-start: 1.5rem;
-  }
+.main-link-wrapper {
+  margin-block-start: 1.5rem;
 }
 
 .empty,
