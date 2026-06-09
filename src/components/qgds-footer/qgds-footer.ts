@@ -24,8 +24,6 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * @property {string} [footerHeading="Queensland Government"] - Optional heading for the footer, typically the organisation name.
  * @property {string} [contactHeading="Contact us"] - Heading for the contact section.
  * @property {string} [contactStatement] - Optional statement text in the contact section.
- * @property {string} [contactPhone] - Optional phone number (e.g., "13 QGOV (13 74 68)").
- * @property {string} [contactEmail] - Optional email address.
  * @property {string} [socialHeading="Follow us"] - Heading for the social media section.
  * @property {string} [aocHeading="Acknowledgement of Country"] - Heading for the Acknowledgement section.
  * @property {string} copyrightLabel - Copyright text (required, e.g., "© The State of Queensland 2026").
@@ -83,12 +81,6 @@ export class QGDSFooter extends LitElement {
 
   @property({ type: String, attribute: "contact-statement" })
   contactStatement = "";
-
-  @property({ type: String, attribute: "contact-phone" })
-  contactPhone = "";
-
-  @property({ type: String, attribute: "contact-email" })
-  contactEmail = "";
 
   @property({ type: String, attribute: "custom-links-heading" })
   customLinksHeading = "";
@@ -261,23 +253,6 @@ export class QGDSFooter extends LitElement {
               ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
 
               <div class="contact-links-wrapper" role="list">
-                ${this.contactPhone
-                  ? html`<p class="contact-detail">
-                      <qgds-icon icon-id="phone" size="sm" aria-hidden="true"></qgds-icon>
-                      <span class="contact-label">Phone:</span>
-                      <a href="tel:${this.contactPhone.replace(/\D/g, "")}" class="contact-link">
-                        ${this.contactPhone}
-                      </a>
-                    </p>`
-                  : ""}
-                ${this.contactEmail
-                  ? html`<p class="contact-detail">
-                      <qgds-icon icon-id="email" size="sm" aria-hidden="true"></qgds-icon>
-                      <span class="contact-label">Email:</span>
-                      <a href="mailto:${this.contactEmail}" class="contact-link"> ${this.contactEmail} </a>
-                    </p>`
-                  : ""}
-
                 <slot name="contact-link" @slotchange=${this._onContactLinkSlotChange}></slot>
               </div>
             </div>

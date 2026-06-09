@@ -21,6 +21,9 @@ const meta: Meta<QGDSFooterStoryArgs> = {
   title: "Components/Footer",
   component: "qgds-footer",
   tags: ["autodocs"],
+  subcomponents: {
+    "Contact Item": "qgds-footer-contact-item",
+  },
   args: {
     ...args,
     "contact-heading": "Contact us",
@@ -59,30 +62,31 @@ export const Default: Story = {
       html`
         <!-- Contact Links -->
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="phone"
           label="Phone"
           href="tel:137468"
           value="13 QGOV (13 74 68)"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="email"
           label="Email"
           href="mailto:email@qld.gov.au"
           value="email@qld.gov.au"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="facebook"
           href="https://www.facebook.com/QueenslandGovernment"
           value="/QueenslandGovernment"
         ></qgds-footer-contact-item>
 
         <!-- Contact Buttons via contact-cta slot -->
-        <qgds-button slot="contact-cta" label="Contact us" variant="secondary"></qgds-button>
+        <qgds-button
+          href="https://qld.gov.au/contact"
+          slot="contact-cta"
+          label="Contact us"
+          variant="secondary"
+          target="_blank"
+        ></qgds-button>
 
         <!-- Site Links -->
         <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
@@ -184,23 +188,18 @@ export const Minimal: Story = {
       html`
         <!-- Contact Links -->
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="phone"
           label="Phone"
           href="tel:137468"
           value="13 QGOV (13 74 68)"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="email"
           label="Email"
           href="mailto:email@qld.gov.au"
           value="email@qld.gov.au"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="facebook"
           href="https://www.facebook.com/QueenslandGovernment"
           value="/QueenslandGovernment"
@@ -266,23 +265,18 @@ export const WithCustomLinks: Story = {
       html`
         <!-- Contact Links -->
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="phone"
           label="Phone"
           href="tel:137468"
           value="13 QGOV (13 74 68)"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="email"
           label="Email"
           href="mailto:email@qld.gov.au"
           value="email@qld.gov.au"
         ></qgds-footer-contact-item>
-
         <qgds-footer-contact-item
-          slot="contact-link"
           icon-id="facebook"
           label="Facebook"
           href="https://www.facebook.com/QueenslandGovernment"

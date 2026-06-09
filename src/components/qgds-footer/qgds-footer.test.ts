@@ -45,20 +45,6 @@ describe("qgds-footer", () => {
     expect(headingTexts).toContain("Check us out");
   });
 
-  it("renders phone and email links dynamically", async () => {
-    element.contactPhone = "13 74 68";
-    element.contactEmail = "info@qld.gov.au";
-    await element.updateComplete;
-
-    const phoneLink = element.shadowRoot?.querySelector('a[href="tel:137468"]');
-    expect(phoneLink).toBeTruthy();
-    expect(phoneLink?.textContent?.trim()).toBe("13 74 68");
-
-    const emailLink = element.shadowRoot?.querySelector('a[href="mailto:info@qld.gov.au"]');
-    expect(emailLink).toBeTruthy();
-    expect(emailLink?.textContent?.trim()).toBe("info@qld.gov.au");
-  });
-
   it("renders slotted custom, site, and social links", async () => {
     element.innerHTML = `
       <qgds-link slot="footer-custom-link" href="/about">About Us</qgds-link>

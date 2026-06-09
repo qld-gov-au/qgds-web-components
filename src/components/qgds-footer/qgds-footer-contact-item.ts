@@ -21,6 +21,10 @@ import { ICON_NAMES, type IconName } from "../qgds-icon/icon-names";
 export class QGDSFooterContactItem extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
+  // Self-defined slot name when dropped into a parent
+  @property({ type: String, reflect: true })
+  slot = "contact-link";
+
   // Validate and normalize the icon incoming value instantly
   @property({
     type: String,
