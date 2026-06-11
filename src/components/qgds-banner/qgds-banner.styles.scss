@@ -1,0 +1,97 @@
+@use "../../styles/tools";
+@use "../../styles/qgds-tokens/qgds-breakpoint";
+
+:host {
+  display: block;
+}
+
+.banner {
+  --max-width: 82rem;
+  --image-min-height: 21.5rem;
+
+  background-color: var(--qgds-color-background);
+  box-shadow: var(--qgds-elevation-2);
+
+  &-container {
+    max-inline-size: var(--max-width);
+    margin-inline: auto;
+    padding-inline: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-inner {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 0;
+    padding-block: 3rem 4rem;
+
+    .no-banner & {
+      padding-block: 1rem;
+
+      @media (min-width: qgds-breakpoint.$md) {
+        padding-block: 1.5rem;
+      }
+      @media (min-width: qgds-breakpoint.$lg) {
+        padding-block: 2rem;
+      }
+    }
+  }
+
+  &-breadcrumbs {
+    grid-column: 1 / span 7;
+  }
+
+  &-content {
+    grid-column: 1 / span 7;
+    grid-row: 2 / span 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: var(--qgds-color-text-default);
+  }
+
+  &-abstract {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  &-image-container {
+    grid-column: 8 / span 5;
+    grid-row: 1 / span 2;
+
+    &.right-align {
+      position: relative;
+      overflow: visible;
+    }
+  }
+
+  &-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    block-size: 100%;
+
+    @media (min-width: qgds-breakpoint.$xxl) {
+      min-block-size: var(--image-min-height);
+    }
+
+    .right-align & {
+      block-size: calc(100% + 7rem);
+      margin-inline-end: calc(-1 * (100vw - var(--max-width)) / 2);
+      margin-block-start: -3rem;
+    }
+  }
+
+  ::slotted([slot="cta"]) {
+    display: flex;
+    gap: 1rem;
+  }
+
+  ::slotted([slot="cards"]) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
