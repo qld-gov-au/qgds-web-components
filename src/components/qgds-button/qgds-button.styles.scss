@@ -35,7 +35,9 @@
   text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
   text-decoration-thickness: 0;
   text-align: center;
-  transition: text-decoration-thickness 0.2s ease-in-out;
+  transition:
+    background-color var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out),
+    text-decoration-thickness var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   min-inline-size: var(--min-width);
 
   &:not(.has-icon) {
@@ -45,7 +47,6 @@
   &:hover {
     text-decoration: underline;
     text-decoration-thickness: 2px;
-    transition: text-decoration-thickness 0.2s ease-in-out;
   }
 
   &:active {

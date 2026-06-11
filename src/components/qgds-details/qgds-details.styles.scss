@@ -16,7 +16,7 @@ Scoped CSS: qgds-details
   --summary-bg-hover: var(--qgds-color-background-shade, #f5f5f5);
   --summary-icon-hover: var(--qgds-color-action-secondary-hover, #004ea7);
   --content-color: var(--qgds-color-text-default, #333333);
-  --icon-transition: transform 0.2s ease-in-out;
+  --icon-transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   --min-block-size: 2.75rem;
   --font-size: 1rem;
 
@@ -86,6 +86,7 @@ summary {
     font-size: var(--font-size);
     user-select: none;
     inline-size: 100%;
+    transition: background-color var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   }
 
   &:hover div {
