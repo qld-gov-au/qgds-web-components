@@ -1,21 +1,24 @@
 @use "../../styles/qgds-tokens/qgds-color-stub";
 @use "../../styles/tools/mixins" as m;
 @use "../../styles/tools/functions" as f;
+@use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
 }
 
 .qgds-tile-button {
+  --qgds-icon-size: var(--qgds-icon-size-sm, 1.25rem);
+
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  padding-inline: 1rem;
-  padding-block: 0.625rem;
+  padding-inline: f.remify(14px);
+  padding-block: f.remify(8px);
   color: var(--qgds-color-link-default);
-  font-size: f.remify(14px);
+  font-size: f.remify(10px);
   line-height: f.snap-line-height(1);
   transition-property: background-color, outline;
   transition-duration: var(--qgds-transition-time);
@@ -30,4 +33,12 @@
   }
 
   @include m.focusable(false);
+
+  @media (min-width: qgds-breakpoint.$md) {
+    --qgds-icon-size: var(--qgds-icon-size-lg, 2rem);
+
+    font-size: f.remify(14px);
+    padding-inline: f.remify(20px);
+    padding-block: f.remify(12px);
+  }
 }

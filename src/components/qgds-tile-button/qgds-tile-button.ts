@@ -51,7 +51,7 @@ export class QGDSTileButton extends LitElement {
   private _renderButton = () => {
     return html`
       <button class="qgds-tile-button" @click="${this._handleClick}">
-        <qgds-icon icon-id="${this.iconName}" size="lg"></qgds-icon>
+        <qgds-icon icon-id="${this.iconName}"></qgds-icon>
         ${this.label}
       </button>
     `;
@@ -59,8 +59,8 @@ export class QGDSTileButton extends LitElement {
 
   private _renderLink = () => {
     return html`
-      <a class="qgds-tile-button" href="${this.href}">
-        <qgds-icon icon-id="${this.iconName}" size="lg"></qgds-icon>
+      <a class="qgds-tile-button" href="${this.href}" @click="${this._handleClick}">
+        <qgds-icon icon-id="${this.iconName}"></qgds-icon>
         ${this.label}
       </a>
     `;
