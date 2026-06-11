@@ -1,5 +1,6 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { QgdsEvents } from "../../utils";
 
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-tile-button.styles.scss?inline";
@@ -27,15 +28,20 @@ export const tagName = "qgds-tile-button";
 
 @customElement(tagName)
 export class QGDSTileButton extends LitElement {
-  static styles = [baseStyles, unsafeCSS(componentCSS)];
-
   @property({ type: String, reflect: true }) label = "";
   @property({ type: String, reflect: true }) href? = "";
   @property({ type: String, reflect: true, attribute: "icon-name" }) iconName = "";
+  private events: QgdsEvents;
+
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
+
+  constructor() {
+    super();
+    this.events = new QgdsEvents(this);
+  }
 
   render() {
     const isLink = !!this.href;
-
     if (isLink) {
       return this._renderLink();
     }
@@ -44,7 +50,7 @@ export class QGDSTileButton extends LitElement {
 
   private _renderButton = () => {
     return html`
-      <button class="qgds-tile-button" @click="${this.handleClick}">
+      <button class="qgds-tile-button" @click="${this._handleClick}">
         <qgds-icon icon-id="${this.iconName}" size="lg"></qgds-icon>
         ${this.label}
       </button>
@@ -53,25 +59,23 @@ export class QGDSTileButton extends LitElement {
 
   private _renderLink = () => {
     return html`
-      <a class="qgds-tile-button" href="${this.href}" @click="${this.handleClick}">
+      <a class="qgds-tile-button" href="${this.href}">
         <qgds-icon icon-id="${this.iconName}" size="lg"></qgds-icon>
         ${this.label}
       </a>
     `;
   }
 
-  private handleClick() {
-    this.dispatchEvent(
-      new CustomEvent("qgds-click", {
-        detail: {
-          href: this.href,
-          label: this.label,
-        },
-        bubbles: true,
-        composed: true,
-      })
-    );
+  private _handleClick = (e: Event) => {
+    if (this.href) {
+      e.preventDefault();
+    }
+    this.events.dispatch("click", { label: this.label }, e);
   }
 }
 
-export type QGDSTileButtonProps = InstanceType<typeof QGDSTileButton>;
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-tile-button": QGDSTileButton;
+  }
+}

@@ -6,10 +6,6 @@
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
 }
 
-:host([palette="bold"]) {
-  @extend %qgds-color-palette-bold;
-}
-
 .qgds-tile-button {
   display: inline-flex;
   flex-direction: column;
@@ -18,42 +14,20 @@
   gap: 0.25rem;
   padding-inline: 1rem;
   padding-block: 0.625rem;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
   color: var(--qgds-color-link-default);
   font-size: f.remify(14px);
   line-height: f.snap-line-height(1);
+  transition-property: background-color, outline;
+  transition-duration: var(--qgds-transition-time);
+  transition-timing-function: ease-out;
 
-  &:hover,
-  button:hover {
+  &:hover {
     --qgds-icon-color: var(--qgds-color-action-secondary-hover, #307edb);
 
     background-color: var(--qgds-color-background-shade, #003e96);
-    text-decoration: none;
-    text-decoration-thickness: 2px;
-    transition: text-decoration-thickness 0.2s ease-in-out;
-  }
-
-  &:active {
-    --text: var(--qgds-color-link-on-action-active, #000053);
-
-    box-shadow: var(--qgds-elevation-1);
-    text-decoration: none;
-    background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
-  }
-
-  @include m.focusable() {
-    --qgds-color-action-primary: var(--qgds-color-action-primary-hover);
-    --qgds-icon-color: var(--qgds-color-action-secondary-hover, #307edb);
-
-    background-color: var(--qgds-color-background-shade, #003e96);
-    box-shadow: var(--qgds-elevation-1);
     text-decoration: underline;
+    text-decoration-thickness: 2px;
   }
 
-  &__label {
-    font-size: 1rem;
-    text-align: center;
-  }
+  @include m.focusable(false);
 }

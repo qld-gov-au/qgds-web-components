@@ -52,9 +52,17 @@ export const Link: Story = {
 };
 
 export const ExampleOnHeaderButtons: Story = {
-  render: (args) => {
+  render: () => {
     return html`
-    <section style="display: flex; gap: 1rem;">
+    <style>
+        qgds-tile-button + qgds-tile-button {
+            border-left: 1px solid #418fed;
+        }
+        #root-inner>div {
+            padding: 0px !important;
+        }
+    </style>
+    <section style="display: flex; justify-content: flex-end; border-bottom: 0.25rem solid #84d3ff">
         <qgds-tile-button label="Search" icon-name="search"></qgds-tile-button>
         <qgds-tile-button label="Menu" icon-name="menu"></qgds-tile-button>
         <qgds-tile-button label="Close" icon-name="close"></qgds-tile-button>
@@ -63,9 +71,9 @@ export const ExampleOnHeaderButtons: Story = {
 };
 
 export const ExampleOnAdvancedBannerLinks: Story = {
-  render: (args) => {
+  render: () => {
     return html`
-    <section style="display: flex; gap: 1rem;">
+    <section style="display: flex; flex-direction: column; justify-content: flex-start; align-items: center; gap: 1rem; max-width: max-content;">
         <qgds-tile-button label="Contact us" icon-name="search" href="/contact-us"></qgds-tile-button>
         <qgds-tile-button label="Visiting hours" icon-name="clock" href="/visiting-hours"></qgds-tile-button>
         <qgds-tile-button label="Our services" icon-name="favourite" href="/our-services"></qgds-tile-button>
