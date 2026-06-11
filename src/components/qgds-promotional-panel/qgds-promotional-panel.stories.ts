@@ -18,7 +18,7 @@ argTypes["icon-name"] = {
 
 argTypes.palette = {
   control: { type: "select" },
-  options: [...Object.keys(palettes).filter((key) => key !== "soft")],
+  options: [...Object.keys(palettes)],
 };
 
 type Args = typeof args;
