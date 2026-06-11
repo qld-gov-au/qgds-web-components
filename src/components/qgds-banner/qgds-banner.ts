@@ -1,0 +1,88 @@
+import { LitElement, html, unsafeCSS, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
+import { palettes } from "../../utils";
+import { baseStyles } from "../../styles";
+import componentCSS from "./qgds-banner.styles.scss?inline";
+
+type QGDSPalette = keyof typeof palettes;
+
+type BackgroundOptions = "none" | "pattern" | "hero-image" | "background-image";
+type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image";
+type BannerVariants = "no-banner" | "default" | "advanced";
+
+/**
+ * Banners are use to introduce a page, their content should reflect the goals and content and purpose of the page they are on.
+ *
+ * @tag qgds-banner
+ *
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120418-139173&m=dev
+ *
+ * @prop {QGDSPalette} [palette="default"] - Colour palette applied to the banner.
+ *
+ * @prop {string} heading - The main heading text of the banner.
+ * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
+ * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
+ * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
+ * @prop {string} imageDescription - The alt text description for the background image, used for accessibility purposes.
+ 
+ * @slot - Default slot. Accepts custom html elements. It is used to display abstract text that is displayed underneath the page title.
+ * @slot breadcrumbs - Accepts one <qgds-breadcrumbs> with <qgds-breadcrumbs-item> elements. It is used to display the breadcrumbs navigation above the page title.
+ * @slot cta - Accepts a <qgds-link> element. It is used to display the site name and link to the left of the banner.
+ *
+ */
+@customElement("qgds-banner")
+export class QGDSBanner extends LitElement {
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
+
+  @property({ type: String, reflect: true, useDefault: true }) palette: QGDSPalette = "default";
+  @property({ type: String, reflect: true, useDefault: true }) variant: BannerVariants = "no-banner";
+  @property({ type: String, attribute: "heading" }) heading = "";
+  @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
+  @property({ type: String, attribute: "image-option" }) imageOption: ImageOptions = "grid-align";
+  @property({ type: String, attribute: "image-url" }) imageUrl = "";
+  @property({ type: String, attribute: "image-description" }) imageDescription = "";
+
+  render() {
+    return html`
+      <section aria-label="Banner" class="banner ${this.variant}">
+        <div class="banner-container">
+          <div class=${classMap({
+            "banner-inner": true,
+            "has-image": !!this.imageUrl,
+          })}>
+          <div class="banner-breadcrumbs">
+          <slot name="breadcrumbs"></slot>
+          </div>
+            <div class="banner-content">
+            
+              ${this.heading ? html`<h1 class="banner-heading">${this.heading}</h1>` : nothing}
+              <slot class="banner-abstract"></slot>
+              <slot class="banner-cta" name="cta"></slot>
+              <slot class="banner-cards" name="cards"></slot>
+            </div>
+            ${
+              this.imageUrl
+                ? html`
+            <div class="banner-image-container ${this.imageOption}">
+              <div
+                class="banner-image"
+                role="img"
+                aria-label=${this.imageDescription}
+                style=${this.backgroundOption === "hero-image" ? `background-image:url(${this.imageUrl})` : ""}
+              ></div>
+            </div>
+          </div>`
+                : nothing
+            }
+        </div>
+      </section>
+    `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "qgds-banner": QGDSBanner;
+  }
+}

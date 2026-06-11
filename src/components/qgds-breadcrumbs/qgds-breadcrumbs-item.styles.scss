@@ -2,14 +2,15 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
-  line-height: 2rem;
+  display: inline-flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 :host([is-last]) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: inline-block;
   flex-shrink: 999999;
 }
 
@@ -20,7 +21,7 @@
   inline-size: 100%;
 
   @media (min-width: qgds-breakpoint.$lg) {
-    display: inline-flex;
+    display: flex;
   }
 
   a {
