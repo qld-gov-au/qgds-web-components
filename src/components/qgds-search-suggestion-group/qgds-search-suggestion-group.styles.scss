@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.suggestion-group {
+  padding-block: 0.75rem;
+}
+
+// Separator between consecutive groups, mirroring the BS5
+// `.suggestions-category:not(:first-of-type)` border.
+:host(:not(:first-of-type)) .suggestion-group {
+  border-block-start: 1px solid var(--qgds-color-border, #e0e0e0);
+}
+
+// Featured group (e.g. "Related services") sits on a shaded background.
+:host([feature]) .suggestion-group {
+  background-color: var(--qgds-color-background-shade, #f5f5f5);
+}
+
+.group-label {
+  display: block;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--qgds-color-text-heading, #000053);
+}
+
+.group-list {
+  display: flex;
+  flex-direction: column;
+}

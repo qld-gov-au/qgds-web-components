@@ -7,6 +7,7 @@ import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
 
 const waitForRender = async (element: { updateComplete: Promise<unknown> }) => {
   await element.updateComplete;
+  await new Promise((r) => requestAnimationFrame(r));
   await element.updateComplete;
 };
 

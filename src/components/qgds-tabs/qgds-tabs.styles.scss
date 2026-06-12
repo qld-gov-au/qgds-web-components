@@ -42,14 +42,15 @@ nav {
   flex-direction: column;
   gap: tools.remify(8px);
   align-items: center;
+  align-self: end;
   white-space: nowrap;
-  padding-block: 0.75rem;
+  padding-block: tools.remify(9px) tools.remify(11px);
   padding-inline: tools.remify(20px);
   border-radius: tools.remify(4px) tools.remify(4px) 0 0;
   background-color: var(--qgds-color-background-shade);
   color: var(--qgds-color-link-default);
   margin-block: 0 1px;
-  border: 1px solid transparent;
+  border: none;
 
   &.active {
     background-color: var(--qgds-color-background);
@@ -74,6 +75,7 @@ nav {
       display: block;
       block-size: 0.25rem;
       inline-size: 100%;
+      margin-block-start: tools.remify(-1px); // to account for border
     }
   }
 

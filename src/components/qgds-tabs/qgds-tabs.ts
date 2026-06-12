@@ -122,16 +122,26 @@ export class QGDSTabs extends LitElement {
 
   private _handleKeydown(event: KeyboardEvent) {
     const total = this._tabs.length;
+    const btnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${this._activeIndex}`)?.offsetWidth ?? 0;
+    const scrollBtnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`.scroll.show`)?.offsetWidth ?? 48;
 
     switch (event.key) {
       case "ArrowRight":
         event.preventDefault();
         this._selectTab((this._activeIndex + 1) % total);
+        this._nav.scrollBy({
+          left: btnWidth - scrollBtnWidth,
+          behavior: "smooth",
+        });
         break;
 
       case "ArrowLeft":
         event.preventDefault();
         this._selectTab((this._activeIndex - 1 + total) % total);
+        this._nav.scrollBy({
+          left: -1 * (btnWidth - scrollBtnWidth),
+          behavior: "smooth",
+        });
         break;
     }
   }
@@ -177,7 +187,7 @@ export class QGDSTabs extends LitElement {
 
   render() {
     return html`
-      <header role="tablist" class="parent-context-${this._parentContext}">
+      <header class="parent-context-${this._parentContext}">
         <button
           class=${classMap({
             scroll: true,
@@ -190,7 +200,7 @@ export class QGDSTabs extends LitElement {
         >
           <qgds-icon aria-label="Scroll tab buttons left" icon-id="chevron-left" size="sm"></qgds-icon>
         </button>
-        <nav class="nav" @keydown=${(e: KeyboardEvent) => this._handleKeydown(e)}>
+        <nav role="tablist" class="nav" @keydown=${(e: KeyboardEvent) => this._handleKeydown(e)}>
           ${this._tabs.map(
             (tab, index) => html`
               <button
