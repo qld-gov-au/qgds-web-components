@@ -9,7 +9,7 @@ type QGDSPalette = keyof typeof palettes;
 
 type BackgroundOptions = "none" | "pattern" | "hero-image" | "background-image";
 type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image";
-type BannerVariants = "no-banner" | "default" | "advanced";
+type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
 
 /**
  * Banners are use to introduce a page, their content should reflect the goals and content and purpose of the page they are on.
@@ -25,12 +25,13 @@ type BannerVariants = "no-banner" | "default" | "advanced";
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
  * @prop {string} imageDescription - The alt text description for the background image, used for accessibility purposes.
- 
+ * @prop {BannerVariants} [variant="no-banner"] - The variant of the banner, which determines the styling of the banner.
  * @slot - Default slot. Accepts custom html elements. It is used to display abstract text that is displayed underneath the page title.
  * @slot breadcrumbs - Accepts one <qgds-breadcrumbs> with <qgds-breadcrumbs-item> elements. It is used to display the breadcrumbs navigation above the page title.
  * @slot cta - Accepts a <qgds-link> element. It is used to display the site name and link to the left of the banner.
  *
  */
+
 @customElement("qgds-banner")
 export class QGDSBanner extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
