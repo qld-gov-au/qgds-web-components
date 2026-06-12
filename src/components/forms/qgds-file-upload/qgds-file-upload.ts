@@ -16,9 +16,10 @@ import qgdsBreakpoint from "../../../styles/qgds-tokens/qgds-breakpoint";
 
 export const tagname = "qgds-file-upload";
 type Status = "loading" | "ready" | "error" | "success";
-interface FileStatus {
-  file: File;
+interface FileMeta {
+  index: number;
   status: Status;
+  message?: string;
 }
 
 /**
@@ -55,13 +56,7 @@ export class QGDSFileUpload extends QGDSFormField {
     return this._input?.files ?? null;
   }
 
-  @state() private _files: FileStatus[] = [];
-  // What if this becomes a DataTransfer object to add and remove File Objects and sync with the input:
-  // - will not be reactive, so need to call requestUpdate() when it changes.
-  // What if it is a getter, querying the input.files directly?
-  // - will not be reactive, and requires a DataTransfer object anyway when Files are added/removed. requestUpdate() required if changes.
-  // If remains an Array,
-  // - requires syncing via DataTransfer to update input.files, will this occur after update() ??
+  @state() private _filesMeta: FileMeta[] = [];
   @state() private _isDragover: boolean = false;
 
   @query("input[type=file]", true) private _input!: HTMLInputElement;
@@ -77,8 +72,6 @@ export class QGDSFileUpload extends QGDSFormField {
   private get _fileLimitReached() {
     return (this.files?.length ?? 0) >= this.maxFiles;
   }
-
-  // private _dataTransfer = new DataTransfer();
 
   constructor() {
     super();
@@ -127,17 +120,76 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   private _handleChange = (e: Event) => {
-    // console.log("change");
     const input = e.target as HTMLInputElement;
-    this._files = input.files ? Array.from(input.files).map((file) => ({ file, status: "ready" })) : [];
+    // Once files are selected, run some basic validation against given constraints.
+    // Any errors should be passed through to the FileStatus element for display
+    // The component should also fire an invalid event and ensure it prevents submission.
+
+    this._filesMeta = input.files
+      ? Array.from(input.files).map((file, index) => {
+          const validationMessage = this._validateFile(file);
+          return {
+            index,
+            status: validationMessage ? "error" : "ready",
+            message: validationMessage,
+          };
+        })
+      : [];
   };
+
+  private _validateFile(file: File): string | undefined {
+    const acceptValue = (this.accept || "").trim();
+
+    if (acceptValue && acceptValue !== "*") {
+      const fileType = (file.type || "").toLowerCase();
+      const fileName = file.name || "";
+      const fileExt = fileName.includes(".") ? (fileName.split(".").pop()?.toLowerCase() ?? "") : "";
+      const accepted = acceptValue
+        .split(",")
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean)
+        .some((token) => {
+          if (token.startsWith(".")) {
+            return fileExt === token.slice(1);
+          }
+
+          if (token.endsWith("/*")) {
+            return fileType.startsWith(token.slice(0, -1));
+          }
+
+          if (fileType && fileType === token) {
+            return true;
+          }
+
+          if (fileExt && fileExt === token) {
+            return true;
+          }
+
+          return fileType ? mimeToExtension(token) === mimeToExtension(fileType) : mimeToExtension(token) === fileExt;
+        });
+
+      if (!accepted) {
+        return `File type not accepted. Acceptable types: ${acceptValue}.`;
+      }
+    }
+
+    if (typeof this.maxSize === "number" && Number.isFinite(this.maxSize) && this.maxSize > 0) {
+      const maxBytes = this.maxSize * 1024 * 1024;
+      if (file.size > maxBytes) {
+        return `File must be smaller than ${this.maxSize} MB.`;
+      }
+    }
+
+    return undefined;
+  }
 
   private _handleCancel = (e: CustomEvent) => {
     const el = e.target as QGDSFileStatus;
     const dataTransfer = new DataTransfer();
 
-    this._files.forEach((fileStatus) => {
-      if (fileStatus.file !== el.file) dataTransfer.items.add(fileStatus.file);
+    this._filesMeta.forEach((meta) => {
+      const file = this.files?.item(meta.index);
+      if (file && file !== el.file) dataTransfer.items.add(file);
     });
 
     this._updateInputFileList(dataTransfer.files);
@@ -149,18 +201,26 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   private _renderFiles = () => {
-    const { _files } = this;
-    return _files.length === 0
+    const { files, _filesMeta } = this;
+    return !files || files.length === 0
       ? nothing
-      : _files.length === 1
-        ? html`<qgds-file-status .file=${_files[0].file} status=${_files[0].status}></qgds-file-status>`
+      : files.length === 1
+        ? html`<qgds-file-status
+            .file=${files.item(0)}
+            status=${_filesMeta[0].status}
+            message=${ifDefined(_filesMeta[0].message)}
+          ></qgds-file-status>`
         : html`<ul class="file-upload-list">
             ${repeat(
-              _files,
-              (fileStatus) => fileStatus.file.name, // key function will track the correct DOM object on add / removal
-              (fileStatus) =>
+              _filesMeta,
+              (meta) => files.item(meta.index)?.name, // key function will track the correct DOM object on add / removal
+              (meta) =>
                 html`<li>
-                  <qgds-file-status .file=${fileStatus.file} status=${fileStatus.status}></qgds-file-status>
+                  <qgds-file-status
+                    .file=${files.item(meta.index)}
+                    status=${meta.status}
+                    message=${ifDefined(meta.message)}
+                  ></qgds-file-status>
                 </li>`
             )}
           </ul>`;
@@ -204,7 +264,6 @@ export class QGDSFileUpload extends QGDSFormField {
             .join(", ");
 
     const fileOrFiles = multiple ? "files" : "file";
-    // const isUploadAvailable = maxFiles > this._files.length;
 
     return html`<div class="file-upload" @qgds-cancel=${_handleCancel}>
       ${_fileLimitReached
@@ -260,8 +319,10 @@ export class QGDSFileUpload extends QGDSFormField {
 @customElement("qgds-file-status")
 class QGDSFileStatus extends LitElement {
   static styles = [baseStyles, formStyles, unsafeCSS(componentStyles), utilitiesStyles];
+
   @property({ type: Object, attribute: false }) file!: File;
-  @property({ type: String }) status: "loading" | "ready" | "error" | "success" = "loading";
+  @property({ type: String }) status: Status = "loading";
+  @property({ type: String }) message?: string = "";
 
   private get _iconName(): IconName {
     if (this.status === "error") return "document-error";
@@ -326,7 +387,7 @@ class QGDSFileStatus extends LitElement {
           ${status === "loading"
             ? html`Uploading...`
             : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
-                Upload complete - ${file ? readableFileSize(file.size) : nothing}`}
+                ${this.message ?? nothing} ${file ? readableFileSize(file.size) : nothing}`}
         </p>
       </div>
       <qgds-button variant="tertiary" label=${buttonLabel} @qgds-button-click=${_handleButtonClick}
