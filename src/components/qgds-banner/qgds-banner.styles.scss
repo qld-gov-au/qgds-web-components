@@ -8,6 +8,13 @@
 .banner {
   --max-width: 82rem;
   --image-min-height: 21.5rem;
+  --col-span-desktop: repeat(12, 1fr);
+  --col-span-mobile: repeat(6, 1fr);
+  --content-width-desktop: 1 / span 7;
+  --content-width-mobile: 1 / span 3;
+  --content-width-mobile-no-image: 1 / span 6;
+  --image-width-desktop: 8 / span 5;
+  --image-width-mobile: 4 / span 3;
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
@@ -22,10 +29,13 @@
 
   &-inner {
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: var(--col-span-mobile);
     grid-template-rows: auto auto auto;
-    gap: 0;
     padding-block: 3rem 4rem;
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      grid-template-columns: var(--col-span-desktop);
+    }
 
     .no-banner & {
       padding-block: 1rem;
@@ -40,16 +50,32 @@
   }
 
   &-breadcrumbs {
-    grid-column: 1 / span 7;
+    grid-column: var(--content-width-desktop);
   }
 
   &-content {
-    grid-column: 1 / span 7;
+    grid-column: var(--content-width-mobile-no-image);
     grid-row: 2 / span 1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     color: var(--qgds-color-text-default);
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      grid-column: var(--content-width-desktop);
+    }
+
+    .has-image & {
+      grid-column: var(--content-width-mobile);
+      @media (min-width: qgds-breakpoint.$lg) {
+        grid-column: var(--content-width-desktop);
+      }
+    }
+  }
+
+  &-heading {
+    padding-block-start: 1.5rem;
+    text-wrap: auto;
   }
 
   &-abstract {
@@ -58,7 +84,7 @@
   }
 
   &-image-container {
-    grid-column: 8 / span 5;
+    grid-column: var(--image-width-desktop);
     grid-row: 1 / span 2;
 
     &.right-align {

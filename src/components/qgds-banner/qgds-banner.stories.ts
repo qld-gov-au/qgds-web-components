@@ -34,6 +34,7 @@ const meta: Meta<Args> = {
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
     "background-option": "hero-image",
     "image-option": "grid-align",
+    variant: "no-banner",
   },
   argTypes,
   render: (args) => template(args),
@@ -42,12 +43,13 @@ const meta: Meta<Args> = {
 export default meta;
 
 export const NoBanner: Story = {
-  args: {},
+  args: {
+    variant: "no-banner",
+  },
   argTypes: {
     variant: { control: false }, // Disables control
   },
   parameters: {
-    // controls: { exclude: ["image-option", "image-url", "image-description", "heading", "background-option"] }, // Hides specific ones
     controls: { include: ["palette", "variant"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
@@ -64,12 +66,22 @@ export const NoBanner: Story = {
 };
 
 export const DefaultBanner: Story = {
-  args: meta.args,
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    variant: "default",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, which determines the layout and styling of the banner. The value, 'default' is used to display the default banner layout, which includes a heading and breadcrumbs.",
+    }, // Disables control
+  },
   parameters: {
-    ...chromaticModes,
+    controls: { include: ["palette", "variant"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
-    <qgds-banner palette=${args.palette} variant=${args.variant} heading=${args.heading}>
+    <qgds-banner palette=${args.palette} variant="default" heading=${args.heading}>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
