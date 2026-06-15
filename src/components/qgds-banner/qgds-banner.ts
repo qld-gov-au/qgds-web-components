@@ -7,7 +7,7 @@ import componentCSS from "./qgds-banner.styles.scss?inline";
 
 type QGDSPalette = keyof typeof palettes;
 
-type BackgroundOptions = "none" | "pattern" | "hero-image" | "background-image";
+type BackgroundOptions = "none" | "texture" | "image" | "hero-image";
 type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image";
 type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
 
@@ -24,6 +24,7 @@ type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
  * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
+ * @prop {string} mobileImageUrl - The URL of the mobile background image to display when backgroundOption is set to "hero-image" or "background-image".
  * @prop {string} imageDescription - The alt text description for the background image, used for accessibility purposes.
  * @prop {BannerVariants} [variant="no-banner"] - The variant of the banner, which determines the styling of the banner.
  * @slot - Default slot. Accepts custom html elements. It is used to display abstract text that is displayed underneath the page title.
@@ -42,15 +43,23 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
   @property({ type: String, attribute: "image-option" }) imageOption: ImageOptions = "grid-align";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
+  @property({ type: String, attribute: "mobile-image-url" }) mobileImageUrl = "";
   @property({ type: String, attribute: "image-description" }) imageDescription = "";
 
   render() {
     return html`
-      <section aria-label="Banner" class="banner ${this.variant}">
+      <section aria-label="Banner" class=${classMap({
+        banner: true,
+        [this.variant]: true,
+        "has-background": !!this.imageUrl && (this.backgroundOption === "image" || this.backgroundOption === "texture"),
+        "has-background-image": !!this.imageUrl && this.backgroundOption === "image",
+      })}
+      style=${this.backgroundOption === "image" || this.backgroundOption === "texture" ? `background-image:url(${this.imageUrl})` : ""}
+      >
         <div class="banner-container">
           <div class=${classMap({
             "banner-inner": true,
-            "has-image": !!this.imageUrl,
+            "has-hero-image": !!this.imageUrl && this.backgroundOption === "hero-image",
           })}>
           <div class="banner-breadcrumbs">
           <slot name="breadcrumbs"></slot>
@@ -63,14 +72,24 @@ export class QGDSBanner extends LitElement {
               <slot class="banner-cards" name="cards"></slot>
             </div>
             ${
-              this.imageUrl
+              this.backgroundOption.includes("image") && this.imageUrl
                 ? html`
             <div class="banner-image-container ${this.imageOption}">
+              ${
+                this.backgroundOption === "hero-image"
+                  ? html`<div
+                      class="banner-image"
+                      role="img"
+                      aria-label=${this.imageDescription}
+                      style="background-image:url(${this.imageUrl})"
+                    ></div>`
+                  : nothing
+              }
               <div
-                class="banner-image"
+                class="banner-image-mobile"
                 role="img"
                 aria-label=${this.imageDescription}
-                style=${this.backgroundOption === "hero-image" ? `background-image:url(${this.imageUrl})` : ""}
+                style="background-image:url(${this.mobileImageUrl})"
               ></div>
             </div>
           </div>`
