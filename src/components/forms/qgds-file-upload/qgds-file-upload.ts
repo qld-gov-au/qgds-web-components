@@ -1,27 +1,25 @@
-import { html, LitElement, unsafeCSS, nothing, TemplateResult, PropertyValues } from "lit";
+import { html, unsafeCSS, nothing, TemplateResult, PropertyValues } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state, query } from "lit/decorators.js";
-import { baseStyles, formStyles, utilitiesStyles } from "../../../styles";
 import componentStyles from "./qgds-file-upload.styles.scss?inline";
-import { QgdsEvents, readableFileSize, getFileType, mimeToExtension, BreakpointController } from "../../../utils";
+import { QgdsEvents, readableFileSize, mimeToExtension, BreakpointController } from "../../../utils";
 import { QGDSFormField } from "../qgds-form-field";
-
-import "../../qgds-button/qgds-button";
+import { Status, type QGDSFileUploadItem } from "./qgds-file-upload-item";
+import "./qgds-file-upload-item";
 import "../../qgds-feature-icon/qgds-feature-icon";
-import "../../qgds-loading-spinner/qgds-loading-spinner";
-import { IconName } from "../../qgds-icon/icon-names";
+
 import { ifDefined } from "lit/directives/if-defined.js";
 import qgdsBreakpoint from "../../../styles/qgds-tokens/qgds-breakpoint";
 
 export const tagname = "qgds-file-upload";
-type Status = "loading" | "ready" | "error" | "success";
+
 interface Meta {
   status: Status;
   message?: string;
 }
 
-interface metaFile extends Meta {
+export interface MetaFile extends Meta {
   file: File;
 }
 
@@ -69,7 +67,7 @@ export class QGDSFileUpload extends QGDSFormField {
   }
 
   // private state
-  @state() private _metaFiles: metaFile[] = [];
+  @state() private _metaFiles: MetaFile[] = [];
   @state() private _isDragover: boolean = false;
 
   // query helpers
@@ -131,7 +129,6 @@ export class QGDSFileUpload extends QGDSFormField {
   private _handleDrop = (e: DragEvent) => {
     this._preventDefaults(e);
     this._isDragover = false;
-
     // If the drag event includes files
     if (e.dataTransfer?.files) {
       this._addFiles(e.dataTransfer.files);
@@ -147,12 +144,12 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   private _handleCancel = (e: CustomEvent) => {
-    const el = e.target as QGDSFileStatus;
+    const el = e.target as QGDSFileUploadItem;
     this._removeFile(el.file);
   };
 
   private _addFiles = (files: FileList) => {
-    const newFiles: metaFile[] = [];
+    const newFiles: MetaFile[] = [];
     Array.from(files).forEach((file) => {
       const meta = this._getMetaValidate(file);
       newFiles.push({
@@ -234,22 +231,22 @@ export class QGDSFileUpload extends QGDSFormField {
     return !_metaFiles || _metaFiles.length === 0
       ? nothing
       : _metaFiles.length === 1
-        ? html`<qgds-file-status
+        ? html`<qgds-file-upload-item
             .file=${_metaFiles[0].file}
             status=${_metaFiles[0].status}
             message=${ifDefined(_metaFiles[0].message)}
-          ></qgds-file-status>`
+          ></qgds-file-upload-item>`
         : html`<ul class="file-upload-list">
             ${repeat(
               _metaFiles,
               (meta) => meta.file.name, // key function will track the correct DOM object on add / removal // Need a UUID perhaps instead?
               (meta) =>
                 html`<li>
-                  <qgds-file-status
+                  <qgds-file-upload-item
                     .file=${meta.file}
                     status=${meta.status}
                     message=${ifDefined(meta.message)}
-                  ></qgds-file-status>
+                  ></qgds-file-upload-item>
                 </li>`
             )}
           </ul>`;
@@ -344,91 +341,8 @@ export class QGDSFileUpload extends QGDSFormField {
   // render function is handled by the superClass
 }
 
-// Sub Component is only used within Main Component
-@customElement("qgds-file-status")
-class QGDSFileStatus extends LitElement {
-  static styles = [baseStyles, formStyles, unsafeCSS(componentStyles), utilitiesStyles];
-
-  @property({ type: Object, attribute: false }) file!: File;
-  @property({ type: String }) status: Status = "loading";
-  @property({ type: String }) message: string = "";
-
-  private get _iconName(): IconName {
-    if (this.status === "error") return "document-error";
-    else if (this.file) {
-      switch (getFileType(this.file)) {
-        case "audio":
-          return "audio";
-        case "image":
-          return "image";
-        case "pdf":
-          return "document-pdf";
-        case "spreadsheet":
-          return "document-spreadsheet";
-        case "text":
-          return "document";
-        case "video":
-          return "video";
-        case "word":
-          return "document-word";
-        default:
-          return "document";
-      }
-    } else return "document";
-  }
-
-  private _events: QgdsEvents;
-
-  constructor() {
-    super();
-    this._events = new QgdsEvents(this);
-  }
-
-  private _handleButtonClick = (e: CustomEvent) => {
-    e.stopPropagation();
-    this._events.dispatch("cancel");
-  };
-
-  render() {
-    const { file, status, message, _iconName, _handleButtonClick } = this;
-    const classNames = classMap({
-      "is-loading": status === "loading",
-      "is-ready": status === "ready",
-      "is-success": status === "success",
-      "is-error": status === "error",
-    });
-    const captionClassNames = classMap({
-      "qgds-caption": status === "loading",
-      "qgds-validation-message is-error": status === "error",
-      "qgds-validation-message is-success": status === "success" || status === "ready",
-    });
-
-    const buttonLabel = status === "loading" ? "Cancel" : "Remove";
-    const buttonIcon = status === "loading" ? "alert-cancel" : "delete";
-
-    return html`<div class="file-status flex flex-wrap gap-x-16 align-items-center ${classNames}">
-      ${status === "loading"
-        ? html`<qgds-loading-spinner size="lg"></qgds-loading-spinner>`
-        : html`<qgds-icon icon-id="${_iconName}" size="lg"></qgds-icon>`}
-      <div class="flex-grow">
-        <h6 class="qgds-display-xs mb-8">${file.name}</h6>
-        <p class=${captionClassNames}>
-          ${status === "loading"
-            ? html`Uploading...`
-            : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
-                ${message ?? nothing}`}
-        </p>
-      </div>
-      <qgds-button variant="tertiary" label=${buttonLabel} @qgds-button-click=${_handleButtonClick}
-        ><qgds-icon slot="icon" icon-id=${buttonIcon}></qgds-icon
-      ></qgds-button>
-    </div>`;
-  }
-}
-
 declare global {
   interface HTMLElementTagNameMap {
     [tagname]: QGDSFileUpload;
-    "qgds-file-status": QGDSFileStatus;
   }
 }

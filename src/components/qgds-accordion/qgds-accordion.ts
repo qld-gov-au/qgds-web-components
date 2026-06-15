@@ -38,7 +38,6 @@ export class QGDSAccordion extends LitElement {
 
   constructor() {
     super();
-    // console.log("constructor");
     this.events = new QgdsEvents(this);
   }
 
