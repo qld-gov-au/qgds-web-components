@@ -8,11 +8,6 @@ import { allFilesArray } from "./__mocks__/filemocks";
 import { chromaticModes } from "../../../../.storybook/modes";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSFileUpload>(tagname);
-// const {
-//   args: itemArgs,
-//   argTypes: itemArgTypes,
-//   template: itemTemplate,
-// } = getStorybookHelpers<QGDSFileUploadItem>("qgds-file-upload-item");
 type Args = typeof args;
 
 function createMockDataTransfer() {

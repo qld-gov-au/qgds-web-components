@@ -74,18 +74,20 @@ export class QGDSFileUploadItem extends LitElement {
     const buttonLabel = status === "loading" ? "Cancel" : "Remove";
     const buttonIcon = status === "loading" ? "alert-cancel" : "delete";
 
-    return html`<div class="file-status flex flex-wrap gap-x-16 align-items-center ${classNames}">
-      ${status === "loading"
-        ? html`<qgds-loading-spinner size="lg" hide-label></qgds-loading-spinner>`
-        : html`<qgds-icon icon-id="${_iconName}" size="lg"></qgds-icon>`}
-      <div class="flex-grow">
-        <h6 class="qgds-display-xs mb-8">${file.name}</h6>
-        <p class=${captionClassNames}>
-          ${status === "loading"
-            ? html`Uploading...`
-            : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
-                ${message ?? nothing}`}
-        </p>
+    return html`<div class="file-status ${classNames}">
+      <div class="file-status-main">
+        ${status === "loading"
+          ? html`<qgds-loading-spinner size="lg" hide-label></qgds-loading-spinner>`
+          : html`<qgds-icon icon-id="${_iconName}" size="lg"></qgds-icon>`}
+        <div class="flex-grow">
+          <h6 class="qgds-display-xs mb-8">${file.name}</h6>
+          <p class=${captionClassNames}>
+            ${status === "loading"
+              ? html`Uploading...`
+              : html`<qgds-icon icon-id=${status === "error" ? "status-error" : "status-success"} size="sm"></qgds-icon>
+                  ${message ?? nothing}`}
+          </p>
+        </div>
       </div>
       <qgds-button variant="tertiary" label=${buttonLabel} @qgds-button-click=${_handleButtonClick}
         ><qgds-icon slot="icon" icon-id=${buttonIcon}></qgds-icon

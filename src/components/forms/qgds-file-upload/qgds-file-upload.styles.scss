@@ -74,11 +74,34 @@
 
 // Used in qgds-file-upload-item
 .file-status {
+  $gap: tools.remify(16px);
+
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
 
   @include tools.border-padding($border-width: 2px, $padding: tools.remify(24px));
 
   border-radius: tools.remify(4px);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: $gap;
+
+  &-main {
+    flex: none;
+    inline-size: 100%;
+    display: flex;
+    column-gap: $gap;
+  }
+
+  @media (min-width: #{bp.$lg} ) {
+    flex-wrap: nowrap;
+    align-items: center;
+
+    &-main {
+      align-items: center;
+      inline-size: auto;
+      flex: 1;
+    }
+  }
 
   &.is-loading {
     background-color: var(--qgds-color-background, #ffffff);

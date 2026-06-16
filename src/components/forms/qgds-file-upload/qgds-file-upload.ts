@@ -1,4 +1,4 @@
-import { html, unsafeCSS, nothing, TemplateResult, PropertyValues } from "lit";
+import { html, unsafeCSS, nothing, TemplateResult } from "lit";
 import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state, query } from "lit/decorators.js";
@@ -96,17 +96,6 @@ export class QGDSFileUpload extends QGDSFormField {
     super.connectedCallback?.();
   }
 
-  update(_changedProperties: PropertyValues) {
-    super.update?.(_changedProperties);
-    // console.log("Update!");
-  }
-
-  updated(_changedProperties: PropertyValues) {
-    if (_changedProperties.has("_metaFiles")) {
-      this._events.dispatch("change");
-    }
-  }
-
   private _preventDefaults = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
@@ -130,7 +119,7 @@ export class QGDSFileUpload extends QGDSFormField {
     }
   };
 
-  private _handleDrop = (e: DragEvent) => {
+  private _handleDrop = async (e: DragEvent) => {
     this._preventDefaults(e);
     if (this.disabled) {
       if (e.dataTransfer) {
@@ -141,24 +130,27 @@ export class QGDSFileUpload extends QGDSFormField {
     this._isDragover = false;
     // If the drag event includes files
     if (e.dataTransfer?.files) {
-      this._addFiles(e.dataTransfer.files);
+      await this._addFiles(e.dataTransfer.files);
     }
   };
 
-  private _handleChange = (e: Event) => {
+  // Fired when the internal input changes. Keep its value internal because we handle add/remove files differently
+  private _handleChange = async (e: Event) => {
     this._preventDefaults(e);
 
     const input = e.target as HTMLInputElement;
 
-    if (input.files?.length) this._addFiles(input.files);
+    if (input.files?.length) {
+      await this._addFiles(input.files);
+    }
   };
 
-  private _handleCancel = (e: CustomEvent) => {
+  private _handleCancel = async (e: CustomEvent) => {
     const el = e.target as QGDSFileUploadItem;
-    this._removeFile(el.file);
+    await this._removeFile(el.file);
   };
 
-  private _addFiles = (files: FileList) => {
+  private _addFiles = async (files: FileList) => {
     const newFiles: MetaFile[] = [];
     Array.from(files).forEach((file) => {
       const meta = this._getMetaValidate(file);
@@ -168,10 +160,14 @@ export class QGDSFileUpload extends QGDSFormField {
       });
     });
     this._metaFiles = [...this._metaFiles, ...newFiles]; // ensure a new array is created.
+    await this.updateComplete;
+    this._events.dispatch("change", { value: this.filesArray });
   };
 
-  private _removeFile = (fileToRemove: File) => {
+  private _removeFile = async (fileToRemove: File) => {
     this._metaFiles = this._metaFiles.filter((item) => item.file !== fileToRemove); // ensure a new array is created.
+    await this.updateComplete;
+    this._events.dispatch("change", { value: this.filesArray });
   };
 
   private _selectFiles = () => {
