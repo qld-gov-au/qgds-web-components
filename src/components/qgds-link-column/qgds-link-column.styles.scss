@@ -10,7 +10,6 @@
   --qgds-icon-spacing-end: 0;
   --qgds-icon-margin-start: auto;
   --qgds-icon-color: var(--qgds-color-action-secondary);
-
   --qgds-link-border-end-width: 1px;
   --qgds-link-border-end-style: solid;
   --qgds-link-border-end-colour: var(--qgds-color-border);
@@ -100,7 +99,6 @@
 
 qgds-call-to-action {
   display: block;
-  // inline-size: fit-content;
   grid-column: 1 / -1;
   column-span: all;
   margin-inline-start: auto;

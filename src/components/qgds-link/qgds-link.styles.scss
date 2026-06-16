@@ -46,7 +46,6 @@ span {
   font-weight: var(--qgds-link-font-weight, inherit);
   text-decoration-thickness: 0.5px; // var(--qgds-link-decoration-init-thickness, 0.5px);
   text-underline-offset: 6px;
-
   text-decoration-color: var(--qgds-link-decoration-init-color, currentColor);
   transition: text-decoration-thickness var(--qgds-transition-time) ease;
   inline-size: var(--qgds-link-width);
@@ -87,6 +86,30 @@ qgds-icon {
   }
 }
 
+
+// Span-specific overrides — must come after a, button, span to win via source order
+// stylelint-disable-next-line no-descending-specificity
+span {
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+  color: var(--qgds-color-text-default);
+}
+
+// Animations — driven by the reflected animation attribute on :host
+// Shared base transition (lower specificity — must come before per-animation hover rules)
+:host([animation="rotateOut"]) a qgds-icon, 
+:host([animation="rotateOut"]) button qgds-icon {
+  transform: rotate(0deg) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-time) ease;
+}
+
+:host([animation="rotateIn"]) a qgds-icon, 
+:host([animation="rotateIn"]) button qgds-icon {
+  transform: rotate(0deg) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-time) ease;
+}
+
 :host([stretch]) {
   --qgds-link-width: 100%;
 
@@ -111,14 +134,18 @@ qgds-icon {
   }
 }
 
-// Span-specific overrides — must come after a, button, span to win via source order
-// stylelint-disable-next-line no-descending-specificity
-span {
-  text-decoration: none;
-  cursor: default;
-  pointer-events: none;
-  color: var(--qgds-color-text-default);
+:host([animation="rotateOut"]) a:hover qgds-icon,
+:host([animation="rotateOut"]) button:hover qgds-icon {
+  transform: rotate(var(--animation-rotate-angle, -180deg)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
 }
+
+:host([animation="rotateIn"]) a:hover qgds-icon,
+:host([animation="rotateIn"]) button:hover qgds-icon {
+  transform: rotate(var(--animation-rotate-angle, 180deg)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
 
 // Animations — driven by the reflected animation attribute on :host.
 // The transition lives on the base (non-hover) icon so the movement glides both
@@ -128,7 +155,6 @@ span {
 :host([animation]) button qgds-icon {
   transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
 }
-/* stylelint-enable no-descending-specificity */
 
 :host([animation="leftToRight"]) a:hover qgds-icon,
 :host([animation="leftToRight"]) button:hover qgds-icon {
@@ -158,30 +184,6 @@ span {
 :host([animation="scaleOut"]) a:hover qgds-icon,
 :host([animation="scaleOut"]) button:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
-}
-
-:host([animation="rotateIn"]) a qgds-icon, 
-:host([animation="rotateIn"]) button qgds-icon {
-  transform: rotate(0deg) scaleX(var(--icon-direction));
-  transition: transform var(--qgds-transition-time) ease;
-}
-
-:host([animation="rotateIn"]) a:hover qgds-icon,
-:host([animation="rotateIn"]) button:hover qgds-icon {
-  transform: rotate(var(--animation-rotate-angle, 180deg)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
-}
-
-:host([animation="rotateOut"]) a qgds-icon, 
-:host([animation="rotateOut"]) button qgds-icon {
-  transform: rotate(0deg) scaleX(var(--icon-direction));
-  transition: transform var(--qgds-transition-time) ease;
-}
-
-:host([animation="rotateOut"]) a:hover qgds-icon,
-:host([animation="rotateOut"]) button:hover qgds-icon {
-  transform: rotate(var(--animation-rotate-angle, -180deg)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 .sr-only {
