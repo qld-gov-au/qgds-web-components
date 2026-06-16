@@ -91,7 +91,7 @@ qgds-accordion {
     &::before {
       content: "└─";
       position: absolute;
-      inset-inline-start: f.remify(32px);
+      inset-inline-start: f.remify(30px);
       inset-block-start: f.remify(18);
       font-size: f.remify(10px);
       color: var(--qgds-color-border-alt, #848484);
