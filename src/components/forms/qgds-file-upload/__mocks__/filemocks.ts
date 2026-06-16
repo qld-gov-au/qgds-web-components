@@ -23,9 +23,13 @@ export const videoFile: File = new File(["content"], "video-file.mp4", {
 export const errorFile: File = new File(["content"], "error-file.csv", {
   type: "text/plain",
 });
-export const successFile: File = new File(["content"], "success-file.csv", {
-  type: "text/plain",
-});
+export const successFile: File = new File(
+  ["content"],
+  "success-fileLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.csv",
+  {
+    type: "text/plain",
+  }
+);
 
 Object.defineProperty(videoFile, "size", { value: 12_345_678, configurable: true });
 Object.defineProperty(imageFile, "size", { value: 12_345, configurable: true });

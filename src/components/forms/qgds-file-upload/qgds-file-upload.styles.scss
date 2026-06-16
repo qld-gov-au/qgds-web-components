@@ -25,6 +25,7 @@
 
     &.is-dragover {
       background-color: var(--qgds-color-background-shade, #f5f5f5);
+      border-color: var(--qgds-color-action-primary-hover, #003e96);
 
       // prevent drag leave firing on hover children.
       & * {
@@ -44,6 +45,16 @@
     display: flex;
     flex-direction: column;
     gap: tools.remify(20px);
+  }
+
+  &.is-disabled {
+    qgds-feature-icon {
+      --fg: var(--qgds-color-text-lighter, #636363);
+    }
+
+    [class^="qgds-display-"] {
+      color: var(--qgds-color-text-lighter, #636363);
+    }
   }
 }
 

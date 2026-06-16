@@ -290,8 +290,12 @@ export class QGDSFileUpload extends QGDSFormField {
             .join(", ");
 
     const fileOrFiles = multiple ? "files" : "file";
+    const showMaxFiles = (maxFiles ?? 0) > 1 && maxFiles !== Infinity;
 
-    return html`<div class="file-upload" @qgds-cancel=${_handleCancel}>
+    return html`<div
+      class=${classMap({ "file-upload": true, "is-disabled": !!disabled })}
+      @qgds-cancel=${_handleCancel}
+    >
       ${_fileLimitReached
         ? nothing
         : html`<div
@@ -307,13 +311,14 @@ export class QGDSFileUpload extends QGDSFormField {
                   <p class="qgds-display-md mb-16">
                     Drag and drop ${fileOrFiles} here or select ${fileOrFiles} to upload
                   </p> `}
-            <p class="qgds-caption">You can upload ${validFileTypes} ${fileOrFiles}.</p>
+            <p class="qgds-caption">You can upload ${validFileTypes} files.</p>
             <p class="qgds-caption">${multiple ? "Files" : "File"} can’t be larger than ${maxSize} MB.</p>
-            ${(maxFiles ?? 0) > 1 ? html`<p class="qgds-caption">You can upload up to ${maxFiles} files.</p>` : nothing}
+            ${showMaxFiles ? html`<p class="qgds-caption">You can upload up to ${maxFiles} files.</p>` : nothing}
             <qgds-button
               class="mt-24"
               variant="secondary"
               label="Select ${fileOrFiles}"
+              ?disabled=${disabled}
               @qgds-button-click=${_selectFiles}
             ></qgds-button>
           </div>`}
