@@ -195,6 +195,26 @@ export const Animated: Story = {
         animation="scaleOut"
       >
       </qgds-link>
+      <qgds-link
+        label="rotateIn"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="rotateIn"
+      >
+      </qgds-link>
+      <qgds-link
+        label="rotateOut"
+        href="#"
+        icon-name="${args["icon-name"]}"
+        icon-size="${args["icon-size"]}"
+        ?stretch="${args.stretch}"
+        ?has-trailing-icon="${args["has-trailing-icon"]}"
+        animation="rotateOut"
+      >
+      </qgds-link>
     </div>
   `,
 };

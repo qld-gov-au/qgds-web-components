@@ -44,14 +44,16 @@ span {
   margin-inline-start: var(--qgds-link-margin-inline-start);
   font-size: var(--qgds-link-font-size, inherit);
   font-weight: var(--qgds-link-font-weight, inherit);
-  text-decoration-thickness: 0.5px;
+  text-decoration-thickness: 0.5px; // var(--qgds-link-decoration-init-thickness, 0.5px);
   text-underline-offset: 6px;
+  text-decoration-color: var(--qgds-link-decoration-init-color, currentColor);
   transition: text-decoration-thickness var(--qgds-transition-time) ease;
   inline-size: var(--qgds-link-width);
 
   &:hover {
     text-decoration-thickness: 2px;
     transition: text-decoration-thickness var(--qgds-transition-time) ease;
+    text-decoration-color: currentColor;
   }
 
   &:focus-visible {
@@ -152,6 +154,30 @@ span {
 :host([animation="scaleOut"]) a:hover qgds-icon,
 :host([animation="scaleOut"]) button:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="rotateIn"]) a qgds-icon, 
+:host([animation="rotateIn"]) button qgds-icon {
+  transform: rotate(0deg) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-time) ease;
+}
+
+:host([animation="rotateIn"]) a:hover qgds-icon,
+:host([animation="rotateIn"]) button:hover qgds-icon {
+  transform: rotate(var(--animation-rotate-angle, 180deg)) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time) ease;
+}
+
+:host([animation="rotateOut"]) a qgds-icon, 
+:host([animation="rotateOut"]) button qgds-icon {
+  transform: rotate(0deg) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-time) ease;
+}
+
+:host([animation="rotateOut"]) a:hover qgds-icon,
+:host([animation="rotateOut"]) button:hover qgds-icon {
+  transform: rotate(var(--animation-rotate-angle, -180deg)) scaleX(var(--icon-direction));
   transition: all var(--qgds-transition-time) ease;
 }
 

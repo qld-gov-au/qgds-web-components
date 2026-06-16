@@ -1,0 +1,99 @@
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+// =============================================================================
+// Host: CSS custom properties that cascade into slotted qgds-link-item elements
+// =============================================================================
+
+:host {
+  display: block;
+  position: relative;
+  z-index: 200;
+
+  --nav-bg: var(--qgds-color-background, #ffffff);
+  --nav-bg-hover: var(--qgds-color-background-shade, #f5f5f5);
+  --nav-border: var(--qgds-color-border, #ebebeb);
+  --nav-link: var(--qgds-color-link-default, #005eb8);
+  --nav-link-hover: var(--qgds-color-link-hover, #005eb8);
+  --nav-accent: var(--qgds-color-action-primary, #005eb8);
+  --nav-sub-bg: var(--qgds-color-background, #ffffff);
+  --nav-bar-height: 3.5rem;
+
+  // --qgds-link-border-end-width: 1px;
+  // --qgds-link-border-end-style: solid;
+  // --qgds-link-border-end-colour: var(--qgds-color-border);
+
+  // display: flex;
+
+    // flex-flow: row nowrap;
+    // align-items: stretch;
+    // block-size: var(--nav-bar-height);
+}
+
+:host([variant="dark"]) {
+  --nav-bg: var(--qgds-color-action-primary, #005eb8);
+  --nav-bg-hover: var(--qgds-color-action-primary-hover, #003e96);
+  --nav-border: rgb(255 255 255 / 0.2);
+  --nav-link: #ffffff;
+  --nav-link-hover: #ffffff;
+  --nav-accent: rgb(255 255 255 / 0.6);
+}
+
+
+// :host([layout="horizontal"]) {
+//   .navbar-nav {
+//     flex-direction: row;
+//   }
+// }
+
+// =============================================================================
+// Nav element
+// =============================================================================
+
+nav.navbar {
+  background-color: var(--nav-bg);
+  position: relative;
+  display: flex;
+}
+
+// =============================================================================
+// Container
+// =============================================================================
+
+.container {
+  inline-size: 100%;
+
+  // padding-inline: 1.5rem;
+
+  @media (min-width: bp.$xl) {
+    max-inline-size: 85rem;
+    margin-inline: auto;
+  }
+}
+
+qgds-link-item {
+  p.description {
+    display: none;
+  }
+}
+
+// =============================================================================
+// Navigation list — qgds-link-item elements are flex children on desktop
+// =============================================================================
+
+.navbar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: stretch;
+  block-size: var(--nav-bar-height);
+}
+
+:host([layout="vertical"]) {
+  max-inline-size: 15rem;
+
+  .navbar-nav {
+    flex-direction: column;
+  }
+}
