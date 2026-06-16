@@ -43,7 +43,7 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-export const BasicBannerNoBackground: Story = {
+export const NoBackground: Story = {
   args: {
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
     variant: "basic",
@@ -83,7 +83,7 @@ export const BasicBannerNoBackground: Story = {
   `,
 };
 
-export const BasicBannerWithBackgroundTexture: Story = {
+export const BackgroundTexture: Story = {
   args: {
     palette: "bold",
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
@@ -127,7 +127,7 @@ export const BasicBannerWithBackgroundTexture: Story = {
   `,
 };
 
-export const BasicBannerWithBackgroundImage: Story = {
+export const BackgroundImage: Story = {
   args: {
     palette: "bold",
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",

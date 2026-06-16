@@ -22,7 +22,7 @@ type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
  *
  * @prop {string} heading - The main heading text of the banner.
  * @prop {string} subHeading - The subheading text of the banner, which provides additional context or information about the page.
- * @prop {boolean} [isBlockTypeHeading=false] - Determines whether the heading should be displayed as a block type, which affects its styling and layout.
+ * @prop {boolean} isBlockTypeHeading - Determines whether the heading should be displayed as a block type, which affects its styling and layout.
  * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
@@ -43,7 +43,7 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, reflect: true, useDefault: true }) variant: BannerVariants = "no-banner";
   @property({ type: String, attribute: "heading" }) heading = "";
   @property({ type: String, attribute: "sub-heading" }) subHeading = "";
-  @property({ type: Boolean, attribute: "is-block-type-heading" }) isBlockTypeHeading = false;
+  @property({ type: Boolean, attribute: "is-block-type-heading", reflect: true }) isBlockTypeHeading = false;
   @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
   @property({ type: String, attribute: "image-option" }) imageOption: ImageOptions = "grid-align";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
@@ -62,8 +62,8 @@ export class QGDSBanner extends LitElement {
       "has-hero-image": !!this.imageUrl && this.backgroundOption === "hero-image",
     };
     const headingClasses = {
-      "banner-heading": true,
-      "is-block-type-heading": this.isBlockTypeHeading,
+      "banner-heading-wrapper": true,
+      "block-type": this.isBlockTypeHeading,
     };
 
     return html`
@@ -79,8 +79,8 @@ export class QGDSBanner extends LitElement {
             
               ${
                 this.heading
-                  ? html`<h1 class="banner-heading">
-                      <span class="${classMap(headingClasses)}"> ${this.heading} </span>
+                  ? html`<h1 class="${classMap(headingClasses)}">
+                      <span class="banner-heading"> ${this.heading} </span>
                       ${this.subHeading ? html`<span class="banner-sub-heading">${this.subHeading}</span>` : nothing}
                     </h1>`
                   : nothing
