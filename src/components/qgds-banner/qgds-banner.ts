@@ -21,6 +21,8 @@ type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
  * @prop {QGDSPalette} [palette="default"] - Colour palette applied to the banner.
  *
  * @prop {string} heading - The main heading text of the banner.
+ * @prop {string} subHeading - The subheading text of the banner, which provides additional context or information about the page.
+ * @prop {boolean} [isBlockTypeHeading=false] - Determines whether the heading should be displayed as a block type, which affects its styling and layout.
  * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
@@ -40,6 +42,8 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, reflect: true, useDefault: true }) palette: QGDSPalette = "default";
   @property({ type: String, reflect: true, useDefault: true }) variant: BannerVariants = "no-banner";
   @property({ type: String, attribute: "heading" }) heading = "";
+  @property({ type: String, attribute: "sub-heading" }) subHeading = "";
+  @property({ type: Boolean, attribute: "is-block-type-heading" }) isBlockTypeHeading = false;
   @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
   @property({ type: String, attribute: "image-option" }) imageOption: ImageOptions = "grid-align";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
@@ -47,26 +51,41 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, attribute: "image-description" }) imageDescription = "";
 
   render() {
+    const bannerClasses = {
+      banner: true,
+      [this.variant]: true,
+      "has-background": !!this.imageUrl && (this.backgroundOption === "image" || this.backgroundOption === "texture"),
+      "has-background-image": !!this.imageUrl && this.backgroundOption === "image",
+    };
+    const bannerContentClasses = {
+      "banner-inner": true,
+      "has-hero-image": !!this.imageUrl && this.backgroundOption === "hero-image",
+    };
+    const headingClasses = {
+      "banner-heading": true,
+      "is-block-type-heading": this.isBlockTypeHeading,
+    };
+
     return html`
-      <section aria-label="Banner" class=${classMap({
-        banner: true,
-        [this.variant]: true,
-        "has-background": !!this.imageUrl && (this.backgroundOption === "image" || this.backgroundOption === "texture"),
-        "has-background-image": !!this.imageUrl && this.backgroundOption === "image",
-      })}
+      <section aria-label="Banner" class=${classMap(bannerClasses)}
       style=${this.backgroundOption === "image" || this.backgroundOption === "texture" ? `background-image:url(${this.imageUrl})` : ""}
       >
         <div class="banner-container">
-          <div class=${classMap({
-            "banner-inner": true,
-            "has-hero-image": !!this.imageUrl && this.backgroundOption === "hero-image",
-          })}>
+          <div class=${classMap(bannerContentClasses)}>
           <div class="banner-breadcrumbs">
           <slot name="breadcrumbs"></slot>
           </div>
             <div class="banner-content">
             
-              ${this.heading ? html`<h1 class="banner-heading">${this.heading}</h1>` : nothing}
+              ${
+                this.heading
+                  ? html`<h1 class="banner-heading">
+                      <span class="${classMap(headingClasses)}"> ${this.heading} </span>
+                      ${this.subHeading ? html`<span class="banner-sub-heading">${this.subHeading}</span>` : nothing}
+                    </h1>`
+                  : nothing
+              }
+              
               <slot class="banner-abstract"></slot>
               <slot class="banner-cta" name="cta"></slot>
               <slot class="banner-cards" name="cards"></slot>
