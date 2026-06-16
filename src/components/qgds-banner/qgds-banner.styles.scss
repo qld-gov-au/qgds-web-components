@@ -121,8 +121,37 @@
     }
   }
 
-  &-heading {
+  &-heading-wrapper {
     text-wrap: auto;
+
+    > * {
+      display: block;
+    }
+
+    &.block-type {
+      > * {
+        inline-size: fit-content;
+        line-height: tools.remify(52px);
+        padding-inline: 1.25rem;
+        padding-block: 0.5rem;
+        box-shadow: var(--qgds-elevation-1);
+        border-inline-start: 4px solid var(--qgds-color-accent-design-accent);
+      }
+    }
+  }
+
+  &-heading {
+    .block-type & {
+      color: var(--qgds-color-text-heading);
+      background-color: var(--qgds-color-background-shade);
+    }
+  }
+
+  &-sub-heading {
+    .block-type & {
+      color: var(--qgds-color-link-on-action);
+      background-color: var(--qgds-color-link-hover);
+    }
   }
 
   &-abstract {
