@@ -49,10 +49,9 @@ export class QGDSFileUpload extends QGDSFormField {
 
     this.requestUpdate("maxFiles", oldVal);
   }
-  @property({ type: Number, attribute: "min-files" }) minFiles?: number;
   @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
-  @property({ type: Boolean }) multiple: boolean = false;
-  @property({ type: String }) accept: string = "";
+  @property({ type: Boolean }) multiple?: boolean = false;
+  @property({ type: String }) accept?: string = "";
 
   // public readonly `files`
   get files(): FileList | null {
@@ -113,9 +112,14 @@ export class QGDSFileUpload extends QGDSFormField {
     e.stopPropagation();
   };
 
-  private _handleDragEnter = (e: DragEvent) => {
+  private _handleDragOver = (e: DragEvent) => {
     this._preventDefaults(e);
-    if (this.disabled) return;
+    if (this.disabled) {
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = "none";
+      }
+      return;
+    }
     this._isDragover = true;
   };
 
@@ -128,6 +132,12 @@ export class QGDSFileUpload extends QGDSFormField {
 
   private _handleDrop = (e: DragEvent) => {
     this._preventDefaults(e);
+    if (this.disabled) {
+      if (e.dataTransfer) {
+        e.dataTransfer.dropEffect = "none";
+      }
+      return;
+    }
     this._isDragover = false;
     // If the drag event includes files
     if (e.dataTransfer?.files) {
@@ -169,7 +179,7 @@ export class QGDSFileUpload extends QGDSFormField {
   };
 
   private _getMetaValidate(file: File): Meta {
-    const acceptValue = (this.accept || "").trim();
+    const acceptValue = (this.accept ?? "").trim();
 
     // validate against accepted file types
     if (acceptValue && acceptValue !== "*") {
@@ -259,6 +269,7 @@ export class QGDSFileUpload extends QGDSFormField {
       id,
       name,
       disabled,
+      validationState,
       maxFiles,
       maxSize,
       _ariaDescribedBy,
@@ -266,8 +277,8 @@ export class QGDSFileUpload extends QGDSFormField {
       _isDragover,
       _handleCancel,
       _handleChange,
-      _handleDragEnter,
       _handleDragLeave,
+      _handleDragOver,
       _handleDrop,
       _preventDefaults,
       _renderFiles,
@@ -293,15 +304,19 @@ export class QGDSFileUpload extends QGDSFormField {
     const showMaxFiles = (maxFiles ?? 0) > 1 && maxFiles !== Infinity;
 
     return html`<div
-      class=${classMap({ "file-upload": true, "is-disabled": !!disabled })}
+      class=${classMap({
+        "file-upload": true,
+        "is-disabled": !!disabled,
+        "is-error": validationState === "error",
+      })}
       @qgds-cancel=${_handleCancel}
     >
       ${_fileLimitReached
         ? nothing
         : html`<div
             class=${classMap({ "file-upload-dropzone": true, "is-dragover": _isDragover })}
-            @dragenter=${_handleDragEnter}
-            @dragover=${_preventDefaults}
+            @dragenter=${_handleDragOver}
+            @dragover=${_handleDragOver}
             @dragleave=${_handleDragLeave}
             @drop=${_handleDrop}
           >

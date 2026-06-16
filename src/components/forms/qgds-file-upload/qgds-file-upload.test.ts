@@ -63,9 +63,13 @@ describe(tagname, () => {
 
   // should display acceptable file types from accept parameter, evaluating from mime type if possible
 
-  // should remove the dropzone element if file max is reached.
+  // should remove the dropzone element if maxFiles is reached.
 
   // should remove File from list if remove button is clicked.
 
   // Should fire an invalid event if constraints are not met.
+
+  // Should prevent drag and drop if disabled
+
+  // Should prevent click to upload if disabled
 });

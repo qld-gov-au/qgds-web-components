@@ -156,17 +156,6 @@ export const Disabled: Story = {
   },
 };
 
-export const Success: Story = {
-  args: {
-    label: "Sucess state",
-    hint: "This is highly dependant on implementation. Mostly you will not see the form on successful submission.",
-    id: "Success",
-    ["validation-message"]:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
-    ["validation-state"]: "success",
-  },
-};
-
 export const Error: Story = {
   args: {
     label: "Error state",
