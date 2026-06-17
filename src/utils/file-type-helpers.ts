@@ -202,7 +202,7 @@ export function mimeToExtension(mimeType: string): string {
 
 /**
  * Converts number of bytes to a human-readable string with the filesize in bytes, kB, MB, or GB
- * Uses metric system, not binary so 1MB = 1000kB rather than 1024kB
+ * Uses binary system so 1MB = 1024kB rather than 1000kB
  * @param {number} size the file size in bytes
  * @returns string
  */
