@@ -2,21 +2,15 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import type { QGDSLogo } from "./qgds-logo";
+
 import "./qgds-logo";
 import { chromaticModes } from "../../../.storybook/modes";
 
 const { args, argTypes } = getStorybookHelpers<QGDSLogo>("qgds-logo", { setComponentVariable: true });
 type Args = typeof args;
 
-// Sample SVG for demonstrations
-const sampleSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Queensland Government crest">
-  <title>Queensland Government crest</title>
-  <rect width="100" height="100" fill="#003a70"/>
-  <circle cx="50" cy="50" r="30" fill="#ffffff"/>
-  <text x="50" y="55" text-anchor="middle" fill="#003a70" font-size="20" font-weight="bold">QLD</text>
-</svg>`;
+import sampleSlottedImage from "./assets/breast-screen-qld-logo.svg";
 
 const meta: Meta<Args> = {
   title: "Components/Logo",
@@ -24,33 +18,38 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    variant: "masterbrand",
-    src: "",
+    logo: undefined,
     alt: "Queensland Government logo",
-    "site-name": "",
+    href: "https://www.qld.gov.au",
+    "site-name": "Queensland Government",
     "hide-site-name": false,
-    "hide-image": false,
-    "image-slot": sampleSVG,
   },
   argTypes: {
     ...argTypes,
-    variant: {
-      control: "select",
-      options: ["masterbrand", "subbrand", "co-brand", "endorsed", "standalone"],
-      description: "Brand variant affecting layout and styling",
+    logo: {
+      control: { type: "select" },
+      options: ["none", "coa-stacked", "coa-delivering-for-qld"],
+      mapping: {
+        none: "",
+        "coa-stacked": "coa-stacked",
+        "coa-delivering-for-qld": "coa-delivering-for-qld",
+      },
     },
   },
   render: (args) => html`
     <qgds-logo
       id="${ifDefined(args.id)}"
-      variant=${ifDefined(args.variant)}
-      src=${ifDefined(args.src ?? undefined)}
+      variant="${ifDefined(args.variant)}"
+      logo=${ifDefined(args.logo ?? undefined)}
       alt=${ifDefined(args.alt)}
+      href=${ifDefined(args.href)}
+      site-name-prefix=${ifDefined(args["site-name-prefix"] ?? undefined)}
       site-name=${ifDefined(args["site-name"] ?? undefined)}
+      site-name-secondary=${ifDefined(args["site-name-secondary"] ?? undefined)}
+      custom-logo=${ifDefined(args["custom-logo"] ?? undefined)}
+      custom-logo-alt=${ifDefined(args["custom-logo-alt"] ?? undefined)}
       ?hide-site-name=${args["hide-site-name"]}
-      ?hide-image=${args["hide-image"]}
     >
-      ${args["image-slot"] ? html`<div slot="image">${unsafeHTML(args["image-slot"] as string)}</div>` : null}
     </qgds-logo>
   `,
 };
@@ -61,119 +60,182 @@ type Story = StoryObj<Args>;
 export const Masterbrand: Story = {
   args: {
     ...meta.args,
-    variant: "masterbrand",
-    "site-name": "Department of Health and Wellbeing",
-    //Masterbrand use default fallback logo
-    src: "",
-    "image-slot": "",
+    logo: "coa-delivering-for-qld",
   },
   parameters: {
     ...chromaticModes,
   },
+};
+
+export const AllVariantsStatic: Story = {
+  name: "All Variants",
+  render: () => html`
+    <!-- Masterbrand - delivering lockup -->
+    <qgds-logo
+      variant="masterbrand"
+      logo="coa-delivering-for-qld"
+      site-name="qld.gov.au"
+      href="https://www.qld.gov.au"
+    ></qgds-logo>
+
+    <!-- Masterbrand - stacked COA -->
+    <qgds-logo
+      variant="masterbrand"
+      logo="coa-stacked"
+      site-name="Smart jobs"
+      href="https://www.qld.gov.au"
+    ></qgds-logo>
+
+    <!-- Subbrand -->
+    <qgds-logo
+      variant="subbrand"
+      logo="coa-stacked"
+      site-name-prefix="Department of"
+      site-name="Local Government, Water and Volunteers"
+      href="https://www.dlgwv.qld.gov.au"
+    ></qgds-logo>
+
+    <!-- Cobrand with name style -->
+    <qgds-logo
+      variant="cobrand"
+      logo="coa-stacked"
+      site-name="Co-brand with name style"
+      style="--site-name-color: Chocolate; --divider-color: MediumVioletRed;"
+      href="https://www.qld.gov.au"
+    ></qgds-logo>
+
+    <!-- Cobrand with partner -->
+    <qgds-logo
+      variant="cobrand"
+      logo="coa-stacked"
+      site-name="Co-brand with partner logo"
+      hide-site-name
+      custom-logo="${sampleSlottedImage}"
+      custom-logo-alt="Partner Organisation"
+      href="https://www.breastscreen.qld.gov.au"
+    ></qgds-logo>
+
+    <!-- Cobrand with name style -->
+    <qgds-logo
+      id="agency-brand"
+      variant="cobrand"
+      logo="coa-stacked"
+      site-name="Name"
+      site-name-secondary="Style"
+    ></qgds-logo>
+    <style>
+      /* Customise parts of the the co-brand logo */
+      #agency-brand {
+        --logo-color: black;
+        --divider-color: DarkRed;
+        --site-name-main-color: Indigo;
+        --site-name-secondary-color: DarkRed;
+      }
+
+      /* or target parts directly with ::part */
+      #agency-brand::part(site-name-main) {
+        --site-name-main-color: Indigo;
+        font-weight: 700;
+      }
+      #agency-brand::part(site-name-secondary) {
+        --site-name-secondary-color: DarkRed;
+        font-weight: 400;
+      }
+    </style>
+
+    <!-- Endorsed -->
+    <qgds-logo
+      variant="endorsed"
+      custom-logo="${sampleSlottedImage}"
+      custom-logo-alt="Agency Name"
+      site-name="Department of Health"
+    ></qgds-logo>
+
+    <!-- Masterbrand (solo) -->
+    <qgds-logo variant="masterbrand" logo="coa-stacked" hide-site-name></qgds-logo>
+  `,
+  decorators: [
+    (Story) => html` <div style="padding: 1rem; display: flex; flex-direction: column; gap: 2rem;">${Story()}</div> `,
+  ],
 };
 
 export const Subbrand: Story = {
   args: {
     ...meta.args,
     variant: "subbrand",
-    "site-name": "Queensland Government",
+    logo: "coa-stacked",
+    "site-name": "Department of Women, Aboriginal and Torres Strait Islander Partnerships and Multiculturalism",
   },
   parameters: {
     ...chromaticModes,
   },
 };
 
-export const CoBrand: Story = {
+export const SubbrandPrefix: Story = {
+  name: "Subbrand (prefix)",
   args: {
     ...meta.args,
-    variant: "co-brand",
-    "site-name": "External Organisation",
+    variant: "subbrand",
+    logo: "coa-stacked",
+    "site-name-prefix": "Department of",
+    "site-name": "Women, Aboriginal and Torres Strait Islander Partnerships and Multiculturalism",
   },
   parameters: {
     ...chromaticModes,
   },
+};
+
+export const Cobrand: Story = {
+  args: {
+    ...meta.args,
+    variant: "cobrand",
+    logo: "coa-stacked",
+    "site-name": "BreastScreen Queensland",
+    "hide-site-name": true,
+    "custom-logo": sampleSlottedImage,
+    "custom-logo-alt": "BreastScreen Queensland logo",
+  },
+  decorators: [
+    (Story) => html`
+      <style>
+        qgds-logo {
+          --logo-color: black;
+          --divider-color: Indigo;
+        }
+      </style>
+      ${Story()}
+    `,
+  ],
 };
 
 export const Endorsed: Story = {
   args: {
     ...meta.args,
     variant: "endorsed",
-    "site-name": "Queensland Government",
+    logo: "coa-stacked",
+    "site-name": "Vaccination Matters",
   },
-  parameters: {
-    ...chromaticModes,
-  },
+  decorators: [
+    (Story) => html`
+      <style>
+        qgds-logo {
+          --site-name-main-color: #00248e;
+          --logo-color: #131212;
+          --divider-color: DarkOrange;
+        }
+      </style>
+      ${Story()}
+    `,
+  ],
 };
 
 export const Standalone: Story = {
   args: {
     ...meta.args,
     variant: "standalone",
-  },
-  parameters: {
-    ...chromaticModes,
-  },
-};
-
-export const WithFallbackLogo: Story = {
-  args: {
-    ...meta.args,
-    variant: "masterbrand",
-    src: "", // No src provided
-    "image-slot": "", // No slot content
-    "site-name": "Department of This and That",
-  },
-  parameters: {
-    ...chromaticModes,
-    docs: {
-      description: {
-        story:
-          "When no `src` or `image` slot is provided, the component displays the Queensland Coat of Arms as an inline SVG fallback. The fallback SVG uses `currentColor` and can be styled with CSS custom properties (palettes).",
-      },
-    },
-  },
-};
-
-export const WithImageSource: Story = {
-  args: {
-    ...meta.args,
-    src: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23003a70'/><circle cx='50' cy='50' r='30' fill='%23ffffff'/></svg>",
-    "site-name": "Queensland Government",
-    "image-slot": "", // Clear slot when using src
-  },
-  parameters: {
-    ...chromaticModes,
-  },
-};
-
-export const WithoutSiteName: Story = {
-  args: {
-    ...meta.args,
+    "custom-logo": sampleSlottedImage,
+    "custom-logo-alt": "Vaccination Matters logo",
+    "site-name": "Standalone logo with site name hidden",
     "hide-site-name": true,
-  },
-  parameters: {
-    ...chromaticModes,
-  },
-};
-
-export const WithoutImage: Story = {
-  args: {
-    ...meta.args,
-    "hide-image": true,
-    "site-name": "Department of This and That",
-  },
-  parameters: {
-    ...chromaticModes,
-  },
-};
-
-export const MultilineSiteName: Story = {
-  args: {
-    ...meta.args,
-    variant: "masterbrand",
-    "site-name": "Queensland Department of Communities, Housing and Digital Economy",
-  },
-  parameters: {
-    ...chromaticModes,
   },
 };

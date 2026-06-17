@@ -17,30 +17,38 @@ describe("qgds-logo", () => {
   it("renders with default properties", async () => {
     await element.updateComplete;
 
-    expect(element.variant).toBe("masterbrand");
-    expect(element.src).toBe("");
+    expect(element.logo).toBe("");
     expect(element.alt).toBe("Queensland Government logo");
     expect(element.hideSiteName).toBe(false);
     expect(element.hideImage).toBe(false);
   });
 
-  it("renders image when src is provided", async () => {
-    element.src = "logo.svg";
-    element.alt = "Test logo";
+  it("renders no logo image when logo and slot are not provided", async () => {
     await element.updateComplete;
 
-    const img = element.shadowRoot?.querySelector("img");
-    expect(img?.getAttribute("src")).toBe("logo.svg");
-    expect(img?.getAttribute("alt")).toBe("Test logo");
+    const logoContainer = element.shadowRoot?.querySelector(".qgds-logo-image") as HTMLElement | null;
+    expect(logoContainer).toBeTruthy();
+    expect(logoContainer?.hasAttribute("hidden")).toBe(true);
   });
 
-  it("renders fallback logo when no src is provided", async () => {
+  it("renders coa-stacked logo when logo attribute is set", async () => {
+    element.logo = "coa-stacked";
     await element.updateComplete;
 
     const logoContainer = element.shadowRoot?.querySelector(".qgds-logo-image");
     const svg = logoContainer?.querySelector("svg");
     expect(svg).toBeTruthy();
     expect(svg?.getAttribute("viewBox")).toBe("0 0 170 56");
+  });
+
+  it("renders coa-delivering-for-qld logo when logo attribute is set", async () => {
+    element.logo = "coa-delivering-for-qld";
+    await element.updateComplete;
+
+    const logoContainer = element.shadowRoot?.querySelector(".qgds-logo-image");
+    const svg = logoContainer?.querySelector("svg");
+    expect(svg).toBeTruthy();
+    expect(svg?.getAttribute("viewBox")).toBe("0 0 331 56");
   });
 
   it("renders site name text", async () => {
@@ -61,20 +69,12 @@ describe("qgds-logo", () => {
   });
 
   it("hides image when hide-image is true", async () => {
-    element.src = "logo.svg";
+    element.logo = "coa-stacked";
     element.hideImage = true;
     await element.updateComplete;
 
     const image = element.shadowRoot?.querySelector(".qgds-logo-image");
     expect(image).toBeNull();
-  });
-
-  it("applies variant class", async () => {
-    element.variant = "co-brand";
-    await element.updateComplete;
-
-    const container = element.shadowRoot?.querySelector(".qgds-logo");
-    expect(container?.classList.contains("qgds-logo--co-brand")).toBe(true);
   });
 
   it("applies has-site-name class when site name is present", async () => {
@@ -86,25 +86,35 @@ describe("qgds-logo", () => {
   });
 
   it("renders custom image slot content", async () => {
-    const svgContent = '<svg role="img" aria-label="Custom logo"><title>Custom logo</title></svg>';
-    element.innerHTML = svgContent;
+    element.innerHTML = '<img slot="image" src="logo-a.svg" alt="Logo A" />';
+    await Promise.resolve();
     await element.updateComplete;
 
-    const slot = element.shadowRoot?.querySelector('slot[name="image"]');
+    const imageContainer = element.shadowRoot?.querySelector(".qgds-logo-image");
+    expect(imageContainer).toBeTruthy();
+
+    const slot = element.shadowRoot?.querySelector('slot[name="image"]') as HTMLSlotElement | null;
     expect(slot).toBeDefined();
+    const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+    expect(assigned.length).toBe(1);
+    expect(assigned[0]?.getAttribute("slot")).toBe("image");
   });
 
-  it("emits qgds-logo-loaded event when image loads", async () => {
-    let eventFired = false;
-    element.addEventListener("qgds-logo-loaded", () => {
-      eventFired = true;
-    });
+  it("renders slot image when added after initial render", async () => {
+    await element.updateComplete;
+    const initialImageContainer = element.shadowRoot?.querySelector(".qgds-logo-image") as HTMLElement | null;
+    expect(initialImageContainer).toBeTruthy();
+    expect(initialImageContainer?.hasAttribute("hidden")).toBe(true);
 
-    element.src = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>";
+    const img = document.createElement("img");
+    img.setAttribute("slot", "image");
+    img.setAttribute("src", "logo-b.svg");
+    img.setAttribute("alt", "Logo B");
+    element.appendChild(img);
+    await Promise.resolve();
     await element.updateComplete;
 
-    // Wait for image load
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    expect(eventFired).toBe(true);
+    const imageContainer = element.shadowRoot?.querySelector(".qgds-logo-image");
+    expect(imageContainer).toBeTruthy();
   });
 });

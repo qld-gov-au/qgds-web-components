@@ -1,110 +1,270 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-logo.styles.scss?inline";
-import fallbackLogoSVG from "./assets/coa-stacked.svg?raw";
+import { palettes } from "../../utils/palettes";
+
+// Preset logos
+import coaStackedSVG from "./assets/coa-stacked.svg?raw";
+import coaDeliveringSVG from "./assets/coa-delivering-for-qld.svg?raw";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 export const tagName = "qgds-logo";
+
+export type LogoVariant = "masterbrand" | "subbrand" | "cobrand" | "endorsed" | "standalone";
+export type LogoPreset = "coa-stacked" | "coa-delivering-for-qld";
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const presetLogos: Record<LogoPreset, string> = {
+  "coa-stacked": coaStackedSVG,
+  "coa-delivering-for-qld": coaDeliveringSVG,
+};
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function isPreset(value: string): value is LogoPreset {
+  return value in presetLogos;
+}
+
+/**
+ * Dev-only warnings. Stripped in production builds that remove console calls.
+ */
+function warn(message: string): void {
+  console.warn(`[qgds-logo] ${message}`);
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 
 /**
  * QGDS Logo Component
  *
- * Displays the Queensland Government logo with optional site name and brand variants.
- * Supports both image sources and custom SVG content via slots.
- * If no src or slot content is provided, displays the Queensland Coat of Arms as an inline SVG fallback,
- * which can be styled using currentColor and CSS custom properties.
+ * Renders the Queensland Government logo lockup according to QGDS brand guidelines.
+ * The `variant` attribute drives the rendering structure — each variant has a fixed
+ * layout and validates its required props in development.
+ *
+ * ## Variants and their structures
+ * - masterbrand  → Delivering lockup OR COA + site name
+ * - subbrand     → COA + site name
+ * - cobrand      → COA + site name + custom logo
+ * - endorsed     → COA + site name OR custom logo only
+ * - standalone   → Custom logo only
  *
  * @website "https://www.designsystem.qld.gov.au/brand-foundations/site-names-and-logos"
- * @uikit "https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=6182-30988&m=dev"
+ * @uikit   "https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=6182-30988&m=dev"
  * @tagname "qgds-logo"
  *
- * @prop {string} variant - Brand variant: masterbrand, subbrand, co-brand, endorsed, standalone
- * @prop {string} src - Image source URL (preferably SVG). If not provided, uses inline fallback SVG.
- * @prop {string} alt - Alternative text for the logo image
- * @prop {string} site-name - Site name text
- * @prop {boolean} hide-site-name - Hide the site name text
- * @prop {boolean} hide-image - Hide the logo image (useful for mobile responsive)
+ * @prop {LogoVariant} variant              - Brand variant (required): masterbrand | subbrand | cobrand | endorsed | standalone
+ * @prop {LogoPreset}  logo                 - Preset COA logo: "coa-stacked" | "coa-delivering-for-qld"
+ * @prop {string}      alt                  - Accessible label for the preset COA SVG
+ * @prop {string}      href                 - Optional URL. Wraps the COA image in a link
+ * @prop {string}      aria-label           - Accessible label for the href link. Falls back to site-name
+ * @prop {string}      site-name-prefix     - Smaller lead text rendered above site-name
+ * @prop {string}      site-name            - Main site name text
+ * @prop {string}      site-name-secondary  - Secondary site name text to support co-branding lockups
+ * @prop {boolean}     hide-site-name       - Visually hides site name while keeping it accessible to screen readers
+ * @prop {string}      custom-logo         - URL for a custom logo image (cobrand, endorsed, standalone)
+ * @prop {string}      custom-logo-alt     - Accessible label for the custom logo image
+ * @prop {string}      palette              - Color palette: default | soft | muted | bold | deep
+ * @prop {string}      palette-inverse      - Color palette for desktop/large viewports when responsive-palette is enabled
+ * @prop {boolean}     responsive-palette   - Automatically switch between palette and palette-inverse at LG breakpoint (992px)
  *
- * @slot image - Custom logo image content (SVG recommended). Overrides src and fallback.
- *
- * @fires qgds-logo-loaded - Emitted when the logo image loads successfully (only for img src)
- *
+ * @part base         - The outer wrapper div
+ * @part image        - The COA image container
+ * @part site-name    - The site name container
+ * @part site-name-secondary - The secondary site name container
+ * @part custom-logo  - The custom logo container
  */
 @customElement(tagName)
 export class QGDSLogo extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
-  @property({ type: String }) variant: "masterbrand" | "subbrand" | "co-brand" | "endorsed" | "standalone" =
-    "masterbrand";
-  @property({ type: String }) src = "";
-  @property({ type: String }) alt = "Queensland Government logo";
-  @property({ type: String, attribute: "site-name" }) siteName = "";
-  @property({ type: Boolean, attribute: "hide-site-name" }) hideSiteName = false;
-  @property({ type: Boolean, attribute: "hide-image" }) hideImage = false;
+  // ─── Public API ─────────────────────────────────────────────────────────
 
-  private handleImageLoad = () => {
-    this.dispatchEvent(
-      new CustomEvent("qgds-logo-loaded", {
-        bubbles: true,
-        composed: true,
-      })
-    );
+  @property({ type: String }) variant: string = "masterbrand";
+  @property({ type: String }) logo: string = "coa-delivering-for-qld";
+  @property({ type: String }) alt = "Queensland Coat of Arms";
+  @property({ type: String, attribute: "href" }) href = "";
+  @property({ type: String, attribute: "aria-label" }) label = "";
+  @property({ type: String, attribute: "site-name" }) siteName = "";
+  @property({ type: String, attribute: "site-name-prefix" }) siteNamePrefix = "";
+  @property({ type: String, attribute: "site-name-secondary" }) siteNameSecondary = "";
+  @property({ type: Boolean, attribute: "hide-site-name" }) hideSiteName = false;
+  @property({ type: String, attribute: "custom-logo" }) customLogo = "";
+  @property({ type: String, attribute: "custom-logo-alt" }) customLogoAlt = "";
+  @property({ type: String, reflect: true }) palette: keyof typeof palettes = "bold";
+  @property({ type: String, attribute: "palette-inverse" }) paletteInverse: keyof typeof palettes = "default";
+  @property({ type: Boolean, attribute: "responsive-palette" }) responsivePalette = false;
+
+  // ─── Private properties ──────────────────────────────────────────────────
+
+  private mediaQuery?: MediaQueryList;
+  private mediaQueryHandler = (e: MediaQueryListEvent) => {
+    if (this.responsivePalette) {
+      this.palette = e.matches ? this.paletteInverse : this.palette;
+    }
   };
 
-  private renderImage() {
-    if (this.hideImage) return null;
+  // ─── Private getters ─────────────────────────────────────────────────────
 
-    // If src is provided, use img element
-    if (this.src) {
-      return html`
-        <div class="qgds-logo-image" role="img" aria-label="${this.alt}">
-          <slot name="image">
-            <img src="${this.src}" alt="${this.alt}" @load=${this.handleImageLoad} />
-          </slot>
-        </div>
-      `;
+  private get isDelivering(): boolean {
+    return this.logo === "coa-delivering-for-qld";
+  }
+
+  private get showDivider(): boolean {
+    // Divider only appears between COA and site name — not on delivering lockup or standalone
+    return !!this.siteName && !this.hideSiteName && !this.isDelivering && this.variant !== "standalone";
+  }
+
+  // ─── Dev validation ──────────────────────────────────────────────────────
+
+  private validate(): void {
+    const { variant, logo, siteName, customLogo } = this;
+
+    if (!variant) {
+      warn("A `variant` attribute is required.");
     }
 
-    // Otherwise inline the fallback SVG (allows CSS styling with currentColor)
-    return html`
-      <div class="qgds-logo-image" role="img" aria-label="${this.alt}">
-        <slot name="image">${unsafeSVG(fallbackLogoSVG)}</slot>
-      </div>
+    if (variant !== "standalone" && logo && !isPreset(logo)) {
+      warn(`"${logo}" is not a valid preset. Use "coa-stacked" or "coa-delivering-for-qld".`);
+    }
+
+    if ((variant === "subbrand" || variant === "masterbrand") && !siteName && !this.isDelivering) {
+      warn(`Variant "${variant}" requires a \`site-name\` attribute.`);
+    }
+
+    if (variant === "cobrand" && !customLogo) {
+      warn(`Variant "cobrand" requires a \`custom-logo\` attribute.`);
+    }
+
+    if (variant === "standalone" && !customLogo) {
+      warn(`Variant "standalone" requires a \`custom-logo\` attribute.`);
+    }
+
+    if (variant === "standalone" && logo) {
+      warn(`Variant "standalone" does not use a preset \`logo\`. The \`logo\` attribute will be ignored.`);
+    }
+
+    if (variant === "masterbrand" && customLogo) {
+      warn(`Variant "masterbrand" does not support a \`custom-logo\`. The attribute will be ignored.`);
+    }
+  }
+
+  // ─── Render helpers ──────────────────────────────────────────────────────
+
+  private renderCOA() {
+    if (!this.logo || !isPreset(this.logo)) return nothing;
+
+    const svg = presetLogos[this.logo];
+    const image = html`
+      <div part="image" class="logo-image" role="img" aria-label="${this.alt}">${unsafeSVG(svg)}</div>
     `;
+
+    return this.href
+      ? html`<a
+          href="${this.href}"
+          class="qgds-logo-link"
+          aria-label=${ifDefined(this.label || this.siteName || undefined)}
+          >${image}</a
+        >`
+      : image;
   }
 
   private renderSiteName() {
-    if (this.hideSiteName || !this.siteName) {
-      return null;
-    }
+    if (!this.siteName) return nothing;
+
+    // Delivering lockup and explicit hide both result in sr-only — visible in DOM, hidden visually
+    const srOnly = this.isDelivering || this.hideSiteName;
+
+    // Optional prefix for smaller lead-in text, e.g. "Department of" in "Department of Education"
+    const prefix = this.siteNamePrefix ? html`<span class="prefix">${this.siteNamePrefix}</span>` : nothing;
+
+    // Required main site name, e.g. "Department of Education"
+    const siteNameMain = html`<span class="main" part="site-name-main">${this.siteName}</span>`;
+
+    // Optional
+    const siteNameSecondary = this.siteNameSecondary
+      ? html`<span class="secondary" part="site-name-secondary">${this.siteNameSecondary}</span>`
+      : nothing;
 
     return html`
-      <div class="qgds-logo-site-name">
-        <div class="qgds-logo-site-name-main">${this.siteName}</div>
+      <div part="site-name" class="site-name ${srOnly ? "sr-only" : ""}">
+        ${prefix}
+        <div class="site-name-wrap">${siteNameMain} ${siteNameSecondary}</div>
       </div>
     `;
   }
 
-  render() {
+  private renderCustomLogo() {
+    if (!this.customLogo) return nothing;
+
+    return html`
+      <div part="custom-logo" class="logo-image-custom">
+        <img src="${this.customLogo}" alt="${this.customLogoAlt}" />
+      </div>
+    `;
+  }
+
+  // ─── Variant layouts ─────────────────────────────────────────────────────
+
+  private renderByVariant() {
+    switch (this.variant) {
+      case "masterbrand":
+        // Delivering lockup needs no site name visible (sr-only handled in renderSiteName)
+        // Stacked COA always paired with site name
+        return html`${this.renderCOA()} ${this.renderSiteName()}`;
+
+      case "subbrand":
+        // Always COA + site name, with divider
+        return html`${this.renderCOA()} ${this.renderSiteName()}`;
+
+      case "cobrand":
+        // COA + site name + custom logo, with divider between COA/sitename and custom logo
+        return html`${this.renderCOA()} ${this.renderSiteName()} ${this.renderCustomLogo()}`;
+
+      case "endorsed":
+        // COA + site name, OR custom logo only if no COA preset provided
+        return this.logo ? html`${this.renderCOA()} ${this.renderSiteName()}` : this.renderCustomLogo();
+
+      case "standalone":
+        // Custom logo only — COA is not used
+        return this.renderCustomLogo();
+
+      default:
+        warn(`Unknown variant "${this.variant}".`);
+        return nothing;
+    }
+  }
+
+  // ─── Root render ─────────────────────────────────────────────────────────
+
+  override render() {
+    this.validate();
+
     return html`
       <div
+        part="base"
         class=${classMap({
           "qgds-logo": true,
-          [`qgds-logo--${this.variant}`]: !!this.variant,
-          "qgds-logo--has-site-name": !this.hideSiteName && !!this.siteName,
-          "qgds-logo--image-hidden": this.hideImage,
+          [`is-${this.variant.toLowerCase()}`]: !!this.variant,
+          "has-site-name": !!this.siteName,
+          "site-name-hidden": this.hideSiteName,
+          "has-divider": this.showDivider,
+          "is-delivering": this.isDelivering,
+          "is-custom": this.customLogo,
         })}
-        role="banner"
-        aria-label="${ifDefined(this.siteName || undefined)}"
       >
-        ${this.renderImage()} ${this.renderSiteName()}
+        ${this.renderByVariant()}
       </div>
     `;
   }
 }
+
+// ─── Global element registry ─────────────────────────────────────────────────
 
 declare global {
   interface HTMLElementTagNameMap {
