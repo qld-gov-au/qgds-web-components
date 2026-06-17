@@ -53,16 +53,24 @@ export class QGDSFileUpload extends QGDSFormField {
   @property({ type: Boolean }) multiple?: boolean = false;
   @property({ type: String }) accept?: string = "";
 
+  private get _validMetaFiles(): MetaFile[] {
+    return this._metaFiles.filter((item) => item.status !== "error");
+  }
+
+  private get _hasValidationErrors(): boolean {
+    return this._metaFiles.some((item) => item.status === "error");
+  }
+
   // public readonly `files`
   get files(): FileList | null {
     const dataTransfer = new DataTransfer();
-    this._metaFiles.forEach((item) => dataTransfer.items.add(item.file));
+    this._validMetaFiles.forEach((item) => dataTransfer.items.add(item.file));
     return dataTransfer.files;
   }
 
   // public readonly `filesArray`
   get filesArray(): File[] {
-    return this._metaFiles.map((item) => item.file);
+    return this._validMetaFiles.map((item) => item.file);
   }
 
   // private state
@@ -173,6 +181,45 @@ export class QGDSFileUpload extends QGDSFormField {
   private _selectFiles = () => {
     this._input.click();
   };
+
+  protected override _computeIsValid(): boolean {
+    if (this._hasValidationErrors) {
+      return false;
+    }
+
+    if (!this.required) {
+      return true;
+    }
+
+    return (this.files?.length ?? 0) > 0;
+  }
+
+  override checkValidity(): boolean {
+    return this._computeIsValid();
+  }
+
+  override reportValidity(): boolean {
+    const isValid = this._computeIsValid();
+
+    if (!isValid) {
+      const hasFiles = (this.files?.length ?? 0) > 0;
+      this._internals.setValidity(
+        {
+          valueMissing: !hasFiles,
+          customError: this._hasValidationErrors,
+        },
+        this._hasValidationErrors
+          ? "Please remove invalid files before continuing."
+          : "Please select at least one file.",
+        this._input
+      );
+      this.focus();
+      return false;
+    }
+
+    this._internals.setValidity({});
+    return true;
+  }
 
   private _getMetaValidate(file: File): Meta {
     const acceptValue = (this.accept ?? "").trim();
