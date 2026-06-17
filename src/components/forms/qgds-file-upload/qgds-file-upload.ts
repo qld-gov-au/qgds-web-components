@@ -124,9 +124,6 @@ export class QGDSFileUpload extends QGDSFormField {
     this._events = new QgdsEvents(this);
   }
 
-  // TODO
-  // override handlechange, super methods where necessary
-
   connectedCallback(): void {
     super.connectedCallback?.();
   }
