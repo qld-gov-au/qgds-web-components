@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS, nothing } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -28,7 +28,7 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * @property {string} [aocHeading="Acknowledgement of Country"] - Heading for the Acknowledgement section.
  * @property {string} copyrightLabel - Copyright text (required, e.g., "© The State of Queensland 2026").
  * @property {number} [headingLevel=2] - Semantic heading level for all section headings (2-6).
- * @property {string} [palette="default"] - Color palette applied to the footer.
+ * @property {string} [palette="bold"] - Color palette applied to the footer.
  * @property {boolean} [hideFooterLogo=false] - Option to hide the footer logo.
  *
  * @slot contact-link - Accepts markup to create additional contact links (beyond contact-email and contact-phone HTML attributes, e.g., a social media link).
@@ -62,12 +62,7 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  */
 @customElement("qgds-footer")
 export class QGDSFooter extends LitElement {
-  static styles = [
-    baseStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   // ==========================================================================
   // PROPERTIES
@@ -245,7 +240,7 @@ export class QGDSFooter extends LitElement {
             : ""}
         </div>
 
-        <div class="block block-linkgroup">
+        <div class="block is-linkgroup">
           <!-- Column 1: Contact Us -->
           <section class="section-contact ${this._hasCustomLinks ? "no-border-end" : ""}">
             <div>
@@ -287,7 +282,7 @@ export class QGDSFooter extends LitElement {
           </section>
         </div>
 
-        <div class="block block-aoc">
+        <div class="block is-aoc">
           <!-- Column 5: Acknowledgement of Country -->
           <section class="section-aoc">
             ${semanticHeading(this.aocHeading, this.headingLevel, "footer-heading")}
