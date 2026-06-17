@@ -111,6 +111,14 @@ export class QGDSFileUpload extends QGDSFormField {
     return (this.files?.length ?? 0) >= this.maxFiles;
   }
 
+  private get _validMetaFiles(): MetaFile[] {
+    return this._metaFiles.filter((item) => item.status !== "error");
+  }
+
+  private get _hasValidationErrors(): boolean {
+    return this._metaFiles.some((item) => item.status === "error");
+  }
+
   constructor() {
     super();
     this._events = new QgdsEvents(this);
@@ -121,14 +129,6 @@ export class QGDSFileUpload extends QGDSFormField {
 
   connectedCallback(): void {
     super.connectedCallback?.();
-  }
-
-  private get _validMetaFiles(): MetaFile[] {
-    return this._metaFiles.filter((item) => item.status !== "error");
-  }
-
-  private get _hasValidationErrors(): boolean {
-    return this._metaFiles.some((item) => item.status === "error");
   }
 
   private _preventDefaults = (e: Event) => {
