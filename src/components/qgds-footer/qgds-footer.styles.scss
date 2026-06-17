@@ -182,6 +182,10 @@ section {
         border-inline-end: 2px solid var(--qgds-color-border-alt);
         padding-inline-end: 2rem;
       }
+
+      section.section-contact {
+        border-inline-end: none;
+      }
     }
   }
 
