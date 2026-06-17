@@ -1,8 +1,6 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { ifDefined } from "lit/directives/if-defined.js";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-site-name.styles.scss?inline";
 
@@ -92,7 +90,7 @@ export class QGDSSiteName extends LitElement {
     if (!this.siteName) return nothing;
 
     // Delivering lockup and explicit hide both result in sr-only — visible in DOM, hidden visually
-    const srOnly = this.isDelivering || this.hideSiteName;
+    const srOnly = Boolean(this.hideSiteName);
 
     // Optional prefix for smaller lead-in text, e.g. "Department of" in "Department of Education"
     const prefix = this.siteNamePrefix ? html`<span class="prefix">${this.siteNamePrefix}</span>` : nothing;
@@ -147,7 +145,7 @@ export class QGDSSiteName extends LitElement {
   // ─── Root render ─────────────────────────────────────────────────────────
 
   override render() {
-    this.validate();
+    //this.validate();
 
     return html`
       <div
