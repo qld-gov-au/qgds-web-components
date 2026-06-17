@@ -1,0 +1,63 @@
+@use "../../styles/tools/mixins" as m;
+
+:host {
+  display: block;
+  cursor: pointer;
+}
+
+.suggestion-icon {
+  flex-shrink: 0;
+
+  --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
+}
+
+.suggestion-label {
+  flex-grow: 1;
+}
+
+.suggestion-link {
+  // Shared by the `<a>` (suggestion) and `<button>` (autocomplete) renderings,
+  // so the button is reset to look identical to the link.
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+  min-block-size: 3rem;
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  border: 0;
+  background: none;
+  color: var(--qgds-color-text-default, #353535);
+  font: inherit;
+  font-size: 1rem;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-thickness: 0.5px;
+  text-decoration-color: transparent;
+  cursor: pointer;
+  transition:
+    text-decoration-thickness 0.1s ease,
+    text-decoration-color 0.1s ease;
+
+  &:hover {
+    background-color: var(--qgds-color-neutral-light, #e0e0e0);
+  }
+
+  &:hover,
+  &:hover .suggestion-label {
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 2px;
+  }
+
+  &:hover .suggestion-icon {
+    --qgds-icon-color: var(--qgds-color-action-secondary-hover, #1a5cb8);
+  }
+
+  @include m.focusable($offset-outline: -4px);
+}
+
+// View-more variant — no leading icon, always-underlined link.
+:host([view-more]) .suggestion-link {
+  text-decoration-color: currentColor;
+}

@@ -27,6 +27,7 @@ export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-c
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
 export { QGDSDirectionLink } from "./components/qgds-direction-link/qgds-direction-link";
 export { QGDSFeatureIcon } from "./components/qgds-feature-icon/qgds-feature-icon";
+export { QGDSFileUpload } from "./components/forms/qgds-file-upload/qgds-file-upload";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
@@ -42,13 +43,19 @@ export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-p
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";
 export { QGDSRadioGroup } from "./components/forms/qgds-radio-group/qgds-radio-group";
 export { QGDSSearchInput } from "./components/qgds-search-input/qgds-search-input";
+export { QGDSSearchSuggestion } from "./components/qgds-search-suggestion/qgds-search-suggestion";
+export { QGDSSearchSuggestionGroup } from "./components/qgds-search-suggestion-group/qgds-search-suggestion-group";
 export { QGDSSelect } from "./components/forms/qgds-select/qgds-select";
 export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-optgroup";
 export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-option";
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
 export { QGDSSkipLinks } from "./components/qgds-skip-links/qgds-skip-links";
+export { QGDSTable } from "./components/qgds-table/qgds-table";
+export { QGDSTabs } from "./components/qgds-tabs/qgds-tabs";
+export { QGDSTabsItem } from "./components/qgds-tabs/qgds-tabs-item";
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+export { QGDSTileButton } from "./components/qgds-tile-button/qgds-tile-button";
 export { QGDSVideo } from "./components/qgds-video/qgds-video";

@@ -8,37 +8,32 @@
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
-.qgds-palette-default,
-[palette="default"] {
+.qgds-palette-default {
   @extend %qgds-color-palette-default;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
-.qgds-palette-soft,
-[palette="soft"] {
-  @extend %qgds-color-palette-soft;
+.qgds-palette-soft {
+  @extend %qgds-color-palette-soft !optional;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
-.qgds-palette-muted,
-[palette="muted"] {
-  @extend %qgds-color-palette-muted;
+.qgds-palette-muted {
+  @extend %qgds-color-palette-muted !optional;
 
   --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
-.qgds-palette-bold,
-[palette="bold"] {
-  @extend %qgds-color-palette-bold;
+.qgds-palette-bold {
+  @extend %qgds-color-palette-bold !optional;
 
   --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }
 
-.qgds-palette-deep,
-[palette="deep"] {
-  @extend %qgds-color-palette-deep;
+.qgds-palette-deep {
+  @extend %qgds-color-palette-deep !optional;
 
   --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 }

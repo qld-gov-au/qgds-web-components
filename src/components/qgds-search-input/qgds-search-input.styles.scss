@@ -147,3 +147,20 @@
     }
   }
 }
+
+.search-suggestions {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + #{f.remify(7px)});
+  z-index: 10;
+  overflow: hidden auto;
+  max-block-size: 70vh;
+  border-radius: 0.5rem;
+  border-block-end: 0.25rem solid var(--qgds-color-action-secondary, #307edb);
+  background-color: var(--qgds-color-background, #ffffff);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.2), 0 1px 3px 1px rgb(0 0 0 / 0.1);
+
+  &[hidden] {
+    display: none;
+  }
+}

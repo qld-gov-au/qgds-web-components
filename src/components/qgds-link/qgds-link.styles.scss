@@ -46,12 +46,11 @@ span {
   font-weight: var(--qgds-link-font-weight, inherit);
   text-decoration-thickness: 0.5px;
   text-underline-offset: 6px;
-  transition: text-decoration-thickness var(--qgds-transition-time) ease;
+  transition: text-decoration-thickness var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   inline-size: var(--qgds-link-width);
 
   &:hover {
     text-decoration-thickness: 2px;
-    transition: text-decoration-thickness var(--qgds-transition-time) ease;
   }
 
   &:focus-visible {
@@ -117,42 +116,44 @@ span {
   color: var(--qgds-color-text-default);
 }
 
-// Animations — driven by the reflected animation attribute on :host
-// Shared base transition (lower specificity — must come before per-animation hover rules)
+// Animations — driven by the reflected animation attribute on :host.
+// The transition lives on the base (non-hover) icon so the movement glides both
+// into and out of hover, rather than snapping back on mouse-out.
+/* stylelint-disable no-descending-specificity */
+:host([animation]) a qgds-icon,
+:host([animation]) button qgds-icon {
+  transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
+}
+/* stylelint-enable no-descending-specificity */
+
 :host([animation="leftToRight"]) a:hover qgds-icon,
 :host([animation="leftToRight"]) button:hover qgds-icon {
   transform: translateX(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="rightToLeft"]) a:hover qgds-icon,
 :host([animation="rightToLeft"]) button:hover qgds-icon {
   transform: translateX(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="topToBottom"]) a:hover qgds-icon,
 :host([animation="topToBottom"]) button:hover qgds-icon {
   transform: translateY(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="bottomToTop"]) a:hover qgds-icon,
 :host([animation="bottomToTop"]) button:hover qgds-icon {
   transform: translateY(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="scaleIn"]) a:hover qgds-icon,
 :host([animation="scaleIn"]) button:hover qgds-icon {
   transform: scale(var(--animation-grow-scale, 1.25)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="scaleOut"]) a:hover qgds-icon,
 :host([animation="scaleOut"]) button:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 .sr-only {

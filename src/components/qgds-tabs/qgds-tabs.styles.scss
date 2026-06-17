@@ -1,0 +1,166 @@
+@use "../../styles/tools";
+@use "../../styles/tools/mixins" as m;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+
+  --_tab-icon-color: #307edb;
+}
+
+section {
+  block-size: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  padding: 1.25rem;
+  border: 1px solid var(--qgds-color-border-alt);
+  background-color: var(--qgds-color-background);
+  color: var(--qgds-color-text-default);
+}
+
+nav {
+  display: flex;
+  gap: 0.25rem;
+  z-index: 10;
+  position: relative;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  margin-block-end: -1px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tab-button {
+  scroll-snap-align: start;
+  display: inline-flex;
+  flex-direction: column;
+  gap: tools.remify(8px);
+  align-items: center;
+  align-self: end;
+  white-space: nowrap;
+  padding-block: tools.remify(9px) tools.remify(11px);
+  padding-inline: tools.remify(20px);
+  border-radius: tools.remify(4px) tools.remify(4px) 0 0;
+  background-color: var(--qgds-color-background-shade);
+  color: var(--qgds-color-link-default);
+  margin-block: 0 1px;
+  border: none;
+
+  &.active {
+    background-color: var(--qgds-color-background);
+    color: var(--qgds-color-text-heading);
+    border: 1px solid var(--qgds-color-border-alt);
+    border-block-end: 0 solid var(--qgds-color-background);
+    margin-block: 0;
+    pointer-events: none;
+    cursor: default;
+    justify-content: space-between;
+    padding-block: 0.75rem 0;
+    font-weight: 700;
+
+    &::after {
+      --border-radius: 0.25rem;
+
+      content: "";
+      border-radius: 0;
+      border-start-end-radius: var(--border-radius);
+      border-start-start-radius: var(--border-radius);
+      background-color: var(--qgds-color-accent-design-accent);
+      display: block;
+      block-size: 0.25rem;
+      inline-size: 100%;
+      margin-block-start: tools.remify(-1px); // to account for border
+    }
+  }
+
+  .wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: tools.remify(10px);
+
+    span {
+      line-height: tools.remify(24px);
+    }
+  }
+
+  &:hover {
+    background-color: var(--qgds-color-action-primary-hover);
+    color: var(--qgds-color-link-on-action);
+    text-decoration: var(--qgds-link-decoration-hover);
+    text-underline-offset: var(--qgds-link-underline-offset);
+    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover);
+  }
+
+  &:focus {
+    outline: none;
+
+    .wrapper {
+      outline: var(--qgds-color-focus-default, #002e85) solid 3px;
+      outline-offset: 2px;
+    }
+  }
+}
+
+.scroll {
+  --arrow-gradient-color: #ffffff;
+
+  position: absolute;
+  border: none;
+  z-index: 20;
+  inset-block-start: 5px;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3rem;
+  block-size: 3rem;
+  display: none;
+
+  .parent-context-default & {
+    --arrow-gradient-color: #ffffff;
+  }
+
+  .parent-context-muted & {
+    --arrow-gradient-color: #e3e7ea;
+  }
+
+  .parent-context-soft & {
+    --arrow-gradient-color: #e6f6ff;
+  }
+
+  .parent-context-bold & {
+    --arrow-gradient-color: #005eb8;
+  }
+
+  .parent-context-deep & {
+    --arrow-gradient-color: #001d74;
+  }
+
+  qgds-icon {
+    padding: 0.25rem;
+    border-radius: 50%;
+    box-shadow: var(--qgds-elevation-1);
+    background-color: var(--qgds-color-neutral-white);
+    color: var(--_tab-icon-color);
+  }
+
+  &.scroll-right {
+    inset-inline-end: 0;
+    inset-block-start: 0;
+    background: linear-gradient(90deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
+  }
+
+  &.scroll-left {
+    inset-inline-start: 0;
+    inset-block-start: 0;
+    background: linear-gradient(270deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
+  }
+
+  &.show {
+    display: flex;
+  }
+}

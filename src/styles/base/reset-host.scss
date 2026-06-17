@@ -7,6 +7,9 @@ Box sizing reset
 Remove default margins and padding
 Ensure components don't leak styles 
 */
+
+@use "../../styles/qgds-tokens/qgds-color-stub";
+
 :host {
   display: inline-block;
   box-sizing: border-box;
@@ -14,6 +17,26 @@ Ensure components don't leak styles
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
+}
+
+:host([palette="default"]) {
+  @extend %qgds-color-palette-default;
+}
+
+:host([palette="soft"]) {
+  @extend %qgds-color-palette-soft;
+}
+
+:host([palette="muted"]) {
+  @extend %qgds-color-palette-muted;
+}
+
+:host([palette="bold"]) {
+  @extend %qgds-color-palette-bold;
+}
+
+:host([palette="deep"]) {
+  @extend %qgds-color-palette-deep;
 }
 
 button {
