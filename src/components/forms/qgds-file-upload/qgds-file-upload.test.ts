@@ -133,9 +133,10 @@ describe("qgds-file-upload", () => {
 
     expect(element.checkValidity()).toBe(false);
     expect(element.reportValidity()).toBe(false);
+    expect(element.validationMessage).toBe("Please select at least one file.");
   });
 
-  it("should keep the field invalid when uploaded files are rejected by accept rules or file size", async () => {
+  it("should show the correct message when uploaded files are rejected by accept rules or file size", async () => {
     element.required = true;
     element.accept = "image/*";
     element.maxSize = 0.001;
@@ -152,6 +153,7 @@ describe("qgds-file-upload", () => {
 
     expect(element.checkValidity()).toBe(false);
     expect(element.reportValidity()).toBe(false);
+    expect(element.validationMessage).toBe("Please remove invalid files before continuing.");
   });
 
   it("should prevent drag and drop when the component is disabled", async () => {

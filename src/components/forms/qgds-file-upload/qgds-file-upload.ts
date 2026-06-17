@@ -24,7 +24,34 @@ export interface MetaFile extends Meta {
 }
 
 /**
+ * File upload input for selecting one or more files with drag-and-drop support.
+ *
+ * Use this component when a form needs a file picker that can validate accepted
+ * MIME types and file-size limits before submission.
+ *
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
+ * @website https://www.designsystem.qld.gov.au/components/file-upload
+ *
  * @tagname qgds-file-upload
+ *
+ * @prop {number} [max-files=1] - Maximum number of files that can be selected.
+ * @prop {number} [max-size=100] - Maximum allowed file size in MB.
+ * @prop {boolean} [multiple=false] - Whether more than one file may be selected.
+ * @prop {string} [accept=""] - Comma-separated list of accepted file types or extensions.
+ *
+ * @slot details - Place any markup to be rendered within additional details.
+ *
+ * @event qgds-change - Fired when the selected files change.
+ *
+ * @example
+ * ```html
+ * <qgds-file-upload
+ *   id="upload"
+ *   label="Upload a document"
+ *   accept="image/*,.pdf"
+ *   max-files="3"
+ * ></qgds-file-upload>
+ * ```
  */
 
 @customElement(tagname)
@@ -52,14 +79,6 @@ export class QGDSFileUpload extends QGDSFormField {
   @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
   @property({ type: Boolean }) multiple?: boolean = false;
   @property({ type: String }) accept?: string = "";
-
-  private get _validMetaFiles(): MetaFile[] {
-    return this._metaFiles.filter((item) => item.status !== "error");
-  }
-
-  private get _hasValidationErrors(): boolean {
-    return this._metaFiles.some((item) => item.status === "error");
-  }
 
   // public readonly `files`
   get files(): FileList | null {
@@ -102,6 +121,14 @@ export class QGDSFileUpload extends QGDSFormField {
 
   connectedCallback(): void {
     super.connectedCallback?.();
+  }
+
+  private get _validMetaFiles(): MetaFile[] {
+    return this._metaFiles.filter((item) => item.status !== "error");
+  }
+
+  private get _hasValidationErrors(): boolean {
+    return this._metaFiles.some((item) => item.status === "error");
   }
 
   private _preventDefaults = (e: Event) => {
@@ -203,21 +230,27 @@ export class QGDSFileUpload extends QGDSFormField {
 
     if (!isValid) {
       const hasFiles = (this.files?.length ?? 0) > 0;
+      const message = this._hasValidationErrors
+        ? "Please remove invalid files before continuing."
+        : "Please select at least one file.";
+
       this._internals.setValidity(
         {
           valueMissing: !hasFiles,
           customError: this._hasValidationErrors,
         },
-        this._hasValidationErrors
-          ? "Please remove invalid files before continuing."
-          : "Please select at least one file.",
+        message,
         this._input
       );
+      this.validationMessage = message;
+      this.validationState = "error";
       this.focus();
       return false;
     }
 
     this._internals.setValidity({});
+    this.validationMessage = undefined;
+    this.validationState = undefined;
     return true;
   }
 
