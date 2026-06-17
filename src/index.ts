@@ -59,4 +59,5 @@ export { QGDSTabsItem } from "./components/qgds-tabs/qgds-tabs-item";
 export { QGDSTag } from "./components/qgds-tag/qgds-tag";
 export { QGDSTextarea } from "./components/forms/qgds-textarea/qgds-textarea";
 export { QGDSTextInput } from "./components/forms/qgds-text-input/qgds-text-input";
+export { QGDSTileButton } from "./components/qgds-tile-button/qgds-tile-button";
 export { QGDSVideo } from "./components/qgds-video/qgds-video";

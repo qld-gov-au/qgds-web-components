@@ -45,12 +45,11 @@
   font-weight: var(--qgds-link-font-weight, inherit);
   text-decoration-thickness: 0.5px;
   text-underline-offset: 6px;
-  transition: text-decoration-thickness var(--qgds-transition-time) ease;
+  transition: text-decoration-thickness var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   inline-size: var(--qgds-link-width);
 
   &:hover {
     text-decoration-thickness: 2px;
-    transition: text-decoration-thickness var(--qgds-transition-time) ease;
   }
 
   &:focus-visible {
@@ -117,32 +116,26 @@ qgds-icon {
 // Shared base transition (lower specificity — must come before per-animation hover rules)
 :host([animation="leftToRight"]) .link-container:hover qgds-icon {
   transform: translateX(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="rightToLeft"]) .link-container:hover qgds-icon {
   transform: translateX(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="topToBottom"]) .link-container:hover qgds-icon {
   transform: translateY(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="bottomToTop"]) .link-container:hover qgds-icon {
   transform: translateY(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="scaleIn"]) .link-container:hover qgds-icon {
   transform: scale(var(--animation-grow-scale, 1.25)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 :host([animation="scaleOut"]) .link-container:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 .sr-only {
