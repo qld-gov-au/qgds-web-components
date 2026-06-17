@@ -24,7 +24,7 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args,
   argTypes,
-  decorators: [withEventActions(["qgds-button-click", "qgds-cancel", "qgds-change", "change"])],
+  decorators: [withEventActions(["qgds-click", "qgds-cancel", "qgds-change", "change"])],
   render: (args) => template(args),
 };
 

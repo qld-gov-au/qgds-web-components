@@ -407,7 +407,7 @@ export class QGDSFileUpload extends QGDSFormField {
               variant="secondary"
               label="Select ${fileOrFiles}"
               ?disabled=${disabled}
-              @qgds-button-click=${_selectFiles}
+              @qgds-click=${_selectFiles}
             ></qgds-button>
           </div>`}
       <input

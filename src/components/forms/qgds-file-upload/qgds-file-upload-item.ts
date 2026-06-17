@@ -89,7 +89,7 @@ export class QGDSFileUploadItem extends LitElement {
           </p>
         </div>
       </div>
-      <qgds-button variant="tertiary" label=${buttonLabel} @qgds-button-click=${_handleButtonClick}
+      <qgds-button variant="tertiary" label=${buttonLabel} @qgds-click=${_handleButtonClick}
         ><qgds-icon slot="icon" icon-id=${buttonIcon}></qgds-icon
       ></qgds-button>
     </div>`;
