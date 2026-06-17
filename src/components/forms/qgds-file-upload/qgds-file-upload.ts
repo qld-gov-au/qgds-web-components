@@ -29,13 +29,13 @@ export interface MetaFile extends Meta {
  * Use this component when a form needs a file picker that can validate accepted
  * MIME types and file-size limits before submission.
  *
- * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97997&m=dev
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=49306-16704
  * @website https://www.designsystem.qld.gov.au/components/file-upload
  *
  * @tagname qgds-file-upload
  *
- * @prop {number} [max-files=1] - Maximum number of files that can be selected.
- * @prop {number} [max-size=100] - Maximum allowed file size in MB.
+ * @prop {number} [maxFiles=1] - Maximum number of files that can be selected.
+ * @prop {number} [maxSize=100] - Maximum allowed file size in MB.
  * @prop {boolean} [multiple=false] - Whether more than one file may be selected.
  * @prop {string} [accept=""] - Comma-separated list of accepted file types or extensions.
  *
