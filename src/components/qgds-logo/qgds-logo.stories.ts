@@ -72,7 +72,6 @@ export const AllVariantsStatic: Story = {
   render: () => html`
     <!-- Delivering lockup (Masterbrand only) -->
     <qgds-logo
-      variant="masterbrand"
       logo="coa-delivering-for-qld"
       href="https://www.qld.gov.au"
       alt="Queensland Government delivering for Queensland logo"
@@ -80,7 +79,6 @@ export const AllVariantsStatic: Story = {
 
     <!-- Stacked Coat of Arms (Masterbrand, Subbrand) -->
     <qgds-logo
-      variant="masterbrand"
       logo="coa-stacked"
       href="https://www.qld.gov.au"
       alt="Queensland Government stacked COA logo"
@@ -88,7 +86,6 @@ export const AllVariantsStatic: Story = {
 
     <!-- Co-branded logos (Cobrand with partner) -->
     <qgds-logo
-      variant="cobrand"
       logo="coa-stacked"
       custom-logo="${sampleSlottedImage}"
       custom-logo-alt="Partner Organisation"
@@ -97,12 +94,7 @@ export const AllVariantsStatic: Story = {
     ></qgds-logo>
 
     <!-- Custom Logos (Endorsed, Standalone) -->
-    <qgds-logo
-      logo="none"
-      variant="standalone"
-      custom-logo="${sampleSlottedImage}"
-      custom-logo-alt="Agency Name"
-    ></qgds-logo>
+    <qgds-logo logo="none" custom-logo="${sampleSlottedImage}" custom-logo-alt="Agency Name"></qgds-logo>
   `,
   decorators: [
     (Story) => html` <div style="padding: 1rem; display: flex; flex-direction: column; gap: 2rem;">${Story()}</div> `,
