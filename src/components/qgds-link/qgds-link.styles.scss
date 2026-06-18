@@ -8,6 +8,7 @@
   --qgds-link-width: unset;
   --qgds-link-justify-content: unset;
   --qgds-link-background-colour: unset;
+  --qgds-link-label-display: inherit;
   --qgds-icon-svg: unset;
   --icon-direction: 1;
   --qgds-link-flex-direction: unset;
@@ -24,9 +25,7 @@
   padding-inline-start: var(--qgds-link-padding-inline-start);
 }
 
-a,
-button,
-span {
+.link-container {
   --animation-move-distance: 0.5rem;
   --animation-shrink-scale: 0.75;
   --animation-grow-scale: 1.25;
@@ -46,18 +45,23 @@ span {
   font-weight: var(--qgds-link-font-weight, inherit);
   text-decoration-thickness: 0.5px;
   text-underline-offset: 6px;
-  transition: text-decoration-thickness var(--qgds-transition-time) ease;
+  transition: text-decoration-thickness var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   inline-size: var(--qgds-link-width);
 
   &:hover {
     text-decoration-thickness: 2px;
-    transition: text-decoration-thickness var(--qgds-transition-time) ease;
   }
 
   &:focus-visible {
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
     outline-offset: 2px;
     border-radius: var(--qgds-border-radius);
+  }
+
+  .link-label {
+    // display contents to fix Safari bug, where parent A tag styles do not apply to child span elements (text-decoration).
+    display: var(--qgds-link-label-display, contents);
+    color: inherit;
   }
 }
 
@@ -66,9 +70,7 @@ qgds-icon {
 }
 
 :host([is-disabled]) {
-  a,
-  button,
-  span {
+  .link-container {
     color: var(--qgds-color-disabled);
     pointer-events: none;
     text-decoration: none;
@@ -76,9 +78,7 @@ qgds-icon {
 }
 
 :host([has-trailing-icon]) {
-  a,
-  button,
-  span {
+  .link-container {
     flex-direction: var(--qgds-link-flex-direction, row-reverse);
     justify-content: flex-end;
   }
@@ -89,9 +89,7 @@ qgds-icon {
 
   inline-size: var(--qgds-link-width, 100%);
 
-  a,
-  button,
-  span {
+  .link-container {
     qgds-icon {
       margin-inline: 0 var(--icon-spacing, auto);
     }
@@ -99,18 +97,15 @@ qgds-icon {
 }
 
 :host([has-trailing-icon][stretch]) {
-  a,
-  button,
-  span {
+  .link-container {
     qgds-icon {
       margin-inline: var(--icon-spacing, auto) 0;
     }
   }
 }
 
-// Span-specific overrides — must come after a, button, span to win via source order
-// stylelint-disable-next-line no-descending-specificity
-span {
+// Static/Non-link overrides — applies when href is missing
+.link-container.is-static {
   text-decoration: none;
   cursor: default;
   pointer-events: none;
@@ -119,40 +114,28 @@ span {
 
 // Animations — driven by the reflected animation attribute on :host
 // Shared base transition (lower specificity — must come before per-animation hover rules)
-:host([animation="leftToRight"]) a:hover qgds-icon,
-:host([animation="leftToRight"]) button:hover qgds-icon {
+:host([animation="leftToRight"]) .link-container:hover qgds-icon {
   transform: translateX(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
-:host([animation="rightToLeft"]) a:hover qgds-icon,
-:host([animation="rightToLeft"]) button:hover qgds-icon {
+:host([animation="rightToLeft"]) .link-container:hover qgds-icon {
   transform: translateX(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
-:host([animation="topToBottom"]) a:hover qgds-icon,
-:host([animation="topToBottom"]) button:hover qgds-icon {
+:host([animation="topToBottom"]) .link-container:hover qgds-icon {
   transform: translateY(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
-:host([animation="bottomToTop"]) a:hover qgds-icon,
-:host([animation="bottomToTop"]) button:hover qgds-icon {
+:host([animation="bottomToTop"]) .link-container:hover qgds-icon {
   transform: translateY(calc(-1 * var(--animation-move-distance, 0.5rem))) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
-:host([animation="scaleIn"]) a:hover qgds-icon,
-:host([animation="scaleIn"]) button:hover qgds-icon {
+:host([animation="scaleIn"]) .link-container:hover qgds-icon {
   transform: scale(var(--animation-grow-scale, 1.25)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
-:host([animation="scaleOut"]) a:hover qgds-icon,
-:host([animation="scaleOut"]) button:hover qgds-icon {
+:host([animation="scaleOut"]) .link-container:hover qgds-icon {
   transform: scale(var(--animation-shrink-scale, 0.75)) scaleX(var(--icon-direction));
-  transition: all var(--qgds-transition-time) ease;
 }
 
 .sr-only {

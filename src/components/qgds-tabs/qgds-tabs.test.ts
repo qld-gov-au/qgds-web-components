@@ -1,3 +1,4 @@
+// Tabs component tests
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import "./qgds-tabs";

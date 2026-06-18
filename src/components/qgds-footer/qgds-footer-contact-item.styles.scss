@@ -1,0 +1,30 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+:host {
+  --qgds-icon-color: var(--qgds-color-accent-design-accent);
+}
+
+.contact-item {
+  --item-label-gap: 0.25rem;
+  @media (min-width: bp.$md) {
+    --item-label-gap: 0.5rem;
+  }
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--item-label-gap);
+  align-items: center;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.value-link {
+  @include m.focusable();
+}
+
+.value-link:visited {
+  color: var(--qgds-color-link-default);
+}
