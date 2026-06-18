@@ -7,13 +7,13 @@
 
 .banner {
   --max-width: 82rem;
-  --image-min-height: 21.5rem;
+  --banner-min-height: 21.5rem;
   --grid-template-columns: repeat(4, 1fr);
-  --breadcrumbs-row: 1 / span 1;
-  --content-row: 3 / span 1;
+  --grid-template-rows: auto;
+  --content-row: 1 / span 4;
   --content-cols: 1 / span 4;
   --image-cols: 1 / span 4;
-  --image-row: 2 / span 1;
+  --image-row: 3 / span 1;
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
@@ -31,7 +31,6 @@
   &-container {
     max-inline-size: var(--max-width);
     margin-inline: auto;
-    padding-inline: 2rem;
     display: flex;
     flex-direction: column;
   }
@@ -39,9 +38,7 @@
   &-inner {
     display: grid;
     grid-template-columns: var(--grid-template-columns);
-    grid-template-rows: auto;
-    row-gap: 1.5rem;
-    padding-block: 3rem 4rem;
+    grid-template-rows: var(--grid-template-rows);
 
     @media (min-width: qgds-breakpoint.$md) {
       --grid-template-columns: repeat(6, 1fr);
@@ -49,6 +46,14 @@
 
     @media (min-width: qgds-breakpoint.$lg) {
       --grid-template-columns: repeat(12, 1fr);
+    }
+
+    @media (min-width: qgds-breakpoint.$xxl) {
+      min-block-size: var(--banner-min-height);
+    }
+
+    &.has-hero-image {
+      column-gap: 2rem;
     }
 
     .no-banner & {
@@ -64,60 +69,80 @@
     }
   }
 
-  &-breadcrumbs {
+  &-content-container {
     grid-column: var(--content-cols);
-    grid-row: var(--breadcrumbs-row);
+    display: flex;
+    gap: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+
+    @media (min-width: qgds-breakpoint.$md) {
+      padding-inline: 2rem;
+      padding-block: 3rem;
+      gap: 1.25rem;
+    }
+
+    @media (min-width: qgds-breakpoint.$lg) {
+      gap: 1.5rem;
+    }
+
+    .has-background-image &,
+    .has-hero-image & {
+      --content-row: 3 / span 1;
+    }
 
     @media (min-width: qgds-breakpoint.$md) {
       --content-cols: 1 / span 6;
+      --content-row: 3 / span 1;
 
       .has-background-image & {
         --content-cols: 1 / span 4;
+        --content-row: 3 / span 1;
+      }
+
+      .has-hero-image & {
+        --content-cols: 1 / span 3;
+        --content-row: 3 / span 1;
       }
     }
 
     @media (min-width: qgds-breakpoint.$lg) {
       --content-cols: 1 / span 8;
+      --content-row: 3 / span 1;
 
-      .has-background-image & {
+      .advanced & {
+        --content-cols: 1 / span 7;
+      }
+
+      .has-background-image &,
+      .has-hero-image & {
         --content-cols: 1 / span 8;
+        --content-row: 3 / span 1;
       }
     }
   }
 
   &-content {
-    grid-column: var(--content-cols);
-    grid-row: var(--content-row);
+    // grid-row: var(--content-row);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     color: var(--qgds-color-text-default);
+    padding-inline: 1rem;
+    padding-block: 1.5rem;
 
     @media (min-width: qgds-breakpoint.$md) {
-      --content-cols: 1 / span 6;
-      --content-row: 2 / span 1;
-
-      .has-background-image & {
-        --content-cols: 1 / span 4;
-      }
+      padding: 0;
     }
+  }
 
-    @media (min-width: qgds-breakpoint.$lg) {
-      --content-cols: 1 / span 8;
-      --content-row: 2 / span 1;
+  &-breadcrumbs {
+    padding-inline: 1rem;
+    padding-block: 1rem 0.75rem;
 
-      .has-background-image & {
-        --content-cols: 1 / span 8;
-      }
-    }
-
-    .has-hero-image & {
-      --content-cols: 1 / span 4;
-      --content-row: 3 / span 1;
-      @media (min-width: qgds-breakpoint.$lg) {
-        --content-cols: 1 / span 8;
-        --content-row: 2 / span 1;
-      }
+    @media (min-width: qgds-breakpoint.$md) {
+      padding: 0;
     }
   }
 
@@ -144,6 +169,7 @@
     .block-type & {
       color: var(--qgds-color-text-heading);
       background-color: var(--qgds-color-background-shade);
+      font-weight: 600;
     }
   }
 
@@ -151,6 +177,7 @@
     .block-type & {
       color: var(--qgds-color-link-on-action);
       background-color: var(--qgds-color-link-hover);
+      font-weight: 400;
     }
   }
 
@@ -161,16 +188,35 @@
 
   &-image-container {
     grid-column: var(--image-cols);
-    grid-row: var(--image-row);
+
+    // grid-row: var(--image-row);
+    padding: 0;
+    margin-inline: -1rem;
 
     @media (min-width: qgds-breakpoint.$md) {
       --image-cols: 5 / span 2;
-      --image-row: 1 / span 2;
+      --image-row: 1 / span 4;
+
+      margin-inline: 0;
+
+      &.fixed-image-ratio,
+      &.fixed-graphic-ratio {
+        padding-inline-end: 2rem;
+        padding-block: 2rem;
+      }
+
+      .has-hero-image & {
+        --image-cols: 4 / span 3;
+      }
     }
 
     @media (min-width: qgds-breakpoint.$lg) {
       --image-cols: 9 / span 4;
-      --image-row: 1 / span 2;
+      --image-row: 1 / span 4;
+
+      .has-hero-image & {
+        --image-cols: 9 / span 4;
+      }
     }
 
     &.right-align {
@@ -184,9 +230,19 @@
     background-position: center;
     background-repeat: no-repeat;
     block-size: 100%;
+    min-block-size: tools.remify(233px);
+    display: none;
 
-    @media (min-width: qgds-breakpoint.$xxl) {
-      min-block-size: var(--image-min-height);
+    .fixed-graphic-ratio & {
+      background-size: contain;
+    }
+
+    @media (min-width: qgds-breakpoint.$md) {
+      display: block;
+
+      .fixed-image-ratio & {
+        background-size: contain;
+      }
     }
 
     .right-align & {
@@ -201,7 +257,7 @@
     background-position: center;
     background-repeat: no-repeat;
     inline-size: 100%;
-    min-block-size: tools.remify(140px);
+    min-block-size: tools.remify(233px);
 
     @media (min-width: qgds-breakpoint.$md) {
       display: none;
@@ -210,6 +266,7 @@
 
   ::slotted([slot="cta"]) {
     display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
   }
 
