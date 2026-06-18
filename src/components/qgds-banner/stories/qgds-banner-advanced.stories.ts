@@ -10,6 +10,11 @@ import "../../qgds-breadcrumbs/qgds-breadcrumbs";
 import "../../qgds-breadcrumbs/qgds-breadcrumbs-item";
 import "../../qgds-button/qgds-button";
 import "../../qgds-card/qgds-card";
+import heroImageDesktop from "../../../img/hero-image-desktop.jpg";
+import heroImageMobile from "../../../img/hero-image-mobile.jpg";
+import fixedGraphicImage from "../../../img/fixed-graphic-ratio-desktop.svg";
+import fixedGraphicImageMobile from "../../../img/fixed-graphic-ratio-mobile.svg";
+import backgroundTexture from "../../../img/banner-background-pattern.jpg";
 import backgroundImage from "../../../img/banner-background-image.jpg";
 import backgroundImageMobile from "../../../img/banner-background-image-mobile.jpg";
 
@@ -44,20 +49,20 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-export const BlockTitleHeading: Story = {
+export const BlockTitle: Story = {
   args: {
     heading: "Disaster recovery",
     "sub-heading": "and support",
     variant: "advanced",
     "background-option": "none",
-    "is-block-type-heading": false,
+    "is-block-type-heading": true,
   },
   argTypes: {
     variant: {
       control: false,
       description:
         "The variant of the banner, determines the layout and styling of the banner." +
-        "<br/>The variant `basic` used here is used to display a simplified banner layout which includes breadcrumbs, heading, abstract an an optional background texture or image.",
+        "<br/>The variant `advanced` used here is used to display a simplified banner layout which includes breadcrumbs, heading, abstract an an optional background texture or image.",
     }, // Disables control
     "background-option": {
       control: false,
@@ -90,8 +95,158 @@ export const BlockTitleHeading: Story = {
   `,
 };
 
-export const StandardCTA: Story = {
-  args: meta.args,
+export const NoBackground: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    variant: "advanced",
+    "background-option": "none",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner." +
+        "<br/>The variant `advanced` used here is used to display a simplified banner layout which includes breadcrumbs, heading, abstract an an optional background texture or image.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description: "The type of background to display in the banner. This variant uses the background option, `none`.",
+    }, // Disables control
+  },
+  parameters: {
+    controls: { include: ["palette", "variant", "heading", "background-option"] }, // Shows ONLY specific ones
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const BackgroundTexture: Story = {
+  args: {
+    palette: "bold",
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    variant: "advanced",
+    "background-option": "texture",
+    "image-url": backgroundTexture,
+    "image-description": "Background texture",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional background texture.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner. This variant uses the background option, `texture`.",
+    },
+  },
+  parameters: {
+    controls: { include: ["palette", "variant", "heading", "background-option", "image-url"] }, // Shows ONLY specific ones
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-url=${args["image-url"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const BackgroundImage: Story = {
+  args: {
+    palette: "bold",
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    variant: "advanced",
+    "background-option": "image",
+    "image-url": backgroundImage,
+    "mobile-image-url": backgroundImageMobile,
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional background image.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description: "The type of background to display in the banner.This variant uses the background option, `image`.",
+    },
+  },
+  parameters: {
+    controls: { include: ["palette", "variant", "heading", "background-option", "image-url", "mobile-image-url"] }, // Shows ONLY specific ones
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const FixedImageRatio: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "fixed-image-ratio",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image with fixed image ratio.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
@@ -100,6 +255,225 @@ export const StandardCTA: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const FixedGraphicRatio: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "fixed-graphic-ratio",
+    "image-url": fixedGraphicImage,
+    "mobile-image-url": fixedGraphicImageMobile,
+    "image-description": "Hero image",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image with fixed graphic ratio.",
+    },
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const AlignedToGrid: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "grid-align",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to grid.",
+    },
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const AlignedToRight: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "right-align",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to right.",
+    },
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const AlignedToRightWithGradient: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "right-align",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to right with a gradient.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+    </qgds-banner>
+  `,
+};
+
+export const CTAButtons: Story = {
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "fixed-image-ratio",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
       image-description=${args["image-description"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
@@ -137,7 +511,16 @@ export const StandardCTA: Story = {
 };
 
 export const ArrowCards: Story = {
-  args: meta.args,
+  args: {
+    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    palette: "bold",
+    variant: "advanced",
+    "background-option": "hero-image",
+    "image-option": "fixed-image-ratio",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+  },
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
@@ -145,6 +528,7 @@ export const ArrowCards: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
       image-description=${args["image-description"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">

@@ -8,7 +8,7 @@ import componentCSS from "./qgds-banner.styles.scss?inline";
 type QGDSPalette = keyof typeof palettes;
 
 type BackgroundOptions = "none" | "texture" | "image" | "hero-image";
-type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image";
+type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image-ratio" | "fixed-graphic-ratio";
 type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
 
 /**
@@ -22,7 +22,7 @@ type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
  *
  * @prop {string} heading - The main heading text of the banner.
  * @prop {string} subHeading - The subheading text of the banner, which provides additional context or information about the page.
- * @prop {boolean} isBlockTypeHeading - Determines whether the heading should be displayed as a block type, which affects its styling and layout.
+ * @prop {boolean} isBlockTypeHeading - Determines whether the heading should be displayed as a block type. Sub-heading field is used only for this type.
  * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
@@ -45,7 +45,7 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, attribute: "sub-heading" }) subHeading = "";
   @property({ type: Boolean, attribute: "is-block-type-heading", reflect: true }) isBlockTypeHeading = false;
   @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
-  @property({ type: String, attribute: "image-option" }) imageOption: ImageOptions = "grid-align";
+  @property({ type: String, attribute: "image-option", reflect: true }) imageOption: ImageOptions = "grid-align";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
   @property({ type: String, attribute: "mobile-image-url" }) mobileImageUrl = "";
   @property({ type: String, attribute: "image-description" }) imageDescription = "";
@@ -67,53 +67,53 @@ export class QGDSBanner extends LitElement {
     };
 
     return html`
-      <section aria-label="Banner" class=${classMap(bannerClasses)}
-      style=${this.backgroundOption === "image" || this.backgroundOption === "texture" ? `background-image:url(${this.imageUrl})` : ""}
+      <section
+        aria-label="Banner"
+        class=${classMap(bannerClasses)}
+        style=${this.backgroundOption === "image" || this.backgroundOption === "texture"
+          ? `background-image:url(${this.imageUrl})`
+          : ""}
       >
         <div class="banner-container">
           <div class=${classMap(bannerContentClasses)}>
-          <div class="banner-breadcrumbs">
-          <slot name="breadcrumbs"></slot>
-          </div>
-            <div class="banner-content">
-            
-              ${
-                this.heading
+            <div class="banner-content-container">
+              <div class="banner-breadcrumbs">
+                <slot name="breadcrumbs"></slot>
+              </div>
+              ${this.backgroundOption.includes("image") && (this.mobileImageUrl || this.imageUrl)
+                ? html`<div
+                    class="banner-image-mobile"
+                    role="img"
+                    aria-label=${this.imageDescription}
+                    style="background-image:url(${this.mobileImageUrl ?? this.imageUrl})"
+                  ></div>`
+                : nothing}
+              <div class="banner-content">
+                ${this.heading
                   ? html`<h1 class="${classMap(headingClasses)}">
                       <span class="banner-heading"> ${this.heading} </span>
                       ${this.subHeading ? html`<span class="banner-sub-heading">${this.subHeading}</span>` : nothing}
                     </h1>`
-                  : nothing
-              }
-              
-              <slot class="banner-abstract"></slot>
-              <slot class="banner-cta" name="cta"></slot>
-              <slot class="banner-cards" name="cards"></slot>
+                  : nothing}
+
+                <slot class="banner-abstract"></slot>
+                <slot class="banner-cta" name="cta"></slot>
+                <slot class="banner-cards" name="cards"></slot>
+              </div>
             </div>
-            ${
-              this.backgroundOption.includes("image") && this.imageUrl
-                ? html`
-            <div class="banner-image-container ${this.imageOption}">
-              ${
-                this.backgroundOption === "hero-image"
-                  ? html`<div
-                      class="banner-image"
-                      role="img"
-                      aria-label=${this.imageDescription}
-                      style="background-image:url(${this.imageUrl})"
-                    ></div>`
-                  : nothing
-              }
-              <div
-                class="banner-image-mobile"
-                role="img"
-                aria-label=${this.imageDescription}
-                style="background-image:url(${this.mobileImageUrl})"
-              ></div>
-            </div>
-          </div>`
-                : nothing
-            }
+            ${this.backgroundOption.includes("image") && this.imageUrl
+              ? html` <div class="banner-image-container ${this.imageOption}">
+                  ${this.backgroundOption === "hero-image"
+                    ? html`<div
+                        class="banner-image"
+                        role="img"
+                        aria-label=${this.imageDescription}
+                        style="background-image:url(${this.imageUrl})"
+                      ></div>`
+                    : nothing}
+                </div>`
+              : nothing}
+          </div>
         </div>
       </section>
     `;
