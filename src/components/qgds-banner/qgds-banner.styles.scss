@@ -255,7 +255,8 @@
       }
     }
     @media (min-width: qgds-breakpoint.$xl) {
-      .right-align & {
+      .right-align &,
+      .right-align-gradient & {
         margin-inline-end: calc(-1 * (100vw - var(--max-width)) / 2);
       }
     }
