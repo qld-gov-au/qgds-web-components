@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>QGDS Web Components | Template Examples</title>
+  <script type="module" src="./src/index.ts"></script>
+
+</head>
+
+<body class="qgds qgds-palette-default">
+
+  <div class="qgds-container bleed-edge qgds-palette-deep">
+    <div class="qgds-att-bar" style="background: var(--qgds-color-background); color: var(--qgds-color-text-default);">
+      Atttribution bar
+      <qgds-link href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+    </div>
+  </div>
+
+  <div class="qgds-container bleed-edge">
+    <header class="qgds-header"
+      style="height: 120px; background: var(--qgds-color-background); color: var(--qgds-color-text-default)"
+      palette="default">
+      Header — full bleed background, content aligned to 12 cols
+    </header>
+  </div>
+
+  <div class="qgds-container bleed-edge qgds-palette-deep">
+    <nav class="qgds-navbar"
+      style="background: var(--qgds-color-background); color: var(--qgds-color-text-default); height: 50px;"
+      palette="deep">
+      Navbar — full bleed background, content aligned to 12 cols
+    </nav>
+  </div>
+
+  <div class="qgds-container qgds-page-body">
+
+    <aside class="qgds-page-aside-start">
+      <qgds-side-navigation mobile-heading="In this section">
+        <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 second">
+          <qgds-side-navigation-item hr`ef="#" label="Level 2 first"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#"
+            label="Getting a learner motorcycle licence (RE)"></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Level 2 third, no link"></qgds-side-navigation-item>
+        </qgds-side-navigation-item>
+        <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
+      </qgds-side-navigation>
+    </aside>
+
+    <main class="qgds-page-main">
+
+      <div class="qgds-content-section">
+        <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
+          <qgds-inpage-nav-item href="#section-1">Introduction</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#section-2">Overview</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#section-3">Getting started</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#section-3">Section 4</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#section-3">Section 5</qgds-inpage-nav-item>
+        </qgds-inpage-nav>
+
+        <h2 id="section-1">Section heading 2</h2>
+
+        <p class="qgds-abstract">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore
+          reprehenderit sequi.</p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita perferendis eum ducimus harum quaerat
+          quasi est odit tempore commodi provident autem itaque quam officia exercitationem, at enim maxime ab
+          numquam.</p>
+
+        <div class="qgds-flex qgds-gap-x-16">
+          <qgds-button variant="primary" href="#" label="Action"></qgds-button>
+          <qgds-button variant="secondary" href="#" label="Action"></qgds-button>
+        </div>
+
+        <h3>Heading 3</h3>
+
+        <div style="max-width: 800px">
+          <qgds-image alt="Placeholder image"
+            caption="Image caption providing additional context and information about the image content."
+            src="https://picsum.photos/seed/qgds-watch/800/400"></qgds-image>
+        </div>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore reprehenderit sequi.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit atque enim labore reprehenderit sequi.</p>
+
+        <p>Libero feugiat eu pulvinar ac faucibus elementum sed. Ut nibh in vitae egestas. Massa tellus diam duis
+          cursus et sed
+          elit. Pulvinar et nulla dolor viverra porttitor massa sed tellus. Interdum augue tempus purus scelerisque
+          tincidunt
+          duis. Vulputate a, nulla nunc orci, sed vulputate eget amet. Accumsan convallis ornare sed consectetur
+          suspendisse.</p>
+
+        <h4>Heading 4</h4>
+        <p>Libero feugiat eu pulvinar ac faucibus elementum sed. Ut nibh in vitae egestas. Massa tellus diam duis
+          cursus et sed
+          elit. Pulvinar et nulla dolor viverra porttitor massa sed tellus. Interdum augue tempus purus scelerisque
+          tincidunt
+          duis. Vulputate a, nulla nunc orci, sed vulputate eget amet. Accumsan convallis ornare sed consectetur
+          suspendisse.</p>
+
+        <h2>Heading 2</h2>
+
+        <qgds-callout heading="Callout heading" heading-level="h3" heading-size="xs">
+          I am a callout component, used to highlight important information related to the main content. I can be used
+          for tips, warnings, or other noteworthy content that requires emphasis.
+        </qgds-callout>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+          inventore</p>
+
+        <h3>Heading 3</h3>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+          inventore, magni
+          sint commodi possimus optio impedit porro quisquam atque</p>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate quod est provident ipsum dicta
+          inventore, magni
+          sint commodi possimus optio impedit porro quisquam atque magni
+          sint commodi possimus optio impedit porro quisquam atque</p>
+
+        <h4>Heading 4</h4>
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sapiente ducimus molestias veritatis cupiditate
+          unde esse dicta vero reprehenderit laboriosam ratione sint laudantium</p>
+      </div>
+
+      <div class="qgds-content-section qgds-palette-bold bleed-edge-mobile">
+        <h2>I am a new section with distinct content</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et praesentium in ducimus expedita quod quas, odit
+          explicabo magni similique nisi fugiat ex sapiente illo consequatur. Ut cum reprehenderit pariatur facilis!
+        </p>
+      </div>
+
+      <div class="qgds-content-section qgds-palette-deep bleed-edge-mobile">
+        <h2>I am a new section with distinct content</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et praesentium in ducimus expedita quod quas, odit
+          explicabo magni similique nisi fugiat ex sapiente illo consequatur. Ut cum reprehenderit pariatur facilis!
+        </p>
+      </div>
+
+      <div class="qgds-content-section">
+        <h2>H2 Section Heading</h2>
+
+        <div class="qgds-flex qgds-flex-row qgds-gap-16">
+          <qgds-card action="single" target="_blank" heading="Card title"
+            href="https://www.designsystem.qld.gov.au/components/card" palette="default">
+            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+          </qgds-card>
+
+          <qgds-card action="single" target="_blank" heading="Card title"
+            href="https://www.designsystem.qld.gov.au/components/card" palette="soft">
+            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+          </qgds-card>
+
+          <qgds-card action="single" target="_blank" heading="Card title"
+            href="https://www.designsystem.qld.gov.au/components/card" palette="bold">
+            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+          </qgds-card>
+        </div>
+
+        <div class="qgds-content-section">
+          <h2>H2 Section Heading</h2>
+          <p>lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+            dolore magna aliqua.</p>
+          <qgds-accordion-group show-controls="auto">
+            <qgds-accordion is-open="" title="This accordion is initially open.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
+
+            <qgds-accordion title="This accordion is initially closed.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
+
+            <qgds-accordion title="This accordion is initially closed.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
+
+          </qgds-accordion-group>
+        </div>
+
+    </main>
+
+    <div class="qgds-flex qgds-justify-content-between" style="padding-block: 1rem;">
+      <span>Last updated: Yesterday</span>
+      <qgds-direction-link href="#top" direction="up" label="Back to top"></qgds-direction-link>
+    </div>
+
+    <footer class="bleed-edge"
+      style="height: 200px; background: var(--qgds-color-background); color: var(--qgds-color-text-default)"
+      palette="deep">
+      Footer — full bleed background, content aligned to 12 cols
+    </footer>
+
+  </div>
+
+</body>
+
+</html>

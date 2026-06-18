@@ -1,0 +1,204 @@
+// CSS Grid Layout for QGDS Web Components
+
+// Standalone grid
+// Owns: Responsive macro containers, columns, gutters, container padding, and stacked container boundary resets.
+// Does not own: Vertical rhythm of typography, text elements, or components (these are defined by the QGDS Web Component Library and its base styles).
+
+// -------------------------------------------------------------
+// Breakpoints
+// -------------------------------------------------------------
+@use "../qgds-tokens/qgds-breakpoint.scss" as bp;
+
+// -------------------------------------------------------------
+// Named template areas
+// -------------------------------------------------------------
+
+/* Base Styles & Custom Properties */
+:root {
+  --qgds-outer-gutter: 1rem;
+  --qgds-column-gutter: 1rem;
+  --qgds-max-layout-width: 1312px;
+
+  container-type: inline-size;
+
+  @media (min-width: bp.$md) {
+    --qgds-outer-gutter: 2rem;
+    --qgds-column-gutter: 1.5rem;
+  }
+
+  @media (min-width: bp.$lg) {
+    --qgds-column-gutter: 2rem;
+  }
+}
+
+.qgds-container {
+  display: grid;
+  inline-size: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+  column-gap: var(--qgds-column-gutter);
+
+  /* 1. XS (Default) & SM: 4 columns, 1rem outer margin */
+  padding-inline: var(--qgds-outer-gutter);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  // Direct children of a qgds-container default to full width of container
+  // (can be overridden for specific layouts/components)
+  > * {
+    grid-column: 1 / -1; // default: full width
+  }
+}
+
+/* 2. MD: 6 columns, 2rem outer margin */
+@media (min-width: bp.$md) {
+  .qgds-container {
+    padding-inline: var(--qgds-outer-gutter);
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/* 3. LG: 12 columns, 2rem outer margin, capped at 1312px, centered */
+@media (min-width: bp.$lg) {
+  .qgds-container {
+    /* Logical equivalent to max-width */
+    max-inline-size: calc(var(--qgds-max-layout-width) - (var(--qgds-outer-gutter) * 2));
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* 4. XL: 12 columns, fixed 80px width, centered */
+@media (min-width: bp.$xxl) {
+  .qgds-container {
+    grid-template-columns: repeat(12, 80px);
+    justify-content: center;
+  }
+}
+
+.qgds-header,
+.qgds-navbar,
+.qgds-att-bar {
+  grid-column: 1 / -1; // full width
+}
+
+.qgds-page-body {
+  > * {
+    grid-column: 1 / -1;
+  }
+}
+
+// Full bleed (edge to edge) regions span the full width of the grid
+@mixin bleed-bg-edge {
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc((100cqw - 100%) / -2);
+    background-color: inherit;
+    z-index: -1;
+  }
+}
+
+:where(.qgds .bleed-edge) {
+  @include bleed-bg-edge();
+}
+
+:where(.qgds .bleed-edge-mobile) {
+  @media (max-width: bp.$lg) {
+    @include bleed-bg-edge();
+  }
+}
+
+// -------------------------------------------------------------
+// Aside
+// -------------------------------------------------------------
+
+[class^="qgds-page-aside"] {
+  grid-column: 1 / -1;
+  padding-block: var(--qgds-vspace-section-padding);
+
+  @media (min-width: bp.$lg) {
+    grid-column: 1 / span 3; // md+: 3 of 12 cols
+  }
+}
+
+// -------------------------------------------------------------
+// Main
+// -------------------------------------------------------------
+.qgds-page-main {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-column: 1 / -1; // default: full width, no aside
+  align-content: start;
+  column-gap: var(--qgds-column-gutter);
+
+  @media (min-width: bp.$md) {
+    grid-column: 1 / -1; // md+: 9 of 12 cols
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  @media (min-width: bp.$lg) {
+    grid-column: 1 / -1; // md+: 9 of 12 cols
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+
+  // All direct children default to full width of main
+  > * {
+    grid-column: 1 / -1;
+  }
+}
+
+// Content block: 8 of 9 cols on md+
+.qgds-content-section {
+  grid-column: 1 / -1; // xs, sm: full width
+  padding-block: var(--qgds-vspace-section-padding);
+
+  /* THE BOUNDARY GUARDS:
+  If an element(H2, paragraph) or component (Accordion, Card) is the first or last item in the block,
+  strip its external block margins so it doesn't fight the container's natural padding.
+  */
+  & > :first-child {
+    margin-block-start: 0 !important;
+  }
+
+  & > :last-child {
+    margin-block-end: 0 !important;
+  }
+
+  @media (min-width: bp.$lg) {
+    grid-column: 1 / -2; // md+: 8 of 9 cols
+    padding-inline: var(--qgds-hspace-content-inner);
+  }
+}
+
+.qgds:has(.qgds-page-aside-start) {
+  @media (min-width: bp.$lg) {
+    .qgds-page-main {
+      grid-column: 4 / -1; // md+: 9 of 12 cols
+      grid-row: 1; /* Force onto the first row */
+    }
+
+    .qgds-page-aside-start {
+      grid-column: 1 / span 3; // md+: 3 of 12 cols
+      grid-row: 1; /* Force onto the first row */
+    }
+  }
+}
+
+.qgds:has(.qgds-page-aside-end) {
+  @media (min-width: bp.$lg) {
+    .qgds-page-main {
+      --qgds-hspace-content-inner: 0;
+
+      grid-column: 1 / span 9; // md+: 9 of 12 cols
+      grid-row: 1; /* Force onto the first row */
+    }
+
+    .qgds-page-aside-end {
+      grid-column: 10 / -1; // md+: 3 of 12 cols
+      grid-row: 1; /* Force onto the first row */
+    }
+  }
+}

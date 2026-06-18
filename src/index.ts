@@ -8,7 +8,7 @@
  */
 
 import "./styles/main.scss";
-import "./styles/grid/make-grid.scss";
+import "./styles/layout/layout-grid.scss";
 
 // =============================================================================
 // QGDS Components
