@@ -535,6 +535,18 @@ export const CTAButtons: Story = {
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to right with a gradient.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
   parameters: {
     controls: {
       include: [
@@ -605,6 +617,18 @@ export const ArrowCards: Story = {
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to right with a gradient.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
   parameters: {
     controls: {
       include: [
@@ -622,6 +646,7 @@ export const ArrowCards: Story = {
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
+      variant=${args.variant}
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
