@@ -247,6 +247,20 @@ export const FixedImageRatio: Story = {
         "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
     },
   },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
+  },
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
@@ -292,6 +306,20 @@ export const FixedGraphicRatio: Story = {
       description:
         "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
     },
+  },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -339,6 +367,20 @@ export const AlignedToGrid: Story = {
         "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
     },
   },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
+  },
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
@@ -385,6 +427,20 @@ export const AlignedToRight: Story = {
         "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
     },
   },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
+  },
   render: (args) => html`
     <qgds-banner
       palette=${args.palette}
@@ -414,7 +470,7 @@ export const AlignedToRightWithGradient: Story = {
     palette: "bold",
     variant: "advanced",
     "background-option": "hero-image",
-    "image-option": "right-align",
+    "image-option": "right-align-gradient",
     "image-url": heroImageDesktop,
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
@@ -430,6 +486,20 @@ export const AlignedToRightWithGradient: Story = {
       description:
         "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
     },
+  },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -464,6 +534,20 @@ export const CTAButtons: Story = {
     "image-url": heroImageDesktop,
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
+  },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -520,6 +604,20 @@ export const ArrowCards: Story = {
     "image-url": heroImageDesktop,
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
+  },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner

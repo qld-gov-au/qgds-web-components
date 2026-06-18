@@ -13,7 +13,6 @@
   --content-row: 1 / span 4;
   --content-cols: 1 / span 4;
   --image-cols: 1 / span 4;
-  --image-row: 3 / span 1;
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
@@ -111,14 +110,14 @@
       --content-cols: 1 / span 8;
       --content-row: 3 / span 1;
 
-      .advanced & {
-        --content-cols: 1 / span 7;
-      }
-
       .has-background-image &,
       .has-hero-image & {
         --content-cols: 1 / span 8;
         --content-row: 3 / span 1;
+      }
+
+      .advanced & {
+        --content-cols: 1 / span 7;
       }
     }
   }
@@ -167,16 +166,16 @@
 
   &-heading {
     .block-type & {
-      color: var(--qgds-color-text-heading);
-      background-color: var(--qgds-color-background-shade);
+      color: var(--qgds-color-neutral-white);
+      background-color: var(--qgds-block-style-heading-bg);
       font-weight: 600;
     }
   }
 
   &-sub-heading {
     .block-type & {
-      color: var(--qgds-color-link-on-action);
-      background-color: var(--qgds-color-link-hover);
+      color: var(--qgds-color-light-text);
+      background-color: var(--qgds-block-style-subheading-bg);
       font-weight: 400;
     }
   }
@@ -188,14 +187,11 @@
 
   &-image-container {
     grid-column: var(--image-cols);
-
-    // grid-row: var(--image-row);
     padding: 0;
     margin-inline: -1rem;
 
     @media (min-width: qgds-breakpoint.$md) {
       --image-cols: 5 / span 2;
-      --image-row: 1 / span 4;
 
       margin-inline: 0;
 
@@ -205,23 +201,27 @@
         padding-block: 2rem;
       }
 
-      .has-hero-image & {
+      &.grid-align {
+        padding-inline-end: 2rem;
+      }
+
+      .has-hero-image &,
+      .has-background-image & {
         --image-cols: 4 / span 3;
       }
     }
 
     @media (min-width: qgds-breakpoint.$lg) {
       --image-cols: 9 / span 4;
-      --image-row: 1 / span 4;
 
-      .has-hero-image & {
+      .has-hero-image &,
+      .has-background-image & {
         --image-cols: 9 / span 4;
       }
-    }
 
-    &.right-align {
-      position: relative;
-      overflow: visible;
+      .advanced & {
+        --image-cols: 8 / span 5;
+      }
     }
   }
 
@@ -237,6 +237,16 @@
       background-size: contain;
     }
 
+    &::before {
+      .right-align-gradient & {
+        content: "";
+        inset: 0;
+        background-image: linear-gradient(to right, var(--qgds-color-background), transparent);
+        block-size: 100%;
+        display: block;
+      }
+    }
+
     @media (min-width: qgds-breakpoint.$md) {
       display: block;
 
@@ -244,11 +254,10 @@
         background-size: contain;
       }
     }
-
-    .right-align & {
-      block-size: calc(100% + 7rem);
-      margin-inline-end: calc(-1 * (100vw - var(--max-width)) / 2);
-      margin-block-start: -3rem;
+    @media (min-width: qgds-breakpoint.$xl) {
+      .right-align & {
+        margin-inline-end: calc(-1 * (100vw - var(--max-width)) / 2);
+      }
     }
   }
 
