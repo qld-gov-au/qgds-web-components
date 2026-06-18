@@ -51,6 +51,7 @@ export { QGDSSelectOptgroup } from "./components/forms/qgds-select/qgds-select-o
 export { QGDSSelectOption } from "./components/forms/qgds-select/qgds-select-option";
 export { QGDSSideNavigation } from "./components/qgds-side-navigation/qgds-side-navigation";
 export { QGDSSideNavigationItem } from "./components/qgds-side-navigation/qgds-side-navigation-item";
+export { QGDSSiteName } from "./components/qgds-site-name/qgds-site-name";
 export { QGDSSkipLinks } from "./components/qgds-skip-links/qgds-skip-links";
 export { QGDSTable } from "./components/qgds-table/qgds-table";
 export { QGDSTabs } from "./components/qgds-tabs/qgds-tabs";

@@ -1,17 +1,14 @@
 @use "../../styles/tools";
 @use "../../styles/utilities/sr-only";
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+@use "../../styles/qgds-tokens/qgds-color-stub";
 
 :host {
-  --site-name-main-size: #{tools.remify(16px)};
-  --logo-image-max-width: #{tools.remify(200px)};
-  --logo-gap: #{tools.remify(16px)};
+  --logo-divider-color: var(--qgds-color-accent-design-accent);
   --logo-color: var(--qgds-color-crest-fill);
-  --site-name-main-color: var(--qgds-color-crest-fill);
-  --site-name-secondary-color: var(--qgds-color-crest-fill);
-  --divider-color: var(--qgds-color-accent-design-accent);
-  --_logo-height: #{tools.remify(56px)};
-  --_logo-padding: #{tools.remify(24px)};
+  --logo-gap: #{tools.remify(16px)};
+  --logo-height: #{tools.remify(56px)};
+  --logo-padding: #{tools.remify(24px)};
 
   display: inline-block;
 }
@@ -20,36 +17,15 @@
 // increase size of sitename on desktop
 @media (min-width: #{bp.$lg}) {
   :host {
-    --site-name-main-size: #{tools.remify(20px)};
     --logo-gap: #{tools.remify(24px)};
   }
 }
 
-:host([palette="default"]) {
-  @extend %qgds-color-palette-default;
-}
-
-:host([palette="soft"]) {
-  @extend %qgds-color-palette-soft;
-}
-
-:host([palette="muted"]) {
-  @extend %qgds-color-palette-muted;
-}
-
-:host([palette="bold"]) {
-  @extend %qgds-color-palette-bold;
-}
-
-:host([palette="deep"]) {
-  @extend %qgds-color-palette-deep;
-}
-
-.qgds-logo-image {
+.logo-image {
   display: flex;
   align-items: center;
   gap: #{tools.remify(8px)};
-  block-size: var(--_logo-height);
+  block-size: var(--logo-height);
 
   // Fallback SVG uses currentColor and can be styled via CSS
   // Example: Set color via --logo-color or use color property
@@ -73,67 +49,9 @@
   display: flex;
   align-items: center;
   color: var(--logo-color);
-  padding: var(--_logo-padding);
 }
 
-// Add divider for specific variants and use cases
-/* stylelint-disable */
-.logo-image {
-  .is-masterbrand:not(.is-delivering):not(.site-name-hidden) &,
-  .is-subbrand:not(.site-name-hidden) &,
-  .is-cobrand:not(.site-name-hidden) &,
-  .is-endorsed:not(.site-name-hidden) &,
-  // Add the exceptional case
-  .is-cobrand.is-custom & {
-    padding-inline-end: var(--logo-gap);
-    border-inline-end: tools.remify(2px) solid var(--divider-color);
-  }
-}
-/* stylelint-enable */
-
-.site-name {
-  display: flex;
-  flex-direction: column;
-  padding-inline-start: var(--logo-gap);
-  font-size: var(--site-name-main-size);
-  max-inline-size: 33rem; // Approx ~528px
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--site-name-main-color);
-  text-wrap: balance; // ← Add this for balanced multi-line text
-  gap: #{tools.remify(4px)};
-
-  .prefix {
-    font-size: #{tools.remify(14px)};
-    font-weight: 400;
-    color: var(--site-name-main-color);
-  }
-
-  .main {
-    color: var(--site-name-main-color);
-  }
-
-  .secondary {
-    color: var(--site-name-secondary-color);
-  }
-
-  .prefix,
-  .site-name-wrapper {
-    display: inline-block;
-  }
-
-  > span:empty {
-    display: none;
-  }
-}
-
-.qgds-logo[hide-site-name] {
-  .site-name {
-    display: none;
-  }
-}
-
-.qgds-logo-link {
+.logo-link {
   color: var(--logo-color);
   display: inline-flex;
   gap: var(--logo-gap);
@@ -146,10 +64,22 @@
 }
 
 // Targets custom logos as part of the cobrand lockup
-.is-cobrand.is-custom .logo-image-custom {
+.is-custom .logo-image-custom {
   display: flex;
   align-items: center;
-  padding-inline-start: var(--logo-gap);
+}
+
+.is-custom {
+  display: flex;
+  align-items: center;
+
+  &:has(.logo-image) {
+    .logo-image-custom {
+      padding-inline-start: var(--logo-gap);
+      margin-inline-start: var(--logo-gap);
+      border-inline-start: 2px solid var(--logo-divider-color);
+    }
+  }
 
   img {
     max-inline-size: 100%;
@@ -161,7 +91,7 @@
 // Responsive: hide image on mobile if needed
 @media (max-width: #{tools.remify(768px)}) {
   :host([hide-image-mobile]) {
-    .qgds-logo-image {
+    .logo-image {
       display: none;
     }
   }
