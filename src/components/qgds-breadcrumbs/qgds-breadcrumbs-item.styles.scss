@@ -1,8 +1,12 @@
 @use "../../styles/tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
 @use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
-  line-height: 2rem;
+  --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+  --breadcrumbs-item-padding-inline-end: 0;
+  --breadcrumbs-item-padding-block-start: #{f.remify(5px)};
+  --breadcrumbs-item-padding-block-end: #{f.remify(5px)};
 }
 
 :host([is-last]) {
@@ -14,12 +18,17 @@
 }
 
 .breadcrumbs-item {
+  font-size: 0.875rem;
+  line-height: 1.5rem;
   display: none;
-  line-height: 2rem;
+  column-gap: f.remify(4px);
   white-space: nowrap;
   inline-size: 100%;
+  padding-block: var(--breadcrumbs-item-padding-block-start) var(--breadcrumbs-item-padding-block-end);
+  padding-inline: var(--breadcrumbs-item-padding-inline-start) var(--breadcrumbs-item-padding-inline-end);
 
   @media (min-width: qgds-breakpoint.$lg) {
+    font-size: 1rem;
     display: inline-flex;
   }
 
@@ -77,6 +86,18 @@
   }
 }
 
+:host(.dropdown) {
+  .breadcrumbs-item {
+    --breadcrumbs-item-padding-block-start: #{f.remify(2px)};
+  }
+}
+
+:host(:first-child) {
+  .breadcrumbs-item {
+    --breadcrumbs-item-padding-inline-start: 0;
+  }
+}
+
 :host(:nth-last-child(2)) {
   text-overflow: ellipsis;
   overflow-x: hidden;
@@ -87,15 +108,10 @@
     max-inline-size: 100%; // This is to prevent the 2nd last focussed breadcrumb item from being shown scrollbar despite overflow initial on parent div.breadcrumb-item.
   }
 
-  .breadcrumbs-item,
-  & a {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .breadcrumbs-item {
+    --breadcrumbs-item-padding-inline-end: #{f.remify(5px)};
+
     overflow: hidden;
-    font-size: 0.875rem;
     flex-direction: row-reverse;
     display: inline-flex;
 
@@ -104,16 +120,26 @@
     }
 
     @media (min-width: qgds-breakpoint.$lg) {
+      --breadcrumbs-item-padding-inline-end: 0;
+
       display: inline-flex;
-      font-size: 1rem;
       flex-direction: row;
     }
   }
 
   .breadcrumbs-item a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
+    min-inline-size: 0; // Allow long link text to shrink instead of pushing chevron icon (sibling item) out of the view
+    padding-block-end: f.remify(2px);   // Allow extra space for focus and hover states. Browsers crop out the focus outline and thicker underline on hover state due to overflow hidden
+
     @media (min-width: qgds-breakpoint.$lg) {
       overflow: clip;
+    }
+
+    &.dropdown-item {
+      padding-block: 0.75rem;
     }
   }
 }
@@ -121,7 +147,8 @@
 // This is all the chevron icons except the one beside the dropdown button
 .chevron-icon {
   color: var(--qgds-color-action-secondary, #307edb);
-  margin-inline: 0.25rem;
+  margin-inline-start: f.remify(4px);
+  margin-block-start: f.remify(2px);   // to push the icon slightly lower than text - per figma
   align-self: center;
   transform: rotate(180deg);
 
