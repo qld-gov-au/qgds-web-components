@@ -147,7 +147,6 @@
 // This is all the chevron icons except the one beside the dropdown button
 .chevron-icon {
   color: var(--qgds-color-action-secondary, #307edb);
-  margin-inline-start: f.remify(4px);
   margin-block-start: f.remify(2px);   // to push the icon slightly lower than text - per figma
   align-self: center;
   transform: rotate(180deg);
