@@ -1,5 +1,5 @@
-import { LitElement, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { LitElement, html, unsafeCSS, type PropertyValues } from "lit";
+import { customElement, property, state, query } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { baseStyles } from "../../styles";
@@ -38,23 +38,26 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  * - **Co-brand** — omit `site-name` and slot your own logo into the `logo` slot.
  *   It takes the site name's place beside the fixed main logo.
  *
- * On mobile the Search and Menu buttons are presentational: they dispatch
- * `qgds-toggle` events (with `detail.panel` of `"search"` / `"menu"` and the
- * requested `detail.open` state) but do not manage state themselves. Reflect the
- * result back via the `search-open` / `menu-open` attributes to reveal the
- * slotted search input or navigation.
+ * On mobile, the header shows Search and Menu buttons, both of which also dispatch
+ * a `qgds-toggle` event (`detail.panel` of `"search"` / `"menu"` plus `detail.open`):
+ *
+ * - **Search** is presentational only (no mobile search design yet): reflect the
+ *   event back via `search-open` to reveal the slotted search input.
+ * - **Menu** toggles `menuOpen` and forwards it to the slotted navigation element
+ *   as an `open` attribute, so a mega-menu component can show/hide itself. The
+ *   header does not reveal the navigation band itself.
  *
  * @tagname qgds-header
  *
  * @prop {String} [site-name] - Optional site name shown beside the logo (desktop) or in its own band (mobile). Omit it for the custom-logo usage.
  * @prop {Boolean} [search-open=false] - When set, reveals the `search` slot on mobile.
- * @prop {Boolean} [menu-open=false] - When set, reveals the `navigation` slot on mobile.
+ * @prop {Boolean} [menu-open=false] - Mobile menu open state. Forwarded to the slotted navigation element as an `open` attribute.
  *
  * @slot pre-header - Top band. Typically a `<qgds-attribution-bar>`. Hidden on mobile.
  * @slot logo - A co-brand logo shown beside the fixed main logo, in place of the site name. Only used when `site-name` is not set.
  * @slot site-name - Overrides the `site-name` attribute with custom markup.
  * @slot search - Search input, e.g. a `<qgds-search-input>` with its own config.
- * @slot navigation - Bottom navigation band, e.g. a nav bar with its own config.
+ * @slot navigation - Bottom navigation band, e.g. a nav bar or mobile mega menu. Receives an `open` attribute reflecting the mobile menu state.
  *
  * @fires {CustomEvent<{ panel: "search" | "menu", open: boolean }>} qgds-toggle - Fired when a mobile Search/Menu button is pressed.
  *
@@ -89,6 +92,8 @@ export class QGDSHeader extends LitElement {
   @property({ type: Boolean, attribute: "menu-open", reflect: true })
   menuOpen = false;
 
+  @query('slot[name="navigation"]') private _navSlot?: HTMLSlotElement;
+
   /** Whether custom markup has been slotted into the `site-name` slot. */
   @state() private _hasSiteNameSlot = false;
 
@@ -117,16 +122,37 @@ export class QGDSHeader extends LitElement {
     this._hasLogoSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
   };
 
-  // Presentational only: announce intent and let the consumer drive the state by
-  // reflecting it back via the `search-open` / `menu-open` attributes.
+  // The mobile search panel has no design yet, so the Search button is purely
+  // presentational: it announces intent via `qgds-toggle` and the consumer decides
+  // what to do (e.g. reflect it back via `search-open`).
   private _toggleSearch = (): void => {
     this.events.dispatch("toggle", { panel: "search", open: !this.searchOpen });
-    // passing menu open state as nav-bar slot element's attribute. -->
   };
 
+  // The navigation slot hosts a mega menu that styles itself on mobile, so the
+  // Menu button just toggles `menuOpen` and forwards it to the slotted element as
+  // an `open` attribute (see `_syncNavOpen`); the header does not reveal the band.
   private _toggleMenu = (): void => {
-    this.events.dispatch("toggle", { panel: "menu", open: !this.menuOpen });
+    this.menuOpen = !this.menuOpen;
+    this.events.dispatch("toggle", { panel: "menu", open: this.menuOpen });
   };
+
+  private _handleNavSlotChange = (): void => {
+    this._syncNavOpen();
+  };
+
+  /** Forward the open state to the slotted navigation element(s) as `open`. */
+  private _syncNavOpen(): void {
+    for (const el of this._navSlot?.assignedElements() ?? []) {
+      el.toggleAttribute("open", this.menuOpen);
+    }
+  }
+
+  protected updated(changed: PropertyValues): void {
+    if (changed.has("menuOpen")) {
+      this._syncNavOpen();
+    }
+  }
 
   render() {
     return html`
@@ -191,7 +217,7 @@ export class QGDSHeader extends LitElement {
         </div>
 
         <div id="header-nav-panel" class="header-navigation">
-          <slot name="navigation"></slot>
+          <slot name="navigation" @slotchange=${this._handleNavSlotChange}></slot>
         </div>
       </header>
     `;

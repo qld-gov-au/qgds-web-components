@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { action } from "storybook/actions";
 import { chromaticModes } from "../../../.storybook/modes";
 import type { QGDSHeader } from "./qgds-header";
 import "./qgds-header";
@@ -28,17 +29,53 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-// The mobile Search/Menu buttons are presentational — they only dispatch
-// `qgds-toggle`. The consumer reflects the requested state back onto the header
-// via `search-open` / `menu-open`; this handler wires that up for the demo.
+// Both mobile buttons dispatch `qgds-toggle`; this logs them to the Actions panel.
+// The Menu button is handled inside the header (it toggles `menuOpen` and forwards
+// `open` to the slotted nav), and the Search button has no mobile design yet — so
+// there is nothing further to wire up here beyond the action log.
+const logToggle = action("qgds-toggle");
 const onToggle = (e: Event) => {
-  const { panel, open } = (e as CustomEvent<{ panel: "search" | "menu"; open: boolean }>).detail;
-  const header = e.currentTarget as QGDSHeader;
-  if (panel === "search") header.searchOpen = open;
-  if (panel === "menu") header.menuOpen = open;
+  logToggle((e as CustomEvent<{ panel: "search" | "menu"; open: boolean }>).detail);
 };
 
+// Stand-in for a real mega-menu component: a horizontal nav on desktop that, on
+// mobile, hides until the header sets the `open` attribute (via the Menu button).
+const demoNavStyles = html`
+  <style>
+    .demo-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    @media (max-width: 991px) {
+      .demo-nav {
+        display: none;
+      }
+      .demo-nav[open] {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 1rem;
+        background-color: var(--qgds-color-background-shade, #f3f3f3);
+      }
+    }
+  </style>
+`;
+
+const demoNav = html`
+  <nav class="demo-nav" slot="navigation" aria-label="Main navigation">
+    <a href="#">Menu text</a>
+    <a href="#">Menu text</a>
+    <a href="#">Menu text</a>
+    <a href="#">Menu text</a>
+    <a href="#">Menu text</a>
+  </nav>
+`;
+
 const headerTemplate = (args: Args) => html`
+  ${demoNavStyles}
   <qgds-header site-name=${args["site-name"]} @qgds-toggle=${onToggle}>
     <qgds-attribution-bar slot="pre-header" palette="bold">
       <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
@@ -47,17 +84,7 @@ const headerTemplate = (args: Args) => html`
 
     <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
 
-    <nav
-      slot="navigation"
-      aria-label="Main navigation"
-      style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center;"
-    >
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-    </nav>
+    ${demoNav}
   </qgds-header>
 `;
 
@@ -85,6 +112,7 @@ export const CoBrandLogo: Story = {
     ...chromaticModes,
   },
   render: () => html`
+    ${demoNavStyles}
     <qgds-header @qgds-toggle=${onToggle}>
       <qgds-attribution-bar slot="pre-header" palette="bold">
         <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
@@ -101,15 +129,7 @@ export const CoBrandLogo: Story = {
 
       <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
 
-      <nav
-        slot="navigation"
-        aria-label="Main navigation"
-        style="display:flex; flex-wrap:wrap; gap:1.5rem; align-items:center;"
-      >
-        <a href="#">Menu text</a>
-        <a href="#">Menu text</a>
-        <a href="#">Menu text</a>
-      </nav>
+      ${demoNav}
     </qgds-header>
   `,
 };
