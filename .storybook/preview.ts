@@ -31,6 +31,11 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: ["Banner", ["Docs", "No Banner", "Default Banner", "Basic", "Advanced"]],
+      },
+    },
 
     layout: "fullscreen",
 

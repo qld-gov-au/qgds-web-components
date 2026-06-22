@@ -526,14 +526,16 @@ export const AlignedToRightWithGradient: Story = {
 
 export const CTAButtons: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
+    heading: "Heading",
+    "sub-heading": "Subheading",
     palette: "bold",
     variant: "advanced",
     "background-option": "hero-image",
-    "image-option": "fixed-image-ratio",
+    "image-option": "right-align",
     "image-url": heroImageDesktop,
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",
+    "is-block-type-heading": true,
   },
   argTypes: {
     variant: {
@@ -553,6 +555,7 @@ export const CTAButtons: Story = {
         "palette",
         "variant",
         "heading",
+        "sub-heading",
         "background-option",
         "image-option",
         "image-url",
@@ -566,11 +569,13 @@ export const CTAButtons: Story = {
       palette=${args.palette}
       variant=${args.variant}
       heading=${args.heading}
+      sub-heading=${args["sub-heading"]}
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
       mobile-image-url=${args["mobile-image-url"]}
       image-description=${args["image-description"]}
+      .isBlockTypeHeading=${args["is-block-type-heading"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -612,7 +617,7 @@ export const ArrowCards: Story = {
     palette: "bold",
     variant: "advanced",
     "background-option": "hero-image",
-    "image-option": "fixed-image-ratio",
+    "image-option": "right-align",
     "image-url": heroImageDesktop,
     "mobile-image-url": heroImageMobile,
     "image-description": "Hero image",

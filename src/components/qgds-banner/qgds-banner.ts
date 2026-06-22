@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { palettes } from "../../utils";
 import { baseStyles } from "../../styles";
@@ -50,6 +50,36 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, attribute: "mobile-image-url" }) mobileImageUrl = "";
   @property({ type: String, attribute: "image-description" }) imageDescription = "";
 
+  @state() private _hasAbstract = false;
+  @state() private _hasCta = false;
+  @state() private _hasCards = false;
+
+  private _onSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+
+    const hasContent =
+      slot.assignedElements({ flatten: true }).length > 0 ||
+      slot
+        .assignedNodes({ flatten: true })
+        .some((node) => node.nodeType === Node.TEXT_NODE && node.textContent?.trim());
+
+    switch (slot.name) {
+      case "":
+        this._hasAbstract = hasContent;
+        break;
+      case "cta":
+        this._hasCta = hasContent;
+        break;
+      case "cards":
+        this._hasCards = hasContent;
+        break;
+    }
+  };
+
+  private get hasBannerContent() {
+    return !!this.heading || this._hasAbstract || this._hasCta || this._hasCards;
+  }
+
   render() {
     const bannerClasses = {
       banner: true,
@@ -88,18 +118,24 @@ export class QGDSBanner extends LitElement {
                     style="background-image:url(${this.mobileImageUrl ?? this.imageUrl})"
                   ></div>`
                 : nothing}
-              <div class="banner-content">
-                ${this.heading
-                  ? html`<h1 class="${classMap(headingClasses)}">
-                      <span class="banner-heading"> ${this.heading} </span>
-                      ${this.subHeading ? html`<span class="banner-sub-heading">${this.subHeading}</span>` : nothing}
-                    </h1>`
-                  : nothing}
+              ${this.hasBannerContent
+                ? html`
+                    <div class="banner-content">
+                      ${this.heading
+                        ? html`<h1 class="${classMap(headingClasses)}">
+                            <span class="banner-heading"> ${this.heading} </span>
+                            ${this.subHeading
+                              ? html`<span class="banner-sub-heading">${this.subHeading}</span>`
+                              : nothing}
+                          </h1>`
+                        : nothing}
 
-                <slot class="banner-abstract"></slot>
-                <slot class="banner-cta" name="cta"></slot>
-                <slot class="banner-cards" name="cards"></slot>
-              </div>
+                      <slot class="banner-abstract"></slot>
+                      <slot class="banner-cta" name="cta"></slot>
+                      <slot class="banner-cards" name="cards"></slot>
+                    </div>
+                  `
+                : nothing}
             </div>
             ${this.backgroundOption.includes("image") && this.imageUrl
               ? html` <div class="banner-image-container ${this.imageOption}">
