@@ -84,8 +84,10 @@
       --content-row: 3 / span 1;
     }
 
-    padding-inline: 1rem;
-    padding-block: 1rem 2rem;
+    .banner:not(.no-banner) & {
+      padding-inline: 1rem;
+      padding-block: 1rem 2rem;
+    }
 
     @media (min-width: qgds-breakpoint.$md) {
       --content-cols: 1 / span 6;
