@@ -17,7 +17,6 @@
 // This is the chevron icon beside the dropdown button.
 .chevron-icon {
   color: var(--qgds-color-action-secondary);
-  margin-inline: 0.25rem;
   align-self: center;
 }
 
@@ -71,4 +70,11 @@
   border-block-end: 4px solid var(--qgds-color-accent-design-accent, #0078d4);
   display: flex;
   flex-direction: column;
+
+  qgds-breadcrumbs-item {
+    --breadcrumbs-item-padding-inline-start: 0;
+    --breadcrumbs-item-padding-inline-end: 0;
+    --breadcrumbs-item-padding-block-start: 0;
+    --breadcrumbs-item-padding-block-end: 0;
+  }
 }
