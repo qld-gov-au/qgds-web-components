@@ -33,6 +33,7 @@
 
   // grid related
   --qgds-grid-gutter: 1rem;
+  --qgds-grid-padding: 1rem;
 
   @each $name, $svg in icons.$icon-names {
     --qgds-icon-#{$name}: url("#{f.svg-encode($svg)}");
@@ -40,6 +41,7 @@
 
   @media (min-width: qgds-breakpoint.$md) {
     --qgds-grid-gutter: 1.5rem;
+    --qgds-grid-padding: 2rem;
   }
 
   @media (min-width: qgds-breakpoint.$lg) {

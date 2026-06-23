@@ -3,10 +3,13 @@
 
 :host {
   display: block;
+
+  --banner-grid-gutter: var(--qgds-grid-gutter);
+  --banner-grid-outer-padding: var(--qgds-grid-padding);
 }
 
 .banner {
-  --max-width: 82rem;
+  --max-width: var(--qgds-breakpoint-xl);
   --banner-min-height: 21.5rem;
   --grid-template-columns: repeat(4, 1fr);
   --grid-template-rows: auto;
@@ -14,7 +17,6 @@
   --content-row: 1 / span 4;
   --content-cols: 1 / span 4;
   --image-cols: 1 / span 4;
-  --grid-outer-gutter: 1rem;
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
@@ -31,13 +33,17 @@
 
   &-container {
     max-inline-size: var(--max-width);
-    margin-inline: var(--grid-outer-gutter);
+    margin-inline: var(--banner-grid-outer-padding);
     display: flex;
     justify-self: center;
     flex-direction: column;
 
+    .no-banner & {
+      inline-size: 100%;
+    }
+
     @media (min-width: qgds-breakpoint.$md) {
-      --grid-outer-gutter: 2rem;
+      --banner-grid-outer-padding: 2rem;
 
       &.has-image-right-align,
       &.has-image-right-align-gradient {
@@ -50,7 +56,7 @@
     display: grid;
     grid-template-columns: var(--grid-template-columns);
     grid-template-rows: var(--grid-template-rows);
-    column-gap: var(--qgds-grid-gutter);
+    column-gap: var(--banner-grid-gutter);
 
     @media (min-width: qgds-breakpoint.$md) {
       --grid-template-columns: repeat(6, 1fr);
@@ -137,6 +143,10 @@
 
       .advanced & {
         --content-cols: 1 / span 7;
+      }
+
+      .no-banner & {
+        --content-cols: 1 / span 12;
       }
 
       .banner:not(.no-banner) & {
@@ -290,7 +300,7 @@
     @media (min-width: qgds-breakpoint.$xl) {
       .right-align &,
       .right-align-gradient & {
-        margin-inline-end: calc(-1 * (100vw - var(--max-width)) / 2);
+        margin-inline-end: calc((-1 * (100vw - var(--max-width)) / 2) + var(--banner-grid-outer-padding) / 2);
       }
     }
   }
@@ -309,8 +319,8 @@
       min-block-size: tools.remify(160px);
     }
 
-    min-inline-size: calc(100% + 2 * var(--grid-outer-gutter));
-    margin-inline: calc(-1 * var(--grid-outer-gutter));
+    min-inline-size: calc(100% + 2 * var(--banner-grid-outer-padding));
+    margin-inline: calc(-1 * var(--banner-grid-outer-padding));
     margin-block-start: 0.75rem;
 
     @media (min-width: qgds-breakpoint.$md) {
