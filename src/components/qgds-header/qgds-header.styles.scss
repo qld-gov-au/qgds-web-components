@@ -68,6 +68,13 @@ $gutter-desktop: 48px;
   }
 }
 
+::slotted(qgds-logo) {
+  --logo-color: var(--qgds-color-link-on-action);
+  --logo-height: #{tools.remify(40px)};
+
+  max-inline-size: 100%;
+}
+
 // Secondary brand element beside the logo: the site name. On mobile it sits in a
 // full-bleed white band below the blue bar (breaks out of the inner gutter, then
 // re-insets its content).
@@ -175,6 +182,11 @@ $gutter-desktop: 48px;
   }
 
   .header-logo qgds-logo {
+    --logo-color: var(--qgds-color-crest-fill);
+    --logo-height: #{tools.remify(56px)};
+  }
+
+  ::slotted(qgds-logo) {
     --logo-color: var(--qgds-color-crest-fill);
     --logo-height: #{tools.remify(56px)};
   }
