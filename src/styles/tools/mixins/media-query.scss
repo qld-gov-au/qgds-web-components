@@ -1,0 +1,37 @@
+@use "../../qgds-tokens/qgds-breakpoint" as bp;
+
+@mixin from($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin sm-up() {
+  @media (min-width: bp.$sm) {
+    @content;
+  }
+}
+
+@mixin md-up() {
+  @media (min-width: bp.$md) {
+    @content;
+  }
+}
+
+@mixin lg-up() {
+  @media (min-width: bp.$lg) {
+    @content;
+  }
+}
+
+@mixin xl-up() {
+  @media (min-width: bp.$xl) {
+    @content;
+  }
+}
+
+@mixin xxl-up() {
+  @media (min-width: bp.$xl) {
+    @content;
+  }
+}

@@ -9,6 +9,7 @@ import resetCSS from "./base/reset.scss?inline";
 import resetHostCSS from "./base/reset-host.scss?inline";
 import typographyCSS from "./base/typography.scss?inline";
 import utilitiesCSS from "./utilities/_index.scss?inline";
+import gridCSS from "./grid.scss?inline";
 
 // EXPORTS
 export const animationsStyles = unsafeCSS(animationsCSS);
@@ -18,6 +19,7 @@ export const formStyles = unsafeCSS(formsCSS);
 export const utilitiesStyles = unsafeCSS(utilitiesCSS);
 export const elementsStyles = unsafeCSS(elementsCSS);
 export const printStyles = unsafeCSS(printCSS);
+export const gridStyles = unsafeCSS(gridCSS);
 
 // Also export a baseStyles array that includes all modules, for easy inclusion in components
-export const baseStyles = [resetStyles, elementsStyles, typographyStyles /*, ...other styles */];
+export const baseStyles = [resetStyles, elementsStyles, typographyStyles, gridStyles /*, ...other styles */];

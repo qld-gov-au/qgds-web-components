@@ -1,0 +1,40 @@
+import {
+  Meta,
+  Title,
+  // Description,
+  Primary,
+  // Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
+
+import * as GridStories from "./grid.stories";
+
+<Meta of={GridStories} />
+<Title />
+
+<Primary of={GridStories} />
+
+<Canvas of={GridStories.Primary} withToolbar={true} sourceState="shown" />
+{/* <TagName /> */}
+{/* <Description /> */}
+{/* <Links /> */}
+
+A Container element is a fundamental layout element.
+Add class `qgds-container` to centre content horizontally and provide consistent padding for smaller screens.
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS Class          |     |
+| ------------------ | --- |
+| \`qgds-container\` |     |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

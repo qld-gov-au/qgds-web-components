@@ -1,0 +1,108 @@
+@use "./qgds-tokens/qgds-breakpoint";
+@use "./tools/mixins" as m;
+@use "./tools/functions" as f;
+@use "sass:meta";
+
+$_grid-gutter-xs: f.remify(16px);
+$_grid-gutter-md: f.remify(24px);
+$_grid-gutter-lg: f.remify(32px);
+$_grid-padding-xs: f.remify(16px);
+$_grid-padding-md: f.remify(32px);
+$_grid-padding-lg: f.remify(32px);
+
+.qgds-container {
+  --qgds-grid-padding: #{$_grid-padding-xs};
+
+  margin-inline: auto;
+  max-inline-size: calc(#{qgds-breakpoint.$xl} + calc(var(--qgds-grid-padding) * 2));
+  padding-inline: var(--qgds-grid-padding);
+
+  @include m.md-up() {
+    --qgds-grid-padding: #{$_grid-padding-md};
+  }
+
+  @include m.lg-up() {
+    --qgds-grid-padding: #{$_grid-padding-lg};
+  }
+
+  // TODO: understand the portal requirements ??? https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=58167-22465&t=SEOM3Wh2KEVMf91g-4
+}
+
+.qgds-cols {
+  --qgds-cols-count: 4;
+  --qgds-col-min: 80px;
+  --qgds-grid-gutter: #{$_grid-gutter-xs};
+  --qgds-grid-gutter-x: var(--qgds-grid-gutter);
+  --qgds-grid-gutter-y: var(--qgds-grid-gutter);
+
+  display: grid;
+  gap: var(--qgds-grid-gutter-y, $_grid-gutter-xs) var(--qgds-grid-gutter-x, #{$_grid-gutter-xs});
+  grid-template-columns: repeat(var(--qgds-cols-count), 1fr);
+
+  @include m.md-up() {
+    --qgds-cols-count: 6;
+    --qgds-grid-gutter-x: #{$_grid-gutter-md};
+    --qgds-grid-gutter-y: #{$_grid-gutter-md};
+  }
+
+  @include m.lg-up() {
+    --qgds-cols-count: 12;
+    --qgds-grid-gutter-x: #{$_grid-gutter-lg};
+    --qgds-grid-gutter-y: #{$_grid-gutter-lg};
+  }
+
+  // .qgds-cols-{1-12}
+  @for $i from 1 through 12 {
+    &-#{i} {
+      --qgds-grid-cols: #{$i};
+    }
+  }
+
+  // .qgds-cols-{1-12}:{sm|md|lg|xl|xxl}
+  @each $key, $value in meta.module-functions("qgds-breakpoint") {
+    @include m.from($value) {
+      @for $i from 1 through 12 {
+        &-#{i}\:#{$key} {
+          --qgds-cols-count: #{$i};
+        }
+      }
+    }
+  }
+
+  &-auto-fill {
+    --qgds-col-min: 80px;
+
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--qgds-col-min)), 1fr));
+  }
+
+  &-auto-fit {
+    --qgds-col-min: 80px;
+
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--qgds-col-min)), 1fr));
+  }
+
+  // simple use - children automatically span 1 cell, but never more than total column count
+  > :where(*) {
+    grid-column-end: span min(var(--qgds-span-count, 1), var(--qgds-cols-count));
+  }
+}
+
+.qgds-span {
+  // .qgds-cols-{1-12}
+  @for $i from 1 through 12 {
+    &-#{i} {
+      --qgds-span-count: #{$i};
+    }
+  }
+
+  // .qgds-cols-{1-12}:{sm|md|lg|xl|xxl}
+  @each $key, $value in meta.module-functions("qgds-breakpoint") {
+    @include m.from($value) {
+      @for $i from 1 through 12 {
+        &-#{i}\:#{$key} {
+          --qgds-span-count: #{$i};
+        }
+      }
+    }
+  }
+}
