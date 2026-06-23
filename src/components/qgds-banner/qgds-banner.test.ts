@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import "./qgds-banner";
+import "../qgds-button/qgds-button";
 import type { QGDSBanner } from "./qgds-banner";
 
 describe("qgds-banner", () => {
@@ -33,26 +34,41 @@ describe("qgds-banner", () => {
     expect(subHeading?.textContent?.trim()).toBe("Page subtitle");
   });
 
-  it("renders slotted abstract, breadcrumbs, and cta content", async () => {
+  it("renders slotted abstract and breadcrumbs", async () => {
+    element.variant = "advanced";
     element.innerHTML = `
-      <div class="slot-abstract">Abstract text</div>
-      <div slot="breadcrumbs" class="breadcrumb">Home</div>
-      <a slot="cta" href="/details">Read more</a>
+      <div class="slot-abstract">Renew your licence.</div>
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item></qgds-breadcrumbs>
+      <div slot="cta"><qgds-button target="_self" type="button" aria-label="Primary Action" label="Primary" variant="primary" href="https://www.qld.gov.au" id=""></qgds-button></div>
     `;
 
     await element.updateComplete;
 
-    const abstractSlot = element.shadowRoot?.querySelector<HTMLSlotElement>("slot.slot-abstract");
+    const slotted = element.querySelector(".slot-abstract");
     const breadcrumbsSlot = element.shadowRoot?.querySelector<HTMLSlotElement>("slot[name='breadcrumbs']");
+
+    expect(slotted).not.toBeNull();
+    expect(breadcrumbsSlot).toBeTruthy();
+
+    expect(slotted?.textContent).toBe("Renew your licence.");
+    expect(breadcrumbsSlot?.assignedNodes().some((node) => node.textContent?.trim() === "Home")).toBe(true);
+  });
+
+  it("renders slotted cta content", async () => {
+    element.variant = "advanced";
+    element.heading = "Page title";
+    element.innerHTML = `      
+      <qgds-button slot="cta" target="_self" type="button" aria-label="Primary Action" label="Primary" variant="primary" href="https://www.qld.gov.au" id=""></qgds-button>
+    `;
+
+    await element.updateComplete;
     const ctaSlot = element.shadowRoot?.querySelector<HTMLSlotElement>("slot[name='cta']");
 
-    expect(abstractSlot).toBeTruthy();
-    expect(breadcrumbsSlot).toBeTruthy();
     expect(ctaSlot).toBeTruthy();
-
-    expect(element.querySelector(".slot-abstract")?.textContent).toBe("Abstract text");
-    expect(breadcrumbsSlot?.assignedNodes().some((node) => node.textContent?.trim() === "Home")).toBe(true);
-    expect(ctaSlot?.assignedNodes().some((node) => (node as Element).getAttribute("href") === "/details")).toBe(true);
+    expect(ctaSlot?.assignedElements().some((node) => node.getAttribute("href") === "https://www.qld.gov.au")).toBe(
+      true
+    );
   });
 
   it("applies the block-heading class when requested", async () => {

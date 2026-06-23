@@ -130,9 +130,9 @@ export class QGDSBanner extends LitElement {
                           </h1>`
                         : nothing}
 
-                      <slot class="banner-abstract"></slot>
-                      <slot class="banner-cta" name="cta"></slot>
-                      <slot class="banner-cards" name="cards"></slot>
+                      <slot class="banner-abstract" @slotchange=${this._onSlotChange}></slot>
+                      <slot class="banner-cta" name="cta" @slotchange=${this._onSlotChange}></slot>
+                      <slot class="banner-cards" name="cards" @slotchange=${this._onSlotChange}></slot>
                     </div>
                   `
                 : nothing}
