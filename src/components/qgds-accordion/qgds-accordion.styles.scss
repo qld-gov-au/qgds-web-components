@@ -26,36 +26,43 @@
   list-style: none; // remove the native ::marker
   display: flex;
   color: var(--qgds-color-link-default);
+  cursor: pointer;
   font-weight: 600;
   font-size: tools.remify(20px);
   line-height: tools.snap-line-height(1.25);
-  text-decoration: {
-    line: var(--qgds-link-decoration, underline);
-    thickness: var(--qgds-link-decoration-thickness, 0.5px);
-    style: solid;
-    color: var(--qgds-color-underline-default, #3f7ab4);
-  }
-
-  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
   background-color: var(--qgds-color-background-shade);
   border-color: var(--border);
   @include tools.border-padding(var(--border-width), var(--padding));
 
+  &-text {
+    flex: 1;
+    text-decoration: {
+      line: var(--qgds-link-decoration, underline);
+      thickness: var(--qgds-link-decoration-thickness, 0.5px);
+      style: solid;
+      color: var(--qgds-color-underline-default, #3f7ab4);
+    }
+    
+    text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+  }
+
   &:hover {
     background-color: var(--qgds-color-background);
     color: var(--qgds-color-link-default);
-    text-decoration-line: var(--qgds-link-decoration-hover, underline);
-    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+
+    .summary-text {
+      text-decoration-line: var(--qgds-link-decoration-hover, underline);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    }
   }
 
   @include tools.focusable() {
     border-radius: 1px;
-    text-decoration-line: var(--qgds-link-decoration-hover, underline);
-    text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
-  }
 
-  &-text {
-    flex: 1;
+    .summary-text {
+      text-decoration-line: var(--qgds-link-decoration-hover, underline);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+    }
   }
 
   &-icon {
