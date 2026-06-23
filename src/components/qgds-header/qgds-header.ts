@@ -1,17 +1,12 @@
-import { LitElement, html, unsafeCSS, type PropertyValues } from "lit";
+import { LitElement, html, nothing, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state, query } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import componentCSS from "./qgds-header.styles.scss?inline";
-// The Queensland Government logo is hardcoded into the header, with two responsive
-// variants: the stacked coat-of-arms on desktop and the wider "Delivering for
-// Queensland" lockup on mobile. Both SVGs use `currentColor`, so they are inlined
-// (not <img>) to be tinted via CSS (white on the blue bar, crest blue on desktop).
-import logoStackedSVG from "./assets/coa-stacked.svg?raw";
-import logoDeliveringSVG from "./assets/coa-delivering-for-qld.svg?raw";
-// Side-effect import registers <qgds-icon> for the mobile Search/Menu buttons.
+// Side-effect imports register the elements used in the default slot content:
+// <qgds-logo> for the brand logo and <qgds-icon> for the mobile Search/Menu buttons.
+import "../qgds-logo/qgds-logo.js";
 import "../qgds-icon/qgds-icon.js";
 
 export const tagName = "qgds-header";
@@ -30,13 +25,9 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  * The component provides the layout shell only. The search input and navigation
  * are exposed as slots so consumers can inject and configure their own elements.
  *
- * The main Queensland Government coat-of-arms logo is fixed and always shown — it
- * is not overridable. Beside it sits a secondary brand element with two usages:
- *
- * - **Standard** — set the optional `site-name` attribute. The site name is shown
- *   next to the coat-of-arms logo.
- * - **Co-brand** — omit `site-name` and slot your own logo into the `logo` slot.
- *   It takes the site name's place beside the fixed main logo.
+ * The brand logo is a stacked coat-of-arms `<qgds-logo>` rendered by default in the
+ * `logo` slot. Override the slot to supply your own `<qgds-logo>` (e.g. a different
+ * preset, or a co-brand/custom lockup). The optional `site-name` is shown beside it.
  *
  * On mobile, the header shows Search and Menu buttons, both of which also dispatch
  * a `qgds-toggle` event (`detail.panel` of `"search"` / `"menu"` plus `detail.open`):
@@ -49,12 +40,12 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  *
  * @tagname qgds-header
  *
- * @prop {String} [site-name] - Optional site name shown beside the logo (desktop) or in its own band (mobile). Omit it for the custom-logo usage.
+ * @prop {String} [site-name] - Optional site name shown beside the logo (desktop) or in its own band (mobile).
  * @prop {Boolean} [search-open=false] - When set, reveals the `search` slot on mobile.
  * @prop {Boolean} [menu-open=false] - Mobile menu open state. Forwarded to the slotted navigation element as an `open` attribute.
  *
  * @slot pre-header - Top band. Typically a `<qgds-attribution-bar>`. Hidden on mobile.
- * @slot logo - A co-brand logo shown beside the fixed main logo, in place of the site name. Only used when `site-name` is not set.
+ * @slot logo - The brand logo. Defaults to a responsive `<qgds-logo>`; override to supply your own co-brand or custom logo.
  * @slot site-name - Overrides the `site-name` attribute with custom markup.
  * @slot search - Search input, e.g. a `<qgds-search-input>` with its own config.
  * @slot navigation - Bottom navigation band, e.g. a nav bar or mobile mega menu. Receives an `open` attribute reflecting the mobile menu state.
@@ -70,10 +61,10 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  * </qgds-header>
  * ```
  *
- * @example Co-brand — no site name; the fixed main logo plus a slotted co-brand logo.
+ * @example Custom logo — override the default `<qgds-logo>` in the `logo` slot.
  * ```html
- * <qgds-header>
- *   <qgds-logo slot="logo" variant="co-brand"></qgds-logo>
+ * <qgds-header site-name="Insert site name">
+ *   <qgds-logo slot="logo" custom-logo="/my-logo.svg" custom-logo-alt="My agency"></qgds-logo>
  *   <qgds-search-input slot="search"></qgds-search-input>
  *   <nav slot="navigation"> … </nav>
  * </qgds-header>
@@ -97,29 +88,23 @@ export class QGDSHeader extends LitElement {
   /** Whether custom markup has been slotted into the `site-name` slot. */
   @state() private _hasSiteNameSlot = false;
 
-  /** Whether a co-brand logo has been slotted into the `logo` slot. */
-  @state() private _hasLogoSlot = false;
+  /** Whether the `search` slot has content — drives the mobile Search button. */
+  @state() private _hasSearchSlot = false;
+
+  /** Whether the `navigation` slot has content — drives the mobile Menu button. */
+  @state() private _hasNavSlot = false;
 
   private events = new QgdsEvents(this);
 
-  /** The site name takes precedence; the co-brand logo only shows without it. */
+  /** The site name region shows only when there is a name to show. */
   private get _showSiteName(): boolean {
     return !!this.siteName || this._hasSiteNameSlot;
-  }
-
-  /** The secondary brand area shows when there is a site name or a co-brand logo. */
-  private get _showSecondary(): boolean {
-    return this._showSiteName || this._hasLogoSlot;
   }
 
   // `assignedNodes()` (no flatten) returns only real assignments, ignoring the
   // `${this.siteName}` fallback — so this is true only for slotted custom markup.
   private _handleSiteNameSlotChange = (e: Event): void => {
     this._hasSiteNameSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
-  };
-
-  private _handleLogoSlotChange = (e: Event): void => {
-    this._hasLogoSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
   };
 
   // The mobile search panel has no design yet, so the Search button is purely
@@ -137,7 +122,12 @@ export class QGDSHeader extends LitElement {
     this.events.dispatch("toggle", { panel: "menu", open: this.menuOpen });
   };
 
-  private _handleNavSlotChange = (): void => {
+  private _handleSearchSlotChange = (e: Event): void => {
+    this._hasSearchSlot = (e.target as HTMLSlotElement).assignedElements().length > 0;
+  };
+
+  private _handleNavSlotChange = (e: Event): void => {
+    this._hasNavSlot = (e.target as HTMLSlotElement).assignedElements().length > 0;
     this._syncNavOpen();
   };
 
@@ -163,55 +153,61 @@ export class QGDSHeader extends LitElement {
 
         <div class="header-content">
           <div class="header-content-inner">
-            <span class="header-logo" role="img" aria-label="Queensland Government">
-              <span class="header-logo-stacked">${unsafeSVG(logoStackedSVG)}</span>
-              <span class="header-logo-delivering">${unsafeSVG(logoDeliveringSVG)}</span>
-            </span>
+            <div class="header-logo">
+              <slot name="logo">
+                <qgds-logo logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+              </slot>
+            </div>
 
-            <div class=${classMap({ "header-secondary": true, "is-empty": !this._showSecondary })}>
+            <div class=${classMap({ "header-secondary": true, "is-empty": !this._showSiteName })}>
               <span class="header-site-name" ?hidden=${!this._showSiteName}>
                 <slot name="site-name" @slotchange=${this._handleSiteNameSlotChange}>${this.siteName}</slot>
-              </span>
-              <span class="header-cobrand" ?hidden=${this._showSiteName}>
-                <slot name="logo" @slotchange=${this._handleLogoSlotChange}></slot>
               </span>
             </div>
 
             <div class="header-actions">
-              <button
-                type="button"
-                class="header-action"
-                aria-controls="header-search-panel"
-                aria-expanded=${this.searchOpen ? "true" : "false"}
-                @click=${this._toggleSearch}
-              >
-                <qgds-icon
-                  class="header-action-icon"
-                  icon-id=${this.searchOpen ? "close" : "search"}
-                  size="md"
-                  aria-hidden="true"
-                ></qgds-icon>
-                <span class="header-action-label">Search</span>
-              </button>
-              <button
-                type="button"
-                class="header-action"
-                aria-controls="header-nav-panel"
-                aria-expanded=${this.menuOpen ? "true" : "false"}
-                @click=${this._toggleMenu}
-              >
-                <qgds-icon
-                  class="header-action-icon"
-                  icon-id=${this.menuOpen ? "close" : "menu"}
-                  size="md"
-                  aria-hidden="true"
-                ></qgds-icon>
-                <span class="header-action-label">Menu</span>
-              </button>
+              ${this._hasSearchSlot
+                ? html`
+                    <button
+                      type="button"
+                      class="header-action"
+                      aria-controls="header-search-panel"
+                      aria-expanded=${this.searchOpen ? "true" : "false"}
+                      @click=${this._toggleSearch}
+                    >
+                      <qgds-icon
+                        class="header-action-icon"
+                        icon-id=${this.searchOpen ? "close" : "search"}
+                        size="md"
+                        aria-hidden="true"
+                      ></qgds-icon>
+                      <span class="header-action-label">Search</span>
+                    </button>
+                  `
+                : nothing}
+              ${this._hasNavSlot
+                ? html`
+                    <button
+                      type="button"
+                      class="header-action"
+                      aria-controls="header-nav-panel"
+                      aria-expanded=${this.menuOpen ? "true" : "false"}
+                      @click=${this._toggleMenu}
+                    >
+                      <qgds-icon
+                        class="header-action-icon"
+                        icon-id=${this.menuOpen ? "close" : "menu"}
+                        size="md"
+                        aria-hidden="true"
+                      ></qgds-icon>
+                      <span class="header-action-label">Menu</span>
+                    </button>
+                  `
+                : nothing}
             </div>
 
             <div id="header-search-panel" class="header-search">
-              <slot name="search"></slot>
+              <slot name="search" @slotchange=${this._handleSearchSlotChange}></slot>
             </div>
           </div>
         </div>

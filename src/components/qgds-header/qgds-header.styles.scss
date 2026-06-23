@@ -47,46 +47,36 @@ $gutter-desktop: 48px;
   column-gap: tools.remify(16px);
   max-inline-size: tools.remify(1312px);
   margin-inline: auto;
-  padding-inline: tools.remify($gutter-mobile);
 }
 
-// Fixed main logo — always shown, never overridable. Two responsive variants:
-// the "Delivering for Queensland" lockup on mobile, the stacked crest on desktop.
+// Brand logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
+// tinted white and sized down; on desktop it is crest blue at full height. The
+// `--logo-*` custom properties are set on the element so they win over the
+// qgds-logo `:host` defaults.
 .header-logo {
   grid-area: logo;
   display: flex;
   align-items: center;
   min-inline-size: 0;
-  padding-block: tools.remify(12px);
-  color: var(--qgds-color-link-on-action);
+  padding-block: tools.remify(16px);
 
-  svg {
-    block-size: tools.remify(40px);
+  qgds-logo {
+    --logo-color: var(--qgds-color-link-on-action);
+    --logo-height: #{tools.remify(40px)};
+
     max-inline-size: 100%;
-    inline-size: auto;
   }
 }
 
-// Mobile shows the Delivering lockup; the stacked crest is desktop-only.
-.header-logo-stacked {
-  display: none;
-}
-
-.header-logo-delivering {
-  display: inline-flex;
-  min-inline-size: 0;
-}
-
-// Secondary brand element beside the main logo: the site name, or a co-brand
-// logo when no site name is given. On mobile it sits in a full-bleed white band
-// below the blue bar (breaks out of the inner gutter, then re-insets its content).
+// Secondary brand element beside the logo: the site name. On mobile it sits in a
+// full-bleed white band below the blue bar (breaks out of the inner gutter, then
+// re-insets its content).
 .header-secondary {
   grid-area: name;
   display: flex;
   align-items: center;
-  margin-inline: tools.remify(-$gutter-mobile);
-  padding-block: tools.remify(12px);
-  padding-inline: tools.remify($gutter-mobile);
+  padding-block: tools.remify(24px);
+  padding-inline: tools.remify($gutter-mobile * 2);
   background-color: var(--qgds-color-background);
 
   &.is-empty {
@@ -94,8 +84,7 @@ $gutter-desktop: 48px;
   }
 }
 
-.header-site-name[hidden],
-.header-cobrand[hidden] {
+.header-site-name[hidden] {
   display: none;
 }
 
@@ -103,18 +92,6 @@ $gutter-desktop: 48px;
   color: var(--qgds-color-crest-fill);
   font-weight: var(--qgds-font-weight-bold, 700);
   font-size: tools.remify(24px);
-}
-
-// Co-brand logo sits on the white secondary area, so it follows the crest colour
-// (no-op for image logos with their own colours; helps currentColor logos/text).
-.header-cobrand {
-  display: inline-flex;
-  align-items: center;
-  color: var(--qgds-color-crest-fill);
-
-  ::slotted(*) {
-    color: var(--qgds-color-crest-fill);
-  }
 }
 
 // Stacked icon-over-label buttons, full bar height with divider rules.
@@ -197,21 +174,9 @@ $gutter-desktop: 48px;
     padding-block: tools.remify(24px);
   }
 
-  .header-logo {
-    padding-block: 0;
-    color: var(--qgds-color-crest-fill);
-
-    svg {
-      block-size: tools.remify(56px);
-    }
-  }
-
-  .header-logo-stacked {
-    display: inline-flex;
-  }
-
-  .header-logo-delivering {
-    display: none;
+  .header-logo qgds-logo {
+    --logo-color: var(--qgds-color-crest-fill);
+    --logo-height: #{tools.remify(56px)};
   }
 
   .header-secondary {

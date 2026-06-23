@@ -8,6 +8,7 @@ import type { QGDSHeader } from "./qgds-header";
 import "./qgds-header";
 import "../qgds-attribution-bar/qgds-attribution-bar";
 import "../qgds-link/qgds-link";
+import "../qgds-logo/qgds-logo";
 import "../qgds-search-input/qgds-search-input";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
@@ -104,28 +105,22 @@ export const MobileView: Story = {
   render: headerTemplate,
 };
 
-// Co-brand usage: `site-name` is omitted, so the slotted `logo` (here a stand-in
-// co-brand wordmark) sits beside the fixed coat-of-arms logo in the site name's
-// place. A real consumer would slot their own logo component.
-export const CoBrandLogo: Story = {
+// Logo override: the default `<qgds-logo>` in the `logo` slot is replaced with an
+// explicit one — here pinned to the "Delivering for Queensland" lockup. Consumers
+// can equally supply a `custom-logo` for a co-brand or agency lockup.
+export const LogoOverride: Story = {
   parameters: {
     ...chromaticModes,
   },
   render: () => html`
     ${demoNavStyles}
-    <qgds-header @qgds-toggle=${onToggle}>
+    <qgds-header site-name="Insert site name" @qgds-toggle=${onToggle}>
       <qgds-attribution-bar slot="pre-header" palette="bold">
         <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
         <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
       </qgds-attribution-bar>
 
-      <span
-        slot="logo"
-        style="display:inline-flex; flex-direction:column; font-weight:800; font-style:italic; line-height:1; letter-spacing:.02em;"
-      >
-        <span style="font-size:1.5rem;">DELIVERING</span>
-        <span style="font-size:0.75rem;">FOR QUEENSLAND</span>
-      </span>
+      <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
 
       <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
 
