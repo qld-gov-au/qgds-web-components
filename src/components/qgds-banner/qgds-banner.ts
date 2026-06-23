@@ -104,7 +104,7 @@ export class QGDSBanner extends LitElement {
           ? `background-image:url(${this.imageUrl})`
           : ""}
       >
-        <div class="banner-container">
+        <div class="banner-container has-image-${this.imageOption}">
           <div class=${classMap(bannerContentClasses)}>
             <div class="banner-content-container">
               <div class="banner-breadcrumbs">
