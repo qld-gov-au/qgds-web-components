@@ -75,7 +75,7 @@
     "stylelint-use-logical-spec": "^5.0.1",
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.48.1",
-    "vite": "^7.3.1",
+    "vite": "^8.0.16",
     "vite-plugin-static-copy": "^3.1.4",
     "vitest": "^4.0.14"
   },
