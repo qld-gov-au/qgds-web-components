@@ -45,8 +45,6 @@ $gutter-desktop: 48px;
     "search search";
   align-items: stretch;
   column-gap: tools.remify(16px);
-  max-inline-size: tools.remify(1312px);
-  margin-inline: auto;
 }
 
 // Brand logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
@@ -218,8 +216,7 @@ $gutter-desktop: 48px;
   .header-search {
     display: flex;
     justify-self: end;
-    inline-size: tools.remify(540px);
-    max-inline-size: 50%;
+    inline-size: 416px;
     margin-inline: 0;
     padding: 0;
     background: transparent;
@@ -231,8 +228,6 @@ $gutter-desktop: 48px;
 
   .header-navigation {
     display: block;
-    max-inline-size: tools.remify(1312px);
-    margin-inline: auto;
     padding-inline: tools.remify($gutter-desktop);
     padding-block: tools.remify(8px);
   }
