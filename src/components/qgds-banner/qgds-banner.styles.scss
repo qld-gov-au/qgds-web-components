@@ -17,10 +17,20 @@
   --content-row: 1 / span 4;
   --content-cols: 1 / span 4;
   --image-cols: 1 / span 4;
+  --contained-banner-radius: 3rem;
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
   position: relative;
+
+  &.contained {
+    @media (min-width: qgds-breakpoint.$xxl) {
+      max-inline-size: var(--qgds-breakpoint-xxl);
+      margin: auto;
+      border-end-start-radius: var(--contained-banner-radius);
+      border-end-end-radius: var(--contained-banner-radius);
+    }
+  }
 
   &.has-background {
     background-repeat: no-repeat;
@@ -120,7 +130,8 @@
       }
 
       .basic &,
-      .advanced & {
+      .advanced &,
+      .contained & {
         padding-block: 3rem;
       }
     }
@@ -137,7 +148,8 @@
         --content-row: 3 / span 1;
       }
 
-      .advanced & {
+      .advanced &,
+      .contained & {
         --content-cols: 1 / span 7;
       }
 
@@ -162,7 +174,8 @@
     }
 
     .basic &,
-    .advanced & {
+    .advanced &,
+    .contained & {
       padding-block-start: 1.5rem;
     }
 
@@ -171,7 +184,8 @@
 
       .basic &,
       .advanced &,
-      .default & {
+      .default &,
+      .contained & {
         padding: 0;
       }
     }
@@ -258,7 +272,8 @@
         --image-cols: 9 / span 4;
       }
 
-      .advanced & {
+      .advanced &,
+      .contained & {
         --image-cols: 8 / span 5;
       }
     }
@@ -298,6 +313,16 @@
         position: absolute;
         background-size: cover;
         inline-size: stretch;
+      }
+    }
+
+    @media (min-width: qgds-breakpoint.$xxl) {
+      .right-align &,
+      .right-align-gradient & {
+        .contained & {
+          // margin-inline-end: calc(-1 * (var(--qgds-breakpoint-xxl) - var(--qgds-breakpoint-xl)) / 2);
+          border-end-end-radius: 3rem;
+        }
       }
     }
   }

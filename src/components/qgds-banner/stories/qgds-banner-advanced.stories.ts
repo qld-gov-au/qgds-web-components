@@ -681,3 +681,90 @@ export const ArrowCards: Story = {
     </qgds-banner>
   `,
 };
+
+export const ContainedBanner: Story = {
+  args: {
+    heading: "Heading",
+    "sub-heading": "Subheading",
+    palette: "bold",
+    variant: "contained",
+    "background-option": "hero-image",
+    "image-option": "right-align",
+    "image-url": heroImageDesktop,
+    "mobile-image-url": heroImageMobile,
+    "image-description": "Hero image",
+    "is-block-type-heading": true,
+  },
+  argTypes: {
+    variant: {
+      control: false,
+      description:
+        "The variant of the banner, determines the layout and styling of the banner. This uses `advanced` variant with breadcrumbs, heading, abstract and an optional hero image which is aligned to right with a gradient.",
+    }, // Disables control
+    "background-option": {
+      control: false,
+      description:
+        "The type of background to display in the banner.This variant uses the background option, `hero-image`.",
+    },
+  },
+  parameters: {
+    controls: {
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "sub-heading",
+        "background-option",
+        "image-option",
+        "image-url",
+        "mobile-image-url",
+        "image-description",
+      ],
+    }, // Shows ONLY specific ones
+  },
+  render: (args) => html`
+    <qgds-banner
+      palette=${args.palette}
+      variant=${args.variant}
+      heading=${args.heading}
+      sub-heading=${args["sub-heading"]}
+      background-option=${args["background-option"]}
+      image-option=${args["image-option"]}
+      image-url=${args["image-url"]}
+      mobile-image-url=${args["mobile-image-url"]}
+      image-description=${args["image-description"]}
+      .isBlockTypeHeading=${args["is-block-type-heading"]}
+    >
+      <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      </qgds-breadcrumbs>
+      <div>Renew your licence at a customer service centre, government office or police station.</div>
+      <div slot="cta">
+        <qgds-button
+          target="_self"
+          type="button"
+          aria-label="Primary Action"
+          label="Primary"
+          variant="primary"
+          href="https://www.qld.gov.au"
+          id=""
+        >
+        </qgds-button>
+        <qgds-button
+          target="_self"
+          type="button"
+          aria-label="Secondary Action"
+          label="Secondary"
+          variant="secondary"
+          href="https://www.qld.gov.au"
+          id=""
+        >
+        </qgds-button>
+      </div>
+    </qgds-banner>
+  `,
+};

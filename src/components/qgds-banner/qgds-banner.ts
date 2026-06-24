@@ -9,7 +9,7 @@ type QGDSPalette = keyof typeof palettes;
 
 type BackgroundOptions = "none" | "texture" | "image" | "hero-image";
 type ImageOptions = "grid-align" | "right-align" | "right-align-gradient" | "fixed-image-ratio" | "fixed-graphic-ratio";
-type BannerVariants = "no-banner" | "default" | "basic" | "advanced";
+type BannerVariants = "no-banner" | "default" | "basic" | "advanced" | "contained";
 
 /**
  * Banners are use to introduce a page, their content should reflect the goals and content and purpose of the page they are on.
