@@ -20,6 +20,7 @@
 
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
+  position: relative;
 
   &.has-background {
     background-repeat: no-repeat;
@@ -44,11 +45,6 @@
 
     @media (min-width: qgds-breakpoint.$md) {
       --banner-grid-outer-padding: 2rem;
-
-      &.has-image-right-align,
-      &.has-image-right-align-gradient {
-        margin-inline-end: 0;
-      }
     }
   }
 
@@ -296,11 +292,12 @@
       .fixed-image-ratio & {
         background-size: contain;
       }
-    }
-    @media (min-width: qgds-breakpoint.$xl) {
+
       .right-align &,
       .right-align-gradient & {
-        margin-inline-end: calc((-1 * (100vw - var(--max-width)) / 2) + var(--banner-grid-outer-padding) / 2);
+        position: absolute;
+        background-size: cover;
+        inline-size: stretch;
       }
     }
   }
