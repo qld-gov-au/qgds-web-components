@@ -42,6 +42,7 @@ export const DefaultBanner: Story = {
   args: {
     ...meta.args,
     "background-option": "none",
+    "has-shadow": true,
   },
   argTypes: {
     variant: {
@@ -54,7 +55,7 @@ export const DefaultBanner: Story = {
     controls: { include: ["palette", "variant", "heading", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
-    <qgds-banner palette=${args.palette} variant="default" heading=${args.heading} .hasShadow=${args["has-shadow"]}>
+    <qgds-banner palette=${args.palette} variant="default" heading=${args.heading} ?has-shadow=${args["has-shadow"]}>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
@@ -81,7 +82,7 @@ export const NoBanner: Story = {
     controls: { include: ["palette", "variant", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
-    <qgds-banner palette=${args.palette} variant=${args.variant} .hasShadow=${args["has-shadow"]}>
+    <qgds-banner palette=${args.palette} variant=${args.variant} ?has-shadow=${args["has-shadow"]}>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>

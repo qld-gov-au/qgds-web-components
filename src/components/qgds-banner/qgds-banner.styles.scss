@@ -8,10 +8,6 @@
   --banner-grid-outer-padding: var(--qgds-grid-padding);
 }
 
-:host([has-shadow]) {
-  box-shadow: var(--qgds-elevation-2);
-}
-
 .banner {
   --max-width: var(--qgds-breakpoint-xl);
   --banner-min-height: 21.5rem;
@@ -359,4 +355,8 @@
     flex-direction: column;
     gap: 1rem;
   }
+}
+
+:host([has-shadow]) .banner {
+  box-shadow: var(--qgds-elevation-2);
 }

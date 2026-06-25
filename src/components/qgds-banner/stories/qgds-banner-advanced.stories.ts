@@ -85,8 +85,8 @@ export const BlockTitle: Story = {
       heading=${args.heading}
       sub-heading=${args["sub-heading"]}
       background-option=${args["background-option"]}
-      .isBlockTypeHeading=${args["is-block-type-heading"]}
-      .hasShadow=${args["has-shadow"]}
+      ?is-block-type-heading=${args["is-block-type-heading"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -126,7 +126,7 @@ export const NoBackground: Story = {
       variant=${args.variant}
       heading=${args.heading}
       background-option=${args["background-option"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -169,7 +169,7 @@ export const BackgroundTexture: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -215,7 +215,7 @@ export const BackgroundImage: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -275,7 +275,7 @@ export const FixedImageRatio: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -335,7 +335,7 @@ export const FixedGraphicRatio: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -395,7 +395,7 @@ export const AlignedToGrid: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -455,7 +455,7 @@ export const AlignedToRight: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -515,7 +515,7 @@ export const AlignedToRightWithGradient: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -580,8 +580,8 @@ export const CTAButtons: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .isBlockTypeHeading=${args["is-block-type-heading"]}
-      .hasShadow=${args["has-shadow"]}
+      ?is-block-type-heading=${args["is-block-type-heading"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -663,7 +663,7 @@ export const ArrowCards: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -690,9 +690,9 @@ export const ArrowCards: Story = {
 
 export const ContainedBanner: Story = {
   args: {
-    heading: "Heading",
-    "sub-heading": "Subheading",
-    palette: "bold",
+    ...meta.args,
+    heading: "Disaster recovery",
+    "sub-heading": "and support",
     variant: "contained",
     "background-option": "hero-image",
     "image-option": "right-align",
@@ -725,6 +725,7 @@ export const ContainedBanner: Story = {
         "image-url",
         "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -739,7 +740,8 @@ export const ContainedBanner: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .isBlockTypeHeading=${args["is-block-type-heading"]}
+      ?is-block-type-heading=${args["is-block-type-heading"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>

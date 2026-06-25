@@ -72,7 +72,7 @@ export const NoBackground: Story = {
       variant=${args.variant}
       heading=${args.heading}
       background-option=${args["background-option"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -118,7 +118,7 @@ export const BackgroundTexture: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -167,7 +167,7 @@ export const BackgroundImage: Story = {
       image-url=${args["image-url"]}
       small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
-      .hasShadow=${args["has-shadow"]}
+      ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
