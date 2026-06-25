@@ -3,7 +3,7 @@ import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state, query } from "lit/decorators.js";
 import componentStyles from "./qgds-file-upload.styles.scss?inline";
-import { QgdsEvents, readableFileSize, mimeToExtension, BreakpointController } from "../../../utils";
+import { QgdsEvents, readableFileSize, mimeToExtension, BreakpointController, generateUUID } from "../../../utils";
 import { QGDSFormField } from "../qgds-form-field";
 import { Status, type QGDSFileUploadItem } from "./qgds-file-upload-item";
 import "./qgds-file-upload-item";
@@ -11,12 +11,14 @@ import "../../qgds-feature-icon/qgds-feature-icon";
 
 import { ifDefined } from "lit/directives/if-defined.js";
 import qgdsBreakpoint from "../../../styles/qgds-tokens/qgds-breakpoint";
+import { UUID } from "crypto";
 
 export const tagname = "qgds-file-upload";
 
 interface Meta {
   status: Status;
   message?: string;
+  uuid: UUID;
 }
 
 export interface MetaFile extends Meta {
@@ -251,8 +253,13 @@ export class QGDSFileUpload extends QGDSFormField {
     return true;
   }
 
+  //
+  // This function returns a Meta object whose `status` and `message` can be passed to the FileUploadItem object
+  // It only provides validation in the sense that the `status` may return "error".
+  // Actual validation is handled in reportValidity() and checkValidity()
   private _getMetaValidate(file: File): Meta {
     const acceptValue = (this.accept ?? "").trim();
+    const uuid = generateUUID();
 
     // validate against accepted file types
     if (acceptValue && acceptValue !== "*") {
@@ -287,6 +294,7 @@ export class QGDSFileUpload extends QGDSFormField {
         return {
           status: "error",
           message: `File type not accepted. Acceptable types: ${acceptValue}.`,
+          uuid,
         };
       }
     }
@@ -298,6 +306,7 @@ export class QGDSFileUpload extends QGDSFormField {
         return {
           status: "error",
           message: `File must be smaller than ${this.maxSize} MB.`,
+          uuid,
         };
       }
     }
@@ -306,6 +315,7 @@ export class QGDSFileUpload extends QGDSFormField {
     return {
       status: "ready",
       message: `File ready for upload - ${readableFileSize(file.size)}`,
+      uuid,
     };
   }
 
@@ -322,7 +332,7 @@ export class QGDSFileUpload extends QGDSFormField {
         : html`<ul class="file-upload-list">
             ${repeat(
               _metaFiles,
-              (meta) => meta.file.name, // key function will track the correct DOM object on add / removal // Need a UUID perhaps instead?
+              (meta) => meta.uuid,
               (meta) =>
                 html`<li>
                   <qgds-file-upload-item
