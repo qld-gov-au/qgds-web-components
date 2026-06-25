@@ -89,14 +89,14 @@ $gutter-desktop: 48px;
   }
 }
 
-.header-site-name[hidden] {
-  display: none;
-}
-
 .header-site-name {
   color: var(--qgds-color-crest-fill);
   font-weight: var(--qgds-font-weight-bold, 700);
   font-size: tools.remify(24px);
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 // Stacked icon-over-label buttons, full bar height with divider rules.

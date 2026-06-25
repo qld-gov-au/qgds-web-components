@@ -3,7 +3,7 @@ import { html } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
-import { chromaticModes } from "../../../.storybook/modes";
+import { allModes, chromaticModes } from "../../../.storybook/modes";
 import type { QGDSHeader } from "./qgds-header";
 import "./qgds-header";
 import "../qgds-attribution-bar/qgds-attribution-bar";
@@ -108,6 +108,13 @@ export const MobileView: Story = {
   args: meta.args,
   globals: {
     viewport: "MD",
+  },
+  parameters: {
+    chromatic: {
+      modes: {
+        mobile: allModes.MD,
+      },
+    },
   },
   render: headerTemplate,
 };
