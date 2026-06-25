@@ -77,7 +77,7 @@ export class QGDSNavigation extends LitElement {
 
   render() {
     return html`
-      <nav class="navbar" role="navigation">
+      <nav class="navbar" role="navigation" ${this.variant === "dark" ? html`class="qgds-palette-bold"` : ""}>
         <div class="container">
           ${html`<div class="navbar-nav" role="list">
             <slot @slotchange="${this._onSlotChange}"></slot>
