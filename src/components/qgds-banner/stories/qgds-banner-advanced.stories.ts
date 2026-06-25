@@ -697,7 +697,7 @@ export const ContainedBanner: Story = {
     "background-option": "hero-image",
     "image-option": "right-align",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
     "is-block-type-heading": true,
   },
@@ -723,7 +723,7 @@ export const ContainedBanner: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
       ],
     }, // Shows ONLY specific ones
@@ -737,7 +737,7 @@ export const ContainedBanner: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
       .isBlockTypeHeading=${args["is-block-type-heading"]}
     >

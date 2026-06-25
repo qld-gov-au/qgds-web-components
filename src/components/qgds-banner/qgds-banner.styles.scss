@@ -319,7 +319,6 @@
       .right-align &,
       .right-align-gradient & {
         .contained & {
-          // margin-inline-end: calc(-1 * (var(--qgds-breakpoint-xxl) - var(--qgds-breakpoint-xl)) / 2);
           border-end-end-radius: 3rem;
         }
       }
