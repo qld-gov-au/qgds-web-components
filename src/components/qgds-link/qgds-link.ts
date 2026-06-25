@@ -6,6 +6,7 @@ import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils";
 import "../qgds-icon/qgds-icon.js";
 import type { IconSize } from "../qgds-icon/qgds-icon.js";
+import type { IconName } from "../qgds-icon/icon-names";
 
 export type Animations =
   | ""
@@ -97,16 +98,20 @@ export class QGDSLink extends LitElement {
     // Only set aria-label when there is no visible text — visible label text
     // is already the accessible name and aria-label would override it.
     const ariaLabel = this.label ? undefined : this.iconName || undefined;
-    const labelContent = this.iconName && this.onlyIcon ? html`<span class="sr-only">${this.label}</span>` : this.label;
+    const labelContent =
+      this.iconName && this.onlyIcon
+        ? html`<span class="sr-only">${this.label}</span>`
+        : html`<span class="link-label">${this.label}</span>`;
     const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
     const iconTemplate = this.iconName
-      ? html`<qgds-icon icon-id=${this.iconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
+      ? html`<qgds-icon icon-id=${this.iconName as IconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
       : "";
 
     return hasHref
       ? html`
           <a
-            href=${this.href}
+            class="link-container"
+            href=${ifDefined(this.href)}
             aria-label=${ifDefined(ariaLabel)}
             @click=${(e: MouseEvent) => this._onClick(e)}
             style=${iconStyle}
@@ -114,7 +119,11 @@ export class QGDSLink extends LitElement {
             ${iconTemplate} ${labelContent}
           </a>
         `
-      : html` <span aria-label=${ifDefined(ariaLabel)}> ${iconTemplate} ${labelContent} </span> `;
+      : html`
+          <span class="link-container is-static" aria-label=${ifDefined(ariaLabel)}>
+            ${iconTemplate} ${labelContent}
+          </span>
+        `;
   }
 }
 

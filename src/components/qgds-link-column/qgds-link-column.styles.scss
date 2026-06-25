@@ -67,10 +67,6 @@ qgds-call-to-action {
   padding-block-start: 2rem;
 }
 
-::slotted(qgds-link-item) {
-  max-inline-size: 46rem;
-}
-
 ::slotted(qgds-link-item.header) {
   --qgds-link-border-end-width: 0;
   --qgds-link-border-end-style: solid;
@@ -84,4 +80,44 @@ qgds-call-to-action {
   padding-block-end: 1rem;
   border-block-end: 2px solid var(--qgds-color-border);
   margin-block-end: 1rem;
+}
+
+::slotted(qgds-link-item) {
+  --text-decoration: none;
+  --qgds-link-decoration: none;
+  --qgds-link-decoration-hover: underline;
+
+  max-inline-size: 46rem;
+  border-block-end: 1px solid var(--qgds-color-border);
+}
+
+// Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)
+@media (width <= bp.$lg) {
+  :host([layout="horizontal"][columns="3"]) .items {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2rem;
+  }
+
+  :host([columns="3"]:not([layout="horizontal"])) .items {
+    column-count: 2;
+    column-gap: 2rem;
+  }
+}
+
+@media (width <= bp.$md) {
+  :host([layout="horizontal"][columns="2"]) .items {
+    grid-template-columns: 1fr;
+  }
+
+  :host([columns="2"]:not([layout="horizontal"])) .items {
+    column-count: 1;
+  }
+
+  :host([layout="horizontal"][columns="3"]) .items {
+    grid-template-columns: 1fr;
+  }
+
+  :host([columns="3"]:not([layout="horizontal"])) .items {
+    column-count: 1;
+  }
 }

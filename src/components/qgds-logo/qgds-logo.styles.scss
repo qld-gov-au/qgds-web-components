@@ -1,0 +1,98 @@
+@use "../../styles/tools";
+@use "../../styles/utilities/sr-only";
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+@use "../../styles/qgds-tokens/qgds-color-stub";
+
+:host {
+  --logo-divider-color: var(--qgds-color-accent-design-accent);
+  --logo-color: var(--qgds-color-crest-fill);
+  --logo-gap: #{tools.remify(16px)};
+  --logo-height: #{tools.remify(56px)};
+  --logo-padding: #{tools.remify(24px)};
+
+  display: inline-block;
+}
+
+// Responsive palette switching is handled by JavaScript via responsive-palette attribute
+// increase size of sitename on desktop
+@media (min-width: #{bp.$lg}) {
+  :host {
+    --logo-gap: #{tools.remify(24px)};
+  }
+}
+
+.logo-image {
+  display: flex;
+  align-items: center;
+  gap: #{tools.remify(8px)};
+  block-size: var(--logo-height);
+
+  // Fallback SVG uses currentColor and can be styled via CSS
+  // Example: Set color via --logo-color or use color property
+  svg {
+    max-inline-size: 100%;
+    block-size: auto;
+    display: inline-block;
+    color: var(--logo-color); // Fallback SVG will inherit this via currentColor
+  }
+
+  img,
+  ::slotted(img),
+  ::slotted(svg) {
+    max-inline-size: 100%;
+    block-size: auto;
+    display: block;
+  }
+}
+
+.qgds-logo {
+  display: flex;
+  align-items: center;
+  color: var(--logo-color);
+}
+
+.logo-link {
+  color: var(--logo-color);
+  display: inline-flex;
+  gap: var(--logo-gap);
+  align-items: center;
+  text-decoration: none;
+
+  &:visited {
+    color: var(--logo-color);
+  }
+}
+
+// Targets custom logos as part of the cobrand lockup
+.is-custom .logo-image-custom {
+  display: flex;
+  align-items: center;
+}
+
+.is-custom {
+  display: flex;
+  align-items: center;
+
+  &:has(.logo-image) {
+    .logo-image-custom {
+      padding-inline-start: var(--logo-gap);
+      margin-inline-start: var(--logo-gap);
+      border-inline-start: 2px solid var(--logo-divider-color);
+    }
+  }
+
+  img {
+    max-inline-size: 100%;
+    block-size: auto;
+    display: block;
+  }
+}
+
+// Responsive: hide image on mobile if needed
+@media (max-width: #{tools.remify(768px)}) {
+  :host([hide-image-mobile]) {
+    .logo-image {
+      display: none;
+    }
+  }
+}
