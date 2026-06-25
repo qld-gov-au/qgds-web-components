@@ -173,6 +173,11 @@ export class QGDSLinkItem extends LitElement {
     if (existingColumn) {
       existingColumn.setAttribute("columns", String(this.columns));
       existingColumn.setAttribute("layout", this.columnsLayout);
+      if (this.layout !== "horizontal") {
+        existingColumn.setAttribute("suppress-icons", "");
+      } else {
+        existingColumn.removeAttribute("suppress-icons");
+      }
       // if (this.viewAllUrl) existingColumn.setAttribute("view-all-url", this.viewAllUrl);
       // if (this.viewAllLabel) existingColumn.setAttribute("view-all-label", this.viewAllLabel);
       return;
@@ -192,6 +197,8 @@ export class QGDSLinkItem extends LitElement {
     if (this.layout === "horizontal") {
       if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);
       if (this.viewAllLabel) col.setAttribute("view-all-label", this.viewAllLabel);
+    } else {
+      col.setAttribute("suppress-icons", "");
     }
     // if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);
     // if (this.viewAllLabel) col.setAttribute("view-all-label", this.viewAllLabel);
@@ -236,10 +243,9 @@ export class QGDSLinkItem extends LitElement {
           class="${classMap({ "has-children": this._hasDropdown, "is-open": this._hasDropdown && this._isOpen })}"
           label="${this.label}"
           href="${this.href}"
-          icon-name="${isHorizontal && this._hasDropdown ? "chevron-up" : this.iconName}"
+          icon-name="${this.iconName}"
           ?only-icon="${this.onlyIcon}"
           ?is-disabled="${this.isDisabled}"
-          has-trailing-icon="${this._hasDropdown}"
           icon-size="${isHorizontal && this._hasDropdown ? "sm" : this.iconSize}"
           aria-current="${ifDefined(this.isCurrent ? ("page" as const) : undefined)}"
           @click="${(e: Event) => {

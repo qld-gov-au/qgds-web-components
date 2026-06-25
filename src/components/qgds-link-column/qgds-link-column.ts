@@ -77,6 +77,10 @@ export class QGDSLinkColumn extends LitElement {
   @property({ type: String, attribute: "view-all-url" })
   viewAllURL = "#";
 
+  /** When true, suppresses automatic icon-name / animation assignment on child link-items.
+   * Set automatically by `<qgds-link-item>` when the parent navigation uses a non-horizontal layout. */
+  @property({ type: Boolean, attribute: "suppress-icons", reflect: true }) suppressIcons = false;
+
   private _columns = 1;
   @property({ type: Number, reflect: true })
   get columns() {
@@ -109,16 +113,28 @@ export class QGDSLinkColumn extends LitElement {
     this._syncHeadingLevelAttr();
     // slotchange fires before the @slotchange listener is ready on first render;
     // configure any link-items already in the light DOM.
-    this.querySelectorAll("qgds-link-item").forEach((item) => {
-      if (!item.iconName) item.iconName = "arrow-right";
-      if (!item.animation) item.animation = "leftToRight";
-    });
+    this._applyIconsToItems(this.querySelectorAll<QGDSLinkItem>("qgds-link-item"));
   }
 
   updated(changedProps: Map<string, unknown>) {
     if (changedProps.has("heading") || changedProps.has("headingLevel")) {
       this._syncHeadingLevelAttr();
     }
+    if (changedProps.has("suppressIcons")) {
+      this._applyIconsToItems(this.querySelectorAll<QGDSLinkItem>("qgds-link-item"));
+    }
+  }
+
+  private _applyIconsToItems(items: NodeListOf<QGDSLinkItem> | QGDSLinkItem[]): void {
+    items.forEach((item) => {
+      if (this.suppressIcons) {
+        item.iconName = "";
+        item.animation = "";
+      } else {
+        if (!item.iconName) item.iconName = "arrow-right";
+        if (!item.animation) item.animation = "leftToRight";
+      }
+    });
   }
 
   private _onSlotChange = (e: Event) => {
@@ -130,9 +146,7 @@ export class QGDSLinkColumn extends LitElement {
         );
         (el as HTMLElement).style.display = "none";
       } else {
-        const item = el as QGDSLinkItem;
-        if (!item.iconName) item.iconName = "arrow-right";
-        if (!item.animation) item.animation = "leftToRight";
+        this._applyIconsToItems([el as QGDSLinkItem]);
       }
     });
   };
