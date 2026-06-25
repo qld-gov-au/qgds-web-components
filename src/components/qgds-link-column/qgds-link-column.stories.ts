@@ -15,8 +15,6 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    heading: "Transport and motoring",
-    "heading-level": 3,
     columns: 3,
     layout: "vertical",
     "view-all-label": "View all services",
@@ -24,7 +22,6 @@ const meta: Meta<Args> = {
   },
   argTypes: {
     ...argTypes,
-    "heading-level": { control: { type: "range", min: 1, max: 6, step: 1 } },
     columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
     layout: { control: "radio", options: ["vertical", "horizontal"] },
   },
@@ -47,10 +44,9 @@ export default meta;
 
 type Story = StoryObj<Args>;
 
-/** Default link column with a heading and vertical multi-column layout. */
+/** Default link column with vertical multi-column layout. */
 export const Default: Story = {
   args: {
-    heading: "Transport and motoring",
     columns: 3,
     layout: "vertical",
     "view-all-label": "View all services",
@@ -58,10 +54,9 @@ export const Default: Story = {
   },
 };
 
-/** Link column with no heading — the nav landmark is unnamed (triggers a console warning). */
-export const NoHeading: Story = {
+/** Link column with no aria-label — the nav landmark uses the generic fallback (triggers a console warning). */
+export const NoAriaLabel: Story = {
   args: {
-    heading: "",
     columns: 2,
     layout: "vertical",
     "view-all-label": "View all services",
@@ -78,11 +73,10 @@ export const NoHeading: Story = {
     ),
 };
 
-/** No heading with an explicit aria-label to satisfy WCAG 2.4.1. */
-export const NoHeadingWithAriaLabel: Story = {
-  name: "No Heading (with aria-label)",
+/** Link column with an explicit aria-label to satisfy WCAG 2.4.1. */
+export const WithAriaLabel: Story = {
+  name: "With aria-label",
   args: {
-    heading: "",
     "aria-label": "Transport services",
     columns: 2,
     layout: "vertical",
@@ -103,7 +97,6 @@ export const NoHeadingWithAriaLabel: Story = {
 /** Link column with a View All call-to-action at the bottom. */
 export const WithViewAll: Story = {
   args: {
-    heading: "Transport and motoring",
     columns: 2,
     layout: "vertical",
     "view-all-label": "View all transport services",
@@ -123,7 +116,6 @@ export const WithViewAll: Story = {
 /** Two-column layout with description text on each item. */
 export const WithDescription: Story = {
   args: {
-    heading: "Transport and motoring",
     columns: 2,
     layout: "vertical",
     "view-all-label": "View all services",
@@ -197,7 +189,6 @@ export const WithDescription: Story = {
 /** Three-column vertical layout with many links — a typical popular services component. */
 export const SimpleLinks: Story = {
   args: {
-    heading: "Popular services",
     columns: 3,
     layout: "vertical",
     "view-all-label": "View all",
@@ -226,7 +217,6 @@ export const SimpleLinks: Story = {
 /** Three-column horizontal layout — links flow left-to-right across columns. */
 export const SimpleLinksHorizontal: Story = {
   args: {
-    heading: "Popular services",
     columns: 3,
     layout: "horizontal",
     "view-all-label": "View all",

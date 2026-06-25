@@ -1,6 +1,4 @@
 :host {
-  // --qgds-link-padding: unset;
-
   --qgds-link-icon-size: unset;
   --qgds-link-font-size: unset;
   --qgds-link-font-weight: unset;
@@ -12,18 +10,11 @@
   --qgds-icon-svg: unset;
   --icon-direction: 1;
   --qgds-link-flex-direction: unset;
-
-  // --qgds-link-border-end-colour: unset;
-  // --qgds-link-border-end-width: unset;
-  // --qgds-link-border-end-style: unset;
-  
-  // --qgds-link-padding-inline-start: unset;
   --qgds-icon-margin-start: unset;
 
   inline-size: var(--qgds-link-width, max-content);
   display: inline-block;
-  border-block-end: var(--qgds-link-border-end-width) var(--qgds-link-border-end-style)
-    var(--qgds-link-border-end-colour);
+  border-block-end: var(--qgds-link-border-end-width) var(--qgds-link-border-end-style) var(--qgds-link-border-end-colour);
   padding-inline-start: var(--qgds-link-padding-inline-start);
 }
 
@@ -43,11 +34,12 @@ span {
   text-decoration: var(--qgds-link-decoration);
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
-  padding-block: 0 var(--qgds-link-padding);
+  padding-block: var(--qgds-link-padding-block, 0) var(--qgds-link-padding-block, var(--qgds-link-padding));
+  padding-inline: var(--qgds-link-padding-inline);
   margin-inline-start: var(--qgds-link-margin-inline-start);
   font-size: var(--qgds-link-font-size, inherit);
   font-weight: var(--qgds-link-font-weight, inherit);
-  text-decoration-thickness: 0.5px; // var(--qgds-link-decoration-init-thickness, 0.5px);
+  text-decoration-thickness: 0.5px;
   text-underline-offset: 6px;
   text-decoration-color: var(--qgds-link-decoration-init-color, currentColor);
   transition: text-decoration-thickness var(--qgds-transition-time) ease;
@@ -61,8 +53,8 @@ span {
 
   &:focus-visible {
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
-    outline-offset: 2px;
-    border-radius: var(--qgds-border-radius);
+    outline-offset: var(--qgds-link-focus-outline-offset, 2px);
+    border-radius: var(--qgds-link-focus-border-radius, var(--qgds-border-radius));
   }
 }
 
@@ -89,7 +81,6 @@ qgds-icon {
   }
 }
 
-
 // Span-specific overrides — must come after a, button, span to win via source order
 // stylelint-disable-next-line no-descending-specificity
 span {
@@ -101,13 +92,13 @@ span {
 
 // Animations — driven by the reflected animation attribute on :host
 // Shared base transition (lower specificity — must come before per-animation hover rules)
-:host([animation="rotateOut"]) a qgds-icon, 
+:host([animation="rotateOut"]) a qgds-icon,
 :host([animation="rotateOut"]) button qgds-icon {
   transform: rotate(0deg) scaleX(var(--icon-direction));
   transition: transform var(--qgds-transition-time) ease;
 }
 
-:host([animation="rotateIn"]) a qgds-icon, 
+:host([animation="rotateIn"]) a qgds-icon,
 :host([animation="rotateIn"]) button qgds-icon {
   transform: rotate(0deg) scaleX(var(--icon-direction));
   transition: transform var(--qgds-transition-time) ease;
@@ -137,6 +128,11 @@ span {
   }
 }
 
+// Animations — driven by the reflected animation attribute on :host.
+// The transition lives on the base (non-hover) icon so the movement glides both
+// into and out of hover, rather than snapping back on mouse-out.
+/* stylelint-disable no-descending-specificity */
+
 :host([animation="rotateOut"]) a:hover qgds-icon,
 :host([animation="rotateOut"]) button:hover qgds-icon {
   transform: rotate(var(--animation-rotate-angle, -180deg)) scaleX(var(--icon-direction));
@@ -149,11 +145,6 @@ span {
   transition: all var(--qgds-transition-time) ease;
 }
 
-
-// Animations — driven by the reflected animation attribute on :host.
-// The transition lives on the base (non-hover) icon so the movement glides both
-// into and out of hover, rather than snapping back on mouse-out.
-/* stylelint-disable no-descending-specificity */
 :host([animation]) a qgds-icon,
 :host([animation]) button qgds-icon {
   transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
@@ -191,25 +182,43 @@ span {
 
 .sr-only {
   position: absolute;
-  width: 1px; // stylelint-disable-line
-  height: 1px; // stylelint-disable-line
+  inline-size: 1px;
+  block-size: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0); /* Deprecated but used for backward compatibility */
+  clip: rect(0, 0, 0, 0);
+
+  /* Deprecated but used for backward compatibility */
   border: 0;
-  white-space: nowrap; /* Prevents visual artifacts */
+  white-space: nowrap;
 }
 
-// .has-children{
-//   display: inline-flex;
-//   gap: 0.5rem;
+// Chevron for nav items with children (horizontal mode).
+// Rendered as a::after inside shadow DOM so it sits inline with the link text.
+// Enabled by setting --qgds-link-chevron-display: flex on the host from outside.
+:host(.has-children) a {
+  &::after {
+    content: "";
+    inline-size: 1rem;
+    block-size: 1rem;
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3e %3cpath fill='currentColor' d='M16.002 11.17 4.856 22.675c-.213.22-.47.329-.768.326a1.044 1.044 0 0 1-.768-.334 1.098 1.098 0 0 1-.32-.793 1.1 1.1 0 0 1 .32-.793L14.36 9.694c.234-.241.494-.417.78-.528.288-.11.575-.166.862-.166.287 0 .574.055.861.166.288.111.548.287.781.528l11.04 11.395c.214.22.319.483.316.789-.003.305-.11.568-.324.788a1.03 1.03 0 0 1-.768.33 1.03 1.03 0 0 1-.768-.33L16.002 11.17Z'/%3e%3c/svg%3e");
+    background-position: center center;
+    background-repeat: no-repeat;
+    mask-position: center center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-size: contain;
+    background-color: var(--nav-link, var(--qgds-color-link-default, #005eb8));
+    line-height: 1;
+    display: var(--qgds-link-chevron-display, none);
+    flex-shrink: 0;
+    transform: rotate(0deg) scaleX(var(--icon-direction));
+    transition: all var(--qgds-transition-time, 0.25s) ease;
+  }
+}
 
-//   &::after {
-//   content: ">";
-//   display: inline-block;
-//   // transform: rotate(90deg);
-//   transition: transform 0.2s ease;
-//   margin-inline-start: 0.25rem;
-// }
-// }
+:host(.has-children.is-open) a::after {
+  transform: rotate(180deg) scaleX(var(--icon-direction));
+  transition: all var(--qgds-transition-time, 0.25s) ease;
+}

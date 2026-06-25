@@ -25,7 +25,7 @@ export type NavigationLayout = "horizontal" | "vertical";
  *
  * @example
  * ```html
- * <qgds-navigation aria-label="main" columns="3" layout="horizontal" columns-layout="horizontal">
+ * <qgds-navigation columns="3" layout="horizontal" columns-layout="horizontal">
  *   <qgds-link-item label="Home" href="/" only-icon icon-name="home" is-current></qgds-link-item>
  *   <qgds-link-item label="Services" href="/services" view-all-url="/services">
  *     <qgds-link-item label="Planning" href="/planning"></qgds-link-item>
@@ -53,7 +53,7 @@ export class QGDSNavigation extends LitElement {
   @property({ type: Number, reflect: true }) columns = 3;
 
   /** Accessible label applied to the `<nav>` landmark. */
-  @property({ type: String, attribute: "aria-label" }) navLabel = "main";
+  // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
 
   protected updated(changed: Map<string, unknown>): void {
     if (changed.has("layout") || changed.has("columnsLayout") || changed.has("columns")) {
@@ -77,14 +77,11 @@ export class QGDSNavigation extends LitElement {
 
   render() {
     return html`
-      <nav class="navbar" aria-label="${this.navLabel}" role="navigation">
+      <nav class="navbar" role="navigation">
         <div class="container">
-          ${
-            // eslint-disable-next-line lit-a11y/list -- slotted qgds-link-item elements each set role="listitem" on their host
-            html`<ul class="navbar-nav">
-              <slot @slotchange="${this._onSlotChange}"></slot>
-            </ul>`
-          }
+          ${html`<div class="navbar-nav" role="list">
+            <slot @slotchange="${this._onSlotChange}"></slot>
+          </div>`}
         </div>
       </nav>
     `;
