@@ -29,12 +29,14 @@ export class QGDSAttributionBar extends LitElement {
   render() {
     return html`
       <section aria-label="Attribution bar" class="attribution-bar">
-        <div class="attribution-bar-collection">
-          <slot name="site-name"></slot>
-        </div>
-        <div class="attribution-bar-links">
-          <div class="attribution-bar-attribution">
-            <slot></slot>
+        <div class="attribution-bar-container">
+          <div class="attribution-bar-collection">
+            <slot name="site-name"></slot>
+          </div>
+          <div class="attribution-bar-links">
+            <div class="attribution-bar-attribution">
+              <slot></slot>
+            </div>
           </div>
         </div>
       </section>
