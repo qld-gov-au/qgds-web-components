@@ -3,7 +3,7 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
-  --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+  --breadcrumbs-item-padding-inline-start: 0;
   --breadcrumbs-item-padding-inline-end: 0;
   --breadcrumbs-item-padding-block-start: #{f.remify(5px)};
   --breadcrumbs-item-padding-block-end: #{f.remify(5px)};
@@ -13,6 +13,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: inline-block;
   flex-shrink: 999999;
 }
 
@@ -27,6 +28,8 @@
   padding-inline: var(--breadcrumbs-item-padding-inline-start) var(--breadcrumbs-item-padding-inline-end);
 
   @media (min-width: qgds-breakpoint.$lg) {
+    --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+
     font-size: 1rem;
     display: inline-flex;
   }

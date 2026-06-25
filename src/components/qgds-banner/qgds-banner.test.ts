@@ -85,7 +85,7 @@ describe("qgds-banner", () => {
   it("adds background image styles and mobile image markup for image banners", async () => {
     element.backgroundOption = "image";
     element.imageUrl = "https://example.com/banner.jpg";
-    element.mobileImageUrl = "https://example.com/banner-mobile.jpg";
+    element.smallImageUrl = "https://example.com/banner-mobile.jpg";
     element.imageDescription = "Banner image";
 
     await element.updateComplete;

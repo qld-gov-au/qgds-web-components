@@ -33,15 +33,12 @@ const meta: Meta<Args> = {
   component: "qgds-banner",
   args: {
     ...args,
-    "image-url": backgroundImage,
-    "mobile-image-url": backgroundImageMobile,
-    "image-description": "Background image",
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    "sub-heading": "Lorem ipsum dolor",
+    heading: "Cancelling your vehicle, trailer, caravan, motorised mobility device or boat registration",
+    "sub-heading": "and support",
     "is-block-type-heading": false,
-    "background-option": "hero-image",
-    "image-option": "grid-align",
-    variant: "no-banner",
+    "has-shadow": true,
+    variant: "advanced",
+    palette: "bold",
   },
   argTypes,
   render: (args) => template(args),
@@ -51,9 +48,8 @@ export default meta;
 
 export const BlockTitle: Story = {
   args: {
+    ...meta.args,
     heading: "Disaster recovery",
-    "sub-heading": "and support",
-    variant: "advanced",
     "background-option": "none",
     "is-block-type-heading": true,
   },
@@ -71,7 +67,15 @@ export const BlockTitle: Story = {
   },
   parameters: {
     controls: {
-      include: ["palette", "variant", "heading", "background-option", "sub-heading", "is-block-type-heading"],
+      include: [
+        "palette",
+        "variant",
+        "heading",
+        "background-option",
+        "sub-heading",
+        "is-block-type-heading",
+        "has-shadow",
+      ],
     }, // Shows ONLY specific ones
   },
   render: (args) => html`
@@ -82,6 +86,7 @@ export const BlockTitle: Story = {
       sub-heading=${args["sub-heading"]}
       background-option=${args["background-option"]}
       .isBlockTypeHeading=${args["is-block-type-heading"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -97,8 +102,7 @@ export const BlockTitle: Story = {
 
 export const NoBackground: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "none",
   },
   argTypes: {
@@ -114,7 +118,7 @@ export const NoBackground: Story = {
     }, // Disables control
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option"] }, // Shows ONLY specific ones
+    controls: { include: ["palette", "variant", "heading", "background-option", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -122,6 +126,7 @@ export const NoBackground: Story = {
       variant=${args.variant}
       heading=${args.heading}
       background-option=${args["background-option"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -137,9 +142,7 @@ export const NoBackground: Story = {
 
 export const BackgroundTexture: Story = {
   args: {
-    palette: "bold",
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "texture",
     "image-url": backgroundTexture,
     "image-description": "Background texture",
@@ -157,7 +160,7 @@ export const BackgroundTexture: Story = {
     },
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option", "image-url"] }, // Shows ONLY specific ones
+    controls: { include: ["palette", "variant", "heading", "background-option", "image-url", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -166,6 +169,7 @@ export const BackgroundTexture: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -181,12 +185,10 @@ export const BackgroundTexture: Story = {
 
 export const BackgroundImage: Story = {
   args: {
-    palette: "bold",
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "image",
     "image-url": backgroundImage,
-    "mobile-image-url": backgroundImageMobile,
+    "small-image-url": backgroundImageMobile,
   },
   argTypes: {
     variant: {
@@ -200,7 +202,9 @@ export const BackgroundImage: Story = {
     },
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option", "image-url", "mobile-image-url"] }, // Shows ONLY specific ones
+    controls: {
+      include: ["palette", "variant", "heading", "background-option", "image-url", "small-image-url", "has-shadow"],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -209,8 +213,9 @@ export const BackgroundImage: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -226,13 +231,11 @@ export const BackgroundImage: Story = {
 
 export const FixedImageRatio: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "fixed-image-ratio",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -256,8 +259,9 @@ export const FixedImageRatio: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -269,8 +273,9 @@ export const FixedImageRatio: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -286,13 +291,11 @@ export const FixedImageRatio: Story = {
 
 export const FixedGraphicRatio: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "fixed-graphic-ratio",
     "image-url": fixedGraphicImage,
-    "mobile-image-url": fixedGraphicImageMobile,
+    "small-image-url": fixedGraphicImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -316,8 +319,9 @@ export const FixedGraphicRatio: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -329,8 +333,9 @@ export const FixedGraphicRatio: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -346,13 +351,11 @@ export const FixedGraphicRatio: Story = {
 
 export const AlignedToGrid: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "grid-align",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -376,8 +379,9 @@ export const AlignedToGrid: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -389,8 +393,9 @@ export const AlignedToGrid: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -406,13 +411,11 @@ export const AlignedToGrid: Story = {
 
 export const AlignedToRight: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "right-align",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -436,8 +439,9 @@ export const AlignedToRight: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -449,8 +453,9 @@ export const AlignedToRight: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -466,13 +471,11 @@ export const AlignedToRight: Story = {
 
 export const AlignedToRightWithGradient: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "right-align-gradient",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -496,8 +499,9 @@ export const AlignedToRightWithGradient: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -509,8 +513,9 @@ export const AlignedToRightWithGradient: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -526,14 +531,13 @@ export const AlignedToRightWithGradient: Story = {
 
 export const CTAButtons: Story = {
   args: {
-    heading: "Heading",
-    "sub-heading": "Subheading",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
+    heading: "Disaster recovery",
+    "sub-heading": "and support",
     "background-option": "hero-image",
     "image-option": "right-align",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
     "is-block-type-heading": true,
   },
@@ -559,8 +563,9 @@ export const CTAButtons: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -573,9 +578,10 @@ export const CTAButtons: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
       .isBlockTypeHeading=${args["is-block-type-heading"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -613,13 +619,11 @@ export const CTAButtons: Story = {
 
 export const ArrowCards: Story = {
   args: {
-    heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
-    palette: "bold",
-    variant: "advanced",
+    ...meta.args,
     "background-option": "hero-image",
     "image-option": "right-align",
     "image-url": heroImageDesktop,
-    "mobile-image-url": heroImageMobile,
+    "small-image-url": heroImageMobile,
     "image-description": "Hero image",
   },
   argTypes: {
@@ -643,8 +647,9 @@ export const ArrowCards: Story = {
         "background-option",
         "image-option",
         "image-url",
-        "mobile-image-url",
+        "small-image-url",
         "image-description",
+        "has-shadow",
       ],
     }, // Shows ONLY specific ones
   },
@@ -656,8 +661,9 @@ export const ArrowCards: Story = {
       background-option=${args["background-option"]}
       image-option=${args["image-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>

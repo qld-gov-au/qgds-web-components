@@ -8,6 +8,10 @@
   --banner-grid-outer-padding: var(--qgds-grid-padding);
 }
 
+:host([has-shadow]) {
+  box-shadow: var(--qgds-elevation-2);
+}
+
 .banner {
   --max-width: var(--qgds-breakpoint-xl);
   --banner-min-height: 21.5rem;
@@ -19,7 +23,6 @@
   --image-cols: 1 / span 4;
 
   background-color: var(--qgds-color-background);
-  box-shadow: var(--qgds-elevation-2);
   position: relative;
 
   &.has-background {
@@ -34,14 +37,11 @@
 
   &-container {
     max-inline-size: var(--max-width);
+    inline-size: calc(100% - var(--banner-grid-outer-padding) * 2);
     margin-inline: var(--banner-grid-outer-padding);
     display: flex;
     justify-self: center;
     flex-direction: column;
-
-    .no-banner & {
-      inline-size: 100%;
-    }
 
     @media (min-width: qgds-breakpoint.$md) {
       --banner-grid-outer-padding: 2rem;
@@ -69,15 +69,14 @@
     }
 
     .no-banner & {
-      padding: 1rem;
+      padding-block: 1rem;
       row-gap: 0;
 
       @media (min-width: qgds-breakpoint.$md) {
         padding-block: 1.5rem;
-        padding-inline: 2rem;
       }
       @media (min-width: qgds-breakpoint.$lg) {
-        padding: 2rem;
+        padding-block: 2rem;
       }
     }
   }
@@ -211,7 +210,7 @@
   &-heading {
     .block-type & {
       color: var(--qgds-color-neutral-white);
-      background-color: var(--qgds-block-style-heading-bg);
+      background-color: var(--qgds-banner-block-heading-bg);
       font-weight: 600;
     }
   }
