@@ -157,6 +157,8 @@ span {
 
 :host([animation="leftToRight"]) a:hover qgds-icon,
 :host([animation="leftToRight"]) button:hover qgds-icon {
+  transform: translateX(var(--animation-move-distance, 0.5rem)) scaleX(var(--icon-direction));
+}
 
 // Animations — driven by the reflected animation attribute on :host
 // Shared base transition (lower specificity — must come before per-animation hover rules)
