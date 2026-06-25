@@ -130,9 +130,9 @@ $gutter-desktop: 48px;
   }
 }
 
-// 3. The search panel is collapsed on mobile until toggled open. The navigation
-// band stays in the layout — the slotted mega menu shows/hides itself based on the
-// `open` attribute the header forwards to it.
+// 3. On mobile the in-bar search slot is hidden and the navigation band stays in
+// the layout. The mobile Search/Menu buttons only emit events — the slotted search
+// and mega-menu components are responsible for showing/hiding themselves.
 .header-search {
   grid-area: search;
   display: none;
@@ -140,21 +140,6 @@ $gutter-desktop: 48px;
 
 .header-navigation {
   display: block;
-}
-
-// Mobile-only reveal styling — kept out of the desktop layout entirely.
-@media (max-width: #{bp.$lg - 1px}) {
-  :host([search-open]) .header-search {
-    display: flex;
-    margin-inline: tools.remify(-$gutter-mobile);
-    padding-block: tools.remify(8px);
-    padding-inline: tools.remify($gutter-mobile);
-    background-color: var(--qgds-color-background);
-
-    ::slotted(*) {
-      inline-size: 100%;
-    }
-  }
 }
 
 // =============================================================================

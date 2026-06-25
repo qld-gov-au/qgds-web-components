@@ -30,17 +30,20 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-// Both mobile buttons dispatch `qgds-toggle`; this logs them to the Actions panel.
-// The Menu button is handled inside the header (it toggles `menuOpen` and forwards
-// `open` to the slotted nav), and the Search button has no mobile design yet — so
-// there is nothing further to wire up here beyond the action log.
-const logToggle = action("qgds-toggle");
-const onToggle = (e: Event) => {
-  logToggle((e as CustomEvent<{ panel: "search" | "menu"; open: boolean }>).detail);
+// The mobile buttons only fire payload-less events; the slotted components own what
+// happens next. Search has no mobile design yet, so it just logs to the Actions
+// panel. Menu toggles the demo nav's `open` attribute, standing in for a real
+// mega-menu component that would manage its own open state.
+const logSearchToggle = action("qgds-toggle-search-mobile");
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+const onSearchToggle = () => logSearchToggle();
+const onNavToggle = (e: Event) => {
+  const header = e.currentTarget as HTMLElement;
+  header.querySelector('[slot="navigation"]')?.toggleAttribute("open");
 };
 
 // Stand-in for a real mega-menu component: a horizontal nav on desktop that, on
-// mobile, hides until the header sets the `open` attribute (via the Menu button).
+// mobile, hides until its own `open` attribute is set (here toggled by onNavToggle).
 const demoNavStyles = html`
   <style>
     .demo-nav {
@@ -77,7 +80,11 @@ const demoNav = html`
 
 const headerTemplate = (args: Args) => html`
   ${demoNavStyles}
-  <qgds-header site-name=${args["site-name"]} @qgds-toggle=${onToggle}>
+  <qgds-header
+    site-name=${args["site-name"]}
+    @qgds-toggle-search-mobile=${onSearchToggle}
+    @qgds-toggle-nav-menu=${onNavToggle}
+  >
     <qgds-attribution-bar slot="pre-header" palette="bold">
       <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
@@ -114,7 +121,11 @@ export const LogoOverride: Story = {
   },
   render: () => html`
     ${demoNavStyles}
-    <qgds-header site-name="Insert site name" @qgds-toggle=${onToggle}>
+    <qgds-header
+      site-name="Insert site name"
+      @qgds-toggle-search-mobile=${onSearchToggle}
+      @qgds-toggle-nav-menu=${onNavToggle}
+    >
       <qgds-attribution-bar slot="pre-header" palette="bold">
         <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
         <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
