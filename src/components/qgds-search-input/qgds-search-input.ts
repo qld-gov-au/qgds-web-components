@@ -38,7 +38,7 @@ export type QGDSSearchInputProps = InstanceType<typeof QGDSSearchInput>;
  * @website https://www.designsystem.qld.gov.au/components/search-input
  *
  * @prop {String} [value] - The current value of the search field.
- * @prop {String} [placeholder="Search"] - Placeholder text for the input.
+ * @prop {String} [placeholder] - Placeholder text for the input.
  * @prop {String} [name] - Name attribute passed to the underlying input.
  * @prop {Boolean} [disabled=false] - Disables the input and button.
  * @prop {FormVariant} [variant] - Visual style of the input. "filled" uses a shaded background with only a bottom border.
@@ -266,7 +266,7 @@ export class QGDSSearchInput extends LitElement {
         @focusout=${this._handleFocusOut}
         @qgds-suggestion-select=${this._handleSuggestionSelect}
       >
-        <qgds-icon class="search-icon" icon-id="search" size="md" aria-hidden="true"></qgds-icon>
+        <qgds-icon class="search-icon" icon-id="search" size="sm" aria-hidden="true"></qgds-icon>
         <input
           class=${classMap({
             "qgds-form-control": true,

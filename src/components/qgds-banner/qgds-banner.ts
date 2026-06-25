@@ -23,10 +23,11 @@ type BannerVariants = "no-banner" | "default" | "basic" | "advanced" | "containe
  * @prop {string} heading - The main heading text of the banner.
  * @prop {string} subHeading - The subheading text of the banner, which provides additional context or information about the page.
  * @prop {boolean} isBlockTypeHeading - Determines whether the heading should be displayed as a block type. Sub-heading field is used only for this type.
+ * @prop {boolean} hasShadow - Determines if the banner has box shadow or not
  * @prop {BackgroundOptions} [backgroundOption="none"] - The type of background to display in the banner.
  * @prop {ImageOptions} [imageOption="grid-align"] - The layout option for the background image when backgroundOption is set to "hero-image".
  * @prop {string} imageUrl - The URL of the background image to display when backgroundOption is set to "hero-image".
- * @prop {string} mobileImageUrl - The URL of the mobile background image to display when backgroundOption is set to "hero-image" or "background-image".
+ * @prop {string} smallImageUrl - The URL of the mobile background image to display when backgroundOption is set to "hero-image" or "background-image".
  * @prop {string} imageDescription - The alt text description for the background image, used for accessibility purposes.
  * @prop {BannerVariants} [variant="no-banner"] - The variant of the banner, which determines the styling of the banner.
  * @slot - Default slot. Accepts custom html elements. It is used to display abstract text that is displayed underneath the page title.
@@ -44,10 +45,11 @@ export class QGDSBanner extends LitElement {
   @property({ type: String, attribute: "heading" }) heading = "";
   @property({ type: String, attribute: "sub-heading" }) subHeading = "";
   @property({ type: Boolean, attribute: "is-block-type-heading", reflect: true }) isBlockTypeHeading = false;
+  @property({ type: Boolean, attribute: "has-shadow", reflect: true }) hasShadow = false;
   @property({ type: String, attribute: "background-option" }) backgroundOption: BackgroundOptions = "none";
   @property({ type: String, attribute: "image-option", reflect: true }) imageOption: ImageOptions = "grid-align";
   @property({ type: String, attribute: "image-url" }) imageUrl = "";
-  @property({ type: String, attribute: "mobile-image-url" }) mobileImageUrl = "";
+  @property({ type: String, attribute: "small-image-url" }) smallImageUrl = "";
   @property({ type: String, attribute: "image-description" }) imageDescription = "";
 
   @state() private _hasAbstract = false;
@@ -110,12 +112,12 @@ export class QGDSBanner extends LitElement {
               <div class="banner-breadcrumbs">
                 <slot name="breadcrumbs"></slot>
               </div>
-              ${this.backgroundOption.includes("image") && (this.mobileImageUrl || this.imageUrl)
+              ${this.backgroundOption.includes("image") && (this.smallImageUrl || this.imageUrl)
                 ? html`<div
                     class="banner-image-mobile"
                     role="img"
                     aria-label=${this.imageDescription}
-                    style="background-image:url(${this.mobileImageUrl ?? this.imageUrl})"
+                    style="background-image:url(${this.smallImageUrl ?? this.imageUrl})"
                   ></div>`
                 : nothing}
               ${this.hasBannerContent

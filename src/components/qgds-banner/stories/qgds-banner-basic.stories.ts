@@ -30,12 +30,13 @@ const meta: Meta<Args> = {
   args: {
     ...args,
     "image-url": backgroundImage,
-    "mobile-image-url": backgroundImageMobile,
+    "small-image-url": backgroundImageMobile,
     "image-description": "Background image",
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
     "background-option": "hero-image",
     "image-option": "grid-align",
     variant: "no-banner",
+    "has-shadow": true,
   },
   argTypes,
   render: (args) => template(args),
@@ -48,6 +49,7 @@ export const NoBackground: Story = {
     heading: "Lorem ipsum dolor sit amet, consectetur adipiscing sed",
     variant: "basic",
     "background-option": "none",
+    "has-shadow": true,
   },
   argTypes: {
     variant: {
@@ -62,7 +64,7 @@ export const NoBackground: Story = {
     }, // Disables control
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option"] }, // Shows ONLY specific ones
+    controls: { include: ["palette", "variant", "heading", "background-option", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -70,6 +72,7 @@ export const NoBackground: Story = {
       variant=${args.variant}
       heading=${args.heading}
       background-option=${args["background-option"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -91,6 +94,7 @@ export const BackgroundTexture: Story = {
     "background-option": "texture",
     "image-url": backgroundTexture,
     "image-description": "Background texture",
+    "has-shadow": true,
   },
   argTypes: {
     variant: {
@@ -105,7 +109,7 @@ export const BackgroundTexture: Story = {
     },
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option", "image-url"] }, // Shows ONLY specific ones
+    controls: { include: ["palette", "variant", "heading", "background-option", "image-url", "has-shadow"] }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -114,6 +118,7 @@ export const BackgroundTexture: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
@@ -134,7 +139,8 @@ export const BackgroundImage: Story = {
     variant: "basic",
     "background-option": "image",
     "image-url": backgroundImage,
-    "mobile-image-url": backgroundImageMobile,
+    "small-image-url": backgroundImageMobile,
+    "has-shadow": true,
   },
   argTypes: {
     variant: {
@@ -148,7 +154,9 @@ export const BackgroundImage: Story = {
     },
   },
   parameters: {
-    controls: { include: ["palette", "variant", "heading", "background-option", "image-url", "mobile-image-url"] }, // Shows ONLY specific ones
+    controls: {
+      include: ["palette", "variant", "heading", "background-option", "image-url", "small-image-url", "has-shadow"],
+    }, // Shows ONLY specific ones
   },
   render: (args) => html`
     <qgds-banner
@@ -157,8 +165,9 @@ export const BackgroundImage: Story = {
       heading=${args.heading}
       background-option=${args["background-option"]}
       image-url=${args["image-url"]}
-      mobile-image-url=${args["mobile-image-url"]}
+      small-image-url=${args["small-image-url"]}
       image-description=${args["image-description"]}
+      .hasShadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
         <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
