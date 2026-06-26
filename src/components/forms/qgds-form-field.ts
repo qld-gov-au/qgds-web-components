@@ -1,5 +1,4 @@
 import { html, LitElement, TemplateResult, PropertyValues, nothing, css } from "lit";
-// import { classMap } from "lit/directives/class-map.js";
 import { property } from "lit/decorators.js";
 import { baseStyles, formStyles, utilitiesStyles } from "../../styles";
 import { FormValidationState, FormIndicateIf } from "../../types/forms";
