@@ -67,6 +67,8 @@
 
 qgds-icon {
   margin-inline-start: var(--qgds-icon-margin-start);
+  transform: translateX(0) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-duration) var(--qgds-transition-easing);
 }
 
 :host([is-disabled]) {
