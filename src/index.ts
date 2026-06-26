@@ -32,6 +32,7 @@ export { QGDSFileUpload } from "./components/forms/qgds-file-upload/qgds-file-up
 export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
 export { QGDSFooterContactItem } from "./components/qgds-footer/qgds-footer-contact-item";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
+export { QGDSHeader } from "./components/qgds-header/qgds-header";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";
