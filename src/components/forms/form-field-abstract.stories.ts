@@ -220,7 +220,7 @@ export const FullForm: Story = {
       </fieldset>
 
       <div style=${buttonRowStyle}>
-        <button type="submit" style=${buttonStyle} fromnovalidate>Submit</button>
+        <button type="submit" style=${buttonStyle} formnovalidate>Submit</button>
         <button type="reset" style=${resetButtonStyle}>Reset</button>
       </div>
     </form>

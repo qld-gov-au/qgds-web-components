@@ -60,7 +60,13 @@ export abstract class QGDSFormField extends LitElement {
   label?: string;
 
   @property({ type: String })
-  value?: string = "";
+  private _value?: string | undefined = "";
+  public get value(): string | undefined {
+    return this._value;
+  }
+  public set value(value: string | undefined) {
+    this._value = value;
+  }
 
   @property({ type: Boolean })
   required?: boolean = false;
@@ -117,7 +123,7 @@ export abstract class QGDSFormField extends LitElement {
    * The value to sync into ElementInternals. Override in subclasses that
    * track their selection in a separate internal state (e.g. field groups).
    */
-  protected get _currentValue(): string | string[] | undefined {
+  protected get _currentValue(): string | string[] | File | File[] | undefined {
     return this.value;
   }
 
@@ -199,8 +205,16 @@ export abstract class QGDSFormField extends LitElement {
     if (Array.isArray(raw)) {
       const fd = new FormData();
       const key = this.name ?? this.id;
-      raw.forEach((v) => fd.append(key, v));
+      raw.forEach((v) => {
+        if (v instanceof File) {
+          fd.append(key, v);
+        } else {
+          fd.append(key, String(v));
+        }
+      });
       this._internals.setFormValue(fd);
+    } else if (raw instanceof File) {
+      this._internals.setFormValue(raw);
     } else {
       this._internals.setFormValue(raw ?? "");
     }

@@ -82,6 +82,15 @@ export class QGDSFileUpload extends QGDSFormField {
   @property({ type: Boolean }) multiple?: boolean = false;
   @property({ type: String }) accept?: string = "";
 
+  override get value(): string {
+    return this._input?.value ?? "";
+  }
+
+  override set value(_value: string | undefined) {
+    // This component derives its value from the internal input state and does not
+    // support programmatic writes through the inherited form-field setter.
+  }
+
   // public readonly `files`
   get files(): FileList | null {
     const dataTransfer = new DataTransfer();
@@ -92,6 +101,10 @@ export class QGDSFileUpload extends QGDSFormField {
   // public readonly `filesArray`
   get filesArray(): File[] {
     return this._validMetaFiles.map((item) => item.file);
+  }
+
+  protected override get _currentValue(): string | string[] | File | File[] | undefined {
+    return this.filesArray;
   }
 
   // private state
@@ -126,10 +139,69 @@ export class QGDSFileUpload extends QGDSFormField {
     this._events = new QgdsEvents(this);
   }
 
-  connectedCallback(): void {
+  override connectedCallback(): void {
     super.connectedCallback?.();
+    this._syncFormValue();
   }
 
+  // elements internals override public methods
+  override checkValidity(): boolean {
+    return this._computeIsValid();
+  }
+
+  override reportValidity(): boolean {
+    const isValid = this._computeIsValid();
+
+    if (!isValid) {
+      const hasFiles = (this.files?.length ?? 0) > 0;
+      const message = this._hasValidationErrors
+        ? "Please remove invalid files before continuing."
+        : "Please select at least one file.";
+
+      this._internals.setValidity(
+        {
+          valueMissing: !hasFiles,
+          customError: this._hasValidationErrors,
+        },
+        message,
+        this._input
+      );
+      this.validationMessage = message;
+      this.validationState = "error";
+      this.focus();
+      return false;
+    }
+
+    this._internals.setValidity({});
+    this.validationMessage = undefined;
+    this.validationState = undefined;
+    return true;
+  }
+
+  override formResetCallback(): void {
+    super.formResetCallback();
+    this._metaFiles = [];
+    this._syncFormValue();
+  }
+
+  override formStateRestoreCallback(_state: unknown): void {
+    // File upload values are tracked from component state and synced via ElementInternals.
+  }
+
+  // override protected methods
+  protected override _computeIsValid(): boolean {
+    if (this._hasValidationErrors) {
+      return false;
+    }
+
+    if (!this.required) {
+      return true;
+    }
+
+    return (this.files?.length ?? 0) > 0;
+  }
+
+  // private methods
   private _preventDefaults = (e: Event) => {
     e.preventDefault();
     e.stopPropagation();
@@ -195,63 +267,20 @@ export class QGDSFileUpload extends QGDSFormField {
     });
     this._metaFiles = [...this._metaFiles, ...newFiles]; // ensure a new array is created.
     await this.updateComplete;
+    this._syncFormValue();
     this._events.dispatch("change", { value: this.filesArray });
   };
 
   private _removeFile = async (fileToRemove: File) => {
     this._metaFiles = this._metaFiles.filter((item) => item.file !== fileToRemove); // ensure a new array is created.
     await this.updateComplete;
+    this._syncFormValue();
     this._events.dispatch("change", { value: this.filesArray });
   };
 
   private _selectFiles = () => {
     this._input.click();
   };
-
-  protected override _computeIsValid(): boolean {
-    if (this._hasValidationErrors) {
-      return false;
-    }
-
-    if (!this.required) {
-      return true;
-    }
-
-    return (this.files?.length ?? 0) > 0;
-  }
-
-  override checkValidity(): boolean {
-    return this._computeIsValid();
-  }
-
-  override reportValidity(): boolean {
-    const isValid = this._computeIsValid();
-
-    if (!isValid) {
-      const hasFiles = (this.files?.length ?? 0) > 0;
-      const message = this._hasValidationErrors
-        ? "Please remove invalid files before continuing."
-        : "Please select at least one file.";
-
-      this._internals.setValidity(
-        {
-          valueMissing: !hasFiles,
-          customError: this._hasValidationErrors,
-        },
-        message,
-        this._input
-      );
-      this.validationMessage = message;
-      this.validationState = "error";
-      this.focus();
-      return false;
-    }
-
-    this._internals.setValidity({});
-    this.validationMessage = undefined;
-    this.validationState = undefined;
-    return true;
-  }
 
   //
   // This function returns a Meta object whose `status` and `message` can be passed to the FileUploadItem object

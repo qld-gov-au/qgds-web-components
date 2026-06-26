@@ -6,6 +6,8 @@ import "./qgds-file-upload";
 import { withEventActions } from "../../../../.storybook/storybook-helpers";
 import { allFilesArray } from "./__mocks__/filemocks";
 import { chromaticModes } from "../../../../.storybook/modes";
+import { html } from "lit";
+import { action } from "storybook/actions";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSFileUpload>(tagname);
 type Args = typeof args;
@@ -17,6 +19,17 @@ function createMockDataTransfer() {
 }
 
 const dataTransferMock = createMockDataTransfer();
+
+/**
+ * Log form data on submit so the Actions panel shows exactly what
+ * ElementInternals reported back to the form.
+ */
+const handleSubmit = (e: SubmitEvent) => {
+  e.preventDefault();
+  const form = e.target as HTMLFormElement;
+  const formData = new FormData(form);
+  action("submit")(Array.from(formData.entries()));
+};
 
 const meta: Meta<Args> = {
   title: "Components/Forms/File upload",
@@ -37,6 +50,9 @@ export const Single: Story = {
     accept: "*",
     label: "Single file upload",
     hint: "This is the default setting",
+  },
+  parameters: {
+    ...chromaticModes,
   },
 };
 
@@ -157,5 +173,26 @@ export const Error: Story = {
     ["validation-message"]:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ",
     ["validation-state"]: "error",
+  },
+};
+
+export const WithForm: Story = {
+  args: {
+    label: "With form",
+    hint: "Mock submission, reset via form element",
+    id: "WithForm",
+    name: "wcfile",
+    ["max-files"]: 3,
+  },
+  parameters: {
+    // Disables Chromatic's snapshotting on a component level.
+    chromatic: { disableSnapshot: true },
+  },
+  render: (args) => {
+    return html`<form enctype="multipart/form-data" @submit=${handleSubmit}>
+      ${template(args)} <input type="file" name="nativeinput" multiple />
+      <input type="text" name="nativetext" value="I can haz value" />
+      <button type="submit" formnovalidate>Submit</button> <br /><button type="reset">Reset</button>
+    </form>`;
   },
 };

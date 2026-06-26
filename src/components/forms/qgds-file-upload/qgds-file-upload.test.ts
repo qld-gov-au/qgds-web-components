@@ -46,6 +46,32 @@ describe("qgds-file-upload", () => {
     expect(element.value).toBe("");
   });
 
+  it("should ignore assignments to value so the property remains read-only", async () => {
+    await element.updateComplete;
+
+    expect(() => {
+      (element as unknown as { value: string }).value = "new-value";
+    }).not.toThrow();
+    expect(element.value).toBe("");
+  });
+
+  it("should include uploaded files in FormData when used inside a form", async () => {
+    const form = document.createElement("form");
+    form.appendChild(element);
+    document.body.appendChild(form);
+
+    element.name = "files";
+    await element.updateComplete;
+    await addFilesToInput(element, [textFile]);
+
+    const formData = new FormData(form);
+
+    expect(formData.getAll("files")).toHaveLength(1);
+    expect(formData.get("files")).toBeInstanceOf(File);
+
+    form.remove();
+  });
+
   it("should render label correctly", async () => {
     element.label = "Choose an option";
     await element.updateComplete;
