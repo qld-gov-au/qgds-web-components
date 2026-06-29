@@ -15,6 +15,7 @@ import "./styles/main.scss";
 export { QGDSAccordion } from "./components/qgds-accordion/qgds-accordion";
 export { QGDSAccordionGroup } from "./components/qgds-accordion-group/qgds-accordion-group";
 export { QGDSAttributionBar } from "./components/qgds-attribution-bar/qgds-attribution-bar";
+export { QGDSBanner } from "./components/qgds-banner/qgds-banner";
 export { QGDSBlockquote } from "./components/qgds-blockquote/qgds-blockquote";
 export { QGDSBreadcrumbs } from "./components/qgds-breadcrumbs/qgds-breadcrumbs";
 export { QGDSBreadcrumbsItem } from "./components/qgds-breadcrumbs/qgds-breadcrumbs-item";
@@ -31,6 +32,7 @@ export { QGDSFileUpload } from "./components/forms/qgds-file-upload/qgds-file-up
 export { QGDSFooter } from "./components/qgds-footer/qgds-footer";
 export { QGDSFooterContactItem } from "./components/qgds-footer/qgds-footer-contact-item";
 export { QGDSGlobalAlert } from "./components/qgds-global-alert/qgds-global-alert";
+export { QGDSHeader } from "./components/qgds-header/qgds-header";
 export { QGDSIcon } from "./components/qgds-icon/qgds-icon";
 export { QGDSImage } from "./components/qgds-image/qgds-image";
 export { QGDSInpageAlert } from "./components/qgds-inpage-alert/qgds-inpage-alert";

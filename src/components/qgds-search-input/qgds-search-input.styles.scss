@@ -1,5 +1,6 @@
 @use "../../styles/tools/functions" as f;
 @use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
   /* Container query setup for responsive behaviour */
@@ -17,22 +18,22 @@
   &.is-disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    pointer-events: none;
   }
 
   // ── Decorative search icon ───────────────────────────────────────────────────
   .search-icon {
     position: absolute;
-    inset-inline-start: f.remify(12px);
+    inset-inline-start: f.remify(16px);
     inset-block-start: 50%;
     transform: translateY(-50%);
     pointer-events: none;
     z-index: 1;
+    display: none;
 
     --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
-    @container search-input (max-width: 400px) {
-      display: none;
+    @container search-input (min-width: #{qgds-breakpoint.$md}) {
+      display: block
     }
   }
 
@@ -51,16 +52,16 @@
   border-inline-end-width: 0;
   border-radius: 0.25rem;
 
-  // Left: icon width (24px) + left offset (12px) + gap (8px)
-  // Right: button width (approx 88px for "Search" + padding)
-  // Use custom properties so border-padding mixin compensates when borders appear (e.g. filled:focus)
-  --padding-left: #{f.remify(44px)};
-  --padding-right: #{f.remify(100px)};
+  // Icon-only button width (48px) + some gap
+  --padding-left: #{f.remify(12px)};
+  --padding-right: #{f.remify(60px)};
 
-  @container search-input (max-width: 400px) {
-    // Icon-only button width (48px) + some gap
-    --padding-left: #{f.remify(12px)};
-    --padding-right: #{f.remify(60px)};
+  @container search-input (min-width: #{qgds-breakpoint.$md}) {
+    // Left: icon width (24px) + left offset (12px) + gap (8px)
+    // Right: button width (approx 88px for "Search" + padding)
+    // Use custom properties so border-padding mixin compensates when borders appear (e.g. filled:focus)
+    --padding-left: #{f.remify(44px)};
+    --padding-right: #{f.remify(100px)};
   }
 
   // Remove native search clear button (webkit)
@@ -88,7 +89,8 @@
   align-items: center;
   justify-content: center;
   gap: f.remify(8px);
-  padding-inline: f.remify(20px);
+  padding-inline: 0;
+  inline-size: f.remify(48px);
   font-size: f.remify(16px);
   font-weight: 400;
   line-height: 1;
@@ -126,26 +128,26 @@
   }
 
   .search-btn-icon {
-    display: none;
-  }
-
-  .search-btn-label {
     display: inline;
   }
 
-  // Responsive: icon-only mode at small container sizes
-  @container search-input (max-width: 400px) {
-    padding-inline: 0;
-    inline-size: f.remify(48px);
+  .search-btn-label {
+    display: none;
+  }
+
+  // Responsive: full label mode on medium or larger container sizes
+  @container search-input (min-width: #{qgds-breakpoint.$md}) {
+    padding-inline: f.remify(20px);
+    inline-size: auto;
 
     .search-btn-icon {
-      display: inline;
+      display: none;
     }
 
     .search-btn-label {
-      display: none;
+      display: inline;
     }
-  }
+  }  
 }
 
 .search-suggestions {

@@ -31,12 +31,7 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-export const Default: Story = {
-  args: {
-    ...args,
-    placeholder: "Search",
-  },
-};
+export const Default: Story = {};
 
 export const Filled: Story = {
   args: {
