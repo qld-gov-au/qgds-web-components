@@ -25,18 +25,20 @@ $_grid-padding-lg: f.remify(32px);
     --qgds-grid-padding: #{$_grid-padding-lg};
   }
 
-  // TODO: understand the portal requirements ??? https://www.figma.com/design/9Ig3HLZtRs5qACKFivPFW6/deleteme?node-id=58167-22465&t=SEOM3Wh2KEVMf91g-4
+  &.has-no-padding {
+    --qgds-grid-padding: 0px; // keep unit to be campatible with calc()
+  }
 }
 
 .qgds-cols {
   --qgds-cols-count: 4;
-  --qgds-col-min: 80px;
+  --qgds-col-min: f.remify(80px);
   --qgds-grid-gutter: #{$_grid-gutter-xs};
   --qgds-grid-gutter-x: var(--qgds-grid-gutter);
   --qgds-grid-gutter-y: var(--qgds-grid-gutter);
 
   display: grid;
-  gap: var(--qgds-grid-gutter-y, $_grid-gutter-xs) var(--qgds-grid-gutter-x, #{$_grid-gutter-xs});
+  gap: var(--qgds-grid-gutter-y, #{$_grid-gutter-xs}) var(--qgds-grid-gutter-x, #{$_grid-gutter-xs});
   grid-template-columns: repeat(var(--qgds-cols-count), 1fr);
 
   @include m.md-up() {
@@ -54,7 +56,7 @@ $_grid-padding-lg: f.remify(32px);
   // .qgds-cols-{1-12}
   @for $i from 1 through 12 {
     &-#{i} {
-      --qgds-grid-cols: #{$i};
+      --qgds-cols-count: #{$i};
     }
   }
 
@@ -70,14 +72,10 @@ $_grid-padding-lg: f.remify(32px);
   }
 
   &-auto-fill {
-    --qgds-col-min: 80px;
-
     grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--qgds-col-min)), 1fr));
   }
 
   &-auto-fit {
-    --qgds-col-min: 80px;
-
     grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--qgds-col-min)), 1fr));
   }
 
@@ -88,14 +86,14 @@ $_grid-padding-lg: f.remify(32px);
 }
 
 .qgds-span {
-  // .qgds-cols-{1-12}
+  // .qgds-span-{1-12}
   @for $i from 1 through 12 {
     &-#{i} {
       --qgds-span-count: #{$i};
     }
   }
 
-  // .qgds-cols-{1-12}:{sm|md|lg|xl|xxl}
+  // .qgds-span-{1-12}:{sm|md|lg|xl|xxl}
   @each $key, $value in meta.module-functions("qgds-breakpoint") {
     @include m.from($value) {
       @for $i from 1 through 12 {
