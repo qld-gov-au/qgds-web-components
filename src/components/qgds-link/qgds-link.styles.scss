@@ -17,6 +17,7 @@
   --qgds-link-border-end-style: unset;
   --qgds-link-padding-inline-start: unset;
   --qgds-icon-margin-start: unset;
+  --qgds-border-radius: 0px;
 
   inline-size: var(--qgds-link-width, max-content);
   display: inline-block;
@@ -40,7 +41,6 @@
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
   padding-block: var(--qgds-link-padding);
-  padding-inline: 0 8px;
   margin-inline-start: var(--qgds-link-margin-inline-start);
   font-size: var(--qgds-link-font-size, inherit);
   font-weight: var(--qgds-link-font-weight, inherit);
@@ -53,9 +53,8 @@
     text-decoration-thickness: 2px;
   }
 
-  &:focus-visible {
-    --qgds-border-radius: 0px;
-
+  &:focus-visible,
+  &:focus {
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
     outline-offset: 2px;
     border-radius: var(--qgds-border-radius);
@@ -86,6 +85,10 @@ qgds-icon {
   .link-container {
     flex-direction: var(--qgds-link-flex-direction, row-reverse);
     justify-content: flex-end;
+
+    qgds-icon {
+      margin-inline-end: 8px;
+    }
   }
 }
 
@@ -104,7 +107,7 @@ qgds-icon {
 :host([has-trailing-icon][stretch]) {
   .link-container {
     qgds-icon {
-      margin-inline: var(--icon-spacing, auto) 0;
+      margin-inline: var(--icon-spacing, auto) 8px;
     }
   }
 }
