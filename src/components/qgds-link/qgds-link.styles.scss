@@ -39,7 +39,8 @@
   text-decoration: var(--qgds-link-decoration);
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
-  padding-block: 0 var(--qgds-link-padding);
+  padding-block: var(--qgds-link-padding);
+  padding-inline: 0 8px;
   margin-inline-start: var(--qgds-link-margin-inline-start);
   font-size: var(--qgds-link-font-size, inherit);
   font-weight: var(--qgds-link-font-weight, inherit);
@@ -53,6 +54,8 @@
   }
 
   &:focus-visible {
+    --qgds-border-radius: 0px;
+
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
     outline-offset: 2px;
     border-radius: var(--qgds-border-radius);
