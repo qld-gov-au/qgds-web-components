@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
-import "../qgds-link/qgds-link";
+import "../qgds-call-to-action/qgds-call-to-action";
 import styles from "./qgds-global-alert.styles.scss?inline";
 import { baseStyles } from "../../styles";
 import type { IconName } from "../qgds-icon/icon-names";
@@ -127,14 +127,10 @@ export class QGDSGlobalAlert extends LitElement {
 
           ${this.actionLabel && this.actionHref
             ? html`
-                <qgds-link
-                  href="${this.actionHref}"
-                  icon-name="arrow-right"
-                  icon-size="md"
-                  label="${this.actionLabel}"
-                  has-trailing-icon
-                  animation="leftToRight"
-                ></qgds-link>
+                <qgds-call-to-action 
+                  label="${this.actionLabel}" 
+                  href="${this.actionHref}" 
+                ></qgds-call-to-action>
               `
             : nothing}
         </div>
