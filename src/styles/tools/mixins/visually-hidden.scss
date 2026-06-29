@@ -1,0 +1,15 @@
+///
+/// Make an element visually hidden but accessible to screen readers.
+/// Can also be used to hide inputs but keep them available for form submission, eg to create a custom interactive wrapper.
+///
+@mixin visually-hidden() {
+  position: absolute;
+  width: 1px; // stylelint-disable-line
+  height: 1px; // stylelint-disable-line
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0); /* Deprecated but used for backward compatibility */
+  border: 0;
+  white-space: nowrap; /* Prevents visual artifacts */
+}

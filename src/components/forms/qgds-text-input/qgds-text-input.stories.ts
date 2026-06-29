@@ -128,3 +128,13 @@ export const Error: Story = {
     html`${template({ ...args, id: "outline", label: "Error outline variant", class: "qgds-mb-24" })}
     ${template({ ...args, id: "filled", label: "Error filled variant", variant: "filled" })}`,
 };
+
+export const Readonly: Story = {
+  args: {
+    ...Default.args,
+    readOnly: true,
+  },
+  render: (args) =>
+    html`${template({ ...args, id: "outline", label: "Readonly outline variant", class: "qgds-mb-24" })}
+    ${template({ ...args, id: "filled", label: "Readonly filled variant", variant: "filled" })}`,
+};
