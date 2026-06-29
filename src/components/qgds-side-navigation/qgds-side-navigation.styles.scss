@@ -85,14 +85,14 @@ qgds-accordion {
   }
 
   &.is-level-3 {
-    padding-inline-start: f.remify(56px);
+    padding-inline-start: f.remify(64px);
     position: relative;
 
     &::before {
       content: "└─";
       position: absolute;
-      inset-inline-start: f.remify(32px);
-      inset-block-start: f.remify(20);
+      inset-inline-start: f.remify(30px);
+      inset-block-start: f.remify(18);
       font-size: f.remify(10px);
       color: var(--qgds-color-border-alt, #848484);
       font-weight: normal;
