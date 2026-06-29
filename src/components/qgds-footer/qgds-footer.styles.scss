@@ -1,0 +1,415 @@
+/* 
+==========================
+Scoped CSS: qgds-footer
+==========================
+*/
+
+@use "../../styles/tools/mixins" as *;
+@use "../../styles/tools" as tools;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
+:host {
+  --bg: var(--qgds-color-background);
+  --fg: var(--qgds-color-text-default);
+  --footer-link-fg: var(--qgds-color-link-default);
+  --footer-link-hover: var(--qgds-color-link-hover);
+  --footer-padding-block: 1.5rem;
+  --footer-padding-inline: 1rem;
+  --footer-outer-gutter: 1rem;
+  --footer-outer-gutter-md-up: 2rem;
+  --footer-border-color: unset;
+  --footer-column-border-color: var(--qgds-color-border);
+  --footer-column-gap: 2rem;
+  --footer-row-gap: 1.5rem;
+  --footer-logo-height: 48px;
+
+  background: var(--bg);
+  color: var(--fg);
+  border-block-start: 4px solid var(--footer-border-color, var(--qgds-color-accent-design-accent));
+  display: block;
+
+  @media (min-width: #{bp.$md}) {
+    --footer-padding-inline: 2rem;
+    --footer-outer-gutter: var(--footer-outer-gutter-md-up);
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    --footer-column-gap: 2rem;
+  }
+}
+
+.qgds-footer {
+  max-inline-size: 1312px;
+  margin-inline: 0;
+  display: grid;
+  justify-self: center;
+  grid-template-columns: 1fr; /* Mobile default - stack sections */
+  grid-template-rows: auto; /* Allow rows to grow based on content */
+  gap: var(--footer-row-gap) var(--footer-column-gap);
+  padding-block: var(--footer-padding-block);
+  background: var(--bg);
+
+  // Large Breakpoint and above
+  @media (min-width: #{bp.$lg}) {
+    /* We define 12 explicit columns.
+      Instead of assigning fractions to specific blocks on the parent,
+      we let the child sections explicitly state how many columns they want to span!
+    */
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    margin-inline: var(--footer-outer-gutter);
+
+    /* Assume all 5 sections are present by default, and assign columns based on that (3, 2, 2, 2, 3) */
+
+    /* By default, the link groups together take up 9 columns, leaving 3 for AOC - this can be overridden if one or more link sections are missing */
+    --link-group-colspan: 9;
+
+    /* Link group column spans */
+    --colspan-contact: 3;
+    --colspan-custom-links: 2;
+    --colspan-site-links: 2;
+    --colspan-social-links: 2;
+
+    /* AOC gets the remaining columns (3 by default) */
+    --colspan-aoc: 3;
+
+    // Missing either custom links or social links? Contact and AOC can grow to fill the gap (4, 2, 2, 4)
+    &:not(.has-custom-links),
+    &:not(.has-social-links) {
+      --link-group-colspan: 8; // If either column are missing, the link-group subgrid can reduce from 9 (default) to 8, and allow AOC to expand to 4 cols.
+      --colspan-contact: 4;
+      --colspan-aoc: 4;
+    }
+
+    // Missing both custom links and social links? Contact, Custom, and Site can grow to fill the gap
+    &:not(.has-social-links, .has-custom-links) {
+      --link-group-colspan: 6; // If both link sections are missing, the remaining link section can grow to fill the gap (e.g., 4.5)
+      --colspan-contact: 4;
+      --colspan-aoc: 6;
+    }
+
+    /* Assign spans sizes */
+    .section-contact {
+      grid-column: span var(--colspan-contact);
+    }
+
+    .section-custom-links {
+      grid-column: span var(--colspan-custom-links);
+    }
+
+    .section-site-links {
+      grid-column: span var(--colspan-site-links);
+    }
+
+    .section-social-links {
+      grid-column: span var(--colspan-social-links);
+    }
+
+    .section-aoc {
+      grid-column: span var(--colspan-aoc);
+    }
+  }
+
+  // Hides link columns if no links are provided - calculated within component classMap
+  .section-custom-links,
+  .section-site-links,
+  .section-social-links {
+    display: none;
+  }
+
+  // Show link columns based on presence of slotted links - calculated within component classMap
+  &.has-custom-links .section-custom-links,
+  &.has-site-links .section-site-links,
+  &.has-social-links .section-social-links {
+    display: flex;
+  }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / -1; /* Stack full width on XS, SM, and MD */
+  padding-block-end: var(--footer-padding-block);
+}
+
+.block {
+  grid-column: 1 / -1;
+  padding-inline: var(--footer-padding-inline);
+  padding-block-end: var(--footer-padding-block);
+  border-block-end: 2px solid var(--qgds-color-border-alt);
+
+  &:last-child {
+    border-block-end: none;
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    padding-inline: 0;
+    border-block-end: none;
+
+    &:first-child {
+      padding-block: var(--footer-padding-block);
+    }
+
+    &:last-child {
+      padding-block: 0 var(--footer-padding-block);
+    }
+  }
+
+  &.is-linkgroup {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack link groups by default */
+    gap: var(--footer-row-gap, 1.5rem) var(--footer-column-gap, 2rem);
+
+    > section {
+      border-block-end: 1px solid var(--qgds-color-border-alt);
+      border-inline-end: none;
+
+      &:last-child {
+        border-block-end: none;
+        padding-block-end: 0;
+      }
+    }
+
+    @media (min-width: #{bp.$lg}) {
+      grid-template-columns: repeat(
+        var(--link-group-colspan, 8),
+        1fr
+      ); /* 9 columns for link groups on desktop (3 + 2 + 2 + 2), or (4 + 2 + 2 ) */
+
+      grid-column: 1 / span var(--link-group-colspan, 8);
+
+      section {
+        border-block-end: none;
+        border-inline-end: 2px solid var(--qgds-color-border-alt);
+        padding-inline-end: 2rem;
+      }
+
+      section.section-contact {
+        border-inline-end: none;
+      }
+    }
+  }
+
+  &.is-aoc {
+    grid-column: 1 / -1;
+
+    @media (min-width: #{bp.$lg}) {
+      grid-column: span var(--colspan-aoc); /* AOC takes 4 columns on desktop by default, can grow to 4 or 6 based on presence of other sections */
+    }
+  }
+}
+
+.footer-site-name {
+  display: block;
+}
+
+/* Contact Section */
+.section-contact {
+  .contact-links-wrapper {
+    --qgds-icon-color: var(--qgds-color-accent-design-accent);
+
+    qgds-icon {
+      --qgds-icon-color: var(--qgds-color-accent-design-accent);
+    }
+  }
+
+  /* Wrapper for buttons in the contact column */
+  .contact-cta-wrapper {
+    margin-inline-start: 0;
+    margin-block-start: 2rem;
+  }
+
+  @media (min-width: #{bp.$md}) and (max-width: #{bp.$lg - 1}) {
+    flex-flow: row nowrap;
+    justify-content: space-between;
+
+    .contact-cta-wrapper {
+      margin-block-start: 0;
+      margin-inline-start: 2rem;
+    }
+  }
+
+  .contact-statement {
+    margin-block-end: 1rem;
+    padding: 0;
+    line-height: #{tools.snap-line-height(1.5)};
+  }
+
+  &:has(~ .section-custom-links) {
+    border-inline-end: none;
+  }
+}
+
+.footer-heading {
+  font-weight: 600;
+  font-size: 1.25rem; // 20px
+  line-height: #{tools.snap-line-height(1.2)}; // 24px
+  color: var(--fg);
+  margin-block-end: 1rem;
+  padding: 0;
+}
+
+// Link wrappers (role="list")
+// stylelint-disable-next-line
+.contact-links-wrapper,
+.main-link-wrapper,
+.custom-links-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
+}
+
+// stylelint-disable-next-line
+.section-site-links {
+  padding-block-end: calc(var(--footer-padding-block) + 0.5rem);
+}
+
+.custom-links-wrapper,
+.site-links-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  column-gap: 1.5rem;
+
+  @media (min-width: #{bp.$md}) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  ::slotted(qgds-link) {
+    --qgds-link-padding: 0;
+    --qgds-link-margin-inline-start: 0;
+    --qgds-link-max-width: 100%;
+    --qgds-link-width: 100%;
+
+    max-inline-size: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    white-space: normal;
+  }
+}
+
+// Social Links Section
+// stylelint-disable-next-line
+.section-social-links {
+  flex-direction: row;
+  gap: 1rem;
+
+  .footer-heading {
+    margin-block-end: 0;
+  }
+
+  @media (min-width: #{bp.$lg}) {
+    flex-direction: column;
+    gap: 0;
+
+    .footer-heading {
+      margin-block-end: 1rem;
+    }
+  }
+
+  nav.social-links-wrapper {
+    display: flex;
+    gap: 0.75rem;
+
+    ::slotted(qgds-link) {
+      --qgds-link-padding: 0;
+      --qgds-link-margin-inline-start: 0;
+      --qgds-link-justify-content: flex-start;
+      --qgds-link-max-width: 100%;
+      --qgds-link-label-display: none; // Hide link label by default
+
+      max-inline-size: 100%;
+    }
+
+    /* LG and above, adapt to column layout */
+    @media (min-width: #{bp.$lg}) {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      ::slotted(qgds-link) {
+        --qgds-link-label-display: inline-block; // Show link label on desktop for better accessibility (assumes icons + text)
+      }
+    }
+  }
+}
+
+// Acknowledgement of Country Section
+.section-aoc {
+  .aoc-content {
+    line-height: #{tools.snap-line-height(1.5)};
+
+    ::slotted(*) {
+      margin: 0;
+      padding: 0;
+      line-height: inherit;
+    }
+
+    ::slotted(p) {
+      margin-block-end: 1rem;
+    }
+
+    ::slotted(:last-child) {
+      margin-block-end: 0;
+    }
+  }
+}
+
+.footer-logo {
+  display: inline-block;
+  block-size: var(--footer-logo-height);
+  margin-block-start: 1.5rem;
+  margin-inline-end: auto;
+  color: var(--footer-text);
+
+  svg,
+  ::slotted(img),
+  ::slotted(svg),
+  ::slotted(qgds-logo) {
+    block-size: var(--footer-logo-height);
+    inline-size: auto;
+  }
+}
+
+.copyright {
+  margin-block-start: 1.5rem;
+  font-weight: 600;
+  line-height: #{tools.snap-line-height(1.5)};
+}
+
+.main-link-wrapper {
+  margin-block-start: 1.5rem;
+}
+
+.empty,
+.is-empty {
+  display: none;
+}
+
+// Ensure proper link spacing in all link slots
+::slotted(qgds-link[role="listitem"]) {
+  display: block;
+}
+
+/* When all sections are present, we can reduce the padding and gaps to help with spacing */
+@media (min-width: #{bp.$lg}) and (max-width: #{bp.$xl - 1}) {
+  .is-crowded {
+    // placeholder
+  }
+}

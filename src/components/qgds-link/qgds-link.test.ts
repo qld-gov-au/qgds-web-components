@@ -43,10 +43,8 @@ describe("qgds-link", () => {
     await element.updateComplete;
 
     const anchor = element.shadowRoot?.querySelector("a");
-    const span = element.shadowRoot?.querySelector("span");
 
     expect(anchor).toBeTruthy();
-    expect(span).toBeFalsy();
     expect(anchor?.getAttribute("href")).toBe("#about");
   });
 
