@@ -1,9 +1,10 @@
 :host {
   --qgds-link-item-padding-top: unset;
-  --qgds-link-padding:calc(1rem - 1px);
+  --qgds-link-padding: calc(1rem - 1px);
   --qgds-link-margin-inline-start: auto;
   --qgds-link-width: 100%;
   --qgds-link-font-weight: 600;
+  --qgds-link-border-radius-focus: 0px;
 
   display: block;
   break-inside: avoid;
