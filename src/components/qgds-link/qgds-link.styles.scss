@@ -65,6 +65,8 @@
 
 qgds-icon {
   margin-inline-start: var(--qgds-icon-margin-start);
+  transform: translateX(0) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
 }
 
 :host([is-disabled]) {

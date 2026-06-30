@@ -45,7 +45,9 @@
   --qgds-table-header-bg: var(--qgds-color-neutral-white, #ffffff);
 
   // navigation variables
-  --qgds-color-background-alt: #E3E7EA;
+  --qgds-color-background-alt: #e3e7ea;
+  --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
+  --qgds-block-style-subheading-bg: var(--qgds-color-neutral-lightest, #f5f5f5);
 }
 
 // ============================================
@@ -94,7 +96,9 @@
   --qgds-table-header-bg: var(--qgds-color-background-shade);
 
   // navigation variables
-  --qgds-color-background-alt: #E3E7EA;
+  --qgds-color-background-alt: #e3e7ea;
+  --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
+  --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 }
 
 // ============================================
@@ -143,8 +147,9 @@
   --qgds-table-header-bg: var(--qgds-color-background-shade);
 
   // navigation variables
-  --qgds-color-background-alt: #E3E7EA;
-
+  --qgds-color-background-alt: #e3e7ea;
+  --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
+  --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 }
 
 // ============================================
@@ -194,7 +199,9 @@
   --qgds-table-header-bg: var(--qgds-color-background-shade);
 
   // navigation variables
-  --qgds-color-background-alt: #001D74;
+  --qgds-color-background-alt: #001d74;
+  --qgds-banner-block-heading-bg: var(--qgds-color-darker-background, #003e96);
+  --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 }
 
 // ============================================
@@ -246,7 +253,9 @@
   --qgds-table-header-bg: var(--qgds-color-background-shade);
 
   // navigation variables
-  --qgds-color-background-alt: #001D74;
+  --qgds-color-background-alt: #001d74;
+  --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
+  --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 }
 
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES
@@ -296,4 +305,9 @@
   --qgds-color-status-success-lightest: #f7fbf8;
   --qgds-color-status-underline-dark: #03213fb8;
   --qgds-color-status-underline-light: #ffffffb8;
+
+  // Block Style Text
+  --qgds-color-dark-background: #005eb8;
+  --qgds-color-darker-background: #003e96;
+  --qgds-color-light-text: #353535;
 }

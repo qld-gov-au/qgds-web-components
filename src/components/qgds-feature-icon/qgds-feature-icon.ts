@@ -5,6 +5,7 @@ import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-feature-icon.styles.scss?inline";
 
 import "../qgds-icon/qgds-icon";
+import { IconName } from "../qgds-icon/icon-names";
 
 export type QGDSFeatureIconSize = "sm" | "lg";
 
@@ -23,7 +24,7 @@ export type QGDSFeatureIconSize = "sm" | "lg";
 @customElement("qgds-feature-icon")
 export class QGDSFeatureIcon extends LitElement {
   @property({ type: String, attribute: "icon-name" })
-  iconName?: string;
+  iconName?: IconName;
 
   @property({ type: String, attribute: "size", reflect: true })
   size: QGDSFeatureIconSize = "sm";

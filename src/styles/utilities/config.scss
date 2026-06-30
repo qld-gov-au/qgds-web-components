@@ -155,9 +155,34 @@ $utils: (
     class: "m",
     values: map.merge($_spacing, $_neg-spacing),
   ),
+  "margin-inline": (
+    property: margin-inline,
+    class: "mx",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
+  "margin-block": (
+    property: margin-inline,
+    class: "my",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
+  "margin-top": (
+    property: margin-block-start,
+    class: "mt",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
   "margin-bottom": (
     property: margin-block-end,
     class: "mb",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
+  "margin-left": (
+    property: margin-inline-start,
+    class: "ml",
+    values: map.merge($_spacing, $_neg-spacing),
+  ),
+  "margin-right": (
+    property: margin-inline-end,
+    class: "mr",
     values: map.merge($_spacing, $_neg-spacing),
   ),
 );

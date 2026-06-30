@@ -2,8 +2,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "stylelint.enable": true,
   "stylelint.validate": ["css", "scss"],
-  "css.validate": false,
-  "scss.validate": false,
   "somesass.css.codeAction.enabled": true,
   "somesass.css.colors.enabled": true,
   "somesass.css.completion.enabled": true,
@@ -43,5 +41,6 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "js/ts.tsdk.path": "./node_modules/typescript/lib"
+  "js/ts.tsdk.path": "./node_modules/typescript/lib",
+  "somesass.scss.completion.suggestFromUseOnly": true
 }

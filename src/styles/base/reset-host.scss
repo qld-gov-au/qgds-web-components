@@ -11,6 +11,7 @@ Ensure components don't leak styles
 @use "../../styles/qgds-tokens/qgds-color-stub";
 
 :host {
+  display: inline-block;
   box-sizing: border-box;
   isolation: isolate;
   margin: 0;

@@ -31,6 +31,7 @@ import "./qgds-checkbox/qgds-checkbox";
 import "./qgds-checkbox-group/qgds-checkbox-group";
 import "./qgds-radio/qgds-radio";
 import "./qgds-radio-group/qgds-radio-group";
+import "./qgds-file-upload/qgds-file-upload";
 
 // ── Meta ───────────────────────────────────────────────────────────────────
 
@@ -219,29 +220,44 @@ export const FullForm: Story = {
         </qgds-radio-group>
       </fieldset>
 
+      <fieldset style=${fieldsetStyle}>
+        <legend style=${legendStyle}>File Upload</legend>
+        <qgds-file-upload
+          id="file"
+          name="file"
+          label="File"
+          indicate-if="required"
+          required
+          @qgds-change=${action("file-upload:qgds-change")}
+          multiple
+        ></qgds-file-upload>
+      </fieldset>
+
       <div style=${buttonRowStyle}>
-        <button type="submit" style=${buttonStyle} fromnovalidate>Submit</button>
+        <button type="submit" style=${buttonStyle} formnovalidate>Submit</button>
         <button type="reset" style=${resetButtonStyle}>Reset</button>
       </div>
     </form>
   `,
 };
 
-// ── Story: Validation States ───────────────────────────────────────────────
+// ── Story: Custom Validation States ───────────────────────────────────────────────
 
 /**
- * Simulates a form submission where the server alone is responsible for validation.
- * Basic HTML5 validation should prevent the form submission, for example a required field is empty.
- * When a form is submitted, the page is refreshed and rerendered with valid and invalid states, including validation messages.
- * Server validation is required for any form submission and should not be left to the client.
+ * Custom validation is highly recommended.
+ * Display QGDS validation states rather than built-in default HTML validation by adding novalidate attribute
+ * and attaching a submit event listener to the form.
+ * Update `validation-state`, `validation-message` and `aria-invalid` attributes for each component based on validation logic.
+ * This method may also be used in combination with server side validation, by awaiting the submission response.
+ * Server validation should be mandatory for any form submission and should not be left to the client.
  * It can also validate against complex data rules which the client may not have access to.
  */
-export const ServerValidationOnly: Story = {
-  name: "Validation — server-side",
+export const CustomValidation: Story = {
+  name: "Custom Validation",
   render: (args) => html`
-    <form style=${sectionStyle} @submit=${handleServerSideValidationSubmit}>
+    <form style=${sectionStyle} @submit=${handleServerSideValidationSubmit} novalidate>
       <fieldset style=${fieldsetStyle}>
-        <legend style=${legendStyle}>Server validation (simulated)</legend>
+        <legend style=${legendStyle}>Custom validation</legend>
 
         <qgds-text-input
           id="ServerValidationOnly_name"
@@ -295,6 +311,16 @@ export const ServerValidationOnly: Story = {
           <qgds-radio value="low" label="Low"></qgds-radio>
           <qgds-radio value="high" label="High"></qgds-radio>
         </qgds-radio-group>
+
+        <qgds-file-upload
+          id="file"
+          name="file"
+          label="File"
+          indicate-if="required"
+          required
+          @qgds-change=${action("file-upload:qgds-change")}
+          multiple
+        ></qgds-file-upload>
       </fieldset>
 
       <div style=${buttonRowStyle}>
@@ -343,6 +369,17 @@ export const DisabledState: Story = {
           <qgds-radio value="medium" label="Medium" checked></qgds-radio>
           <qgds-radio value="high" label="High"></qgds-radio>
         </qgds-radio-group>
+
+        <qgds-file-upload
+          id="file"
+          name="file"
+          label="File"
+          indicate-if="required"
+          required
+          @qgds-change=${action("file-upload:qgds-change")}
+          multiple
+          disabled
+        ></qgds-file-upload>
       </fieldset>
 
       <!-- Via fieldset[disabled] — triggers formDisabledCallback -->
@@ -363,37 +400,6 @@ export const DisabledState: Story = {
           </qgds-select>
         </fieldset>
       </form>
-    </div>
-  `,
-};
-
-// ── Story: Read-only State ─────────────────────────────────────────────────
-
-/**
- * Exercises the readOnly property on text-input.
- */
-export const ReadOnlyState: Story = {
-  name: "Read-only",
-  render: () => html`
-    <div style=${sectionStyle}>
-      <qgds-text-input
-        id="name-readonly"
-        name="name-readonly"
-        label="Full name"
-        value="Jane Smith"
-        hint="This field cannot be edited"
-        readonly
-      ></qgds-text-input>
-
-      <qgds-text-input
-        id="email-readonly"
-        name="email-readonly"
-        label="Email address"
-        value="jane@example.com"
-        type="email"
-        hint="Contact support to change your email"
-        readonly
-      ></qgds-text-input>
     </div>
   `,
 };
@@ -454,54 +460,21 @@ export const AutoValidation: Story = {
         <qgds-checkbox value="high" label="High"></qgds-checkbox>
       </qgds-checkbox-group>
 
+      <qgds-file-upload
+        id="file"
+        name="file"
+        label="File"
+        indicate-if="required"
+        required
+        @qgds-change=${action("file-upload:qgds-change")}
+        multiple
+        native-validate
+      ></qgds-file-upload>
+
       <div style=${buttonRowStyle}>
         <button type="submit" style=${buttonStyle}>Validate &amp; Submit</button>
         <button type="reset" style=${resetButtonStyle}>Reset</button>
       </div>
     </form>
-  `,
-};
-
-// ── Story: Variants (filled / outlined) ───────────────────────────────────
-
-/**
- * Compares filled vs outlined (default) variants side-by-side.
- */
-export const Variants: Story = {
-  name: "Variants — Filled vs Outlined",
-  render: () => html`
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:700px;font-family:sans-serif;">
-      <div>
-        <p style="font-weight:600;margin:0 0 0.75rem;font-size:0.875rem;">Outlined (default)</p>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <qgds-text-input
-            id="outlined-name"
-            name="outlined-name"
-            label="Full name"
-            placeholder="Jane Smith"
-          ></qgds-text-input>
-          <qgds-select id="outlined-pet" name="outlined-pet" label="Favourite pet">
-            <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-            <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-          </qgds-select>
-        </div>
-      </div>
-      <div>
-        <p style="font-weight:600;margin:0 0 0.75rem;font-size:0.875rem;">Filled</p>
-        <div style="display:flex;flex-direction:column;gap:1rem;">
-          <qgds-text-input
-            id="filled-name"
-            name="filled-name"
-            label="Full name"
-            placeholder="Jane Smith"
-            variant="filled"
-          ></qgds-text-input>
-          <qgds-select id="filled-pet" name="filled-pet" label="Favourite pet" filled>
-            <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-            <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-          </qgds-select>
-        </div>
-      </div>
-    </div>
   `,
 };

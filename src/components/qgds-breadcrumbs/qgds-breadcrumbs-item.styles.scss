@@ -3,7 +3,7 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint";
 
 :host {
-  --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+  --breadcrumbs-item-padding-inline-start: 0;
   --breadcrumbs-item-padding-inline-end: 0;
   --breadcrumbs-item-padding-block-start: #{f.remify(5px)};
   --breadcrumbs-item-padding-block-end: #{f.remify(5px)};
@@ -28,6 +28,8 @@
   padding-inline: var(--breadcrumbs-item-padding-inline-start) var(--breadcrumbs-item-padding-inline-end);
 
   @media (min-width: qgds-breakpoint.$lg) {
+    --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+
     font-size: 1rem;
     display: inline-flex;
   }
@@ -132,7 +134,9 @@
     white-space: nowrap;
     overflow: hidden;
     min-inline-size: 0; // Allow long link text to shrink instead of pushing chevron icon (sibling item) out of the view
-    padding-block-end: f.remify(2px);   // Allow extra space for focus and hover states. Browsers crop out the focus outline and thicker underline on hover state due to overflow hidden
+    padding-block-end: f.remify(
+      2px
+    ); // Allow extra space for focus and hover states. Browsers crop out the focus outline and thicker underline on hover state due to overflow hidden
 
     @media (min-width: qgds-breakpoint.$lg) {
       overflow: clip;
@@ -147,7 +151,7 @@
 // This is all the chevron icons except the one beside the dropdown button
 .chevron-icon {
   color: var(--qgds-color-action-secondary, #307edb);
-  margin-block-start: f.remify(2px);   // to push the icon slightly lower than text - per figma
+  margin-block-start: f.remify(2px); // to push the icon slightly lower than text - per figma
   align-self: center;
   transform: rotate(180deg);
 
