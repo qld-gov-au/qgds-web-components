@@ -23,7 +23,7 @@ setStorybookHelpersConfig({
 
 const preview: Preview = {
   parameters: {
-    tags: ["autodocs"],
+    // tags: ["autodocs"],
     controls: {
       expanded: true,
       matchers: {

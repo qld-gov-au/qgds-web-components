@@ -32,7 +32,7 @@ $_grid-padding-lg: f.remify(32px);
 
 .qgds-cols {
   --qgds-cols-count: 4;
-  --qgds-col-min: f.remify(80px);
+  --qgds-col-min: #{f.remify(80px)};
   --qgds-grid-gutter: #{$_grid-gutter-xs};
   --qgds-grid-gutter-x: var(--qgds-grid-gutter);
   --qgds-grid-gutter-y: var(--qgds-grid-gutter);
@@ -55,16 +55,16 @@ $_grid-padding-lg: f.remify(32px);
 
   // .qgds-cols-{1-12}
   @for $i from 1 through 12 {
-    &-#{i} {
+    &-#{$i} {
       --qgds-cols-count: #{$i};
     }
   }
 
   // .qgds-cols-{1-12}:{sm|md|lg|xl|xxl}
-  @each $key, $value in meta.module-functions("qgds-breakpoint") {
+  @each $key, $value in meta.module-variables("qgds-breakpoint") {
     @include m.from($value) {
       @for $i from 1 through 12 {
-        &-#{i}\:#{$key} {
+        &-#{$i}\:#{$key} {
           --qgds-cols-count: #{$i};
         }
       }
@@ -88,16 +88,16 @@ $_grid-padding-lg: f.remify(32px);
 .qgds-span {
   // .qgds-span-{1-12}
   @for $i from 1 through 12 {
-    &-#{i} {
+    &-#{$i} {
       --qgds-span-count: #{$i};
     }
   }
 
   // .qgds-span-{1-12}:{sm|md|lg|xl|xxl}
-  @each $key, $value in meta.module-functions("qgds-breakpoint") {
+  @each $key, $value in meta.module-variables("qgds-breakpoint") {
     @include m.from($value) {
       @for $i from 1 through 12 {
-        &-#{i}\:#{$key} {
+        &-#{$i}\:#{$key} {
           --qgds-span-count: #{$i};
         }
       }

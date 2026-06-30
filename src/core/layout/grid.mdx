@@ -12,27 +12,25 @@ import {
 
 import * as GridStories from "./grid.stories";
 
-<Meta of={GridStories} />
-<Title />
+<Meta title="Core Styles/Layout/Grid" />
+<Title of={GridStories} />
 
 <Primary of={GridStories} />
 
-<Canvas of={GridStories.Primary} withToolbar={true} sourceState="shown" />
-{/* <TagName /> */}
-{/* <Description /> */}
-{/* <Links /> */}
-
-A Container element is a fundamental layout element.
-Add class `qgds-container` to centre content horizontally and provide consistent padding for smaller screens.
+<Canvas of={GridStories.Default} withToolbar={true} sourceState="shown" />
 
 ## API Reference
 
 <Markdown>
   {`
 
-| CSS Class          |     |
-| ------------------ | --- |
-| \`qgds-container\` |     |
+| CSS Class               | Description                                                                                                                                                         | Responsive? |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| \`qgds-cols\`           | Base class to apply grid system. Required in addition to any additional modifiers. Defaults to 4 columns on small screens, 6 on medium (>700px) and 12 on lg (>992) | n/a         |
+| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                                                             | yes         |
+| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
+| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
+| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                                                                | yes         |
 
 `}
 

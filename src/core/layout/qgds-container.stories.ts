@@ -4,8 +4,13 @@ import { html } from "lit";
 const meta: Meta = {
   title: "Core styles/Layout/Container",
   component: "qgds-container",
-  render: () => {
-    return html`<div class="qgds-container">This is the container content.</div>`;
+  args: {
+    "Has no padding": false,
+  },
+  render: (args) => {
+    return html`<div class="qgds-container${args["Has no padding"] ? " has-no-padding" : ""}">
+      This is the container content.
+    </div>`;
   },
 };
 
