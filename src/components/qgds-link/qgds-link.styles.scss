@@ -17,7 +17,7 @@
   --qgds-link-border-end-style: unset;
   --qgds-link-padding-inline-start: unset;
   --qgds-icon-margin-start: unset;
-  --qgds-border-radius: 0px;
+  --qgds-link-border-radius-focus: unset;
 
   inline-size: var(--qgds-link-width, max-content);
   display: inline-block;
@@ -57,7 +57,7 @@
   &:focus {
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
     outline-offset: 2px;
-    border-radius: var(--qgds-border-radius);
+    border-radius: var(--qgds-link-border-radius-focus, var(--qgds-border-radius));
   }
 
   .link-label {
