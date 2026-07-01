@@ -7,6 +7,7 @@
   --qgds-link-icon-weight: unset;
   --qgds-link-width: unset;
   --qgds-link-justify-content: unset;
+  --qgds-link-align-items: inherit;
   --qgds-link-background-colour: unset;
   --qgds-link-label-display: inherit;
   --qgds-icon-svg: unset;
@@ -33,7 +34,7 @@
 
   display: flex;
   flex-direction: var(--qgds-link-flex-direction, row);
-  align-items: center;
+  align-items: var(--qgds-link-align-items, center);
   justify-content: var(--qgds-link-justify-content);
   gap: 0.5rem;
   color: var(--qgds-color-link-default);
