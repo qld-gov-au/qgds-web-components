@@ -6,13 +6,15 @@ import "../qgds-link-item/qgds-link-item";
 import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
 import "../qgds-link-column/qgds-link-column";
 import { classMap } from "lit/directives/class-map.js";
+import { BreakpointController } from "../../utils";
+import qgdsBreakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
 
 export type NavigationVariant = "default" | "dark";
 export type NavigationOrientation = "horizontal" | "vertical";
 
 /**
  * QGDS Navigation – Horizontal navigation bar.
- * Accepts `<qgds-link-item>` elements as slotted children.
+ * Accepts `<qgds-link-item>` elements as children.
  *
  * @tagname qgds-navigation
  *
@@ -55,6 +57,12 @@ export class QGDSNavigation extends LitElement {
 
   /** Accessible label applied to the `<nav>` landmark. */
   // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
+
+  // private
+  private _breakpoint = new BreakpointController(this);
+  private get _isMobile() {
+    return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
+  }
 
   protected updated(changed: Map<string, unknown>): void {
     if (changed.has("orientation") || changed.has("columnsLayout") || changed.has("columns")) {
