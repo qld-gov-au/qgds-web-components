@@ -7,6 +7,7 @@
   --qgds-link-icon-weight: unset;
   --qgds-link-width: unset;
   --qgds-link-justify-content: unset;
+  --qgds-link-align-items: inherit;
   --qgds-link-background-colour: unset;
   --qgds-link-label-display: inherit;
   --qgds-icon-svg: unset;
@@ -17,6 +18,7 @@
   --qgds-link-border-end-style: unset;
   --qgds-link-padding-inline-start: unset;
   --qgds-icon-margin-start: unset;
+  --qgds-link-border-radius-focus: unset;
 
   inline-size: var(--qgds-link-width, max-content);
   display: inline-block;
@@ -32,14 +34,14 @@
 
   display: flex;
   flex-direction: var(--qgds-link-flex-direction, row);
-  align-items: center;
+  align-items: var(--qgds-link-align-items, center);
   justify-content: var(--qgds-link-justify-content);
   gap: 0.5rem;
   color: var(--qgds-color-link-default);
   text-decoration: var(--qgds-link-decoration);
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
-  padding-block: 0 var(--qgds-link-padding);
+  padding-block: var(--qgds-link-padding);
   margin-inline-start: var(--qgds-link-margin-inline-start);
   font-size: var(--qgds-link-font-size, inherit);
   font-weight: var(--qgds-link-font-weight, inherit);
@@ -52,10 +54,11 @@
     text-decoration-thickness: 2px;
   }
 
-  &:focus-visible {
+  &:focus-visible,
+  &:focus {
     outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
     outline-offset: 2px;
-    border-radius: var(--qgds-border-radius);
+    border-radius: var(--qgds-link-border-radius-focus, var(--qgds-border-radius));
   }
 
   .link-label {
@@ -67,6 +70,8 @@
 
 qgds-icon {
   margin-inline-start: var(--qgds-icon-margin-start);
+  transform: translateX(0) scaleX(var(--icon-direction));
+  transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
 }
 
 :host([is-disabled]) {
@@ -81,6 +86,10 @@ qgds-icon {
   .link-container {
     flex-direction: var(--qgds-link-flex-direction, row-reverse);
     justify-content: flex-end;
+
+    qgds-icon {
+      margin-inline-end: 8px;
+    }
   }
 }
 
@@ -99,7 +108,7 @@ qgds-icon {
 :host([has-trailing-icon][stretch]) {
   .link-container {
     qgds-icon {
-      margin-inline: var(--icon-spacing, auto) 0;
+      margin-inline: var(--icon-spacing, auto) 8px;
     }
   }
 }

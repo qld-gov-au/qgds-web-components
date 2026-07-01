@@ -43,6 +43,8 @@ export const EventNames = [
   "search",
   "play",
   "suggestion-select",
+  "toggle-search-mobile",
+  "toggle-nav-menu",
 ] as const;
 
 export type QgdsControlledEventName = (typeof EventNames)[number];

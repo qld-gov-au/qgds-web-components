@@ -42,7 +42,6 @@ export const withEventActions =
     let eventNames = (context.parameters?.eventAction?.name as string | string[] | undefined) ?? defaultEventNames;
     eventNames = Array.isArray(eventNames) ? eventNames : [eventNames];
     const canvas = context.canvasElement as CanvasWithListener;
-    console.log(canvas);
 
     const previous = canvas[ACTION_LISTENERS];
     if (previous) {

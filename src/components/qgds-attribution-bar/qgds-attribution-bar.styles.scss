@@ -5,14 +5,19 @@
 }
 
 .attribution-bar {
-  display: flex;
-  justify-content: space-between;
-  max-inline-size: tools.remify(1312px);
+  max-inline-size: 100%;
   margin-inline: auto;
-  padding-block: tools.remify(6px);
-  padding-inline: tools.remify(48px);
   background-color: var(--qgds-color-background);
   box-shadow: var(--qgds-elevation-2);
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    max-inline-size: tools.remify(1312px);
+    margin-inline: auto;
+    padding-block: tools.remify(6px);
+    padding-inline: tools.remify(48px);
+  }
 
   ::slotted(*) {
     line-height: tools.remify(24px);

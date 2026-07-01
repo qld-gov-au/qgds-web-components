@@ -53,8 +53,24 @@ describe("qgds-global-alert", () => {
       element.variant = variant as QGDSGlobalAlert["variant"];
       await element.updateComplete;
 
-      const region = element.shadowRoot?.querySelector("[role='region']");
-      expect(region?.getAttribute("aria-label")).toBe(label);
+      const alert = element.shadowRoot?.querySelector(".global-alert");
+      expect(alert?.getAttribute("aria-label")).toBe(label);
+    }
+  });
+
+  it("renders the correct aria-role for each variant", async () => {
+    const expected = {
+      critical: "alert",
+      warning: "status",
+      general: "status",
+    };
+
+    for (const [variant, role] of Object.entries(expected)) {
+      element.variant = variant as QGDSGlobalAlert["variant"];
+      await element.updateComplete;
+
+      const alert = element.shadowRoot?.querySelector(".global-alert");
+      expect(alert?.getAttribute("role")).toBe(role);
     }
   });
 
@@ -62,15 +78,15 @@ describe("qgds-global-alert", () => {
     element.heading = "Site notice";
     await element.updateComplete;
 
-    const heading = element.shadowRoot?.querySelector("p.heading");
-    expect(heading?.textContent?.trim()).toBe("Site notice");
+    const heading = element.shadowRoot?.querySelector(".heading");
+    expect(heading?.textContent?.trim()).toBe("Site notice:");
   });
 
   it("does not render visible heading text when heading is not set", async () => {
     await element.updateComplete;
 
-    const heading = element.shadowRoot?.querySelector("p.heading");
-    expect(heading?.textContent?.trim()).toBe("");
+    const heading = element.shadowRoot?.querySelector(".heading");
+    expect(heading).toBeNull();
   });
 
   it("renders slotted message content", async () => {
@@ -87,7 +103,7 @@ describe("qgds-global-alert", () => {
     element.actionHref = "https://example.com";
     await element.updateComplete;
 
-    const action = element.shadowRoot?.querySelector("qgds-link");
+    const action = element.shadowRoot?.querySelector("qgds-call-to-action");
     expect(action).not.toBeNull();
     expect(action?.getAttribute("href")).toBe("https://example.com");
     expect(action?.getAttribute("label")).toBe("Learn more");
@@ -106,7 +122,7 @@ describe("qgds-global-alert", () => {
     element.isDismissible = true;
     await element.updateComplete;
 
-    const button = element.shadowRoot?.querySelector(".close button");
+    const button = element.shadowRoot?.querySelector("button.close");
     expect(button).not.toBeNull();
     expect(button?.getAttribute("aria-label")).toBe("Close alert");
   });
@@ -115,7 +131,7 @@ describe("qgds-global-alert", () => {
     element.isDismissible = false;
     await element.updateComplete;
 
-    const button = element.shadowRoot?.querySelector(".close button");
+    const button = element.shadowRoot?.querySelector("button.close");
     expect(button).toBeNull();
   });
 
@@ -126,7 +142,7 @@ describe("qgds-global-alert", () => {
     const dismissHandler = vi.fn();
     element.addEventListener("qgds-global-alert-dismiss", dismissHandler);
 
-    const button = element.shadowRoot?.querySelector<HTMLButtonElement>(".close button");
+    const button = element.shadowRoot?.querySelector<HTMLButtonElement>("button.close");
     button?.click();
     await element.updateComplete;
 
@@ -143,7 +159,7 @@ describe("qgds-global-alert", () => {
       e.preventDefault();
     });
 
-    const button = element.shadowRoot?.querySelector<HTMLButtonElement>(".close button");
+    const button = element.shadowRoot?.querySelector<HTMLButtonElement>("button");
     button?.click();
     await element.updateComplete;
 

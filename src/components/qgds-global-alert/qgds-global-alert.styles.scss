@@ -1,4 +1,5 @@
 @use "../../styles/qgds-tokens/qgds-color-stub";
+@use "../../styles/qgds-tokens/qgds-breakpoint";
 @use "../../styles/tools";
 
 // Public API: CSS custom properties that can be overridden from light DOM
@@ -7,127 +8,181 @@
   --bg: initial;
   --icon-fg: initial;
   --text-fg: initial;
+  --border: initial;
+  --border-width: initial;
+
+  // Internal API
+  --_bg: var(--bg);
+  --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
+  --_border: var(--border);
+  --_border-width: var(--border-width, 1px);
+  --_icon-bg: rgb(0 0 0 / 0.1);
 
   display: block;
   min-block-size: 3.56rem;
+  background-color: var(--_bg);
+  color: var(--_text-fg);
+  border-block-start: var(--_border-width) solid var(--_border);
+}
+
+// Variant colours
+:host([variant="critical"]) {
+  --_bg: var(--bg, var(--qgds-color-status-error-default));
+  --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
+  --_border: var(--border, var(--qgds-color-status-error-darker));  // should --border used here
+  --_icon-focus-border-colour: var(--qgds-color-neutral-white);
+}
+
+:host([variant="warning"]) {
+  --_bg: var(--bg, var(--qgds-color-status-caution-default));
+  --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
+  --_border:var(--qgds-color-status-caution-darker);
+  --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
+}
+
+:host([variant="general"]) {
+  --_bg: var(--bg, var(--qgds-color-status-info-lighter));
+  --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
+  --_border: var(--qgds-color-status-info-darker);
+  --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
 }
 
 :host(:first-of-type) {
-  --qgds-global-alert-border-width: 0;
-  --qgds-global-alert-border-color: transparent;
+  --_border-width: 0;
+  --_border: transparent;
 }
 
 .global-alert {
-  --_bg: initial;
-  --qgds-global-alert-border-color: initial;
-  --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
-  --_icon-bg: rgb(0 0 0 / 0.1);
+  font-size: tools.remify(14px);
+  line-height: tools.remify(20px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  min-inline-size: fit-content;
+  max-inline-size: tools.remify(1312px);
+  margin-inline: auto;
+  padding-block: tools.remify(12px);
+  padding-inline: tools.remify(16px);
+  gap: tools.remify(8px) tools.remify(12px);
+
   --qgds-icon-svg: initial;
- 
-  // Variant colours
-  &.is-critical {
-    --_bg: var(--bg, var(--qgds-color-status-error-default));
-    --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
-    --_icon-focus-border-colour: var(--qgds-color-neutral-white);
-    --qgds-global-alert-border-color: var(--qgds-color-status-error-darker);
-  }
 
-  &.is-warning {
-    --_bg: var(--bg, var(--qgds-color-status-caution-default));
-    --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
-    --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
-    --qgds-global-alert-border-color:var(--qgds-color-status-caution-darker);
-    
+  @media (min-width: qgds-breakpoint.$md) {
+    padding-block: tools.remify(16px);
+    padding-inline: tools.remify(32px);
+    column-gap: tools.remify(12px);
   }
-
-  &.is-general {
-    --_bg: var(--bg, var(--qgds-color-status-info-lighter));
-    --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
-    --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
-    --qgds-global-alert-border-color: var(--qgds-color-status-info-darker);
+  @media (min-width: qgds-breakpoint.$lg) {
+    padding-block: tools.remify(8px);
+    padding-inline: tools.remify(64px);
+    column-gap: tools.remify(16px);
   }
-
-  border-block-start: var(--qgds-global-alert-border-width, 1px) solid var(--qgds-global-alert-border-color);
-  background-color: var(--_bg);
-  color: var(--_text-fg);
 }
 
 ::slotted(*) {
     display: block;
+    margin: 0;
 }
 
-.main {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding-block: 0.5rem;
-  padding-inline: 0.5rem;
-  max-inline-size: 81rem;
-  margin-inline: auto;
-}
+qgds-icon.global-alert-icon {
+  padding-block: 0;
 
-.heading {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  @media (min-width: qgds-breakpoint.$lg) {
+    padding-block: tools.remify(10px);
+  }
 }
 
 .content {
-  flex: 1 1 auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
-  padding-block: 0.75rem;
+  align-items: flex-start;
+  min-inline-size: 0;
+  gap: tools.remify(8px);
+  padding-block: 0;
+
+  @media (min-width: qgds-breakpoint.$md) {
+    flex-wrap: nowrap;
+    gap: tools.remify(12px);
+  }
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    gap: tools.remify(16px);
+    padding-block: tools.remify(10px);
+  }
 }
 
 .message {
   flex: 1 1 auto;
-  font-size: 1rem;
-  line-height: 1.5;
+  min-inline-size: 0;
+  max-inline-size: fit-content;
 }
 
-qgds-link {
+.heading {
+  font-weight: 700;
+}
+
+qgds-call-to-action {
   --qgds-color-link-default: var(--_text-fg);
   --qgds-color-underline-default: var(--_text-fg);
   --qgds-color-link-hover: var(--_text-fg);
   --qgds-color-focus-default: var(--_icon-focus-border-colour);
+  --qgds-link-font-size: tools.remify(14px);
+  --qgds-link-font-weight: 600;
+  --qgds-link-align-items: flex-start;
+  
+  flex: 0 1 auto;
+  white-space: normal;
+
+  @media (min-width: qgds-breakpoint.$md) {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    align-self: flex-start;
+  }
 }
 
-.close {
-    display: flex;
-    flex: 0 0 auto;
-    inline-size: 3rem;
-    block-size: 3rem;
-    justify-content: center;
-    align-items: center;
+button.close {
+  --qgds-color-focus-default: var(--_icon-focus-border-colour);
+  --qgds-icon-size: 1.25rem;
 
-  button {
-    --qgds-color-focus-default: var(--_icon-focus-border-colour);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--_icon-bg);
-    border: none;
-    cursor: pointer;
-    color: inherit;
-    padding: 0;
-    inline-size: 2.5rem;
-    aspect-ratio: 1 / 1;
-    border-radius: 100%;
-
-    &:hover {
-        --qgds-icon-size: 2rem;
-
-        inline-size: 3rem;
-    }
-
-    @include tools.focusable()
-
+  background: var(--_icon-bg);
+  cursor: pointer;
+  color: inherit;
+  border-radius: 100%;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  inline-size: tools.remify(32px);
+  block-size: tools.remify(32px);
+  aspect-ratio: 1 / 1;
+  margin-inline-start: tools.remify(4px); // 12px grid gap + 4px = 16px total on mobile
+  
+  @include tools.focusable();
+  
+  &:hover, &:focus {
+    transform: scale(1.25);
   }
 
+  &:focus {
+    outline-offset: 0;
+  }
+
+  @media (min-width: qgds-breakpoint.$md) {
+    margin-inline-start: tools.remify(36px); // 12px grid gap + 36px = 48px min total
+  }
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    --qgds-icon-size: 1.5rem;
+
+    margin-block-start: tools.remify(2px);
+    margin-inline-start: tools.remify(32px); // 16px grid gap + 32px = 48px min total
+    inline-size: tools.remify(40px);
+    block-size: tools.remify(40px);
+
+    &:hover, &:focus {
+      transform: scale(1.2);
+    }
+  }
 }
+

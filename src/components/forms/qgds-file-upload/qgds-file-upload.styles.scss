@@ -1,11 +1,47 @@
 @use "../../../styles/tools";
 @use "../../../styles/qgds-tokens/qgds-color-stub";
+@use "../../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
   display: block;
 }
 
 .file-upload {
+  --dropzone-bg: var(--qgds-color-background, #ffffff);
+  --dropzone-border: var(--qgds-color-border-alt, #848484);
+
+  display: flex;
+  flex-direction: column;
+  row-gap: tools.remify(20px);
+  margin-block-start: tools.remify(16px);
+
+  &-dropzone {
+    display: block;
+    text-align: center;
+    background-color: var(--dropzone-bg);
+    padding: tools.remify(24px);
+    border: 2px dashed var(--dropzone-border);
+    border-radius: 4px;
+
+    @media (width >= #{bp.$lg} ) {
+      padding: tools.remify(32px);
+    }
+
+    &.is-dragover {
+      --dropzone-bg: var(--qgds-color-background-shade, #f5f5f5);
+      --dropzone-border: var(--qgds-color-action-primary-hover, #003e96);
+
+      // prevent drag leave firing on hover children.
+      & * {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &-input {
+    @include tools.visually-hidden();
+  }
+
   &-list {
     list-style: none;
     padding: 0;
@@ -14,14 +50,58 @@
     flex-direction: column;
     gap: tools.remify(20px);
   }
+
+  &.is-error {
+    --dropzone-bg: var(--qgds-color-status-error-lightest, #fff6f6);
+    --dropzone-border: var(--qgds-color-status-error-default, #e22339);
+
+    qgds-feature-icon {
+      --bg: var(--qgds-color-status-error-lighter, #fdf0f0);
+      --fg: var(--qgds-color-status-error-default, #e22339);
+    }
+  }
+
+  &.is-disabled {
+    qgds-feature-icon {
+      --fg: var(--qgds-color-text-lighter, #636363);
+    }
+
+    [class^="qgds-display-"] {
+      color: var(--qgds-color-text-lighter, #636363);
+    }
+  }
 }
 
+// Used in qgds-file-upload-item
 .file-status {
+  $gap: tools.remify(16px);
+
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
 
   @include tools.border-padding($border-width: 2px, $padding: tools.remify(24px));
 
   border-radius: tools.remify(4px);
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: $gap;
+
+  &-main {
+    flex: none;
+    inline-size: 100%;
+    display: flex;
+    column-gap: $gap;
+  }
+
+  @media (min-width: #{bp.$lg} ) {
+    flex-wrap: nowrap;
+    align-items: center;
+
+    &-main {
+      flex: 1;
+      align-items: center;
+      inline-size: auto;
+    }
+  }
 
   &.is-loading {
     background-color: var(--qgds-color-background, #ffffff);

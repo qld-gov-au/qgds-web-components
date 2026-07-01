@@ -3,6 +3,7 @@
 @use "../qgds-tokens/" as *;
 @use "../icons/icons.list" as icons;
 @use "../tools/functions" as f;
+@use "../../styles/qgds-tokens/qgds-breakpoint";
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -30,8 +31,21 @@
   --qgds-line-height-heading: 1.25;
   --qgds-line-height-none: 1;
 
+  // grid related
+  --qgds-grid-gutter: 1rem;
+  --qgds-grid-padding: 1rem;
+
   @each $name, $svg in icons.$icon-names {
     --qgds-icon-#{$name}: url("#{f.svg-encode($svg)}");
+  }
+
+  @media (min-width: qgds-breakpoint.$md) {
+    --qgds-grid-gutter: 1.5rem;
+    --qgds-grid-padding: 2rem;
+  }
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    --qgds-grid-gutter: 2rem;
   }
 }
 
