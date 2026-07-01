@@ -38,7 +38,7 @@ const meta: Meta<Args> = {
     "action-label": "Learn more",
     "action-href": "#",
     "is-dismissible": true,
-    "default-slot": "<p>This website is currently undergoing testing</p>",
+    "default-slot": "This website is currently undergoing testing",
   },
   argTypes,
   render: storyRender,
@@ -51,7 +51,7 @@ export const Warning: Story = {
     ...meta.args,
     variant: "warning",
     heading: "Site notice",
-    "default-slot": "<p>This website is currently undergoing testing</p>",
+    "default-slot": "This website is currently undergoing testing",
     "is-dismissible": false,
   },
   parameters: {
@@ -64,7 +64,7 @@ export const Critical: Story = {
     ...meta.args,
     variant: "critical",
     heading: "Health alert",
-    "default-slot": "<p>Disease outbreak reported in your area</p>",
+    "default-slot": "Disease outbreak reported in your area",
   },
   parameters: {
     ...chromaticModes,
@@ -76,7 +76,7 @@ export const General: Story = {
     ...meta.args,
     variant: "general",
     heading: "Update",
-    "default-slot": "<p>New features are now available</p>",
+    "default-slot": "Lorem ipsum dolor sit, consectetur adipiscing elit. Urna ipsums aliquet senectus urna cras.",
   },
   parameters: {
     ...chromaticModes,
@@ -122,7 +122,15 @@ export const AllVariants: Story = {
   parameters: {
     ...chromaticModes,
   },
-  decorators: [(story) => html`<div style="display:flex;flex-direction:column;">${story()}</div>`],
+  decorators: [(story) => html`
+    <style>
+      #root-inner>div {
+        padding: 0px !important;  /* Remove default Storybook padding, to show the Alerts in full-width container */
+      }
+    </style>
+    <div style="display:flex;flex-direction:column;">${story()}</div>
+    `
+  ],
   render: (arg) => html`
     <qgds-global-alert
       variant="critical"
@@ -131,7 +139,7 @@ export const AllVariants: Story = {
       action-href="#"
       ?is-dismissible="${arg["is-dismissible"]}"
     >
-      <p>Disease outbreak reported in your area</p>
+      Disease outbreak reported in your area
     </qgds-global-alert>
 
     <qgds-global-alert
@@ -141,7 +149,7 @@ export const AllVariants: Story = {
       action-href="#"
       ?is-dismissible="${arg["is-dismissible"]}"
     >
-      <p>This website is currently undergoing testing</p>
+      This website is currently undergoing testing
     </qgds-global-alert>
 
     <qgds-global-alert
@@ -151,7 +159,7 @@ export const AllVariants: Story = {
       action-href="#"
       ?is-dismissible="${arg["is-dismissible"]}"
     >
-      <p>New features are now available</p>
+      New features are now available
     </qgds-global-alert>
   `,
 };

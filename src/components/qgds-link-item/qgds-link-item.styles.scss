@@ -8,6 +8,7 @@
   --qgds-link-width: 100%;
   --qgds-link-font-weight: 600;
   --qgds-link-padding-block: 0.75rem;
+  --qgds-link-border-radius-focus: 0px;
 
   display: block;
   break-inside: avoid;
@@ -18,10 +19,11 @@
 
 :host(:hover) {
   background-color: var(--nav-bg-hover);
-  border-inline-start: var(--qgds-vertical-border-start-size, 0) solid var(--qgds-vertical-border-start-colour, transparent);
+  border-inline-start: var(--qgds-vertical-border-start-size, 0) solid
+    var(--qgds-vertical-border-start-colour, transparent);
 }
 
-:host>qgds-link {
+:host > qgds-link {
   display: block;
 }
 
@@ -86,12 +88,12 @@ div[role="list"] {
   --icon-spacing: 0;
   --qgds-link-margin-inline-start: 0;
 
-  &>qgds-link {
+  & > qgds-link {
     --qgds-link-font-size: 1.5rem;
     --qgds-link-font-weight: 700;
   }
 
-  &>.description {
+  & > .description {
     font-size: 1rem;
     font-weight: normal;
     margin-block-end: 1rem;
@@ -154,7 +156,6 @@ div[role="list"] {
       }
     }
   }
-
 }
 
 :host([is-nav-item][layout="horizontal"]) qgds-link {
@@ -171,7 +172,7 @@ div[role="list"] {
 }
 
 :host([is-nav-item][is-current]) qgds-link:hover {
-    --active-border-color: var(--nav-border-hover);
+  --active-border-color: var(--nav-border-hover);
 }
 
 :host([is-nav-item][layout="horizontal"]) qgds-link.has-children {
@@ -179,20 +180,20 @@ div[role="list"] {
 }
 
 :host([is-nav-item][layout="horizontal"]) qgds-link:hover {
-    --qgds-link-focus-outline-offset: -1px;
-    --qgds-link-focus-border-radius: 0;
+  --qgds-link-focus-outline-offset: -1px;
+  --qgds-link-focus-border-radius: 0;
 
-    border-block-end-color: var(--active-border-color);
+  border-block-end-color: var(--active-border-color);
 }
 
 :host([is-nav-item][layout="vertical"]) qgds-link:hover {
-    background-color: var(--nav-bg-hover, var(--qgds-color-background-shade, #f5f5f5));
-    border-inline-start-color: var(--active-border-color);
+  background-color: var(--nav-bg-hover, var(--qgds-color-background-shade, #f5f5f5));
+  border-inline-start-color: var(--active-border-color);
 }
 
 :host([is-nav-item][layout="vertical"]) qgds-link:active,
 :host([is-nav-item][layout="vertical"]) qgds-link.is-open {
-    border-inline-start-color: var(--active-border-color);
+  border-inline-start-color: var(--active-border-color);
 }
 
 :host([is-nav-item]) ::slotted(qgds-link-column) {

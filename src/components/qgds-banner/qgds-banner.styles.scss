@@ -194,12 +194,16 @@
     }
 
     &.block-type {
+      font-size: tools.remify(28px);
+
       .has-background-image &,
       .has-hero-image & {
         margin-block-start: calc(-2.5rem - var(--content-padding-block-start-mobile));
       }
 
       @media (min-width: qgds-breakpoint.$md) {
+        font-size: tools.remify(40px);
+
         .has-background-image &,
         .has-hero-image & {
           margin-block-start: 0;

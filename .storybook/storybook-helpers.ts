@@ -147,4 +147,4 @@ export const QGDSViewports: Record<string, Viewport> = {
     },
     type: "desktop",
   },
-};
+} as const;

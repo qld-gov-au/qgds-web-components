@@ -1,12 +1,13 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "../qgds-icon/qgds-icon";
-import "../qgds-link/qgds-link";
+import "../qgds-call-to-action/qgds-call-to-action";
 import styles from "./qgds-global-alert.styles.scss?inline";
 import { baseStyles } from "../../styles";
 import type { IconName } from "../qgds-icon/icon-names";
 
 export type GlobalAlertVariant = "critical" | "warning" | "general";
+type AriaRole = "alert" | "status";
 
 /**
  * QGDS Global Alert
@@ -65,6 +66,12 @@ export class QGDSGlobalAlert extends LitElement {
     general: "Information",
   };
 
+  private static readonly ariaRoles: Record<GlobalAlertVariant, AriaRole> = {
+    critical: "alert",
+    warning: "status",
+    general: "status",
+  };
+
   private _handleDismiss = () => {
     const dismissEvent = new CustomEvent("qgds-global-alert-dismiss", {
       bubbles: true,
@@ -94,43 +101,56 @@ export class QGDSGlobalAlert extends LitElement {
     }
 
     const ariaLabel = QGDSGlobalAlert.ariaLabels[this.variant];
+    const ariaRole = QGDSGlobalAlert.ariaRoles[this.variant];
 
     return html`
-      <div role="region" aria-label="${ariaLabel}" class="global-alert is-${this.variant}">
-        <div class="main">
-          <div class="content">
-            <p class="heading">
-              <qgds-icon aria-hidden="true" icon-id="${QGDSGlobalAlert.icons[this.variant]}" size="sm"></qgds-icon>
-              ${this.heading}
-            </p>
-            <slot></slot>
+      <section 
+        role="${ariaRole}" 
+        aria-label="${ariaLabel}" 
+        class="global-alert is-${this.variant}"
+      >
+        <qgds-icon 
+          aria-hidden="true" 
+          icon-id="${QGDSGlobalAlert.icons[this.variant]}" 
+          size="sm"
+          class="global-alert-icon"
+        ></qgds-icon>
 
-            ${this.actionLabel && this.actionHref
-              ? html`
-                  <qgds-link
-                    href="${this.actionHref}"
-                    icon-name="arrow-right"
-                    icon-size="md"
-                    label="${this.actionLabel}"
-                    has-trailing-icon
-                    animation="leftToRight"
-                  >
-                  </qgds-link>
-                `
-              : ""}
+        <div class="content">          
+          <div class="message">
+            ${this.heading
+              ? html`<strong class="heading">${this.heading}:</strong>`
+              : nothing}
+
+            <slot></slot>
           </div>
 
-          ${this.isDismissible
+          ${this.actionLabel && this.actionHref
             ? html`
-                <div class="close">
-                  <button aria-label="Close alert" @click="${this._handleDismiss}">
-                    <qgds-icon icon-id="close" size="sm"></qgds-icon>
-                  </button>
-                </div>
+                <qgds-call-to-action 
+                  label="${this.actionLabel}" 
+                  href="${this.actionHref}" 
+                ></qgds-call-to-action>
               `
-            : ""}
+            : nothing}
         </div>
-      </div>
+
+        ${this.isDismissible
+          ? html`
+                <button 
+                  class="close"
+                  aria-label="Close alert" 
+                  type="button"
+                  @click="${this._handleDismiss}"
+                >
+                  <qgds-icon 
+                    aria-hidden="true" 
+                    icon-id="close" 
+                  ></qgds-icon>
+                </button>
+            `
+          : nothing}
+      </section>
     `;
   }
 }

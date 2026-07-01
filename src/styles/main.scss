@@ -22,6 +22,7 @@
   @include meta.load-css("base/animations");
   @include meta.load-css("base/globals");
   @include meta.load-css("base/palettes");
+  @include meta.load-css("grid");
 }
 
 @layer utilities {
