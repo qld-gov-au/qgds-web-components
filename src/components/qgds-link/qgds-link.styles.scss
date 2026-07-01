@@ -101,6 +101,7 @@ qgds-icon {
 
 // Animations — driven by the reflected animation attribute on :host
 // Shared base transition (lower specificity — must come before per-animation hover rules)
+// stylelint-disable no-descending-specificity
 :host([animation="rotateOut"]) a qgds-icon,
 :host([animation="rotateOut"]) button qgds-icon {
   transform: rotate(0deg) scaleX(var(--icon-direction));
@@ -112,6 +113,7 @@ qgds-icon {
   transform: rotate(0deg) scaleX(var(--icon-direction));
   transition: transform var(--qgds-transition-time) ease;
 }
+// stylelint-enable no-descending-specificity
 
 :host([stretch]) {
   --qgds-link-width: 100%;
