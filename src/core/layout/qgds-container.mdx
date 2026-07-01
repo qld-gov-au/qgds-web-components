@@ -1,0 +1,40 @@
+import {
+  Meta,
+  Title,
+  // Description,
+  Primary,
+  // Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+
+import * as ContainerStories from "./qgds-container.stories";
+
+<Meta of={ContainerStories} />
+<Title />
+
+A Container element is a fundamental layout element.
+Add class `qgds-container` to centre content horizontally and provide consistent padding for smaller screens.
+
+<Primary of={ContainerStories} />
+
+<Canvas of={ContainerStories.Primary} withToolbar={true} sourceState="shown" />
+<Controls of={ContainerStories.Primary} />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS Class          | Description                                                                     |
+| ------------------ | ------------------------------------------------------------------------------- |
+| \`qgds-container\` | Centre content horizontally and provide consistent padding for smaller screens. |
+| \`has-no-padding\` | In some cases you may wish to remove the outer padding.                         |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

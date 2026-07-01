@@ -1,0 +1,38 @@
+import {
+  Meta,
+  Title,
+  // Description,
+  Primary,
+  // Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+} from "@storybook/addon-docs/blocks";
+
+import * as GridStories from "./grid.stories";
+
+<Meta title="Core Styles/Layout/Grid" />
+<Title of={GridStories} />
+
+<Primary of={GridStories} />
+
+<Canvas of={GridStories.Default} withToolbar={true} sourceState="shown" />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS Class               | Description                                                                                                                                                         | Responsive? |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| \`qgds-cols\`           | Base class to apply grid system. Required in addition to any additional modifiers. Defaults to 4 columns on small screens, 6 on medium (>700px) and 12 on lg (>992) | n/a         |
+| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                                                             | yes         |
+| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
+| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
+| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                                                                | yes         |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}
