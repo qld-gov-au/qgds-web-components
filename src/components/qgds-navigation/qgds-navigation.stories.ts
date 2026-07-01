@@ -3,14 +3,11 @@ import { html } from "lit";
 import { chromaticModes } from "../../../.storybook/modes";
 import "./qgds-navigation";
 import "../qgds-link-item/qgds-link-item";
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { QGDSNavigation } from "./qgds-navigation";
 
-interface Args {
-  variant: "default" | "dark";
-  layout: "horizontal" | "vertical";
-  "columns-layout": "horizontal" | "vertical";
-  columns: number;
-  "aria-label": string;
-}
+const { args, argTypes, template } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
+type Args = typeof args;
 
 // ---------------------------------------------------------------------------
 // Reusable nav items using the new nested qgds-link-item API
@@ -59,30 +56,18 @@ const meta: Meta<Args> = {
   component: "qgds-navigation",
   tags: ["autodocs"],
   args: {
-    variant: "default",
-    layout: "horizontal",
-    "columns-layout": "horizontal",
-    columns: 3,
+    ...args,
     "aria-label": "main",
   },
   argTypes: {
-    variant: { control: "radio", options: ["default", "dark"] },
-    layout: { control: "radio", options: ["horizontal", "vertical"] },
-    "columns-layout": { control: "radio", options: ["horizontal", "vertical"] },
+    ...argTypes,
+    variant: { control: "radio", options: argTypes.variant.options },
+    orientation: { control: "radio", options: argTypes.orientation.options },
+    "columns-layout": { control: "radio", options: argTypes["columns-layout"].options },
     columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
     "aria-label": { control: "text" },
   },
-  render: (args) => html`
-    <qgds-navigation
-      variant="${args.variant}"
-      layout="${args.layout}"
-      columns-layout="${args["columns-layout"]}"
-      columns="${args.columns}"
-      aria-label="${args["aria-label"]}"
-    >
-      ${navItems}
-    </qgds-navigation>
-  `,
+  render: (args) => template(args, navItems),
 };
 
 export default meta;
@@ -109,7 +94,7 @@ export const Vertical: Story = {
 
 /** Dark vertical layout. */
 export const DarkVertical: Story = {
-  args: { variant: "dark", layout: "vertical", columns: 1 },
+  args: { variant: "dark", orientation: "vertical", columns: 1 },
   decorators: [(story) => html`<div class="qld__body--dark">${story()}</div>`],
   parameters: { ...chromaticModes },
 };

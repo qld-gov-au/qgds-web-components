@@ -5,9 +5,10 @@ import componentCSS from "./qgds-navigation.styles.scss?inline";
 import "../qgds-link-item/qgds-link-item";
 import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
 import "../qgds-link-column/qgds-link-column";
+import { classMap } from "lit/directives/class-map.js";
 
 export type NavigationVariant = "default" | "dark";
-export type NavigationLayout = "horizontal" | "vertical";
+export type NavigationOrientation = "horizontal" | "vertical";
 
 /**
  * QGDS Navigation – Horizontal navigation bar.
@@ -19,7 +20,7 @@ export type NavigationLayout = "horizontal" | "vertical";
  * @uikit   https://www.figma.com/design/Si3LOWFTxpzSRCC8cvHGZ5/Sen-Test\?node-id\=292-1416
  *
  * @property {NavigationVariant} [variant="default"] - "default" (light bar) or "dark" (dark bar).
- * @property {string} [aria-label="main"] - Accessible label for the `<nav>` landmark.
+ * @property {string} [aria-label] - Accessible label for the `<nav>` landmark.
  *
  * @slot - Accepts `<qgds-link-item>` elements.
  *
@@ -43,10 +44,10 @@ export class QGDSNavigation extends LitElement {
   @property({ type: String, reflect: true }) variant: NavigationVariant = "default";
 
   /** Layout: "horizontal" (mega-menu on click) or "vertical" (inline accordion toggle). */
-  @property({ type: String, reflect: true }) layout: NavigationLayout = "horizontal";
+  @property({ type: String, reflect: true }) orientation: NavigationOrientation = "horizontal";
 
   /** Layout passed to the auto-generated `<qgds-link-column>` inside each dropdown. */
-  @property({ type: String, reflect: true, attribute: "columns-layout" }) columnsLayout: NavigationLayout =
+  @property({ type: String, reflect: true, attribute: "columns-layout" }) columnsLayout: NavigationOrientation =
     "horizontal";
 
   /** Number of columns for auto-generated mega-menu dropdowns. */
@@ -56,7 +57,7 @@ export class QGDSNavigation extends LitElement {
   // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
 
   protected updated(changed: Map<string, unknown>): void {
-    if (changed.has("layout") || changed.has("columnsLayout") || changed.has("columns")) {
+    if (changed.has("orientation") || changed.has("columnsLayout") || changed.has("columns")) {
       this._syncLayout();
     }
   }
@@ -64,10 +65,10 @@ export class QGDSNavigation extends LitElement {
   private _syncLayout(): void {
     // Only sync direct slot children — nested items inside dropdowns stay in standard mode
     this.querySelectorAll<QGDSLinkItem>(":scope > qgds-link-item").forEach((item) => {
-      item.layout = this.layout as QGDSLinkItem["layout"];
+      item.layout = this.orientation as QGDSLinkItem["layout"];
       item.columnsLayout = this.columnsLayout as QGDSLinkItem["columnsLayout"];
       item.isNavItem = true;
-      item.columns = this.layout === "horizontal" ? this.columns : 1;
+      item.columns = this.orientation === "horizontal" ? this.columns : 1;
     });
   }
 
@@ -77,9 +78,15 @@ export class QGDSNavigation extends LitElement {
 
   render() {
     return html`
-      <nav class="navbar" role="navigation" ${this.variant === "dark" ? html`class="qgds-palette-bold"` : ""}>
+      <nav
+        class="navigation ${classMap({
+          "qgds-palette-bold": this.variant === "dark",
+          "is-horizontal": this.orientation === "horizontal",
+          "is-vertical": this.orientation === "vertical", // || this.isMobileView
+        })}"
+      >
         <div class="container">
-          ${html`<div class="navbar-nav" role="list">
+          ${html`<div class="navigation-list" role="list">
             <slot @slotchange="${this._onSlotChange}"></slot>
           </div>`}
         </div>
