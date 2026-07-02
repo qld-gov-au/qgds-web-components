@@ -7,10 +7,6 @@ Scoped CSS: qgds-header
 @use "../../styles/tools";
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
-// Horizontal inset shared by every band's content.
-$gutter-mobile: 16px;
-$gutter-desktop: 48px;
-
 :host {
   display: block;
 }
@@ -33,7 +29,7 @@ $gutter-desktop: 48px;
 // 2. Header content — the blue bar.
 .header-content {
   background-color: var(--qgds-color-action-primary);
-  border-block-end: tools.remify(3px) solid var(--qgds-color-accent-design-accent);
+  border-block-end: tools.remify(4px) solid var(--qgds-color-accent-design-accent);
 }
 
 .header-content-inner {
@@ -45,6 +41,16 @@ $gutter-desktop: 48px;
     "search search";
   align-items: stretch;
   column-gap: tools.remify(16px);
+
+  @media (max-width: #{bp.$lg}) {
+    &.qgds-container {
+      --qgds-grid-padding: 0px;
+    }
+  }
+
+  @media (min-width: #{bp.$md}) {
+    column-gap: tools.remify(24px);
+  }
 }
 
 // Brand logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
@@ -81,7 +87,7 @@ $gutter-desktop: 48px;
   display: flex;
   align-items: center;
   padding-block: tools.remify(24px);
-  padding-inline: tools.remify($gutter-mobile * 2);
+  padding-inline: tools.remify(16px);
   background-color: var(--qgds-color-background);
 
   &.is-empty {
@@ -153,14 +159,13 @@ $gutter-desktop: 48px;
 
   .header-content {
     background-color: var(--qgds-color-background);
-    border-block-end: tools.remify(1px) solid var(--qgds-color-border);
+    border-block-end: none;
   }
 
   .header-content-inner {
     grid-template-columns: auto 1fr auto;
     grid-template-areas: "logo name search";
     align-items: center;
-    padding-inline: tools.remify($gutter-desktop);
     padding-block: tools.remify(24px);
   }
 
@@ -175,23 +180,16 @@ $gutter-desktop: 48px;
   }
 
   .header-secondary {
-    margin-inline: 0;
-    padding: 0;
     background: transparent;
-
-    // Vertical divider separating the main logo from the secondary brand element.
-    &::before {
-      content: "";
-      align-self: stretch;
-      inline-size: tools.remify(1px);
-      margin-inline-end: tools.remify(16px);
-      background-color: var(--qgds-color-border);
-    }
+    padding-inline-start: tools.remify(24px);
+    padding-block: tools.remify(16px);
+    border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
   }
 
   .header-site-name {
     color: var(--qgds-color-text-default);
     font-size: tools.remify(20px);
+    line-height: tools.remify(24px);
   }
 
   .header-actions {
@@ -201,6 +199,7 @@ $gutter-desktop: 48px;
   .header-search {
     display: flex;
     justify-self: end;
+    align-items: center;
     inline-size: 416px;
     margin-inline: 0;
     padding: 0;
@@ -213,7 +212,6 @@ $gutter-desktop: 48px;
 
   .header-navigation {
     display: block;
-    padding-inline: tools.remify($gutter-desktop);
     padding-block: tools.remify(8px);
   }
 }

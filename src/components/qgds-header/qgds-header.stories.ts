@@ -22,7 +22,7 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    "site-name": "Insert site name",
+    "site-name": "Site name",
   },
   argTypes,
   render: (args) => template(args),
@@ -46,14 +46,27 @@ const onNavToggle = (e: Event) => {
 // mobile, hides until its own `open` attribute is set (here toggled by onNavToggle).
 const demoNavStyles = html`
   <style>
+    #root-inner>div {
+      padding: 0px !important;  /* Remove default Storybook padding, to show Header in full-width container */
+    }
+    .nav-container {
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.30), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      background-color: #F5F5F5;
+      border-block-end: 0.5rem solid var(--qgds-color-accent-design-accent);
+      display: block;
+    }
     .demo-nav {
       display: flex;
       flex-wrap: wrap;
       gap: 1.5rem;
       align-items: center;
     }
+    .demo-nav a {
+      padding: 0.625rem 0.75rem 0.625rem 0;
+      display: inline-flex;
+    }
     @media (max-width: 991px) {
-      .demo-nav {
+      .nav-container {
         display: none;
       }
       .demo-nav[open] {
@@ -69,13 +82,15 @@ const demoNavStyles = html`
 `;
 
 const demoNav = html`
-  <nav class="demo-nav" slot="navigation" aria-label="Main navigation">
-    <a href="#">Menu text</a>
-    <a href="#">Menu text</a>
-    <a href="#">Menu text</a>
-    <a href="#">Menu text</a>
-    <a href="#">Menu text</a>
-  </nav>
+  <div class="nav-container" slot="navigation">
+    <nav class="demo-nav qgds-container" aria-label="Main navigation">
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+    </nav>
+  </div>
 `;
 
 const headerTemplate = (args: Args) => html`
@@ -90,7 +105,7 @@ const headerTemplate = (args: Args) => html`
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
     </qgds-attribution-bar>
 
-    <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
+    <qgds-search-input slot="search"></qgds-search-input>
 
     ${demoNav}
   </qgds-header>
@@ -129,7 +144,7 @@ export const LogoOverride: Story = {
   render: () => html`
     ${demoNavStyles}
     <qgds-header
-      site-name="Insert site name"
+      site-name="Site name"
       @qgds-toggle-search-mobile=${onSearchToggle}
       @qgds-toggle-nav-menu=${onNavToggle}
     >
@@ -140,7 +155,7 @@ export const LogoOverride: Story = {
 
       <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
 
-      <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
+      <qgds-search-input slot="search"></qgds-search-input>
 
       ${demoNav}
     </qgds-header>

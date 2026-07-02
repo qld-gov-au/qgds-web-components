@@ -134,7 +134,7 @@ export class QGDSHeader extends LitElement {
         </div>
 
         <div class="header-content">
-          <div class="header-content-inner">
+          <div class="header-content-inner qgds-container">
             <div class="header-logo">
               <slot name="logo">
                 <qgds-logo logo="coa-stacked" alt="Queensland Government"></qgds-logo>
