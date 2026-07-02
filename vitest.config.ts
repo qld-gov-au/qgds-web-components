@@ -7,6 +7,20 @@ export default defineConfig({
     // Test file patterns
     include: ["src/**/*.test.ts"],
 
+    // Suppress known noisy browser-test stderr logs while preserving real failures.
+    onConsoleLog(log, type) {
+      const trimmedLog = log.trim();
+      const isNoisyStderr = type === "stderr";
+      const isUnknownTestBanner = trimmedLog === "unknown test";
+      const isLitDevModeBanner = trimmedLog.includes("Lit is in dev mode. Not recommended for production!");
+
+      if (isNoisyStderr && (isUnknownTestBanner || isLitDevModeBanner)) {
+        return false;
+      }
+
+      return true;
+    },
+
     // Browser mode configuration for web components
     browser: {
       enabled: true,
