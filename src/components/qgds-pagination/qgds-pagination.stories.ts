@@ -129,13 +129,24 @@ export const EndRange: Story = {
 };
 
 /* Middle page to demonstrate mutliple more ellipses */
-export const NarrowContainer: Story = {
+export const NarrowContainers: Story = {
   args: {
     "current-page": 2,
     "total-pages": 14,
   },
-  globals: {
-    // 👇 Override viewport for this story, use mobile2 (large-mobile))
-    viewport: { value: "mobile2", isRotated: false },
+  decorators: [
+    (Story) => html`
+      <div style="width: 360px; margin-bottom: 2rem;">${Story()}</div>
+      <div style="width: 480px; margin-bottom: 2rem;">${Story()}</div>
+      <div style="width: 950px; margin-bottom: 2rem;">${Story()}</div>
+    `,
+  ],
+};
+
+/* Middle page to demonstrate mutliple more ellipses */
+export const HighPageCount: Story = {
+  args: {
+    "current-page": 100,
+    "total-pages": 124,
   },
 };
