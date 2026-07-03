@@ -17,7 +17,6 @@ describe("qgds-loading-spinner", () => {
   it("renders with default properties", async () => {
     await element.updateComplete;
 
-    expect(element.size).toBe("md");
     expect(element.label).toBe("Loading");
     expect(element.hideLabel).toBe(false);
     expect(element.isStacked).toBe(false);
@@ -47,7 +46,6 @@ describe("qgds-loading-spinner", () => {
   });
 
   it("passes the size prop to qgds-icon", async () => {
-    element.size = "lg";
     await element.updateComplete;
 
     const icon = element.shadowRoot?.querySelector("qgds-icon");

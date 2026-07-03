@@ -16,7 +16,6 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    size: "md",
     label: "Uploading...",
     "hide-label": false,
     "is-stacked": false,
@@ -31,7 +30,6 @@ export const Default: Story = {};
 
 export const Minimal: Story = {
   args: {
-    ...meta.args,
     "hide-label": true,
     label: "Uploading, please wait",
   },
@@ -39,47 +37,15 @@ export const Minimal: Story = {
 
 export const Stacked: Story = {
   args: {
-    ...meta.args,
     "hide-label": false,
     "is-stacked": true,
     label: "Uploading...",
   },
 };
 
-export const Small: Story = {
+export const LongText: Story = {
   args: {
-    ...meta.args,
-    size: "sm",
-    "hide-label": false,
-    label: "Uploading...",
+    label: "Your application is being processed.",
   },
-};
-
-export const Large: Story = {
-  args: {
-    ...meta.args,
-    size: "lg",
-    "hide-label": false,
-    label: "Uploading...",
-  },
-};
-
-export const ExtraLarge: Story = {
-  args: {
-    ...meta.args,
-    size: "xl",
-    "hide-label": false,
-    label: "Uploading...",
-  },
-};
-
-export const AllSizes: Story = {
-  render: () => html`
-    <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
-      <qgds-loading-spinner size="sm" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="md" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="lg" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
-      <qgds-loading-spinner size="xl" label="Loading" .hideLabel="${false}"></qgds-loading-spinner>
-    </div>
-  `,
+  decorators: [(Story) => html`<div style="width: 200px;">${Story()}</div>`],
 };
