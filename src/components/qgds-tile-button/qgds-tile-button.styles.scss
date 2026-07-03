@@ -5,18 +5,20 @@
 
 :host {
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
+  --height: initial;
 }
 
 .qgds-tile-button {
   --qgds-icon-size: var(--qgds-icon-size-sm, 1.25rem);
+  --_size: var(--height, #{f.remify(48px)});
 
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  place-content: center center;
   gap: 0.25rem;
-  padding-inline: f.remify(14px);
-  padding-block: f.remify(8px);
+  block-size: var(--_size);
+  min-inline-size: var(--_size);
   color: var(--qgds-color-link-default);
   font-size: f.remify(10px);
   line-height: f.snap-line-height(1);
@@ -36,9 +38,8 @@
 
   @media (min-width: qgds-breakpoint.$md) {
     --qgds-icon-size: var(--qgds-icon-size-lg, 2rem);
+    --_size: var(--height, #{f.remify(72px)});
 
     font-size: f.remify(14px);
-    padding-inline: f.remify(20px);
-    padding-block: f.remify(12px);
   }
 }
