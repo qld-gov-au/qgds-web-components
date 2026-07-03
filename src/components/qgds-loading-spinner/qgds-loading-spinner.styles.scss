@@ -15,7 +15,7 @@
   // Set the icon color on the parent so qgds-icon inherits it via its :host { --qgds-icon-color: inherit } rule.
   // Setting it directly on qgds-icon is overridden by qgds-icon's own :host declaration (inner shadow wins cascade).
   --qgds-icon-color: var(--qgds-loading-spinner-color, var(--qgds-color-accent-design-accent, currentColor));
-    
+
   &.is-stacked {
     flex-direction: column;
   }
@@ -36,5 +36,7 @@
 .label {
   font-size: 1rem;
   color: var(--qgds-color-text-heading);
-  font-weight: 700;
+  font-weight: 600;
+  text-align: center;
+  text-wrap-style: balance;
 }
