@@ -35,7 +35,7 @@
 }
 
 .base-icon {
-  inline-size: var(--pg-size);
+  min-inline-size: var(--pg-size);
   block-size: var(--pg-size);
   align-items: center;
   justify-content: center;
@@ -45,20 +45,21 @@
 /* Page Numbers (1, 2, 3) */
 .page-link {
   /* Dimensions */
-  inline-size: var(--pg-size); /* 2rem / 32px */
+  min-inline-size: var(--pg-size); /* 2rem / 32px */
   block-size: var(--pg-size);
 
   /* Reset border to 0 to ensure box-shadow starts at the absolute edge */
   border: none;
 
   /* State 1: 1px "Border" sitting at the 32px perimeter */
-  box-shadow: inset 0 0 0 1px var(--qgds-color-border);
+  box-shadow: inset 0 0 0 1px var(--qgds-color-border-alt);
   text-decoration: none;
   background-color: transparent;
   color: var(--pg-link-fg);
+  padding-inline: 0.5rem;
   transition:
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out),
+    background-color var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +88,6 @@
 
     &:hover,
     &:focus {
-      box-shadow: var(--qgds-elevation-1);
       background: var(--qgds-color-action-primary-hover);
     }
   }
@@ -111,14 +111,20 @@
 /* Prev/Next Navigation */
 .prev-link,
 .next-link {
-  gap: 0.25rem;
+  gap: 0.5rem;
   color: var(--pg-link-fg);
   text-decoration: underline 1px var(--pg-link-fg);
   text-underline-offset: 0.2em;
 
   .base-icon {
+    --pg-size: 1.5rem;
+
     color: var(--icon-fg);
     transition: color 0.2s ease;
+  }
+
+  .label {
+    display: contents; /* Overcome Safari bug applying hover state to spans inside A's */
   }
 
   &:hover {
