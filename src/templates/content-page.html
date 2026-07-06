@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGDS Web Components - Example Content Page </title>
+
+  <!-- CDN source design system resources 
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/css/qgds-web-components.min.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/js/qgds-web-components.min.js"
+    defer></script>
+  -->
+
+  <!-- Local design system resources from dist-->
+  <script type="module" src="/src/index.ts"></script>
+
+</head>
+
+<body>
+
+  <qgds-banner variant="default" palette="bold"
+    heading="Cancelling your vehicle, trailer, caravan, motorised mobility device or boat registration" has-shadow="">
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+  </qgds-banner>
+
+</body>
+
+<style>
+
+</style>
+
+</html>
