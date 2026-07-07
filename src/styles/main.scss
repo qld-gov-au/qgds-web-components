@@ -17,6 +17,7 @@
     @include meta.load-css("base/reset");
     @include meta.load-css("base/reset-slotted");
     @include meta.load-css("base/elements");
+    @include meta.load-css("base/content");
   }
 
   @include meta.load-css("base/animations");
@@ -26,5 +27,7 @@
 }
 
 @layer utilities {
-  @include meta.load-css("utilities", $with: (prefix: "qgds"));
+  :where(.qgds) {
+    @include meta.load-css("utilities", $with: (prefix: "qgds"));
+  }
 }
