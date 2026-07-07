@@ -26,7 +26,7 @@
   &-links {
     display: flex;
     justify-content: flex-end;
-    min-inline-size: 0;
+    min-inline-size: fit-content;
     gap: tools.remify(16px);
   }
 }
