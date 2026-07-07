@@ -53,7 +53,7 @@
   </qgds-banner>
 
   <div class="qgds-container">
-    <div class="qgds-cols">
+    <div class="qgds-cols qgds-content-wrap">
       <aside class="qgds-span-3">
         <qgds-side-navigation mobile-heading="In this section">
           <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
@@ -76,52 +76,67 @@
       </aside>
 
       <main class="qgds-span-8">
-        <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
-          <qgds-inpage-nav-item href="#introduction">Introduction</qgds-inpage-nav-item>
-          <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
-          <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
-        </qgds-inpage-nav>
 
-        <h2 id="introduction">Introduction</h2>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          feugiat
-          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut. Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
-        <p>
-          Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae amet
-          ornare
-          donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+        <div class="qgds-content-block py-s-0">
 
-        <qgds-callout heading="Call out heading" variant="info">
-          <p>Call out content. Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi
-            condimentum volutpat feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae
-            venenatis vestibulum libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+          <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
+            <qgds-inpage-nav-item href="#introduction">Introduction</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
+          </qgds-inpage-nav>
 
-        </qgds-callout>
+          <h1>Content page (basic banner) H1</h1>
 
-        <h3>Heading H3</h3>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum
-          volutpatfeugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum
-          libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+          <h2 id="introduction">Introduction</h2>
+          <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+            feugiat
+            pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+            Luctus
+            diam
+            pellentesque ipsum accumsan amet commodo.</p>
+          <p>
+            Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae
+            amet
+            ornare
+            donec malesuada. Nascetur senectus aenean fames id turpis.</p>
 
-        <qgds-accordion-group show-controls="auto">
-          <qgds-accordion is-open="" title="This accordion is initially open.">
-            <p>This is the <strong>content</strong>.</p>
-          </qgds-accordion>
+          <qgds-callout heading="Call out heading" variant="info">
+            <p>Call out content. Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi
+              condimentum volutpat feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae
+              venenatis vestibulum libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+          </qgds-callout>
+
+          <h3>Heading H3</h3>
+          <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum
+            volutpatfeugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum
+            libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+          <qgds-accordion-group show-controls="auto">
+            <qgds-accordion is-open="" title="This accordion is initially open.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
 
 
-          <qgds-accordion title="This accordion is initially closed.">
-            <p>This is the <strong>content</strong>.</p>
-          </qgds-accordion>
+            <qgds-accordion title="This accordion is initially closed.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
 
 
-          <qgds-accordion title="This accordion is initially closed.">
-            <p>This is the <strong>content</strong>.</p>
-          </qgds-accordion>
+            <qgds-accordion title="This accordion is initially closed.">
+              <p>This is the <strong>content</strong>.</p>
+            </qgds-accordion>
 
-        </qgds-accordion-group>
+          </qgds-accordion-group>
+        </div>
 
+        <div class="qgds-content-block qgds-palette-soft">
+          <h2>Section Heading</h2>
+          <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+            feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+            ut.
+            Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+        </div>
 
       </main>
     </div>

@@ -61,3 +61,89 @@ a {
     }
   }
 }
+
+/* ==========================================================================
+   Vertical Rhythm Scoped to Content Blocks
+   ========================================================================== */
+
+:where(.qgds-content-wrap) {
+  padding-block: var(--qgds-vspace-section-padding);
+}
+
+:where(.qgds-content-block) {
+  padding-block: var(--qgds-vspace-section-padding);
+  padding-inline: var(--qgds-hspace-content-inner);
+
+  &.px-0 {
+    padding-inline: 0;
+  }
+
+  &.px-s-0 {
+    padding-inline-start: 0;
+  }
+
+  &.px-e-0 {
+    padding-inline-end: 0;
+  }
+
+  &.py-0 {
+    padding-block: 0;
+  }
+
+  &.py-s-0 {
+    padding-block-start: 0;
+  }
+
+  &.py-e-0 {
+    padding-block-end: 0;
+  }
+
+  // 1. Catch-all / Component Spacing (The default flow)
+  > * + * {
+    margin-block-start: var(--qgds-vspace-component);
+  }
+
+  // 2. Headings following any element
+  > * + h1 {
+    margin-block-start: var(--qgds-vspace-h1);
+  }
+
+  > * + h2 {
+    margin-block-start: var(--qgds-vspace-h2);
+  }
+
+  > * + h3 {
+    margin-block-start: var(--qgds-vspace-h3);
+  }
+
+  > * + :is(h4, h5, h6) {
+    margin-block-start: var(--qgds-vspace-h4);
+  }
+
+  // 3. Text and Lists following any element
+  > * + p {
+    margin-block-start: var(--qgds-vspace-paragraph);
+  }
+
+  > * + :is(ul, ol) {
+    margin-block-start: var(--qgds-vspace-list);
+  } // Kept as vspace-list per your original spec
+
+  // 4. Strict Contextual Exceptions (e.g., Heading directly followed by body text)
+  > :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
+    margin-block-start: var(--qgds-vspace-heading-text);
+  }
+
+  // 5. List Items & Sub-lists
+  li + li,
+  li :is(ul, ol) {
+    margin-block-start: var(--qgds-vspace-list-item);
+  }
+}
+
+/* Collapse adjacent blocks with the same background 
+  to avoid excessive whitespace accumulation.
+*/
+:where(.qgds-content-block) + :where(.qgds-content-block):not([class*="qgds-palette-"]) {
+  padding-block-start: 0;
+}
