@@ -131,6 +131,20 @@ export class QGDSNavigation extends LitElement {
     this._syncLayout();
   };
 
+  // When the mobile backdrop is clicked, close the menu
+  private _handleDialogClick = (e: MouseEvent) => {
+    const rect = this._dialogElement?.getBoundingClientRect();
+    const isInDialog =
+      rect &&
+      rect.top <= e.clientY &&
+      e.clientY <= rect.top + rect.height &&
+      rect.left <= e.clientX &&
+      e.clientX <= rect.left + rect.width;
+    if (!isInDialog) {
+      this._closeMobileNav();
+    }
+  };
+
   private _renderNav = () => {
     const shouldRenderAsVertical = this.orientation === "vertical" || this._isMobile;
 
@@ -152,12 +166,16 @@ export class QGDSNavigation extends LitElement {
 
   render() {
     return this._isMobile
-      ? html` <dialog
+      ? // The native dialog already has key event handling
+        // eslint-disable-next-line lit-a11y/click-events-have-key-events
+        html`<dialog
           class="drawer ${classMap({
             // "is-open": this._isMobileOpen,
             "qgds-palette-bold": this.variant !== "dark",
             "qgds-palette-default": this.variant === "dark",
           })}"
+          @close=${() => (this._isMobileOpen = false)}
+          @click=${this._handleDialogClick}
         >
           <div class="drawer-header flex align-items-center">
             <span class="flex-1">Menu</span>

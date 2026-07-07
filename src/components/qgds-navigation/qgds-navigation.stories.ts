@@ -75,14 +75,6 @@ const meta: Meta<Args> = {
           @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
         >
           Open mobile menu
-        </button>
-        <br />
-        <button @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-close", { bubbles: true }))}>
-          Close mobile menu
-        </button>
-        <br />
-        <button @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-toggle", { bubbles: true }))}>
-          Toggle mobile menu
         </button>`;
     },
   ],

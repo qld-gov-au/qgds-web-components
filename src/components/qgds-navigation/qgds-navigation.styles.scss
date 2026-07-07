@@ -80,6 +80,7 @@ dialog {
   max-inline-size: f.remify(320px);
   background-color: var(--qgds-color-background-shade, #003e96);
   overflow-y: auto;
+  box-shadow: var(--qgds-elevation-2);
   transform: translateX(100%);
   transition-property: transform overlay display;
   transition-duration: var(--qgds-transition-duration, 0.2s);
@@ -123,6 +124,7 @@ dialog {
     inset-block-start: 0;
     padding-inline-start: f.remify(16px);
     block-size: f.remify(48px);
+    z-index: 1;
   }
 
   @include m.md-up() {
