@@ -52,7 +52,7 @@ $header-mobile-palettes: default, bold, deep;
   align-items: stretch;
   column-gap: 0;
 
-  @media (max-width: #{bp.$lg}) {
+  @media (max-width: #{bp.$lg - 1px}) {
     // remove inner padding to allow full-width on mobile and tablet.
     &.qgds-container {
       --qgds-grid-padding: 0px;
@@ -70,6 +70,7 @@ $header-mobile-palettes: default, bold, deep;
   align-items: center;
   min-inline-size: 0;
   padding-block: tools.remify(10px);
+  padding-inline: tools.remify(16px);
 }
 
 .header-logo,
@@ -90,7 +91,7 @@ $header-mobile-palettes: default, bold, deep;
   grid-area: name;
   display: flex;
   align-items: center;
-  padding-block: tools.remify(24px);
+  padding-block: tools.remify(16px);
   padding-inline: tools.remify(16px);
   background-color: var(--qgds-color-background);
 
@@ -154,6 +155,7 @@ $header-mobile-palettes: default, bold, deep;
 @media (min-width: #{bp.$md}) {
   .header-logo {
     padding-block: tools.remify(16px);
+    padding-inline: tools.remify(32px);
   }
 
   .header-logo qgds-logo,
@@ -162,6 +164,7 @@ $header-mobile-palettes: default, bold, deep;
   }
 
   .header-secondary {
+    padding-block: tools.remify(24px);
     padding-inline: tools.remify(32px);
   }
 
@@ -194,6 +197,10 @@ $header-mobile-palettes: default, bold, deep;
     align-items: center;
     padding-block: tools.remify(24px);
     column-gap: tools.remify(24px);
+  }
+
+  .header-logo {
+    padding-inline: 0;
   }
 
   // Unset the mobile-only colours that were borrowed from attribution-bar's palette.
