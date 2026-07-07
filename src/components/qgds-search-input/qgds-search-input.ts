@@ -8,11 +8,7 @@ import componentCSS from "./qgds-search-input.styles.scss?inline";
 import { FormVariant } from "../../types/forms";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import { debounce } from "../../utils";
-import {
-  normalizeSuggestions,
-  parseSuggestionsAttribute,
-  type SuggestionGroupData,
-} from "./suggestions-data.js";
+import { normalizeSuggestions, parseSuggestionsAttribute, type SuggestionGroupData } from "./suggestions-data.js";
 // Side-effect imports register the suggestion sub-components so consumers can
 // inject them into the `suggestions` slot without importing them separately.
 import "../qgds-search-suggestion-group/qgds-search-suggestion-group.js";
@@ -255,6 +251,11 @@ export class QGDSSearchInput extends LitElement {
     );
   }
 
+  // Foward focus to the search input in the Shadow DOM
+  override focus(options?: FocusOptions): void {
+    this.renderRoot.querySelector<HTMLInputElement>(".search-input")?.focus(options);
+  }
+
   render() {
     const showPanel = this._open && this._hasContent;
     const hasData = this._groups.length > 0;
@@ -307,11 +308,7 @@ export class QGDSSearchInput extends LitElement {
           ?hidden=${!showPanel}
         >
           ${hasData ? this._renderGroups() : nothing}
-          <slot
-            name="suggestions"
-            ?hidden=${hasData}
-            @slotchange=${this._handleSuggestionsSlotChange}
-          ></slot>
+          <slot name="suggestions" ?hidden=${hasData} @slotchange=${this._handleSuggestionsSlotChange}></slot>
         </div>
       </div>
     `;

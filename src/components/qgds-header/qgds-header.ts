@@ -99,6 +99,8 @@ export class QGDSHeader extends LitElement {
   /** Whether the `search` slot has content — drives the mobile Search button. */
   @state() private _hasSearchSlot = false;
 
+  @state() private _searchEl: (HTMLElement & { focusInput?: () => void; blurInput?: () => void }) | null = null;
+
   /** Whether the `navigation` slot has content — drives the mobile Menu button. */
   @state() private _hasNavSlot = false;
 
@@ -133,17 +135,56 @@ export class QGDSHeader extends LitElement {
   private _toggleSearch = (): void => {
     this.searchOpen = !this.searchOpen;
     this.events.dispatch("toggle-search-mobile");
-  };
 
-  // Likewise, the Menu button only flips `menuOpen` for its icon and emits
-  // `qgds-toggle-nav-menu`; the slotted mega menu opens/closes itself.
-  private _toggleMenu = (): void => {
-    this.menuOpen = !this.menuOpen;
-    this.events.dispatch("toggle-nav-menu");
+    if (this.searchOpen) {
+      // Focus on the search when search is opened.
+      void this.updateComplete.then(() => this._searchEl?.focus());
+    }
   };
 
   private _handleSearchSlotChange = (e: Event): void => {
-    this._hasSearchSlot = (e.target as HTMLSlotElement).assignedElements().length > 0;
+    const assigned = (e.target as HTMLSlotElement).assignedElements({ flatten: true });
+    this._hasSearchSlot = assigned.length > 0;
+    this._searchEl = (assigned[0] as (HTMLElement & { focusInput?: () => void }) | undefined) ?? null;
+  };
+
+  // Hide the search panel if the user clicks outside it or the toggle button
+  private _handleOutsideSearchClick = (e: MouseEvent): void => {
+    const path = e.composedPath();
+    const searchPanel = this.renderRoot.querySelector("#header-search-panel");
+    const toggleBtn = this.renderRoot.querySelector(".header-action[aria-controls='header-search-panel']");
+
+    // Click landed inside the search panel or on the toggle button itself — ignore.
+    if ((searchPanel && path.includes(searchPanel)) || (toggleBtn && path.includes(toggleBtn))) {
+      return;
+    }
+
+    this.searchOpen = false;
+  };
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("click", this._handleOutsideSearchClick);
+
+    // Listen for the navigation closing globally to reset our icon
+    window.addEventListener("qgds-navigation-close", () => {
+      this.menuOpen = false;
+    });
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._handleOutsideSearchClick);
+
+    window.removeEventListener("qgds-navigation-close", () => {
+      this.menuOpen = false;
+    });
+  }
+
+  private _openMobileNav = (): void => {
+    // We set our internal state to open so the icon switches to 'close'
+    this.menuOpen = true;
+    this.events.dispatch("navigation-open");
   };
 
   private _handleNavSlotChange = (e: Event): void => {
@@ -190,8 +231,8 @@ export class QGDSHeader extends LitElement {
               ${this._hasSearchSlot
                 ? html`
                     <qgds-tile-button
-                      label="Search"
-                      icon-name="search"
+                      label=${this.searchOpen ? "Close" : "Search"}
+                      icon-name=${this.searchOpen ? "close" : "search"}
                       class="header-action"
                       aria-controls="header-search-panel"
                       aria-expanded=${this.searchOpen ? "true" : "false"}
@@ -207,7 +248,7 @@ export class QGDSHeader extends LitElement {
                       class="header-action"
                       aria-controls="header-nav-panel"
                       aria-expanded=${this.menuOpen ? "true" : "false"}
-                      @click=${this._toggleMenu}
+                      @click=${this._openMobileNav}
                     ></qgds-tile-button>
                   `
                 : nothing}

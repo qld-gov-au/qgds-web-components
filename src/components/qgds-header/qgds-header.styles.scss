@@ -138,6 +138,12 @@ $header-mobile-palettes: default, bold, deep;
   display: none;
 }
 
+:host([search-open]) .header-search {
+  display: block;
+  padding-inline: tools.remify(16px);
+  padding-block: 0 tools.remify(16px);
+}
+
 .header-navigation {
   display: block;
 }
