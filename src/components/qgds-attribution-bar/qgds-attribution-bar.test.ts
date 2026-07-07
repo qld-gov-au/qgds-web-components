@@ -30,8 +30,6 @@ describe("qgds-attribution-bar", () => {
   });
 
   it("renders all sections", () => {
-    console.log(element.shadowRoot?.innerHTML);
-
     expect(element.shadowRoot?.querySelector(".attribution-bar-collection")).not.toBeNull();
 
     expect(element.shadowRoot?.querySelector(".attribution-bar-links")).not.toBeNull();

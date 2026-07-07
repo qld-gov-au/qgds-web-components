@@ -162,23 +162,27 @@ export class QGDSHeader extends LitElement {
     this.searchOpen = false;
   };
 
+  private _handleNavigationClose = (): void => {
+    this.menuOpen = false;
+  };
+
   connectedCallback(): void {
-    super.connectedCallback();
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
     document.addEventListener("click", this._handleOutsideSearchClick);
 
     // Listen for the navigation closing globally to reset our icon
-    window.addEventListener("qgds-navigation-close", () => {
-      this.menuOpen = false;
-    });
+    window.addEventListener("qgds-navigation-close", this._handleNavigationClose);
   }
 
   disconnectedCallback(): void {
-    super.disconnectedCallback();
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
     document.removeEventListener("click", this._handleOutsideSearchClick);
 
-    window.removeEventListener("qgds-navigation-close", () => {
-      this.menuOpen = false;
-    });
+    window.removeEventListener("qgds-navigation-close", this._handleNavigationClose);
   }
 
   private _openMobileNav = (): void => {
