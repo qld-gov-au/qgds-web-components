@@ -6,6 +6,7 @@ Scoped CSS: qgds-header
 
 @use "../../styles/tools";
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+@use "../../styles/qgds-tokens/qgds-color-stub";
 
 :host {
   display: block;
@@ -13,12 +14,10 @@ Scoped CSS: qgds-header
 
 .header {
   display: block;
-  background-color: var(--qgds-color-background);
 }
 
 // =============================================================================
-// Mobile (default) — a blue bar with the logo + Search/Menu buttons, the site
-// name in a white band below, and the search/nav panels collapsed.
+// Small (default) — a blue bar with the logo + Search/Menu buttons, the site name in a white band below, and the search/nav panels collapsed.
 // =============================================================================
 
 // 1. Pre-header is hidden on mobile (revealed at the desktop breakpoint).
@@ -26,9 +25,20 @@ Scoped CSS: qgds-header
   display: none;
 }
 
-// 2. Header content — the blue bar.
+// 2. Header content
+
+// Palette classes borrowed from the attribution-bar,
+// used on .header-logo and .header-actions on sm - md viewports only.
+$header-mobile-palettes: default, bold, deep;
+
+@each $p in $header-mobile-palettes {
+  .header-mobile-palette-#{$p} {
+    @extend %qgds-color-palette-#{$p};
+  }
+}
+
 .header-content {
-  background-color: var(--qgds-color-action-primary);
+  background-color: var(--qgds-color-background);
   border-block-end: tools.remify(4px) solid var(--qgds-color-accent-design-accent);
 }
 
@@ -40,16 +50,13 @@ Scoped CSS: qgds-header
     "name   name"
     "search search";
   align-items: stretch;
-  column-gap: tools.remify(16px);
+  column-gap: 0;
 
   @media (max-width: #{bp.$lg}) {
+    // remove inner padding to allow full-width on mobile and tablet.
     &.qgds-container {
       --qgds-grid-padding: 0px;
     }
-  }
-
-  @media (min-width: #{bp.$md}) {
-    column-gap: tools.remify(24px);
   }
 }
 
@@ -62,21 +69,18 @@ Scoped CSS: qgds-header
   display: flex;
   align-items: center;
   min-inline-size: 0;
-  padding-block: tools.remify(16px);
-
-  qgds-logo {
-    --logo-color: var(--qgds-color-link-on-action);
-    --logo-height: #{tools.remify(40px)};
-
-    max-inline-size: 100%;
-  }
+  padding-block: tools.remify(10px);
 }
 
-::slotted(qgds-logo) {
-  --logo-color: var(--qgds-color-link-on-action);
-  --logo-height: #{tools.remify(40px)};
+.header-logo,
+.header-actions {
+  background: var(--qgds-color-background);
+  color: var(--qgds-color-text-default);
+}
 
-  max-inline-size: 100%;
+.header-logo qgds-logo,
+::slotted(qgds-logo) {
+  --logo-height: #{tools.remify(28px)};
 }
 
 // Secondary brand element beside the logo: the site name. On mobile it sits in a
@@ -96,9 +100,10 @@ Scoped CSS: qgds-header
 }
 
 .header-site-name {
-  color: var(--qgds-color-crest-fill);
+  color: var(--qgds-color-site-title);
   font-weight: var(--qgds-font-weight-bold, 700);
-  font-size: tools.remify(24px);
+  font-size: tools.remify(16px);
+  line-height: tools.remify(20px);
 
   &[hidden] {
     display: none;
@@ -115,20 +120,9 @@ Scoped CSS: qgds-header
 .header-action {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: tools.remify(4px);
-  min-inline-size: tools.remify(64px);
-  padding-inline: tools.remify(12px);
   border: 0;
   border-inline-start: tools.remify(1px) solid rgb(255 255 255 / 0.25);
-  background: transparent;
-  color: var(--qgds-color-link-on-action);
-  font-size: tools.remify(14px);
-  line-height: 1.2;
   cursor: pointer;
-
-  --qgds-icon-color: var(--qgds-color-link-on-action);
 
   &:hover,
   &:focus-visible {
@@ -149,6 +143,29 @@ Scoped CSS: qgds-header
 }
 
 // =============================================================================
+// Medium - same layout as small viewport, with different spacing and typography.
+// =============================================================================
+@media (min-width: #{bp.$md}) {
+  .header-logo {
+    padding-block: tools.remify(16px);
+  }
+
+  .header-logo qgds-logo,
+  ::slotted(qgds-logo) {
+    --logo-height: #{tools.remify(40px)};
+  }
+
+  .header-secondary {
+    padding-inline: tools.remify(32px);
+  }
+
+  .header-site-name {
+    font-size: tools.remify(20px);
+    line-height: tools.remify(24px);
+  }
+}
+
+// =============================================================================
 // Desktop — logo + site name on the left, search on the right; pre-header and
 // navigation always visible; the mobile buttons removed.
 // =============================================================================
@@ -158,8 +175,11 @@ Scoped CSS: qgds-header
   }
 
   .header-content {
-    background-color: var(--qgds-color-background);
     border-block-end: none;
+  }
+
+  .header-mobile-palette {
+    background-color: inherit;
   }
 
   .header-content-inner {
@@ -167,13 +187,24 @@ Scoped CSS: qgds-header
     grid-template-areas: "logo name search";
     align-items: center;
     padding-block: tools.remify(24px);
+    column-gap: tools.remify(24px);
   }
 
-  .header-logo qgds-logo {
-    --logo-color: var(--qgds-color-crest-fill);
-    --logo-height: #{tools.remify(56px)};
+  // Unset the mobile-only colours that were borrowed from attribution-bar's palette.
+  .header-logo,
+  .header-actions {
+    --qgds-color-crest-fill: unset; // drop override by header-mobile-palette-*, re-inherit from :host's palette instead.
+    --qgds-color-link-default: unset;
+    --qgds-color-link-on-action: unset;
+    --qgds-color-background: unset;
+    --qgds-color-text-default: unset;
+    --qgds-icon-color: unset;
+
+    background-color: inherit; // drop own background-color declaration, re-inherit from parent instead.
+    color: inherit; // drop own color declaration, re-inherit from parent instead.
   }
 
+  .header-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-color: var(--qgds-color-crest-fill);
     --logo-height: #{tools.remify(56px)};
@@ -187,7 +218,6 @@ Scoped CSS: qgds-header
   }
 
   .header-site-name {
-    color: var(--qgds-color-text-default);
     font-size: tools.remify(20px);
     line-height: tools.remify(24px);
   }
