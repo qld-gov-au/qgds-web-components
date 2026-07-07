@@ -19,10 +19,29 @@
 
 </head>
 
-<body>
+<body class="qgds">
 
-  <qgds-banner variant="default" palette="bold"
-    heading="Cancelling your vehicle, trailer, caravan, motorised mobility device or boat registration" has-shadow="">
+  <qgds-header site-name="Insert site name">
+    <qgds-attribution-bar slot="pre-header" palette="bold">
+      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-search-input slot="search" placeholder="Search this site"></qgds-search-input>
+
+
+    <nav class="demo-nav" slot="navigation" aria-label="Main navigation">
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+      <a href="#">Menu text</a>
+    </nav>
+
+  </qgds-header>
+
+
+  <qgds-banner palette="soft" variant="basic" heading="Content page (basic banner) H1" background-option="none">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
@@ -30,7 +49,138 @@
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
     </qgds-breadcrumbs>
+    <div>Renew your licence at a customer service centre, government office or police station.</div>
   </qgds-banner>
+
+  <div class="qgds-container">
+    <div class="qgds-cols">
+      <aside class="qgds-span-3">
+        <qgds-side-navigation mobile-heading="In this section">
+          <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 1 second">
+            <qgds-side-navigation-item href="#" label="Level 2 first"></qgds-side-navigation-item>
+            <qgds-side-navigation-item href="#" label="Level 2 second">
+              <qgds-side-navigation-item href="#" is-active=""
+                label="Level 3 first is active"></qgds-side-navigation-item>
+              <qgds-side-navigation-item href="#"
+                label="Level 3 second, with a longer title that wraps"></qgds-side-navigation-item>
+              <qgds-side-navigation-item label="Level 3 third, no link"></qgds-side-navigation-item>
+            </qgds-side-navigation-item>
+            <qgds-side-navigation-item label="Level 2 third, no link"></qgds-side-navigation-item>
+            <qgds-side-navigation-item href="#"
+              label="Level 2 fourth"></qgds-side-navigation-item></qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 1 fourth"></qgds-side-navigation-item>
+        </qgds-side-navigation>
+      </aside>
+
+      <main class="qgds-span-8">
+        <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
+          <qgds-inpage-nav-item href="#introduction">Introduction</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
+        </qgds-inpage-nav>
+
+        <h2 id="introduction">Introduction</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut. Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+        <p>
+          Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae amet
+          ornare
+          donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+
+        <qgds-callout heading="Call out heading" variant="info">
+          <p>Call out content. Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi
+            condimentum volutpat feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae
+            venenatis vestibulum libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+        </qgds-callout>
+
+        <h3>Heading H3</h3>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum
+          volutpatfeugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum
+          libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+        <qgds-accordion-group show-controls="auto">
+          <qgds-accordion is-open="" title="This accordion is initially open.">
+            <p>This is the <strong>content</strong>.</p>
+          </qgds-accordion>
+
+
+          <qgds-accordion title="This accordion is initially closed.">
+            <p>This is the <strong>content</strong>.</p>
+          </qgds-accordion>
+
+
+          <qgds-accordion title="This accordion is initially closed.">
+            <p>This is the <strong>content</strong>.</p>
+          </qgds-accordion>
+
+        </qgds-accordion-group>
+
+
+      </main>
+    </div>
+  </div>
+
+
+  <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
+    contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
+    copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
+    footer-heading="Queensland Government" heading-level="2" palette="bold" social-heading="Follow us">
+    <!-- Contact Links -->
+    <qgds-footer-contact-item icon-id="phone" label="Phone" href="tel:137468"
+      value="13 QGOV (13 74 68)"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="email" label="Email" href="mailto:email@qld.gov.au"
+      value="email@qld.gov.au"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="facebook" href="https://www.facebook.com/QueenslandGovernment"
+      value="/QueenslandGovernment"></qgds-footer-contact-item>
+
+    <!-- Contact Buttons via contact-cta slot -->
+    <qgds-button href="https://qld.gov.au/contact" slot="contact-cta" label="Contact us" variant="secondary"
+      target="_blank"></qgds-button>
+
+    <!-- Site Links -->
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/disclaimer" label="Disclaimer"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
+      label="Right to information"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/accessibility"
+      label="Accessibility"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://smartjobs.qld.gov.au/"
+      label="Jobs in Queensland Government"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/languages" label="Other languages"></qgds-link>
+
+    <!-- Social Links -->
+    <qgds-link slot="footer-social-link" href="https://www.facebook.com/QueenslandGovernment" icon-name="facebook"
+      label="Facebook"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.linkedin.com/company/queensland-government"
+      icon-name="linkedin" label="LinkedIn"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.youtube.com/user/QueenslandGovt" icon-name="youtube"
+      label="Youtube"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.instagram.com/Queensland/" icon-name="instagram"
+      label="Instagram"></qgds-link>
+
+    <!-- Acknowledgement of Country -->
+    <div slot="aoc">
+      <p>
+        We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
+        their legacy. The foundations laid by these ancestors — our First Nations peoples — give
+        strength, inspiration and courage to current and future generations towards creating a better Queensland.
+      </p>
+    </div>
+
+    <!-- Main Government Link -->
+    <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+  </qgds-footer>
+  </div>
 
 </body>
 
