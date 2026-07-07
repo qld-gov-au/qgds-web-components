@@ -4,7 +4,8 @@ import componentCSS from "./qgds-link-column.styles.scss?inline";
 import { resetStyles } from "../../styles";
 
 import { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
-//Side effect loads qgds-call-to-action to register tag, and use in view-all CTA slot without needing consumers to also import it.
+
+// Component dependencies
 import "../qgds-call-to-action/qgds-call-to-action";
 
 export type LinkColumnDirection = "vertical" | "horizontal";
@@ -16,7 +17,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
  * @property {string} [aria-label] - Accessible label for the `<nav>` element (mapped to `navLabel`).
- * @property {LinkColumnDirection} [layout] - Layout direction: "vertical" (default) or "horizontal".
+ * @property {LinkColumnDirection} [direction = "vertical"] - Layout direction: "vertical" (default) or "horizontal".
  * @property {number} [columns] - Number of columns (1–3). Defaults to 1.
  * @property {string} [view-all-label] - Label for the view-all CTA. Defaults to "View all services".
  * @property {string} [view-all-url] - URL for the view-all CTA.
@@ -45,7 +46,6 @@ export class QGDSLinkColumn extends LitElement {
   @property({
     type: String,
     reflect: true,
-    attribute: "layout",
     converter: {
       fromAttribute: (val: string | null): LinkColumnDirection => (val === "horizontal" ? "horizontal" : "vertical"),
       toAttribute: (val: LinkColumnDirection): string => val,

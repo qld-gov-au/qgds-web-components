@@ -1,13 +1,19 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { baseStyles } from "../../styles";
-import componentCSS from "./qgds-navigation.styles.scss?inline";
-import "../qgds-link-item/qgds-link-item";
-import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
-import "../qgds-link-column/qgds-link-column";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { BreakpointController } from "../../utils";
 import qgdsBreakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
+
+// Styles
+import { baseStyles, utilitiesStyles } from "../../styles";
+import componentCSS from "./qgds-navigation.styles.scss?inline";
+
+// Component dependencies
+import "../qgds-link-item/qgds-link-item";
+import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
+import "../qgds-link-column/qgds-link-column";
+import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
+import "../qgds-tile-button/qgds-tile-button";
 
 export type NavigationVariant = "default" | "dark";
 export type NavigationOrientation = "horizontal" | "vertical";
@@ -40,7 +46,7 @@ export type NavigationOrientation = "horizontal" | "vertical";
  */
 @customElement("qgds-navigation")
 export class QGDSNavigation extends LitElement {
-  static styles = [baseStyles, unsafeCSS(componentCSS)];
+  static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
   /** Visual variant: "default" (light) or "dark". */
   @property({ type: String, reflect: true }) variant: NavigationVariant = "default";
@@ -49,14 +55,18 @@ export class QGDSNavigation extends LitElement {
   @property({ type: String, reflect: true }) orientation: NavigationOrientation = "horizontal";
 
   /** Layout passed to the auto-generated `<qgds-link-column>` inside each dropdown. */
-  @property({ type: String, reflect: true, attribute: "columns-layout" }) columnsLayout: NavigationOrientation =
+  @property({ type: String, reflect: true, attribute: "columns-direction" }) columnsDirection: LinkColumnDirection =
     "horizontal";
 
-  /** Number of columns for auto-generated mega-menu dropdowns. */
+  /** Number of columns for mega-menu dropdowns. */
   @property({ type: Number, reflect: true }) columns = 3;
 
   /** Accessible label applied to the `<nav>` landmark. */
   // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
+
+  /** internal orientation also responds to mobile view, independent of public orientation property. */
+  @state() private _orientation = this.orientation;
+  @state() private _isMobileOpen = false;
 
   // private
   private _breakpoint = new BreakpointController(this);
@@ -64,8 +74,38 @@ export class QGDSNavigation extends LitElement {
     return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
   }
 
+  connectedCallback(): void {
+    super.connectedCallback?.();
+
+    document.addEventListener("qgds-navigation-toggle", this._toggleMobileNav);
+    document.addEventListener("qgds-navigation-open", this._openMobileNav);
+    document.addEventListener("qgds-navigation-close", this._closeMobileNav);
+  }
+
+  disconnectedCallback(): void {
+    document.removeEventListener("qgds-navigation-toggle", this._toggleMobileNav);
+    document.removeEventListener("qgds-navigation-open", this._openMobileNav);
+    document.removeEventListener("qgds-navigation-close", this._closeMobileNav);
+  }
+
+  private _openMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = true;
+  };
+
+  private _closeMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = false;
+  };
+
+  private _toggleMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = !this._isMobileOpen;
+  };
+
+  protected willUpdate(): void {
+    this._orientation = this._isMobile ? "vertical" : this.orientation;
+  }
+
   protected updated(changed: Map<string, unknown>): void {
-    if (changed.has("orientation") || changed.has("columnsLayout") || changed.has("columns")) {
+    if (changed.has("_orientation") || changed.has("columnsDirection") || changed.has("columns")) {
       this._syncLayout();
     }
   }
@@ -73,10 +113,10 @@ export class QGDSNavigation extends LitElement {
   private _syncLayout(): void {
     // Only sync direct slot children — nested items inside dropdowns stay in standard mode
     this.querySelectorAll<QGDSLinkItem>(":scope > qgds-link-item").forEach((item) => {
-      item.layout = this.orientation as QGDSLinkItem["layout"];
-      item.columnsLayout = this.columnsLayout as QGDSLinkItem["columnsLayout"];
+      item.navigationOrientation = this._orientation;
+      item.columnsDirection = this.columnsDirection;
       item.isNavItem = true;
-      item.columns = this.orientation === "horizontal" ? this.columns : 1;
+      item.columns = this._orientation === "horizontal" ? this.columns : 1;
     });
   }
 
@@ -84,22 +124,47 @@ export class QGDSNavigation extends LitElement {
     this._syncLayout();
   };
 
-  render() {
+  private _renderNav = () => {
+    const shouldRenderAsVertical = this.orientation === "vertical" || this._isMobile;
+
     return html`
       <nav
         class="navigation ${classMap({
           "qgds-palette-bold": this.variant === "dark",
-          "is-horizontal": this.orientation === "horizontal",
-          "is-vertical": this.orientation === "vertical", // || this.isMobileView
+          "qgds-palette-default": this.variant !== "dark",
+          "is-vertical": this._orientation === "vertical",
+          "is-horizontal": this._orientation === "horizontal",
         })}"
       >
-        <div class="container">
-          ${html`<div class="navigation-list" role="list">
-            <slot @slotchange="${this._onSlotChange}"></slot>
-          </div>`}
-        </div>
+        ${html`<div class="navigation-list ${classMap({ "qgds-container": !shouldRenderAsVertical })}" role="list">
+          <slot @slotchange="${this._onSlotChange}"></slot>
+        </div>`}
       </nav>
     `;
+  };
+
+  render() {
+    return this._isMobile
+      ? html`<div
+          class="drawer ${classMap({
+            "is-open": this._isMobileOpen,
+            "qgds-palette-bold": this.variant !== "dark",
+            "qgds-palette-default": this.variant === "dark",
+          })}"
+        >
+          <div class="drawer-header flex align-items-center">
+            <span class="flex-1">Menu</span>
+            <qgds-tile-button
+              class="align-self-end"
+              icon-name="close"
+              label="Close"
+              @click=${this._closeMobileNav}
+            ></qgds-tile-button>
+          </div>
+          ${this._renderNav()}
+          <slot name="mobile-links"></slot>
+        </div>`
+      : this._renderNav();
   }
 }
 

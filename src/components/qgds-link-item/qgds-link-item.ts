@@ -7,8 +7,8 @@ import { resetStyles } from "../../styles";
 import "../qgds-link/qgds-link.js";
 import type { Animations, IconSize } from "../qgds-link/qgds-link.js";
 import "../qgds-icon/qgds-icon.js";
-
-export type NavItemLayout = "horizontal" | "vertical";
+import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
+import { NavigationOrientation } from "../qgds-navigation/qgds-navigation";
 
 /**
  * A single navigable item.
@@ -32,7 +32,6 @@ export type NavItemLayout = "horizontal" | "vertical";
  * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only).
  * @property {boolean} [is-current] - Marks this item as the current page.
  * @property {boolean} [is-nav-item] - Enables navigation bar behaviour. Set automatically by `<qgds-navigation>`.
- * @property {NavItemLayout} [layout="is-horizontal"] - Layout direction. Set automatically by `<qgds-navigation>`.
  *
  * @slot - Standard mode: nested `<qgds-link-item>` elements. Nav mode: a single `<qgds-link-column>`.
  *
@@ -65,11 +64,13 @@ export class QGDSLinkItem extends LitElement {
   /** Set automatically by `<qgds-navigation>` — enables nav bar render mode. */
   @property({ type: Boolean, attribute: "is-nav-item", reflect: true }) isNavItem = false;
   /** Set automatically by `<qgds-navigation>`. */
-  @property({ type: String, reflect: true }) layout: NavItemLayout = "horizontal";
+  @property({ type: String, attribute: "navigation-orientation", reflect: true })
+  navigationOrientation: NavigationOrientation = "horizontal";
   /** Number of columns in the dropdown. Set automatically by `<qgds-navigation>`. */
   @property({ type: Number, reflect: true }) columns = 3;
-  /** Layout passed to the auto-generated `<qgds-link-column>`. Set automatically by `<qgds-navigation>`. */
-  @property({ type: String, attribute: "columns-layout", reflect: true }) columnsLayout: NavItemLayout = "horizontal";
+  /** Direction passed to the auto-generated `<qgds-link-column>`. Set automatically by `<qgds-navigation>`. */
+  @property({ type: String, attribute: "columns-layout", reflect: true }) columnsDirection: LinkColumnDirection =
+    "horizontal";
   /** URL for the view-all CTA in the dropdown mega-menu. */
   @property({ type: String, attribute: "view-all-url" }) viewAllUrl = "";
   /** Label for the view-all CTA in the dropdown mega-menu. */
@@ -172,8 +173,8 @@ export class QGDSLinkItem extends LitElement {
 
     if (existingColumn) {
       existingColumn.setAttribute("columns", String(this.columns));
-      existingColumn.setAttribute("layout", this.columnsLayout);
-      if (this.layout !== "horizontal") {
+      existingColumn.setAttribute("layout", this.columnsDirection);
+      if (this.navigationOrientation !== "horizontal") {
         existingColumn.setAttribute("suppress-icons", "");
       } else {
         existingColumn.removeAttribute("suppress-icons");
@@ -192,9 +193,9 @@ export class QGDSLinkItem extends LitElement {
 
     const col = document.createElement("qgds-link-column");
     col.setAttribute("columns", String(this.columns));
-    col.setAttribute("layout", this.columnsLayout);
+    col.setAttribute("layout", this.columnsDirection);
 
-    if (this.layout === "horizontal") {
+    if (this.navigationOrientation === "horizontal") {
       if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);
       if (this.viewAllLabel) col.setAttribute("view-all-label", this.viewAllLabel);
     } else {
@@ -215,7 +216,7 @@ export class QGDSLinkItem extends LitElement {
 
     this.querySelector("qgds-link-item.header")?.remove();
 
-    if (!column || !this.isNavItem || this.layout !== "horizontal") return;
+    if (!column || !this.isNavItem || this.navigationOrientation !== "horizontal") return;
 
     const header = document.createElement("qgds-link-item") as HTMLElement &
       Pick<QGDSLinkItem, "label" | "href" | "description">;
@@ -237,7 +238,7 @@ export class QGDSLinkItem extends LitElement {
   render() {
     // ── Nav mode ────────────────────────────────────────────────────────────
     if (this.isNavItem) {
-      const isHorizontal = this.layout === "horizontal";
+      const isHorizontal = this.navigationOrientation === "horizontal";
       return html`
         <qgds-link
           class="${classMap({ "has-children": this._hasDropdown, "is-open": this._hasDropdown && this._isOpen })}"

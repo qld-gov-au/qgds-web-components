@@ -63,11 +63,29 @@ const meta: Meta<Args> = {
     ...argTypes,
     variant: { control: "radio", options: argTypes.variant.options },
     orientation: { control: "radio", options: argTypes.orientation.options },
-    "columns-layout": { control: "radio", options: argTypes["columns-layout"].options },
+    "columns-direction": { control: "radio", options: argTypes["columns-direction"].options },
     columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
-    "aria-label": { control: "text" },
   },
   render: (args) => template(args, navItems),
+  decorators: [
+    (story) => {
+      return html`${story()}
+        <button
+          class="qgds-mt-24"
+          @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
+        >
+          Open mobile menu
+        </button>
+        <br />
+        <button @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-close", { bubbles: true }))}>
+          Close mobile menu
+        </button>
+        <br />
+        <button @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-toggle", { bubbles: true }))}>
+          Toggle mobile menu
+        </button>`;
+    },
+  ],
 };
 
 export default meta;
@@ -75,37 +93,35 @@ type Story = StoryObj<Args>;
 
 /** Default light horizontal navigation — link click opens the mega-menu dropdown. */
 export const Default: Story = {
-  args: { variant: "default", layout: "horizontal", columns: 3 },
+  args: { variant: "default", columns: 3 },
   parameters: { ...chromaticModes },
 };
 
 /** Dark horizontal navigation. */
 export const Dark: Story = {
-  args: { variant: "dark", layout: "horizontal", columns: 3 },
-  decorators: [(story) => html`<div class="qld__body--dark">${story()}</div>`],
+  args: { variant: "dark", columns: 3 },
   parameters: { ...chromaticModes },
 };
 
 /** Vertical layout — a chevron toggle button expands the dropdown inline. No header link repeated. */
 export const Vertical: Story = {
-  args: { variant: "default", layout: "vertical", columns: 1 },
+  args: { variant: "default", orientation: "vertical", columns: 1 },
   parameters: { ...chromaticModes },
 };
 
 /** Dark vertical layout. */
 export const DarkVertical: Story = {
   args: { variant: "dark", orientation: "vertical", columns: 1 },
-  decorators: [(story) => html`<div class="qld__body--dark">${story()}</div>`],
   parameters: { ...chromaticModes },
 };
 
 /** Simple links — no dropdowns. */
 export const SimpleLinks: Story = {
-  args: { variant: "default", layout: "horizontal", columns: 3 },
+  args: { variant: "default", orientation: "horizontal", columns: 3 },
   render: (args) => html`
     <qgds-navigation
       variant="${args.variant}"
-      layout="${args.layout}"
+      orientation="${args.layout}"
       columns="${args.columns}"
       aria-label="${args["aria-label"]}"
     >
@@ -174,7 +190,7 @@ export const SimpleLinks2: Story = {
   render: (args) => html`
     <qgds-navigation
       variant="${args.variant}"
-      layout="${args.layout}"
+      orientation="${args.layout}"
       columns="${args.columns}"
       aria-label="${args["aria-label"]}"
     >
@@ -202,7 +218,7 @@ export const SimpleLinks2Vertical: Story = {
   render: (args) => html`
     <qgds-navigation
       variant="${args.variant}"
-      layout="${args.layout}"
+      orientation="${args.layout}"
       columns="${args.columns}"
       aria-label="${args["aria-label"]}"
     >

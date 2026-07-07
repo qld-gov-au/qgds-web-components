@@ -1,5 +1,6 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 @use "../../styles/tools/functions" as f;
+@use "../../styles/tools/mixins" as m;
 
 :host {
   --nav-bg: var(--qgds-color-background-shade, #f5f5f5);
@@ -26,49 +27,72 @@
 
   &.is-horizontal {
     --nav-bar-height: 60px;
+    --accent-width: #{f.remify(8px)};
 
-    border-block-end: 0.5rem solid var(--qgds-color-accent-design-accent);
+    border-block-end: var(--accent-width) solid var(--qgds-color-accent-design-accent);
   }
 
-  // &.is-vertical {
-  //   // TODO consolidate all vertical styles here.
-  // }
+  &.is-vertical {
+    --no-link-padding: 0;
+    --accent-width: #{f.remify(4px)};
+
+    border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
+
+    @include m.md-up() {
+      --accent-width: #{f.remify(6px)};
+    }
+  }
 
   &-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
     block-size: var(--nav-bar-height);
+
+    .is-horizontal & {
+      // pull the accent border underneath nav items.
+      margin-block-end: calc(var(--accent-width) * -1);
+    }
+
+    .is-vertical & {
+      flex-direction: column;
+      border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
+      margin-inline-start: calc(var(--accent-width) * -1);
+    }
   }
 }
 
-// TODO replace with class qgds-container when merged
-.container {
-  --padding: f.remify(16px);
-
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  inset-inline: auto 0;
   inline-size: 100%;
-  margin-inline: auto;
-  max-inline-size: calc(#{bp.$xl} + calc(var(--qgds-grid-padding) * 2));
-  padding-inline: var(--padding);
-  margin-block-end: -0.5rem;
+  max-inline-size: f.remify(320px);
+  background-color: var(--qgds-color-background-shade, #003e96);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform var(--qgds-transition-duration, 0.2s) var(--qgds-transition-easing-inverse, ease-in); // ease in as the drawer closes
 
-  @media (min-width: bp.$md) {
-    --padding: #{f.remify(32px)};
+  // header
+  &-header {
+    position: sticky;
+    background-color: var(--qgds-color-background, #005eb8);
+    inset-block-start: 0;
+    padding-inline-start: f.remify(16px);
+    block-size: f.remify(48px);
   }
-}
 
-:host([orientation="vertical"]) {
-  --no-link-padding: 0;
+  @include m.md-up() {
+    max-inline-size: f.remify(420px);
 
-  max-inline-size: 15rem;
-  border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
+    &-header {
+      block-size: f.remify(72px);
+    }
+  }
 
-  .navigation-list {
-    flex-direction: column;
-    border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
-    margin-inline-start: -6px;
+  &.is-open {
+    // ease out as the drawer opens
+    transition-timing-function: var(--qgds-transition-easing, ease-out);
+    transform: translateX(0);
   }
 }

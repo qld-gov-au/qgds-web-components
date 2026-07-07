@@ -28,29 +28,29 @@
 }
 
 // Horizontal: always grid, default 1 column
-:host([layout="horizontal"]) .items {
+:host([direction="horizontal"]) .items {
   display: grid;
   grid-template-columns: 1fr;
   column-gap: clamp(2rem, 4vw, 4rem);
 }
 
 // Horizontal + columns override
-:host([layout="horizontal"][columns="2"]) .items {
+:host([direction="horizontal"][columns="2"]) .items {
   grid-template-columns: repeat(2, 1fr);
 }
 
-:host([layout="horizontal"][columns="3"]) .items {
+:host([direction="horizontal"][columns="3"]) .items {
   grid-template-columns: repeat(3, 1fr);
 }
 
 // Vertical multi-column: only needed for 2 and 3
 // Uses :not([layout="horizontal"]) so it works when layout attr is absent (default vertical)
-:host([columns="2"]:not([layout="horizontal"])) .items {
+:host([columns="2"]:not([direction="horizontal"])) .items {
   column-count: 2;
   column-gap: clamp(2rem, 4vw, 4rem);
 }
 
-:host([columns="3"]:not([layout="horizontal"])) .items {
+:host([columns="3"]:not([direction="horizontal"])) .items {
   column-count: 3;
   column-gap: clamp(2rem, 4vw, 4rem);
 }
@@ -94,31 +94,31 @@ qgds-call-to-action {
 
 // Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)
 @media (width <= bp.$lg) {
-  :host([layout="horizontal"][columns="3"]) .items {
+  :host([direction="horizontal"][columns="3"]) .items {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 2rem;
   }
 
-  :host([columns="3"]:not([layout="horizontal"])) .items {
+  :host([direction="3"]:not([layout="horizontal"])) .items {
     column-count: 2;
     column-gap: 2rem;
   }
 }
 
 @media (width <= bp.$md) {
-  :host([layout="horizontal"][columns="2"]) .items {
+  :host([direction="horizontal"][columns="2"]) .items {
     grid-template-columns: 1fr;
   }
 
-  :host([columns="2"]:not([layout="horizontal"])) .items {
+  :host([columns="2"]:not([direction="horizontal"])) .items {
     column-count: 1;
   }
 
-  :host([layout="horizontal"][columns="3"]) .items {
+  :host([direction="horizontal"][columns="3"]) .items {
     grid-template-columns: 1fr;
   }
 
-  :host([columns="3"]:not([layout="horizontal"])) .items {
+  :host([columns="3"]:not([direction="horizontal"])) .items {
     column-count: 1;
   }
 }
