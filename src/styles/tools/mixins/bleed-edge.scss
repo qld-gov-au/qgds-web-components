@@ -1,0 +1,14 @@
+// Full bleed (edge to edge) regions span the full width of the container
+@mixin bleed-edge-bg() {
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc((100cqw - 100%) / -2);
+    background-color: inherit;
+    z-index: -1;
+  }
+}

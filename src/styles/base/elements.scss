@@ -1,4 +1,5 @@
 @use "../tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 // ALl text based elements, lists, etc. These are the most basic styles for content within the body of the page, and are usually overridden within components. These are not slotted-specific, but they can be overridden by slotted styles if used within a component that includes the reset-slotted mixin.
 p,
@@ -138,6 +139,13 @@ a {
   li + li,
   li :is(ul, ol) {
     margin-block-start: var(--qgds-vspace-list-item);
+  }
+
+  @media (max-width: bp.$lg) {
+    &.no-pad {
+      margin-inline: calc(var(--qgds-grid-padding) * -1);
+      padding-inline: calc(var(--qgds-grid-padding));
+    }
   }
 }
 
