@@ -62,6 +62,16 @@
   }
 }
 
+// native dialog resets - .drawer class will apply actual styling
+dialog {
+  padding: 0;
+  border: none;
+  max-inline-size: none;
+  max-block-size: none;
+  inline-size: auto;
+  block-size: auto;
+}
+
 .drawer {
   position: fixed;
   inset-block: 0;
@@ -71,9 +81,42 @@
   background-color: var(--qgds-color-background-shade, #003e96);
   overflow-y: auto;
   transform: translateX(100%);
-  transition: transform var(--qgds-transition-duration, 0.2s) var(--qgds-transition-easing-inverse, ease-in); // ease in as the drawer closes
+  transition-property: transform overlay display;
+  transition-duration: var(--qgds-transition-duration, 0.2s);
+  transition-timing-function: (--qgds-transition-easing-inverse, ease-in); // ease in as the drawer closes
+  transition-behavior: allow-discrete; // enable display and overlay to transition
 
-  // header
+  &::backdrop {
+    opacity: 0;
+    background-color: var(--qgds-overlay-bg, #001d74);
+    transition-property: opacity overlay display;
+    transition-duration: var(--qgds-transition-duration, 0.2s);
+    transition-timing-function: (--qgds-transition-easing-inverse, ease-in);
+    transition-behavior: allow-discrete;
+  }
+
+  // native <dialog> element uses [open] att, is-open class is kept here just as fallback
+  &.is-open,
+  &[open] {
+    // ease out as the drawer opens
+    transition-timing-function: var(--qgds-transition-easing, ease-out);
+    transform: translateX(0);
+
+    &::backdrop {
+      opacity: 0.95;
+    }
+
+    // starting style enables transitions from display: none
+    @starting-style {
+      transform: translateX(100%);
+
+      &::backdrop {
+        opacity: 0;
+      }
+    }
+  }
+
+  // drawer-header
   &-header {
     position: sticky;
     background-color: var(--qgds-color-background, #005eb8);
@@ -88,11 +131,5 @@
     &-header {
       block-size: f.remify(72px);
     }
-  }
-
-  &.is-open {
-    // ease out as the drawer opens
-    transition-timing-function: var(--qgds-transition-easing, ease-out);
-    transform: translateX(0);
   }
 }

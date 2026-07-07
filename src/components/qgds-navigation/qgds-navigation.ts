@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { BreakpointController } from "../../utils";
 import qgdsBreakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
@@ -68,6 +68,8 @@ export class QGDSNavigation extends LitElement {
   @state() private _orientation = this.orientation;
   @state() private _isMobileOpen = false;
 
+  @query("dialog") private _dialogElement!: HTMLDialogElement | null;
+
   // private
   private _breakpoint = new BreakpointController(this);
   private get _isMobile() {
@@ -102,11 +104,16 @@ export class QGDSNavigation extends LitElement {
 
   protected willUpdate(): void {
     this._orientation = this._isMobile ? "vertical" : this.orientation;
+    if (!this._isMobile) this._isMobileOpen = false;
   }
 
   protected updated(changed: Map<string, unknown>): void {
     if (changed.has("_orientation") || changed.has("columnsDirection") || changed.has("columns")) {
       this._syncLayout();
+    }
+    if (changed.has("_isMobileOpen")) {
+      if (this._isMobileOpen) this._dialogElement?.showModal();
+      else this._dialogElement?.close();
     }
   }
 
@@ -145,9 +152,9 @@ export class QGDSNavigation extends LitElement {
 
   render() {
     return this._isMobile
-      ? html`<div
+      ? html` <dialog
           class="drawer ${classMap({
-            "is-open": this._isMobileOpen,
+            // "is-open": this._isMobileOpen,
             "qgds-palette-bold": this.variant !== "dark",
             "qgds-palette-default": this.variant === "dark",
           })}"
@@ -163,7 +170,7 @@ export class QGDSNavigation extends LitElement {
           </div>
           ${this._renderNav()}
           <slot name="mobile-links"></slot>
-        </div>`
+        </dialog>`
       : this._renderNav();
   }
 }
