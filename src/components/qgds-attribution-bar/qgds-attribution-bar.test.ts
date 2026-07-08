@@ -32,7 +32,7 @@ describe("qgds-attribution-bar", () => {
   it("renders all sections", () => {
     expect(element.shadowRoot?.querySelector(".attribution-bar-collection")).not.toBeNull();
 
-    expect(element.shadowRoot?.querySelector(".attribution-bar-attribution")).not.toBeNull();
+    expect(element.shadowRoot?.querySelector(".attribution-bar-links")).not.toBeNull();
   });
 
   it("renders the expected slots", () => {

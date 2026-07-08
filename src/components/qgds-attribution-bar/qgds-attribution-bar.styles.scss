@@ -11,12 +11,7 @@
   box-shadow: var(--qgds-elevation-2);
 
   &-container {
-    display: flex;
-    justify-content: space-between;
-    max-inline-size: tools.remify(1312px);
-    margin-inline: auto;
     padding-block: tools.remify(6px);
-    padding-inline: tools.remify(48px);
   }
 
   ::slotted(*) {
@@ -28,9 +23,10 @@
     --qgds-icon-color: var(--qgds-color-action-secondary);
   }
 
-  &-links,
-  &-attribution {
+  &-links {
     display: flex;
+    justify-content: flex-end;
+    min-inline-size: fit-content;
     gap: tools.remify(16px);
   }
 }

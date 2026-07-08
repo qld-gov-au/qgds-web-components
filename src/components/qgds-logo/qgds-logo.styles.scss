@@ -31,8 +31,8 @@
   // Example: Set color via --logo-color or use color property
   svg {
     max-block-size: 100%;
-    max-inline-size: 100%;
     block-size: auto;
+    inline-size: auto;
     display: inline-block;
     color: var(--logo-color); // Fallback SVG will inherit this via currentColor
   }
