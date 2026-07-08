@@ -58,7 +58,7 @@
   }
 }
 
-:where(.qgds-content-block).is-viewport-edge-mobile {
+:where(.qgds-content-wrap) .qgds-content-block {
   margin-inline: calc(var(--qgds-grid-padding) * -1);
   padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
 
