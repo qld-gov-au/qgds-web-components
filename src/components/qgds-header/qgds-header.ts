@@ -1,6 +1,7 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { palettes } from "../../utils";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import componentCSS from "./qgds-header.styles.scss?inline";
@@ -8,6 +9,10 @@ import componentCSS from "./qgds-header.styles.scss?inline";
 // <qgds-logo> for the brand logo and <qgds-icon> for the mobile Search/Menu buttons.
 import "../qgds-logo/qgds-logo.js";
 import "../qgds-icon/qgds-icon.js";
+import "../qgds-tile-button/qgds-tile-button.js";
+import { QGDSAttributionBar } from "../..";
+
+type QGDSPalette = keyof typeof palettes;
 
 export const tagName = "qgds-header";
 export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
@@ -38,6 +43,7 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  *
  * @tagname qgds-header
  *
+ * @prop {String} [palette="default"] - Colour palette for main section of the Header component.
  * @prop {String} [site-name] - Optional site name shown beside the logo (desktop) or in its own band (mobile).
  * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
  * @prop {Boolean} [menu-open=false] - Mobile Menu button toggle state (drives the button icon only).
@@ -53,8 +59,8 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
  *
  * @example Standard usage — coat-of-arms logo plus a site name.
  * ```html
- * <qgds-header site-name="Insert site name">
- *   <qgds-attribution-bar slot="pre-header"> … </qgds-attribution-bar>
+ * <qgds-header palette="default" site-name="Insert site name">
+ *   <qgds-attribution-bar slot="pre-header" palette="bold"> … </qgds-attribution-bar>
  *   <qgds-search-input slot="search"></qgds-search-input>
  *   <nav slot="navigation"> … </nav>
  * </qgds-header>
@@ -73,6 +79,9 @@ export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
 export class QGDSHeader extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
+  @property({ type: String, reflect: true, useDefault: true })
+  palette: QGDSPalette = "default";
+
   @property({ type: String, attribute: "site-name" })
   siteName?: string;
 
@@ -82,11 +91,15 @@ export class QGDSHeader extends LitElement {
   @property({ type: Boolean, attribute: "menu-open", reflect: true })
   menuOpen = false;
 
+  @state() private _preHeaderPalette: QGDSPalette = "bold";
+
   /** Whether custom markup has been slotted into the `site-name` slot. */
   @state() private _hasSiteNameSlot = false;
 
   /** Whether the `search` slot has content — drives the mobile Search button. */
   @state() private _hasSearchSlot = false;
+
+  @state() private _searchEl: (HTMLElement & { focusInput?: () => void; blurInput?: () => void }) | null = null;
 
   /** Whether the `navigation` slot has content — drives the mobile Menu button. */
   @state() private _hasNavSlot = false;
@@ -104,22 +117,78 @@ export class QGDSHeader extends LitElement {
     this._hasSiteNameSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
   };
 
+  // Look for a `<qgds-attribution-bar>` and, if found, reads its `palette`
+  // to apply to the mobile Search/Menu buttons.
+  // If not found, defaults to "bold" (the default palette for `<qgds-attribution-bar>`).
+  private _handlePreHeaderSlotChange = (e: Event): void => {
+    const slot = e.target as HTMLSlotElement;
+
+    const attributionBar = slot
+      .assignedElements({ flatten: true })
+      .find((el): el is QGDSAttributionBar => el.tagName.toLowerCase() === "qgds-attribution-bar");
+
+    this._preHeaderPalette = attributionBar?.palette ?? "bold";
+  };
+
   // The Search button only flips `searchOpen` to switch its icon and emits
   // `qgds-toggle-search-mobile`; the slotted search component owns what happens next.
   private _toggleSearch = (): void => {
     this.searchOpen = !this.searchOpen;
     this.events.dispatch("toggle-search-mobile");
-  };
 
-  // Likewise, the Menu button only flips `menuOpen` for its icon and emits
-  // `qgds-toggle-nav-menu`; the slotted mega menu opens/closes itself.
-  private _toggleMenu = (): void => {
-    this.menuOpen = !this.menuOpen;
-    this.events.dispatch("toggle-nav-menu");
+    if (this.searchOpen) {
+      // Focus on the search when search is opened.
+      void this.updateComplete.then(() => this._searchEl?.focus());
+    }
   };
 
   private _handleSearchSlotChange = (e: Event): void => {
-    this._hasSearchSlot = (e.target as HTMLSlotElement).assignedElements().length > 0;
+    const assigned = (e.target as HTMLSlotElement).assignedElements({ flatten: true });
+    this._hasSearchSlot = assigned.length > 0;
+    this._searchEl = (assigned[0] as (HTMLElement & { focusInput?: () => void }) | undefined) ?? null;
+  };
+
+  // Hide the search panel if the user clicks outside it or the toggle button
+  private _handleOutsideSearchClick = (e: MouseEvent): void => {
+    const path = e.composedPath();
+    const searchPanel = this.renderRoot.querySelector("#header-search-panel");
+    const toggleBtn = this.renderRoot.querySelector(".header-action[aria-controls='header-search-panel']");
+
+    // Click landed inside the search panel or on the toggle button itself — ignore.
+    if ((searchPanel && path.includes(searchPanel)) || (toggleBtn && path.includes(toggleBtn))) {
+      return;
+    }
+
+    this.searchOpen = false;
+  };
+
+  private _handleNavigationClose = (): void => {
+    this.menuOpen = false;
+  };
+
+  connectedCallback(): void {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+    document.addEventListener("click", this._handleOutsideSearchClick);
+
+    // Listen for the navigation closing globally to reset our icon
+    window.addEventListener("qgds-navigation-close", this._handleNavigationClose);
+  }
+
+  disconnectedCallback(): void {
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
+    document.removeEventListener("click", this._handleOutsideSearchClick);
+
+    window.removeEventListener("qgds-navigation-close", this._handleNavigationClose);
+  }
+
+  private _openMobileNav = (): void => {
+    // We set our internal state to open so the icon switches to 'close'
+    this.menuOpen = true;
+    this.events.dispatch("navigation-open");
   };
 
   private _handleNavSlotChange = (e: Event): void => {
@@ -130,60 +199,61 @@ export class QGDSHeader extends LitElement {
     return html`
       <header class="header">
         <div class="header-preheader">
-          <slot name="pre-header"></slot>
+          <slot name="pre-header" @slotchange=${this._handlePreHeaderSlotChange}></slot>
         </div>
 
         <div class="header-content">
-          <div class="header-content-inner">
-            <div class="header-logo">
+          <div class="header-content-inner qgds-container">
+            <div
+              class=${classMap({
+                "header-logo": true,
+                [`header-mobile-palette-${this._preHeaderPalette}`]: true,
+              })}
+            >
               <slot name="logo">
                 <qgds-logo logo="coa-stacked" alt="Queensland Government"></qgds-logo>
               </slot>
             </div>
 
-            <div class=${classMap({ "header-secondary": true, "is-empty": !this._showSiteName })}>
+            <div
+              class=${classMap({
+                "header-secondary": true,
+                "is-empty": !this._showSiteName,
+              })}
+            >
               <span class="header-site-name" ?hidden=${!this._showSiteName}>
                 <slot name="site-name" @slotchange=${this._handleSiteNameSlotChange}>${this.siteName}</slot>
               </span>
             </div>
 
-            <div class="header-actions">
+            <div
+              class=${classMap({
+                "header-actions": true,
+                [`header-mobile-palette-${this._preHeaderPalette}`]: true,
+              })}
+            >
               ${this._hasSearchSlot
                 ? html`
-                    <button
-                      type="button"
+                    <qgds-tile-button
+                      label=${this.searchOpen ? "Close" : "Search"}
+                      icon-name=${this.searchOpen ? "close" : "search"}
                       class="header-action"
                       aria-controls="header-search-panel"
                       aria-expanded=${this.searchOpen ? "true" : "false"}
                       @click=${this._toggleSearch}
-                    >
-                      <qgds-icon
-                        class="header-action-icon"
-                        icon-id=${this.searchOpen ? "close" : "search"}
-                        size="md"
-                        aria-hidden="true"
-                      ></qgds-icon>
-                      <span class="header-action-label">Search</span>
-                    </button>
+                    ></qgds-tile-button>
                   `
                 : nothing}
               ${this._hasNavSlot
                 ? html`
-                    <button
-                      type="button"
+                    <qgds-tile-button
+                      label="Menu"
+                      icon-name="menu"
                       class="header-action"
                       aria-controls="header-nav-panel"
                       aria-expanded=${this.menuOpen ? "true" : "false"}
-                      @click=${this._toggleMenu}
-                    >
-                      <qgds-icon
-                        class="header-action-icon"
-                        icon-id=${this.menuOpen ? "close" : "menu"}
-                        size="md"
-                        aria-hidden="true"
-                      ></qgds-icon>
-                      <span class="header-action-label">Menu</span>
-                    </button>
+                      @click=${this._openMobileNav}
+                    ></qgds-tile-button>
                   `
                 : nothing}
             </div>

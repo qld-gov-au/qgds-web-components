@@ -32,7 +32,7 @@
 
     --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
-    @container search-input (min-width: #{qgds-breakpoint.$md}) {
+    @media (min-width: #{qgds-breakpoint.$md}) {
       display: block
     }
   }
@@ -56,7 +56,7 @@
   --padding-left: #{f.remify(12px)};
   --padding-right: #{f.remify(60px)};
 
-  @container search-input (min-width: #{qgds-breakpoint.$md}) {
+  @media (min-width: #{qgds-breakpoint.$md}) {
     // Left: icon width (24px) + left offset (12px) + gap (8px)
     // Right: button width (approx 88px for "Search" + padding)
     // Use custom properties so border-padding mixin compensates when borders appear (e.g. filled:focus)
@@ -136,7 +136,7 @@
   }
 
   // Responsive: full label mode on medium or larger container sizes
-  @container search-input (min-width: #{qgds-breakpoint.$md}) {
+  @media (min-width: #{qgds-breakpoint.$md}) {
     padding-inline: f.remify(20px);
     inline-size: auto;
 
