@@ -1,9 +1,7 @@
 @forward "qgds-breakpoint" as breakpoint-*;
 @forward "qgds-border";
 @forward "qgds-color-stub"; //temporary stub until tokens are ready
-@forward "qgds-color";
 @forward "qgds-elevation";
 @forward "qgds-typography";
 @forward "qgds-size";
 @forward "qgds-space";
-@forward "qgds-animation";

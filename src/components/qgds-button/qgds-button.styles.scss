@@ -4,7 +4,9 @@
   --btn-border-colour: var(--qgds-color-action-secondary, transparent);
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
 
+  // Overridable defaults
   display: inline-block;
+  font-size: 1rem;
 }
 
 :host [disabled] {
@@ -29,7 +31,6 @@
   color: var(--text, white);
   gap: var(--qgds-gap-inline, 0.5rem);
   border-radius: var(--qgds-border-radius);
-  font-size: var(--qgds-font-size, 1rem);
   text-decoration: none;
   text-decoration-color: transparent;
   text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
@@ -63,13 +64,10 @@
   &:disabled,
   &.disabled {
     --text: var(--qgds-color-text-lighter, #666);
-    
+
     cursor: not-allowed;
     background: var(--qgds-color-disabled, #ccc);
     text-decoration: none;
-    
-    // pointer-events: none;
-
     box-shadow: none;
     outline: none;
   }
@@ -110,7 +108,8 @@
     box-shadow: var(--qgds-elevation-1);
   }
 
-  &:disabled, &.disabled {
+  &:disabled,
+  &.disabled {
     box-shadow: none;
   }
 }

@@ -1,25 +1,23 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { html as staticHtml, unsafeStatic } from "lit/static-html.js";
 import { customElement, property } from "lit/decorators.js";
 import componentCSS from "./qgds-link-column.styles.scss?inline";
 import { resetStyles } from "../../styles";
 
 import { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
-//Side effect loads qgds-call-to-action to register tag, and use in view-all CTA slot without needing consumers to also import it.
+
+// Component dependencies
 import "../qgds-call-to-action/qgds-call-to-action";
 
 export type LinkColumnDirection = "vertical" | "horizontal";
 
 /**
- * A navigation landmark that organises a set of `<qgds-link-item>` elements into a titled column.
+ * A navigation landmark that organises a set of `<qgds-link-item>` elements into a column.
  * Supports vertical and horizontal layouts, multi-column grids, and an optional view-all CTA.
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
- * @property {string} [heading] - The visible heading text rendered above the link list.
- * @property {string} [aria-label] - Accessible label for the `<nav>` element (mapped to `navLabel`). Falls back to `heading`.
- * @property {number} [heading-level] - Heading rank for the heading element (1–6). Defaults to 3.
- * @property {LinkColumnDirection} [layout] - Layout direction: "vertical" (default) or "horizontal".
+ * @property {string} [aria-label] - Accessible label for the `<nav>` element (mapped to `navLabel`).
+ * @property {LinkColumnDirection} [direction = "vertical"] - Layout direction: "vertical" (default) or "horizontal".
  * @property {number} [columns] - Number of columns (1–3). Defaults to 1.
  * @property {string} [view-all-label] - Label for the view-all CTA. Defaults to "View all services".
  * @property {string} [view-all-url] - URL for the view-all CTA.
@@ -32,7 +30,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  *
  * @example
  * ```html
- * <qgds-link-column heading="Our services" heading-level="2" layout="vertical" columns="2" view-all-url="/services">
+ * <qgds-link-column aria-label="Our services" layout="vertical" columns="2" view-all-url="/services">
  *   <qgds-link-item label="Planning" href="/planning"></qgds-link-item>
  *   <qgds-link-item label="Environment" href="/environment"></qgds-link-item>
  * </qgds-link-column>
@@ -42,28 +40,12 @@ export type LinkColumnDirection = "vertical" | "horizontal";
 export class QGDSLinkColumn extends LitElement {
   static styles = [resetStyles, unsafeCSS(componentCSS)];
 
-  @property({ type: String, reflect: true }) heading = "";
   @property({ type: String, attribute: "aria-label" })
   navLabel = "";
-  @property({ type: Number, attribute: "heading-level" })
-  get headingLevel() {
-    return this._headingLevel;
-  }
-
-  set headingLevel(val: number) {
-    if (this._managingHeadingLevel) return;
-    const old = this._headingLevel;
-    this._headingLevel = Number.isFinite(val) && val > 0 ? Math.round(val) : old;
-    this.requestUpdate("headingLevel", old);
-  }
-
-  private _headingLevel = 3;
-  private _managingHeadingLevel = false;
 
   @property({
     type: String,
     reflect: true,
-    attribute: "layout",
     converter: {
       fromAttribute: (val: string | null): LinkColumnDirection => (val === "horizontal" ? "horizontal" : "vertical"),
       toAttribute: (val: LinkColumnDirection): string => val,
@@ -76,6 +58,10 @@ export class QGDSLinkColumn extends LitElement {
 
   @property({ type: String, attribute: "view-all-url" })
   viewAllURL = "#";
+
+  /** When true, suppresses automatic icon-name / animation assignment on child link-items.
+   * Set automatically by `<qgds-link-item>` when the parent navigation uses a non-horizontal layout. */
+  @property({ type: Boolean, attribute: "suppress-icons", reflect: true }) suppressIcons = false;
 
   private _columns = 1;
   @property({ type: Number, reflect: true })
@@ -90,35 +76,33 @@ export class QGDSLinkColumn extends LitElement {
     this.requestUpdate("columns", old);
   }
 
-  private _syncHeadingLevelAttr() {
-    this._managingHeadingLevel = true;
-    if (this.heading) {
-      this.setAttribute("heading-level", String(this.headingLevel));
-    } else {
-      this.removeAttribute("heading-level");
-    }
-    this._managingHeadingLevel = false;
-  }
-
   protected firstUpdated(): void {
-    if (!this.heading && !this.navLabel) {
+    if (!this.navLabel) {
       console.warn(
-        '<qgds-link-column>: No "heading" or "aria-label" provided. The <nav> landmark is using a generic fallback label ("Navigation"). For WCAG 2.4.1 compliance, provide a meaningful "heading" or "aria-label" attribute that describes the purpose of this navigation.'
+        '<qgds-link-column>: No "aria-label" provided. The <nav> landmark is using a generic fallback label ("Navigation"). For WCAG 2.4.1 compliance, provide a meaningful "aria-label" attribute that describes the purpose of this navigation.'
       );
     }
-    this._syncHeadingLevelAttr();
     // slotchange fires before the @slotchange listener is ready on first render;
     // configure any link-items already in the light DOM.
-    this.querySelectorAll("qgds-link-item").forEach((item) => {
-      if (!item.iconName) item.iconName = "arrow-right";
-      if (!item.animation) item.animation = "leftToRight";
-    });
+    this._applyIconsToItems(this.querySelectorAll<QGDSLinkItem>("qgds-link-item"));
   }
 
   updated(changedProps: Map<string, unknown>) {
-    if (changedProps.has("heading") || changedProps.has("headingLevel")) {
-      this._syncHeadingLevelAttr();
+    if (changedProps.has("suppressIcons")) {
+      this._applyIconsToItems(this.querySelectorAll<QGDSLinkItem>("qgds-link-item"));
     }
+  }
+
+  private _applyIconsToItems(items: NodeListOf<QGDSLinkItem> | QGDSLinkItem[]): void {
+    items.forEach((item) => {
+      if (this.suppressIcons) {
+        item.iconName = "";
+        item.animation = "";
+      } else {
+        if (!item.iconName) item.iconName = "arrow-right";
+        if (!item.animation) item.animation = "leftToRight";
+      }
+    });
   }
 
   private _onSlotChange = (e: Event) => {
@@ -130,18 +114,14 @@ export class QGDSLinkColumn extends LitElement {
         );
         (el as HTMLElement).style.display = "none";
       } else {
-        const item = el as QGDSLinkItem;
-        if (!item.iconName) item.iconName = "arrow-right";
-        if (!item.animation) item.animation = "leftToRight";
+        this._applyIconsToItems([el as QGDSLinkItem]);
       }
     });
   };
 
   render() {
-    const tag = unsafeStatic(`h${this.headingLevel}`);
     return html`
-      <nav class="link-column" aria-label=${this.navLabel || this.heading || "Navigation"}>
-        ${this.heading ? staticHtml`<${tag} class="heading">${this.heading}</${tag}>` : ""}
+      <nav class="link-column" aria-label=${this.navLabel || "Navigation"}>
         <div class="items" role="list">
           <slot @slotchange=${this._onSlotChange}></slot>
           ${!!this.viewAllURL && this.viewAllURL.trim().length > 0 && this.viewAllURL.trim() !== "#"

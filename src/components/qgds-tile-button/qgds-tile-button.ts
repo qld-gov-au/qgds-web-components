@@ -5,6 +5,7 @@ import { QgdsEvents } from "../../utils";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-tile-button.styles.scss?inline";
 import { IconName } from "../qgds-icon/icon-names";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 export const tagName = "qgds-tile-button";
 
@@ -47,13 +48,13 @@ export class QGDSTileButton extends LitElement {
     return this.href
       ? html`
           <a class="qgds-tile-button" href="${this.href}" @click="${this._handleClick}">
-            <qgds-icon icon-id="${this.iconName}"></qgds-icon>
+            <qgds-icon icon-id="${ifDefined(this.iconName)}"></qgds-icon>
             ${this.label}
           </a>
         `
       : html`
           <button class="qgds-tile-button" @click="${this._handleClick}">
-            <qgds-icon icon-id="${this.iconName}"></qgds-icon>
+            <qgds-icon icon-id="${ifDefined(this.iconName)}"></qgds-icon>
             ${this.label}
           </button>
         `;

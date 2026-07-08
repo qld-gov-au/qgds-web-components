@@ -24,7 +24,7 @@ describe("qgds-link-item", () => {
     expect(element.href).toBe("");
     expect(element.description).toBe("");
     expect(element.isDisabled).toBe(false);
-    expect(element.iconName).toBe("arrow-right");
+    expect(element.iconName).toBe("");
     expect(element.iconSize).toBe("md");
     expect(element.animation).toBe("");
   });

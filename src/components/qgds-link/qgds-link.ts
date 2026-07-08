@@ -8,7 +8,16 @@ import "../qgds-icon/qgds-icon.js";
 import type { IconSize } from "../qgds-icon/qgds-icon.js";
 import type { IconName } from "../qgds-icon/icon-names";
 
-export type Animations = "" | "leftToRight" | "rightToLeft" | "topToBottom" | "bottomToTop" | "scaleIn" | "scaleOut";
+export type Animations =
+  | ""
+  | "leftToRight"
+  | "rightToLeft"
+  | "topToBottom"
+  | "bottomToTop"
+  | "scaleIn"
+  | "scaleOut"
+  | "rotateIn"
+  | "rotateOut";
 export type { IconSize };
 
 /**
