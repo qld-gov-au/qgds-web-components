@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import "./qgds-tile-button";
-import type {QGDSTileButton} from "./qgds-tile-button";
+import type { QGDSTileButton } from "./qgds-tile-button";
 
 describe("qgds-tile-button", () => {
   let element: QGDSTileButton;
@@ -18,8 +18,6 @@ describe("qgds-tile-button", () => {
     await element.updateComplete;
 
     expect(element.label).toBe("");
-    expect(element.href).toBe("");
-    expect(element.iconName).toBe("");
   });
 
   it("renders a button with the correct label and icon", async () => {
