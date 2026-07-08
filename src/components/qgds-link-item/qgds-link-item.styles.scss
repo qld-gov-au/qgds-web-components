@@ -256,9 +256,10 @@ div[role="list"] {
   padding-inline: 0;
   background-color: var(--nav-sub-bg, #ffffff);
 
-  qgds-call-to-action {
-    display: none;
-  }
+  // Will not work, find another way.
+  // qgds-call-to-action {
+  //   display: none;
+  // }
 }
 
 :host([is-nav-item]) qgds-link-item.header {
