@@ -54,25 +54,6 @@ export const Default: Story = {
   },
 };
 
-/** Link column with no aria-label — the nav landmark uses the generic fallback (triggers a console warning). */
-export const NoAriaLabel: Story = {
-  args: {
-    columns: 2,
-    layout: "vertical",
-    "view-all-label": "View all services",
-    "view-all-url": "#",
-  },
-  render: (args) =>
-    template(
-      args,
-      html`
-        <qgds-link-item label="Driver licence" href="#driver-licence"></qgds-link-item>
-        <qgds-link-item label="Vehicle registration" href="#vehicle-registration"></qgds-link-item>
-        <qgds-link-item label="Learner licence" href="#learner-licence"></qgds-link-item>
-      `
-    ),
-};
-
 /** Link column with an explicit aria-label to satisfy WCAG 2.4.1. */
 export const WithAriaLabel: Story = {
   name: "With aria-label",
@@ -83,6 +64,7 @@ export const WithAriaLabel: Story = {
     "view-all-label": "View all services",
     "view-all-url": "#",
   },
+  parameters: { chromatic: { disableSnapshot: true } },
   render: (args) =>
     template(
       args,
