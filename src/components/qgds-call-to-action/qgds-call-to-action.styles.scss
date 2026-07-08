@@ -11,4 +11,11 @@
 
 :host([is-view-all]) {
   --qgds-link-font-size: 1.25rem;
+    --qgds-link-border-end-width: 0;
+    --qgds-link-border-end-style: solid;
+    --qgds-link-border-end-colour: transparent;
+
+    qgds-link {
+      inline-size: auto;
+    }
 }

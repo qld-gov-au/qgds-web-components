@@ -1,14 +1,26 @@
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+
 :host {
   --qgds-link-item-padding-top: unset;
-  --qgds-link-padding: calc(1rem - 1px);
+  --qgds-link-padding: var(--no-link-padding, var(--qgds-link-padding-block, calc(1rem - 1px)));
   --qgds-link-margin-inline-start: auto;
   --qgds-link-width: 100%;
   --qgds-link-font-weight: 600;
+  --qgds-link-padding-block: 0.75rem;
   --qgds-link-border-radius-focus: 0px;
 
   display: block;
   break-inside: avoid;
-  padding-block-start: var(--qgds-link-item-padding-top, 1rem);
+  padding-block: var(--qgds-link-item-padding-top, 1rem) var(--qgds-link-item-padding-bottom, unset);
+  border-block-end: var(--qgds-vertical-border-size, 0) solid var(--qgds-vertical-color-border, transparent);
+  border-inline-start: var(--qgds-vertical-border-start-size, 0) solid transparent;
+}
+
+:host(:hover) {
+  background-color: var(--nav-bg-hover);
+  border-inline-start: var(--qgds-vertical-border-start-size, 0) solid
+    var(--qgds-vertical-border-start-colour, transparent);
 }
 
 :host > qgds-link {
@@ -16,10 +28,12 @@
 }
 
 .description {
-  margin-block: 0 0.75rem;
+  display: var(--_description-display, block);
+  margin-block: 1.25rem 0;
   margin-inline: 0;
   font-size: 14px;
   color: var(--qgds-color-text-default);
+  margin-block-end: 0;
 }
 
 div[role="list"] {
@@ -27,5 +41,259 @@ div[role="list"] {
 
   ::slotted(qgds-link-item) {
     --qgds-link-padding-inline-start: 1rem;
+  }
+}
+
+// =============================================================================
+// Nav mode (:host([is-nav-item]))
+// Activated automatically when the item is slotted into <qgds-navigation>.
+// =============================================================================
+
+:host([is-nav-item]) {
+  --qgds-link-padding: var(--qgds-link-padding2, 0);
+
+  display: flex;
+  align-items: stretch;
+  padding-block-start: 0;
+  break-inside: auto;
+
+  p.description {
+    display: none;
+  }
+}
+
+:host([is-nav-item]) .dropdown-menu {
+  display: none;
+  background-color: var(--nav-sub-bg, var(--qgds-color-background, #ffffff));
+  border-end-end-radius: 0.75rem;
+  border-end-start-radius: 0.75rem;
+
+  &.show {
+    display: block;
+
+    @media (min-width: bp.$lg) {
+      position: absolute;
+      inset-block-start: var(--nav-bar-height, 3.5rem);
+      inset-inline: 0;
+      inline-size: 100%;
+      box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.12);
+      max-inline-size: 1376px;
+      margin-inline: auto;
+      z-index: 3;
+    }
+  }
+}
+
+:host(.header) {
+  --icon-spacing: 0;
+  --qgds-link-margin-inline-start: 0;
+
+  & > qgds-link {
+    --qgds-link-font-size: 1.5rem;
+    --qgds-link-font-weight: 700;
+  }
+
+  & > .description {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-block-end: 1rem;
+  }
+}
+
+:host([is-nav-item]) qgds-link {
+  --qgds-color-link-default: var(--nav-link, var(--qgds-color-link-default, #005eb8));
+  --qgds-color-link-hover: var(--nav-link-hover, var(--qgds-color-link-hover, #005eb8));
+  --qgds-link-font-weight: 600;
+  --qgds-link-font-size: 0.9375rem;
+  --qgds-link-decoration: none;
+  --qgds-link-border-end-width: 0;
+  --active-border-color: var(--qgds-color-accent-design-accent, #005eb8);
+  --qgds-link-padding-inline: 1.25rem;
+  --qgds-link-padding-block: 0.75rem;
+
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+
+  &:active,
+  &.is-open {
+    --active-border-color: var(--nav-border-active);
+
+    background-color: var(--nav-bg, var(--qgds-color-background-shade, #f5f5f5));
+  }
+
+  &:hover {
+    --active-border-color: var(--nav-border-hover);
+
+    background-color: var(--nav-bg-hover, var(--qgds-color-background-shade, #f5f5f5));
+  }
+}
+
+:host([is-nav-item][is-current]) qgds-link {
+  --active-border-color: var(--nav-border-active);
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) qgds-link {
+  border-inline-start: 6px solid var(--active-border-color);
+
+  &.has-children {
+    max-inline-size: 80%;
+    border-start-end-radius: 16px;
+
+    &.is-open {
+      --nav-border-active: var(--qgds-color-accent-design-accent);
+
+      background-color: var(--nav-sub-bg, #ffffff);
+      border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
+
+      &:hover {
+        --nav-border-active: var(--nav-border-hover);
+      }
+
+      &:active {
+        --nav-border-active: var(--nav-border-active);
+      }
+    }
+  }
+}
+
+:host([is-nav-item][navigation-orientation="horizontal"]) qgds-link {
+  --qgds-link-focus-outline-offset: -1px;
+  --qgds-link-focus-border-radius: 0;
+
+  block-size: 100%;
+  border-block-end: 0.5rem solid var(--active-border-color);
+
+  &:active,
+  &.is-open {
+    border-block-end-color: var(--active-border-color);
+  }
+}
+
+:host([is-nav-item][is-current]) qgds-link:hover {
+  --active-border-color: var(--nav-border-hover);
+}
+
+:host([is-nav-item][navigation-orientation="horizontal"]) qgds-link.has-children {
+  --qgds-link-chevron-display: flex;
+}
+
+:host([is-nav-item][navigation-orientation="horizontal"]) qgds-link:hover {
+  --qgds-link-focus-outline-offset: -1px;
+  --qgds-link-focus-border-radius: 0;
+
+  border-block-end-color: var(--active-border-color);
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) qgds-link:hover {
+  background-color: var(--nav-bg-hover, var(--qgds-color-background-shade, #f5f5f5));
+  border-inline-start-color: var(--active-border-color);
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) qgds-link:active,
+:host([is-nav-item][navigation-orientation="vertical"]) qgds-link.is-open {
+  border-inline-start-color: var(--active-border-color);
+}
+
+:host([is-nav-item]) ::slotted(qgds-link-column) {
+  --nav-bg-hover: transparent;
+
+  display: block;
+  padding-block: 2rem;
+  padding-inline: 1.5rem;
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) {
+  --_description-display: none;
+  --qgds-link-focus-outline-offset: 0;
+  --qgds-link-focus-border-radius: 0;
+
+  flex-direction: column;
+  border-block-end: 1px solid var(--qgds-color-border, #ebebeb);
+  position: relative;
+}
+
+:host([suppress-icons]) {
+  --no-link-padding: 0;
+}
+
+:host([is-nav-item]) .mobile-function {
+  display: flex;
+  align-items: stretch;
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) .mobile-function {
+  position: absolute;
+  inset-inline-end: 6px;
+  inset-block-start: 7px;
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) .dropdown-menu.show {
+  --qgds-link-item-padding-bottom: 1rem;
+
+  position: relative;
+  box-shadow: none;
+  border-block-start: 0;
+  inset-block-start: 0;
+}
+
+:host([is-nav-item][navigation-orientation="vertical"]) ::slotted(qgds-link-column) {
+  --qgds-link-padding-inline-start: 0;
+  --qgds-link-item-padding-bottom: 0;
+  --qgds-link-item-padding-top: 0;
+  --qgds-link-padding-block: 0.75rem;
+  --qgds-link-padding-inline: 1.25rem;
+  --qgds-link-border-end-width: 0;
+  --qgds-link-border-end-colour: transparent;
+  --qgds-vertical-color-border: var(--qgds-color-border, #ebebeb);
+  --qgds-vertical-border-size: 1px;
+  --qgds-vertical-border-start-colour: var(--nav-border-hover);
+  --qgds-vertical-border-start-size: 6px;
+
+  display: block;
+  padding-block: 0;
+  padding-inline: 0;
+  background-color: var(--nav-sub-bg, #ffffff);
+
+  // Will not work, find another way.
+  // qgds-call-to-action {
+  //   display: none;
+  // }
+}
+
+:host([is-nav-item]) qgds-link-item.header {
+  --qgds-link-font-size: 1.125rem;
+  --qgds-link-font-weight: 700;
+  --icon-spacing: 0;
+  --qgds-link-margin-inline-start: 0;
+
+  display: block;
+}
+
+:host([is-nav-item]) .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.25rem;
+  padding-block: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--nav-link, var(--qgds-color-link-default, #005eb8));
+  transition: background-color 0.15s ease;
+  outline: none;
+  border-radius: 100%;
+  box-shadow: var(--qgds-elevation-1);
+  background-color: #fff;
+
+  @include m.focusable();
+
+  qgds-icon {
+    transition: transform 0.2s ease;
+  }
+
+  &.open qgds-icon {
+    transform: rotate(180deg);
   }
 }

@@ -14,7 +14,7 @@
   // Text decoration for links and interactive elements
   --qgds-link-decoration: underline;
   --qgds-link-decoration-hover: underline;
-  --qgds-link-underline-offset: 0.3em;
+  --qgds-link-underline-offset: 30%; // Percentage rather than em value will cascade and always be relative to current font size.
   --qgds-link-decoration-thickness: 0.5px;
   --qgds-link-decoration-thickness-hover: 2px;
 
@@ -55,10 +55,6 @@
   --qgds-grid-gutter: 1rem;
   --qgds-grid-padding: 1rem;
 
-  @each $name, $svg in icons.$icon-names {
-    --qgds-icon-#{$name}: url("#{f.svg-encode($svg)}");
-  }
-
   @media (min-width: qgds-breakpoint.$md) {
     --qgds-grid-gutter: 1.5rem;
     --qgds-grid-padding: 2rem;
@@ -67,6 +63,15 @@
   @media (min-width: qgds-breakpoint.$lg) {
     --qgds-grid-gutter: 2rem;
   }
+
+  @each $name, $svg in icons.$icon-names {
+    --qgds-icon-#{$name}: url("#{f.svg-encode($svg)}");
+  }
+
+  // global transition variables
+  --qgds-transition-duration: 200ms;
+  --qgds-transition-easing: ease-out;
+  --qgds-transition-easing-inverse: ease-in;
 }
 
 // Global Styling for HTML elements - generic/global namespace primary for body content
