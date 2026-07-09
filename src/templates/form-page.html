@@ -62,7 +62,7 @@
   </qgds-navigation>
 
 
-  <qgds-banner palette="soft" variant="basic" heading="Content page (basic banner) H1" background-option="none">
+  <qgds-banner palette="soft" variant="no-banner">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
@@ -70,7 +70,6 @@
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
     </qgds-breadcrumbs>
-    <div>Renew your licence at a customer service centre, government office or police station.</div>
   </qgds-banner>
 
   <div class="qgds-container qgds-cols qgds-py-64">
@@ -100,189 +99,61 @@
 
       <div class="qgds-content-block qgds-pt-0">
 
-        <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
-          <qgds-inpage-nav-item href="#introduction">Introduction</qgds-inpage-nav-item>
-          <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
-          <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
-        </qgds-inpage-nav>
-
-        <h1>Content page (basic banner) H1</h1>
-
-        <h2 id="introduction" class="m-24">Introduction</h2>
+        <h1>Simple Form Page H1</h1>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
           pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
-          Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
-        <p>
-          Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae
-          amet
-          ornare
-          donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
 
-        <qgds-callout heading="Call out heading" variant="info">
-          <p>Call out content. Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi
-            condimentum volutpat feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae
-            venenatis vestibulum libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
-
-        </qgds-callout>
-
-        <h3>Heading H3</h3>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum
-          volutpatfeugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum
-          libero ut. Luctus diam pellentesque ipsum accumsan amet commodo.</p>
-
-        <qgds-accordion-group show-controls="auto">
-          <qgds-accordion is-open="" title="This accordion is initially open.">
-            <p>This is the <strong>content</strong> in accordion 1.</p>
-          </qgds-accordion>
-
-
-          <qgds-accordion title="This accordion is initially closed.">
-            <p>This is the <strong>content</strong> in accordion 2. It also contains <a href="#">a link</a>.</p>
-          </qgds-accordion>
-
-
-          <qgds-accordion title="This accordion is initially closed.">
-            <p>This is the <strong>content</strong> in accordion 3. Find this text.</p>
-          </qgds-accordion>
-
-        </qgds-accordion-group>
-
-      </div>
-
-
-
-
-      <div class="qgds-content-block qgds-palette-soft is-viewport-edge-mobile">
-        <h2>Section Heading</h2>
+        <h2 id="introduction" class="m-24">Enruiry Form</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          libero ut.
+          feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+          ut.
           Luctus diam pellentesque ipsum accumsan amet commodo.</p>
       </div>
 
 
-      <div class="qgds-content-block">
-        <h2>Heading H2</h2>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          feugiat
-          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
-          Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
-        <ul>
-          <li>List item 1</li>
-          <li>List item 2</li>
-          <li>List item 3</li>
-        </ul>
-      </div>
+      <form class="qgds-content-block" action="#" method="get" name="myform">
+        <qgds-text-input hint="Your name should match your identity document" id="full-width-text-input" required
+          indicate-if="required" label="Your name" size="full" type="text"></qgds-text-input>
 
-      <div class="qgds-content-block">
-        <qgds-blockquote cite-label="Sir Tim Berners-Lee" cite-url="https://example.com/source">
-          <p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able
-            to create
-            things we cannot ourselves imagine.</p>
-        </qgds-blockquote>
-      </div>
+        <qgds-text-input hint="Provide a way for us to contact you" id="full-width-text-input" required
+          label="Your email or phone number" size="40" type="text"></qgds-text-input>
 
-      <div class="qgds-content-block">
-        <h2>Heading H2</h2>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          feugiat
-          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
-          Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
+        <qgds-radio-group hint="Choose one option." id="priority" indicate-if="required" label="Priority"
+          name="priority" required="" size="lg">
+          <qgds-radio value="low" label="Low"></qgds-radio>
+          <qgds-radio value="medium" label="Medium"></qgds-radio>
+          <qgds-radio value="high" label="High"></qgds-radio>
+        </qgds-radio-group>
 
-        <qgds-video aspect-ratio="16x9" caption="Caption text goes here" duration="3:12" source="youtube"
-          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg" video-id="LDU_Txk06tM"></qgds-video>
+        <qgds-checkbox-group hint="Select all that apply." id="interests" indicate-if="optional" label="Interests"
+          name="interests" size="lg">
+          <qgds-checkbox value="design" label="Design"></qgds-checkbox>
+          <qgds-checkbox valuesafa="code" label="Code"></qgds-checkbox>
+          <qgds-checkbox value="research" label="Research"></qgds-checkbox>
+        </qgds-checkbox-group>
 
-      </div>
+        <qgds-select id="my-select" label="Select your favorite pet" hint="Using qgds-select-option custom elements">
+          <qgds-select-option value="dog" label="Dog"></qgds-select-option>
+          <qgds-select-option value="cat" label="Cat"></qgds-select-option>
+          <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
+          <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
+          <qgds-select-option value="spider" label="Spider (unavailable)" disabled=""></qgds-select-option>
+          <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
+        </qgds-select>
 
-      <div class="qgds-content-block">
-        <h2 id="overview">Heading H2</h2>
-        <div class="qgds-cols qgds-cols-1 qgds-cols-md-2">
+        <qgds-button label="Send enquiry" variant="primary" type="submit"></qgds-button>
+      </form>
 
-          <qgds-card action="single" target="_blank" heading="Card title"
-            href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
-            palette="default">
-            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
-          </qgds-card>
 
-          <qgds-card action="single" target="_blank" heading="Card title"
-            href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
-            palette="soft">
-            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
-          </qgds-card>
+  </div>
 
-        </div>
-      </div>
 
-      <div class="qgds-content-block">
-        <h2 id="getting-started">Heading H2</h2>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          feugiat
-          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
-          Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
 
-        <qgds-table responsive="scroll">
 
-          <table>
-            <caption>
-              Table caption
-              <span class="caption-subtitle">Table is ordered by</span>
-            </caption>
-            <thead>
-              <tr>
-                <th scope="col">Header 1</th>
-                <th scope="col">Header 2</th>
-                <th scope="col">Header 3</th>
-              </tr>
-            </thead>
-            <tbody>
 
-              <tr>
-                <td>Cell item 01</td>
-                <td>Cell item 02</td>
-                <td>Cell item 03</td>
-              </tr>
-              <tr>
-                <td>Cell item 04</td>
-                <td>Cell item 05</td>
-                <td>Cell item 06</td>
-              </tr>
-              <tr>
-                <td>Cell item 07</td>
-                <td>Cell item 08</td>
-                <td>Cell item 09</td>
-              </tr>
-              <tr>
-                <td>Cell item 10</td>
-                <td>Cell item 11</td>
-                <td>Cell item 12</td>
-              </tr>
-              <tr>
-                <td>Cell item 13</td>
-                <td>Cell item 14</td>
-                <td>Cell item 15</td>
-              </tr>
-
-            </tbody>
-            <tfoot>
-              <tr>
-                <td>Footer 1</td>
-                <td>Footer 2</td>
-                <td>Footer 3</td>
-              </tr>
-            </tfoot>
-          </table>
-
-        </qgds-table>
-
-    </main>
+  </main>
 
   </div>
 

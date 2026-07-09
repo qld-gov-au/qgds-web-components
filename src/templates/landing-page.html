@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGDS Web Components - Example Content Page </title>
+
+  <!-- CDN source design system resources 
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/css/qgds-web-components.min.css">
+  <script
+    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/js/qgds-web-components.min.js"
+    defer></script>
+  -->
+
+  <!-- Local design system resources from dist-->
+  <script type="module" src="/src/index.ts"></script>
+
+</head>
+
+<body class="qgds">
+
+  <qgds-header>
+    <qgds-attribution-bar slot="pre-header" palette="bold">
+      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
+
+    <qgds-search-input slot="search"></qgds-search-input>
+
+  </qgds-header>
+
+  <qgds-navigation columns="3" columns-direction="horizontal" orientation="horizontal" variant="default"
+    slot="navigation" slot="navigation">
+    <qgds-link-item label="Home" href="#" icon-name="home" only-icon=""></qgds-link-item>
+
+    <qgds-link-item label="Services" href="#services" view-all-url="#services" view-all-label="View all services">
+      <qgds-link-item label="Visiting someone in hospital" href="#visiting"></qgds-link-item>
+      <qgds-link-item label="Going to hospital" href="#going"></qgds-link-item>
+      <qgds-link-item label="Leaving hospital" href="#leaving"></qgds-link-item>
+      <qgds-link-item label="Aboriginal and Torres Strait Islander support" href="#atsi"></qgds-link-item>
+      <qgds-link-item label="Interpreter services" href="#interpreter"></qgds-link-item>
+      <qgds-link-item label="Your health record" href="#records"></qgds-link-item>
+    </qgds-link-item>
+
+    <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all" is-current="">
+      <qgds-link-item label="Know your habits" href="#habits"
+        description="Learn what makes you feel like smoking, how you can avoid triggers, and change your habits."></qgds-link-item>
+      <qgds-link-item label="What to expect" href="#expect"
+        description="Learn how to manage withdrawal symptoms, stress and possible weight gain."></qgds-link-item>
+      <qgds-link-item label="Use quit tools and apps" href="#tools"
+        description="Keep on track by using digital tools and apps for support, motivation and useful advice while quitting."></qgds-link-item>
+      <qgds-link-item label="Get help from Quitline" href="#quitline"
+        description="Quitline is a telephone service dedicated to helping Queenslanders quit smoking."></qgds-link-item>
+    </qgds-link-item>
+
+    <qgds-link-item label="About" href="#about"></qgds-link-item>
+  </qgds-navigation>
+
+  <qgds-banner palette="bold" variant="advanced"
+    heading="Cancelling your vehicle, trailer, caravan, motorised mobility device or boat registration"
+    background-option="image"
+    image-url="https://qld-gov-au.github.io/qgds-web-components/assets/banner-background-image-jwp-03th.jpg"
+    small-image-url="https://qld-gov-au.github.io/qgds-web-components/assets/banner-background-image-mobile-DuwQR-ks.jpg"
+    image-description="" has-shadow="">
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+    <div>Renew your licence at a customer service centre, government office or police station.</div>
+  </qgds-banner>
+
+  <main class="qgds-py-64">
+
+    <div class="qgds-container qgds-cols">
+
+      <div class="qgds-span-12">
+
+        <div class="qgds-content-block qgds-pt-0">
+
+          <h1>Content page (basic banner) H1</h1>
+
+          <h2 id="introduction">Introduction</h2>
+          <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+            feugiat
+            pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+            Luctus
+            diam
+            pellentesque ipsum accumsan amet commodo.</p>
+          <p>
+            Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae
+            amet
+            ornare
+            donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+
+        </div>
+
+        <div class="qgds-content-block qgds-px-lg-0">
+          <h2>Discover</h2>
+          <qgds-link-column columns="3" direction="vertical" view-all-label="View all" view-all-url="#view-all"
+            layout="vertical">
+            <qgds-link-item label="Pay a fine" href="#"></qgds-link-item>
+            <qgds-link-item label="Register to vote" href="#"></qgds-link-item>
+            <qgds-link-item label="Apply for a grant" href="#"></qgds-link-item>
+            <qgds-link-item label="Book a health appointment" href="#"></qgds-link-item>
+            <qgds-link-item label="Renew your passport" href="#"></qgds-link-item>
+            <qgds-link-item label="Update your address" href="#"></qgds-link-item>
+            <qgds-link-item label="Apply for a business licence" href="#"></qgds-link-item>
+            <qgds-link-item label="Check your rates" href="#"></qgds-link-item>
+            <qgds-link-item label="Report an issue" href="#"></qgds-link-item>
+            <qgds-link-item label="Access your tax records" href="#"></qgds-link-item>
+            <qgds-link-item label="Find a service centre" href="#"></qgds-link-item>
+            <qgds-link-item label="Submit a complaint" href="#"></qgds-link-item>
+          </qgds-link-column>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="qgds-palette-deep">
+      <div class="qgds-container">
+        <div class="qgds-content-block">
+          <h2>Content Section</h2>
+
+          <div class="qgds-cols qgds-cols-1 qgds-cols-2:sm qgds-cols-3:lg">
+
+            <qgds-card action="single" target="_blank" heading="Card title"
+              href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
+              palette="default">
+              <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+            </qgds-card>
+
+            <qgds-card action="single" target="_blank" heading="Card title"
+              href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="settings"
+              palette="soft">
+              <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+            </qgds-card>
+
+            <qgds-card action="single" target="_blank" heading="Card title"
+              href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon"
+              icon-name="manage-accounts" palette="muted">
+              <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+            </qgds-card>
+
+            <qgds-card action="single" target="_blank" heading="Card title"
+              href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="download"
+              palette="bold">
+              <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+            </qgds-card>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <qgds-promotional-panel variant="indent-text" image-url="https://picsum.photos/seed/qgds-beach/600/400"
+      image-description="Promotional image" content-alignment="content-start" icon-name="home"
+      heading="Title goes here and has a maximum of 65 character limit" heading-level="h2"
+      abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
+      palette="default">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
+        suspendisse mi quisque consequat aliquet egestas.
+      </p>
+      <qgds-call-to-action slot="footer-ctalinks" href="#" label="CTA Link"></qgds-call-to-action>
+
+      <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Primary Action" label="Primary"
+        variant="primary" href="https://www.qld.gov.au" id="">
+      </qgds-button>
+      <qgds-button slot="footer-buttons" target="_self" type="button" aria-label="Secondary Action" label="Secondary"
+        variant="secondary" href="https://www.qld.gov.au" id="">
+      </qgds-button>
+    </qgds-promotional-panel>
+
+  </main>
+
+
+  <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
+    contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
+    copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
+    footer-heading="Queensland Government" heading-level="2" palette="bold" social-heading="Follow us">
+    <!-- Contact Links -->
+    <qgds-footer-contact-item icon-id="phone" label="Phone" href="tel:137468"
+      value="13 QGOV (13 74 68)"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="email" label="Email" href="mailto:email@qld.gov.au"
+      value="email@qld.gov.au"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="facebook" href="https://www.facebook.com/QueenslandGovernment"
+      value="/QueenslandGovernment"></qgds-footer-contact-item>
+
+    <!-- Contact Buttons via contact-cta slot -->
+    <qgds-button href="https://qld.gov.au/contact" slot="contact-cta" label="Contact us" variant="secondary"
+      target="_blank"></qgds-button>
+
+    <!-- Site Links -->
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/disclaimer" label="Disclaimer"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
+      label="Right to information"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/accessibility"
+      label="Accessibility"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://smartjobs.qld.gov.au/"
+      label="Jobs in Queensland Government"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/languages" label="Other languages"></qgds-link>
+
+    <!-- Social Links -->
+    <qgds-link slot="footer-social-link" href="https://www.facebook.com/QueenslandGovernment" icon-name="facebook"
+      label="Facebook"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.linkedin.com/company/queensland-government"
+      icon-name="linkedin" label="LinkedIn"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.youtube.com/user/QueenslandGovt" icon-name="youtube"
+      label="Youtube"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.instagram.com/Queensland/" icon-name="instagram"
+      label="Instagram"></qgds-link>
+
+    <!-- Acknowledgement of Country -->
+    <div slot="aoc">
+      <p>
+        We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
+        their legacy. The foundations laid by these ancestors — our First Nations peoples — give
+        strength, inspiration and courage to current and future generations towards creating a better Queensland.
+      </p>
+    </div>
+
+    <!-- Main Government Link -->
+    <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+  </qgds-footer>
+  </div>
+
+</body>
+
+<style>
+
+</style>
+
+</html>
