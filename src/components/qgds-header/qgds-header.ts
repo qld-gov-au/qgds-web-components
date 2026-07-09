@@ -1,21 +1,19 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { palettes } from "../../utils";
+import { generateUUID, palettes, scrubSlotContent } from "../../utils";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import componentCSS from "./qgds-header.styles.scss?inline";
-// Side-effect imports register the elements used in the default slot content:
-// <qgds-logo> for the brand logo and <qgds-icon> for the mobile Search/Menu buttons.
+
+// Component dependencies
 import "../qgds-logo/qgds-logo.js";
-import "../qgds-icon/qgds-icon.js";
 import "../qgds-tile-button/qgds-tile-button.js";
 import { QGDSAttributionBar } from "../..";
 
 type QGDSPalette = keyof typeof palettes;
 
 export const tagName = "qgds-header";
-export type QGDSHeaderProps = InstanceType<typeof QGDSHeader>;
 
 /**
  * The site header is a composite container made up of stacked full-width bands:
@@ -88,21 +86,20 @@ export class QGDSHeader extends LitElement {
   @property({ type: Boolean, attribute: "search-open", reflect: true })
   searchOpen = false;
 
-  @property({ type: Boolean, attribute: "menu-open", reflect: true })
-  menuOpen = false;
-
   @state() private _preHeaderPalette: QGDSPalette = "bold";
 
   /** Whether custom markup has been slotted into the `site-name` slot. */
   @state() private _hasSiteNameSlot = false;
 
   /** Whether the `search` slot has content — drives the mobile Search button. */
-  @state() private _hasSearchSlot = false;
+  @state() private _hasSearchElement = false;
 
   @state() private _searchEl: (HTMLElement & { focusInput?: () => void; blurInput?: () => void }) | null = null;
 
   /** Whether the `navigation` slot has content — drives the mobile Menu button. */
-  @state() private _hasNavSlot = false;
+  @state() private _hasNavElement = false;
+  @state() private _navElementId = "";
+  @state() private _menuOpen = false;
 
   private events = new QgdsEvents(this);
 
@@ -110,6 +107,27 @@ export class QGDSHeader extends LitElement {
   private get _showSiteName(): boolean {
     return !!this.siteName || this._hasSiteNameSlot;
   }
+  connectedCallback(): void {
+    super.connectedCallback();
+    document.addEventListener("click", this._handleOutsideSearchClick);
+    document.addEventListener("qgds-navigation-closed", this._handleNavigationClosed);
+    document.addEventListener("qgds-navigation-opened", this._handleNavigationOpened);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._handleOutsideSearchClick);
+    document.removeEventListener("qgds-navigation-closed", this._handleNavigationClosed);
+    document.removeEventListener("qgds-navigation-opened", this._handleNavigationOpened);
+  }
+
+  private _handleNavigationClosed = (): void => {
+    this._menuOpen = false;
+  };
+
+  private _handleNavigationOpened = (): void => {
+    this._menuOpen = true;
+  };
 
   // `assignedNodes()` (no flatten) returns only real assignments, ignoring the
   // `${this.siteName}` fallback — so this is true only for slotted custom markup.
@@ -144,7 +162,7 @@ export class QGDSHeader extends LitElement {
 
   private _handleSearchSlotChange = (e: Event): void => {
     const assigned = (e.target as HTMLSlotElement).assignedElements({ flatten: true });
-    this._hasSearchSlot = assigned.length > 0;
+    this._hasSearchElement = assigned.length > 0;
     this._searchEl = (assigned[0] as (HTMLElement & { focusInput?: () => void }) | undefined) ?? null;
   };
 
@@ -162,37 +180,15 @@ export class QGDSHeader extends LitElement {
     this.searchOpen = false;
   };
 
-  private _handleNavigationClose = (): void => {
-    this.menuOpen = false;
-  };
-
-  connectedCallback(): void {
-    if (super.connectedCallback) {
-      super.connectedCallback();
-    }
-    document.addEventListener("click", this._handleOutsideSearchClick);
-
-    // Listen for the navigation closing globally to reset our icon
-    window.addEventListener("qgds-navigation-close", this._handleNavigationClose);
-  }
-
-  disconnectedCallback(): void {
-    if (super.disconnectedCallback) {
-      super.disconnectedCallback();
-    }
-    document.removeEventListener("click", this._handleOutsideSearchClick);
-
-    window.removeEventListener("qgds-navigation-close", this._handleNavigationClose);
-  }
-
-  private _openMobileNav = (): void => {
-    // We set our internal state to open so the icon switches to 'close'
-    this.menuOpen = true;
-    this.events.dispatch("navigation-open");
-  };
-
   private _handleNavSlotChange = (e: Event): void => {
-    this._hasNavSlot = (e.target as HTMLSlotElement).assignedElements().length > 0;
+    const slot = e.target as HTMLSlotElement;
+    scrubSlotContent(slot, { "QGDS-NAVIGATION": 1 });
+    const assignedElements = slot.assignedElements();
+    if (assignedElements.length === 1 && assignedElements[0].tagName === "QGDS-NAVIGATION") {
+      this._hasNavElement = true;
+      const navigationElement = assignedElements[0];
+      this._navElementId = navigationElement.id = navigationElement.id || generateUUID();
+    }
   };
 
   render() {
@@ -232,7 +228,7 @@ export class QGDSHeader extends LitElement {
                 [`header-mobile-palette-${this._preHeaderPalette}`]: true,
               })}
             >
-              ${this._hasSearchSlot
+              ${this._hasSearchElement
                 ? html`
                     <qgds-tile-button
                       label=${this.searchOpen ? "Close" : "Search"}
@@ -244,15 +240,15 @@ export class QGDSHeader extends LitElement {
                     ></qgds-tile-button>
                   `
                 : nothing}
-              ${this._hasNavSlot
+              ${this._hasNavElement
                 ? html`
                     <qgds-tile-button
                       label="Menu"
                       icon-name="menu"
                       class="header-action"
-                      aria-controls="header-nav-panel"
-                      aria-expanded=${this.menuOpen ? "true" : "false"}
-                      @click=${this._openMobileNav}
+                      aria-controls=${this._navElementId}
+                      aria-expanded=${this._menuOpen}
+                      @click=${() => this.events.dispatch("navigation-open")}
                     ></qgds-tile-button>
                   `
                 : nothing}
@@ -264,9 +260,7 @@ export class QGDSHeader extends LitElement {
           </div>
         </div>
 
-        <div id="header-nav-panel" class="header-navigation">
-          <slot name="navigation" @slotchange=${this._handleNavSlotChange}></slot>
-        </div>
+        <slot name="navigation" @slotchange=${this._handleNavSlotChange}></slot>
       </header>
     `;
   }

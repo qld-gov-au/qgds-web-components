@@ -1,7 +1,7 @@
 import { LitElement, html, unsafeCSS } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { BreakpointController } from "../../utils";
+import { BreakpointController, QgdsEvents } from "../../utils";
 import qgdsBreakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
 
 // Styles
@@ -75,16 +75,17 @@ export class QGDSNavigation extends LitElement {
   private get _isMobile() {
     return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
   }
+  private _events = new QgdsEvents(this);
 
   connectedCallback(): void {
-    super.connectedCallback?.();
-
+    super.connectedCallback();
     document.addEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.addEventListener("qgds-navigation-open", this._openMobileNav);
     document.addEventListener("qgds-navigation-close", this._closeMobileNav);
   }
 
   disconnectedCallback(): void {
+    super.disconnectedCallback();
     document.removeEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.removeEventListener("qgds-navigation-open", this._openMobileNav);
     document.removeEventListener("qgds-navigation-close", this._closeMobileNav);
@@ -112,8 +113,13 @@ export class QGDSNavigation extends LitElement {
       this._syncLayout();
     }
     if (changed.has("_isMobileOpen")) {
-      if (this._isMobileOpen) this._dialogElement?.showModal();
-      else this._dialogElement?.close();
+      if (this._isMobileOpen) {
+        this._dialogElement?.showModal();
+        this._events.dispatch("navigation-opened");
+      } else {
+        this._dialogElement?.close();
+        this._events.dispatch("navigation-closed");
+      }
     }
   }
 
@@ -170,11 +176,12 @@ export class QGDSNavigation extends LitElement {
         // eslint-disable-next-line lit-a11y/click-events-have-key-events
         html`<dialog
           class="drawer ${classMap({
-            // "is-open": this._isMobileOpen,
             "qgds-palette-bold": this.variant !== "dark",
             "qgds-palette-default": this.variant === "dark",
           })}"
-          @close=${() => (this._isMobileOpen = false)}
+          @close=${() => {
+            this._isMobileOpen = false;
+          }}
           @click=${this._handleDialogClick}
         >
           <div class="drawer-header flex align-items-center">

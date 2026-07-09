@@ -46,7 +46,6 @@ export class QGDSFooterContactItem extends LitElement {
   value = "";
 
   connectedCallback() {
-    //eslint-disable-next-line
     super.connectedCallback();
 
     if (!this.hasAttribute("role")) {

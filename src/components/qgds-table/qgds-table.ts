@@ -307,7 +307,7 @@ export class QGDSTable extends LitElement {
   hasStickyHeader = false;
 
   connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- LitElement lifecycle
+    super.connectedCallback();
     ensureGlobalStyles();
   }
 

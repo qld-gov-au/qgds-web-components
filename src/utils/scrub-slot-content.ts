@@ -51,19 +51,19 @@ export function scrubSlotContent(
 
     if (node.nodeType !== 1) return; // Only process elements
 
-    const tagName = node.nodeName.toLowerCase();
+    const tagName = node.nodeName;
     let allowed = false;
 
     if (typeof validElements === "string") {
-      if (tagName === validElements.toLowerCase()) {
+      if (tagName.toLowerCase() === validElements.toLowerCase()) {
         allowed = true;
       }
     } else if (Array.isArray(validElements)) {
-      if (validElements.some((v) => v.toLowerCase() === tagName)) {
+      if (validElements.some((v) => v.toLowerCase() === tagName.toLowerCase())) {
         allowed = true;
       }
     } else if (typeof validElements === "object" && validElements !== null) {
-      const max = validElements[tagName];
+      const max = validElements[tagName] ?? validElements[tagName.toLowerCase()];
       if (max !== undefined) {
         if (max === -1 || (counts[tagName] || 0) < max) {
           allowed = true;

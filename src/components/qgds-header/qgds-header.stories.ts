@@ -1,17 +1,21 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html } from "lit";
+import { html, TemplateResult } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
 import { allModes, chromaticModes } from "../../../.storybook/modes";
+import { withEventActions } from "../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "./qgds-header";
+import type { QGDSNavigation } from "../qgds-navigation/qgds-navigation";
 import "./qgds-header";
 import "../qgds-attribution-bar/qgds-attribution-bar";
 import "../qgds-link/qgds-link";
 import "../qgds-logo/qgds-logo";
 import "../qgds-search-input/qgds-search-input";
+import "../qgds-navigation/qgds-navigation";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
+const { args: navArgs, template: navTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
@@ -42,72 +46,13 @@ const onNavToggle = (e: Event) => {
   header.querySelector('[slot="navigation"]')?.toggleAttribute("open");
 };
 
-// Stand-in for a real mega-menu component: a horizontal nav on desktop that, on
-// mobile, hides until its own `open` attribute is set (here toggled by onNavToggle).
-const demoNavStyles = html`
-  <style>
-    #root-inner>div {
-      padding: 0px !important;  /* Remove default Storybook padding, to show Header in full-width container */
-    }
-    .nav-container {
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.30), 0 2px 6px 2px rgba(0, 0, 0, 0.15);
-      background-color: #F5F5F5;
-      border-block-end: 0.5rem solid var(--qgds-color-accent-design-accent);
-      display: block;
-    }
-    .demo-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      align-items: center;
-    }
-    .demo-nav a {
-      padding: 0.625rem 0.75rem 0.625rem 0;
-      display: inline-flex;
-    }
-    @media (max-width: 991px) {
-      .nav-container {
-        display: none;
-      }
-      .demo-nav[open] {
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-        padding: 1rem;
-        background-color: var(--qgds-color-background-shade, #f3f3f3);
-      }
-    }
-  </style>
-`;
-
-const demoNav = html`
-  <div class="nav-container" slot="navigation">
-    <nav class="demo-nav qgds-container" aria-label="Main navigation">
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-      <a href="#">Menu text</a>
-    </nav>
-  </div>
-`;
-
-const headerTemplate = (args: Args) => html`
-  ${demoNavStyles}
+const headerTemplate = (args: Args, children: TemplateResult) => html`
   <qgds-header
     site-name=${args["site-name"]}
     @qgds-toggle-search-mobile=${onSearchToggle}
     @qgds-toggle-nav-menu=${onNavToggle}
   >
-    <qgds-attribution-bar slot="pre-header" palette="bold">
-      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
-      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
-    </qgds-attribution-bar>
-
-    <qgds-search-input slot="search"></qgds-search-input>
-
-    ${demoNav}
+    ${children}
   </qgds-header>
 `;
 
@@ -116,7 +61,27 @@ export const Default: Story = {
   parameters: {
     ...chromaticModes,
   },
-  render: headerTemplate,
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`<qgds-attribution-bar slot="pre-header" palette="bold">
+          <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+          <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+        </qgds-attribution-bar>
+        <qgds-search-input slot="search"></qgds-search-input> ${navTemplate({
+          ...navArgs,
+          slot: "navigation",
+          id: "mynav",
+        })}`
+    ),
+  decorators: [
+    withEventActions([
+      "qgds-navigation-open",
+      "qgds-navigation-opened",
+      "qgds-navigation-close",
+      "qgds-navigation-closed",
+    ]),
+  ],
 };
 
 export const MobileView: Story = {
@@ -131,7 +96,6 @@ export const MobileView: Story = {
       },
     },
   },
-  render: headerTemplate,
 };
 
 // Logo override: the default `<qgds-logo>` in the `logo` slot is replaced with an
@@ -142,7 +106,6 @@ export const LogoOverride: Story = {
     ...chromaticModes,
   },
   render: () => html`
-    ${demoNavStyles}
     <qgds-header
       site-name="Site name"
       @qgds-toggle-search-mobile=${onSearchToggle}
@@ -156,8 +119,6 @@ export const LogoOverride: Story = {
       <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
 
       <qgds-search-input slot="search"></qgds-search-input>
-
-      ${demoNav}
     </qgds-header>
   `,
 };

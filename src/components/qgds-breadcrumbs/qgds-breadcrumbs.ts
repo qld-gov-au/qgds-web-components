@@ -35,14 +35,13 @@ export class QGDSBreadcrumbs extends LitElement {
   private _items: Element[] = [];
 
   connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    super.connectedCallback();
     this.role = "navigation";
     this.ariaLabel = this.ariaLabel ?? "breadcrumbs";
     document.addEventListener("click", this._closeMenu);
   }
 
   disconnectedCallback() {
-    // eslint-disable-next-line wc/guard-super-call
     super.disconnectedCallback();
     document.removeEventListener("click", this._closeMenu);
   }

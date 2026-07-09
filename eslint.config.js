@@ -66,13 +66,13 @@ export default tseslint.config(
       "@typescript-eslint/no-inferrable-types": "off",
 
       // Lit recommended rules
-      ...litPlugin.configs.recommended.rules,
+      ...litPlugin.configs?.recommended.rules,
 
       // Lit A11y recommended rules
       ...litA11yPlugin.configs.recommended.rules,
 
       // Web Components recommended rules
-      "wc/guard-super-call": "error",
+      "wc/guard-super-call": "off",
       "wc/no-closed-shadow-root": "error",
       "wc/no-constructor-attributes": "error",
       "wc/no-invalid-element-name": "error",
@@ -98,5 +98,5 @@ export default tseslint.config(
     rules: {
       "no-console": "off",
     },
-  },
+  }
 );

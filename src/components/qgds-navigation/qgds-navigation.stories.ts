@@ -5,6 +5,7 @@ import "./qgds-navigation";
 import "../qgds-link-item/qgds-link-item";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSNavigation } from "./qgds-navigation";
+import { withEventActions } from "../../../.storybook/storybook-helpers";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 type Args = typeof args;
@@ -68,6 +69,12 @@ const meta: Meta<Args> = {
   },
   render: (args) => template(args, navItems),
   decorators: [
+    withEventActions([
+      "qgds-navigation-open",
+      "qgds-navigation-opened",
+      "qgds-navigation-close",
+      "qgds-navigation-closed",
+    ]),
     (story) => {
       return html`${story()}
         <button
