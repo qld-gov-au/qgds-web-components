@@ -1,13 +1,14 @@
 ﻿@use "sass:map";
 @use "sass:meta";
 @use "../tools/functions" as f;
-@use "../qgds-tokens/qgds-breakpoint" as bp;
+@use "../tools/mixins" as m;
+@use "../qgds-tokens/qgds-breakpoint";
 @use "config";
 @forward "sr-only";
 
 $prefix: "" !default;
 
-@function _utility-class-name($prefix, $class-name, $modifier) {
+@function _utility-class-name($prefix, $class-name, $modifier, $breakpoint: null) {
   $name: null;
 
   @if $class-name == "" {
@@ -22,6 +23,11 @@ $prefix: "" !default;
     } @else {
       $name: "#{$prefix}-#{$class-name}-#{$modifier}";
     }
+  }
+
+  // Append breakpoint to the class name if provided. eg. qgds-py-64:lg
+  @if $breakpoint != null {
+    $name: #{$name}\:#{$breakpoint};
   }
 
   $name: f.string-replace($name, " ", "-");
@@ -46,13 +52,25 @@ $prefix: "" !default;
       .#{_utility-class-name($prefix, $class-name, $modifier)} {
         #{$property}: $value;
       }
+    }
+  }
+}
 
-      @if $is-responsive {
-        @each $breakpoint-key, $breakpoint-value in meta.module-variables("bp") {
-          @media (min-width: $breakpoint-value) {
-            .#{_utility-class-name($prefix, $class-name, "#{$breakpoint-key}-#{$modifier}")} {
-              #{$property}: $value;
-            }
+// Loop again and process only the the responsive based utilities, so that they are output after the base utilities
+@each $key, $config in config.$utils {
+  $is-responsive: if(map.has-key($config, responsive), map.get($config, responsive), false);
+  $breakpoints: meta.module-variables("qgds-breakpoint");
+  $property: if(map.has-key($config, property), map.get($config, property), $key);
+  $class-name: if(map.has-key($config, class), map.get($config, class), $key);
+  $values: map.get($config, values);
+
+  @if $is-responsive and $values != null {
+    @each $breakpoint, $breakpoint-value in $breakpoints {
+      @include m.from($breakpoint-value) {
+        @each $modifier, $value in $values {
+          $value: if($value == null, $modifier, $value);
+          .#{_utility-class-name($prefix, $class-name, $modifier, $breakpoint)} {
+            #{$property}: $value;
           }
         }
       }

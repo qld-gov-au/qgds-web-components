@@ -10,6 +10,11 @@ $_spacing: (
   12: f.remify(12px),
   16: f.remify(16px),
   24: f.remify(24px),
+  32: f.remify(32px),
+  40: f.remify(40px),
+  48: f.remify(48px),
+  56: f.remify(56px),
+  64: f.remify(64px),
 );
 $_neg-spacing: ();
 @each $key, $value in $_spacing {

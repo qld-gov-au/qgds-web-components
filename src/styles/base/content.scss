@@ -12,7 +12,8 @@
 
 :where(.qgds-content-block) {
   padding-block: var(--qgds-vspace-section-padding);
-  padding-inline: var(--qgds-hspace-content-inner);
+  padding-inline: var(--qgds-grid-padding);
+  margin-inline: calc(var(--qgds-grid-padding) * -1);
 
   // 1. Catch-all / Component Spacing (The default flow)
   > * + * {
@@ -58,13 +59,9 @@
   }
 }
 
-:where(.qgds-content-wrap) .qgds-content-block {
-  margin-inline: calc(var(--qgds-grid-padding) * -1);
-  padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
-
+:where(.is-inset) :where(.qgds-content-block) {
   @include m.lg-up() {
-    margin-inline: 0;
-    padding-inline: var(--qgds-hspace-content-inner);
+    padding-inline: calc(var(--qgds-grid-padding) + var(--qgds-hspace-content-inner));
   }
 }
 
