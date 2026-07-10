@@ -15,8 +15,8 @@ import "../qgds-link-column/qgds-link-column";
 import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
 import "../qgds-tile-button/qgds-tile-button";
 
-export type NavigationVariant = "default" | "dark";
-export type NavigationOrientation = "horizontal" | "vertical";
+export type NavigationPalette = Extract<QGDSPalette, "default" | "bold">;
+export type NavigationVariant = "horizontal" | "vertical";
 
 /**
  * QGDS Navigation – Horizontal navigation bar.
@@ -27,7 +27,7 @@ export type NavigationOrientation = "horizontal" | "vertical";
  * @website https://www.designsystem.qld.gov.au/components/navigation-horizontal
  * @uikit   https://www.figma.com/design/Si3LOWFTxpzSRCC8cvHGZ5/Sen-Test\?node-id\=292-1416
  *
- * @property {NavigationVariant} [variant="default"] - "default" (light bar) or "dark" (dark bar).
+ * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar).
  * @property {string} [aria-label] - Accessible label for the `<nav>` landmark.
  *
  * @slot - Accepts `<qgds-link-item>` elements.
@@ -48,11 +48,11 @@ export type NavigationOrientation = "horizontal" | "vertical";
 export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
-  /** Visual variant: "default" (light) or "dark". */
-  @property({ type: String, reflect: true }) variant: NavigationVariant = "default";
+  /** Visual variant: "default" (light) or "bold". */
+  @property({ type: String, reflect: true }) palette: NavigationPalette = "default";
 
   /** Layout: "horizontal" (mega-menu on click) or "vertical" (inline accordion toggle). */
-  @property({ type: String, reflect: true }) orientation: NavigationOrientation = "horizontal";
+  @property({ type: String, reflect: true }) variant: NavigationVariant = "horizontal";
 
   /** Layout passed to the auto-generated `<qgds-link-column>` inside each dropdown. */
   @property({ type: String, reflect: true, attribute: "columns-direction" }) columnsDirection: LinkColumnDirection =
@@ -65,7 +65,7 @@ export class QGDSNavigation extends LitElement {
   // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
 
   /** internal orientation also responds to mobile view, independent of public orientation property. */
-  @state() private _orientation = this.orientation;
+  @state() private _orientation = this.variant;
   @state() private _isMobileOpen = false;
 
   @query("dialog") private _dialogElement!: HTMLDialogElement | null;
@@ -104,7 +104,7 @@ export class QGDSNavigation extends LitElement {
   };
 
   protected willUpdate(): void {
-    this._orientation = this._isMobile ? "vertical" : this.orientation;
+    this._orientation = this._isMobile ? "vertical" : this.variant;
     if (!this._isMobile) this._isMobileOpen = false;
   }
 
@@ -126,7 +126,7 @@ export class QGDSNavigation extends LitElement {
   private _syncLayout(): void {
     // Only sync direct slot children — nested items inside dropdowns stay in standard mode
     this.querySelectorAll<QGDSLinkItem>(":scope > qgds-link-item").forEach((item) => {
-      item.navigationOrientation = this._orientation;
+      item.navigationVariant = this._orientation;
       item.columnsDirection = this.columnsDirection;
       item.isNavItem = true;
       item.columns = this._orientation === "horizontal" ? this.columns : 1;
@@ -152,18 +152,19 @@ export class QGDSNavigation extends LitElement {
   };
 
   private _renderNav = () => {
-    const shouldRenderAsVertical = this.orientation === "vertical" || this._isMobile;
-
     return html`
       <nav
         class="navigation ${classMap({
-          "qgds-palette-bold": this.variant === "dark",
-          "qgds-palette-default": this.variant !== "dark",
+          "qgds-palette-bold": this.palette === "bold",
+          "qgds-palette-default": this.palette !== "bold",
           "is-vertical": this._orientation === "vertical",
           "is-horizontal": this._orientation === "horizontal",
         })}"
       >
-        ${html`<div class="navigation-list ${classMap({ "qgds-container": !shouldRenderAsVertical })}" role="list">
+        ${html`<div
+          class="navigation-list ${classMap({ "qgds-container": this._orientation === "horizontal" })}"
+          role="list"
+        >
           <slot @slotchange="${this._onSlotChange}"></slot>
         </div>`}
       </nav>
@@ -176,8 +177,8 @@ export class QGDSNavigation extends LitElement {
         // eslint-disable-next-line lit-a11y/click-events-have-key-events
         html`<dialog
           class="drawer ${classMap({
-            "qgds-palette-bold": this.variant !== "dark",
-            "qgds-palette-default": this.variant === "dark",
+            "qgds-palette-bold": this.palette !== "bold",
+            "qgds-palette-default": this.palette === "bold",
           })}"
           @close=${() => {
             this._isMobileOpen = false;

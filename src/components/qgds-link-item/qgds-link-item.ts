@@ -8,7 +8,7 @@ import "../qgds-link/qgds-link.js";
 import type { Animations, IconSize } from "../qgds-link/qgds-link.js";
 import "../qgds-icon/qgds-icon.js";
 import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
-import { NavigationOrientation } from "../qgds-navigation/qgds-navigation";
+import { NavigationVariant } from "../qgds-navigation/qgds-navigation";
 
 /**
  * A single navigable item.
@@ -64,8 +64,8 @@ export class QGDSLinkItem extends LitElement {
   /** Set automatically by `<qgds-navigation>` — enables nav bar render mode. */
   @property({ type: Boolean, attribute: "is-nav-item", reflect: true }) isNavItem = false;
   /** Set automatically by `<qgds-navigation>`. */
-  @property({ type: String, attribute: "navigation-orientation", reflect: true })
-  navigationOrientation: NavigationOrientation = "horizontal";
+  @property({ type: String, attribute: "navigation-variant", reflect: true })
+  navigationVariant: NavigationVariant = "horizontal";
   /** Number of columns in the dropdown. Set automatically by `<qgds-navigation>`. */
   @property({ type: Number, reflect: true }) columns = 3;
   /** Direction passed to the auto-generated `<qgds-link-column>`. Set automatically by `<qgds-navigation>`. */
@@ -174,7 +174,7 @@ export class QGDSLinkItem extends LitElement {
     if (existingColumn) {
       existingColumn.setAttribute("columns", String(this.columns));
       existingColumn.setAttribute("layout", this.columnsDirection);
-      if (this.navigationOrientation !== "horizontal") {
+      if (this.navigationVariant !== "horizontal") {
         existingColumn.setAttribute("suppress-icons", "");
       } else {
         existingColumn.removeAttribute("suppress-icons");
@@ -195,7 +195,7 @@ export class QGDSLinkItem extends LitElement {
     col.setAttribute("columns", String(this.columns));
     col.setAttribute("layout", this.columnsDirection);
 
-    if (this.navigationOrientation === "horizontal") {
+    if (this.navigationVariant === "horizontal") {
       if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);
       if (this.viewAllLabel) col.setAttribute("view-all-label", this.viewAllLabel);
     } else {
@@ -216,7 +216,7 @@ export class QGDSLinkItem extends LitElement {
 
     this.querySelector("qgds-link-item.header")?.remove();
 
-    if (!column || !this.isNavItem || this.navigationOrientation !== "horizontal") return;
+    if (!column || !this.isNavItem || this.navigationVariant !== "horizontal") return;
 
     const header = document.createElement("qgds-link-item") as HTMLElement &
       Pick<QGDSLinkItem, "label" | "href" | "description">;
@@ -238,7 +238,7 @@ export class QGDSLinkItem extends LitElement {
   render() {
     // ── Nav mode ────────────────────────────────────────────────────────────
     if (this.isNavItem) {
-      const isHorizontal = this.navigationOrientation === "horizontal";
+      const isHorizontal = this.navigationVariant === "horizontal";
       return html`
         <qgds-link
           class="${classMap({ "has-children": this._hasDropdown, "is-open": this._hasDropdown && this._isOpen })}"
