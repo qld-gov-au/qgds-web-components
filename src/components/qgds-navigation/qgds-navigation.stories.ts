@@ -101,7 +101,7 @@ export const DarkVertical: Story = {
 
 /** Simple links — no dropdowns. */
 export const SimpleLinks: Story = {
-  args: { palette: "default", layout: "horizontal", columns: 3 },
+  args: { palette: "default", columns: 3 },
   render: (args) =>
     template(
       args,
