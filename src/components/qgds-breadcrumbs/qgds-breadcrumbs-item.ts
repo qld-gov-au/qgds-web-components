@@ -57,7 +57,7 @@ export class QGDSBreadcrumbsItem extends LitElement {
 
   // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
   connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    super.connectedCallback();
     this.setAttribute("role", "listitem");
   }
 

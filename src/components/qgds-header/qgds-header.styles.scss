@@ -131,8 +131,7 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
-// 3. On mobile the in-bar search slot is hidden and the navigation band stays in
-// the layout. The mobile Search/Menu buttons only emit events — the slotted search
+// 3. On mobile the in-bar search slot is hidden The mobile Search/Menu buttons only emit events — the slotted search
 // and mega-menu components are responsible for showing/hiding themselves.
 .header-search {
   grid-area: search;
@@ -143,10 +142,6 @@ $header-mobile-palettes: default, bold, deep;
   display: block;
   padding-inline: tools.remify(16px);
   padding-block: 0 tools.remify(16px);
-}
-
-.header-navigation {
-  display: block;
 }
 
 // =============================================================================
@@ -251,10 +246,5 @@ $header-mobile-palettes: default, bold, deep;
     ::slotted(*) {
       inline-size: 100%;
     }
-  }
-
-  .header-navigation {
-    display: block;
-    padding-block: tools.remify(8px);
   }
 }

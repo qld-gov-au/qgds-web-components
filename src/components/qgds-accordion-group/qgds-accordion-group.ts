@@ -56,7 +56,7 @@ export class QGDSAccordionGroup extends LitElement {
   private _accordions!: QGDSAccordion[]; // Will be assigned at run time.
 
   connectedCallback(): void {
-    super.connectedCallback(); // eslint-disable-line
+    super.connectedCallback();
 
     // Here we can count the number of accordions before first render, but must use DOM method because they have not yet been assigned to the shadow DOM's slot.
     this._numAccordions = this.querySelectorAll("qgds-accordion").length;

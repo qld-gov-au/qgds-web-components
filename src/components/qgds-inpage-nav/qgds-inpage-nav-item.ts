@@ -17,13 +17,11 @@ import componentCSS from "./qgds-inpage-nav-item.styles.scss?inline";
  *
  */
 
-export type QGDSInpageNavItemProps = InstanceType<typeof QGDSInpageNavItem>;
-
 @customElement("qgds-inpage-nav-item")
 export class QGDSInpageNavItem extends LitElement {
   // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
   connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    super.connectedCallback();
     this.setAttribute("role", "listitem");
   }
 

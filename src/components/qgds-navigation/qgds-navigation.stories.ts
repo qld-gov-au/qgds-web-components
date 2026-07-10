@@ -5,13 +5,11 @@ import "./qgds-navigation";
 import "../qgds-link-item/qgds-link-item";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSNavigation } from "./qgds-navigation";
+import { withEventActions } from "../../../.storybook/storybook-helpers";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 type Args = typeof args;
-
-// ---------------------------------------------------------------------------
-// Reusable nav items using the new nested qgds-link-item API
-// ---------------------------------------------------------------------------
 
 const navItems = html`
   <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
@@ -57,17 +55,19 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    "aria-label": "main",
   },
   argTypes: {
     ...argTypes,
-    variant: { control: "radio", options: argTypes.variant.options },
-    orientation: { control: "radio", options: argTypes.orientation.options },
-    "columns-direction": { control: "radio", options: argTypes["columns-direction"].options },
     columns: { control: { type: "range", min: 1, max: 3, step: 1 } },
   },
   render: (args) => template(args, navItems),
   decorators: [
+    withEventActions([
+      "qgds-navigation-open",
+      "qgds-navigation-opened",
+      "qgds-navigation-close",
+      "qgds-navigation-closed",
+    ]),
     (story) => {
       return html`${story()}
         <button
@@ -85,36 +85,36 @@ type Story = StoryObj<Args>;
 
 /** Default light horizontal navigation — link click opens the mega-menu dropdown. */
 export const Default: Story = {
-  args: { variant: "default", columns: 3 },
+  args: { columns: 3 },
   parameters: { ...chromaticModes },
 };
 
 /** Dark horizontal navigation. */
 export const Dark: Story = {
-  args: { variant: "dark", columns: 3 },
+  args: { palette: "bold", columns: 3 },
   parameters: { ...chromaticModes },
 };
 
 /** Vertical layout — a chevron toggle button expands the dropdown inline. No header link repeated. */
 export const Vertical: Story = {
-  args: { variant: "default", orientation: "vertical", columns: 1 },
+  args: { variant: "vertical", columns: 1 },
   parameters: { ...chromaticModes },
 };
 
 /** Dark vertical layout. */
 export const DarkVertical: Story = {
-  args: { variant: "dark", orientation: "vertical", columns: 1 },
+  args: { palette: "bold", variant: "vertical", columns: 1 },
   parameters: { ...chromaticModes },
 };
 
 /** Simple links — no dropdowns. */
 export const SimpleLinks: Story = {
-  args: { variant: "default", orientation: "horizontal", columns: 3 },
+  args: { palette: "default", variant: "horizontal", columns: 3 },
   render: (args) => html`
     <qgds-navigation
-      variant="${args.variant}"
-      orientation="${args.layout}"
-      columns="${args.columns}"
+      palette="${ifDefined(args.palette)}"
+      variant="${ifDefined(args.variant)}"
+      columns="${ifDefined(args.columns)}"
       aria-label="${args["aria-label"]}"
     >
       <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
@@ -178,12 +178,12 @@ export const SimpleLinks: Story = {
 
 /** Simple links — no dropdowns. */
 export const SimpleLinks2: Story = {
-  args: { variant: "default", layout: "horizontal", columns: 3 },
+  args: { palette: "default", layout: "horizontal", columns: 3 },
   render: (args) => html`
     <qgds-navigation
-      variant="${args.variant}"
-      orientation="${args.layout}"
-      columns="${args.columns}"
+      palette="${ifDefined(args.palette)}"
+      variant="${ifDefined(args.variant)}"
+      columns="${ifDefined(args.columns)}"
       aria-label="${args["aria-label"]}"
     >
       <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
@@ -206,12 +206,12 @@ export const SimpleLinks2: Story = {
 
 /** Simple links — no dropdowns. */
 export const SimpleLinks2Vertical: Story = {
-  args: { variant: "default", layout: "vertical", columns: 3 },
+  args: { palette: "default", variant: "vertical", columns: 3 },
   render: (args) => html`
     <qgds-navigation
-      variant="${args.variant}"
-      orientation="${args.layout}"
-      columns="${args.columns}"
+      palette="${ifDefined(args.palette)}"
+      variant="${ifDefined(args.variant)}"
+      columns="${ifDefined(args.columns)}"
       aria-label="${args["aria-label"]}"
     >
       <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
