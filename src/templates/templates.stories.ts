@@ -15,7 +15,7 @@ const extractTemplateBodyHtml = (templateSource: string): string => {
 };
 
 const meta: Meta = {
-  title: "Templates/Content Page",
+  title: "Templates/Examples",
   component: "qgds-template-content-page",
   //Negate a global decorator with 2rem padding in preview.js
   decorators: [(Story) => html`<div style="margin: -2rem">${Story()}</div>`],
@@ -37,19 +37,8 @@ const meta: Meta = {
 
 export default meta;
 
-export const Default: StoryObj = {};
-
-export const LandingPage: StoryObj = {
-  parameters: {
-    docs: {
-      source: {
-        code: sourceLandingPage,
-        language: "html",
-      },
-    },
-  },
-  render: () =>
-    html`<div class="qgds-template-landing-page">${unsafeHTML(extractTemplateBodyHtml(sourceLandingPage))}</div>`,
+export const Default: StoryObj = {
+  name: "Content Page",
 };
 
 export const SimpleFormPage: StoryObj = {
@@ -62,4 +51,17 @@ export const SimpleFormPage: StoryObj = {
     },
   },
   render: () => html`<div class="qgds-template-form-page">${unsafeHTML(extractTemplateBodyHtml(sourceFormPage))}</div>`,
+};
+
+export const LandingPage: StoryObj = {
+  parameters: {
+    docs: {
+      source: {
+        code: sourceLandingPage,
+        language: "html",
+      },
+    },
+  },
+  render: () =>
+    html`<div class="qgds-template-landing-page">${unsafeHTML(extractTemplateBodyHtml(sourceLandingPage))}</div>`,
 };
