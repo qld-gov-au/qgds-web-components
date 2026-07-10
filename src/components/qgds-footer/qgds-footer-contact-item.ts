@@ -48,10 +48,6 @@ export class QGDSFooterContactItem extends LitElement {
   connectedCallback() {
     //eslint-disable-next-line
     super.connectedCallback();
-
-    if (!this.hasAttribute("role")) {
-      this.setAttribute("role", "listitem");
-    }
   }
 
   render() {
