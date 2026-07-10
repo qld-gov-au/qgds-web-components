@@ -1,4 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { resetStyles } from "../../styles";
@@ -47,18 +48,27 @@ export class QGDSIcon extends LitElement {
     return this.iconId ? isMulticolourIcon(this.iconId) : false;
   }
 
+  // Determine accessibility attributes based on the presence of ariaLabel
+
   render() {
     const classes = {
       "qgds-icon": true,
       "qgds-icon-multicolour": this.isMulticolour,
     };
 
+    const labelText = this.ariaLabel || undefined;
+    const role = labelText ? "img" : undefined;
+    const ariaHidden = labelText ? undefined : "true";
+
     return html`
       <span
-        style="--qgds-icon-svg: var(--qgds-icon-${this
-          .iconId}); --_qgds-icon-size: var(--qgds-icon-size, var(--qgds-icon-size-${this.size}))"
+        aria-label="${ifDefined(labelText)}"
+        aria-hidden="${ifDefined(ariaHidden)}"
+        role="${ifDefined(role)}"
+        style="
+          --qgds-icon-svg: var(--qgds-icon-${this.iconId}); 
+          --_qgds-icon-size: var(--qgds-icon-size, var(--qgds-icon-size-${this.size}))"
         class="${classMap(classes)}"
-        aria-label="${this.ariaLabel || "icon"}"
       ></span>
     `;
   }
