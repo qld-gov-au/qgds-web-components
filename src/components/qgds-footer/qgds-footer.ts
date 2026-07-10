@@ -247,7 +247,7 @@ export class QGDSFooter extends LitElement {
               ${semanticHeading(this.contactHeading, this.headingLevel, "footer-heading")}
               ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
 
-              <div class="contact-links-wrapper" role="list">
+              <div class="contact-links-wrapper">
                 <slot name="contact-link" @slotchange=${this._onContactLinkSlotChange}></slot>
               </div>
             </div>
@@ -260,7 +260,7 @@ export class QGDSFooter extends LitElement {
           <!-- Column 2: Custom Links -->
           <section class="section-custom-links">
             ${semanticHeading(this.customLinksHeading, this.headingLevel, "footer-heading")}
-            <nav class="custom-links-wrapper" aria-labelledby="footer-custom-heading" role="list">
+            <nav class="custom-links-wrapper" aria-labelledby="footer-custom-heading">
               <slot name="footer-custom-link" @slotchange=${this._onCustomLinkSlotChange}></slot>
             </nav>
           </section>
@@ -268,7 +268,7 @@ export class QGDSFooter extends LitElement {
           <!-- Column 3: Site Links -->
           <section class="section-site-links">
             ${semanticHeading(this.siteLinksHeading, this.headingLevel, "footer-heading")}
-            <nav class="site-links-wrapper" aria-label="${this.siteLinksHeading}" role="list">
+            <nav class="site-links-wrapper" aria-label="${this.siteLinksHeading}">
               <slot name="footer-site-link" @slotchange=${this._onSiteLinkSlotChange}></slot>
             </nav>
           </section>
@@ -276,7 +276,7 @@ export class QGDSFooter extends LitElement {
           <!-- Column 4: Social Links -->
           <section class="section-social-links">
             ${semanticHeading(this.socialHeading, this.headingLevel, "footer-heading")}
-            <nav class="social-links-wrapper" aria-label="${this.socialHeading}" role="list">
+            <nav class="social-links-wrapper" aria-label="${this.socialHeading}">
               <slot name="footer-social-link" @slotchange=${this._onSocialLinkSlotChange}></slot>
             </nav>
           </section>

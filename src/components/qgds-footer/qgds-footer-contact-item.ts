@@ -47,10 +47,6 @@ export class QGDSFooterContactItem extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-
-    if (!this.hasAttribute("role")) {
-      this.setAttribute("role", "listitem");
-    }
   }
 
   render() {
