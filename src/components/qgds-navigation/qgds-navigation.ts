@@ -14,6 +14,7 @@ import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
 import "../qgds-link-column/qgds-link-column";
 import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
 import "../qgds-tile-button/qgds-tile-button";
+import { QGDSPalette } from "../../types/common";
 
 export type NavigationPalette = Extract<QGDSPalette, "default" | "bold">;
 export type NavigationVariant = "horizontal" | "vertical";
@@ -25,11 +26,13 @@ export type NavigationVariant = "horizontal" | "vertical";
  * @tagname qgds-navigation
  *
  * @website https://www.designsystem.qld.gov.au/components/navigation-horizontal
- * @uikit   https://www.figma.com/design/Si3LOWFTxpzSRCC8cvHGZ5/Sen-Test\?node-id\=292-1416
+ * @uikit   https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=5990-97604
  *
  * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar).
- * @property {string} [aria-label] - Accessible label for the `<nav>` landmark.
- *
+ * @property {NavigationVariant} [variant="horizontal"] - "Horizontal" or "Vertical". Both variants collapse into a mobile drawer view below lg breakpoint.
+ * @property {string} [navigationLabel="Main"] - Accessible label for the `<nav>` landmark.
+ * @property {1|2|3} [columns = 3] - The number of columns to assign to horizontal dropdown list (ie Mega Menu).
+ * @property {LinkColumnDirection} [columnsDirection = "vertical"] - The tabbing direction of horizontal dropdown menu items.
  * @slot - Accepts `<qgds-link-item>` elements.
  *
  * @example
@@ -48,21 +51,12 @@ export type NavigationVariant = "horizontal" | "vertical";
 export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
-  /** Visual variant: "default" (light) or "bold". */
-  @property({ type: String, reflect: true }) palette: NavigationPalette = "default";
-
-  /** Layout: "horizontal" (mega-menu on click) or "vertical" (inline accordion toggle). */
-  @property({ type: String, reflect: true }) variant: NavigationVariant = "horizontal";
-
-  /** Layout passed to the auto-generated `<qgds-link-column>` inside each dropdown. */
+  @property({ type: String, reflect: true, useDefault: true }) palette: NavigationPalette = "default";
+  @property({ type: String, reflect: true, useDefault: true }) variant: NavigationVariant = "horizontal";
+  @property({ type: String, attribute: "navigation-label", useDefault: true }) navigationLabel = "Main";
+  @property({ type: Number, reflect: true }) columns: 1 | 2 | 3 = 3;
   @property({ type: String, reflect: true, attribute: "columns-direction" }) columnsDirection: LinkColumnDirection =
-    "horizontal";
-
-  /** Number of columns for mega-menu dropdowns. */
-  @property({ type: Number, reflect: true }) columns = 3;
-
-  /** Accessible label applied to the `<nav>` landmark. */
-  // @property({ type: String, attribute: "aria-label" }) navLabel = "main";
+    "vertical";
 
   /** internal orientation also responds to mobile view, independent of public orientation property. */
   @state() private _orientation = this.variant;
@@ -160,6 +154,7 @@ export class QGDSNavigation extends LitElement {
           "is-vertical": this._orientation === "vertical",
           "is-horizontal": this._orientation === "horizontal",
         })}"
+        aria-label=${this.navigationLabel || "Main"}
       >
         ${html`<div
           class="navigation-list ${classMap({ "qgds-container": this._orientation === "horizontal" })}"
