@@ -26,16 +26,16 @@
       <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
     </qgds-attribution-bar>
-
-    <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
-
     <qgds-search-input slot="search"></qgds-search-input>
+
+    <!-- Delivering for QLD logo -->
+    <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
 
   </qgds-header>
 
-  <qgds-navigation columns="3" columns-direction="horizontal" orientation="horizontal" variant="default"
-    slot="navigation" slot="navigation">
-    <qgds-link-item label="Home" href="#" icon-name="home" only-icon=""></qgds-link-item>
+  <qgds-navigation columns="3" columns-direction="vertical" navigation-label="Main" palette="default"
+    variant="horizontal">
+    <qgds-link-item label="Home" href="#" icon-name="home" only-icon="" is-current=""></qgds-link-item>
 
     <qgds-link-item label="Services" href="#services" view-all-url="#services" view-all-label="View all services">
       <qgds-link-item label="Visiting someone in hospital" href="#visiting"></qgds-link-item>
@@ -46,7 +46,7 @@
       <qgds-link-item label="Your health record" href="#records"></qgds-link-item>
     </qgds-link-item>
 
-    <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all" is-current="">
+    <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all">
       <qgds-link-item label="Know your habits" href="#habits"
         description="Learn what makes you feel like smoking, how you can avoid triggers, and change your habits."></qgds-link-item>
       <qgds-link-item label="What to expect" href="#expect"

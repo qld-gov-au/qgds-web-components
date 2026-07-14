@@ -26,20 +26,18 @@
       <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
     </qgds-attribution-bar>
+    <qgds-search-input slot="search"></qgds-search-input>
 
     <!-- Delivering for QLD logo -->
     <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
 
-    <qgds-search-input slot="search"></qgds-search-input>
-
   </qgds-header>
 
-  <qgds-navigation columns="3" columns-direction="horizontal" orientation="horizontal" variant="default"
-    slot="navigation" slot="navigation">
-    <qgds-link-item label="Home" href="#" icon-name="home" only-icon=""></qgds-link-item>
+  <qgds-navigation columns="3" columns-direction="vertical" navigation-label="Main" palette="default"
+    variant="horizontal">
+    <qgds-link-item label="Home" href="#" icon-name="home" only-icon="" is-current=""></qgds-link-item>
 
-    <qgds-link-item label="Services" href="#services" view-all-url="#services" is-current=""
-      view-all-label="View all services">
+    <qgds-link-item label="Services" href="#services" view-all-url="#services" view-all-label="View all services">
       <qgds-link-item label="Visiting someone in hospital" href="#visiting"></qgds-link-item>
       <qgds-link-item label="Going to hospital" href="#going"></qgds-link-item>
       <qgds-link-item label="Leaving hospital" href="#leaving"></qgds-link-item>
@@ -48,17 +46,19 @@
       <qgds-link-item label="Your health record" href="#records"></qgds-link-item>
     </qgds-link-item>
 
-    <qgds-link-item label="About" href="#about"></qgds-link-item>
-
-    <qgds-link-item label="Topics" href="#topics" view-all-url="#topics" view-all-label="View all topics">
-      <qgds-link-item label="Education" href="#education"></qgds-link-item>
-      <qgds-link-item label="Sport and Recreation" href="#sport-and-recreation"></qgds-link-item>
-      <qgds-link-item label="Parks and Reserves" href="#parks"></qgds-link-item>
-      <qgds-link-item label="Health" href="#health"></qgds-link-item>
-      <qgds-link-item label="Environment" href="#environment"></qgds-link-item>
+    <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all">
+      <qgds-link-item label="Know your habits" href="#habits"
+        description="Learn what makes you feel like smoking, how you can avoid triggers, and change your habits."></qgds-link-item>
+      <qgds-link-item label="What to expect" href="#expect"
+        description="Learn how to manage withdrawal symptoms, stress and possible weight gain."></qgds-link-item>
+      <qgds-link-item label="Use quit tools and apps" href="#tools"
+        description="Keep on track by using digital tools and apps for support, motivation and useful advice while quitting."></qgds-link-item>
+      <qgds-link-item label="Get help from Quitline" href="#quitline"
+        description="Quitline is a telephone service dedicated to helping Queenslanders quit smoking."></qgds-link-item>
     </qgds-link-item>
-  </qgds-navigation>
 
+    <qgds-link-item label="About" href="#about"></qgds-link-item>
+  </qgds-navigation>
 
   <qgds-banner palette="soft" variant="basic" heading="Content page (basic banner) H1">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
