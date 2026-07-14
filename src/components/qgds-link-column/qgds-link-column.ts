@@ -18,7 +18,7 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  *
  * @property {string} [aria-label] - Accessible label for the `<nav>` element (mapped to `navLabel`).
  * @property {LinkColumnDirection} [direction = "vertical"] - Layout direction: "vertical" (default) or "horizontal".
- * @property {number} [columns] - Number of columns (1–3). Defaults to 1.
+ * @property {1|2|3} [columns] - Number of columns (1–3). Defaults to 1.
  * @property {string} [view-all-label] - Label for the view-all CTA. Defaults to "View all services".
  * @property {string} [view-all-url] - URL for the view-all CTA.
  *

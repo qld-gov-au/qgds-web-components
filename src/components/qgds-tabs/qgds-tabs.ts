@@ -6,8 +6,6 @@ import componentCSS from "./qgds-tabs.styles.scss?inline";
 import "../qgds-icon/qgds-icon.js";
 import { palettes } from "../../utils";
 
-export type QGDSTabsProps = InstanceType<typeof QGDSTabs>;
-
 interface TabItem {
   label: string;
   iconName?: string;
@@ -54,7 +52,7 @@ export class QGDSTabs extends LitElement {
   @queryAssignedElements({ flatten: true }) private _slottedItems!: HTMLElement[];
 
   connectedCallback() {
-    super.connectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains connectedCallback
+    super.connectedCallback();
     this._updateParentContext();
 
     this._observer = new MutationObserver(() => {
@@ -70,11 +68,20 @@ export class QGDSTabs extends LitElement {
     });
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    this._observer?.disconnect();
+    this._nav?.removeEventListener("scroll", this._handleNavScroll);
+
+    window.removeEventListener("resize", this._handleNavScroll);
+  }
+
   firstUpdated() {
     requestAnimationFrame(() => {
       this._initTabsScroll();
     });
   }
+
   private _updateParentContext() {
     const paletteList = Object.keys(palettes);
 
@@ -175,14 +182,6 @@ export class QGDSTabs extends LitElement {
     this._nav.addEventListener("scroll", this._handleNavScroll);
 
     window.addEventListener("resize", this._handleNavScroll);
-  }
-
-  disconnectedCallback() {
-    this._observer?.disconnect();
-    super.disconnectedCallback(); // eslint-disable-line -- linter fails to recognise that LitElement always contains disconnectedCallback
-    this._nav?.removeEventListener("scroll", this._handleNavScroll);
-
-    window.removeEventListener("resize", this._handleNavScroll);
   }
 
   render() {

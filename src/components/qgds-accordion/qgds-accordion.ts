@@ -42,7 +42,7 @@ export class QGDSAccordion extends LitElement {
   }
 
   connectedCallback(): void {
-    super.connectedCallback(); // eslint-disable-line
+    super.connectedCallback();
 
     // fix a bug where toggle event will fire once early when is-open attribute is set to true.
     if (!this.hasUpdated && this.isOpen === true) {
@@ -55,7 +55,7 @@ export class QGDSAccordion extends LitElement {
   }
 
   disconnectedCallback(): void {
-    super.disconnectedCallback(); // eslint-disable-line
+    super.disconnectedCallback();
 
     window.removeEventListener("hashchange", this._handleHash);
   }
