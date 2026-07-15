@@ -46,6 +46,10 @@
 
   // navigation variables
   --qgds-color-background-alt: #e3e7ea;
+  --qgds-navigation-item-bg: var(--qgds-color-neutral-lightest);
+  --qgds-navigation-item-bg-hover: #e3e7ea;
+
+  // banner variables
   --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
   --qgds-block-style-subheading-bg: var(--qgds-color-neutral-lightest, #f5f5f5);
 
@@ -100,6 +104,10 @@
 
   // navigation variables
   --qgds-color-background-alt: #e3e7ea;
+  --qgds-navigation-item-bg: var(--qgds-color-neutral-lightest, #f5f5f5);
+  --qgds-navigation-item-bg-hover: #e3e7ea;
+
+  // banner variables
   --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
   --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 
@@ -154,6 +162,10 @@
 
   // navigation variables
   --qgds-color-background-alt: #e3e7ea;
+  --qgds-navigation-item-bg: var(--qgds-color-neutral-lightest, #f5f5f5);
+  --qgds-navigation-item-bg-hover: #e3e7ea;
+
+  // banner variables
   --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
   --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 
@@ -209,6 +221,10 @@
 
   // navigation variables
   --qgds-color-background-alt: #001d74;
+  --qgds-navigation-item-bg: var(--qgds-color-background-shade);
+  --qgds-navigation-item-bg-hover: #001d74;
+
+  // banner variables
   --qgds-banner-block-heading-bg: var(--qgds-color-darker-background, #003e96);
   --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 
@@ -265,6 +281,10 @@
 
   // navigation variables
   --qgds-color-background-alt: #001d74;
+  --qgds-navigation-item-bg: var(--qgds-color-background-shade);
+  --qgds-navigation-item-bg-hover: #001d74;
+
+  // banner variables
   --qgds-banner-block-heading-bg: var(--qgds-color-dark-background, #005eb8);
   --qgds-block-style-subheading-bg: var(--qgds-color-neutral-white, #ffffff);
 

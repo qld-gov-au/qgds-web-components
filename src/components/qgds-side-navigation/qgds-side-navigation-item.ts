@@ -46,6 +46,9 @@ export class QGDSSideNavigationItem extends LitElement {
     const slot = e.target as HTMLSlotElement;
     // Convert a textNode to the label
     const nodes = slot.assignedNodes();
+    // Reset hasItems before checking for children
+    this._hasItems = false;
+
     for (const node of nodes) {
       if (node.nodeType === 3 && node.nodeValue?.trim()) {
         this.label = node.nodeValue.trim();
@@ -64,7 +67,7 @@ export class QGDSSideNavigationItem extends LitElement {
       ? html`<div class="qgds-side-navigation-list" role="list">
           <slot @slotchange=${this._handleSlotChange}></slot>
         </div>`
-      : html`<slot @slotchange=${this._handleSlotChange}></slot>`; // the slot should remain to listen to updates even if empty
+      : html`<slot @slotchange=${this._handleSlotChange}></slot>`; // the slot is required to listen to updates even if empty.
   };
 
   render() {

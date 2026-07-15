@@ -38,10 +38,6 @@ import { NavigationVariant } from "../qgds-navigation/qgds-navigation";
  * @cssprop {length} --qgds-link-item-padding-top - Override block-start padding (default 0.75rem).
  * @cssprop {length} --qgds-link-padding - Override link block-end padding.
  * @cssprop {length|string} --qgds-link-margin-inline-start - Override inline-start margin.
- * @cssprop {length|string} --qgds-link-width - Override link width.
- * @cssprop {color} --qgds-link-border-end-colour - Override separator border colour.
- * @cssprop {length} --qgds-link-border-end-width - Override separator border width.
- * @cssprop {string} --qgds-link-border-end-style - Override separator border style.
  *
  * @example
  * ```html
@@ -193,7 +189,7 @@ export class QGDSLinkItem extends LitElement {
 
     const col = document.createElement("qgds-link-column");
     col.setAttribute("columns", String(this.columns));
-    col.setAttribute("layout", this.columnsDirection);
+    col.setAttribute("direction", this.columnsDirection);
 
     if (this.navigationVariant === "horizontal") {
       if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);

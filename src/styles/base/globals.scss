@@ -58,6 +58,7 @@
 html {
   font-size: 100%;
   scroll-behavior: smooth;
+
   @media (prefers-reduced-motion) {
     scroll-behavior: auto;
   }
@@ -70,5 +71,5 @@ body {
   line-height: var(--qgds-line-height-default);
   color: var(--qgds-color-text-default);
   -webkit-font-smoothing: antialiased;
-  text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
+  text-underline-offset: var(--qgds-link-underline-offset, 30%);
 }

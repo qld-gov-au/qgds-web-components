@@ -1,25 +1,18 @@
 :host {
-  --qgds-link-icon-size: unset;
-  --qgds-link-font-size: unset;
-  --qgds-link-font-weight: unset;
-  --qgds-link-margin-inline-start: unset;
-  --qgds-link-icon-weight: unset;
-  --qgds-link-width: unset;
-  --qgds-link-justify-content: unset;
+  --qgds-link-icon-size: inherit;
+  --qgds-link-margin-inline-start: inherit;
+  --qgds-link-justify-content: inherit;
   --qgds-link-align-items: inherit;
-  --qgds-link-background-colour: unset;
+  --qgds-link-background-colour: inherit;
   --qgds-link-label-display: inherit;
-  --qgds-icon-svg: unset;
+  --qgds-icon-svg: inherit;
   --icon-direction: 1;
-  --qgds-link-flex-direction: unset;
-  --qgds-icon-margin-start: unset;
-  --qgds-link-border-radius-focus: unset;
+  --qgds-link-flex-direction: inherit;
+  --qgds-icon-margin-start: inherit;
+  --qgds-link-border-radius-focus: inherit;
 
-  inline-size: var(--qgds-link-width, max-content);
+  inline-size: max-content;
   display: inline-block;
-  border-block-end: var(--qgds-link-border-end-width) var(--qgds-link-border-end-style)
-    var(--qgds-link-border-end-colour);
-  padding-inline-start: var(--qgds-link-padding-inline-start);
 }
 
 .link-container {
@@ -39,13 +32,10 @@
   padding-block: var(--qgds-link-padding-block, 0) var(--qgds-link-padding-block, var(--qgds-link-padding));
   padding-inline: var(--qgds-link-padding-inline);
   margin-inline-start: var(--qgds-link-margin-inline-start);
-  font-size: var(--qgds-link-font-size, inherit);
-  font-weight: var(--qgds-link-font-weight, inherit);
   text-decoration-thickness: 0.5px;
   text-underline-offset: 6px;
   text-decoration-color: var(--qgds-link-decoration-init-color, currentColor);
   transition: text-decoration-thickness var(--qgds-transition-time) ease;
-  inline-size: var(--qgds-link-width);
 
   &:hover {
     text-decoration-thickness: 2px;
@@ -116,13 +106,11 @@ qgds-icon {
 // stylelint-enable no-descending-specificity
 
 :host([stretch]) {
-  --qgds-link-width: 100%;
-
-  inline-size: var(--qgds-link-width, 100%);
+  inline-size: 100%;
 
   .link-container {
     qgds-icon {
-      margin-inline: 0 var(--icon-spacing, auto);
+      margin-inline: 0 var(--icon-spacing, auto); // icon-spacing is defined in call-to-action, link-column, link-item
     }
   }
 }
@@ -130,7 +118,7 @@ qgds-icon {
 :host([has-trailing-icon][stretch]) {
   .link-container {
     qgds-icon {
-      margin-inline: var(--icon-spacing, auto) 8px;
+      margin-inline: var(--icon-spacing, auto) 8px; // icon-spacing is defined in call-to-action, link-column, link-item
     }
   }
 }

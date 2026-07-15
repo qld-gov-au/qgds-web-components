@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link.styles.scss?inline";
 import { baseStyles } from "../../styles";
-import { QgdsEvents } from "../../utils";
+import { QgdsEvents, scrubSlotContent } from "../../utils";
 import "../qgds-icon/qgds-icon.js";
 import type { IconSize } from "../qgds-icon/qgds-icon.js";
 import type { IconName } from "../qgds-icon/icon-names";
@@ -38,17 +38,10 @@ export type { IconSize };
  *
  * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
- * @cssprop {length|string} --qgds-link-font-size - Override the link font size.
- * @cssprop {number|string} --qgds-link-font-weight - Override the link font weight.
  * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
- * @cssprop {length|string} --qgds-link-width - Override the link width.
  * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
  * @cssprop {color} --qgds-link-background-colour - Override the link background colour.
  * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
- * @cssprop {color} --qgds-link-border-end-colour - Override the block-end border colour.
- * @cssprop {length} --qgds-link-border-end-width - Override the block-end border width.
- * @cssprop {string} --qgds-link-border-end-style - Override the block-end border style.
- * @cssprop {length} --qgds-link-padding-inline-start - Override the inline-start padding.
  * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
@@ -93,6 +86,18 @@ export class QGDSLink extends LitElement {
     this.events.dispatch("click", { href: this.href, label: this.label }, e);
   }
 
+  private _handleSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    const nodes = slot.assignedNodes();
+    for (const node of nodes) {
+      if (node.nodeType === 3 && node.nodeValue?.trim()) {
+        this.label = node.nodeValue.trim();
+        break;
+      }
+    }
+    scrubSlotContent(slot, null, true, true);
+  };
+
   render() {
     const hasHref = !!this.href;
     // Only set aria-label when there is no visible text — visible label text
@@ -101,7 +106,7 @@ export class QGDSLink extends LitElement {
     const labelContent =
       this.iconName && this.onlyIcon
         ? html`<span class="sr-only">${this.label}</span>`
-        : html`<span class="link-label">${this.label}</span>`;
+        : html`<span class="link-label"><slot @slotchange=${this._handleSlotChange}>${this.label}</slot></span>`;
     const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
     const iconTemplate = this.iconName
       ? html`<qgds-icon icon-id=${this.iconName as IconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`

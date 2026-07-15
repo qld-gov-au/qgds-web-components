@@ -18,6 +18,7 @@ import { QGDSPalette } from "../../types/common";
 
 export type NavigationPalette = Extract<QGDSPalette, "default" | "bold">;
 export type NavigationVariant = "horizontal" | "vertical";
+export const tagName = "qgds-navigation";
 
 /**
  * QGDS Navigation – Horizontal navigation bar.
@@ -47,7 +48,7 @@ export type NavigationVariant = "horizontal" | "vertical";
  * </qgds-navigation>
  * ```
  */
-@customElement("qgds-navigation")
+@customElement(tagName)
 export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
@@ -198,6 +199,6 @@ export class QGDSNavigation extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "qgds-navigation": QGDSNavigation;
+    [tagName]: QGDSNavigation;
   }
 }
