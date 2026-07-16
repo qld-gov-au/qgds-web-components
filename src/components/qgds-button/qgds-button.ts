@@ -5,6 +5,8 @@ import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-button.styles.scss?inline";
 import { resetStyles, animationsStyles } from "../../styles";
 import { QgdsEvents } from "../../utils";
+
+import "../qgds-icon/qgds-icon";
 import type { IconName } from "../qgds-icon/icon-names";
 
 // Define types for properties to ensure type safety and better autocompletion
@@ -184,7 +186,7 @@ export class QGDSButton extends LitElement {
         @blur=${this._handleBlur}
       >
         ${this.isLoading
-          ? html`<qgds-icon icon-id="spinner-step-1" size="md"></qgds-icon>`
+          ? html`<qgds-icon icon-id="spinner-step-1" size="md" aria-hidden="true"></qgds-icon>`
           : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
         ${this.isLoading ? (this.loadingLabel ?? this.label) : this.renderLabel()}
       </button>
