@@ -5,10 +5,12 @@ import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-button.styles.scss?inline";
 import { resetStyles, animationsStyles } from "../../styles";
 import { QgdsEvents } from "../../utils";
+import type { IconName } from "../qgds-icon/icon-names";
 
 // Define types for properties to ensure type safety and better autocompletion
 type ButtonVariant = "primary" | "secondary" | "tertiary";
 type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
+type IconPosition = "leading" | "trailing";
 
 /**
  * QGDS Button Component
@@ -24,15 +26,13 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
  * @attr {AnchorTarget} target - The target for the link ("_self", "_blank", "_parent", "_top"). Default is "_self"
  * @attr {ButtonType} [type="button"] - The type of the button ("button", "submit", "reset"). Default is "button"
  * @attr {string} aria-label - The aria-label for the button for accessibility.
- * @attr {boolean} trailing-icon - Whether the icon is displayed after the label. Default is "false" (icon before label).
+ * @attr {IconName} icon-name - The qgds-icon icon-id rendered in shadow DOM when provided.
+ * @attr {IconPosition} icon-position - The position of the icon relative to the label ("leading", "trailing"). Default is "leading".
  * @attr {string} id - A unique ID for the button.
  * @attr {string} href - The URL the button links to (if it's a link).
  * @attr {string} loading-label - The label to display when the button is in a loading state. Default is "Loading...".
  * @attr {boolean} is-loading - Whether the button is in a loading state. Default is "false".
  * @attr {string} event-title - The title of the custom event dispatched on click.
- * @attr {string} slot="icon" - The icon slot for adding a qgds-icon to the qgds-button.
- *
- *
  * @cssprop --btn-border-colour - The color of the button border.
  * @cssprop --btn-text - The color of the button text.
  *
@@ -46,10 +46,7 @@ type AnchorTarget = "_self" | "_blank" | "_parent" | "_top";
  *
  * @example
  * ```html
- * <qgds-button type="button" label="QGDS Button" variant="primary">
- *   <qgds-icon slot="icon" icon-id="external-link" size="md">
- *   </qgds-icon>
- * </qgds-button>
+ * <qgds-button type="button" label="QGDS Button" variant="primary" icon-name="external-link"></qgds-button>
  * ```
  */
 
@@ -64,14 +61,15 @@ export class QGDSButton extends LitElement {
     this._events = new QgdsEvents(this, { prefix: "qgds" });
   }
 
-  @property({ type: String }) label: string = "Button";
+  @property({ type: String }) label: string = "";
   @property({ type: String, useDefault: true }) variant: ButtonVariant = "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
   @property({ type: String }) target?: AnchorTarget;
   @property({ type: String }) type: HTMLButtonElement["type"] = "button";
   @property({ type: String, attribute: "aria-label" }) ariaLabel: string | null = null;
-  @property({ type: Boolean, reflect: true, attribute: "trailing-icon" })
-  trailingIcon: boolean = false;
+  @property({ type: String, attribute: "icon-name" }) iconName?: IconName;
+  @property({ type: String, reflect: true, attribute: "icon-position" })
+  iconPosition: IconPosition = "leading";
   @property({ type: String, reflect: true, attribute: "id" })
   uniqueID?: string;
   @property({ type: String, reflect: true, attribute: "href" })
@@ -84,7 +82,6 @@ export class QGDSButton extends LitElement {
   @state() private _isHovered: boolean = false;
   @state() private _isActive: boolean = false;
   @state() private _isFocused: boolean = false;
-  @state() private hasIcon: boolean = false;
 
   static styles = [
     resetStyles,
@@ -103,6 +100,31 @@ export class QGDSButton extends LitElement {
     }
   }
 
+  private get hasExplicitLabel(): boolean {
+    return this.hasAttribute("label") || this.label.trim().length > 0;
+  }
+
+  /* Render the label for the button, prioritizing the explicit label, then slotted text, and finally null if neither is present. */
+  private renderLabel() {
+    /* If the button has an explicit label attribute, we render it directly. */
+    if (this.hasExplicitLabel) {
+      return this.label;
+    }
+
+    // Else, we return a slot, and anything between the opening and closing tags will be used as button content. Accepts any HTML content, including text and icons. If no content is provided, the button will be empty.
+    return html`<slot></slot>`;
+  }
+
+  /* Return the label to be used in the event detail, prioritizing the explicit label, then slotted text, and finally null if neither is present. */
+  private get eventLabel(): string | null {
+    if (this.hasExplicitLabel) {
+      return this.label;
+    }
+
+    const slottedText = this.textContent?.trim();
+    return slottedText && slottedText.length > 0 ? slottedText : null;
+  }
+
   // Render link version of the button (anchor tag with href)
   private renderLink() {
     const classes = {
@@ -110,14 +132,13 @@ export class QGDSButton extends LitElement {
       loading: this.isLoading,
       [`btn-${this.variant}`]: true,
       disabled: this.disabled || this.isLoading,
-      "has-icon": this.hasIcon || this.isLoading,
-      "trailing-icon": this.trailingIcon,
+      "has-icon": !!this.iconName || this.isLoading,
     };
 
     return html`
       <a
         href=${this.href ?? "#"}
-        aria-label="${ifDefined(this.ariaLabel)}"
+        aria-label=${ifDefined(this.ariaLabel ?? undefined)}
         class=${classMap(classes)}
         target="${ifDefined(this.target)}"
         tabindex="${this.disabled || this.isLoading ? -1 : 0}"
@@ -132,8 +153,8 @@ export class QGDSButton extends LitElement {
       >
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md"></qgds-icon>`
-          : html`<slot name="icon" @slotchange=${this.handleSlotChange}></slot>`}
-        ${this.label}
+          : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
+        ${this.renderLabel()}
       </a>
     `;
   }
@@ -144,15 +165,14 @@ export class QGDSButton extends LitElement {
       btn: true,
       loading: this.isLoading,
       [`btn-${this.variant}`]: true,
-      "has-icon": this.hasIcon || this.isLoading,
-      "trailing-icon": this.trailingIcon,
+      "has-icon": !!this.iconName || this.isLoading,
     };
 
     return html`
       <button
         ?disabled=${this.disabled || this.isLoading}
         type=${this.type}
-        aria-label="${ifDefined(this.ariaLabel)}"
+        aria-label=${ifDefined(this.ariaLabel ?? undefined)}
         class=${classMap(classes)}
         tabindex="0"
         @click=${this._handleClick}
@@ -165,18 +185,11 @@ export class QGDSButton extends LitElement {
       >
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md"></qgds-icon>`
-          : html`<slot name="icon" @slotchange=${this.handleSlotChange}></slot>`}
-        ${this.isLoading ? (this.loadingLabel ?? this.label) : this.label}
+          : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
+        ${this.isLoading ? (this.loadingLabel ?? this.label) : this.renderLabel()}
       </button>
     `;
   }
-
-  // Handle slot changes to detect if icon is present
-  private handleSlotChange = (e: Event): void => {
-    const slot = e.target as HTMLSlotElement;
-    const assignedElements = slot.assignedElements();
-    this.hasIcon = assignedElements.length > 0;
-  };
 
   // State management handlers
   private _handleMouseEnter = (): void => {
@@ -234,7 +247,7 @@ export class QGDSButton extends LitElement {
       {
         id: this.uniqueID ?? null,
         href: this.href,
-        label: this.label,
+        label: this.eventLabel,
         variant: this.variant,
       },
       e

@@ -73,7 +73,7 @@
   }
 }
 
-:host([trailing-icon]) .btn {
+:host([icon-position="trailing"]) .btn {
   flex-direction: row-reverse;
 }
 
@@ -179,16 +179,6 @@
 
     background: transparent;
   }
-}
-
-// Hide all slotted elements by default
-::slotted(*) {
-  display: none;
-}
-
-// Only show qgds-icon elements in the icon slot
-::slotted(qgds-icon) {
-  display: block;
 }
 
 qgds-icon[icon-id="spinner-step-1"] {

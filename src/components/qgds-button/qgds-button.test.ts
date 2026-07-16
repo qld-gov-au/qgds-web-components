@@ -118,10 +118,37 @@ describe("qgds-button", () => {
     it("should render with default properties", async () => {
       await element.updateComplete;
 
-      expect(element.label).toBe("Button");
+      expect(element.label).toBe("");
       expect(element.variant).toBe("primary");
       expect(element.disabled).toBe(false);
       expect(element.type).toBe("button");
+    });
+
+    it("should use default slot text when label is not provided", async () => {
+      element.textContent = "Slot Label";
+      await element.updateComplete;
+
+      const button = element.shadowRoot?.querySelector("button");
+      const slot = element.shadowRoot?.querySelector("slot");
+      const assignedText =
+        slot
+          ?.assignedNodes({ flatten: true })
+          .map((node) => node.textContent ?? "")
+          .join("")
+          .trim() ?? "";
+
+      expect(button).toBeTruthy();
+      expect(assignedText).toBe("Slot Label");
+    });
+
+    it("should prioritize label over default slot text", async () => {
+      element.textContent = "Slot Label";
+      element.setAttribute("label", "Attribute Label");
+      await element.updateComplete;
+
+      const button = element.shadowRoot?.querySelector("button");
+      expect(button?.textContent).toContain("Attribute Label");
+      expect(button?.textContent).not.toContain("Slot Label");
     });
 
     it("should render as button by default", async () => {
@@ -174,6 +201,17 @@ describe("qgds-button", () => {
       await element.updateComplete;
 
       expect(button?.hasAttribute("disabled")).toBe(true);
+    });
+  });
+
+  describe("Button with Icon", () => {
+    it("should render icon when iconName is provided", async () => {
+      element.setAttribute("icon-name", "external-link");
+      await element.updateComplete;
+
+      const icon = element.shadowRoot?.querySelector("qgds-icon");
+      expect(icon).toBeTruthy();
+      expect(icon?.getAttribute("icon-id")).toBe("external-link");
     });
   });
 
