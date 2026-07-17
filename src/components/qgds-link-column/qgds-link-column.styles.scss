@@ -8,9 +8,6 @@
   --qgds-icon-spacing-end: 0;
   --qgds-icon-margin-start: auto;
   --qgds-icon-color: var(--qgds-color-action-secondary);
-  --qgds-link-border-end-width: 1px;
-  --qgds-link-border-end-style: solid;
-  --qgds-link-border-end-colour: var(--qgds-color-border);
   --qgds-link-decoration-init-color: transparent;
 
   display: block;
@@ -67,21 +64,6 @@ qgds-call-to-action {
   padding-block-start: 2rem;
 }
 
-::slotted(qgds-link-item.header) {
-  --qgds-link-border-end-width: 0;
-  --qgds-link-border-end-style: solid;
-  --qgds-link-border-end-colour: transparent;
-
-  font-size: 1.125rem;
-  font-weight: 600;
-  grid-column: 1 / -1;
-  column-span: all;
-  max-inline-size: 100%;
-  padding-block-end: 1rem;
-  border-block-end: 2px solid var(--qgds-color-border);
-  margin-block-end: 1rem;
-}
-
 ::slotted(qgds-link-item) {
   --text-decoration: none;
   --qgds-link-decoration: none;
@@ -90,6 +72,17 @@ qgds-call-to-action {
 
   max-inline-size: 46rem;
   border-block-end: 1px solid var(--qgds-color-border);
+}
+
+::slotted(qgds-link-item.header) {
+  font-size: 1.125rem;
+  font-weight: 600;
+  grid-column: 1 / -1;
+  column-span: all;
+  max-inline-size: 100%;
+  padding-block-end: 1rem;
+  border-block-end: 2px solid var(--qgds-color-border);
+  margin-block-end: 1rem;
 }
 
 // Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)

@@ -38,17 +38,10 @@ export type { IconSize };
  *
  * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
- * @cssprop {length|string} --qgds-link-font-size - Override the link font size.
- * @cssprop {number|string} --qgds-link-font-weight - Override the link font weight.
  * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
- * @cssprop {length|string} --qgds-link-width - Override the link width.
  * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
  * @cssprop {color} --qgds-link-background-colour - Override the link background colour.
  * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
- * @cssprop {color} --qgds-link-border-end-colour - Override the block-end border colour.
- * @cssprop {length} --qgds-link-border-end-width - Override the block-end border width.
- * @cssprop {string} --qgds-link-border-end-style - Override the block-end border style.
- * @cssprop {length} --qgds-link-padding-inline-start - Override the inline-start padding.
  * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
