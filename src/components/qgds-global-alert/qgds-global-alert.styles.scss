@@ -29,14 +29,14 @@
 :host([variant="critical"]) {
   --_bg: var(--bg, var(--qgds-color-status-error-default));
   --_text-fg: var(--text-fg, var(--qgds-color-neutral-white));
-  --_border: var(--border, var(--qgds-color-status-error-darker));  // should --border used here
+  --_border: var(--border, var(--qgds-color-status-error-darker)); // should --border used here
   --_icon-focus-border-colour: var(--qgds-color-neutral-white);
 }
 
 :host([variant="warning"]) {
   --_bg: var(--bg, var(--qgds-color-status-caution-default));
   --_text-fg: var(--text-fg, var(--qgds-color-neutral-darkest));
-  --_border:var(--qgds-color-status-caution-darker);
+  --_border: var(--qgds-color-status-caution-darker);
   --_icon-focus-border-colour: var(--qgds-color-neutral-darkest);
 }
 
@@ -80,8 +80,8 @@
 }
 
 ::slotted(*) {
-    display: block;
-    margin: 0;
+  display: block;
+  margin: 0;
 }
 
 qgds-icon.global-alert-icon {
@@ -126,12 +126,12 @@ qgds-call-to-action {
   --qgds-color-underline-default: var(--_text-fg);
   --qgds-color-link-hover: var(--_text-fg);
   --qgds-color-focus-default: var(--_icon-focus-border-colour);
-  --qgds-link-font-size: tools.remify(14px);
-  --qgds-link-font-weight: 600;
   --qgds-link-align-items: flex-start;
-  
+
   flex: 0 1 auto;
   white-space: normal;
+  font-size: tools.remify(14px);
+  font-weight: 600;
 
   @media (min-width: qgds-breakpoint.$md) {
     flex: 0 0 auto;
@@ -157,10 +157,11 @@ button.close {
   block-size: tools.remify(32px);
   aspect-ratio: 1 / 1;
   margin-inline-start: tools.remify(4px); // 12px grid gap + 4px = 16px total on mobile
-  
+
   @include tools.focusable();
-  
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     transform: scale(1.25);
   }
 
@@ -180,9 +181,9 @@ button.close {
     inline-size: tools.remify(40px);
     block-size: tools.remify(40px);
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       transform: scale(1.2);
     }
   }
 }
-
