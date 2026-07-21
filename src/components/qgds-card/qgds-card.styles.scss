@@ -182,8 +182,6 @@ Scoped CSS: qgds-card
 
   &.has-footer-links {
     // Links in footer are "CTA style" however icon placement is left of the label. Their font-weight is 600;
-    --qgds-link-font-weight: 600;
-    --qgds-link-width: 100%;
     --qgds-link-justify-content: flex-start;
 
     .footer {
@@ -193,6 +191,8 @@ Scoped CSS: qgds-card
 
       ::slotted(qgds-link) {
         min-inline-size: 0;
+        font-weight: 600;
+        inline-size: 100%;
       }
     }
   }

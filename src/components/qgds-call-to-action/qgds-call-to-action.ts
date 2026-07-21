@@ -15,8 +15,6 @@ import "../qgds-link/qgds-link.js";
  * @property {boolean} [is-view-all] - When true, uses the "view-all" icon at size "lg". Otherwise uses "arrow-right" at size "md".
  *
  * @cssprop {length} --qgds-link-icon-size - Override the icon size (default 2rem).
- * @cssprop {length|string} --qgds-link-font-size - Override the font size (1rem by default, 1.25rem when is-view-all).
- * @cssprop {number|string} --qgds-link-font-weight - Override the font weight.
  * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
  *
