@@ -1,0 +1,565 @@
+import type { Meta, StoryObj } from "@storybook/web-components";
+import { html, TemplateResult, nothing } from "lit";
+
+import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { action } from "storybook/actions";
+import { allModes, chromaticModes } from "../../../../.storybook/modes";
+import { withEventActions } from "../../../../.storybook/storybook-helpers";
+import type { QGDSHeader } from "../qgds-header";
+import type { QGDSNavigation } from "../../qgds-navigation/qgds-navigation";
+import type { QGDSAttributionBar } from "../../qgds-attribution-bar/qgds-attribution-bar";
+import "../qgds-header";
+import "../../qgds-attribution-bar/qgds-attribution-bar";
+import "../../qgds-link/qgds-link";
+import "../../qgds-logo/qgds-logo";
+import "../../qgds-search-input/qgds-search-input";
+import "../../qgds-navigation/qgds-navigation";
+
+import sampleSlottedImage from "../../qgds-logo/assets/breast-screen-qld-logo.svg";
+import sampleSlottedImageHealthOmb from "../../qgds-logo/assets/office-health-ombudsman-logo.svg";
+import sampleSlottedImageStopRise from "../../qgds-logo/assets/stop-the-rise-logo.svg";
+
+const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
+const { args: navArgs, template: navTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
+const { args: attributionArgs, template: attributionTemplate } =
+  getStorybookHelpers<QGDSAttributionBar>("qgds-attribution-bar");
+
+type Args = typeof args;
+type Story = StoryObj<Args>;
+
+const meta: Meta<Args> = {
+  title: "Components/Header/Brand",
+  component: "qgds-header",
+  argTypes,
+  render: (args) => template(args),
+};
+
+export default meta;
+
+// The mobile buttons only fire payload-less events; the slotted components own what
+// happens next. Search has no mobile design yet, so it just logs to the Actions
+// panel. Menu toggles the demo nav's `open` attribute, standing in for a real
+// mega-menu component that would manage its own open state.
+const logSearchToggle = action("qgds-toggle-search-mobile");
+// eslint-disable-next-line @typescript-eslint/no-unsafe-return
+const onSearchToggle = () => logSearchToggle();
+const onNavToggle = (e: Event) => {
+  const header = e.currentTarget as HTMLElement;
+  header.querySelector('[slot="navigation"]')?.toggleAttribute("open");
+};
+
+const storyStyles = html`
+  <style>
+    .story-heading {
+      margin-block-end: 2rem;
+    }
+
+    .story-heading strong {
+      font-size: 1.25rem;
+      font-weight: var(--qgds-font-weight-bold, 700);
+    }
+  </style>
+`;
+
+const headerTemplate = (args: Args, children: TemplateResult) => html`
+  <qgds-header
+    site-name=${args["site-name"] || nothing}
+    tagline=${args["tagline"] || (nothing as any)}
+    mobile-top-container=${args["mobile-top-container"] || nothing}
+    ?hide-coa-logo=${args["hide-coa-logo"]}
+    ?hide-mobile-secondary-container=${args["hide-mobile-secondary-container"]}
+    @qgds-toggle-search-mobile=${onSearchToggle}
+    @qgds-toggle-nav-menu=${onNavToggle}
+  >
+    ${children}
+  </qgds-header>
+`;
+
+const navItems = html`
+  <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
+  <qgds-link-item label="Services" href="#services"></qgds-link-item>
+  <qgds-link-item label="About" href="#about"></qgds-link-item>
+`;
+
+const attributionLinks = html`
+  <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+  <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+`;
+
+const eventActionDecorator = [
+  withEventActions([
+    "qgds-navigation-open",
+    "qgds-navigation-opened",
+    "qgds-navigation-close",
+    "qgds-navigation-closed",
+  ]),
+];
+
+export const CoatOfArms: Story = {
+  args: meta.args,
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-search-input slot="search"></qgds-search-input>
+        ${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Master brand</strong></p>
+          <p>This style only for qld.gov.au</p>
+        </div>
+        ${story()}`,
+  ],
+};
+
+export const CoatOfArmsAndSiteName: Story = {
+  args: {
+    ...meta.args,
+    "site-name": "Site name",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+        <qgds-search-input slot="search"></qgds-search-input>
+        ${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Master brand, Sub-Brand, Co-Brand, and Endorsed</strong></p>
+          <p>Coat of Arms and Site Name</p>
+        </div>
+        ${story()}`,
+  ],
+};
+
+export const CoatOfArmsAndBrandLogo: Story = {
+  args: meta.args,
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+        <qgds-logo
+          slot="site-name"
+          logo=""
+          custom-logo="${sampleSlottedImage}"
+          custom-logo-alt="Partner Organisation"
+        ></qgds-logo>
+
+        <qgds-search-input slot="search"></qgds-search-input>
+        ${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Co-Brand and Endorsed</strong></p>
+          <p>Coat of Arms and Logo</p>
+        </div>
+        ${story()}`,
+  ],
+};
+
+export const BrandLogoMobileTwoRows: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "tagline",
+    tagline: "adepartment.qld.gov.au",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo
+          slot="site-name"
+          logo=""
+          custom-logo="${sampleSlottedImageHealthOmb}"
+          custom-logo-alt="Partner Organisation"
+        ></qgds-logo>
+
+        <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Logo - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Tagline - Bottom: Brand Logo</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "tagline", <br />
+          tagline: "adepartment.qld.gov.au",
+        </div>`,
+  ],
+};
+
+export const BrandLogoMobileTopRowOnlyLogo: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "brand-logo",
+    "hide-mobile-secondary-container": true,
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo
+          slot="brand-logo"
+          logo=""
+          custom-logo="${sampleSlottedImageHealthOmb}"
+          custom-logo-alt="Partner Organisation"
+        ></qgds-logo>
+        <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Logo - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Brand logo</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "brand-logo", <br />
+          "hide-mobile-secondary-container": true,
+        </div>`,
+  ],
+};
+
+export const BrandLogoMobileTopRowOnlyTagline: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "tagline",
+    "hide-mobile-secondary-container": true,
+    tagline: "Site tagline or URL",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo
+          slot="brand-logo"
+          logo=""
+          custom-logo="${sampleSlottedImageHealthOmb}"
+          custom-logo-alt="Partner Organisation"
+        ></qgds-logo>
+
+        <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Logo only - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Tagline</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "tagline", <br />
+          "hide-mobile-secondary-container": true, <br />
+          tagline: "Site tagline or URL",
+        </div>`,
+  ],
+};
+
+export const BrandLogoWithSiteNameAndTagline: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "brand-logo",
+    "site-name": "Site Name",
+    tagline: "adepartment.qld.gov.au",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )}
+        <qgds-logo
+          slot="brand-logo"
+          logo=""
+          custom-logo="${sampleSlottedImageHealthOmb}"
+          custom-logo-alt="Partner Organisation"
+        ></qgds-logo>
+        <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Logo with Site Name and Tagline - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: tagline</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "mobile-top-container": "tagline",<br />
+          "hide-mobile-secondary-container": true,<br />
+          "site-name": "Site Name for Desktop",<br />
+          tagline: "adepartment.qld.gov.au",
+        </div>`,
+  ],
+};
+
+export const BrandNameMobileTwoRows: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "tagline",
+    "site-name": "Site name",
+    tagline: "adepartment.qld.gov.au",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Name only - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Tagline - Bottom: Brand Name</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "tagline", <br />
+          "site-name": "Site name", <br />
+          tagline: "adepartment.qld.gov.au",
+        </div>`,
+  ],
+};
+
+export const BrandNameMobileTopRowOnlyBrandName: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "site-name",
+    "hide-mobile-secondary-container": true,
+    "site-name": "Site name",
+    tagline: "adepartment.qld.gov.au",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Name - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Brand Name</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "site-name",<br />
+          "hide-mobile-secondary-container": true,<br />
+          "site-name": "Site name",<br />
+          tagline: "adepartment.qld.gov.au",
+        </div>`,
+  ],
+};
+
+export const BrandNameMobileTopRowOnlyTagline: Story = {
+  args: {
+    ...meta.args,
+    "hide-coa-logo": true,
+    "mobile-top-container": "tagline",
+    "hide-mobile-secondary-container": true,
+    "site-name": "Site name",
+    tagline: "adepartment.qld.gov.au",
+  },
+  render: (args) =>
+    headerTemplate(
+      args,
+      html`${attributionTemplate(
+          {
+            ...attributionArgs,
+            slot: "pre-header",
+            palette: "bold",
+          },
+          attributionLinks
+        )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
+    ),
+  decorators: [
+    ...eventActionDecorator,
+    (story) =>
+      html`${storyStyles}
+        <div class="story-heading">
+          <p><strong>Endorsed and Stand Alone</strong></p>
+          <p>Brand Name - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Tagline</p>
+        </div>
+        ${story()}
+        <div style="margin-top: 2rem">
+          "hide-coa-logo": true, <br />
+          "mobile-top-container": "tagline",<br />
+          "hide-mobile-secondary-container": true,<br />
+          "site-name": "Site name",<br />
+          tagline: "adepartment.qld.gov.au",
+        </div>`,
+  ],
+};

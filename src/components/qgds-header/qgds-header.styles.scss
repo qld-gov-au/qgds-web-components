@@ -14,6 +14,9 @@ Scoped CSS: qgds-header
 
 .header {
   display: block;
+  box-shadow:
+    0 1px 2px 0 rgb(0 0 0 / 0.3),
+    0 2px 6px 2px rgb(0 0 0 / 0.15);
 }
 
 // =============================================================================
@@ -28,7 +31,7 @@ Scoped CSS: qgds-header
 // 2. Header content
 
 // Palette classes borrowed from the attribution-bar,
-// used on .header-logo and .header-actions on sm - md viewports only.
+// used on 'main' grid area on sm - md screens.
 $header-mobile-palettes: default, bold, deep;
 
 @each $p in $header-mobile-palettes {
@@ -46,8 +49,8 @@ $header-mobile-palettes: default, bold, deep;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "logo   actions"
-    "name   name"
+    "main   actions"
+    "sub   sub"
     "search search";
   align-items: stretch;
   column-gap: 0;
@@ -60,51 +63,82 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
-// Brand logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
+.header-brand-logo,
+.header-tagline {
+  display: none;
+}
+
+// COA logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
 // tinted white and sized down; on desktop it is crest blue at full height. The
 // `--logo-*` custom properties are set on the element so they win over the
 // qgds-logo `:host` defaults.
-.header-logo {
-  grid-area: logo;
+.header-coa-logo,
+.is-mobile-top-row,
+.header-site-name.is-mobile-top-row {
+  grid-area: main;
   display: flex;
   align-items: center;
   min-inline-size: 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.header-coa-logo,
+.is-mobile-top-row {
   padding-block: tools.remify(10px);
   padding-inline: tools.remify(16px);
 }
 
-.header-logo,
-.header-actions {
+.header-coa-logo,
+.header-actions,
+.header-tagline,
+.header-brand-logo,
+.is-mobile-top-row {
   background: var(--qgds-color-background);
   color: var(--qgds-color-text-default);
 }
 
-.header-logo qgds-logo,
+.header-coa-logo qgds-logo,
 ::slotted(qgds-logo) {
   --logo-height: #{tools.remify(28px)};
+}
+
+.tagline {
+  color: var(--qgds-color-site-title);
+  font-weight: var(--qgds-font-weight-bold, 700);
+  font-size: tools.remify(16px);
+  line-height: tools.remify(20px);
 }
 
 // Secondary brand element beside the logo: the site name. On mobile it sits in a
 // full-bleed white band below the blue bar (breaks out of the inner gutter, then
 // re-insets its content).
-.header-secondary {
-  grid-area: name;
+.header-site-name {
+  grid-area: sub;
   display: flex;
   align-items: center;
   padding-block: tools.remify(16px);
   padding-inline: tools.remify(16px);
   background-color: var(--qgds-color-background);
+  line-height: 1rem;
+  min-inline-size: 0;
+
+  span {
+    color: var(--qgds-color-site-title);
+    font-weight: var(--qgds-font-weight-bold, 700);
+    font-size: tools.remify(16px);
+    line-height: tools.remify(20px);
+  }
 
   &.is-empty {
     display: none;
   }
-}
 
-.header-site-name {
-  color: var(--qgds-color-site-title);
-  font-weight: var(--qgds-font-weight-bold, 700);
-  font-size: tools.remify(16px);
-  line-height: tools.remify(20px);
+  &.hide-mobile {
+    display: none;
+  }
 
   &[hidden] {
     display: none;
@@ -141,29 +175,35 @@ $header-mobile-palettes: default, bold, deep;
 :host([search-open]) .header-search {
   display: block;
   padding-inline: tools.remify(16px);
-  padding-block: 0 tools.remify(16px);
+  padding-block: tools.remify(16px);
 }
 
 // =============================================================================
 // Medium - same layout as small viewport, with different spacing and typography.
 // =============================================================================
 @media (min-width: #{bp.$md}) {
-  .header-logo {
+  .header-coa-logo,
+  .is-mobile-top-row {
     padding-block: tools.remify(16px);
     padding-inline: tools.remify(32px);
   }
 
-  .header-logo qgds-logo,
+  .header-coa-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-height: #{tools.remify(40px)};
   }
 
-  .header-secondary {
+  .tagline {
+    font-size: tools.remify(20px);
+    line-height: tools.remify(24px);
+  }
+
+  .header-site-name {
     padding-block: tools.remify(24px);
     padding-inline: tools.remify(32px);
   }
 
-  .header-site-name {
+  .header-site-name span {
     font-size: tools.remify(20px);
     line-height: tools.remify(24px);
   }
@@ -188,46 +228,79 @@ $header-mobile-palettes: default, bold, deep;
 
   .header-content-inner {
     grid-template-columns: auto 1fr auto;
-    grid-template-areas: "logo name search";
+    grid-template-areas: "main sub search";
     align-items: center;
     padding-block: tools.remify(24px);
-    column-gap: tools.remify(24px);
+
+    // column-gap: tools.remify(24px);
+    column-gap: 0;
   }
 
-  .header-logo {
+  .header-coa-logo,
+  .is-mobile-top-row {
     padding-inline: 0;
   }
 
+  .header-brand-logo {
+    grid-area: main;
+    display: flex;
+  }
+
   // Unset the mobile-only colours that were borrowed from attribution-bar's palette.
-  .header-logo,
-  .header-actions {
+  .header-coa-logo,
+  .header-actions,
+  .header-tagline,
+  .header-brand-logo,
+  .is-mobile-top-row,
+  .header-site-name.is-mobile-top-row {
     --qgds-color-crest-fill: unset; // drop override by header-mobile-palette-*, re-inherit from :host's palette instead.
     --qgds-color-link-default: unset;
     --qgds-color-link-on-action: unset;
     --qgds-color-background: unset;
     --qgds-color-text-default: unset;
     --qgds-icon-color: unset;
+    --qgds-color-site-title: unset;
 
     background-color: inherit; // drop own background-color declaration, re-inherit from parent instead.
     color: inherit; // drop own color declaration, re-inherit from parent instead.
   }
 
-  .header-logo qgds-logo,
+  .header-coa-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-color: var(--qgds-color-crest-fill);
     --logo-height: #{tools.remify(56px)};
   }
 
-  .header-secondary {
-    background: transparent;
-    padding-inline-start: tools.remify(24px);
-    padding-block: tools.remify(16px);
-    border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
+  .header-tagline {
+    display: none;
+  }
+
+  .tagline {
+    font-size: tools.remify(20px);
+    line-height: tools.remify(24px);
   }
 
   .header-site-name {
-    font-size: tools.remify(20px);
-    line-height: tools.remify(24px);
+    grid-area: sub;
+    background: transparent;
+    padding-inline: 0;
+    padding-block: tools.remify(16px);
+
+    &.hide-mobile {
+      display: flex;
+    }
+
+    span {
+      font-size: tools.remify(20px);
+      line-height: tools.remify(24px);
+    }
+  }
+
+  .header-coa-logo:not([hidden]) ~ .header-site-name,
+  .header-brand-logo:not([hidden]) ~ .header-site-name {
+    border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
+    padding-inline-start: tools.remify(24px);
+    margin-inline-start: tools.remify(24px);
   }
 
   .header-actions {
@@ -239,12 +312,16 @@ $header-mobile-palettes: default, bold, deep;
     justify-self: end;
     align-items: center;
     inline-size: 416px;
-    margin-inline: 0;
+    margin-inline-start: tools.remify(24px);
     padding: 0;
     background: transparent;
 
     ::slotted(*) {
       inline-size: 100%;
     }
+  }
+
+  .header-site-name:not(.is-empty) ~ .header-search {
+    margin-inline-start: tools.remify(24px);
   }
 }
