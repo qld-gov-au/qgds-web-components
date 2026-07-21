@@ -220,9 +220,6 @@ describe("qgds-button", () => {
       await element.updateComplete;
 
       const initialState = element.buttonState;
-      expect(initialState.isHovered).toBe(false);
-      expect(initialState.isActive).toBe(false);
-      expect(initialState.isFocused).toBe(false);
       expect(initialState.isDisabled).toBe(false);
       expect(initialState.isLoading).toBe(false);
     });

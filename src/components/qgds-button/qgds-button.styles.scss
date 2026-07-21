@@ -134,11 +134,6 @@
     --btn-border-colour: var(--qgds-color-action-secondary-hover, #004ea7);
   }
 
-  &:active {
-    //--qgds-icon-color: var(--qgds-color-text-heading, #005eb8);
-    //background-color: var(--qgds-color-neutral-lightest, #f5f5f5);
-  }
-
   &:disabled,
   &.disabled {
     --btn-border-colour: var(--qgds-color-disabled, #ccc);
