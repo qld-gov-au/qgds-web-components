@@ -9,9 +9,7 @@ import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-navigation.styles.scss?inline";
 
 // Component dependencies
-import "../qgds-link-item/qgds-link-item";
 import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
-import "../qgds-link-column/qgds-link-column";
 import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
 import "../qgds-tile-button/qgds-tile-button";
 import { QGDSPalette } from "../../types/common";

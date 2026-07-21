@@ -13,6 +13,7 @@ import componentCSS from "./qgds-navigation-item.styles.scss?inline";
 import "../qgds-link/qgds-link";
 import "../qgds-icon/qgds-icon";
 import "../qgds-call-to-action/qgds-call-to-action";
+import "../qgds-link-column/qgds-link-column";
 import { NavigationVariant } from "./qgds-navigation";
 import { IconName } from "../qgds-icon/icon-names";
 
@@ -83,6 +84,7 @@ export class QGDSNavigationItem extends LitElement {
               </button>
 
               <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })} id="mega-menu">
+                <!-- Header -->
                 <div class="mega-menu-header">
                   <qgds-link
                     class="mega-menu-link"
@@ -96,10 +98,20 @@ export class QGDSNavigationItem extends LitElement {
                   ></qgds-link>
                   ${this.description ? html`<p class="mega-menu-description">${this.description}</p>` : nothing}
                 </div>
+
+                <!-- Columns -->
+                <qgds-link-column></qgds-link-column>
                 <slot @slotchange=${this._handleSlotchange}></slot>
+
+                <!-- Footer -->
                 ${this.viewAllUrl
                   ? html`<div class="mega-menu-footer">
-                      <qgds-call-to-action class="inline-block mr-n16" is-view-all></qgds-call-to-action>
+                      <qgds-call-to-action
+                        href=${this.viewAllUrl}
+                        label=${ifDefined(this.viewAllLabel)}
+                        class="inline-block mr-n16"
+                        is-view-all
+                      ></qgds-call-to-action>
                     </div>`
                   : nothing}
               </div>`
