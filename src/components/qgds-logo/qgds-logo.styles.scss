@@ -40,8 +40,9 @@
   img,
   ::slotted(img),
   ::slotted(svg) {
-    max-inline-size: 100%;
+    max-block-size: 100%;
     block-size: auto;
+    inline-size: auto;
     display: block;
   }
 }
@@ -68,6 +69,7 @@
 .is-custom .logo-image-custom {
   display: flex;
   align-items: center;
+  block-size: var(--logo-height);
 }
 
 .is-custom {
@@ -83,8 +85,9 @@
   }
 
   img {
-    max-inline-size: 100%;
+    max-block-size: 100%;
     block-size: auto;
+    inline-size: auto;
     display: block;
   }
 }
