@@ -39,14 +39,14 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: String, attribute: "view-all-url" }) viewAllUrl?: string;
   @property({ type: String, attribute: "view-all-label" }) viewAllLabel? = "View all";
 
-  @state() private _hasChildren = false;
+  @state() private _numChildren = 0;
 
   private _handleSlotchange = (e: Event) => {
     // console.log("slotchange", this.label);
     const slot = e.target as HTMLSlotElement;
     const nodes = slot.assignedNodes();
     // Reset hasChildren before checking nodes
-    this._hasChildren = false;
+    this._numChildren = 0;
     for (const node of nodes) {
       if (node.nodeType === 3 && node.nodeValue?.trim()) {
         // if label is empty string or undefined, assign the text node value as label.
@@ -54,7 +54,7 @@ export class QGDSNavigationItem extends LitElement {
         continue;
       } else if (node.nodeName === "QGDS-NAVIGATION-ITEM") {
         (node as QGDSNavigationItem).level = 2;
-        this._hasChildren = true;
+        this._numChildren++;
       }
     }
     // then only allow qgds-navigation-items, 2 levels deep
@@ -66,13 +66,13 @@ export class QGDSNavigationItem extends LitElement {
     const classes = classMap({
       "nav-item is-horizontal": true,
       "is-active": this.isActive,
-      "is-open": this.level === 1 && this._hasChildren && this.isOpen,
+      "is-open": this.level === 1 && this._numChildren > 0 && this.isOpen,
     });
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
     const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
 
     return this.level === 1
-      ? html`${this._hasChildren
+      ? html`${this._numChildren > 0
           ? html`<button
                 class=${classes}
                 aria-controls="mega-menu"
@@ -99,7 +99,7 @@ export class QGDSNavigationItem extends LitElement {
                 <slot @slotchange=${this._handleSlotchange}></slot>
                 ${this.viewAllUrl
                   ? html`<div class="mega-menu-footer">
-                      <qgds-call-to-action class="inline-block m-n16" is-view-all></qgds-call-to-action>
+                      <qgds-call-to-action class="inline-block mr-n16" is-view-all></qgds-call-to-action>
                     </div>`
                   : nothing}
               </div>`
