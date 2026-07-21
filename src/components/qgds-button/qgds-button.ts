@@ -29,26 +29,20 @@ type IconPosition = "leading" | "trailing";
  * @attr {ButtonType} [type="button"] - The type of the button ("button", "submit", "reset"). Default is "button"
  * @attr {string} aria-label - The aria-label for the button for accessibility.
  * @attr {IconName} icon-name - The qgds-icon icon-id rendered in shadow DOM when provided.
- * @attr {IconPosition} icon-position - The position of the icon relative to the label ("leading", "trailing"). Default is "leading".
+ * @attr {IconPosition} icon-position - The position of the icon relative to the label ("leading", "trailing"). If omitted, the icon renders in the leading position.
  * @attr {string} id - A unique ID for the button.
  * @attr {string} href - The URL the button links to (if it's a link).
- * @attr {string} loading-label - The label to display when the button is in a loading state. Default is "Loading...".
+ * @attr {string} loading-label - Optional loading text shown when the button is in a loading state. If omitted, "Loading..." is used.
  * @attr {boolean} is-loading - Whether the button is in a loading state. Default is "false".
- * @attr {string} event-title - The title of the custom event dispatched on click.
+ *
  * @cssprop --btn-border-colour - The color of the button border.
  * @cssprop --btn-text - The color of the button text.
  *
  * @event qgds-click - Fires when the button is clicked.
- * @event qgds-focus - Fires when the button receives focus.
- * @event qgds-blur - Fires when the button loses focus.
- * @event qgds-mouseenter - Fires when the mouse enters the button.
- * @event qgds-mouseleave - Fires when the mouse leaves the button.
- * @event qgds-mousedown - Fires when the mouse button is pressed down on the button.
- * @event qgds-mouseup - Fires when the mouse button is released on the button.
  *
  * @example
  * ```html
- * <qgds-button type="button" label="QGDS Button" variant="primary" icon-name="external-link"></qgds-button>
+ * <qgds-button type="button" label="Button" variant="primary"></qgds-button>
  * ```
  */
 
@@ -71,12 +65,12 @@ export class QGDSButton extends LitElement {
   @property({ type: String, attribute: "aria-label" }) ariaLabel: string | null = null;
   @property({ type: String, attribute: "icon-name" }) iconName?: IconName;
   @property({ type: String, reflect: true, attribute: "icon-position" })
-  iconPosition: IconPosition = "leading";
+  iconPosition?: IconPosition;
   @property({ type: String, reflect: true, attribute: "id" })
   uniqueID?: string;
   @property({ type: String, reflect: true, attribute: "href" })
   href?: string;
-  @property({ type: String, attribute: "loading-label" }) loadingLabel = "Loading...";
+  @property({ type: String, attribute: "loading-label" }) loadingLabel?: string;
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
 
@@ -127,6 +121,14 @@ export class QGDSButton extends LitElement {
     return slottedText && slottedText.length > 0 ? slottedText : null;
   }
 
+  private get resolvedLoadingLabel(): string {
+    if (typeof this.loadingLabel === "string" && this.loadingLabel.trim().length > 0) {
+      return this.loadingLabel;
+    }
+
+    return "Loading...";
+  }
+
   // Render link version of the button (anchor tag with href)
   private renderLink() {
     const classes = {
@@ -146,12 +148,6 @@ export class QGDSButton extends LitElement {
         tabindex="${this.disabled || this.isLoading ? -1 : 0}"
         rel="${this.target === "_blank" ? "noopener noreferrer" : ifDefined(undefined)}"
         @click=${this._handleClick}
-        @mouseenter=${this._handleMouseEnter}
-        @mouseleave=${this._handleMouseLeave}
-        @mousedown=${this._handleMouseDown}
-        @mouseup=${this._handleMouseUp}
-        @focus=${this._handleFocus}
-        @blur=${this._handleBlur}
       >
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md"></qgds-icon>`
@@ -178,59 +174,18 @@ export class QGDSButton extends LitElement {
         class=${classMap(classes)}
         tabindex="0"
         @click=${this._handleClick}
-        @mouseenter=${this._handleMouseEnter}
-        @mouseleave=${this._handleMouseLeave}
-        @mousedown=${this._handleMouseDown}
-        @mouseup=${this._handleMouseUp}
-        @focus=${this._handleFocus}
-        @blur=${this._handleBlur}
       >
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md" aria-hidden="true"></qgds-icon>`
           : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
-        ${this.isLoading ? (this.loadingLabel ?? this.label) : this.renderLabel()}
+        ${this.isLoading ? this.resolvedLoadingLabel : this.renderLabel()}
       </button>
     `;
   }
 
-  // State management handlers
-  private _handleMouseEnter = (): void => {
-    if (!this.disabled && !this.isLoading) {
-      this._isHovered = true;
-    }
-  };
-
-  private _handleMouseLeave = (): void => {
-    this._isHovered = false;
-    this._isActive = false;
-  };
-
-  private _handleMouseDown = (): void => {
-    if (!this.disabled && !this.isLoading) {
-      this._isActive = true;
-    }
-  };
-
-  private _handleMouseUp = (): void => {
-    this._isActive = false;
-  };
-
-  private _handleFocus = (): void => {
-    if (!this.disabled && !this.isLoading) {
-      this._isFocused = true;
-    }
-  };
-
-  private _handleBlur = (): void => {
-    this._isFocused = false;
-  };
-
   // Getter for combined button state
   get buttonState() {
     return {
-      isHovered: this._isHovered,
-      isActive: this._isActive,
-      isFocused: this._isFocused,
       isDisabled: this.disabled,
       isLoading: this.isLoading,
     };
@@ -244,16 +199,22 @@ export class QGDSButton extends LitElement {
       return;
     }
 
-    this._events.dispatch(
+    const dispatchEvent = this._events.dispatch(
       "click",
       {
         id: this.uniqueID ?? null,
         href: this.href,
         label: this.eventLabel,
         variant: this.variant,
+        type: this.type,
       },
       e
     );
+
+    //Handle the case where the event was canceled by a listener
+    if (!dispatchEvent) {
+      e.preventDefault();
+    }
   };
 }
 
