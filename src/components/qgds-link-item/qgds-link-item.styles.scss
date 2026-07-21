@@ -251,11 +251,6 @@ div[role="list"] {
   padding-block: 0;
   padding-inline: 0;
   background-color: var(--nav-sub-bg, #ffffff);
-
-  // Will not work, find another way.
-  // qgds-call-to-action {
-  //   display: none;
-  // }
 }
 
 :host([is-nav-item]) qgds-link-item.header {
@@ -264,7 +259,7 @@ div[role="list"] {
 
   display: block;
   font-size: 1.125rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 :host([is-nav-item]) .dropdown-toggle {

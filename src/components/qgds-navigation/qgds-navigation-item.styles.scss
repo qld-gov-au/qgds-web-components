@@ -77,6 +77,11 @@
 
 // The mega menu dropdown
 .mega-menu {
+  $block: &;
+
+  --qgds-color-underline-default: transparent;
+  --qgds-link-decoration-thickness: 0;
+
   position: absolute; // requires postion relative on the navigation bar
   z-index: 3;
   inset-inline: 0;
@@ -85,6 +90,7 @@
   margin-inline: auto;
   padding-block: f.remify(32px);
   padding-inline: f.remify(48px);
+  border-radius: 0 0 f.remify(12px) f.remify(12px);
   box-shadow: var(--qgds-elevation-2);
   transform-origin: 50% 0;
 
@@ -113,6 +119,46 @@
       opacity: 0;
       transform: scale(0.99);
       transition-timing-function: var(--qgds-transition-easing-inverse);
+    }
+  }
+
+  // mega menu elements
+  &-header {
+    font-size: f.remify(24px);
+    padding-block-end: f.remify(32px);
+    border-block-end: 2px solid var(--qgds-color-border);
+    margin-block-end: f.remify(32px);
+  }
+
+  &-footer {
+    padding-block-start: f.remify(32px);
+    border-block-start: 2px solid var(--qgds-color-border);
+    margin-block-start: f.remify(32px);
+    display: flex; // use flex and justify-content rather than text-align in case call to action changes to display block
+    justify-content: flex-end;
+  }
+
+  // is a qgds-link
+  &-link {
+    font-weight: 600;
+    font-size: f.remify(16px);
+
+    #{$block}-header & {
+      font-size: f.remify(24px);
+    }
+  }
+
+  &-description {
+    color: var(--qgds-color-text-lighter);
+    font-size: f.remify(14px);
+    line-height: f.snap-line-height(1.45);
+    margin-block-start: f.remify(20px);
+    @include m.truncate($num-lines: 4);
+
+    #{$block}-header & {
+      font-size: f.remify(16px);
+      color: var(--qgds-color-text-default);
+      margin-block-start: f.remify(16px);
     }
   }
 }

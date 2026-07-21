@@ -1,4 +1,7 @@
+@use "../../styles/tools/functions" as f;
+
 :host {
+  // TODO: remove prefix where variable is only local
   --qgds-link-icon-size: inherit;
   --qgds-link-margin-inline-start: inherit;
   --qgds-link-justify-content: inherit;
@@ -13,6 +16,7 @@
 
   inline-size: max-content;
   display: inline-block;
+  line-height: f.snap-line-height(1.25);
 }
 
 .link-container {
@@ -25,42 +29,25 @@
   align-items: var(--qgds-link-align-items, center);
   justify-content: var(--qgds-link-justify-content);
   gap: 0.5rem;
-  color: var(--qgds-color-link-default);
-  text-decoration: var(--qgds-link-decoration);
   background: var(--qgds-link-background-colour, none);
   cursor: pointer;
   padding-block: var(--qgds-link-padding-block, 0) var(--qgds-link-padding-block, var(--qgds-link-padding));
   padding-inline: var(--qgds-link-padding-inline);
   margin-inline-start: var(--qgds-link-margin-inline-start);
-  text-decoration-thickness: 0.5px;
-  text-underline-offset: 6px;
-  text-decoration-color: var(--qgds-link-decoration-init-color, currentColor);
-  transition: text-decoration-thickness var(--qgds-transition-time) ease;
 
-  &:hover {
-    text-decoration-thickness: 2px;
-    transition: text-decoration-thickness var(--qgds-transition-time) ease;
-    text-decoration-color: currentColor;
-  }
-
-  &:focus {
-    outline: var(--qgds-border-width-wide) solid var(--qgds-color-focus-default);
-    outline-offset: var(--qgds-link-focus-outline-offset, 2px);
-    border-radius: var(--qgds-link-border-radius-focus, var(--qgds-border-radius));
-  }
+  // text decoration and color is inherited from global link styles in elements.scss
+  transition-property: text-decoration, color, background-color, border;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing);
 
   // Static is a non-link (span)
   &.is-static {
-    text-decoration: none;
-    cursor: default;
     pointer-events: none;
-    color: var(--qgds-color-text-default);
   }
 
   .link-label {
     // display contents to fix Safari bug, where parent A tag styles do not apply to child span elements (text-decoration).
     display: var(--qgds-link-label-display, contents);
-    color: inherit;
   }
 }
 

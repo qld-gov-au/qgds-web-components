@@ -9,6 +9,9 @@ import { html } from "lit";
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigationItem>(tagName);
 type Args = typeof args;
 
+const loremIpsum =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ";
+
 const meta: Meta<Args> = {
   title: "Components/Navigation/Navigation item",
   component: tagName,
@@ -40,40 +43,41 @@ export const HorizontalWithChildren: Story = {
       html`${template({ ...args, label: "Level 2 Item" })}
       ${template({
         ...args,
-        label:
-          "Level 2 Item with a very very long title, it just goes on and on and on and on, oh my me what a horrid experience.",
+        label: `Level 2 Item ${loremIpsum}`,
       })}`
-    )},
+    )}
     ${template(
       { ...args, label: "Default with icon", "icon-name": "wheelchair" },
       html`${template({ ...args, label: "Level 2 Item" })}
       ${template({
         ...args,
-        label:
-          "Level 2 Item with a very very long title, it just goes on and on and on and on, oh my me what a horrid experience.",
+        label: `Level 2 Item ${loremIpsum}`,
       })}`
-    )},
+    )}
     ${template(
       { ...args, label: "Active", "is-active": true },
       html`${template({ ...args, label: "Level 2 Item" })}
       ${template({ ...args, label: "Level 2 Active Item", "is-active": true })}
       ${template({
         ...args,
-        label:
-          "Level 2 Item with a very very long title, it just goes on and on and on and on, oh my me what a horrid experience.",
+        label: `Level 2 Item ${loremIpsum}`,
       })}`
-    )},
+    )}
     ${template(
       { ...args, label: "Active with icon", "is-active": true, "icon-name": "announcement" },
       html`${template({ ...args, label: "Level 2 Item" })}
       ${template({ ...args, label: "Level 2 Active Item", "is-active": true })}
       ${template({
         ...args,
-        label:
-          "Level 2 Item with a very very long title, it just goes on and on and on and on, oh my me what a horrid experience.",
+        label: `Level 2 Item ${loremIpsum}`,
       })}`
     )}
   `,
+};
+
+export const HorizontalWithChildrenAndDescription: Story = {
+  args: { ...HorizontalWithChildren.args, description: loremIpsum, "view-all-url": "#" },
+  render: HorizontalWithChildren.render,
 };
 
 export const VerticalNavItem: Story = { args: { variant: "vertical" }, render: HorizontalNavItem.render };

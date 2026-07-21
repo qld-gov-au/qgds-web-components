@@ -8,7 +8,7 @@
 
 @mixin focusable($offset-outline: true, $is-focus-within: false, $outline-width: 3px, $custom-selector: null) {
   // outline styles without the pseudo state to allow for transition animations.
-  $initial-offset: 0 - $outline-width;
+  $initial-offset: 0;
   $outline-offset: $offset-outline;
 
   @if $offset-outline == true {

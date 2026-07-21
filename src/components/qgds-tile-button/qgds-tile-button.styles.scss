@@ -23,7 +23,7 @@
   font-size: f.remify(10px);
   line-height: f.snap-line-height(1);
   transition-property: background-color, outline;
-  transition-duration: var(--qgds-transition-time);
+  transition-duration: var(--qgds-transition-duration);
   transition-timing-function: ease-out;
 
   &:hover {

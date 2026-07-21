@@ -8,7 +8,7 @@ import "../qgds-icon/qgds-icon.js";
 import type { IconSize } from "../qgds-icon/qgds-icon.js";
 import type { IconName } from "../qgds-icon/icon-names";
 
-export type Animations =
+export type Animation =
   | ""
   | "leftToRight"
   | "rightToLeft"
@@ -18,7 +18,6 @@ export type Animations =
   | "scaleOut"
   | "rotateIn"
   | "rotateOut";
-export type { IconSize };
 
 /**
  * A primitive link component that renders either an `<a>` or `<span>` based on the presence of an `href`.
@@ -28,13 +27,13 @@ export type { IconSize };
  *
  * @property {string} [label] - The visible link label text.
  * @property {string} [href] - The destination URL. When provided renders an `<a>`, otherwise a `<span>`.
- * @property {boolean} [is-disabled] - Prevents navigation and click events when true.
- * @property {string} [icon-name] - The icon identifier to display (e.g. "arrow-right", "view-all").
- * @property {IconSize} [icon-size] - Size of the icon ("sm", "md", "lg", "xl"). Defaults to "md".
- * @property {boolean} [has-trailing-icon] - When true, places the icon after the label text.
+ * @property {boolean} [isDisabled] - Prevents navigation and click events when true.
+ * @property {string} [iconName] - The icon identifier to display (e.g. "arrow-right", "view-all").
+ * @property {IconSize} [iconSize="md"] - Tshirt size of the icon.
+ * @property {boolean} [hasTrailingIcon] - When true, places the icon after the label text.
  * @property {boolean} [stretch] - When true, the link expands to fill available width.
- * @property {Animations} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
- * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
+ * @property {Animation} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
+ * @property {boolean} [onlyIcon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
  *
  * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
@@ -63,7 +62,7 @@ export class QGDSLink extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "has-trailing-icon" })
   hasTrailingIcon = false;
   @property({ type: Boolean, reflect: true }) stretch = false;
-  @property({ type: String, reflect: true }) animation?: Animations | null;
+  @property({ type: String, reflect: true }) animation?: Animation;
   @property({ type: Boolean, reflect: true, attribute: "only-icon" }) onlyIcon = false;
 
   private events = new QgdsEvents(this);

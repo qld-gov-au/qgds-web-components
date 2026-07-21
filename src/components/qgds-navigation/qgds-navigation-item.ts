@@ -6,11 +6,13 @@ import { scrubSlotContent } from "../../utils";
 
 // styles
 import { baseStyles } from "../../styles";
+import { utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-navigation-item.styles.scss?inline";
 
 // Component dependencies
 import "../qgds-link/qgds-link";
 import "../qgds-icon/qgds-icon";
+import "../qgds-call-to-action/qgds-call-to-action";
 import { NavigationVariant } from "./qgds-navigation";
 import { IconName } from "../qgds-icon/icon-names";
 
@@ -21,7 +23,7 @@ export const tagName = "qgds-navigation-item";
  */
 @customElement(tagName)
 export class QGDSNavigationItem extends LitElement {
-  static styles = [baseStyles, unsafeCSS(componentCSS)];
+  static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
   @property({ type: String }) href?: string;
   @property({ type: String, reflect: true }) label: string = "";
@@ -71,21 +73,35 @@ export class QGDSNavigationItem extends LitElement {
 
     return this.level === 1
       ? html`${this._hasChildren
-          ? html`<button class=${classes} @click=${() => (this.isOpen = !this.isOpen)}>
+          ? html`<button
+                class=${classes}
+                aria-controls="mega-menu"
+                aria-expanded=${this.isOpen}
+                @click=${() => (this.isOpen = !this.isOpen)}
+              >
                 ${icon}${label}<qgds-icon class="dropdown-icon" icon-id="chevron-down" size="xs"></qgds-icon>
               </button>
 
-              <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })}>
+              <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })} id="mega-menu">
                 <div class="mega-menu-header">
                   <qgds-link
+                    class="mega-menu-link"
                     label=${this.label}
                     href=${ifDefined(this.href)}
                     icon-name="arrow-right"
+                    icon-size="lg"
+                    animation="leftToRight"
                     has-trailing-icon
+                    aria-current=${ifDefined(this.isActive ? "page" : undefined)}
                   ></qgds-link>
+                  ${this.description ? html`<p class="mega-menu-description">${this.description}</p>` : nothing}
                 </div>
                 <slot @slotchange=${this._handleSlotchange}></slot>
-                <div class="mega-menu-footer"></div>
+                ${this.viewAllUrl
+                  ? html`<div class="mega-menu-footer">
+                      <qgds-call-to-action class="inline-block m-n16" is-view-all></qgds-call-to-action>
+                    </div>`
+                  : nothing}
               </div>`
           : html`<a class=${classes} href=${ifDefined(this.href)}>${icon}${label}</a
               ><slot @slotchange=${this._handleSlotchange}></slot>`} `
