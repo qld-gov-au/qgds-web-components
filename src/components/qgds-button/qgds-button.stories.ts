@@ -28,6 +28,7 @@ const meta: Meta<QGDSButtonStoryArgs> = {
     href: undefined,
     label: "QGDS Button",
     variant: "primary",
+    "loading-label": "",
   },
   argTypes: {
     ...argTypes,
@@ -158,6 +159,7 @@ export const Group: Story = {
         "icon-name": "arrow-right",
         "icon-position": "trailing",
       },
+      { ...storyArgs, variant: "secondary", label: "Save progress", id: "save-progress" },
       { ...storyArgs, variant: "tertiary", type: "reset", label: "Start again", id: "start-again" },
     ] as const;
 
