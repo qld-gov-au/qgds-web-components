@@ -3,7 +3,7 @@ import { html, TemplateResult } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
-import { allModes, chromaticModes } from "../../../.storybook/modes";
+import { chromaticModes } from "../../../.storybook/modes";
 import { withEventActions } from "../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "./qgds-header";
 import type { QGDSNavigation } from "../qgds-navigation/qgds-navigation";

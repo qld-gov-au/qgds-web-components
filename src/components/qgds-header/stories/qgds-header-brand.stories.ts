@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html, TemplateResult, nothing } from "lit";
+import { html, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
-import { allModes, chromaticModes } from "../../../../.storybook/modes";
 import { withEventActions } from "../../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "../qgds-header";
 import type { QGDSNavigation } from "../../qgds-navigation/qgds-navigation";
@@ -17,14 +17,13 @@ import "../../qgds-navigation/qgds-navigation";
 
 import sampleSlottedImage from "../../qgds-logo/assets/breast-screen-qld-logo.svg";
 import sampleSlottedImageHealthOmb from "../../qgds-logo/assets/office-health-ombudsman-logo.svg";
-import sampleSlottedImageStopRise from "../../qgds-logo/assets/stop-the-rise-logo.svg";
 
-const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
+const { args: _args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
 const { args: navArgs, template: navTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 const { args: attributionArgs, template: attributionTemplate } =
   getStorybookHelpers<QGDSAttributionBar>("qgds-attribution-bar");
 
-type Args = typeof args;
+type Args = typeof _args;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
@@ -63,9 +62,9 @@ const storyStyles = html`
 
 const headerTemplate = (args: Args, children: TemplateResult) => html`
   <qgds-header
-    site-name=${args["site-name"] || nothing}
-    tagline=${args["tagline"] || (nothing as any)}
-    mobile-top-container=${args["mobile-top-container"] || nothing}
+    site-name=${ifDefined(args["site-name"] ?? undefined)}
+    tagline=${ifDefined(args.tagline ?? undefined)}
+    mobile-top-container=${ifDefined(args["mobile-top-container"]) ?? undefined}
     ?hide-coa-logo=${args["hide-coa-logo"]}
     ?hide-mobile-secondary-container=${args["hide-mobile-secondary-container"]}
     @qgds-toggle-search-mobile=${onSearchToggle}
@@ -212,7 +211,7 @@ export const CoatOfArmsAndBrandLogo: Story = {
   ],
 };
 
-export const BrandLogoMobileTwoRows: Story = {
+export const BrandLogoTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -264,7 +263,7 @@ export const BrandLogoMobileTwoRows: Story = {
   ],
 };
 
-export const BrandLogoMobileTopRowOnlyLogo: Story = {
+export const BrandLogoMobileTopRowLogo: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -315,13 +314,13 @@ export const BrandLogoMobileTopRowOnlyLogo: Story = {
   ],
 };
 
-export const BrandLogoMobileTopRowOnlyTagline: Story = {
+export const BrandLogoMobileTopRowTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-container": "tagline",
     "hide-mobile-secondary-container": true,
-    tagline: "Site tagline or URL",
+    tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -369,7 +368,7 @@ export const BrandLogoMobileTopRowOnlyTagline: Story = {
   ],
 };
 
-export const BrandLogoWithSiteNameAndTagline: Story = {
+export const BrandLogoWtSiteNameAndTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -422,7 +421,7 @@ export const BrandLogoWithSiteNameAndTagline: Story = {
   ],
 };
 
-export const BrandNameMobileTwoRows: Story = {
+export const BrandNameTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -468,7 +467,7 @@ export const BrandNameMobileTwoRows: Story = {
   ],
 };
 
-export const BrandNameMobileTopRowOnlyBrandName: Story = {
+export const BrandNameMobileTopRowBrandName: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -516,7 +515,7 @@ export const BrandNameMobileTopRowOnlyBrandName: Story = {
   ],
 };
 
-export const BrandNameMobileTopRowOnlyTagline: Story = {
+export const BrandNameMobileTopRowTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,

@@ -191,12 +191,11 @@ export class QGDSHeader extends LitElement {
   }
 
   firstUpdated(): void {
-    const slot = this.shadowRoot?.querySelector('slot[name="logo"]') as HTMLSlotElement;
-    this._hasLogoSlot = slot?.assignedElements({ flatten: true }).length > 0;
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="coa-logo"]');
+    this._hasLogoSlot = (slot?.assignedElements({ flatten: true }).length ?? 0) > 0;
 
-    const brandSlot = this.shadowRoot?.querySelector('slot[name="brand-logo"]') as HTMLSlotElement;
-    this._hasBrandLogoSlot = brandSlot?.assignedElements({ flatten: true }).length > 0;
-    console.log("_hasBrandLogoSlot firstUpdated:", this._hasBrandLogoSlot);
+    const brandSlot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="brand-logo"]');
+    this._hasBrandLogoSlot = (brandSlot?.assignedElements({ flatten: true }).length ?? 0) > 0;
   }
 
   private _handleNavigationClosed = (): void => {
