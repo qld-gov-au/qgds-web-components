@@ -144,9 +144,24 @@ export class QGDSHeader extends LitElement {
     return !!this.tagline || this._hasTaglineSlot;
   }
 
-  private get _bottomRowContent(): MobileTopRow {
+  private get _bottomRowContent(): MobileTopRow | false {
+    if (this.hideMobileBottomRow) return false;
+
     if (this._showCoaLogo) return "site-name"; // When COA logo is present, the bottom row is always the site brand.
-    return this.mobileTopRow === "tagline" ? "brand-logo" : "tagline";
+    const slotsOptions: MobileTopRow[] = ["tagline", "site-name", "brand-logo"];
+    const remaining = slotsOptions.filter((option) => option !== this.mobileTopRow);
+
+    const hasContent: Record<MobileTopRow, boolean> = {
+      tagline: this._showTagline,
+      "site-name": this._showSiteName,
+      "brand-logo": this._showBrandLogo,
+    };
+
+    // Of the two options not already claimed by the top row, prefer whichever
+    // actually has content. If neither does, fall back to the first remaining
+    // option anyway — keeps the return type non-optional and gives is-empty
+    // styling something deterministic to key off, rather than `undefined`.
+    return remaining.find((option) => hasContent[option]) ?? remaining[0];
   }
 
   private get _siteNameIsTop(): boolean {
@@ -291,10 +306,11 @@ export class QGDSHeader extends LitElement {
             <div
               class=${classMap({
                 "header-brand-logo": true,
-                [`header-mobile-palette-${this._preHeaderPalette}`]: true,
+                [`header-mobile-palette-${this._preHeaderPalette}`]: this._brandLogoIsTop,
                 "is-mobile-top-row": this._brandLogoIsTop,
+                "is-mobile-bottom": this._bottomRowContent === "brand-logo",
               })}
-              ?hidden=${!this.hideCoaLogo && this._showBrandLogo}
+              ?hidden=${this.hideCoaLogo && !this._showBrandLogo}
             >
               <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}> </slot>
             </div>

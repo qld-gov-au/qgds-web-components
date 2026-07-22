@@ -231,7 +231,7 @@ export const BrandLogoMobileTwoRows: Story = {
           attributionLinks
         )}
         <qgds-logo
-          slot="site-name"
+          slot="brand-logo"
           logo=""
           custom-logo="${sampleSlottedImageHealthOmb}"
           custom-logo-alt="Partner Organisation"

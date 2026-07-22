@@ -86,6 +86,7 @@ $header-mobile-palettes: default, bold, deep;
 }
 
 .header-coa-logo,
+.header-brand-logo,
 .is-mobile-top-row {
   padding-block: tools.remify(10px);
   padding-inline: tools.remify(16px);
@@ -101,6 +102,7 @@ $header-mobile-palettes: default, bold, deep;
 }
 
 .header-coa-logo qgds-logo,
+.header-brand-logo qgds-logo,
 ::slotted(qgds-logo) {
   --logo-height: #{tools.remify(28px)};
 }
@@ -115,10 +117,14 @@ $header-mobile-palettes: default, bold, deep;
 // Secondary brand element beside the logo: the site name. On mobile it sits in a
 // full-bleed white band below the blue bar (breaks out of the inner gutter, then
 // re-insets its content).
-.header-site-name {
+.header-site-name,
+.is-mobile-bottom {
   grid-area: sub;
   display: flex;
   align-items: center;
+}
+
+.header-site-name {
   padding-block: tools.remify(16px);
   padding-inline: tools.remify(16px);
   background-color: var(--qgds-color-background);
@@ -183,12 +189,14 @@ $header-mobile-palettes: default, bold, deep;
 // =============================================================================
 @media (min-width: #{bp.$md}) {
   .header-coa-logo,
+  .header-brand-logo,
   .is-mobile-top-row {
     padding-block: tools.remify(16px);
     padding-inline: tools.remify(32px);
   }
 
   .header-coa-logo qgds-logo,
+  .header-brand-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-height: #{tools.remify(40px)};
   }
@@ -231,12 +239,11 @@ $header-mobile-palettes: default, bold, deep;
     grid-template-areas: "main sub search";
     align-items: center;
     padding-block: tools.remify(24px);
-
-    // column-gap: tools.remify(24px);
     column-gap: 0;
   }
 
   .header-coa-logo,
+  .header-brand-logo,
   .is-mobile-top-row {
     padding-inline: 0;
   }
@@ -266,6 +273,7 @@ $header-mobile-palettes: default, bold, deep;
   }
 
   .header-coa-logo qgds-logo,
+  .header-brand-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-color: var(--qgds-color-crest-fill);
     --logo-height: #{tools.remify(56px)};
@@ -296,8 +304,8 @@ $header-mobile-palettes: default, bold, deep;
     }
   }
 
-  .header-coa-logo:not([hidden]) ~ .header-site-name,
-  .header-brand-logo:not([hidden]) ~ .header-site-name {
+  .header-coa-logo:not([hidden]) ~ .header-site-name:not([hidden]),
+  .header-brand-logo:not([hidden]) ~ .header-site-name:not([hidden]) {
     border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
     padding-inline-start: tools.remify(24px);
     margin-inline-start: tools.remify(24px);
