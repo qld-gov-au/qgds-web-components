@@ -1,7 +1,7 @@
 @use "../../styles/tools";
 
 :host {
-  --btn-border-colour: var(--qgds-color-action-secondary, transparent);
+  --btn-border-color: var(--qgds-color-action-secondary, transparent);
   --btn-text: var(--qgds-color-link-on-action, #0059ff);
   --min-width: #{tools.remify(160px)};
   --min-height: #{tools.remify(52px)};
@@ -124,23 +124,23 @@
   --qgds-icon-color: var(--qgds-color-action-secondary);
 
   background: transparent;
-  border-color: var(--btn-border-colour);
+  border-color: var(--btn-border-color);
 
   &:hover {
-    --btn-border-colour: var(--qgds-color-action-secondary-hover, #333);
+    --btn-border-color: var(--qgds-color-action-secondary-hover, #333);
   }
 
   &:focus {
-    --btn-border-colour: var(--qgds-color-action-secondary-hover, #004ea7);
+    --btn-border-color: var(--qgds-color-action-secondary-hover, #004ea7);
   }
 
   &:disabled,
   &.disabled {
-    --btn-border-colour: var(--qgds-color-disabled, #ccc);
+    --btn-border-color: var(--qgds-color-disabled, #ccc);
     --qgds-icon-color: var(--qgds-color-text-lighter, #636363);
 
     background-color: transparent;
-    border-color: var(--btn-border-colour);
+    border-color: var(--btn-border-color);
   }
 }
 

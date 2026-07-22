@@ -1,4 +1,4 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -70,7 +70,7 @@ export class QGDSButton extends LitElement {
   uniqueID?: string;
   @property({ type: String, reflect: true, attribute: "href" })
   href?: string;
-  @property({ type: String, attribute: "loading-label" }) loadingLabel?: string;
+  @property({ type: String, attribute: "loading-label" }) loadingLabel: string = "Loading...";
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
 
@@ -79,58 +79,21 @@ export class QGDSButton extends LitElement {
   @state() private _isActive: boolean = false;
   @state() private _isFocused: boolean = false;
 
-  static styles = [
-    resetStyles,
-    animationsStyles,
-    css`
-      ${unsafeCSS(componentCSS)}
-    `,
-  ];
+  static styles = [resetStyles, animationsStyles, unsafeCSS(componentCSS)];
 
   render() {
+    const labelContent = this.label.trim().length > 0 ? this.label : html`<slot></slot>`;
+
     // Check if it's a link or button
     if (this.href !== undefined) {
-      return this.renderLink();
+      return this.renderLink(labelContent);
     } else {
-      return this.renderButton();
+      return this.renderButton(labelContent);
     }
-  }
-
-  private get hasExplicitLabel(): boolean {
-    return this.hasAttribute("label") || this.label.trim().length > 0;
-  }
-
-  /* Render the label for the button, prioritizing the explicit label, then slotted text, and finally null if neither is present. */
-  private renderLabel() {
-    /* If the button has an explicit label attribute, we render it directly. */
-    if (this.hasExplicitLabel) {
-      return this.label;
-    }
-
-    // Else, we return a slot, and anything between the opening and closing tags will be used as button content. Accepts any HTML content, including text and icons. If no content is provided, the button will be empty.
-    return html`<slot></slot>`;
-  }
-
-  /* Return the label to be used in the event detail, prioritizing the explicit label, then slotted text, and finally null if neither is present. */
-  private get eventLabel(): string | null {
-    if (this.hasExplicitLabel) {
-      return this.label;
-    }
-
-    const slottedText = this.textContent?.trim();
-    return slottedText && slottedText.length > 0 ? slottedText : null;
-  }
-
-  private get resolvedLoadingLabel(): string {
-    if (typeof this.loadingLabel === "string" && this.loadingLabel.trim().length > 0) {
-      return this.loadingLabel;
-    }
-
-    return "Loading...";
   }
 
   // Render link version of the button (anchor tag with href)
-  private renderLink() {
+  private renderLink(labelContent: string | TemplateResult) {
     const classes = {
       btn: true,
       loading: this.isLoading,
@@ -152,13 +115,13 @@ export class QGDSButton extends LitElement {
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md"></qgds-icon>`
           : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
-        ${this.renderLabel()}
+        ${this.isLoading ? this.loadingLabel : labelContent}
       </a>
     `;
   }
 
   // Render button version of the button
-  private renderButton() {
+  private renderButton(labelContent: string | TemplateResult) {
     const classes = {
       btn: true,
       loading: this.isLoading,
@@ -178,7 +141,7 @@ export class QGDSButton extends LitElement {
         ${this.isLoading
           ? html`<qgds-icon icon-id="spinner-step-1" size="md" aria-hidden="true"></qgds-icon>`
           : html`${this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : null}`}
-        ${this.isLoading ? this.resolvedLoadingLabel : this.renderLabel()}
+        ${this.isLoading ? this.loadingLabel : labelContent}
       </button>
     `;
   }
@@ -199,17 +162,13 @@ export class QGDSButton extends LitElement {
       return;
     }
 
-    const dispatchEvent = this._events.dispatch(
-      "click",
-      {
-        id: this.uniqueID ?? null,
-        href: this.href,
-        label: this.eventLabel,
-        variant: this.variant,
-        type: this.type,
-      },
-      e
-    );
+    const dispatchEvent = this._events.dispatch("click", {
+      id: this.uniqueID ?? null,
+      href: this.href,
+      label: this.label,
+      variant: this.variant,
+      type: this.type,
+    });
 
     //Handle the case where the event was canceled by a listener
     if (!dispatchEvent) {
