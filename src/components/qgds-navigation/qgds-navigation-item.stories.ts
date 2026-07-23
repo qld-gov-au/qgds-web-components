@@ -43,7 +43,7 @@ export const HorizontalWithChildren: Story = {
       html`${template({ ...args, label: "Level 2 Item 1" })}
       ${template({
         ...args,
-        label: `Level 2 Item 2 ${loremIpsum}`,
+        label: `Level 2 Item 2 has quite a long title, whatever should happen to all this text?`,
       })}`
     )}
     ${template(

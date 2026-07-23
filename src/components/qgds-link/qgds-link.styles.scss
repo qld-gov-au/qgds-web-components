@@ -4,21 +4,20 @@
   // TODO: remove prefix where variable is only local and clean up references
   --qgds-link-icon-size: inherit;
   --qgds-link-icon-spacing: inherit;
-  --qgds-link-margin-inline-start: inherit;
   --qgds-link-justify-content: inherit;
   --qgds-link-align-items: inherit;
   --qgds-link-label-display: inherit;
-  --qgds-icon-svg: inherit;
   --icon-direction: 1;
   --qgds-link-flex-direction: inherit;
   --qgds-link-border-radius-focus: inherit;
+
+  // non inherited variables - must set directly on qgds-link element
   --padding-block-start: initial;
   --padding-block-end: initial;
   --padding-block: var(--padding-block-start, 0) var(--padding-block-end, 0);
   --padding-inline-start: initial;
   --padding-inline-end: initial;
   --padding-inline: var(--padding-inline-start, 0) var(--padding-inline-start, 0);
-  --padding: var(--padding-block) var(--padding-inline);
 
   inline-size: max-content;
   display: inline-block;
@@ -41,9 +40,8 @@
 
   gap: var(--qgds-link-icon-spacing, 0.5rem);
   cursor: pointer;
-  padding-block: var(--qgds-link-padding-block, 0) var(--qgds-link-padding-block, var(--qgds-link-padding));
-  padding-inline: var(--qgds-link-padding-inline);
-  margin-inline-start: var(--qgds-link-margin-inline-start);
+  padding-block: var(--padding-block);
+  padding-inline: var(--padding-inline);
 
   // text decoration and color is inherited from global link styles in elements.scss
   transition-property: text-decoration, color, background-color, border;

@@ -51,8 +51,13 @@ export class QGDSNavigationItem extends LitElement {
     return 3;
   }
 
+  private get _allChildrenHaveDecription() {
+    return Array.from(this.children).every((child) => {
+      return child.tagName.toLowerCase() === "qgds-navigation-item" && (child as QGDSNavigationItem).description;
+    });
+  }
+
   private _handleSlotchange = (e: Event) => {
-    // console.log("slotchange", this.label);
     const slot = e.target as HTMLSlotElement;
     const nodes = slot.assignedNodes();
     // Reset hasChildren before checking nodes
@@ -115,7 +120,11 @@ export class QGDSNavigationItem extends LitElement {
                 <!-- Columns -->
 
                 <div
-                  class="mega-menu-items column-count-${this._columnCount}"
+                  class="${classMap({
+                    "mega-menu-items": true,
+                    [`column-count-${this._columnCount}`]: true,
+                    "has-descriptions": this._allChildrenHaveDecription,
+                  })}"
                   role="list"
                   aria-label="${this.label} submenu"
                 >
@@ -128,7 +137,7 @@ export class QGDSNavigationItem extends LitElement {
                       <qgds-call-to-action
                         href=${this.viewAllUrl}
                         label=${ifDefined(this.viewAllLabel)}
-                        class="inline-block mr-n16"
+                        class="inline-block"
                         is-view-all
                       ></qgds-call-to-action>
                     </div>`

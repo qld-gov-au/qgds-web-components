@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { html } from "lit";
-import { ICON_NAMES } from "../qgds-icon/icon-names.js";
 import type { QGDSLink } from "./qgds-link.js";
 import "./qgds-link.js";
 
@@ -17,57 +16,8 @@ const meta: Meta<Args> = {
     ...args,
     label: "Continue",
     href: "/next",
-    "icon-size": "md",
   },
-  argTypes: {
-    ...argTypes,
-    "icon-name": {
-      control: { type: "select" },
-      options: ["", ...ICON_NAMES],
-      labels: { "": "None" },
-      table: {
-        category: "Icon",
-      },
-    },
-    "icon-size": {
-      control: { type: "select" },
-      options: ["", "sm", "md", "lg", "xl"],
-      if: { arg: "icon-name", truthy: true },
-      table: {
-        category: "Icon",
-      },
-    },
-    "has-trailing-icon": {
-      control: "boolean",
-      if: { arg: "icon-name", truthy: true },
-      table: {
-        category: "Icon",
-      },
-    },
-    stretch: {
-      control: "boolean",
-      if: { arg: "icon-name", truthy: true },
-      table: {
-        category: "Icon",
-      },
-    },
-    animation: {
-      control: { type: "select" },
-      options: ["", "leftToRight", "rightToLeft", "topToBottom", "bottomToTop", "scaleIn", "scaleOut"],
-      labels: { "": "None" },
-      if: { arg: "icon-name", truthy: true },
-      table: {
-        category: "Icon Animation",
-      },
-    },
-    "only-icon": {
-      control: "boolean",
-      if: { arg: "icon-name", truthy: true },
-      table: {
-        category: "Icon",
-      },
-    },
-  },
+  argTypes,
   render: (args) => template(args),
 };
 

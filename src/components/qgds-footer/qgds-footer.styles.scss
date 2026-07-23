@@ -258,10 +258,7 @@ section {
   gap: 0.75rem;
 
   ::slotted(qgds-link) {
-    --qgds-link-padding: 0;
-    --qgds-link-margin-inline-start: 0;
-
-    inline-size: 100%;
+    display: block;
     max-inline-size: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -291,10 +288,7 @@ section {
   }
 
   ::slotted(qgds-link) {
-    --qgds-link-padding: 0;
-    --qgds-link-margin-inline-start: 0;
-
-    inline-size: 100%;
+    display: block;
     max-inline-size: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
@@ -327,8 +321,6 @@ section {
     gap: 0.75rem;
 
     ::slotted(qgds-link) {
-      --qgds-link-padding: 0;
-      --qgds-link-margin-inline-start: 0;
       --qgds-link-justify-content: flex-start;
       --qgds-link-label-display: none; // Hide link label by default
 

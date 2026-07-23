@@ -13,9 +13,6 @@
   --nav-accent: var(--qgds-color-action-primary, #005eb8);
   --nav-sub-bg: var(--qgds-color-background, #ffffff);
 
-  // sub nav objects
-  --qgds-link-padding2: 0;
-
   display: block;
   position: relative;
   z-index: 200;
@@ -96,7 +93,7 @@ dialog {
     transition-behavior: allow-discrete;
   }
 
-  // native <dialog> element uses [open] att, is-open class is kept here just as fallback
+  // native <dialog> element uses [open] attr, is-open class is kept here just as fallback
   &.is-open,
   &[open] {
     // ease out as the drawer opens

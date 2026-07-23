@@ -35,11 +35,17 @@ export type Animation =
  * @property {Animation} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
  * @property {boolean} [onlyIcon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
  *
- * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
- * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
+ * @cssprop {length} --qgds-link-icon-spacing - Override the gap between text and icon.
  * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
  * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
+ * @cssprop {length} --padding-block - Shorthand to apply both padding-block-start and padding-block-end to the internal link element
+ * @cssprop {length} --padding-block-start - Apply padding-block-start to the internal link element.
+ * @cssprop {length} --padding-block-end - Apply padding-block-end to the internal link element.
+ * @cssprop {length} --padding-inline - Shorthand to apply both padding-inline-start and padding-inline-end to the internal link element
+ * @cssprop {length} --padding-inline-start - Apply padding-inline-start to the internal link element.
+ * @cssprop {length} --padding-block-end - Apply padding-inline-end to the internal link element.
+ *
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
  *

@@ -96,13 +96,13 @@
   padding-inline: f.remify(48px);
   border-radius: 0 0 f.remify(12px) f.remify(12px);
   box-shadow: var(--qgds-elevation-2);
-  transform-origin: 50% 0;
+  transform-origin: 50% -64px;
 
   // transition properties
   display: none;
+  transition-behavior: allow-discrete;
   opacity: 0;
   transform: scale(0.99, 0.95);
-  transition-behavior: allow-discrete;
   transition-property: opacity, display, transform;
   transition-duration: var(--qgds-transition-duration);
   transition-timing-function: var(--qgds-transition-easing-inverse);
@@ -155,6 +155,11 @@
       column-count: 3;
     }
 
+    // offset the description bottom margin.
+    &.has-descriptions {
+      margin-block-end: f.remify(-16px);
+    }
+
     // hack to remove top border from columns items
     &::after {
       content: "";
@@ -179,6 +184,7 @@
     }
 
     &.is-sub-item {
+      padding-block: 1rem;
       font-size: f.remify(16px);
       inline-size: 100%;
 
@@ -202,8 +208,13 @@
   color: var(--qgds-color-text-lighter);
   font-size: f.remify(14px);
   line-height: f.snap-line-height(1.45);
-  margin-block-start: f.remify(20px);
   @include m.truncate($num-lines: 4);
+
+  .mega-menu-item & {
+    border-block-start: 1px solid var(--qgds-color-border);
+    padding-block-start: f.remify(20px);
+    margin-block-end: f.remify(16px);
+  }
 
   .mega-menu-header & {
     font-size: f.remify(16px);

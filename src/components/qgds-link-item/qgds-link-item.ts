@@ -37,8 +37,6 @@ import { NavigationVariant } from "../qgds-navigation/qgds-navigation";
  * @slot - Standard mode: nested `<qgds-link-item>` elements. Nav mode: a single `<qgds-link-column>`.
  *
  * @cssprop {length} --qgds-link-item-padding-top - Override block-start padding (default 0.75rem).
- * @cssprop {length} --qgds-link-padding - Override link block-end padding.
- * @cssprop {length|string} --qgds-link-margin-inline-start - Override inline-start margin.
  *
  * @example
  * ```html
