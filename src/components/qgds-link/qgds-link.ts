@@ -39,9 +39,7 @@ export type Animation =
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
  * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
  * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
- * @cssprop {color} --qgds-link-background-colour - Override the link background colour.
  * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
- * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
  *

@@ -1,18 +1,24 @@
 @use "../../styles/tools/functions" as f;
 
 :host {
-  // TODO: remove prefix where variable is only local
+  // TODO: remove prefix where variable is only local and clean up references
   --qgds-link-icon-size: inherit;
+  --qgds-link-icon-spacing: inherit;
   --qgds-link-margin-inline-start: inherit;
   --qgds-link-justify-content: inherit;
   --qgds-link-align-items: inherit;
-  --qgds-link-background-colour: inherit;
   --qgds-link-label-display: inherit;
   --qgds-icon-svg: inherit;
   --icon-direction: 1;
   --qgds-link-flex-direction: inherit;
-  --qgds-icon-margin-start: inherit;
   --qgds-link-border-radius-focus: inherit;
+  --padding-block-start: initial;
+  --padding-block-end: initial;
+  --padding-block: var(--padding-block-start, 0) var(--padding-block-end, 0);
+  --padding-inline-start: initial;
+  --padding-inline-end: initial;
+  --padding-inline: var(--padding-inline-start, 0) var(--padding-inline-start, 0);
+  --padding: var(--padding-block) var(--padding-inline);
 
   inline-size: max-content;
   display: inline-block;
@@ -25,11 +31,15 @@
   --animation-grow-scale: 1.25;
 
   display: flex;
+  inline-size: 100%; // ensures is controlled by container inline-size;
   flex-direction: var(--qgds-link-flex-direction, row);
   align-items: var(--qgds-link-align-items, center);
-  justify-content: var(--qgds-link-justify-content);
-  gap: 0.5rem;
-  background: var(--qgds-link-background-colour, none);
+  justify-content: var(
+    --qgds-link-justify-content,
+    space-between
+  ); // so icon will automatically justify when container is full width,
+
+  gap: var(--qgds-link-icon-spacing, 0.5rem);
   cursor: pointer;
   padding-block: var(--qgds-link-padding-block, 0) var(--qgds-link-padding-block, var(--qgds-link-padding));
   padding-inline: var(--qgds-link-padding-inline);
@@ -52,7 +62,6 @@
 }
 
 qgds-icon {
-  margin-inline-start: var(--qgds-icon-margin-start);
   transform: translateX(0) scaleX(var(--icon-direction));
   transition: transform var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
 }
@@ -66,14 +75,15 @@ qgds-icon {
 }
 
 :host([has-trailing-icon]) {
-  .link-container {
-    flex-direction: var(--qgds-link-flex-direction, row-reverse);
-    justify-content: flex-end;
+  --qgds-link-flex-direction: row-reverse;
 
-    qgds-icon {
-      margin-inline-end: 8px;
-    }
+  qgds-icon {
+    margin-inline-end: 8px;
   }
+}
+
+:host([stretch]) {
+  inline-size: 100%;
 }
 
 // Animations — driven by the reflected animation attribute on :host
@@ -91,24 +101,6 @@ qgds-icon {
   transition: transform var(--qgds-transition-time) ease;
 }
 // stylelint-enable no-descending-specificity
-
-:host([stretch]) {
-  inline-size: 100%;
-
-  .link-container {
-    qgds-icon {
-      margin-inline: 0 var(--icon-spacing, auto); // icon-spacing is defined in call-to-action, link-column, link-item
-    }
-  }
-}
-
-:host([has-trailing-icon][stretch]) {
-  .link-container {
-    qgds-icon {
-      margin-inline: var(--icon-spacing, auto) 8px; // icon-spacing is defined in call-to-action, link-column, link-item
-    }
-  }
-}
 
 // Animations — driven by the reflected animation attribute on :host.
 // The transition lives on the base (non-hover) icon so the movement glides both

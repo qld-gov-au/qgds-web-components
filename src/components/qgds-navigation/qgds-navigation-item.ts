@@ -42,6 +42,15 @@ export class QGDSNavigationItem extends LitElement {
 
   @state() private _numChildren = 0;
 
+  private get _columnCount() {
+    // if one item, use 1 column
+    if (this._numChildren === 1) return 1;
+    // If 2 or 4 items, use 2 columns
+    if (this._numChildren === 2 || this._numChildren === 4) return 2;
+    // else 3 columns
+    return 3;
+  }
+
   private _handleSlotchange = (e: Event) => {
     // console.log("slotchange", this.label);
     const slot = e.target as HTMLSlotElement;
@@ -74,7 +83,8 @@ export class QGDSNavigationItem extends LitElement {
 
     return this.level === 1
       ? html`${this._numChildren > 0
-          ? html`<button
+          ? // Horizontal item with dropdown (level 1)
+            html`<button
                 class=${classes}
                 aria-controls="mega-menu"
                 aria-expanded=${this.isOpen}
@@ -87,7 +97,7 @@ export class QGDSNavigationItem extends LitElement {
                 <!-- Header -->
                 <div class="mega-menu-header">
                   <qgds-link
-                    class="mega-menu-link"
+                    class="mega-menu-link is-heading"
                     label=${this.label}
                     href=${ifDefined(this.href)}
                     icon-name="arrow-right"
@@ -95,13 +105,22 @@ export class QGDSNavigationItem extends LitElement {
                     animation="leftToRight"
                     has-trailing-icon
                     aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+                    aria-describedby=${ifDefined(this.description ? "header-description" : undefined)}
                   ></qgds-link>
-                  ${this.description ? html`<p class="mega-menu-description">${this.description}</p>` : nothing}
+                  ${this.description
+                    ? html`<p class="description" id="header-description">${this.description}</p>`
+                    : nothing}
                 </div>
 
                 <!-- Columns -->
-                <qgds-link-column></qgds-link-column>
-                <slot @slotchange=${this._handleSlotchange}></slot>
+
+                <div
+                  class="mega-menu-items column-count-${this._columnCount}"
+                  role="list"
+                  aria-label="${this.label} submenu"
+                >
+                  <slot @slotchange=${this._handleSlotchange}></slot>
+                </div>
 
                 <!-- Footer -->
                 ${this.viewAllUrl
@@ -115,9 +134,25 @@ export class QGDSNavigationItem extends LitElement {
                     </div>`
                   : nothing}
               </div>`
-          : html`<a class=${classes} href=${ifDefined(this.href)}>${icon}${label}</a
+          : // Horizontal item without dropdown (level 1)
+            html`<a class=${classes} href=${ifDefined(this.href)}>${icon}${label}</a
               ><slot @slotchange=${this._handleSlotchange}></slot>`} `
-      : html`${this.label}<slot @slotchange=${this._handleSlotchange}></slot>`;
+      : // Mega menu item (level 2)
+        html`<div role="listitem" class="mega-menu-item">
+          <qgds-link
+            class="mega-menu-link is-sub-item"
+            label=${this.label}
+            href=${ifDefined(this.href)}
+            icon-name="arrow-right"
+            icon-size="md"
+            animation="leftToRight"
+            has-trailing-icon
+            stretch
+          ></qgds-link
+          >${this.description ? html`<p class="description">${this.description}</p>` : nothing}<slot
+            @slotchange=${this._handleSlotchange}
+          ></slot>
+        </div>`;
   };
 
   private _renderVerticalVariant = () => {

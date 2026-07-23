@@ -2,7 +2,7 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
-  --qgds-link-item-padding-top: unset;
+  --qgds-link-item-padding-top: inherit;
   --qgds-link-padding: var(--no-link-padding, var(--qgds-link-padding-block, calc(1rem - 1px)));
   --qgds-link-margin-inline-start: auto;
   --qgds-link-padding-block: 0.75rem;
@@ -85,7 +85,6 @@ div[role="list"] {
 
 // This is the mega menu header (?)
 :host(.header) {
-  --icon-spacing: 0;
   --qgds-link-margin-inline-start: 0;
 
   & > qgds-link {
@@ -254,7 +253,6 @@ div[role="list"] {
 }
 
 :host([is-nav-item]) qgds-link-item.header {
-  --icon-spacing: 0;
   --qgds-link-margin-inline-start: 0;
 
   display: block;

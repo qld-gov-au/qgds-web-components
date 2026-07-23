@@ -40,36 +40,37 @@ export const HorizontalWithChildren: Story = {
   render: (args) => html`
     ${template(
       { ...args, label: "Default" },
-      html`${template({ ...args, label: "Level 2 Item" })}
+      html`${template({ ...args, label: "Level 2 Item 1" })}
       ${template({
         ...args,
-        label: `Level 2 Item ${loremIpsum}`,
+        label: `Level 2 Item 2 ${loremIpsum}`,
       })}`
     )}
     ${template(
       { ...args, label: "Default with icon", "icon-name": "wheelchair" },
-      html`${template({ ...args, label: "Level 2 Item" })}
+      html`${template({ ...args, label: "Level 2 Item 1" })}
       ${template({
         ...args,
-        label: `Level 2 Item ${loremIpsum}`,
-      })}`
+        label: `Level 2 Item 2 ${loremIpsum}`,
+      })}
+      ${template({ ...args, label: "Level 2 Item 3" })}`
     )}
     ${template(
       { ...args, label: "Active", "is-active": true },
-      html`${template({ ...args, label: "Level 2 Item" })}
-      ${template({ ...args, label: "Level 2 Active Item", "is-active": true })}
+      html`${template({ ...args, label: "Level 2 Item 1" })}
+      ${template({ ...args, label: "Level 2 Active Item 2", "is-active": true })}
       ${template({
         ...args,
-        label: `Level 2 Item ${loremIpsum}`,
+        label: `Level 2 Item 3 ${loremIpsum}`,
       })}`
     )}
     ${template(
       { ...args, label: "Active with icon", "is-active": true, "icon-name": "announcement" },
-      html`${template({ ...args, label: "Level 2 Item" })}
-      ${template({ ...args, label: "Level 2 Active Item", "is-active": true })}
+      html`${template({ ...args, label: "Level 2 Item 1" })}
+      ${template({ ...args, label: "Level 2 Active Item 2", "is-active": true })}
       ${template({
         ...args,
-        label: `Level 2 Item ${loremIpsum}`,
+        label: `Level 2 Item 3 ${loremIpsum}`,
       })}`
     )}
   `,

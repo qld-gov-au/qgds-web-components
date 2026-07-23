@@ -22,12 +22,8 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  * @property {string} [role]
  * @property {string} [ariaLabel]
  *
- * @slot - Accepts `<qgds-link-item> or <qgds-navigation-item>` elements only. Non-conforming children are hidden with a console warning.
- *
- * @cssprop {length|string} --qgds-icon-spacing-start - Override icon spacing at the start.
- * @cssprop {length|string} --qgds-icon-spacing-end - Override icon spacing at the end.
- * @cssprop {length|string} --qgds-icon-margin-start - Override icon inline-start margin.
- *
+ * @slot - Accepts `<qgds-link-item>` elements only. Non-conforming children are hidden with a console warning.
+ * *
  * @example
  * ```html
  * <qgds-link-column aria-label="Our services" layout="vertical" columns="2" view-all-url="/services">
@@ -104,10 +100,7 @@ export class QGDSLinkColumn extends LitElement {
   private _onSlotChange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     slot.assignedElements().forEach((el) => {
-      const tagName = el.tagName.toLowerCase();
-      if (tagName === "qgds-navigation-item") {
-        return;
-      } else if (tagName !== "qgds-link-item") {
+      if (el.tagName.toLowerCase() !== "qgds-link-item") {
         console.warn(
           `qgds-link-column only accepts <qgds-link-item> children. Found <${el.tagName.toLowerCase()}> — hiding it. Replace with <qgds-link-item>.`
         );
