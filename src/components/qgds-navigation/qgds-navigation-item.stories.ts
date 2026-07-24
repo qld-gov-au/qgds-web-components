@@ -20,7 +20,7 @@ const meta: Meta<Args> = {
     href: "#",
   },
   argTypes,
-  decorators: [(story) => html`<div style="position: relative">${story()}</div>`],
+  decorators: [(story) => html`<div style="position: relative; display: flex; gap: 16px">${story()}</div>`],
 };
 export default meta;
 type Story = StoryObj<Args>;
