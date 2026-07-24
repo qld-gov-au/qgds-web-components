@@ -170,9 +170,11 @@
     }
   }
 
+  // items inside mega menu dropdown receive class mega-menu-item not nav-item
   &-item {
     break-inside: avoid;
-    border-block-start: 1px solid var(--qgds-color-border);
+    border-color: var(--qgds-color-border);
+    @include m.border-padding($border-width: 1px 0 0 0, $padding: 1rem 0);
   }
 
   // is a qgds-link
@@ -184,7 +186,6 @@
     }
 
     &.is-sub-item {
-      padding-block: 1rem;
       font-size: f.remify(16px);
       inline-size: 100%;
 
@@ -211,9 +212,9 @@
   @include m.truncate($num-lines: 4);
 
   .mega-menu-item & {
-    border-block-start: 1px solid var(--qgds-color-border);
-    padding-block-start: f.remify(20px);
-    margin-block-end: f.remify(16px);
+    margin-block-start: f.remify(16px);
+    border-color: var(--qgds-color-border);
+    @include m.border-padding($border-width: 1px 0 0 0, $padding: f.remify(20px) 0 0 0);
   }
 
   .mega-menu-header & {
