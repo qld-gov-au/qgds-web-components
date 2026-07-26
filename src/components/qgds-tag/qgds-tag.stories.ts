@@ -106,13 +106,3 @@ export const AllVariantsDefault: Story = {
       })}
     </div>`,
 };
-
-/**
- * Truncation Example - demonstrates truncation behavior with long text
- */
-export const TruncationExample: Story = {
-  args: {
-    label: "This is an example of a very long tag label that should be truncated with an ellipsis",
-  },
-  globals: { viewport: "mobile2" },
-};
