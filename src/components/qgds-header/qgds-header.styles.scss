@@ -35,7 +35,7 @@ Scoped CSS: qgds-header
 $header-mobile-palettes: default, bold, deep;
 
 @each $p in $header-mobile-palettes {
-  .header-mobile-palette-#{$p} {
+  .top-row-palette-#{$p} {
     @extend %qgds-color-palette-#{$p};
   }
 }
@@ -138,10 +138,6 @@ $header-mobile-palettes: default, bold, deep;
     line-height: tools.remify(20px);
   }
 
-  &.is-empty {
-    display: none;
-  }
-
   &.hide-mobile {
     display: none;
   }
@@ -176,12 +172,12 @@ $header-mobile-palettes: default, bold, deep;
 .header-search {
   grid-area: search;
   display: none;
+  padding-inline: tools.remify(16px);
+  padding-block: tools.remify(16px);
 }
 
 :host([search-open]) .header-search {
   display: block;
-  padding-inline: tools.remify(16px);
-  padding-block: tools.remify(16px);
 }
 
 // =============================================================================
@@ -215,6 +211,11 @@ $header-mobile-palettes: default, bold, deep;
     font-size: tools.remify(20px);
     line-height: tools.remify(24px);
   }
+
+  .header-search {
+    padding-inline: tools.remify(32px);
+    padding-block: tools.remify(32px);
+  }
 }
 
 // =============================================================================
@@ -230,7 +231,7 @@ $header-mobile-palettes: default, bold, deep;
     border-block-end: none;
   }
 
-  .header-mobile-palette {
+  .top-row-palette {
     background-color: inherit;
   }
 
@@ -260,7 +261,7 @@ $header-mobile-palettes: default, bold, deep;
   .header-brand-logo,
   .is-mobile-top-row,
   .header-site-name.is-mobile-top-row {
-    --qgds-color-crest-fill: unset; // drop override by header-mobile-palette-*, re-inherit from :host's palette instead.
+    --qgds-color-crest-fill: unset; // drop override by top-row-palette*, re-inherit from :host's palette instead.
     --qgds-color-link-default: unset;
     --qgds-color-link-on-action: unset;
     --qgds-color-background: unset;
@@ -329,7 +330,7 @@ $header-mobile-palettes: default, bold, deep;
     }
   }
 
-  .header-site-name:not(.is-empty) ~ .header-search {
-    margin-inline-start: tools.remify(24px);
-  }
+  // .header-site-name:not(.is-empty) ~ .header-search {
+  //   margin-inline-start: tools.remify(24px);
+  // }
 }

@@ -41,19 +41,9 @@ export default meta;
 const logSearchToggle = action("qgds-toggle-search-mobile");
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const onSearchToggle = () => logSearchToggle();
-const onNavToggle = (e: Event) => {
-  const header = e.currentTarget as HTMLElement;
-  header.querySelector('[slot="navigation"]')?.toggleAttribute("open");
-};
 
 const headerTemplate = (args: Args, children: TemplateResult) => html`
-  <qgds-header
-    site-name=${args["site-name"]}
-    @qgds-toggle-search-mobile=${onSearchToggle}
-    @qgds-toggle-nav-menu=${onNavToggle}
-  >
-    ${children}
-  </qgds-header>
+  <qgds-header site-name=${args["site-name"]} @qgds-toggle-search-mobile=${onSearchToggle}> ${children} </qgds-header>
 `;
 
 export const Default: Story = {

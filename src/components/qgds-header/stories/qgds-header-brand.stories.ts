@@ -4,6 +4,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
+import { chromaticModes } from "../../../../.storybook/modes";
 import { withEventActions } from "../../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "../qgds-header";
 import type { QGDSNavigation } from "../../qgds-navigation/qgds-navigation";
@@ -42,10 +43,6 @@ export default meta;
 const logSearchToggle = action("qgds-toggle-search-mobile");
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const onSearchToggle = () => logSearchToggle();
-const onNavToggle = (e: Event) => {
-  const header = e.currentTarget as HTMLElement;
-  header.querySelector('[slot="navigation"]')?.toggleAttribute("open");
-};
 
 const storyStyles = html`
   <style>
@@ -64,11 +61,10 @@ const headerTemplate = (args: Args, children: TemplateResult) => html`
   <qgds-header
     site-name=${ifDefined(args["site-name"] ?? undefined)}
     tagline=${ifDefined(args.tagline ?? undefined)}
-    mobile-top-container=${ifDefined(args["mobile-top-container"]) ?? undefined}
+    mobile-top-content=${ifDefined(args["mobile-top-content"]) ?? undefined}
     ?hide-coa-logo=${args["hide-coa-logo"]}
     ?hide-mobile-secondary-container=${args["hide-mobile-secondary-container"]}
     @qgds-toggle-search-mobile=${onSearchToggle}
-    @qgds-toggle-nav-menu=${onNavToggle}
   >
     ${children}
   </qgds-header>
@@ -127,6 +123,9 @@ export const CoatOfArms: Story = {
         </div>
         ${story()}`,
   ],
+  parameters: {
+    ...chromaticModes,
+  },
 };
 
 export const CoatOfArmsAndSiteName: Story = {
@@ -215,7 +214,7 @@ export const BrandLogoTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "tagline",
+    "mobile-top-content": "tagline",
     tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
@@ -257,7 +256,7 @@ export const BrandLogoTwoMobileRows: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "tagline", <br />
+          "mobile-top-content": "tagline", <br />
           tagline: "adepartment.qld.gov.au",
         </div>`,
   ],
@@ -267,7 +266,7 @@ export const BrandLogoMobileTopRowLogo: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "brand-logo",
+    "mobile-top-content": "brand-logo",
     "hide-mobile-secondary-container": true,
   },
   render: (args) =>
@@ -308,7 +307,7 @@ export const BrandLogoMobileTopRowLogo: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "brand-logo", <br />
+          "mobile-top-content": "brand-logo", <br />
           "hide-mobile-secondary-container": true,
         </div>`,
   ],
@@ -318,7 +317,7 @@ export const BrandLogoMobileTopRowTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "tagline",
+    "mobile-top-content": "tagline",
     "hide-mobile-secondary-container": true,
     tagline: "adepartment.qld.gov.au",
   },
@@ -361,7 +360,7 @@ export const BrandLogoMobileTopRowTagline: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "tagline", <br />
+          "mobile-top-content": "tagline", <br />
           "hide-mobile-secondary-container": true, <br />
           tagline: "Site tagline or URL",
         </div>`,
@@ -372,7 +371,7 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "brand-logo",
+    "mobile-top-content": "brand-logo",
     "site-name": "Site Name",
     tagline: "adepartment.qld.gov.au",
   },
@@ -413,7 +412,7 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
         </div>
         ${story()}
         <div style="margin-top: 2rem">
-          "mobile-top-container": "tagline",<br />
+          "mobile-top-content": "tagline",<br />
           "hide-mobile-secondary-container": true,<br />
           "site-name": "Site Name for Desktop",<br />
           tagline: "adepartment.qld.gov.au",
@@ -425,7 +424,7 @@ export const BrandNameTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "tagline",
+    "mobile-top-content": "tagline",
     "site-name": "Site name",
     tagline: "adepartment.qld.gov.au",
   },
@@ -460,7 +459,7 @@ export const BrandNameTwoMobileRows: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "tagline", <br />
+          "mobile-top-content": "tagline", <br />
           "site-name": "Site name", <br />
           tagline: "adepartment.qld.gov.au",
         </div>`,
@@ -471,7 +470,7 @@ export const BrandNameMobileTopRowBrandName: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "site-name",
+    "mobile-top-content": "site-name",
     "hide-mobile-secondary-container": true,
     "site-name": "Site name",
     tagline: "adepartment.qld.gov.au",
@@ -507,7 +506,7 @@ export const BrandNameMobileTopRowBrandName: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "site-name",<br />
+          "mobile-top-content": "site-name",<br />
           "hide-mobile-secondary-container": true,<br />
           "site-name": "Site name",<br />
           tagline: "adepartment.qld.gov.au",
@@ -519,7 +518,7 @@ export const BrandNameMobileTopRowTagline: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-container": "tagline",
+    "mobile-top-content": "tagline",
     "hide-mobile-secondary-container": true,
     "site-name": "Site name",
     tagline: "adepartment.qld.gov.au",
@@ -555,7 +554,7 @@ export const BrandNameMobileTopRowTagline: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-container": "tagline",<br />
+          "mobile-top-content": "tagline",<br />
           "hide-mobile-secondary-container": true,<br />
           "site-name": "Site name",<br />
           tagline: "adepartment.qld.gov.au",

@@ -10,9 +10,11 @@ import componentCSS from "./qgds-header.styles.scss?inline";
 import "../qgds-logo/qgds-logo.js";
 import "../qgds-tile-button/qgds-tile-button.js";
 import { QGDSAttributionBar } from "../..";
+import type { QGDSSearchInput } from "../qgds-search-input/qgds-search-input.js";
 
 type QGDSPalette = keyof typeof palettes;
-type MobileTopRow = "brand-logo" | "tagline" | "site-name";
+type MobileTopContent = "brand-logo" | "tagline" | "site-name";
+type SlotKey = "brand-logo" | "site-name" | "tagline";
 
 export const tagName = "qgds-header";
 
@@ -21,7 +23,7 @@ export const tagName = "qgds-header";
  *
  * 1. **Pre-header** — typically a `<qgds-attribution-bar>` with site-wide links
  *    (e.g. qld.gov.au, Contact us). Hidden below the desktop breakpoint.
- * 2. **Header content** — the brand logo, site name and search input. On mobile
+ * 2. **Header content** — the Coat of Arms logo, site name, and search input. On mobile
  *    this collapses into a blue bar showing the logo plus Search and Menu buttons,
  *    with the site name in a band below.
  * 3. **Navigation** — a navigation band at the bottom.
@@ -29,37 +31,37 @@ export const tagName = "qgds-header";
  * The component provides the layout shell only. The search input and navigation
  * are exposed as slots so consumers can inject and configure their own elements.
  *
- * The brand logo is a stacked coat-of-arms `<qgds-logo>` rendered by default in the
- * `logo` slot. Override the slot to supply your own `<qgds-logo>` (e.g. a different
- * preset, or a co-brand/custom lockup). The optional `site-name` is shown beside it.
+ * The logo is a stacked coat-of-arms `<qgds-logo>` rendered by default in the
+ * `logo` slot. The optional `site-name` is shown beside it.
+ * Optional `brand-logo` and `tagline` slots are also available for use when the COA logo is hidden for Endorsed and Stand Alone brands sites.
  *
  * On mobile, the header shows Search and Menu buttons. Each button only toggles its
  * own open state (to switch its icon) and fires a payload-less event — the slotted
  * search / navigation component is responsible for showing and hiding itself:
  *
  * - **Search** flips `searchOpen` and fires `qgds-toggle-search-mobile`.
- * - **Menu** flips `menuOpen` and fires `qgds-toggle-nav-menu`.
+ * - **Menu** fires `qgds-navigation-open`.
  *
  * @tagname qgds-header
  *
  * @prop {String} [palette="default"] - Colour palette for main section of the Header component.
- * @prop {String} [site-name] - Optional site name shown beside the logo (desktop) or in its own band (mobile).
+ * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
  * @prop {String} [tagline] - Optional site tagline displayed on mobile only. Can be used for a tagline, URL or other secondary text. Hidden on desktop.
- * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the brand logo. False by default.
- * @prop {Boolean} [hide-mobile-secondary-container=true] - Whether to show the secondary (bottom) container on mobile. True by default.
- * @prop {String} [mobile-top-container="site-name"] - Which element to display in the mobile top container. Options are "siteName" or "tagline".
+ * @prop {Boolean} [hide-coa-logo=false] - Whether to hide coat of arms logo. False by default.
+ * @prop {Boolean} [hide-mobile-secondary-container=false] - Whether to hide the bottom row on mobile.
+ * @prop {String} [mobile-top-content="brand-logo"] - Which content to show in the top row on mobile when the COA logo is hidden. Options are "brand-logo", "tagline" or "site-name". Defaults to "brand-logo".
  * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
- * @prop {Boolean} [menu-open=false] - Mobile Menu button toggle state (drives the button icon only).
  *
- * @slot pre-header - Top band. Typically a `<qgds-attribution-bar>`. Hidden on mobile.
- * @slot logo - The brand logo. Defaults to a responsive `<qgds-logo>`; override to supply your own co-brand or custom logo.
- * @slot site-name - Overrides the `site-name` attribute with custom markup.
- * @slot tagline - Overrides the `tagline` attribute with custom markup.
- * @slot search - Search input, e.g. a `<qgds-search-input>` with its own config.
- * @slot navigation - Bottom navigation band, e.g. a nav bar or mobile mega menu that manages its own open state.
+ * @slot pre-header - Pre-header content, typically a `<qgds-attribution-bar>`. Hidden below the desktop breakpoint.
+ * @slot logo - Coat of Arms logo. Defaults to a stacked coat-of-arms `<qgds-logo>`. Mandatory on Master Brand, Sub Brand, and Co-Brand sites.
+ * @slot brand-logo - Optional brand logo.
+ * @slot site-name - Optional site name displayed beside the COA logo or brand logo.
+ * @slot tagline - Optional site tagline displayed on mobile only. Can be used for a tagline, URL or other secondary text. Hidden on desktop.
+ * @slot search - Optional search input component. Typically a `<qgds-search-input>`.
+ * @slot navigation - Optional navigation component. Typically a `<qgds-navigation>`.
  *
  * @fires qgds-toggle-search-mobile - Fired when the mobile Search button is pressed.
- * @fires qgds-toggle-nav-menu - Fired when the mobile Menu button is pressed.
+ * @fires qgds-navigation-open - Fired when the mobile Menu button is pressed.
  *
  * @example Standard usage - for qld.gov.au.
  * <qgds-header>
@@ -77,7 +79,7 @@ export const tagName = "qgds-header";
  * </qgds-header>
  * ```
  *
- * @example Custom brand logo — override the default `<qgds-logo>` in the `logo` slot.
+ * @example Custom brand logo.
  * ```html
  * <qgds-header site-name="Insert site name">
  *   <qgds-logo slot="brand-logo" custom-logo="/my-logo.svg" custom-logo-alt="My agency"></qgds-logo>
@@ -105,8 +107,8 @@ export class QGDSHeader extends LitElement {
   @property({ type: Boolean, attribute: "hide-mobile-secondary-container", reflect: true })
   hideMobileBottomRow = false;
 
-  @property({ type: String, attribute: "mobile-top-container", reflect: true })
-  mobileTopRow: MobileTopRow = "brand-logo";
+  @property({ type: String, attribute: "mobile-top-content", reflect: true, useDefault: true })
+  mobileTopContent: MobileTopContent = "brand-logo";
 
   @property({ type: Boolean, attribute: "search-open", reflect: true })
   searchOpen = false;
@@ -119,7 +121,7 @@ export class QGDSHeader extends LitElement {
   @state() private _hasTaglineSlot = false;
   @state() private _hasSearchElement = false;
 
-  @state() private _searchEl: (HTMLElement & { focusInput?: () => void; blurInput?: () => void }) | null = null;
+  @state() private _searchEl: QGDSSearchInput | null = null;
 
   /** Whether the `navigation` slot has content — drives the mobile Menu button. */
   @state() private _hasNavElement = false;
@@ -129,7 +131,7 @@ export class QGDSHeader extends LitElement {
   private events = new QgdsEvents(this);
 
   private get _showCoaLogo(): boolean {
-    return !this.hideCoaLogo && this._hasLogoSlot;
+    return !this.hideCoaLogo;
   }
 
   private get _showSiteName(): boolean {
@@ -144,36 +146,34 @@ export class QGDSHeader extends LitElement {
     return !!this.tagline || this._hasTaglineSlot;
   }
 
-  private get _bottomRowContent(): MobileTopRow | false {
+  private get _bottomRowContent(): MobileTopContent | false {
     if (this.hideMobileBottomRow) return false;
 
     if (this._showCoaLogo) return "site-name"; // When COA logo is present, the bottom row is always the site brand.
-    const slotsOptions: MobileTopRow[] = ["tagline", "site-name", "brand-logo"];
-    const remaining = slotsOptions.filter((option) => option !== this.mobileTopRow);
+    const slotsOptions: MobileTopContent[] = ["tagline", "site-name", "brand-logo"];
+    const remaining = slotsOptions.filter((option) => option !== this.mobileTopContent);
 
-    const hasContent: Record<MobileTopRow, boolean> = {
+    const hasContent: Record<MobileTopContent, boolean> = {
       tagline: this._showTagline,
       "site-name": this._showSiteName,
       "brand-logo": this._showBrandLogo,
     };
 
-    // Of the two options not already claimed by the top row, prefer whichever
-    // actually has content. If neither does, fall back to the first remaining
-    // option anyway — keeps the return type non-optional and gives is-empty
-    // styling something deterministic to key off, rather than `undefined`.
+    // Return the first of the remaining options that has content,
+    // or the first remaining option if none have content.
     return remaining.find((option) => hasContent[option]) ?? remaining[0];
   }
 
   private get _siteNameIsTop(): boolean {
-    return !this._showCoaLogo && this.mobileTopRow === "site-name";
+    return !this._showCoaLogo && this.mobileTopContent === "site-name";
   }
 
   private get _brandLogoIsTop(): boolean {
-    return !this._showCoaLogo && this.mobileTopRow === "brand-logo";
+    return !this._showCoaLogo && this.mobileTopContent === "brand-logo";
   }
 
   private get _taglineIsTop(): boolean {
-    return !this._showCoaLogo && this.mobileTopRow === "tagline";
+    return !this._showCoaLogo && this.mobileTopContent === "tagline";
   }
 
   connectedCallback(): void {
@@ -191,7 +191,7 @@ export class QGDSHeader extends LitElement {
   }
 
   firstUpdated(): void {
-    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="coa-logo"]');
+    const slot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="logo"]');
     this._hasLogoSlot = (slot?.assignedElements({ flatten: true }).length ?? 0) > 0;
 
     const brandSlot = this.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="brand-logo"]');
@@ -211,15 +211,15 @@ export class QGDSHeader extends LitElement {
   };
 
   private _handleSiteNameSlotChange = (e: Event): void => {
-    this._hasSiteNameSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
+    this._hasSiteNameSlot = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   };
 
   private _handleBrandLogoSlotChange = (e: Event): void => {
-    this._hasBrandLogoSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
+    this._hasBrandLogoSlot = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   };
 
   private _handleTaglineSlotChange = (e: Event): void => {
-    this._hasTaglineSlot = (e.target as HTMLSlotElement).assignedNodes().length > 0;
+    this._hasTaglineSlot = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
   };
 
   // Look for a `<qgds-attribution-bar>` and, if found, reads its `palette`
@@ -242,7 +242,6 @@ export class QGDSHeader extends LitElement {
     this.events.dispatch("toggle-search-mobile");
 
     if (this.searchOpen) {
-      // Focus on the search when search is opened.
       void this.updateComplete.then(() => this._searchEl?.focus());
     }
   };
@@ -250,7 +249,7 @@ export class QGDSHeader extends LitElement {
   private _handleSearchSlotChange = (e: Event): void => {
     const assigned = (e.target as HTMLSlotElement).assignedElements({ flatten: true });
     this._hasSearchElement = assigned.length > 0;
-    this._searchEl = (assigned[0] as (HTMLElement & { focusInput?: () => void }) | undefined) ?? null;
+    this._searchEl = (assigned[0] as QGDSSearchInput | undefined) ?? null;
   };
 
   // Hide the search panel if the user clicks outside it or the toggle button
@@ -264,7 +263,9 @@ export class QGDSHeader extends LitElement {
       return;
     }
 
+    if (!this.searchOpen) return;
     this.searchOpen = false;
+    this.events.dispatch("toggle-search-mobile");
   };
 
   private _handleNavSlotChange = (e: Event): void => {
@@ -278,7 +279,6 @@ export class QGDSHeader extends LitElement {
     }
   };
 
-  // Default render - with COA as default logo, if no logo is slotted in
   render() {
     return html`
       <header class="header">
@@ -291,7 +291,7 @@ export class QGDSHeader extends LitElement {
             <div
               class=${classMap({
                 "header-coa-logo": true,
-                [`header-mobile-palette-${this._preHeaderPalette}`]: true,
+                [`top-row-palette-${this._preHeaderPalette}`]: true,
               })}
               ?hidden=${this.hideCoaLogo}
             >
@@ -305,38 +305,35 @@ export class QGDSHeader extends LitElement {
             <div
               class=${classMap({
                 "header-brand-logo": true,
-                [`header-mobile-palette-${this._preHeaderPalette}`]: this._brandLogoIsTop,
+                [`top-row-palette-${this._preHeaderPalette}`]: this._brandLogoIsTop,
                 "is-mobile-top-row": this._brandLogoIsTop,
                 "is-mobile-bottom": this._bottomRowContent === "brand-logo",
               })}
               ?hidden=${this.hideCoaLogo && !this._showBrandLogo}
             >
-              <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}> </slot>
+              <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}></slot>
             </div>
-            ${this._taglineIsTop
-              ? html`
-                  <div
-                    class=${classMap({
-                      "header-tagline": true,
-                      [`header-mobile-palette-${this._preHeaderPalette}`]: true,
-                      "is-mobile-top-row": this._taglineIsTop,
-                    })}
-                    ?hidden=${!this._showTagline}
-                  >
-                    <slot name="tagline" @slotchange=${this._handleTaglineSlotChange}>
-                      ${this.tagline ? html`<span class="tagline">${this.tagline}</span>` : nothing}
-                    </slot>
-                  </div>
-                `
-              : nothing}
+            <div
+              class=${classMap({
+                "header-tagline": true,
+                [`top-row-palette-${this._preHeaderPalette}`]: true,
+                "is-mobile-top-row": this._taglineIsTop,
+                "is-mobile-bottom": this._bottomRowContent === "tagline",
+              })}
+              ?hidden=${!this._showTagline}
+            >
+              <slot name="tagline" @slotchange=${this._handleTaglineSlotChange}>
+                ${this.tagline ? html`<span class="tagline">${this.tagline}</span>` : nothing}
+              </slot>
+            </div>
 
             <!-- By default, when COA exists, site name display on 'sub' grid area on desktop & mobile -->
-            <!-- When COA is hidden, site name grid area is 'sub' by default. Or when specified by mobile-top-container -->
+            <!-- When COA is hidden, site name grid area is 'sub' by default. Or when specified by mobile-top-content -->
             <div
               class=${classMap({
                 "header-site-name": true,
                 "is-mobile-top-row": this.hideCoaLogo && this._siteNameIsTop,
-                [`header-mobile-palette-${this._preHeaderPalette}`]: this.hideCoaLogo && this._siteNameIsTop,
+                [`top-row-palette-${this._preHeaderPalette}`]: this.hideCoaLogo && this._siteNameIsTop,
                 "hide-mobile": this.hideMobileBottomRow && !this._siteNameIsTop,
               })}
               ?hidden=${!this._showSiteName}
@@ -349,7 +346,7 @@ export class QGDSHeader extends LitElement {
             <div
               class=${classMap({
                 "header-actions": true,
-                [`header-mobile-palette-${this._preHeaderPalette}`]: true,
+                [`top-row-palette-${this._preHeaderPalette}`]: true,
               })}
             >
               ${this._hasSearchElement
@@ -371,17 +368,14 @@ export class QGDSHeader extends LitElement {
                       icon-name="menu"
                       class="header-action"
                       aria-controls=${this._navElementId}
-                      aria-expanded=${this._menuOpen}
+                      aria-expanded=${this._menuOpen ? "true" : "false"}
                       @click=${() => this.events.dispatch("navigation-open")}
                     ></qgds-tile-button>
                   `
                 : nothing}
             </div>
 
-            <div
-              id="header-search-panel"
-              class="header-search ${this.searchOpen ? "searchOpenTrue" : "searchOpenFalse"}"
-            >
+            <div id="header-search-panel" class="header-search">
               <slot name="search" @slotchange=${this._handleSearchSlotChange}></slot>
             </div>
           </div>
