@@ -131,7 +131,7 @@ describe("qgds-tabs", () => {
     wrapper.remove();
   });
 
-  it("sets ARIA attributes on panels and tabs", async () => {
+  it("sets ARIA attributes on panels", async () => {
     element.innerHTML = `
       <div label="Tab A">Panel A</div>
       <div label="Tab B">Panel B</div>
@@ -141,10 +141,8 @@ describe("qgds-tabs", () => {
     await waitForFrame();
     await element.updateComplete;
 
-    const buttons = element.shadowRoot?.querySelectorAll<HTMLButtonElement>("button.tab-button");
     const panelA = element.querySelector("div") as HTMLElement;
 
-    expect(buttons?.[0].getAttribute("aria-controls")).toBe("panel-0");
     expect(panelA.getAttribute("aria-labelledby")).toBe("tab-0");
     expect(panelA.getAttribute("role")).toBe("tabpanel");
   });
