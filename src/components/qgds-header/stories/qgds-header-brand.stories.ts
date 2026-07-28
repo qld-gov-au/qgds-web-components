@@ -63,7 +63,7 @@ const headerTemplate = (args: Args, children: TemplateResult) => html`
     tagline=${ifDefined(args.tagline ?? undefined)}
     mobile-top-content=${ifDefined(args["mobile-top-content"]) ?? undefined}
     ?hide-coa-logo=${args["hide-coa-logo"]}
-    ?hide-mobile-secondary-container=${args["hide-mobile-secondary-container"]}
+    ?hide-mobile-bottom-row=${args["hide-mobile-bottom-row"]}
     @qgds-toggle-search-mobile=${onSearchToggle}
   >
     ${children}
@@ -182,7 +182,7 @@ export const CoatOfArmsAndBrandLogo: Story = {
         )}
         <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
         <qgds-logo
-          slot="site-name"
+          slot="brand-logo"
           logo=""
           custom-logo="${sampleSlottedImage}"
           custom-logo-alt="Partner Organisation"
@@ -202,6 +202,13 @@ export const CoatOfArmsAndBrandLogo: Story = {
     ...eventActionDecorator,
     (story) =>
       html`${storyStyles}
+        <style>
+          qgds-logo {
+            @media (min-width: 992px) {
+              --qgds-color-crest-fill: #000;
+            }
+          }
+        </style>
         <div class="story-heading">
           <p><strong>Co-Brand and Endorsed</strong></p>
           <p>Coat of Arms and Logo</p>
@@ -215,7 +222,7 @@ export const BrandLogoTwoMobileRows: Story = {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "tagline",
-    tagline: "adepartment.qld.gov.au",
+    tagline: "oho.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -257,7 +264,7 @@ export const BrandLogoTwoMobileRows: Story = {
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
           "mobile-top-content": "tagline", <br />
-          tagline: "adepartment.qld.gov.au",
+          tagline: "oho.qld.gov.au",
         </div>`,
   ],
 };
@@ -267,7 +274,7 @@ export const BrandLogoMobileTopRowLogo: Story = {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "brand-logo",
-    "hide-mobile-secondary-container": true,
+    "hide-mobile-bottom-row": true,
   },
   render: (args) =>
     headerTemplate(
@@ -308,7 +315,7 @@ export const BrandLogoMobileTopRowLogo: Story = {
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
           "mobile-top-content": "brand-logo", <br />
-          "hide-mobile-secondary-container": true,
+          "hide-mobile-bottom-row": true,
         </div>`,
   ],
 };
@@ -318,8 +325,8 @@ export const BrandLogoMobileTopRowTagline: Story = {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "tagline",
-    "hide-mobile-secondary-container": true,
-    tagline: "adepartment.qld.gov.au",
+    "hide-mobile-bottom-row": true,
+    tagline: "oho.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -361,7 +368,7 @@ export const BrandLogoMobileTopRowTagline: Story = {
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
           "mobile-top-content": "tagline", <br />
-          "hide-mobile-secondary-container": true, <br />
+          "hide-mobile-bottom-row": true, <br />
           tagline: "Site tagline or URL",
         </div>`,
   ],
@@ -373,7 +380,6 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
     "hide-coa-logo": true,
     "mobile-top-content": "brand-logo",
     "site-name": "Site Name",
-    tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -413,9 +419,7 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
         ${story()}
         <div style="margin-top: 2rem">
           "mobile-top-content": "tagline",<br />
-          "hide-mobile-secondary-container": true,<br />
-          "site-name": "Site Name for Desktop",<br />
-          tagline: "adepartment.qld.gov.au",
+          "site-name": "Site Name for Desktop",
         </div>`,
   ],
 };
@@ -471,7 +475,7 @@ export const BrandNameMobileTopRowBrandName: Story = {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "site-name",
-    "hide-mobile-secondary-container": true,
+    "hide-mobile-bottom-row": true,
     "site-name": "Site name",
     tagline: "adepartment.qld.gov.au",
   },
@@ -507,7 +511,7 @@ export const BrandNameMobileTopRowBrandName: Story = {
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
           "mobile-top-content": "site-name",<br />
-          "hide-mobile-secondary-container": true,<br />
+          "hide-mobile-bottom-row": true,<br />
           "site-name": "Site name",<br />
           tagline: "adepartment.qld.gov.au",
         </div>`,
@@ -519,7 +523,7 @@ export const BrandNameMobileTopRowTagline: Story = {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "tagline",
-    "hide-mobile-secondary-container": true,
+    "hide-mobile-bottom-row": true,
     "site-name": "Site name",
     tagline: "adepartment.qld.gov.au",
   },
@@ -555,7 +559,7 @@ export const BrandNameMobileTopRowTagline: Story = {
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
           "mobile-top-content": "tagline",<br />
-          "hide-mobile-secondary-container": true,<br />
+          "hide-mobile-bottom-row": true,<br />
           "site-name": "Site name",<br />
           tagline: "adepartment.qld.gov.au",
         </div>`,
