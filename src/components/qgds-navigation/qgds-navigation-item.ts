@@ -31,6 +31,7 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: String, reflect: true }) variant: NavigationVariant = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
   @property({ type: Boolean, attribute: "is-active" }) isActive = false;
+  l;
   @property({ type: Boolean, attribute: "is-open" }) isOpen = false;
   @property({ type: String, attribute: "icon-name" }) iconName?: IconName;
   @property({ type: String }) description?: string;
@@ -77,99 +78,142 @@ export class QGDSNavigationItem extends LitElement {
     else scrubSlotContent(slot, null);
   };
 
-  private _renderHorizontalVariant = () => {
+  // Level 1 horizontal items
+  private _renderHorizontalLevel1 = () => {
     const classes = classMap({
       "nav-item is-horizontal": true,
       "is-active": this.isActive,
-      "is-open": this.level === 1 && this._numChildren > 0 && this.isOpen,
+      "is-open": this._numChildren > 0 && this.isOpen,
     });
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
     const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
 
-    return this.level === 1
-      ? html`${this._numChildren > 0
-          ? // Horizontal item with dropdown (level 1)
-            html`<button
-                class=${classes}
-                aria-controls="mega-menu"
+    return html`${this._numChildren === 0
+      ? // Without dropdown
+        html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>
+          <slot @slotchange=${this._handleSlotchange}></slot>`
+      : // With dropdown and mega menu
+        html`<div class=${classes}>
+            <button
+              class="nav-item-link"
+              aria-controls="mega-menu"
+              aria-expanded=${this.isOpen}
+              @click=${() => (this.isOpen = !this.isOpen)}
+            >
+              ${icon}${label}<qgds-icon class="dropdown-icon" icon-id="chevron-down" size="xs"></qgds-icon>
+            </button>
+          </div>
+
+          <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })} id="mega-menu">
+            <!-- Header -->
+            <div class="mega-menu-header">
+              <qgds-link
+                class="mega-menu-link is-heading"
+                label=${this.label}
+                href=${ifDefined(this.href)}
+                icon-name="arrow-right"
+                icon-size="lg"
+                animation="leftToRight"
+                has-trailing-icon
+                aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+                aria-describedby=${ifDefined(this.description ? "header-description" : undefined)}
+              ></qgds-link>
+              ${this.description
+                ? html`<p class="description" id="header-description">${this.description}</p>`
+                : nothing}
+            </div>
+
+            <!-- Columns -->
+            <div
+              class="${classMap({
+                "mega-menu-items": true,
+                [`column-count-${this._columnCount}`]: true,
+                "has-descriptions": this._allChildrenHaveDecription,
+              })}"
+              role="list"
+              aria-label="${this.label} submenu"
+            >
+              <slot @slotchange=${this._handleSlotchange}></slot>
+            </div>
+
+            <!-- Footer -->
+            ${this.viewAllUrl
+              ? html`<div class="mega-menu-footer">
+                  <qgds-call-to-action
+                    href=${this.viewAllUrl}
+                    label=${ifDefined(this.viewAllLabel)}
+                    class="inline-block"
+                    is-view-all
+                  ></qgds-call-to-action>
+                </div>`
+              : nothing}
+          </div>`}`;
+  };
+
+  // Level 2 horizontal items (mega menu items)
+  private _renderHorizontalLevel2 = () => {
+    return html`<div role="listitem" class="mega-menu-item">
+      <qgds-link
+        class="mega-menu-link is-sub-item"
+        label=${this.label}
+        href=${ifDefined(this.href)}
+        icon-name="arrow-right"
+        icon-size="md"
+        animation="leftToRight"
+        has-trailing-icon
+        stretch
+      ></qgds-link
+      >${this.description ? html`<p class="description">${this.description}</p>` : nothing}
+    </div>`;
+  };
+
+  private _renderVerticalLevel1 = () => {
+    const classes = classMap({
+      "nav-item is-vertical": true,
+      "is-active": this.isActive,
+      "has-children": this._numChildren > 0,
+      "is-open": this._numChildren > 0 && this.isOpen,
+    });
+    const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
+    const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
+
+    return this._numChildren === 0
+      ? html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>
+          <slot @slotchange=${this._handleSlotchange}></slot>`
+      : html`<div class=${classes}>
+            <a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a>
+            <div class="nav-item-toggle flex-shrink-0">
+              <button
+                class=${classMap({
+                  "dropdown-toggle qgds-palette-default": true,
+                  "is-open": this.isOpen,
+                })}
+                aria-label="${this.label} sub items"
+                aria-controls="dropdown"
                 aria-expanded=${this.isOpen}
                 @click=${() => (this.isOpen = !this.isOpen)}
               >
-                ${icon}${label}<qgds-icon class="dropdown-icon" icon-id="chevron-down" size="xs"></qgds-icon>
+                <qgds-icon aria-hidden="true" class="dropdown-icon" icon-id="chevron-down" size="sm"></qgds-icon>
               </button>
-
-              <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })} id="mega-menu">
-                <!-- Header -->
-                <div class="mega-menu-header">
-                  <qgds-link
-                    class="mega-menu-link is-heading"
-                    label=${this.label}
-                    href=${ifDefined(this.href)}
-                    icon-name="arrow-right"
-                    icon-size="lg"
-                    animation="leftToRight"
-                    has-trailing-icon
-                    aria-current=${ifDefined(this.isActive ? "page" : undefined)}
-                    aria-describedby=${ifDefined(this.description ? "header-description" : undefined)}
-                  ></qgds-link>
-                  ${this.description
-                    ? html`<p class="description" id="header-description">${this.description}</p>`
-                    : nothing}
-                </div>
-
-                <!-- Columns -->
-
-                <div
-                  class="${classMap({
-                    "mega-menu-items": true,
-                    [`column-count-${this._columnCount}`]: true,
-                    "has-descriptions": this._allChildrenHaveDecription,
-                  })}"
-                  role="list"
-                  aria-label="${this.label} submenu"
-                >
-                  <slot @slotchange=${this._handleSlotchange}></slot>
-                </div>
-
-                <!-- Footer -->
-                ${this.viewAllUrl
-                  ? html`<div class="mega-menu-footer">
-                      <qgds-call-to-action
-                        href=${this.viewAllUrl}
-                        label=${ifDefined(this.viewAllLabel)}
-                        class="inline-block"
-                        is-view-all
-                      ></qgds-call-to-action>
-                    </div>`
-                  : nothing}
-              </div>`
-          : // Horizontal item without dropdown (level 1)
-            html`<a class=${classes} href=${ifDefined(this.href)}>${icon}${label}</a
-              ><slot @slotchange=${this._handleSlotchange}></slot>`} `
-      : // Mega menu item (level 2)
-        html`<div role="listitem" class="mega-menu-item">
-          <qgds-link
-            class="mega-menu-link is-sub-item"
-            label=${this.label}
-            href=${ifDefined(this.href)}
-            icon-name="arrow-right"
-            icon-size="md"
-            animation="leftToRight"
-            has-trailing-icon
-            stretch
-          ></qgds-link
-          >${this.description ? html`<p class="description">${this.description}</p>` : nothing}<slot
-            @slotchange=${this._handleSlotchange}
-          ></slot>
-        </div>`;
+            </div>
+          </div>
+          <div class="${classMap({ dropdown: true, "is-open": this.isOpen })}" id="dropdown">
+            <slot @slotchange=${this._handleSlotchange}></slot>
+          </div> `;
   };
 
-  private _renderVerticalVariant = () => {
-    return this.level === 1 ? html`vertical` : html`vertical`;
+  private _renderVerticalLevel2 = () => {
+    return html`Vertical Sub item`;
   };
 
   render() {
-    return this.variant === "horizontal" ? this._renderHorizontalVariant() : this._renderVerticalVariant();
+    return this.variant === "horizontal"
+      ? this.level === 1
+        ? this._renderHorizontalLevel1()
+        : this._renderHorizontalLevel2()
+      : this.level === 1
+        ? this._renderVerticalLevel1()
+        : this._renderVerticalLevel2();
   }
 }
 

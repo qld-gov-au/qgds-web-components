@@ -20,7 +20,6 @@ const meta: Meta<Args> = {
     href: "#",
   },
   argTypes,
-  decorators: [(story) => html`<div style="position: relative; display: flex; gap: 16px">${story()}</div>`],
 };
 export default meta;
 type Story = StoryObj<Args>;
@@ -34,6 +33,7 @@ export const HorizontalNavItem: Story = {
     ${template({ ...args, label: "Active", "is-active": true })}
     ${template({ ...args, label: "Active with icon", "is-active": true, "icon-name": "announcement" })}
   `,
+  decorators: [(story) => html`<div style="position: relative; display: flex; gap: 16px">${story()}</div>`],
 };
 
 export const HorizontalWithChildren: Story = {
@@ -74,13 +74,25 @@ export const HorizontalWithChildren: Story = {
       })}`
     )}
   `,
+  decorators: HorizontalNavItem.decorators,
 };
 
 export const HorizontalWithChildrenAndDescription: Story = {
   args: { ...HorizontalWithChildren.args, description: loremIpsum, "view-all-url": "#" },
   render: HorizontalWithChildren.render,
+  decorators: HorizontalNavItem.decorators,
 };
 
-export const VerticalNavItem: Story = { args: { variant: "vertical" }, render: HorizontalNavItem.render };
+export const VerticalNavItem: Story = {
+  args: { ...HorizontalNavItem.args, variant: "vertical" },
+  render: HorizontalNavItem.render,
+  decorators: [(story) => html`<div style="max-width: 640px">${story()}</div>`],
+};
+
+export const VerticalNavItemWithChildren: Story = {
+  args: { ...HorizontalWithChildren.args, variant: "vertical" },
+  render: HorizontalWithChildren.render,
+  decorators: VerticalNavItem.decorators,
+};
 
 // attach a standard click event, should not prevent default
