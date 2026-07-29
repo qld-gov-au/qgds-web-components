@@ -60,7 +60,6 @@ const storyStyles = html`
 const headerTemplate = (args: Args, children: TemplateResult) => html`
   <qgds-header
     site-name=${ifDefined(args["site-name"] ?? undefined)}
-    tagline=${ifDefined(args.tagline ?? undefined)}
     mobile-top-content=${ifDefined(args["mobile-top-content"]) ?? undefined}
     ?hide-coa-logo=${args["hide-coa-logo"]}
     ?hide-mobile-bottom-row=${args["hide-mobile-bottom-row"]}
@@ -100,6 +99,8 @@ export const CoatOfArms: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://www.qld.gov.au",
+            label: "qld.gov.au",
           },
           attributionLinks
         )}
@@ -141,6 +142,8 @@ export const CoatOfArmsAndSiteName: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://www.qld.gov.au",
+            label: "qld.gov.au",
           },
           attributionLinks
         )}
@@ -177,6 +180,8 @@ export const CoatOfArmsAndBrandLogo: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://www.qld.gov.au",
+            label: "qld.gov.au",
           },
           attributionLinks
         )}
@@ -221,8 +226,8 @@ export const BrandLogoTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-content": "tagline",
-    tagline: "oho.qld.gov.au",
+    "mobile-top-content": "site-name",
+    "site-name": "Office of the Health Ombudsman",
   },
   render: (args) =>
     headerTemplate(
@@ -232,6 +237,8 @@ export const BrandLogoTwoMobileRows: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )}
@@ -258,13 +265,13 @@ export const BrandLogoTwoMobileRows: Story = {
         <div class="story-heading">
           <p><strong>Endorsed and Stand Alone</strong></p>
           <p>Brand Logo - No Coat of Arms</p>
-          <p><strong>Mobile</strong> Top: Tagline - Bottom: Brand Logo</p>
+          <p><strong>Mobile</strong> Top: Site Name - Bottom: Brand Logo</p>
         </div>
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-content": "tagline", <br />
-          tagline: "oho.qld.gov.au",
+          "mobile-top-content": "site-name", <br />
+          "site-name": "Office of the Health Ombudsman",
         </div>`,
   ],
 };
@@ -284,6 +291,8 @@ export const BrandLogoMobileTopRowLogo: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )}
@@ -320,13 +329,13 @@ export const BrandLogoMobileTopRowLogo: Story = {
   ],
 };
 
-export const BrandLogoMobileTopRowTagline: Story = {
+export const BrandLogoMobileTopRowSiteName: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-content": "tagline",
+    "mobile-top-content": "site-name",
     "hide-mobile-bottom-row": true,
-    tagline: "oho.qld.gov.au",
+    "site-name": "Office of the Health Ombudsman",
   },
   render: (args) =>
     headerTemplate(
@@ -336,6 +345,8 @@ export const BrandLogoMobileTopRowTagline: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )}
@@ -362,19 +373,19 @@ export const BrandLogoMobileTopRowTagline: Story = {
         <div class="story-heading">
           <p><strong>Endorsed and Stand Alone</strong></p>
           <p>Brand Logo only - No Coat of Arms</p>
-          <p><strong>Mobile</strong> Top: Tagline</p>
+          <p><strong>Mobile</strong> Top: Site Name</p>
         </div>
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-content": "tagline", <br />
+          "mobile-top-content": "site-name", <br />
           "hide-mobile-bottom-row": true, <br />
-          tagline: "Site tagline or URL",
+          "site-name": "Office of the Health Ombudsman",
         </div>`,
   ],
 };
 
-export const BrandLogoWtSiteNameAndTagline: Story = {
+export const BrandLogoWtSiteName: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
@@ -389,6 +400,8 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )}
@@ -413,12 +426,12 @@ export const BrandLogoWtSiteNameAndTagline: Story = {
       html`${storyStyles}
         <div class="story-heading">
           <p><strong>Endorsed and Stand Alone</strong></p>
-          <p>Brand Logo with Site Name and Tagline - No Coat of Arms</p>
-          <p><strong>Mobile</strong> Top: tagline</p>
+          <p>Brand Logo with Site Name - No Coat of Arms</p>
+          <p><strong>Mobile</strong> Top: Brand Logo</p>
         </div>
         ${story()}
         <div style="margin-top: 2rem">
-          "mobile-top-content": "tagline",<br />
+          "mobile-top-content": "brand-logo",<br />
           "site-name": "Site Name for Desktop",
         </div>`,
   ],
@@ -428,9 +441,8 @@ export const BrandNameTwoMobileRows: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-content": "tagline",
+    "mobile-top-content": "preheader-url",
     "site-name": "Site name",
-    tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -440,6 +452,8 @@ export const BrandNameTwoMobileRows: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
@@ -458,26 +472,24 @@ export const BrandNameTwoMobileRows: Story = {
         <div class="story-heading">
           <p><strong>Endorsed and Stand Alone</strong></p>
           <p>Brand Name only - No Coat of Arms</p>
-          <p><strong>Mobile</strong> Top: Tagline - Bottom: Brand Name</p>
+          <p><strong>Mobile</strong> Top: Site Name</p>
         </div>
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-content": "tagline", <br />
+          "mobile-top-content": "preheader-url", <br />
           "site-name": "Site name", <br />
-          tagline: "adepartment.qld.gov.au",
         </div>`,
   ],
 };
 
-export const BrandNameMobileTopRowBrandName: Story = {
+export const BrandNameMobileTopRowSiteName: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
     "mobile-top-content": "site-name",
     "hide-mobile-bottom-row": true,
     "site-name": "Site name",
-    tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -487,6 +499,8 @@ export const BrandNameMobileTopRowBrandName: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
@@ -513,19 +527,17 @@ export const BrandNameMobileTopRowBrandName: Story = {
           "mobile-top-content": "site-name",<br />
           "hide-mobile-bottom-row": true,<br />
           "site-name": "Site name",<br />
-          tagline: "adepartment.qld.gov.au",
         </div>`,
   ],
 };
 
-export const BrandNameMobileTopRowTagline: Story = {
+export const BrandNameMobileTopRowUrl: Story = {
   args: {
     ...meta.args,
     "hide-coa-logo": true,
-    "mobile-top-content": "tagline",
+    "mobile-top-content": "preheader-url",
     "hide-mobile-bottom-row": true,
     "site-name": "Site name",
-    tagline: "adepartment.qld.gov.au",
   },
   render: (args) =>
     headerTemplate(
@@ -535,6 +547,8 @@ export const BrandNameMobileTopRowTagline: Story = {
             ...attributionArgs,
             slot: "pre-header",
             palette: "bold",
+            url: "https://oho.qld.gov.au",
+            label: "oho.qld.gov.au",
           },
           attributionLinks
         )} <qgds-search-input slot="search"></qgds-search-input>${navTemplate(
@@ -553,15 +567,14 @@ export const BrandNameMobileTopRowTagline: Story = {
         <div class="story-heading">
           <p><strong>Endorsed and Stand Alone</strong></p>
           <p>Brand Name - No Coat of Arms</p>
-          <p><strong>Mobile</strong> Top: Tagline</p>
+          <p><strong>Mobile</strong> Top: Site Name</p>
         </div>
         ${story()}
         <div style="margin-top: 2rem">
           "hide-coa-logo": true, <br />
-          "mobile-top-content": "tagline",<br />
+          "mobile-top-content": "preheader-url",<br />
           "hide-mobile-bottom-row": true,<br />
-          "site-name": "Site name",<br />
-          tagline: "adepartment.qld.gov.au",
+          "site-name": "Site name",
         </div>`,
   ],
 };

@@ -13,9 +13,32 @@ import { QGDSAttributionBar } from "../..";
 import type { QGDSSearchInput } from "../qgds-search-input/qgds-search-input.js";
 
 type QGDSPalette = keyof typeof palettes;
-/** Content keys that can occupy mobile main/sub rows. */
-type MobileContentKey = "coa-logo" | "brand-logo" | "site-name" | "tagline";
-type OptionalMobileContentKey = Exclude<MobileContentKey, "coa-logo">;
+
+/**
+ * The Coat of Arms logo is prioritised as 'main' row occupant.
+ * It is always shown unless the `hide-coa-logo` attribute is set.
+ */
+const COA_LOGO = "coa-logo" as const;
+
+/**
+ * Optional content eligible for the mobile 'main' row when the COA logo is hidden.
+ * `mobileTopContent` picks a preferred one of these (see `_getPreferredMain`).
+ */
+const MAIN_CONTENT_KEYS = ["brand-logo", "preheader-url", "site-name"] as const;
+
+/**
+ * Optional content eligible for the mobile 'sub' row.
+ */
+const SUB_CONTENT_KEYS = ["brand-logo", "site-name"] as const;
+
+/** Any content (non-COA) key that is eligible for the main row when the COA logo is hidden. */
+type MainContentKey = (typeof MAIN_CONTENT_KEYS)[number];
+
+/** Content key that is eligible for the sub row. */
+type SubContentKey = (typeof SUB_CONTENT_KEYS)[number];
+
+/** Any content kind that can occupy the mobile main row: the COA logo, plus every optional main content. */
+type MobileContentKey = typeof COA_LOGO | MainContentKey;
 
 export const tagName = "qgds-header";
 
@@ -34,9 +57,8 @@ export const tagName = "qgds-header";
  *
  * The logo is a stacked coat-of-arms `<qgds-logo>` rendered by default in the
  * `logo` slot. The optional `site-name` is shown beside it.
- * Optional `brand-logo` and `tagline` slots are available for Endorsed and Stand
- * Alone brand sites. `brand-logo` can render with or without the COA logo,
- * depending on layout and viewport rules.
+ * Optional `brand-logo` slot is available for Endorsed and Stand Alone brand sites.
+ * `brand-logo` can render with or without the COA logo, depending on layout and viewport rules.
  *
  * On mobile, the header shows Search and Menu buttons. Each button only toggles its
  * own open state (to switch its icon) and fires a payload-less event — the slotted
@@ -49,17 +71,15 @@ export const tagName = "qgds-header";
  *
  * @prop {String} [palette="default"] - Colour palette for main section of the Header component.
  * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
- * @prop {String} [tagline] - Optional site tagline displayed on mobile only. Can be used for a tagline, URL or other secondary text. Hidden on desktop.
+ * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the main and sub grid areas, which are the COA logo, brand logo, and site name.
  * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default.
  * @prop {Boolean} [hide-mobile-bottom-row=false] - Whether to hide the bottom row on mobile.
- * @prop {String} [mobile-top-content="coa-logo"] - Preferred content for the top row on mobile. Defaults to `coa-logo`. When the COA logo is hidden, `coa-logo` is ignored and the top row falls back to available optional content (`brand-logo`, `tagline`, `site-name`).
+ * @prop {String} [mobile-top-content="coa-logo"] - Preferred content for the top row on mobile. Defaults to `coa-logo`. When the COA logo is hidden, `coa-logo` is ignored and the top row falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
  * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
  *
  * @slot pre-header - Pre-header content, typically a `<qgds-attribution-bar>`. Hidden below the desktop breakpoint.
  * @slot logo - Coat of Arms logo. Defaults to a stacked coat-of-arms `<qgds-logo>`. Mandatory on Master Brand, Sub Brand, and Co-Brand sites.
  * @slot brand-logo - Optional brand logo. Can render with or without the COA logo, depending on layout and viewport rules.
- * @slot site-name - Optional site name displayed beside the COA logo or brand logo.
- * @slot tagline - Optional site tagline displayed on mobile only. Can be used for a tagline, URL or other secondary text. Hidden on desktop.
  * @slot search - Optional search input component. Typically a `<qgds-search-input>`.
  * @slot navigation - Optional navigation component. Must be a single `<qgds-navigation>` element.
  *
@@ -103,8 +123,8 @@ export class QGDSHeader extends LitElement {
   @property({ type: String, attribute: "site-name" })
   siteName?: string;
 
-  @property({ type: String, attribute: "tagline" })
-  tagline?: string;
+  @property({ type: String, attribute: "site-url", useDefault: true })
+  siteUrl = "https://www.qld.gov.au";
 
   @property({ type: Boolean, attribute: "hide-coa-logo", reflect: true })
   hideCoaLogo = false;
@@ -113,24 +133,14 @@ export class QGDSHeader extends LitElement {
   hideMobileBottomRow = false;
 
   @property({ type: String, attribute: "mobile-top-content", reflect: true, useDefault: true })
-  mobileTopContent: MobileContentKey = "coa-logo";
+  mobileTopContent: MobileContentKey = COA_LOGO;
 
   @property({ type: Boolean, attribute: "search-open", reflect: true })
   searchOpen = false;
 
   @state() private _preHeaderPalette: QGDSPalette = "bold";
 
-  /**
-   * Whether each optional (non-COA) slot currently has user-supplied content.
-   * The `logo` slot is deliberately not tracked here: it always renders something
-   * (either slotted content or its own default `<qgds-logo>` fallback).
-   * See `_showCoaLogo` for COA logo visibility logic.
-   */
-  @state() private _slotHasContent: Record<OptionalMobileContentKey, boolean> = {
-    "brand-logo": false,
-    "site-name": false,
-    tagline: false,
-  };
+  @state() private _hasBrandLogo = false;
 
   /**
    * The slotted search element, or `null` if the `search` slot is empty.
@@ -158,6 +168,14 @@ export class QGDSHeader extends LitElement {
   private events = new QgdsEvents(this);
 
   /**
+   * The url/label pair from the slotted attribution bar in the pre-header.
+   */
+  private _preHeaderURL: { url: string; label: string } = {
+    url: "",
+    label: "",
+  };
+
+  /**
    * The COA logo always renders something, unless it isn't explicitly hidden.
    * Either user-supplied content in the `logo` slot, or the default `<qgds-logo>` fallback
    * `hideCoaLogo` flag prevents the COA logo from rendering.
@@ -167,69 +185,54 @@ export class QGDSHeader extends LitElement {
   }
 
   private get _showSiteName(): boolean {
-    return !!this.siteName || this._slotHasContent["site-name"];
+    return !!this.siteName;
   }
 
   private get _showBrandLogo(): boolean {
-    return this._slotHasContent["brand-logo"];
+    return this._hasBrandLogo;
   }
 
-  private get _showTagline(): boolean {
-    return !!this.tagline || this._slotHasContent.tagline;
+  private get _showPreHeaderURL(): boolean {
+    return !!this._preHeaderURL.url;
   }
 
   /**
    * Determines the user preferred main mobile content when the COA logo is hidden.
    */
-  private _getPreferredMain(
-    preferred: MobileContentKey,
-    hasContent: Record<OptionalMobileContentKey, boolean>
-  ): OptionalMobileContentKey {
-    const preferredOptional: OptionalMobileContentKey = preferred === "coa-logo" ? "brand-logo" : preferred;
+  private _getPreferredMain(preferred: MobileContentKey, hasContent: Record<MainContentKey, boolean>): MainContentKey {
+    const preferredOptional: MainContentKey = preferred === COA_LOGO ? "preheader-url" : preferred;
     if (hasContent[preferredOptional]) return preferredOptional;
 
-    return hasContent["brand-logo"] ? "brand-logo" : hasContent["site-name"] ? "site-name" : "tagline";
+    return MAIN_CONTENT_KEYS.find((key) => hasContent[key]) ?? "site-name";
   }
 
   /**
    * Returns content for the mobile 'main' row.
    * COA Logo is always preferred if it is visible, otherwise the user preferred content is used.
    */
-  private _getMobileMain(
-    preferred: MobileContentKey,
-    hasContent: Record<OptionalMobileContentKey, boolean>
-  ): MobileContentKey {
+  private _getMobileMain(preferred: MobileContentKey, hasContent: Record<MainContentKey, boolean>): MobileContentKey {
     if (this._showCoaLogo) {
-      return "coa-logo";
+      return COA_LOGO;
     }
 
     return this._getPreferredMain(preferred, hasContent);
   }
 
   /**
-   * Returns content for the mobile 'sub' row, based on the main row content and what optional content is available.
+   * Returns the non-main optional content for the mobile 'sub' row.
    */
-  private _getMobileSub(
-    main: MobileContentKey,
-    hasContent: Record<OptionalMobileContentKey, boolean>
-  ): OptionalMobileContentKey {
-    const subPriorityWhenCoaShown: OptionalMobileContentKey[] = ["site-name", "brand-logo", "tagline"];
-    const subPriorityWhenCoaHidden: OptionalMobileContentKey[] = ["site-name", "tagline", "brand-logo"];
-    const subPriority = main === "coa-logo" ? subPriorityWhenCoaShown : subPriorityWhenCoaHidden;
+  private _getMobileSub(main: MobileContentKey, hasContent: Record<MainContentKey, boolean>): SubContentKey {
+    const availableSubContent = SUB_CONTENT_KEYS.find((key) => key !== main && hasContent[key]);
 
-    return (
-      subPriority.find((option) => option !== main && hasContent[option]) ??
-      subPriority.find((option) => option !== main) ??
-      "site-name"
-    );
+    return availableSubContent ?? SUB_CONTENT_KEYS.find((key) => key !== main) ?? "site-name";
   }
 
   /**
    * Returns the current mobile layout, including 'main' and 'sub' rows content.
    */
-  private get _mobileLayout(): { main: MobileContentKey | null; sub: OptionalMobileContentKey | null } {
-    const hasContent: Record<OptionalMobileContentKey, boolean> = {
-      tagline: this._showTagline,
+  private get _mobileLayout(): { main: MobileContentKey; sub: SubContentKey | null } {
+    const hasContent: Record<MainContentKey, boolean> = {
+      "preheader-url": this._showPreHeaderURL,
       "site-name": this._showSiteName,
       "brand-logo": this._showBrandLogo,
     };
@@ -252,9 +255,21 @@ export class QGDSHeader extends LitElement {
     const { main, sub } = this._mobileLayout;
     return {
       "is-mobile-main": main === key,
-      "is-mobile-sub": key !== "coa-logo" && sub === key,
+      "is-mobile-sub": sub === key,
       [`top-row-palette-${this._preHeaderPalette}`]: main === key,
     };
+  }
+
+  protected firstUpdated(): void {
+    this._syncSlottedLogoHref("logo");
+    this._syncSlottedLogoHref("brand-logo");
+  }
+
+  protected updated(changedProperties: Map<PropertyKey, unknown>): void {
+    if (changedProperties.has("siteUrl")) {
+      this._syncSlottedLogoHref("logo");
+      this._syncSlottedLogoHref("brand-logo");
+    }
   }
 
   connectedCallback(): void {
@@ -279,14 +294,30 @@ export class QGDSHeader extends LitElement {
     this._menuOpen = true;
   };
 
-  /** Slotchange handler for the three optional (non-COA) content slots. */
-  private _handleOptionalSlotChange =
-    (key: OptionalMobileContentKey) =>
-    (e: Event): void => {
-      const hasContent = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
-      if (this._slotHasContent[key] === hasContent) return;
-      this._slotHasContent = { ...this._slotHasContent, [key]: hasContent };
-    };
+  private _handleBrandLogoSlotChange = (e: Event): void => {
+    const hasContent = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
+    if (this._hasBrandLogo === hasContent) return;
+
+    this._hasBrandLogo = hasContent;
+    this._syncSlottedLogoHref("brand-logo");
+  };
+
+  private _handleLogoSlotChange = (): void => {
+    this._syncSlottedLogoHref("logo");
+  };
+
+  private _syncSlottedLogoHref(slotName: "logo" | "brand-logo"): void {
+    const slot = this.renderRoot.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
+    if (!slot) return;
+
+    const slottedLogo = slot
+      .assignedElements({ flatten: true })
+      .find((el): el is HTMLElement => el.tagName === "QGDS-LOGO");
+
+    if (!slottedLogo) return;
+
+    slottedLogo.setAttribute("href", this.siteUrl);
+  }
 
   /**
    * Gets the palette of the slotted `<qgds-attribution-bar>` in the `pre-header` slot, if present.
@@ -301,6 +332,10 @@ export class QGDSHeader extends LitElement {
       .find((el): el is QGDSAttributionBar => el.tagName.toLowerCase() === "qgds-attribution-bar");
 
     this._preHeaderPalette = attributionBar?.palette ?? "bold";
+    this._preHeaderURL = {
+      url: attributionBar?.url ?? "",
+      label: attributionBar?.label ?? "",
+    };
   };
 
   /**
@@ -361,11 +396,27 @@ export class QGDSHeader extends LitElement {
               })}
               ?hidden=${this.hideCoaLogo}
             >
-              <slot name="logo">
+              <slot name="logo" @slotchange=${this._handleLogoSlotChange}>
                 ${!this.hideCoaLogo
-                  ? html`<qgds-logo logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>`
+                  ? html`<qgds-logo
+                      logo="coa-delivering-for-qld"
+                      alt="Queensland Government"
+                      href=${this.siteUrl}
+                    ></qgds-logo>`
                   : nothing}
               </slot>
+            </div>
+
+            <div
+              class=${classMap({
+                "header-preheader-url": true,
+                ...this._positionClasses("preheader-url"),
+              })}
+              ?hidden=${!this._showPreHeaderURL}
+            >
+              <a href=${this._preHeaderURL.url ?? "#"}>
+                ${this._preHeaderURL.label ?? this._preHeaderURL.url ?? nothing}
+              </a>
             </div>
 
             <div
@@ -375,19 +426,7 @@ export class QGDSHeader extends LitElement {
               })}
               ?hidden=${!this._showBrandLogo}
             >
-              <slot name="brand-logo" @slotchange=${this._handleOptionalSlotChange("brand-logo")}></slot>
-            </div>
-
-            <div
-              class=${classMap({
-                "header-tagline": true,
-                ...this._positionClasses("tagline"),
-              })}
-              ?hidden=${!this._showTagline}
-            >
-              <slot name="tagline" @slotchange=${this._handleOptionalSlotChange("tagline")}>
-                ${this.tagline ? html`<span class="tagline">${this.tagline}</span>` : nothing}
-              </slot>
+              <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}></slot>
             </div>
 
             <div
@@ -397,9 +436,7 @@ export class QGDSHeader extends LitElement {
               })}
               ?hidden=${!this._showSiteName}
             >
-              <slot name="site-name" @slotchange=${this._handleOptionalSlotChange("site-name")}>
-                ${this.siteName ? html`<span>${this.siteName}</span>` : nothing}
-              </slot>
+              <a href=${this.siteUrl}> ${this.siteName ? html`${this.siteName}` : nothing} </a>
             </div>
 
             <div

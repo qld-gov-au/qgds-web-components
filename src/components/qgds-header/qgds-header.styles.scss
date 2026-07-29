@@ -22,7 +22,7 @@ Scoped CSS: qgds-header
 // Hide elements that typescript has marked as hidden.
 .header-coa-logo[hidden],
 .header-brand-logo[hidden],
-.header-tagline[hidden],
+.header-preheader-url[hidden],
 .header-site-name[hidden] {
   display: none;
 }
@@ -72,11 +72,11 @@ $header-mobile-palettes: default, bold, deep;
 }
 
 // Off by default on mobile. `is-mobile-top-row` / `is-mobile-bottom` below are
-// the *only* thing that turns each of these back on — all three follow the
+// the *only* thing that turns each of these back on — both follow the
 // same rule, so there's no element-specific "hide me on mobile" special case.
 .header-brand-logo,
-.header-tagline,
-.header-site-name {
+.header-site-name,
+.header-preheader-url {
   display: none;
 }
 
@@ -105,7 +105,6 @@ $header-mobile-palettes: default, bold, deep;
 
 .header-coa-logo,
 .header-actions,
-.header-tagline,
 .header-brand-logo,
 .is-mobile-main {
   background: var(--qgds-color-background);
@@ -118,13 +117,12 @@ $header-mobile-palettes: default, bold, deep;
   --logo-height: #{tools.remify(28px)};
 }
 
-.header-tagline {
-  span {
-    color: var(--qgds-color-site-title);
-    font-weight: var(--qgds-font-weight-bold, 700);
-    font-size: tools.remify(16px);
-    line-height: tools.remify(20px);
-  }
+.header-preheader-url a {
+  color: var(--qgds-color-site-title);
+  text-decoration: none;
+  font-weight: var(--qgds-font-weight-bold, 700);
+  font-size: tools.remify(16px);
+  line-height: tools.remify(20px);
 }
 
 .header-site-name {
@@ -134,7 +132,8 @@ $header-mobile-palettes: default, bold, deep;
   line-height: 1rem;
   min-inline-size: 0;
 
-  span {
+  a {
+    text-decoration: none;
     color: var(--qgds-color-site-title);
     font-weight: var(--qgds-font-weight-bold, 700);
     font-size: tools.remify(16px);
@@ -192,17 +191,13 @@ $header-mobile-palettes: default, bold, deep;
     --logo-height: #{tools.remify(40px)};
   }
 
-  .tagline {
-    font-size: tools.remify(20px);
-    line-height: tools.remify(24px);
-  }
-
   .header-site-name {
     padding-block: tools.remify(24px);
     padding-inline: tools.remify(32px);
   }
 
-  .header-site-name span {
+  .header-preheader-url a,
+  .header-site-name a {
     font-size: tools.remify(20px);
     line-height: tools.remify(24px);
   }
@@ -260,7 +255,7 @@ $header-mobile-palettes: default, bold, deep;
     padding-inline: 0;
     padding-block: tools.remify(16px);
 
-    span {
+    a {
       font-size: tools.remify(20px);
       line-height: tools.remify(24px);
     }
@@ -269,7 +264,6 @@ $header-mobile-palettes: default, bold, deep;
   // Unset the mobile-only colours that were borrowed from attribution-bar's palette.
   .header-coa-logo,
   .header-actions,
-  .header-tagline,
   .header-brand-logo,
   .is-mobile-main {
     --qgds-color-crest-fill: unset; // drop override by top-row-palette*, re-inherit from :host's palette instead.
@@ -279,6 +273,7 @@ $header-mobile-palettes: default, bold, deep;
     --qgds-color-text-default: unset;
     --qgds-icon-color: unset;
     --qgds-color-site-title: unset;
+    --qgds-color-focus-default: unset;
 
     background-color: inherit; // drop own background-color declaration, re-inherit from parent instead.
     color: inherit; // drop own color declaration, re-inherit from parent instead.
@@ -291,13 +286,8 @@ $header-mobile-palettes: default, bold, deep;
     --logo-height: #{tools.remify(56px)};
   }
 
-  .header-tagline {
+  .header-content-inner .header-preheader-url {
     display: none;
-
-    span {
-      font-size: tools.remify(20px);
-      line-height: tools.remify(24px);
-    }
   }
 
   // When coa-logo is hidden, brand-logo moves to the main row
