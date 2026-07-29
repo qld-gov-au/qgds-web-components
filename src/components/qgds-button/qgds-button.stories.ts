@@ -9,15 +9,12 @@ import "./qgds-button";
 
 // Icon Object and Types
 import { ICON_NAMES } from "../qgds-icon/icon-names";
-import type { IconName } from "../qgds-icon/icon-names";
 
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 // The template function handles attribute/property name mapping automatically
 const { args, argTypes, template } = getStorybookHelpers<QGDSButton>("qgds-button");
 
-type QGDSButtonStoryArgs = typeof args & {
-  "icon-name"?: IconName;
-};
+type QGDSButtonStoryArgs = typeof args;
 
 const meta: Meta<QGDSButtonStoryArgs> = {
   title: "Components/Button",
