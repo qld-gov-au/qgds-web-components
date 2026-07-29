@@ -54,7 +54,8 @@ export const Default: Story = {
   render: (args) =>
     headerTemplate(
       args,
-      html`<qgds-attribution-bar slot="pre-header" palette="bold">
+      html`<qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+        <qgds-attribution-bar slot="pre-header" palette="bold">
           <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
           <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
         </qgds-attribution-bar>
