@@ -56,7 +56,10 @@ export const tagName = "qgds-header";
  * are exposed as slots so consumers can inject and configure their own elements.
  *
  * The logo is a stacked coat-of-arms `<qgds-logo>` rendered by default in the
- * `logo` slot. The optional `site-name` is shown beside it.
+ * `logo` slot. On mobile/tablet (below the desktop breakpoint) the default COA
+ * logo always shows, regardless of any content provided in the `logo` slot —
+ * a custom `logo` slot only takes effect at the desktop breakpoint. The optional
+ * `site-name` is shown beside it.
  * Optional `brand-logo` slot is available for Endorsed and Stand Alone brand sites.
  * `brand-logo` can render with or without the COA logo, depending on layout and viewport rules.
  *
@@ -78,7 +81,7 @@ export const tagName = "qgds-header";
  * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
  *
  * @slot pre-header - Pre-header content, typically a `<qgds-attribution-bar>`. Hidden below the desktop breakpoint.
- * @slot logo - Coat of Arms logo. Defaults to a stacked coat-of-arms `<qgds-logo>`. Mandatory on Master Brand, Sub Brand, and Co-Brand sites.
+ * @slot logo - Coat of Arms logo. Defaults to a stacked coat-of-arms `<qgds-logo>`. On mobile/tablet the default always shows, regardless of slot content — a custom logo here only takes effect at the desktop breakpoint. Mandatory on Master Brand, Sub Brand, and Co-Brand sites.
  * @slot brand-logo - Optional brand logo. Can render with or without the COA logo, depending on layout and viewport rules.
  * @slot search - Optional search input component. Typically a `<qgds-search-input>`.
  * @slot navigation - Optional navigation component. Must be a single `<qgds-navigation>` element.
@@ -142,6 +145,8 @@ export class QGDSHeader extends LitElement {
 
   @state() private _hasBrandLogo = false;
 
+  @state() private _hasCustomCoaLogo = false;
+
   /**
    * The slotted search element, or `null` if the `search` slot is empty.
    * Doubles as the "is there a search element" flag — no separate boolean to
@@ -168,33 +173,20 @@ export class QGDSHeader extends LitElement {
   private events = new QgdsEvents(this);
 
   /**
+   * Observes host light-DOM changes so brand-logo rendering can be controlled
+   * without relying on slotchange bootstrap.
+   */
+  private _domObserver = new MutationObserver(() => {
+    this._syncBrandLogoPresence();
+  });
+
+  /**
    * The url/label pair from the slotted attribution bar in the pre-header.
    */
   private _preHeaderURL: { url: string; label: string } = {
     url: "",
     label: "",
   };
-
-  /**
-   * The COA logo always renders something, unless it isn't explicitly hidden.
-   * Either user-supplied content in the `logo` slot, or the default `<qgds-logo>` fallback
-   * `hideCoaLogo` flag prevents the COA logo from rendering.
-   */
-  private get _showCoaLogo(): boolean {
-    return !this.hideCoaLogo;
-  }
-
-  private get _showSiteName(): boolean {
-    return !!this.siteName;
-  }
-
-  private get _showBrandLogo(): boolean {
-    return this._hasBrandLogo;
-  }
-
-  private get _showPreHeaderURL(): boolean {
-    return !!this._preHeaderURL.url;
-  }
 
   /**
    * Determines the user preferred main mobile content when the COA logo is hidden.
@@ -211,7 +203,7 @@ export class QGDSHeader extends LitElement {
    * COA Logo is always preferred if it is visible, otherwise the user preferred content is used.
    */
   private _getMobileMain(preferred: MobileContentKey, hasContent: Record<MainContentKey, boolean>): MobileContentKey {
-    if (this._showCoaLogo) {
+    if (!this.hideCoaLogo) {
       return COA_LOGO;
     }
 
@@ -232,9 +224,9 @@ export class QGDSHeader extends LitElement {
    */
   private get _mobileLayout(): { main: MobileContentKey; sub: SubContentKey | null } {
     const hasContent: Record<MainContentKey, boolean> = {
-      "preheader-url": this._showPreHeaderURL,
-      "site-name": this._showSiteName,
-      "brand-logo": this._showBrandLogo,
+      "preheader-url": !!this._preHeaderURL.url,
+      "site-name": !!this.siteName,
+      "brand-logo": this._hasBrandLogo,
     };
 
     const main = this._getMobileMain(this.mobileTopContent, hasContent);
@@ -261,6 +253,7 @@ export class QGDSHeader extends LitElement {
   }
 
   protected firstUpdated(): void {
+    this._syncCustomCoaLogoState();
     this._syncSlottedLogoHref("logo");
     this._syncSlottedLogoHref("brand-logo");
   }
@@ -274,6 +267,13 @@ export class QGDSHeader extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+    this._syncBrandLogoPresence();
+    this._domObserver.observe(this, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["slot"],
+    });
     document.addEventListener("click", this._handleOutsideSearchClick);
     document.addEventListener("qgds-navigation-closed", this._handleNavigationClosed);
     document.addEventListener("qgds-navigation-opened", this._handleNavigationOpened);
@@ -281,6 +281,7 @@ export class QGDSHeader extends LitElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    this._domObserver.disconnect();
     document.removeEventListener("click", this._handleOutsideSearchClick);
     document.removeEventListener("qgds-navigation-closed", this._handleNavigationClosed);
     document.removeEventListener("qgds-navigation-opened", this._handleNavigationOpened);
@@ -294,17 +295,30 @@ export class QGDSHeader extends LitElement {
     this._menuOpen = true;
   };
 
-  private _handleBrandLogoSlotChange = (e: Event): void => {
-    const hasContent = (e.target as HTMLSlotElement).assignedElements({ flatten: true }).length > 0;
-    if (this._hasBrandLogo === hasContent) return;
-
-    this._hasBrandLogo = hasContent;
+  private _handleBrandLogoSlotChange = (): void => {
+    this._syncBrandLogoPresence();
     this._syncSlottedLogoHref("brand-logo");
   };
 
-  private _handleLogoSlotChange = (): void => {
+  private _syncBrandLogoPresence(): void {
+    const hasBrandLogo = Array.from(this.children).some((el) => el.getAttribute("slot") === "brand-logo");
+    if (this._hasBrandLogo === hasBrandLogo) return;
+
+    this._hasBrandLogo = hasBrandLogo;
+  }
+
+  private _handleLogoSlotChange = (e: Event): void => {
+    this._syncCustomCoaLogoState(e.target as HTMLSlotElement);
     this._syncSlottedLogoHref("logo");
   };
+
+  private _syncCustomCoaLogoState(slot?: HTMLSlotElement): void {
+    const logoSlot = slot ?? this.renderRoot.querySelector<HTMLSlotElement>('slot[name="logo"]');
+    if (!logoSlot) return;
+
+    // Check for user-provided light-DOM content assigned to `slot="logo"`.
+    this._hasCustomCoaLogo = logoSlot.assignedElements().length > 0;
+  }
 
   private _syncSlottedLogoHref(slotName: "logo" | "brand-logo"): void {
     const slot = this.renderRoot.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
@@ -380,6 +394,52 @@ export class QGDSHeader extends LitElement {
     this._navElementId = nav ? (nav.id = nav.id || generateUUID()) : "";
   };
 
+  /**
+   * By default, the COA logo is always shown unless the `hide-coa-logo` attribute is set.
+   *
+   * Scenarios for COA logo rendering:
+   * 1. When user does not provide a COA `logo`,
+   * Renders the default COA (in 'logo' slot) for all viewports (mobile/tablet/desktop).
+   *
+   * 2. When user provides a COA logo,
+   * Render the default COA logo on mobile/tablet regardless,
+   * And only show the user-provided COA logo on desktop.
+   */
+  private _renderCoaLogo() {
+    if (this.hideCoaLogo) return nothing;
+
+    return html`
+      <div
+        class=${classMap({
+          "header-coa-logo": true,
+          ...this._positionClasses("coa-logo"),
+        })}
+      >
+        ${this._hasCustomCoaLogo
+          ? html`
+              <qgds-logo
+                class="coa-logo-mobile-default"
+                logo="coa-delivering-for-qld"
+                alt="Queensland Government"
+                href=${this.siteUrl}
+              ></qgds-logo>
+            `
+          : nothing}
+
+        <slot
+          name="logo"
+          class=${classMap({
+            "header-coa-logo-slot": true,
+            "header-coa-logo-slot-custom": this._hasCustomCoaLogo,
+          })}
+          @slotchange=${this._handleLogoSlotChange}
+        >
+          <qgds-logo logo="coa-delivering-for-qld" alt="Queensland Government" href=${this.siteUrl}></qgds-logo>
+        </slot>
+      </div>
+    `;
+  }
+
   render() {
     return html`
       <header class="header">
@@ -389,55 +449,45 @@ export class QGDSHeader extends LitElement {
 
         <div class="header-content">
           <div class="header-content-inner qgds-container">
-            <div
-              class=${classMap({
-                "header-coa-logo": true,
-                ...this._positionClasses("coa-logo"),
-              })}
-              ?hidden=${this.hideCoaLogo}
-            >
-              <slot name="logo" @slotchange=${this._handleLogoSlotChange}>
-                ${!this.hideCoaLogo
-                  ? html`<qgds-logo
-                      logo="coa-delivering-for-qld"
-                      alt="Queensland Government"
-                      href=${this.siteUrl}
-                    ></qgds-logo>`
-                  : nothing}
-              </slot>
-            </div>
-
-            <div
-              class=${classMap({
-                "header-preheader-url": true,
-                ...this._positionClasses("preheader-url"),
-              })}
-              ?hidden=${!this._showPreHeaderURL}
-            >
-              <a href=${this._preHeaderURL.url ?? "#"}>
-                ${this._preHeaderURL.label ?? this._preHeaderURL.url ?? nothing}
-              </a>
-            </div>
-
-            <div
-              class=${classMap({
-                "header-brand-logo": true,
-                ...this._positionClasses("brand-logo"),
-              })}
-              ?hidden=${!this._showBrandLogo}
-            >
-              <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}></slot>
-            </div>
-
-            <div
-              class=${classMap({
-                "header-site-name": true,
-                ...this._positionClasses("site-name"),
-              })}
-              ?hidden=${!this._showSiteName}
-            >
-              <a href=${this.siteUrl}> ${this.siteName ? html`${this.siteName}` : nothing} </a>
-            </div>
+            ${this._renderCoaLogo()}
+            ${this._preHeaderURL.url
+              ? html`
+                  <div
+                    class=${classMap({
+                      "header-preheader-url": true,
+                      ...this._positionClasses("preheader-url"),
+                    })}
+                  >
+                    <a href=${this._preHeaderURL.url ?? "#"}>
+                      ${this._preHeaderURL.label ?? this._preHeaderURL.url ?? nothing}
+                    </a>
+                  </div>
+                `
+              : nothing}
+            ${this._hasBrandLogo
+              ? html`
+                  <div
+                    class=${classMap({
+                      "header-brand-logo": true,
+                      ...this._positionClasses("brand-logo"),
+                    })}
+                  >
+                    <slot name="brand-logo" @slotchange=${this._handleBrandLogoSlotChange}></slot>
+                  </div>
+                `
+              : nothing}
+            ${this.siteName
+              ? html`
+                  <div
+                    class=${classMap({
+                      "header-site-name": true,
+                      ...this._positionClasses("site-name"),
+                    })}
+                  >
+                    <a href=${this.siteUrl}> ${this.siteName ? html`${this.siteName}` : nothing} </a>
+                  </div>
+                `
+              : nothing}
 
             <div
               class=${classMap({

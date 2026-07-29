@@ -19,14 +19,6 @@ Scoped CSS: qgds-header
     0 2px 6px 2px rgb(0 0 0 / 0.15);
 }
 
-// Hide elements that typescript has marked as hidden.
-.header-coa-logo[hidden],
-.header-brand-logo[hidden],
-.header-preheader-url[hidden],
-.header-site-name[hidden] {
-  display: none;
-}
-
 // =============================================================================
 // Small (default) — a blue bar with the logo + Search/Menu buttons, the site name in a white band below, and the search/nav panels collapsed.
 // =============================================================================
@@ -71,15 +63,6 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
-// Off by default on mobile. `is-mobile-top-row` / `is-mobile-bottom` below are
-// the *only* thing that turns each of these back on — both follow the
-// same rule, so there's no element-specific "hide me on mobile" special case.
-.header-brand-logo,
-.header-site-name,
-.header-preheader-url {
-  display: none;
-}
-
 // COA logo and mobile top row is displayed in the 'main' row,
 // and the mobile bottom row is displayed in the 'sub' row.
 .header-coa-logo,
@@ -94,6 +77,19 @@ $header-mobile-palettes: default, bold, deep;
   grid-area: sub;
   display: flex;
   align-items: center;
+}
+
+.header-coa-logo-slot {
+  display: flex;
+}
+
+.header-coa-logo-slot-custom {
+  display: none;
+}
+
+// Always hidden in mobile - since attribution-bar is displayed in mobile instead.
+.header-preheader-url {
+  display: none;
 }
 
 .header-coa-logo,
@@ -213,10 +209,6 @@ $header-mobile-palettes: default, bold, deep;
 // navigation always visible; the mobile buttons removed.
 // =============================================================================
 @media (min-width: #{bp.$lg}) {
-  .header-preheader {
-    display: block;
-  }
-
   .header-content {
     border-block-end: none;
   }
@@ -239,10 +231,24 @@ $header-mobile-palettes: default, bold, deep;
     padding-inline: 0;
   }
 
+  // Swap which coa-logo rendering is visible: mobile-default off,
+  // the real `logo` slot (custom content, or its own fallback) on.
+  .coa-logo-mobile-default {
+    display: none;
+  }
+
+  .header-coa-logo-slot-custom {
+    display: flex;
+  }
+
+  .header-preheader {
+    display: block;
+  }
+
   // Desktop visibility for brand-logo and site-name is independent of the
   // mobile-only `is-mobile-main` / `is-mobile-sub` position classes.
   // `hide-coa-logo` only controls brand-logo placement (main vs sub), not
-  // whether brand-logo exists; existence is controlled by `[hidden]`.
+  // whether brand-logo exists; existence is controlled by TS conditional render.
   .header-brand-logo {
     display: flex;
   }
@@ -300,9 +306,9 @@ $header-mobile-palettes: default, bold, deep;
     grid-area: sub;
   }
 
-  .header-coa-logo:not([hidden]) ~ .header-site-name:not([hidden]),
-  .header-brand-logo:not([hidden]) ~ .header-site-name:not([hidden]),
-  :host(:not([hide-coa-logo])) .header-brand-logo:not([hidden]) {
+  .header-brand-logo ~ .header-site-name,
+  .header-coa-logo ~ .header-site-name,
+  :host(:not([hide-coa-logo])) .header-brand-logo {
     border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
     padding-inline-start: tools.remify(24px);
     margin-inline-start: tools.remify(24px);
