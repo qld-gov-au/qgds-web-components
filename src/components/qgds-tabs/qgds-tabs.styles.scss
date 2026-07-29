@@ -118,10 +118,8 @@ nav {
   align-items: center;
   justify-content: center;
   inline-size: 3rem;
-  block-size: calc(3rem - 2px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--qgds-transition-duration, 200ms) var(--qgds-transition-easing, ease-out);
+  block-size: calc(3rem - 1px);
+  display: none;
 
   .parent-context-default & {
     --arrow-gradient-color: #ffffff;
@@ -164,8 +162,6 @@ nav {
   }
 
   &.show {
-    // display: flex;
-    opacity: 1;
-    pointer-events: auto;
+    display: flex;
   }
 }
