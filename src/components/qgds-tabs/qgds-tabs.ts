@@ -4,12 +4,15 @@ import { baseStyles } from "../../styles";
 import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-tabs.styles.scss?inline";
 import "../qgds-icon/qgds-icon.js";
+import { ICON_NAMES, type IconName } from "../qgds-icon/icon-names";
 import { palettes } from "../../utils";
 
 interface TabItem {
   label: string;
-  iconName?: string;
+  iconName?: IconName;
 }
+
+const ICON_NAME_SET = new Set<string>(ICON_NAMES as readonly string[]);
 
 /**
  * Tabs are UI controls used to organise the content of a page into multiple panes where users can see one pane at a time.
@@ -51,6 +54,7 @@ export class QGDSTabs extends LitElement {
 
   @queryAssignedElements({ flatten: true }) private _slottedItems!: HTMLElement[];
 
+  // Track parent palette class changes so scroll overlays can match surrounding context.
   connectedCallback() {
     super.connectedCallback();
     this._updateParentContext();
@@ -68,6 +72,7 @@ export class QGDSTabs extends LitElement {
     });
   }
 
+  // Remove observers and listeners attached during component lifecycle setup.
   disconnectedCallback() {
     super.disconnectedCallback();
     this._observer?.disconnect();
@@ -76,12 +81,14 @@ export class QGDSTabs extends LitElement {
     window.removeEventListener("resize", this._handleNavScroll);
   }
 
+  // Delay nav setup until first paint so dimensions and overflow state are measurable.
   firstUpdated() {
     requestAnimationFrame(() => {
       this._initTabsScroll();
     });
   }
 
+  // Derive the nearest supported palette from parent classes and store a safe default.
   private _updateParentContext() {
     const paletteList = Object.keys(palettes);
 
@@ -90,19 +97,26 @@ export class QGDSTabs extends LitElement {
     this._parentContext = paletteList.find((palette) => classList?.contains(`qgds-palette-${palette}`)) ?? "default";
   }
 
+  // Slot changes can add/remove tabs, so re-sync labels/icons and panel visibility.
   private _handleSlotChange = () => {
     this._syncTabs();
   };
 
+  // Build the render model from slotted tab items using their public attributes.
   private _syncTabs() {
     this._tabs = this._slottedItems.map((item) => ({
+      // Ignore unknown icon tokens so qgds-icon only receives supported icon ids.
+      iconName: (() => {
+        const rawIconName = item.getAttribute("icon-name");
+        return rawIconName && ICON_NAME_SET.has(rawIconName) ? (rawIconName as IconName) : undefined;
+      })(),
       label: item.getAttribute("label") ?? "",
-      iconName: item.getAttribute("icon-name") ?? "",
     }));
 
     this._updatePanels();
   }
 
+  // Keep aria linkage and hidden state in sync with the active tab index.
   private _updatePanels() {
     this._slottedItems.forEach((item, index) => {
       item.setAttribute("aria-labelledby", `tab-${index}`);
@@ -114,6 +128,7 @@ export class QGDSTabs extends LitElement {
     });
   }
 
+  // Activate a tab, then keep the trigger visible and focused for keyboard users.
   private _selectTab(index: number) {
     this._activeIndex = index;
     this._updatePanels();
@@ -127,32 +142,55 @@ export class QGDSTabs extends LitElement {
     btn?.focus();
   }
 
+  // Support left/right keyboard navigation and nudge horizontal scroll as focus moves.
   private _handleKeydown(event: KeyboardEvent) {
     const total = this._tabs.length;
-    const btnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${this._activeIndex}`)?.offsetWidth ?? 0;
+    if (total === 0) return;
+
+    const previousIndex = this._activeIndex;
+    const btnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`#tab-${previousIndex}`)?.offsetWidth ?? 0;
     const scrollBtnWidth = this.shadowRoot?.querySelector<HTMLButtonElement>(`.scroll.show`)?.offsetWidth ?? 48;
 
     switch (event.key) {
       case "ArrowRight":
         event.preventDefault();
-        this._selectTab((this._activeIndex + 1) % total);
-        this._nav.scrollBy({
-          left: btnWidth - scrollBtnWidth,
-          behavior: "smooth",
-        });
+        this._selectTab((previousIndex + 1) % total);
+
+        // If navigation wraps to the first tab, force exact start alignment.
+        if (this._activeIndex === 0) {
+          this._nav.scrollTo({
+            left: 0,
+            behavior: "smooth",
+          });
+        } else {
+          this._nav.scrollBy({
+            left: btnWidth - scrollBtnWidth,
+            behavior: "smooth",
+          });
+        }
         break;
 
       case "ArrowLeft":
         event.preventDefault();
-        this._selectTab((this._activeIndex - 1 + total) % total);
-        this._nav.scrollBy({
-          left: -1 * (btnWidth - scrollBtnWidth),
-          behavior: "smooth",
-        });
+        this._selectTab((previousIndex - 1 + total) % total);
+
+        // If navigation wraps to the last tab, align to the far end.
+        if (this._activeIndex === total - 1) {
+          this._nav.scrollTo({
+            left: this._nav.scrollWidth - this._nav.clientWidth,
+            behavior: "smooth",
+          });
+        } else {
+          this._nav.scrollBy({
+            left: -1 * (btnWidth - scrollBtnWidth),
+            behavior: "smooth",
+          });
+        }
         break;
     }
   }
 
+  // Toggle left/right scroll controls based on the current horizontal scroll position.
   private _handleNavScroll = () => {
     if (!this._nav) return;
 
@@ -163,6 +201,7 @@ export class QGDSTabs extends LitElement {
     this._showRightScroll = this._nav.scrollLeft < maxScrollLeft - 1;
   };
 
+  // Scroll the tablist by a fixed amount when arrow controls are clicked.
   private _scrollTabs(direction: "left" | "right") {
     if (!this._nav) return;
 
@@ -174,6 +213,7 @@ export class QGDSTabs extends LitElement {
     });
   }
 
+  // Register scroll observers and compute initial control visibility.
   private _initTabsScroll() {
     if (!this._nav) return;
 
@@ -184,6 +224,7 @@ export class QGDSTabs extends LitElement {
     window.addEventListener("resize", this._handleNavScroll);
   }
 
+  // Render tab controls, overflow scroll buttons, and slotted tab panels.
   render() {
     return html`
       <header class="parent-context-${this._parentContext}">
@@ -204,7 +245,6 @@ export class QGDSTabs extends LitElement {
             (tab, index) => html`
               <button
                 id="tab-${index}"
-                aria-controls="panel-${index}"
                 aria-selected=${this._activeIndex === index}
                 class=${classMap({
                   "tab-button": true,
