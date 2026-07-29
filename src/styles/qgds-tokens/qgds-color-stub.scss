@@ -29,11 +29,6 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-disabled: #e0e0e0;
 
-  &:root,
-  > :where(*) {
-    --qgds-color-focus-default: #002e85;
-  }
-
   // component variables
   --qgds-tag-default-bg: transparent;
   --qgds-tag-default-fg: var(--qgds-color-text-lighter);
@@ -83,11 +78,6 @@
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
 
-  &:root,
-  > :where(*) {
-    --qgds-color-focus-default: #002e85;
-  }
-
   // component variables
   --qgds-tag-default-bg: transparent;
   --qgds-tag-default-fg: var(--qgds-color-text-lighter);
@@ -136,11 +126,6 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
-
-  &:root,
-  > :where(*) {
-    --qgds-color-focus-default: #002e85;
-  }
 
   // component variables
   --qgds-tag-default-bg: transparent;
@@ -192,11 +177,6 @@
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
 
-  &:root,
-  > :where(*) {
-    --qgds-color-focus-default: #c6ffff;
-  }
-
   // component variables
   --qgds-tag-default-bg: transparent;
   --qgds-tag-default-fg: var(--qgds-color-text-lighter);
@@ -247,11 +227,6 @@
   --qgds-color-underline-visited: #c6aed9;
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
-
-  &:root,
-  > :where(*) {
-    --qgds-color-focus-default: #c6ffff;
-  }
 
   // component variables
   --qgds-tag-default-bg: transparent;
