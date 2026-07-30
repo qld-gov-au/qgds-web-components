@@ -62,7 +62,11 @@ const storyStyles = html` <style>
 export default meta;
 
 export const Default: Story = {
-  args: meta.args,
+  args: {
+    ...meta.args,
+    url: "https://www.qld.gov.au",
+    label: "qld.gov.au",
+  },
   parameters: {
     ...chromaticModes,
   },
