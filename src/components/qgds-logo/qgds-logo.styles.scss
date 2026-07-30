@@ -41,6 +41,7 @@
   ::slotted(img),
   ::slotted(svg) {
     max-block-size: 100%;
+    max-inline-size: 100%;
     block-size: auto;
     inline-size: auto;
     display: block;
@@ -87,6 +88,7 @@
 
   img {
     max-block-size: 100%;
+    max-inline-size: 100%;
     block-size: auto;
     inline-size: auto;
     display: block;
