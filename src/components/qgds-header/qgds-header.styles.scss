@@ -216,10 +216,6 @@ $header-mobile-palettes: default, bold, deep;
     border-block-end: none;
   }
 
-  .top-row-palette {
-    background-color: inherit;
-  }
-
   .header-content-inner {
     grid-template-columns: auto 1fr auto;
     grid-template-areas: "main sub search";
