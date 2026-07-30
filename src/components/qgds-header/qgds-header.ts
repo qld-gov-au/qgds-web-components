@@ -369,7 +369,8 @@ export class QGDSHeader extends LitElement {
     this._searchEl = (assigned[0] as QGDSSearchInput | undefined) ?? null;
   };
 
-  // Hide the search panel if the user clicks outside it or the toggle button
+  // Hide the search panel if the user clicks outside it or the toggle button.
+  // This only updates local state; the public toggle event remains button-only.
   private _handleOutsideSearchClick = (e: MouseEvent): void => {
     const path = e.composedPath();
     const searchPanel = this.renderRoot.querySelector("#header-search-panel");
@@ -382,7 +383,6 @@ export class QGDSHeader extends LitElement {
 
     if (!this.searchOpen) return;
     this.searchOpen = false;
-    this.events.dispatch("toggle-search-mobile");
   };
 
   private _handleNavSlotChange = (e: Event): void => {
