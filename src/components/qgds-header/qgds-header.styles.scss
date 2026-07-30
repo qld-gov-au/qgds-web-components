@@ -63,6 +63,10 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
+.header-preheader-url {
+  display: none;
+}
+
 // COA logo and mobile top row is displayed in the 'main' row,
 // and the mobile bottom row is displayed in the 'sub' row.
 .header-coa-logo,
@@ -84,11 +88,6 @@ $header-mobile-palettes: default, bold, deep;
 }
 
 .header-coa-logo-slot-custom {
-  display: none;
-}
-
-// Always hidden in mobile - since attribution-bar is displayed in mobile instead.
-.header-preheader-url {
   display: none;
 }
 
@@ -292,6 +291,7 @@ $header-mobile-palettes: default, bold, deep;
     --logo-height: #{tools.remify(56px)};
   }
 
+  // Always hidden in desktop - since attribution-bar is displayed instead.
   .header-content-inner .header-preheader-url {
     display: none;
   }
