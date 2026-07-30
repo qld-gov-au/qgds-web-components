@@ -20,9 +20,9 @@
   outline: transparent solid $outline-width;
   outline-offset: $initial-offset;
 
-  $selector: if($custom-selector, $custom-selector, if($is-focus-within, ":focus-within", ":focus"));
+  $selector: if($custom-selector, $custom-selector, if($is-focus-within, "&:focus-within", "&:focus"));
 
-  &#{$selector} {
+  #{$selector} {
     outline: var(--qgds-color-focus-default, #002e85) solid $outline-width;
     outline-offset: $outline-offset;
     @content;

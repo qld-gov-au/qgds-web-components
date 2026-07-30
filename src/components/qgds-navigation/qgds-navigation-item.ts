@@ -181,20 +181,20 @@ export class QGDSNavigationItem extends LitElement {
           <slot @slotchange=${this._handleSlotchange}></slot>`
       : html`<div class=${classes}>
             <a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a>
-            <div class="nav-item-toggle flex-shrink-0">
-              <button
-                class=${classMap({
-                  "dropdown-toggle qgds-palette-default": true,
-                  "is-open": this.isOpen,
-                })}
-                aria-label="${this.label} sub items"
-                aria-controls="dropdown"
-                aria-expanded=${this.isOpen}
-                @click=${() => (this.isOpen = !this.isOpen)}
-              >
-                <qgds-icon aria-hidden="true" class="dropdown-icon" icon-id="chevron-down" size="sm"></qgds-icon>
-              </button>
-            </div>
+
+            <button
+              class=${classMap({
+                "dropdown-toggle flex-shrink-0": true,
+              })}
+              aria-label="${this.label} sub items"
+              aria-controls="dropdown"
+              aria-expanded=${this.isOpen}
+              @click=${() => (this.isOpen = !this.isOpen)}
+            >
+              <div class="dropdown-toggle-inner qgds-palette-default">
+                <qgds-icon aria-hidden="true" class="dropdown-icon  " icon-id="chevron-down" size="sm"></qgds-icon>
+              </div>
+            </button>
           </div>
           <div class="${classMap({ dropdown: true, "is-open": this.isOpen })}" id="dropdown">
             <slot @slotchange=${this._handleSlotchange}></slot>

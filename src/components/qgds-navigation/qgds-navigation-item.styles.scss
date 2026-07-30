@@ -33,17 +33,9 @@
     font-weight: 600;
   }
 
-  // &.has-children {
-  // }
-
-  // &.is-open {
-  // }
-
-  // &.is-horizontal {
-  // }
-
-  // &.is-vertical {
-  // }
+  &:hover:not(.is-open) {
+    background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
+  }
 
   &-link {
     flex: 1 0 auto;
@@ -61,8 +53,6 @@
     @include m.focusable($offset-outline: -3px);
 
     .is-open & {
-      --color-accent: var(--qgds-color-background);
-
       background-color: var(--qgds-color-background);
     }
 
@@ -70,7 +60,7 @@
     &:active {
       --color-accent: var(--qgds-color-action-primary-hover, #003e96);
 
-      background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
+      // background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
     }
 
     // try and keep horizontal and vertical properties to size only - colors should theoretically match between variants.
@@ -150,18 +140,6 @@
     }
   }
 
-  // the dropdown toggle region
-  &-toggle {
-    inline-size: f.remify(48px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include m.md-up() {
-      inline-size: f.remify(64px);
-    }
-  }
-
   //   &-label {
   //     //
   //   }
@@ -169,28 +147,42 @@
 
 // The vertical menu dropdown button.
 .dropdown-toggle {
-  border-radius: 50%;
-  inline-size: f.remify(28px);
-  block-size: f.remify(28px);
+  $block: &;
+
+  inline-size: f.remify(48px);
+  align-self: stretch;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--qgds-color-neutral-white, #ffffff);
-  box-shadow: var(--qgds-elevation-1);
-  color: var(--qgds-color-action-secondary);
-  transition-property: color background-color box-shadow border;
-  transition-duration: var(--qgds-transition-duration);
-  transition-timing-function: var(--qgds-transition-easing);
-
-  @include m.focusable();
 
   @include m.md-up() {
-    inline-size: f.remify(32px);
-    block-size: f.remify(32px);
+    inline-size: f.remify(64px);
   }
 
-  &:hover {
-    box-shadow: var(--qgds-elevation-3);
+  @include m.focusable($custom-selector: "&:focus .dropdown-toggle-inner");
+
+  &-inner {
+    box-shadow: var(--qgds-elevation-1);
+    border-radius: 50%;
+    inline-size: f.remify(28px);
+    block-size: f.remify(28px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--qgds-color-neutral-white, #ffffff);
+    color: var(--qgds-color-action-secondary);
+    transition-property: color background-color box-shadow border;
+    transition-duration: var(--qgds-transition-duration);
+    transition-timing-function: var(--qgds-transition-easing);
+
+    @include m.md-up() {
+      inline-size: f.remify(32px);
+      block-size: f.remify(32px);
+    }
+
+    #{$block}:hover & {
+      box-shadow: var(--qgds-elevation-3);
+    }
   }
 }
 
