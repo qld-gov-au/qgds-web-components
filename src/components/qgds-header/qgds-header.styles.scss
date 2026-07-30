@@ -63,7 +63,11 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
-.header-preheader-url {
+// Content that can be hidden on mobile and shown on desktop -
+// displayed by is-mobile-main and is-mobile-sub classes, which are applied by the TS component attributes.
+.header-preheader-url,
+.header-site-name,
+.header-brand-logo {
   display: none;
 }
 
