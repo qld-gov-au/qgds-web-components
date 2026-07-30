@@ -55,6 +55,26 @@ describe("qgds-attribution-bar", () => {
     expect(link?.getAttribute("label")).toBe("qld.gov.au");
   });
 
+  it("does not render a link when url is missing", async () => {
+    element.label = "qld.gov.au";
+
+    await element.updateComplete;
+
+    const link = element.shadowRoot?.querySelector("qgds-link");
+
+    expect(link).toBeNull();
+  });
+
+  it("does not render a link when label is missing", async () => {
+    element.url = "https://www.qld.gov.au";
+
+    await element.updateComplete;
+
+    const link = element.shadowRoot?.querySelector("qgds-link");
+
+    expect(link).toBeNull();
+  });
+
   it("projects content into the default slot", async () => {
     element.innerHTML = `
       <qgds-link id="contact-link">Contact us</qgds-link>

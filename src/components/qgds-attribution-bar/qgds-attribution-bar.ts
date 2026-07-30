@@ -5,6 +5,8 @@ import { palettes } from "../../utils";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-attribution-bar.styles.scss?inline";
 
+import "../qgds-link/qgds-link.js";
+
 type QGDSPalette = keyof typeof palettes;
 
 /**
