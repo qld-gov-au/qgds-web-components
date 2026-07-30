@@ -26,6 +26,14 @@ type Story = StoryObj<Args>;
 
 // TODO: chromatic viewports for lg / xl screen
 export const HorizontalNavItem: Story = {
+  args: {
+    variant: "horizontal",
+  },
+  argTypes: {
+    variant: {
+      control: false,
+    },
+  },
   render: (args) => html`
     ${template({ ...args, label: "Home", "icon-name": "home", "hide-label": true })}
     ${template({ ...args, label: "Default" })}
@@ -37,6 +45,8 @@ export const HorizontalNavItem: Story = {
 };
 
 export const HorizontalWithChildren: Story = {
+  args: HorizontalNavItem.args,
+  argTypes: HorizontalNavItem.argTypes,
   render: (args) => html`
     ${template(
       { ...args, label: "Default" },
@@ -79,18 +89,21 @@ export const HorizontalWithChildren: Story = {
 
 export const HorizontalWithChildrenAndDescription: Story = {
   args: { ...HorizontalWithChildren.args, description: loremIpsum, "view-all-url": "#" },
+  argTypes: HorizontalWithChildren.argTypes,
   render: HorizontalWithChildren.render,
   decorators: HorizontalNavItem.decorators,
 };
 
 export const VerticalNavItem: Story = {
   args: { ...HorizontalNavItem.args, variant: "vertical" },
+  argTypes: HorizontalNavItem.argTypes,
   render: HorizontalNavItem.render,
   decorators: [(story) => html`<div style="max-width: 640px">${story()}</div>`],
 };
 
-export const VerticalNavItemWithChildren: Story = {
+export const VerticalWithChildren: Story = {
   args: { ...HorizontalWithChildren.args, variant: "vertical" },
+  argTypes: VerticalNavItem.argTypes,
   render: HorizontalWithChildren.render,
   decorators: VerticalNavItem.decorators,
 };

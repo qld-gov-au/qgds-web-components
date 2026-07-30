@@ -31,7 +31,6 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: String, reflect: true }) variant: NavigationVariant = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
   @property({ type: Boolean, attribute: "is-active" }) isActive = false;
-  l;
   @property({ type: Boolean, attribute: "is-open" }) isOpen = false;
   @property({ type: String, attribute: "icon-name" }) iconName?: IconName;
   @property({ type: String }) description?: string;
@@ -199,11 +198,25 @@ export class QGDSNavigationItem extends LitElement {
           </div>
           <div class="${classMap({ dropdown: true, "is-open": this.isOpen })}" id="dropdown">
             <slot @slotchange=${this._handleSlotchange}></slot>
+            ${this.viewAllUrl
+              ? html`<div class="nav-item is-vertical is-level-2">
+                  <a class="nav-item-link is-view-all" href=${this.viewAllUrl}
+                    >${this.viewAllLabel ?? "View all"} <qgds-icon size="xs" icon-id="view-all"></qgds-icon
+                  ></a>
+                </div>`
+              : nothing}
           </div> `;
   };
 
   private _renderVerticalLevel2 = () => {
-    return html`Vertical Sub item`;
+    const classes = classMap({
+      "nav-item is-vertical is-level-2": true,
+      "is-active": this.isActive,
+    });
+    const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
+    const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
+
+    return html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>`;
   };
 
   render() {

@@ -13,8 +13,6 @@
 
 .nav-item {
   --color-accent: var(--qgds-color-accent-design-accent, #84d3ff);
-  --size-accent: #{f.remify(8px)};
-  --height: #{f.remify(52px)}; // does not include the accent bar - unified horizontal and vertical value
   --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
   --qgds-color-link-visited: var(--qgds-color-text-default, #353535);
   --qgds-color-link-visited-hover: var(--qgds-color-link-default);
@@ -53,23 +51,33 @@
     align-items: center;
     border-radius: 0;
     color: var(--qgds-color-text-default, #353535);
+    max-inline-size: 100%;
+    line-height: f.snap-line-height();
     text-decoration: underline solid transparent 0;
     transition-property: text-decoration, color, background-color, border-color;
     transition-duration: var(--qgds-transition-duration);
     transition-timing-function: var(--qgds-transition-easing);
 
-    @include m.focusable($offset-outline: false);
+    @include m.focusable($offset-outline: -3px);
 
-    &:hover {
+    .is-open & {
+      --color-accent: var(--qgds-color-background);
+
+      background-color: var(--qgds-color-background);
+    }
+
+    &:hover,
+    &:active {
       --color-accent: var(--qgds-color-action-primary-hover, #003e96);
 
       background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
     }
 
+    // try and keep horizontal and vertical properties to size only - colors should theoretically match between variants.
     .is-horizontal & {
       font-size: f.remify(14px);
-      block-size: calc(var(--height) + var(--size-accent));
-      border-block-end: var(--size-accent) solid var(--color-accent);
+      block-size: f.remify(60px);
+      border-block-end: f.remify(8px) solid var(--color-accent);
       padding-inline: f.remify(8px);
       gap: f.remify(8px);
 
@@ -80,35 +88,78 @@
     }
 
     .is-vertical & {
-      --height: #{f.remify(48px)};
       --size-accent: #{f.remify(4px)};
       --padding-inline-start: #{f.remify(16px)};
+      --qgds-icon-size: 1.25rem;
 
       font-size: f.remify(14px);
-      block-size: var(--height);
+      min-block-size: f.remify(48px);
       border-inline-start: var(--size-accent) solid var(--color-accent);
       padding-inline: calc(var(--padding-inline-start) - var(--size-accent)) f.remify(12px);
+      padding-block: f.remify(14px);
       gap: f.remify(8px);
 
       @include m.md-up() {
-        --height: #{f.remify(52px)};
         --size-accent: #{f.remify(6px)};
         --padding-inline-start: #{f.remify(20px)};
+        --qgds-icon-size: 1.5rem;
 
         font-size: f.remify(16px);
+        min-block-size: f.remify(64px);
+        padding-block: f.remify(20px);
       }
     }
 
-    .has-children.is-vertical & {
+    // is-level-2 class applied to vertical variant only
+    .is-level-2 & {
+      --qgds-color-link-visited: var(--qgds-color-link-default);
+      --qgds-color-link-visited-hover: var(--qgds-color-link-default);
+      --color-accent: var(--qgds-color-background);
+      --padding-inline-start: #{f.remify(24px)};
+
+      color: var(--qgds-color-link-default);
+      background-color: var(--qgds-color-background);
+
+      &:hover,
+      &:active {
+        --color-accent: var(--qgds-color-action-primary-hover, #003e96);
+
+        background-color: var(--qgds-color-background);
+      }
+    }
+
+    .is-vertical.has-children & {
       border-start-end-radius: f.remify(16px);
+    }
+
+    &.is-view-all {
+      font-weight: 600;
+
+      qgds-icon {
+        color: var(--qgds-color-action-secondary);
+        transform: translateX(0); // register the transform so it is ready to animate on hover (prevent clunky movement)
+        transition: transform var(--qgds-transition-duration) var(--qgds-transition-easing);
+      }
+
+      &:hover,
+      &:focus {
+        qgds-icon {
+          transform: translateX(50%);
+        }
+      }
     }
   }
 
+  // the dropdown toggle region
   &-toggle {
-    inline-size: var(--height);
+    inline-size: f.remify(48px);
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @include m.md-up() {
+      inline-size: f.remify(64px);
+    }
   }
 
   //   &-label {
@@ -131,6 +182,8 @@
   transition-duration: var(--qgds-transition-duration);
   transition-timing-function: var(--qgds-transition-easing);
 
+  @include m.focusable();
+
   @include m.md-up() {
     inline-size: f.remify(32px);
     block-size: f.remify(32px);
@@ -147,6 +200,22 @@
 
   .is-open & {
     transform: rotate(180deg);
+  }
+}
+
+// vertical subitems dropdown
+.dropdown {
+  interpolate-size: allow-keywords;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition-property: block-size, visibility;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing);
+
+  &.is-open {
+    visibility: visible;
+    block-size: auto;
   }
 }
 
