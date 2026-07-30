@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html, TemplateResult } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
@@ -29,6 +30,11 @@ const meta: Meta<Args> = {
     "site-name": "Site name",
   },
   argTypes,
+  parameters: {
+    controls: {
+      exclude: ["search-open"],
+    },
+  },
   render: (args) => template(args),
 };
 
@@ -43,7 +49,17 @@ const logSearchToggle = action("qgds-toggle-search-mobile");
 const onSearchToggle = () => logSearchToggle();
 
 const headerTemplate = (args: Args, children: TemplateResult) => html`
-  <qgds-header site-name=${args["site-name"]} @qgds-toggle-search-mobile=${onSearchToggle}> ${children} </qgds-header>
+  <qgds-header
+    palette=${ifDefined(args.palette ?? undefined)}
+    site-name=${ifDefined(args["site-name"] ?? undefined)}
+    site-url=${ifDefined(args["site-url"] ?? undefined)}
+    mobile-top-content=${ifDefined(args["mobile-top-content"] ?? undefined)}
+    ?hide-coa-logo=${args["hide-coa-logo"]}
+    ?hide-mobile-bottom-row=${args["hide-mobile-bottom-row"]}
+    @qgds-toggle-search-mobile=${onSearchToggle}
+  >
+    ${children}
+  </qgds-header>
 `;
 
 export const Default: Story = {

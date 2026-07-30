@@ -31,6 +31,11 @@ const meta: Meta<Args> = {
   title: "Components/Header/Brand",
   component: "qgds-header",
   argTypes,
+  parameters: {
+    controls: {
+      exclude: ["search-open"],
+    },
+  },
   render: (args) => template(args),
 };
 
@@ -59,8 +64,10 @@ const storyStyles = html`
 
 const headerTemplate = (args: Args, children: TemplateResult) => html`
   <qgds-header
+    palette=${ifDefined(args.palette ?? undefined)}
     site-name=${ifDefined(args["site-name"] ?? undefined)}
-    mobile-top-content=${ifDefined(args["mobile-top-content"]) ?? undefined}
+    site-url=${ifDefined(args["site-url"] ?? undefined)}
+    mobile-top-content=${ifDefined(args["mobile-top-content"] ?? undefined)}
     ?hide-coa-logo=${args["hide-coa-logo"]}
     ?hide-mobile-bottom-row=${args["hide-mobile-bottom-row"]}
     @qgds-toggle-search-mobile=${onSearchToggle}

@@ -72,12 +72,12 @@ export const tagName = "qgds-header";
  *
  * @tagname qgds-header
  *
- * @prop {String} [palette="default"] - Colour palette for main section of the Header component.
+ * @prop {QGDSPalette} [palette="default"] - Colour palette for main section of the Header component.
  * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
- * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the main and sub grid areas, which are the COA logo, brand logo, and site name.
- * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default.
- * @prop {Boolean} [hide-mobile-bottom-row=false] - Whether to hide the bottom row on mobile.
- * @prop {String} [mobile-top-content="coa-logo"] - Preferred content for the top row on mobile. Defaults to `coa-logo`. When the COA logo is hidden, `coa-logo` is ignored and the top row falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
+ * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
+ * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.
+ * @prop {Boolean} [hide-mobile-bottom-row=false] - Whether to hide the bottom row on mobile / tablet screens.
+ * @prop {MobileContentKey} [mobile-top-content="coa-logo"] - Preferred content for the top row on mobile/tablet. Defaults to `coa-logo` Coat of Arms logo. When the COA logo is set to be hidden, it falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
  * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
  *
  * @slot pre-header - Pre-header content, typically a `<qgds-attribution-bar>`. Hidden below the desktop breakpoint.
@@ -459,7 +459,7 @@ export class QGDSHeader extends LitElement {
                     })}
                   >
                     <a href=${this._preHeaderURL.url ?? "#"}>
-                      ${this._preHeaderURL.label ?? this._preHeaderURL.url ?? nothing}
+                      ${this._preHeaderURL.label ? html`${this._preHeaderURL.label}` : nothing}
                     </a>
                   </div>
                 `
