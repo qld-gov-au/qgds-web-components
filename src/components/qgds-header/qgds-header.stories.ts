@@ -55,8 +55,7 @@ export const Default: Story = {
     headerTemplate(
       args,
       html`<qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
-        <qgds-attribution-bar slot="pre-header" palette="bold">
-          <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+        <qgds-attribution-bar slot="pre-header" palette="bold" url="https://www.qld.gov.au" label="qld.gov.au">
           <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
         </qgds-attribution-bar>
         <qgds-search-input slot="search"></qgds-search-input> ${navTemplate({
