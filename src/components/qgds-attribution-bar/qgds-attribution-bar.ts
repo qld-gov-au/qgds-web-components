@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { palettes } from "../../utils";
@@ -19,7 +19,6 @@ type QGDSPalette = keyof typeof palettes;
  * @prop {String} [label] - Label for attribution bar link.
  *
  *
- * @slot site-name - Accepts a <qgds-link> element. It is used to display the site name and link to the left of the attribution bar.
  * @slot - Default slot. Accepts <qgds-link> as well as custom html elements. It is used to display links, such as "Contact us", "Find services", etc. or a custom menu towards the right of the attribution bar.
  *
  */
@@ -41,7 +40,9 @@ export class QGDSAttributionBar extends LitElement {
       <section aria-label="Attribution bar" class="attribution-bar">
         <div class="attribution-bar-container qgds-container qgds-cols">
           <div class="attribution-bar-collection qgds-span-4 qgds-span-3:md qgds-span-8:lg">
-            <qgds-link href="${ifDefined(this.url)}" label="${ifDefined(this.label)}"></qgds-link>
+            ${this.url && this.label
+              ? html`<qgds-link href="${ifDefined(this.url)}" label="${ifDefined(this.label)}"></qgds-link>`
+              : nothing}
           </div>
           <div class="attribution-bar-links qgds-span-4 qgds-span-3:md qgds-span-4:lg">
             <slot></slot>

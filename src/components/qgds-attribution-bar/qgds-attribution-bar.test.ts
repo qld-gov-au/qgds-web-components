@@ -35,25 +35,24 @@ describe("qgds-attribution-bar", () => {
     expect(element.shadowRoot?.querySelector(".attribution-bar-links")).not.toBeNull();
   });
 
-  it("renders the expected slots", () => {
+  it("renders the expected slot", () => {
     const slots = element.shadowRoot?.querySelectorAll("slot");
 
-    expect(slots).toHaveLength(2);
-
-    expect(slots?.[0].name).toBe("site-name");
-    expect(slots?.[1].name).toBe("");
+    expect(slots).toHaveLength(1);
+    expect(slots?.[0].name).toBe("");
   });
 
-  it("projects content into the site-name slot", async () => {
-    element.innerHTML = `
-      <qgds-link slot="site-name" id="collection-link">Collection</qgds-link>
-    `;
+  // If passed both url and label, the link should be rendered. If either is missing, the link should not be rendered.
+  it("renders href and label when both url and label are provided", async () => {
+    element.url = "https://www.qld.gov.au";
+    element.label = "qld.gov.au";
 
     await element.updateComplete;
 
-    const slotted = element.querySelector("#collection-link");
-    expect(slotted).not.toBeNull();
-    expect(slotted?.textContent).toBe("Collection");
+    const link = element.shadowRoot?.querySelector("qgds-link");
+
+    expect(link?.getAttribute("href")).toBe("https://www.qld.gov.au");
+    expect(link?.getAttribute("label")).toBe("qld.gov.au");
   });
 
   it("projects content into the default slot", async () => {

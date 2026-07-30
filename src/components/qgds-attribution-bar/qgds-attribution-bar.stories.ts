@@ -68,7 +68,6 @@ export const Default: Story = {
   },
   render: (args) => html`
     <qgds-attribution-bar palette=${ifDefined(args.palette)} url=${ifDefined(args.url)} label=${ifDefined(args.label)}>
-      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
       <qgds-link href="https://www.qld.gov.au/services" label="Find services"></qgds-link>
       <div>
