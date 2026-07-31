@@ -23,8 +23,7 @@ $qgds-palettes: default, soft, muted, bold, deep;
   }
 }
 
-// Build responsive qgds-palette-<palette>:<breakpoint> classes will apply the palette at the specified breakpoint and above
-// e.g. qgds-palette-soft:md will apply the soft palette at the medium breakpoint and above
+// Build responsive qgds-palette-<palette>:<breakpoint> classes
 @each $breakpoint, $value in meta.module-variables("qgds-breakpoint") {
   @include m.from($value) {
     @each $palette in $qgds-palettes {
