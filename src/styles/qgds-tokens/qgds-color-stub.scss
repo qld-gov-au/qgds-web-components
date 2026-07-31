@@ -3,7 +3,7 @@
 // ============================================
 // Default Palette
 // ============================================
-%qgds-color-palette-default {
+@mixin qgds-color-palette-default {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #003e96;
   --qgds-color-action-primary: #005eb8;
@@ -28,6 +28,7 @@
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-disabled: #e0e0e0;
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 
   &:root,
   > :where(*) {
@@ -53,10 +54,14 @@
   --qgds-overlay-bg: #001d74;
 }
 
+%qgds-color-palette-default {
+  @include qgds-color-palette-default();
+}
+
 // ============================================
 // Soft Palette (previously light)
 // ============================================
-%qgds-color-palette-soft {
+@mixin qgds-color-palette-soft {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #003e96;
   --qgds-color-action-primary: #005eb8;
@@ -82,6 +87,7 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 
   &:root,
   > :where(*) {
@@ -107,10 +113,14 @@
   --qgds-overlay-bg: #001d74;
 }
 
+%qgds-color-palette-soft {
+  @include qgds-color-palette-soft();
+}
+
 // ============================================
 // Muted Palette (previously alt or light-alt)
 // ============================================
-%qgds-color-palette-muted {
+@mixin qgds-color-palette-muted {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #003e96;
   --qgds-color-action-primary: #005eb8;
@@ -136,6 +146,7 @@
   --qgds-color-underline-visited-hover: #551a8b;
   --qgds-color-underline-visited: #8b63b0;
   --qgds-color-disabled: #e0e0e0;
+  --qgds-fg-critical: var(--qgds-color-status-error-default);
 
   &:root,
   > :where(*) {
@@ -161,10 +172,14 @@
   --qgds-overlay-bg: #001d74;
 }
 
+%qgds-color-palette-muted {
+  @include qgds-color-palette-muted();
+}
+
 // ============================================
 // Bold Palette (previously dark)
 // ============================================
-%qgds-color-palette-bold {
+@mixin qgds-color-palette-bold {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #a6f7ff;
   --qgds-color-action-primary: #84d3ff;
@@ -191,6 +206,7 @@
   --qgds-color-underline-visited: #c6aed9;
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
+  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 
   &:root,
   > :where(*) {
@@ -216,11 +232,15 @@
   --qgds-overlay-bg: #001d74;
 }
 
+%qgds-color-palette-bold {
+  @include qgds-color-palette-bold();
+}
+
 // ============================================
 // Deep palette (previously dark-alt)
 // ============================================
 
-%qgds-color-palette-deep {
+@mixin qgds-color-palette-deep {
   --qgds-color-accent-design-accent: #84d3ff;
   --qgds-color-action-primary-hover: #a6f7ff;
   --qgds-color-action-primary: #84d3ff;
@@ -247,6 +267,7 @@
   --qgds-color-underline-visited: #c6aed9;
   --qgds-color-disabled: #e0e0e019;
   --qgds-color-btn-icon: #a6f7ff;
+  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
 
   &:root,
   > :where(*) {
@@ -272,8 +293,12 @@
   --qgds-overlay-bg: #001d74;
 }
 
+%qgds-color-palette-deep {
+  @include qgds-color-palette-deep();
+}
+
 // SHARED AND SYSTEMS COLOR TOKENS - ALL PALETTES
-%qgds-color-palette-global {
+@mixin qgds-color-palette-global {
   // V1 brand colors
   --qgds-color-other-gov-maroon: #771e32;
   --qgds-color-other-modern-maroon: #a70240;
@@ -324,4 +349,8 @@
   --qgds-color-dark-background: #005eb8;
   --qgds-color-darker-background: #003e96;
   --qgds-color-light-text: #353535;
+}
+
+%qgds-color-palette-global {
+  @include qgds-color-palette-global();
 }
