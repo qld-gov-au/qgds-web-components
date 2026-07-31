@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
@@ -70,24 +69,26 @@ export const Default: Story = {
   parameters: {
     ...chromaticModes,
   },
-  render: (args) => html`
-    <qgds-attribution-bar palette=${ifDefined(args.palette)} url=${ifDefined(args.url)} label=${ifDefined(args.label)}>
-      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
-      <qgds-link href="https://www.qld.gov.au/services" label="Find services"></qgds-link>
-      <div>
-        <details class="dropdown">
-          <summary class="dropdown-toggle">
-            <qgds-link label="Custom Menu"></qgds-link>
-          </summary>
+  render: (args) =>
+    template(
+      args,
+      html`
+        <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+        <qgds-link href="https://www.qld.gov.au/services" label="Find services"></qgds-link>
+        <div>
+          <details class="dropdown">
+            <summary class="dropdown-toggle">
+              <qgds-link label="Custom Menu"></qgds-link>
+            </summary>
 
-          <div class="dropdown-menu">
-            <a href="#">Profile</a>
-            <a href="#">Settings</a>
-            <a href="#">Logout</a>
-          </div>
-        </details>
-      </div>
-    </qgds-attribution-bar>
-  `,
+            <div class="dropdown-menu">
+              <a href="#">Profile</a>
+              <a href="#">Settings</a>
+              <a href="#">Logout</a>
+            </div>
+          </details>
+        </div>
+      `
+    ),
   decorators: [(story) => html`${storyStyles}${story()}`],
 };
