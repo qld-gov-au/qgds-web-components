@@ -29,17 +29,6 @@ Scoped CSS: qgds-header
 }
 
 // 2. Header content
-
-// Palette classes borrowed from the attribution-bar,
-// used on 'main' grid area on sm - md screens.
-$header-mobile-palettes: default, bold, deep;
-
-@each $p in $header-mobile-palettes {
-  .top-row-palette-#{$p} {
-    @extend %qgds-color-palette-#{$p};
-  }
-}
-
 .header-content {
   background-color: var(--qgds-color-background);
   border-block-end: tools.remify(4px) solid var(--qgds-color-accent-design-accent);
@@ -271,7 +260,7 @@ $header-mobile-palettes: default, bold, deep;
   .header-actions,
   .header-brand-logo,
   .is-mobile-main {
-    --qgds-color-crest-fill: unset; // drop override by top-row-palette*, re-inherit from :host's palette instead.
+    --qgds-color-crest-fill: unset; // drop override by qgds-palette-#, re-inherit from :host's palette instead.
     --qgds-color-link-default: unset;
     --qgds-color-link-on-action: unset;
     --qgds-color-background: unset;

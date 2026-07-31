@@ -1,18 +1,17 @@
 import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { generateUUID, palettes, scrubSlotContent } from "../../utils";
+import { generateUUID, scrubSlotContent } from "../../utils";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import componentCSS from "./qgds-header.styles.scss?inline";
+import type { HeaderPalette } from "../../types/common";
 
 // Component dependencies
 import "../qgds-logo/qgds-logo.js";
 import "../qgds-tile-button/qgds-tile-button.js";
 import { QGDSAttributionBar } from "../..";
 import type { QGDSSearchInput } from "../qgds-search-input/qgds-search-input.js";
-
-type QGDSPalette = keyof typeof palettes;
 
 /**
  * The Coat of Arms logo is prioritised as 'main' row occupant.
@@ -72,7 +71,7 @@ export const tagName = "qgds-header";
  *
  * @tagname qgds-header
  *
- * @prop {QGDSPalette} [palette="default"] - Colour palette for main section of the Header component.
+ * @prop {HeaderPalette} [palette="default"] - Colour palette for main section of the Header component.
  * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
  * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
  * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.
@@ -121,7 +120,7 @@ export class QGDSHeader extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true, useDefault: true })
-  palette: QGDSPalette = "default";
+  palette: HeaderPalette = "default";
 
   @property({ type: String, attribute: "site-name" })
   siteName?: string;
@@ -141,7 +140,7 @@ export class QGDSHeader extends LitElement {
   @property({ type: Boolean, attribute: "search-open", reflect: true })
   searchOpen = false;
 
-  @state() private _preHeaderPalette: QGDSPalette = "bold";
+  @state() private _preHeaderPalette: HeaderPalette = "bold";
 
   @state() private _hasBrandLogo = false;
 
@@ -248,7 +247,7 @@ export class QGDSHeader extends LitElement {
     return {
       "is-mobile-main": main === key,
       "is-mobile-sub": sub === key,
-      [`top-row-palette-${this._preHeaderPalette}`]: main === key,
+      [`qgds-palette-${this._preHeaderPalette}`]: main === key,
     };
   }
 
@@ -492,7 +491,7 @@ export class QGDSHeader extends LitElement {
             <div
               class=${classMap({
                 "header-actions": true,
-                [`top-row-palette-${this._preHeaderPalette}`]: true,
+                [`qgds-palette-${this._preHeaderPalette}`]: true,
               })}
             >
               ${this._searchEl
