@@ -5,7 +5,9 @@ import { generateUUID, scrubSlotContent } from "../../utils";
 import { baseStyles } from "../../styles";
 import { QgdsEvents } from "../../utils/events/event-controller";
 import componentCSS from "./qgds-header.styles.scss?inline";
-import type { HeaderPalette } from "../../types/common";
+import type { QGDSPalette } from "../../types/common";
+
+export type HeaderPalette = Extract<QGDSPalette, "default" | "bold" | "deep">;
 
 // Component dependencies
 import "../qgds-logo/qgds-logo.js";
@@ -71,7 +73,7 @@ export const tagName = "qgds-header";
  *
  * @tagname qgds-header
  *
- * @prop {HeaderPalette} [palette="default"] - Colour palette for main section of the Header component.
+ * @prop {HeaderPalette} [palette="default"] - Colour palette for the main content of the Header component. Header's colour palette is a subset of the QGDS colour palette.
  * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
  * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
  * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.

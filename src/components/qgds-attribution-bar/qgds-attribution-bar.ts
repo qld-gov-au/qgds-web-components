@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-attribution-bar.styles.scss?inline";
-import type { HeaderPalette } from "../../types/common";
+import type { HeaderPalette } from "../qgds-header/qgds-header";
 
 import "../qgds-link/qgds-link.js";
 
@@ -14,7 +14,7 @@ import "../qgds-link/qgds-link.js";
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=5990-97586&p=f&m=dev
  *
- * @prop {HeaderPalette} [palette="bold"] - Colour palette applied to the attribution bar.
+ * @prop {HeaderPalette} [palette="bold"] - Colour palette applied to the attribution bar. The same options as Header's colour palette.
  * @prop {String} [url] - URL for attribution bar link.
  * @prop {String} [label] - Label for attribution bar link.
  *
