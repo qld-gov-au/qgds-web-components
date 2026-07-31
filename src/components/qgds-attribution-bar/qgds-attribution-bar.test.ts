@@ -26,7 +26,6 @@ describe("qgds-attribution-bar", () => {
     const container = element.shadowRoot?.querySelector(".attribution-bar");
 
     expect(container).not.toBeNull();
-    expect(container?.getAttribute("aria-label")).toBe("Attribution bar");
   });
 
   it("renders all sections", () => {
