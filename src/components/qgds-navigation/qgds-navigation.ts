@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { customElement, property, query, queryAssignedElements, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { BreakpointController, QgdsEvents } from "../../utils";
 import qgdsBreakpoint from "../../styles/qgds-tokens/qgds-breakpoint";
@@ -9,8 +9,7 @@ import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-navigation.styles.scss?inline";
 
 // Component dependencies
-import type { QGDSLinkItem } from "../qgds-link-item/qgds-link-item";
-import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
+import type { QGDSNavigationItem } from "./qgds-navigation-item";
 import "../qgds-tile-button/qgds-tile-button";
 import { QGDSPalette } from "../../types/common";
 
@@ -20,7 +19,7 @@ export const tagName = "qgds-navigation";
 
 /**
  * QGDS Navigation – Horizontal navigation bar.
- * Accepts `<qgds-link-item>` elements as children.
+ * Accepts `<qgds-navigation-item>` elements as children.
  *
  * @tagname qgds-navigation
  *
@@ -30,8 +29,6 @@ export const tagName = "qgds-navigation";
  * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar).
  * @property {NavigationVariant} [variant="horizontal"] - "Horizontal" or "Vertical". Both variants collapse into a mobile drawer view below lg breakpoint.
  * @property {string} [navigationLabel="Main"] - Accessible label for the `<nav>` landmark.
- * @property {1|2|3} [columns = 3] - The number of columns to assign to horizontal dropdown list (ie Mega Menu).
- * @property {LinkColumnDirection} [columnsDirection = "vertical"] - The tabbing direction of horizontal dropdown menu items.
  * @slot - Accepts `<qgds-link-item>` elements.
  *
  * @example
@@ -53,15 +50,13 @@ export class QGDSNavigation extends LitElement {
   @property({ type: String, reflect: true, useDefault: true }) palette: NavigationPalette = "default";
   @property({ type: String, reflect: true, useDefault: true }) variant: NavigationVariant = "horizontal";
   @property({ type: String, attribute: "navigation-label", useDefault: true }) navigationLabel = "Main";
-  @property({ type: Number, reflect: true }) columns: 1 | 2 | 3 = 3;
-  @property({ type: String, reflect: true, attribute: "columns-direction" }) columnsDirection: LinkColumnDirection =
-    "vertical";
 
-  /** internal orientation also responds to mobile view, independent of public orientation property. */
+  /** internal orientation also responds to mobile view, independent of public variant property. */
   @state() private _orientation = this.variant;
   @state() private _isMobileOpen = false;
 
   @query("dialog") private _dialogElement!: HTMLDialogElement | null;
+  @queryAssignedElements() private _assignedItems!: HTMLElement[];
 
   // private
   private _breakpoint = new BreakpointController(this);
@@ -102,8 +97,8 @@ export class QGDSNavigation extends LitElement {
   }
 
   protected updated(changed: Map<string, unknown>): void {
-    if (changed.has("_orientation") || changed.has("columnsDirection") || changed.has("columns")) {
-      this._syncLayout();
+    if (changed.has("_orientation")) {
+      this._syncChildren();
     }
     if (changed.has("_isMobileOpen")) {
       if (this._isMobileOpen) {
@@ -116,18 +111,12 @@ export class QGDSNavigation extends LitElement {
     }
   }
 
-  private _syncLayout(): void {
-    // Only sync direct slot children — nested items inside dropdowns stay in standard mode
-    this.querySelectorAll<QGDSLinkItem>(":scope > qgds-link-item").forEach((item) => {
-      item.navigationVariant = this._orientation;
-      item.columnsDirection = this.columnsDirection;
-      item.isNavItem = true;
-      item.columns = this._orientation === "horizontal" ? this.columns : 1;
+  private _syncChildren = (): void => {
+    this._assignedItems.forEach((item) => {
+      if (item.tagName === "QGDS-NAVIGATION_ITEM") {
+        (item as QGDSNavigationItem).variant = this._orientation;
+      }
     });
-  }
-
-  private _onSlotChange = (): void => {
-    this._syncLayout();
   };
 
   // When the mobile backdrop is clicked, close the menu
@@ -159,7 +148,7 @@ export class QGDSNavigation extends LitElement {
           class="navigation-list ${classMap({ "qgds-container": this._orientation === "horizontal" })}"
           role="list"
         >
-          <slot @slotchange="${this._onSlotChange}"></slot>
+          <slot @slotchange="${this._syncChildren}"></slot>
         </div>`}
       </nav>
     `;

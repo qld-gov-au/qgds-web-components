@@ -21,6 +21,8 @@ export const tagName = "qgds-navigation-item";
 
 /**
  * @tagname qgds-navigation-item
+ *
+ *
  */
 @customElement(tagName)
 export class QGDSNavigationItem extends LitElement {
