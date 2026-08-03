@@ -31,8 +31,11 @@
   align-items: center;
   font-weight: 400;
   background-color: var(--qgds-navigation-item-bg, #f5f5f5);
-  position: relative;
-  z-index: 1;
+
+  .is-horizontal {
+    position: relative;
+    z-index: 1;
+  }
 
   &.is-active {
     --color-accent: var(--qgds-color-neutral-lightest, #f5f5f5);

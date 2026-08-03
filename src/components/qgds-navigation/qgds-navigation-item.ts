@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues, html, nothing, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, queryAssignedElements, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import { QgdsEvents, scrubSlotContent } from "../../utils";
@@ -14,16 +14,42 @@ import "../qgds-link/qgds-link";
 import "../qgds-icon/qgds-icon";
 import "../qgds-call-to-action/qgds-call-to-action";
 import "../qgds-link-column/qgds-link-column";
-import { NavigationVariant } from "./qgds-navigation";
+// import { NavigationVariant } from "./qgds-navigation";
 import { IconName } from "../qgds-icon/icon-names";
 
 export const tagName = "qgds-navigation-item";
 
 /**
+ * QGDS Navigation Item – A single item within the primary navigation component.
+ * Supports a link target, optional icon, dropdown behaviour, and nested navigation items.
+ *
  * @tagname qgds-navigation-item
  *
- *  @event qgds-open - fired when the dropdown opens
- * @event qgds-close - fired when the dropdown closes
+ * @property {string} [href] - Optional destination URL for the item link.
+ * @property {string} [label=""] - Visible label for the navigation item.
+ * @property {"horizontal" | "vertical"} [variant="horizontal"] - Layout variant for the item.
+ * @property {1 | 2} [level=1] - Navigation depth level. Level 1 items may contain nested level 2 items.
+ * @property {boolean} [isActive=false] - Marks the current page or active item.
+ * @property {boolean} [isOpen=false] - Controls the open state for dropdown or mega-menu content.
+ * @property {IconName} [iconName] - Optional icon identifier shown before the label.
+ * @property {string} [description] - Optional supporting description displayed in the dropdown header.
+ * @property {boolean} [hideLabel=false] - Hides the visible label while keeping it accessible to assistive technology.
+ * @property {boolean} [isDisabled=false] - Disables the item interaction.
+ * @property {string} [viewAllUrl] - Optional destination for the view-all CTA in a nested dropdown.
+ * @property {string} [viewAllLabel="View all"] - Optional label for the view-all CTA.
+ *
+ * @slot - Accepts nested `<qgds-navigation-item>` elements for dropdown or mega-menu content.
+ *
+ * @event qgds-open - Fired when the dropdown opens.
+ * @event qgds-close - Fired when the dropdown closes.
+ *
+ * @example
+ * ```html
+ * <qgds-navigation-item label="Services" href="/services" is-active>
+ *   <qgds-navigation-item label="Planning" href="/planning"></qgds-navigation-item>
+ *   <qgds-navigation-item label="Environment" href="/environment"></qgds-navigation-item>
+ * </qgds-navigation-item>
+ * ```
  */
 @customElement(tagName)
 export class QGDSNavigationItem extends LitElement {
@@ -31,7 +57,7 @@ export class QGDSNavigationItem extends LitElement {
 
   @property({ type: String }) href?: string;
   @property({ type: String, reflect: true }) label: string = "";
-  @property({ type: String, reflect: true }) variant: NavigationVariant = "horizontal";
+  @property({ type: String, reflect: true }) variant: "horizontal" | "vertical" = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
   @property({ type: Boolean, attribute: "is-active" }) isActive = false;
   @property({ type: Boolean, attribute: "is-open" }) isOpen = false;
@@ -44,6 +70,8 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: String, attribute: "view-all-label" }) viewAllLabel? = "View all";
 
   @state() private _numChildren = 0;
+
+  @queryAssignedElements() private _assignedItems!: HTMLElement[];
 
   private _events = new QgdsEvents(this);
 
@@ -68,7 +96,18 @@ export class QGDSNavigationItem extends LitElement {
     if (changedProperties.has("isOpen")) {
       this._events.dispatch(this.isOpen ? "open" : "close");
     }
+    if (changedProperties.has("variant")) {
+      this._syncChildren();
+    }
   }
+
+  private _syncChildren = () => {
+    this._assignedItems.forEach((item) => {
+      if (item.tagName === "QGDS-NAVIGATION-ITEM") {
+        (item as QGDSNavigationItem).variant = this.variant;
+      }
+    });
+  };
 
   // private methods
   private _handleSlotchange = (e: Event) => {

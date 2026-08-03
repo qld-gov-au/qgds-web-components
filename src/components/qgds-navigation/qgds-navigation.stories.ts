@@ -142,7 +142,7 @@ export const Horizontal: Story = {
     return html`${template(
       args,
       html`${itemTemplate({ ...itemArgs, ...IconOnly.args })} ${itemTemplate({ ...itemArgs, ...Default.args })}
-      ${itemTemplate({ ...args, ...Active.args })} ${itemTemplate({ ...itemArgs, ...ActiveWithIcon.args })}
+      ${itemTemplate({ ...itemArgs, ...Active.args })} ${itemTemplate({ ...itemArgs, ...ActiveWithIcon.args })}
       ${itemTemplate({ ...itemArgs, ...With1Child.args }, html`${itemTemplate({ ...itemArgs, ...Default.args })}`)}
       ${itemTemplate(
         { ...itemArgs, ...With2Children.args },

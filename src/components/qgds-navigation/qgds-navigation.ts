@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, PropertyValues, html, unsafeCSS } from "lit";
 import { customElement, property, query, queryAssignedElements, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { BreakpointController, QgdsEvents } from "../../utils";
@@ -18,28 +18,34 @@ export type NavigationVariant = "horizontal" | "vertical";
 export const tagName = "qgds-navigation";
 
 /**
- * QGDS Navigation – Horizontal navigation bar.
- * Accepts `<qgds-navigation-item>` elements as children.
+ * QGDS Navigation – Responsive navigation bar for primary site navigation.
+ * Accepts `<qgds-navigation-item>` elements in the default slot and renders them
+ * as a horizontal bar on desktop or a mobile drawer below the large breakpoint.
  *
  * @tagname qgds-navigation
  *
  * @website https://www.designsystem.qld.gov.au/components/navigation-horizontal
  * @uikit   https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=5990-97604
  *
- * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar).
- * @property {NavigationVariant} [variant="horizontal"] - "Horizontal" or "Vertical". Both variants collapse into a mobile drawer view below lg breakpoint.
- * @property {string} [navigationLabel="Main"] - Accessible label for the `<nav>` landmark.
- * @slot - Accepts `<qgds-link-item>` elements.
+ * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar) theme.
+ * @property {NavigationVariant} [variant="horizontal"] - Layout variant. Horizontal by default, switching to vertical in the mobile drawer view.
+ * @property {string} [navigationLabel="Main"] - Accessible label for the inner `<nav>` landmark.
+ *
+ * @slot - Accepts `<qgds-navigation-item>` elements for the main navigation list.
+ * @slot mobile-links - Optional additional links shown inside the mobile drawer beneath the main navigation list.
+ *
+ * @event qgds-navigation-opened - Fired when the mobile drawer opens.
+ * @event qgds-navigation-closed - Fired when the mobile drawer closes.
  *
  * @example
  * ```html
- * <qgds-navigation columns="3" layout="horizontal" columns-layout="horizontal">
- *   <qgds-link-item label="Home" href="/" only-icon icon-name="home" is-current></qgds-link-item>
- *   <qgds-link-item label="Services" href="/services" view-all-url="/services">
- *     <qgds-link-item label="Planning" href="/planning"></qgds-link-item>
- *     <qgds-link-item label="Environment" href="/environment"></qgds-link-item>
- *   </qgds-link-item>
- *   <qgds-link-item label="Contact" href="/contact"></qgds-link-item>
+ * <qgds-navigation palette="default" variant="horizontal" navigation-label="Primary">
+ *   <qgds-navigation-item label="Home" href="/"></qgds-navigation-item>
+ *   <qgds-navigation-item label="Services" href="/services">
+ *     <qgds-navigation-item label="Planning" href="/planning"></qgds-navigation-item>
+ *     <qgds-navigation-item label="Environment" href="/environment"></qgds-navigation-item>
+ *   </qgds-navigation-item>
+ *   <qgds-navigation-item label="Contact" href="/contact"></qgds-navigation-item>
  * </qgds-navigation>
  * ```
  */
@@ -48,11 +54,11 @@ export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
   @property({ type: String, reflect: true, useDefault: true }) palette: NavigationPalette = "default";
-  @property({ type: String, reflect: true, useDefault: true }) variant: NavigationVariant = "horizontal";
+  @property({ type: String, reflect: true, useDefault: true }) variant: "horizontal" | "vertical" = "horizontal";
   @property({ type: String, attribute: "navigation-label", useDefault: true }) navigationLabel = "Main";
 
   /** internal orientation also responds to mobile view, independent of public variant property. */
-  @state() private _orientation = this.variant;
+  @state() private _orientation: NavigationVariant = this.variant === "horizontal" ? "horizontal" : "vertical";
   @state() private _isMobileOpen = false;
 
   @query("dialog") private _dialogElement!: HTMLDialogElement | null;
@@ -82,11 +88,13 @@ export class QGDSNavigation extends LitElement {
   }
 
   protected willUpdate(): void {
+    // console.log("Will update");
     this._orientation = this._isMobile ? "vertical" : this.variant;
     if (!this._isMobile) this._isMobileOpen = false;
   }
 
-  protected updated(changed: Map<string, unknown>): void {
+  protected updated(changed: PropertyValues): void {
+    // console.log("Updated!", changed);
     if (changed.has("_orientation")) {
       this._syncChildren();
     }
@@ -115,7 +123,7 @@ export class QGDSNavigation extends LitElement {
 
   private _syncChildren = (): void => {
     this._assignedItems.forEach((item) => {
-      if (item.tagName === "QGDS-NAVIGATION_ITEM") {
+      if (item.tagName.toLowerCase() === "qgds-navigation-item") {
         (item as QGDSNavigationItem).variant = this._orientation;
       }
     });
@@ -136,7 +144,7 @@ export class QGDSNavigation extends LitElement {
   };
 
   private _handleItemOpen = (e: Event) => {
-    if (this.variant === "horizontal") {
+    if (this._orientation === "horizontal") {
       // const target = e.target as QGDSNavigationItem;
       this._assignedItems.forEach((item) => {
         if (item !== e.target && item.tagName.toLowerCase() === "qgds-navigation-item") {
