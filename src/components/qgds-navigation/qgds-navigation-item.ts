@@ -1,8 +1,8 @@
-import { LitElement, html, nothing, unsafeCSS } from "lit";
+import { LitElement, PropertyValues, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
-import { scrubSlotContent } from "../../utils";
+import { QgdsEvents, scrubSlotContent } from "../../utils";
 
 // styles
 import { baseStyles } from "../../styles";
@@ -22,7 +22,8 @@ export const tagName = "qgds-navigation-item";
 /**
  * @tagname qgds-navigation-item
  *
- *
+ *  @event qgds-open - fired when the dropdown opens
+ * @event qgds-close - fired when the dropdown closes
  */
 @customElement(tagName)
 export class QGDSNavigationItem extends LitElement {
@@ -44,6 +45,8 @@ export class QGDSNavigationItem extends LitElement {
 
   @state() private _numChildren = 0;
 
+  private _events = new QgdsEvents(this);
+
   private get _columnCount() {
     // if one item, use 1 column
     if (this._numChildren === 1) return 1;
@@ -59,6 +62,15 @@ export class QGDSNavigationItem extends LitElement {
     });
   }
 
+  // Lifecycle methods
+  // Fire an event when isOpen changes
+  protected updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has("isOpen")) {
+      this._events.dispatch(this.isOpen ? "open" : "close");
+    }
+  }
+
+  // private methods
   private _handleSlotchange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     const nodes = slot.assignedNodes();

@@ -67,6 +67,7 @@ export class QGDSNavigation extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+    this.addEventListener("qgds-open", this._handleItemOpen);
     document.addEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.addEventListener("qgds-navigation-open", this._openMobileNav);
     document.addEventListener("qgds-navigation-close", this._closeMobileNav);
@@ -74,22 +75,11 @@ export class QGDSNavigation extends LitElement {
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.removeEventListener("qgds-open", this._handleItemOpen);
     document.removeEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.removeEventListener("qgds-navigation-open", this._openMobileNav);
     document.removeEventListener("qgds-navigation-close", this._closeMobileNav);
   }
-
-  private _openMobileNav = () => {
-    if (this._isMobile) this._isMobileOpen = true;
-  };
-
-  private _closeMobileNav = () => {
-    if (this._isMobile) this._isMobileOpen = false;
-  };
-
-  private _toggleMobileNav = () => {
-    if (this._isMobile) this._isMobileOpen = !this._isMobileOpen;
-  };
 
   protected willUpdate(): void {
     this._orientation = this._isMobile ? "vertical" : this.variant;
@@ -111,6 +101,18 @@ export class QGDSNavigation extends LitElement {
     }
   }
 
+  private _openMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = true;
+  };
+
+  private _closeMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = false;
+  };
+
+  private _toggleMobileNav = () => {
+    if (this._isMobile) this._isMobileOpen = !this._isMobileOpen;
+  };
+
   private _syncChildren = (): void => {
     this._assignedItems.forEach((item) => {
       if (item.tagName === "QGDS-NAVIGATION_ITEM") {
@@ -130,6 +132,17 @@ export class QGDSNavigation extends LitElement {
       e.clientX <= rect.left + rect.width;
     if (!isInDialog) {
       this._closeMobileNav();
+    }
+  };
+
+  private _handleItemOpen = (e: Event) => {
+    if (this.variant === "horizontal") {
+      // const target = e.target as QGDSNavigationItem;
+      this._assignedItems.forEach((item) => {
+        if (item !== e.target && item.tagName.toLowerCase() === "qgds-navigation-item") {
+          (item as QGDSNavigationItem).isOpen = false;
+        }
+      });
     }
   };
 

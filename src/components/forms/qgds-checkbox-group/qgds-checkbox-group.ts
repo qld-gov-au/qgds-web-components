@@ -61,7 +61,7 @@ export class QGDSCheckboxGroup extends QGDSFieldGroupBase {
     this._value = input.checked ? [...current, input.value] : current.filter((v) => v !== input.value);
   }
 
-  update(changedProperties: PropertyValues): void {
+  update(changedProperties: PropertyValues<this>): void {
     super.update(changedProperties);
     if (changedProperties.has("size")) {
       this.querySelectorAll<Element & { size?: "sm" | "lg" }>(this.groupItemName).forEach((el) => {
