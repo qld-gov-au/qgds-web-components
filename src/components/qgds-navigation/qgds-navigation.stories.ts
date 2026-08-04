@@ -5,64 +5,16 @@ import "../qgds-link-item/qgds-link-item";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { QGDSNavigation } from "./qgds-navigation";
 import { withEventActions } from "../../../.storybook/storybook-helpers";
-import {
-  Default,
-  Active,
-  ActiveWithIcon,
-  IconOnly,
-  LongLabel,
-  WithIcon,
-  With5ChildrenAndDescription,
-  With1Child,
-  With2Children,
-  With3Children,
-  With4Children,
-} from "./qgds-navigation-item.stories";
 import { QGDSNavigationItem } from "./qgds-navigation-item";
+import "./qgds-navigation-item";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
-const { args: itemArgs, template: itemTemplate } = getStorybookHelpers<QGDSNavigationItem>("qgds-navigation-item");
+const { args: _itemArgs, template: _itemTemplate } = getStorybookHelpers<QGDSNavigationItem>("qgds-navigation-item");
 
 type Args = typeof args;
 
 const loremIpsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ";
-
-// interface ItemData {
-//   args: Args;
-//   items?: ItemData[];
-// }
-
-// const items: ItemData[] = [
-//   { args: { ...defaultItem, description: loremIpsum.substring(0, 100) } },
-//   { args: { ...activeItem, description: loremIpsum.substring(0, 150) } },
-//   { args: { ...defaultWithIconItem, description: loremIpsum.substring(0, 200) } },
-//   { args: { ...activeWithIcon, description: loremIpsum.substring(0, 250) } },
-// ];
-
-// const itemsLevel1: ItemData[] = [
-//   { args: homeItem },
-//   {
-//     args: {
-//       ...defaultItem,
-//       description: loremIpsum.substring(0, 100),
-//       "view-all-url": "#",
-//     },
-//     items: [...items, { args: longLabelItem }, { args: longLabelItemWithIcon }, ...items],
-//   },
-//   {
-//     args: {
-//       ...activeItem,
-//       description: loremIpsum.substring(0, 150),
-//       "view-all-url": "#",
-//       "view-all-label": "A custom view all label",
-//     },
-//     items,
-//   },
-//   { args: { ...defaultWithIconItem, description: loremIpsum.substring(0, 200) }, items },
-
-//   { args: { ...activeWithIcon, description: loremIpsum.substring(0, 250) }, items },
-// ];
 
 // const navItems = html`
 //   <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
@@ -141,31 +93,66 @@ export const Horizontal: Story = {
   render: (args) => {
     return html`${template(
       args,
-      html`${itemTemplate({ ...itemArgs, ...IconOnly.args })} ${itemTemplate({ ...itemArgs, ...Default.args })}
-      ${itemTemplate({ ...itemArgs, ...Active.args })} ${itemTemplate({ ...itemArgs, ...ActiveWithIcon.args })}
-      ${itemTemplate({ ...itemArgs, ...With1Child.args }, html`${itemTemplate({ ...itemArgs, ...Default.args })}`)}
-      ${itemTemplate(
-        { ...itemArgs, ...With2Children.args },
-        html`${itemTemplate({ ...itemArgs, ...Default.args })} ${itemTemplate({ ...itemArgs, ...LongLabel.args })}`
-      )}
-      ${itemTemplate(
-        { ...itemArgs, ...With3Children.args },
-        html`${itemTemplate({ ...itemArgs, ...Default.args })} ${itemTemplate({ ...itemArgs, ...Active.args })}
-        ${itemTemplate({ ...itemArgs, ...WithIcon.args })}`
-      )}
-      ${itemTemplate(
-        { ...itemArgs, ...With4Children.args },
-        html`${itemTemplate({ ...itemArgs, ...Default.args })} ${itemTemplate({ ...itemArgs, ...Active.args })}
-        ${itemTemplate({ ...itemArgs, ...LongLabel.args })} ${itemTemplate({ ...itemArgs, ...WithIcon.args })}`
-      )}
-      ${itemTemplate(
-        { ...itemArgs, ...With5ChildrenAndDescription.args, "is-open": true },
-        html`${itemTemplate({ ...itemArgs, ...Default.args, description: loremIpsum.substring(0, 50) })}
-        ${itemTemplate({ ...itemArgs, ...Active.args, description: loremIpsum.substring(0, 100) })}
-        ${itemTemplate({ ...itemArgs, ...LongLabel.args, description: loremIpsum.substring(0, 150) })}
-        ${itemTemplate({ ...itemArgs, ...WithIcon.args, description: loremIpsum.substring(0, 200) })}
-        ${itemTemplate({ ...itemArgs, ...ActiveWithIcon.args, description: loremIpsum })}`
-      )}`
+      html`
+        <qgds-navigation-item label="Home" href="#" icon-name="home" hide-label></qgds-navigation-item>
+        <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+        <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
+        <qgds-navigation-item label="Active with icon" href="#" icon-name="wheelchair" is-active></qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 1 child" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 2 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 3 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
+          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 4 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="Full mega menu" href="#" view-all-url="#" description="${loremIpsum}" is-open>
+          <qgds-navigation-item
+            label="Default"
+            href="#"
+            description="${loremIpsum.substring(0, 50)}"
+          ></qgds-navigation-item>
+          <qgds-navigation-item
+            label="Active"
+            href="#"
+            is-active
+            description="${loremIpsum.substring(0, 100)}"
+          ></qgds-navigation-item>
+          <qgds-navigation-item
+            label="${loremIpsum}"
+            href="#"
+            description="${loremIpsum.substring(0, 150)}"
+          ></qgds-navigation-item>
+          <qgds-navigation-item
+            label="With icon"
+            href="#"
+            icon-name="wheelchair"
+            description="${loremIpsum.substring(0, 200)}"
+          ></qgds-navigation-item>
+          <qgds-navigation-item
+            label="Active with icon"
+            href="#"
+            icon-name="wheelchair"
+            is-active
+            description="${loremIpsum}"
+          ></qgds-navigation-item>
+        </qgds-navigation-item>
+      `
     )}`;
   },
 };

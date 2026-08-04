@@ -231,8 +231,7 @@
   --qgds-color-underline-default: transparent;
   --qgds-link-decoration-thickness: 0;
 
-  position: absolute; // requires postion relative on the navigation bar
-  // z-index: 2;
+  position: absolute; // requires position relative on the navigation bar
   background-color: var(--qgds-color-background);
   inset-inline: 0;
   inline-size: 100%;

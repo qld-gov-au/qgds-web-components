@@ -56,6 +56,10 @@ export type Animation =
  */
 @customElement("qgds-link")
 export class QGDSLink extends LitElement {
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
   static styles = [...baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true }) label = "";
