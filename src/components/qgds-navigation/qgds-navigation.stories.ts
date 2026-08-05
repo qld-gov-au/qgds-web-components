@@ -63,6 +63,9 @@ const meta: Meta<Args> = {
     href: "#",
   },
   argTypes,
+  parameters: {
+    layout: "fullscreen",
+  },
   decorators: [
     withEventActions([
       "qgds-navigation-open",
@@ -121,7 +124,14 @@ export const Horizontal: Story = {
           <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
         </qgds-navigation-item>
 
-        <qgds-navigation-item label="Full mega menu" href="#" view-all-url="#" description="${loremIpsum}" is-open>
+        <qgds-navigation-item
+          label="Full mega menu"
+          href="#"
+          view-all-url="#"
+          description="${loremIpsum}"
+          icon-name="announcement"
+          is-open
+        >
           <qgds-navigation-item
             label="Default"
             href="#"

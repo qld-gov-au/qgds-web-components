@@ -22,7 +22,7 @@
   &.is-vertical {
     --accent-width: #{f.remify(4px)};
 
-    border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
+    // border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
 
     @include m.md-up() {
       --accent-width: #{f.remify(6px)};
@@ -42,8 +42,8 @@
 
     .is-vertical & {
       flex-direction: column;
-      border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
-      margin-inline-start: calc(var(--accent-width) * -1);
+      // border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
+      // margin-inline-start: calc(var(--accent-width) * -1);
     }
   }
 }

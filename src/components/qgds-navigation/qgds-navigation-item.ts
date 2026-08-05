@@ -1,5 +1,5 @@
 import { LitElement, PropertyValues, html, nothing, unsafeCSS } from "lit";
-import { customElement, property, queryAssignedElements, state } from "lit/decorators.js";
+import { customElement, property, query, queryAssignedElements, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import { QgdsEvents, scrubSlotContent } from "../../utils";
@@ -59,8 +59,8 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: String, reflect: true }) label: string = "";
   @property({ type: String, reflect: true }) variant: "horizontal" | "vertical" = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
-  @property({ type: Boolean, attribute: "is-active" }) isActive = false;
-  @property({ type: Boolean, attribute: "is-open" }) isOpen = false;
+  @property({ type: Boolean, attribute: "is-active", reflect: true }) isActive = false;
+  @property({ type: Boolean, attribute: "is-open", reflect: true }) isOpen = false;
   @property({ type: String, attribute: "icon-name" }) iconName?: IconName;
   @property({ type: String }) description?: string;
   @property({ type: Boolean, attribute: "hide-label" }) hideLabel = false;
@@ -71,7 +71,8 @@ export class QGDSNavigationItem extends LitElement {
 
   @state() private _numChildren = 0;
 
-  @queryAssignedElements() private _assignedItems!: HTMLElement[];
+  @query("a, button") private _level1Item!: HTMLAnchorElement | HTMLButtonElement | null;
+  @queryAssignedElements() private _assignedItems!: HTMLElement[] | null;
 
   private _events = new QgdsEvents(this);
 
@@ -91,25 +92,57 @@ export class QGDSNavigationItem extends LitElement {
   }
 
   // Lifecycle methods
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("click", this._handleClickOrFocusOutside);
+    document.removeEventListener("focusin", this._handleClickOrFocusOutside);
+  }
+
   // Fire an event when isOpen changes
-  protected updated(changedProperties: PropertyValues<this>) {
+  updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("isOpen")) {
       this._events.dispatch(this.isOpen ? "open" : "close");
     }
     if (changedProperties.has("variant")) {
       this._syncChildren();
     }
+    // Add/remove click outside, focusin ouside, escape key listeners to close automatically
+    if (changedProperties.has("isOpen") || changedProperties.has("variant") || changedProperties.has("level")) {
+      // if any properties change, recheck all relevant properties
+      if (this.isOpen && this.variant === "horizontal" && this.level === 1) {
+        document.addEventListener("click", this._handleClickOrFocusOutside);
+        document.addEventListener("focusin", this._handleClickOrFocusOutside); // focusin - same as focus but bubbling
+        this.addEventListener("keydown", this._handleKeydown);
+      } else if (!this.isOpen || this.variant === "vertical" || this.level === 2) {
+        document.removeEventListener("click", this._handleClickOrFocusOutside);
+        document.removeEventListener("focusin", this._handleClickOrFocusOutside);
+        this.removeEventListener("keydown", this._handleKeydown);
+      }
+    }
   }
 
+  // private methods
   private _syncChildren = () => {
-    this._assignedItems.forEach((item) => {
+    this._assignedItems?.forEach((item) => {
       if (item.tagName === "QGDS-NAVIGATION-ITEM") {
         (item as QGDSNavigationItem).variant = this.variant;
       }
     });
   };
 
-  // private methods
+  // Unified document click and focusin handler
+  private _handleClickOrFocusOutside = (e: Event) => {
+    if (!this.contains(e.target as Node)) this.isOpen = false;
+  };
+
+  // Handle escape key press
+  private _handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      this._level1Item?.focus();
+      this.isOpen = false;
+    }
+  };
+
   private _handleSlotchange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     const nodes = slot.assignedNodes();

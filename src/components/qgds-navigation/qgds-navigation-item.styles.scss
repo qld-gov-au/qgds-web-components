@@ -32,11 +32,6 @@
   font-weight: 400;
   background-color: var(--qgds-navigation-item-bg, #f5f5f5);
 
-  .is-horizontal {
-    position: relative;
-    z-index: 1;
-  }
-
   &.is-active {
     --color-accent: var(--qgds-color-neutral-lightest, #f5f5f5);
     --qgds-icon-color: currentColor;
@@ -46,6 +41,11 @@
 
   &:hover:not(.is-open) {
     background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
+  }
+
+  &.is-horizontal.is-open {
+    position: relative;
+    z-index: 2;
   }
 
   &-link {
@@ -232,6 +232,7 @@
   --qgds-link-decoration-thickness: 0;
 
   position: absolute; // requires position relative on the navigation bar
+  z-index: 1; // one less than open nav-item.is-open;
   background-color: var(--qgds-color-background);
   inset-inline: 0;
   inline-size: 100%;
