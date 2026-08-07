@@ -169,6 +169,14 @@ export class QGDSHeader extends LitElement {
   @state() private _menuOpen = false;
 
   /**
+   * The url/label pair from the slotted attribution bar in the pre-header.
+   */
+  @state() private _preHeaderURL: { url: string; label: string } = {
+    url: "",
+    label: "",
+  };
+
+  /**
    * Event manager instance for this component.
    */
   private events = new QgdsEvents(this);
@@ -180,14 +188,6 @@ export class QGDSHeader extends LitElement {
   private _domObserver = new MutationObserver(() => {
     this._syncBrandLogoPresence();
   });
-
-  /**
-   * The url/label pair from the slotted attribution bar in the pre-header.
-   */
-  private _preHeaderURL: { url: string; label: string } = {
-    url: "",
-    label: "",
-  };
 
   /**
    * Determines the user preferred main mobile content when the COA logo is hidden.
