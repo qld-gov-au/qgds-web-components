@@ -50,12 +50,16 @@
     transition-duration: var(--qgds-transition-duration);
     transition-timing-function: var(--qgds-transition-easing);
 
-    @include m.focusable($offset-outline: -3px);
-
     &:hover,
     &:active {
       --color-accent: var(--qgds-color-action-primary-hover, #003e96);
+
+      color: var(--qgds-color-link-hover);
+      text-decoration-line: var(--qgds-link-decoration-hover, underline);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      text-decoration-color: currentColor;
     }
+    @include m.focusable($offset-outline: -3px);
   }
 
   // .nav-item.is-active
@@ -65,7 +69,7 @@
 
     font-weight: 600;
 
-    .nav-item-link {
+    .nav-item-link:where(:not(:hover, :active)) {
       color: var(--qgds-color-text-heading);
     }
   }
@@ -123,6 +127,8 @@
       padding-block: f.remify(14px);
       z-index: 1;
 
+      // Use before element instead of border allows 1px negative offset,
+      // to overlay the parent item's border.
       &::before {
         content: "";
         position: absolute;
@@ -297,7 +303,9 @@
   background-color: var(--qgds-color-background);
   inset-inline: 0;
   inline-size: 100%;
-  max-inline-size: bp.$xl;
+
+  // emulates wrapping in a qgds-container
+  max-inline-size: min(#{bp.$xl}, calc(100% - (var(--qgds-grid-padding) * 2)));
   margin-inline: auto;
   padding-block: f.remify(32px);
   padding-inline: f.remify(48px);

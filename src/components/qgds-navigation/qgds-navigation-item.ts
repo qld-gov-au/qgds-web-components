@@ -124,8 +124,8 @@ export class QGDSNavigationItem extends LitElement {
   // private methods
   private _syncChildren = () => {
     this._assignedItems?.forEach((item) => {
-      if (item.tagName === "QGDS-NAVIGATION-ITEM") {
-        (item as QGDSNavigationItem).variant = this.variant;
+      if (item instanceof QGDSNavigationItem) {
+        item.variant = this.variant;
       }
     });
   };
@@ -153,8 +153,14 @@ export class QGDSNavigationItem extends LitElement {
         // if label is empty string or undefined, assign the text node value as label.
         this.label = this.label || node.nodeValue.trim();
         continue;
-      } else if (node.nodeName === "QGDS-NAVIGATION-ITEM") {
-        (node as QGDSNavigationItem).level = 2;
+      } else if (node instanceof QGDSNavigationItem) {
+        node.level = 2;
+        node.role = "listitem";
+        if (node.isActive) {
+          // Need to wait for parent to sync before checking variant
+          requestAnimationFrame(() => (this.isOpen = this.variant === "vertical"));
+        }
+
         this._numChildren++;
       }
     }
@@ -189,7 +195,7 @@ export class QGDSNavigationItem extends LitElement {
             </button>
           </div>
 
-          <div class=${classMap({ "mega-menu": true, "is-open": this.isOpen })} id="mega-menu">
+          <div class=${classMap({ "mega-menu qgds-container": true, "is-open": this.isOpen })} id="mega-menu">
             <!-- Header -->
             <div class="mega-menu-header">
               <qgds-link
@@ -237,7 +243,7 @@ export class QGDSNavigationItem extends LitElement {
 
   // Level 2 horizontal items (mega menu items)
   private _renderHorizontalLevel2 = () => {
-    return html`<div role="listitem" class="mega-menu-item">
+    return html`<div class="mega-menu-item">
       <qgds-link
         class="mega-menu-link is-sub-item"
         label=${this.label}
@@ -260,7 +266,7 @@ export class QGDSNavigationItem extends LitElement {
       "is-open": this._numChildren > 0 && this.isOpen,
     });
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
-    const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
+    const label = html`<span class="nav-item-label">${this.label}</span>`;
 
     return this._numChildren === 0
       ? html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>
@@ -282,10 +288,10 @@ export class QGDSNavigationItem extends LitElement {
               </div>
             </button>
           </div>
-          <div class="${classMap({ dropdown: true, "is-open": this.isOpen })}" id="dropdown">
+          <div class="${classMap({ dropdown: true, "is-open": this.isOpen })}" id="dropdown" role="list">
             <slot @slotchange=${this._handleSlotchange}></slot>
             ${this.viewAllUrl
-              ? html`<div class="nav-item is-vertical is-level-2">
+              ? html`<div class="nav-item is-vertical is-level-2" role="listitem">
                   <a class="nav-item-link is-view-all" href=${this.viewAllUrl}
                     >${this.viewAllLabel ?? "View all"} <qgds-icon size="xs" icon-id="view-all"></qgds-icon
                   ></a>

@@ -102,28 +102,6 @@ export const Horizontal: Story = {
         <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
         <qgds-navigation-item label="Active with icon" href="#" icon-name="wheelchair" is-active></qgds-navigation-item>
 
-        <qgds-navigation-item label="I have 1 child" href="#">
-          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-        </qgds-navigation-item>
-
-        <qgds-navigation-item label="I have 2 children" href="#">
-          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
-        </qgds-navigation-item>
-
-        <qgds-navigation-item label="I have 3 children" href="#">
-          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
-          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
-        </qgds-navigation-item>
-
-        <qgds-navigation-item label="I have 4 children" href="#">
-          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
-          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
-          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
-        </qgds-navigation-item>
-
         <qgds-navigation-item
           label="Full mega menu"
           href="#"
@@ -161,6 +139,28 @@ export const Horizontal: Story = {
             is-active
             description="${loremIpsum}"
           ></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 1 child" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 2 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 3 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
+          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
+        </qgds-navigation-item>
+
+        <qgds-navigation-item label="I have 4 children" href="#">
+          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+          <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
         </qgds-navigation-item>
       `
     )}`;

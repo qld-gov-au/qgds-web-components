@@ -9,7 +9,7 @@ import { baseStyles, utilitiesStyles } from "../../styles";
 import componentCSS from "./qgds-navigation.styles.scss?inline";
 
 // Component dependencies
-import type { QGDSNavigationItem } from "./qgds-navigation-item";
+import { QGDSNavigationItem } from "./qgds-navigation-item";
 import "../qgds-tile-button/qgds-tile-button";
 import { QGDSPalette } from "../../types/common";
 
@@ -88,13 +88,11 @@ export class QGDSNavigation extends LitElement {
   }
 
   protected willUpdate(): void {
-    // console.log("Will update");
     this._orientation = this._isMobile ? "vertical" : this.variant;
     if (!this._isMobile) this._isMobileOpen = false;
   }
 
   protected updated(changed: PropertyValues): void {
-    // console.log("Updated!", changed);
     if (changed.has("_orientation")) {
       this._syncChildren();
     }
@@ -123,14 +121,21 @@ export class QGDSNavigation extends LitElement {
 
   private _syncChildren = (): void => {
     this._assignedItems.forEach((item) => {
-      if (item.tagName.toLowerCase() === "qgds-navigation-item") {
-        (item as QGDSNavigationItem).variant = this._orientation;
+      if (item instanceof QGDSNavigationItem) {
+        item.variant = this._orientation;
+        item.setAttribute("role", "listitem");
       }
     });
   };
 
   // When the mobile backdrop is clicked, close the menu
+  // Because we use a native HTML dialog, the backdrop is a pseudoelement cannot have event listener directly
   private _handleDialogClick = (e: MouseEvent) => {
+    // A synthetic click event will be fired when dropdown button is triggered via keypress.
+    // In this case, do not do anything since the pointer coordinates are not relevant.
+    // event.detail = 0 for click events fired via keypress.
+    if (e.detail === 0) return;
+
     const rect = this._dialogElement?.getBoundingClientRect();
     const isInDialog =
       rect &&
@@ -145,10 +150,9 @@ export class QGDSNavigation extends LitElement {
 
   private _handleItemOpen = (e: Event) => {
     if (this._orientation === "horizontal") {
-      // const target = e.target as QGDSNavigationItem;
       this._assignedItems.forEach((item) => {
-        if (item !== e.target && item.tagName.toLowerCase() === "qgds-navigation-item") {
-          (item as QGDSNavigationItem).isOpen = false;
+        if (item !== e.target && item instanceof QGDSNavigationItem) {
+          item.isOpen = false;
         }
       });
     }

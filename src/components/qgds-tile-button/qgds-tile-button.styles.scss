@@ -34,7 +34,7 @@
     text-decoration-thickness: 2px;
   }
 
-  @include m.focusable(false);
+  @include m.focusable($offset-outline: -3px);
 
   @media (min-width: qgds-breakpoint.$md) {
     --qgds-icon-size: var(--qgds-icon-size-lg, 2rem);

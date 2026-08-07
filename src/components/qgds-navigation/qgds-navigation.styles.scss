@@ -111,7 +111,8 @@ dialog {
     inset-block-start: 0;
     padding-inline-start: f.remify(16px);
     block-size: f.remify(48px);
-    z-index: 1;
+    z-index: 3;
+    margin-block-end: -1px; // pull up the top border of first item.
   }
 
   @include m.md-up() {
