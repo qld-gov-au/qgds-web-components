@@ -18,9 +18,13 @@
     line-height: tools.remify(24px);
   }
 
+  qgds-link,
   ::slotted(qgds-link) {
     --qgds-link-decoration: none;
     --qgds-icon-color: var(--qgds-color-action-secondary);
+    --qgds-color-link-visited: var(--qgds-color-link-default); // No visited colour change
+    --qgds-color-underline-visited: var(--qgds-color-underline-default); // No visited colour change
+    --qgds-color-underline-visited-hover: var(--qgds-color-underline-default-hover); // No visited colour change
   }
 
   &-links {

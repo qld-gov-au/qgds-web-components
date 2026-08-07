@@ -38,7 +38,6 @@ const getComponentData = () => {
 // Returns the JSX block <ComponentLinks /> for use on the custom DocumentationTemplate page
 export const Links = () => {
   const metadata = getComponentData();
-  console.log("Component metadata for links:", metadata);
 
   // Check if some metadata exists
   if (!metadata || !Object.values(metadata).some(Boolean)) {
