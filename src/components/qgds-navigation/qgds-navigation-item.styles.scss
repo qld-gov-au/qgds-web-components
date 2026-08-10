@@ -222,6 +222,32 @@
         }
       }
     }
+
+    &.is-mobile-cta {
+      // stylelint-disable no-descending-specificity
+      .nav-item-link {
+        --size-accent: 0px;
+        --color-accent: transparent;
+        --padding-inline-start: #{f.remify(16px)};
+        --qgds-icon-size: 1.5rem;
+
+        padding-block: f.remify(12px);
+
+        &::before {
+          content: unset;
+        }
+
+        @include m.md-up() {
+          --size-accent: 0px;
+          --padding-inline-start: #{f.remify(16px)};
+
+          font-size: f.remify(14px);
+          min-block-size: f.remify(64px);
+          padding-block: f.remify(20px);
+        }
+      }
+      // stylelint-enable no-descending-specificity
+    }
   }
 }
 

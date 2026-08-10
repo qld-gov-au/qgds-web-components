@@ -27,7 +27,7 @@ export const tagName = "qgds-navigation-item";
  *
  * @property {string} [href] - Optional destination URL for the item link.
  * @property {string} [label=""] - Visible label for the navigation item.
- * @property {"horizontal" | "vertical"} [variant="horizontal"] - Layout variant for the item.
+ * @property {"horizontal" | "vertical" } [variant="horizontal"] - The navigation variant.
  * @property {1 | 2} [level=1] - Navigation depth level. Level 1 items may contain nested level 2 items.
  * @property {boolean} [isActive=false] - Marks the current page or active item.
  * @property {boolean} [isOpen=false] - Controls the open state for dropdown or mega-menu content.
@@ -300,9 +300,11 @@ export class QGDSNavigationItem extends LitElement {
           </div> `;
   };
 
-  private _renderVerticalLevel2 = () => {
+  private _renderVerticalLevel2OrMobileCTA = () => {
     const classes = classMap({
-      "nav-item is-vertical is-level-2": true,
+      "nav-item is-vertical": true,
+      "is-level-2": this.level === 2,
+      "is-mobile-cta": this.slot === "mobile-cta",
       "is-active": this.isActive,
     });
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
@@ -312,13 +314,15 @@ export class QGDSNavigationItem extends LitElement {
   };
 
   render() {
-    return this.variant === "horizontal"
-      ? this.level === 1
-        ? this._renderHorizontalLevel1()
-        : this._renderHorizontalLevel2()
-      : this.level === 1
-        ? this._renderVerticalLevel1()
-        : this._renderVerticalLevel2();
+    return this.slot === "mobile-cta"
+      ? this._renderVerticalLevel2OrMobileCTA()
+      : this.variant === "horizontal"
+        ? this.level === 1
+          ? this._renderHorizontalLevel1()
+          : this._renderHorizontalLevel2()
+        : this.level === 1
+          ? this._renderVerticalLevel1()
+          : this._renderVerticalLevel2OrMobileCTA();
   }
 }
 

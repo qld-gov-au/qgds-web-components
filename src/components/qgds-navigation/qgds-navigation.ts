@@ -14,6 +14,7 @@ import "../qgds-tile-button/qgds-tile-button";
 import { QGDSPalette } from "../../types/common";
 
 export type NavigationPalette = Extract<QGDSPalette, "default" | "bold">;
+export type NavigationMobilePalette = Extract<QGDSPalette, "default" | "bold" | "deep">;
 export type NavigationVariant = "horizontal" | "vertical";
 export const tagName = "qgds-navigation";
 
@@ -28,6 +29,7 @@ export const tagName = "qgds-navigation";
  * @uikit   https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=5990-97604
  *
  * @property {NavigationPalette} [palette="default"] - "default" (light bar) or "bold" (dark bar) theme.
+ * @property {NavigationMobilePalette} [paletteMobile] - Apply a palette to the Mobile drawer, will be applied to the drawer header, and mobile items. If left blank, will be the inverse of "palette" value.
  * @property {NavigationVariant} [variant="horizontal"] - Layout variant. Horizontal by default, switching to vertical in the mobile drawer view.
  * @property {string} [navigationLabel="Main"] - Accessible label for the inner `<nav>` landmark.
  *
@@ -54,10 +56,11 @@ export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
   @property({ type: String, reflect: true, useDefault: true }) palette: NavigationPalette = "default";
+  @property({ type: String, reflect: true, attribute: "palette-mobile" }) paletteMobile?: NavigationMobilePalette;
   @property({ type: String, reflect: true, useDefault: true }) variant: "horizontal" | "vertical" = "horizontal";
   @property({ type: String, attribute: "navigation-label", useDefault: true }) navigationLabel = "Main";
 
-  /** internal orientation also responds to mobile view, independent of public variant property. */
+  // internal orientation also responds to mobile view, independent of public variant property.
   @state() private _orientation: NavigationVariant = this.variant === "horizontal" ? "horizontal" : "vertical";
   @state() private _isMobileOpen = false;
 
@@ -70,6 +73,9 @@ export class QGDSNavigation extends LitElement {
     return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
   }
   private _events = new QgdsEvents(this);
+  private get _paletteMobile(): NavigationMobilePalette {
+    return (this.paletteMobile ?? this.palette === "default") ? "bold" : "default";
+  }
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -185,8 +191,9 @@ export class QGDSNavigation extends LitElement {
         // eslint-disable-next-line lit-a11y/click-events-have-key-events
         html`<dialog
           class="drawer ${classMap({
-            "qgds-palette-bold": this.palette !== "bold",
-            "qgds-palette-default": this.palette === "bold",
+            "qgds-palette-bold": this._paletteMobile === "bold",
+            "qgds-palette-default": this._paletteMobile === "default",
+            "qgds-palette-deep": this._paletteMobile === "deep",
           })}"
           @close=${() => {
             this._isMobileOpen = false;

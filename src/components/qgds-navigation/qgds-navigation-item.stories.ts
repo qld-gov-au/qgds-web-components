@@ -151,68 +151,11 @@ export const With5ChildrenAndDescription: Story = {
   },
 };
 
-// export const HorizontalWithChildren: Story = {
-//   args: HorizontalMulti.args,
-//   argTypes: HorizontalMulti.argTypes,
-//   render: (args) => html`
-//     ${template(
-//       { ...args, ...defaultItem },
-//       html`${template({ ...args, label: "Level 2 Item 1" })}
-//       ${template({
-//         ...args,
-//         label: `Level 2 Item 2 has quite a long title, whatever should happen to all this text?`,
-//       })}`
-//     )}
-//     ${template(
-//       { ...args, ...defaultWithIconItem },
-//       html`${template({ ...args, label: "Level 2 Item 1" })}
-//       ${template({
-//         ...args,
-//         label: `Level 2 Item 2 ${loremIpsum}`,
-//       })}
-//       ${template({ ...args, label: "Level 2 Item 3" })}`
-//     )}
-//     ${template(
-//       { ...args, label: "Active", "is-active": true },
-//       html`${template({ ...args, label: "Level 2 Item 1" })}
-//       ${template({ ...args, label: "Level 2 Active Item 2", "is-active": true })}
-//       ${template({
-//         ...args,
-//         label: `Level 2 Item 3 ${loremIpsum}`,
-//       })}`
-//     )}
-//     ${template(
-//       { ...args, label: "Active with icon", "is-active": true, "icon-name": "announcement" },
-//       html`${template({ ...args, label: "Level 2 Item 1" })}
-//       ${template({ ...args, label: "Level 2 Active Item 2", "is-active": true })}
-//       ${template({
-//         ...args,
-//         label: `Level 2 Item 3 ${loremIpsum}`,
-//       })}`
-//     )}
-//   `,
-//   decorators: HorizontalMulti.decorators,
-// };
-
-// export const HorizontalWithChildrenAndDescription: Story = {
-//   args: { ...HorizontalWithChildren.args, description: loremIpsum, "view-all-url": "#" },
-//   argTypes: HorizontalWithChildren.argTypes,
-//   render: HorizontalWithChildren.render,
-//   decorators: HorizontalMulti.decorators,
-// };
-
-// export const VerticalNavItem: Story = {
-//   args: { ...HorizontalMulti.args, variant: "vertical" },
-//   argTypes: HorizontalMulti.argTypes,
-//   render: HorizontalMulti.render,
-//   decorators: [(story) => html`<div style="max-width: 640px">${story()}</div>`],
-// };
-
-// export const VerticalWithChildren: Story = {
-//   args: { ...HorizontalWithChildren.args, variant: "vertical" },
-//   argTypes: VerticalNavItem.argTypes,
-//   render: HorizontalWithChildren.render,
-//   decorators: VerticalNavItem.decorators,
-// };
-
-// attach a standard click event, should not prevent default
+export const MobileCTA: Story = {
+  args: {
+    label: "Contact information",
+    "icon-name": "phone",
+    slot: "mobile-cta",
+    variant: "vertical",
+  },
+};
