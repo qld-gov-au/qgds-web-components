@@ -60,7 +60,6 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    href: "#",
   },
   argTypes,
   parameters: {
@@ -168,7 +167,7 @@ export const Horizontal: Story = {
 };
 
 /** Dark horizontal navigation. */
-export const Dark: Story = {
+export const Bold: Story = {
   args: { variant: "horizontal", palette: "bold" },
   render: Horizontal.render,
 };

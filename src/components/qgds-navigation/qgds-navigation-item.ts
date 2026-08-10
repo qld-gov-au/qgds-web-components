@@ -233,7 +233,7 @@ export class QGDSNavigationItem extends LitElement {
                   <qgds-call-to-action
                     href=${this.viewAllUrl}
                     label=${ifDefined(this.viewAllLabel)}
-                    class="inline-block"
+                    class="inline-block mega-menu-link"
                     is-view-all
                   ></qgds-call-to-action>
                 </div>`

@@ -242,6 +242,8 @@
   @include m.focusable($custom-selector: "&:focus .dropdown-toggle-inner");
 
   &-inner {
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+
     box-shadow: var(--qgds-elevation-1);
     border-radius: 50%;
     inline-size: f.remify(28px);
@@ -250,7 +252,6 @@
     justify-content: center;
     align-items: center;
     background-color: var(--qgds-color-neutral-white, #ffffff);
-    color: var(--qgds-color-action-secondary);
     transition-property: color background-color box-shadow border;
     transition-duration: var(--qgds-transition-duration);
     transition-timing-function: var(--qgds-transition-easing);
@@ -397,7 +398,13 @@
 
   // .mega-menu-link is a qgds-link
   &-link {
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+
     font-weight: 600;
+
+    &:hover {
+      --qgds-icon-color: var(--qgds-color-action-secondary-hover);
+    }
 
     &.is-heading {
       font-size: f.remify(24px);

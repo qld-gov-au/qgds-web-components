@@ -113,6 +113,12 @@ dialog {
     block-size: f.remify(48px);
     z-index: 3;
     margin-block-end: -1px; // pull up the top border of first item.
+    color: var(--qgds-color-text-heading);
+    font-size: f.remify(14px);
+
+    qgds-tile-button {
+      border-inline-start: 1px solid var(--qgds-color-border);
+    }
   }
 
   @include m.md-up() {
@@ -120,6 +126,7 @@ dialog {
 
     &-header {
       block-size: f.remify(72px);
+      font-size: f.remify(16px);
     }
   }
 }
