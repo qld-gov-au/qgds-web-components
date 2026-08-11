@@ -35,8 +35,8 @@ type NavigationItemVariant = NavigationVariant | "mobile-cta";
  * @property {1 | 2} [level=1] - Navigation depth level. Level 1 items may contain nested level 2 items.
  * @property {boolean} [isActive=false] - Marks the current page or active item.
  * @property {boolean} [isOpen=false] - Controls the open state for dropdown or mega-menu content.
- * @property {IconName} [iconName] - Optional icon identifier shown before the label.
- * @property {string} [description] - Optional supporting description displayed in the dropdown header.
+ * @property {IconName} [iconName] - Optional icon to display before the label.
+ * @property {string} [description] - Optional supporting description, only displayed in horizontal variant dropdown (mega menu)
  * @property {boolean} [hideLabel=false] - Hides the visible label while keeping it accessible to assistive technology.
  * @property {boolean} [isDisabled=false] - Disables the item interaction.
  * @property {string} [viewAllUrl] - Optional destination for the view-all CTA in a nested dropdown.
