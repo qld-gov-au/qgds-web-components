@@ -164,13 +164,17 @@ export class QGDSNavigation extends LitElement {
   };
 
   private _handleItemOpen = (e: Event) => {
-    if (this._orientation === "horizontal") {
-      this._assignedItems.forEach((item) => {
-        if (item !== e.target && item instanceof QGDSNavigationItem) {
-          item.isOpen = false;
-        }
-      });
-    }
+    if (this._orientation !== "horizontal") return;
+
+    const eventTarget = e.target;
+    if (!(eventTarget instanceof QGDSNavigationItem)) return;
+    if (!this._assignedItems.includes(eventTarget)) return;
+
+    this._assignedItems.forEach((item) => {
+      if (item !== eventTarget && item instanceof QGDSNavigationItem) {
+        item.isOpen = false;
+      }
+    });
   };
 
   private _renderNav = () => {

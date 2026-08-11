@@ -89,7 +89,7 @@ export class QGDSNavigationItem extends LitElement {
     return 3;
   }
 
-  private get _allChildrenHaveDecription() {
+  private get _allChildrenHaveDescription() {
     return Array.from(this.children).every((child) => {
       return child.tagName.toLowerCase() === "qgds-navigation-item" && (child as QGDSNavigationItem).description;
     });
@@ -223,7 +223,7 @@ export class QGDSNavigationItem extends LitElement {
               class="${classMap({
                 "mega-menu-items": true,
                 [`column-count-${this._columnCount}`]: true,
-                "has-descriptions": this._allChildrenHaveDecription,
+                "has-descriptions": this._allChildrenHaveDescription,
               })}"
               role="list"
               aria-label="${this.label} submenu"

@@ -42,6 +42,33 @@ describe("qgds-navigation", () => {
       expect(item.getAttribute("role")).toBe("listitem");
     });
   });
+
+  it("ignores nested open events from child items when closing top-level siblings", async () => {
+    element.innerHTML = `
+      <qgds-navigation-item label="Services" href="/services">
+        <qgds-navigation-item label="Planning" href="/planning"></qgds-navigation-item>
+      </qgds-navigation-item>
+      <qgds-navigation-item label="Contact" href="/contact"></qgds-navigation-item>
+    `;
+
+    await element.updateComplete;
+
+    const items = [...element.children] as QGDSNavigationItem[];
+    await Promise.all(items.map((item) => item.updateComplete));
+
+    items[0].isOpen = true;
+    items[1].isOpen = true;
+    await Promise.all(items.map((item) => item.updateComplete));
+
+    const nested = items[0].querySelector("qgds-navigation-item");
+    if (nested) {
+      nested.isOpen = true;
+      await nested.updateComplete;
+    }
+
+    expect(items[0].isOpen).toBe(true);
+    expect(items[1].isOpen).toBe(true);
+  });
 });
 
 describe("qgds-navigation-item", () => {
