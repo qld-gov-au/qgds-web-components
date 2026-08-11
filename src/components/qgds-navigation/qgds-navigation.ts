@@ -75,7 +75,7 @@ export class QGDSNavigation extends LitElement {
   }
   private _events = new QgdsEvents(this);
   private get _paletteMobile(): NavigationMobilePalette {
-    return (this.paletteMobile ?? this.palette === "default") ? "bold" : "default";
+    return this.paletteMobile ?? (this.palette === "default" ? "bold" : "default");
   }
 
   connectedCallback(): void {
