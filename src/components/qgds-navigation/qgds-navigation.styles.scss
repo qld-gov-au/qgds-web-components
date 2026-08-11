@@ -106,9 +106,7 @@ dialog {
 
   // drawer-header
   &-header {
-    position: sticky;
     background-color: var(--qgds-color-background, #005eb8);
-    inset-block-start: 0;
     padding-inline-start: f.remify(16px);
     block-size: f.remify(48px);
     z-index: 3;
