@@ -113,11 +113,13 @@ export class QGDSNavigationItem extends LitElement {
     // Add/remove click outside, focusin ouside, escape key listeners to close automatically
     if (changedProperties.has("isOpen") || changedProperties.has("variant") || changedProperties.has("level")) {
       // if any properties change, recheck all relevant properties
-      if (this.isOpen && this.variant === "horizontal" && this.level === 1) {
+      const shouldListen = this.isOpen && this.variant === "horizontal" && this.level === 1;
+
+      if (shouldListen) {
         document.addEventListener("click", this._handleClickOrFocusOutside);
-        document.addEventListener("focusin", this._handleClickOrFocusOutside); // focusin - same as focus but bubbling
+        document.addEventListener("focusin", this._handleClickOrFocusOutside);
         this.addEventListener("keydown", this._handleKeydown);
-      } else if (!this.isOpen || this.variant === "vertical" || this.level === 2) {
+      } else {
         document.removeEventListener("click", this._handleClickOrFocusOutside);
         document.removeEventListener("focusin", this._handleClickOrFocusOutside);
         this.removeEventListener("keydown", this._handleKeydown);
