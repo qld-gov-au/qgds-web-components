@@ -98,12 +98,10 @@ qgds-icon {
   transform: rotate(0deg) scaleX(var(--icon-direction));
   transition: transform var(--qgds-transition-time) ease;
 }
-// stylelint-enable no-descending-specificity
 
 // Animations — driven by the reflected animation attribute on :host.
 // The transition lives on the base (non-hover) icon so the movement glides both
 // into and out of hover, rather than snapping back on mouse-out.
-/* stylelint-disable no-descending-specificity */
 
 :host([animation="rotateOut"]) a:hover qgds-icon,
 :host([animation="rotateOut"]) button:hover qgds-icon {

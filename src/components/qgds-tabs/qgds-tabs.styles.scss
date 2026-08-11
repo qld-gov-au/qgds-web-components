@@ -77,12 +77,17 @@ nav {
       inline-size: 100%;
       margin-block-start: tools.remify(-1px); // to account for border
     }
+
+    &:focus {
+      outline: var(--qgds-color-focus-default, #002e85) solid 3px;
+      outline-offset: calc(calc(tools.remify(6px) + 3px) * -1);
+    }
   }
 
   .wrapper {
     display: inline-flex;
     align-items: center;
-    gap: tools.remify(10px);
+    gap: tools.remify(8px);
 
     span {
       line-height: tools.remify(24px);
@@ -98,12 +103,8 @@ nav {
   }
 
   &:focus {
-    outline: none;
-
-    .wrapper {
-      outline: var(--qgds-color-focus-default, #002e85) solid 3px;
-      outline-offset: 2px;
-    }
+    outline: var(--qgds-color-focus-default, #002e85) solid 3px;
+    outline-offset: calc(calc(tools.remify(4px) + 3px) * -1);
   }
 }
 
@@ -117,7 +118,7 @@ nav {
   align-items: center;
   justify-content: center;
   inline-size: 3rem;
-  block-size: 3rem;
+  block-size: calc(3rem - 1px);
   display: none;
 
   .parent-context-default & {
@@ -143,7 +144,7 @@ nav {
   qgds-icon {
     padding: 0.25rem;
     border-radius: 50%;
-    box-shadow: var(--qgds-elevation-1);
+    box-shadow: var(--qgds-elevation-2);
     background-color: var(--qgds-color-neutral-white);
     color: var(--_tab-icon-color);
   }
@@ -151,13 +152,13 @@ nav {
   &.scroll-right {
     inset-inline-end: 0;
     inset-block-start: 0;
-    background: linear-gradient(90deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
+    background: linear-gradient(270deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
   }
 
   &.scroll-left {
     inset-inline-start: 0;
     inset-block-start: 0;
-    background: linear-gradient(270deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
+    background: linear-gradient(90deg, var(--arrow-gradient-color) 0%, rgb(255 255 255 / 0) 100%);
   }
 
   &.show {
