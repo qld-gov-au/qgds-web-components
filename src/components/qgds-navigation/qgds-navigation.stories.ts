@@ -16,44 +16,6 @@ type Args = typeof args;
 const loremIpsum =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ";
 
-// const navItems = html`
-//   <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
-
-//   <qgds-link-item label="Services" href="#services" view-all-url="#services" view-all-label="View all services">
-//     <qgds-link-item label="Visiting someone in hospital" href="#visiting"></qgds-link-item>
-//     <qgds-link-item label="Going to hospital" href="#going"></qgds-link-item>
-//     <qgds-link-item label="Leaving hospital" href="#leaving"></qgds-link-item>
-//     <qgds-link-item label="Aboriginal and Torres Strait Islander support" href="#atsi"></qgds-link-item>
-//     <qgds-link-item label="Interpreter services" href="#interpreter"></qgds-link-item>
-//     <qgds-link-item label="Your health record" href="#records"></qgds-link-item>
-//   </qgds-link-item>
-
-//   <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all">
-//     <qgds-link-item
-//       label="Know your habits"
-//       href="#habits"
-//       description="Learn what makes you feel like smoking, how you can avoid triggers, and change your habits."
-//     ></qgds-link-item>
-//     <qgds-link-item
-//       label="What to expect"
-//       href="#expect"
-//       description="Learn how to manage withdrawal symptoms, stress and possible weight gain."
-//     ></qgds-link-item>
-//     <qgds-link-item
-//       label="Use quit tools and apps"
-//       href="#tools"
-//       description="Keep on track by using digital tools and apps for support, motivation and useful advice while quitting."
-//     ></qgds-link-item>
-//     <qgds-link-item
-//       label="Get help from Quitline"
-//       href="#quitline"
-//       description="Quitline is a telephone service dedicated to helping Queenslanders quit smoking."
-//     ></qgds-link-item>
-//   </qgds-link-item>
-
-//   <qgds-link-item label="About" href="#about"></qgds-link-item>
-// `;
-
 const meta: Meta<Args> = {
   title: "Components/Navigation",
   component: "qgds-navigation",
