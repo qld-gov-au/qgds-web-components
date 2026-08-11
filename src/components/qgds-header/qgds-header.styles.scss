@@ -14,6 +14,9 @@ Scoped CSS: qgds-header
 
 .header {
   display: block;
+  box-shadow:
+    0 1px 2px 0 rgb(0 0 0 / 0.3),
+    0 2px 6px 2px rgb(0 0 0 / 0.15);
 }
 
 // =============================================================================
@@ -26,17 +29,6 @@ Scoped CSS: qgds-header
 }
 
 // 2. Header content
-
-// Palette classes borrowed from the attribution-bar,
-// used on .header-logo and .header-actions on sm - md viewports only.
-$header-mobile-palettes: default, bold, deep;
-
-@each $p in $header-mobile-palettes {
-  .header-mobile-palette-#{$p} {
-    @extend %qgds-color-palette-#{$p};
-  }
-}
-
 .header-content {
   background-color: var(--qgds-color-background);
   border-block-end: tools.remify(4px) solid var(--qgds-color-accent-design-accent);
@@ -46,8 +38,8 @@ $header-mobile-palettes: default, bold, deep;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-areas:
-    "logo   actions"
-    "name   name"
+    "main   actions"
+    "sub   sub"
     "search search";
   align-items: stretch;
   column-gap: 0;
@@ -60,54 +52,80 @@ $header-mobile-palettes: default, bold, deep;
   }
 }
 
-// Brand logo — a <qgds-logo> (default or slotted). On the mobile blue bar it is
-// tinted white and sized down; on desktop it is crest blue at full height. The
-// `--logo-*` custom properties are set on the element so they win over the
-// qgds-logo `:host` defaults.
-.header-logo {
-  grid-area: logo;
+// Content that can be hidden on mobile and shown on desktop -
+// displayed by is-mobile-main and is-mobile-sub classes, which are applied by the TS component attributes.
+.header-preheader-url,
+.header-site-name,
+.header-brand-logo {
+  display: none;
+}
+
+// COA logo and mobile top row is displayed in the 'main' row,
+// and the mobile bottom row is displayed in the 'sub' row.
+.header-coa-logo,
+.is-mobile-main {
+  grid-area: main;
   display: flex;
   align-items: center;
   min-inline-size: 0;
+}
+
+.is-mobile-sub {
+  grid-area: sub;
+  display: flex;
+  align-items: center;
+}
+
+.header-coa-logo-slot {
+  display: flex;
+}
+
+.header-coa-logo-slot-custom {
+  display: none;
+}
+
+.header-coa-logo,
+.header-brand-logo,
+.is-mobile-main {
   padding-block: tools.remify(10px);
   padding-inline: tools.remify(16px);
 }
 
-.header-logo,
-.header-actions {
+.header-coa-logo,
+.header-actions,
+.header-brand-logo,
+.is-mobile-main {
   background: var(--qgds-color-background);
   color: var(--qgds-color-text-default);
 }
 
-.header-logo qgds-logo,
+.header-coa-logo qgds-logo,
+.header-brand-logo qgds-logo,
 ::slotted(qgds-logo) {
   --logo-height: #{tools.remify(28px)};
 }
 
-// Secondary brand element beside the logo: the site name. On mobile it sits in a
-// full-bleed white band below the blue bar (breaks out of the inner gutter, then
-// re-insets its content).
-.header-secondary {
-  grid-area: name;
-  display: flex;
-  align-items: center;
-  padding-block: tools.remify(16px);
-  padding-inline: tools.remify(16px);
-  background-color: var(--qgds-color-background);
-
-  &.is-empty {
-    display: none;
-  }
-}
-
-.header-site-name {
+.header-preheader-url a {
   color: var(--qgds-color-site-title);
+  text-decoration: none;
   font-weight: var(--qgds-font-weight-bold, 700);
   font-size: tools.remify(16px);
   line-height: tools.remify(20px);
+}
 
-  &[hidden] {
-    display: none;
+.header-site-name {
+  padding-block: tools.remify(16px);
+  padding-inline: tools.remify(16px);
+  background-color: var(--qgds-color-background);
+  line-height: 1rem;
+  min-inline-size: 0;
+
+  a {
+    text-decoration: none;
+    color: var(--qgds-color-site-title);
+    font-weight: var(--qgds-font-weight-bold, 700);
+    font-size: tools.remify(16px);
+    line-height: tools.remify(20px);
   }
 }
 
@@ -136,36 +154,45 @@ $header-mobile-palettes: default, bold, deep;
 .header-search {
   grid-area: search;
   display: none;
+  padding-inline: tools.remify(16px);
+  padding-block: tools.remify(16px);
 }
 
 :host([search-open]) .header-search {
   display: block;
-  padding-inline: tools.remify(16px);
-  padding-block: 0 tools.remify(16px);
 }
 
 // =============================================================================
 // Medium - same layout as small viewport, with different spacing and typography.
 // =============================================================================
 @media (min-width: #{bp.$md}) {
-  .header-logo {
+  .header-coa-logo,
+  .header-brand-logo,
+  .is-mobile-main {
     padding-block: tools.remify(16px);
     padding-inline: tools.remify(32px);
   }
 
-  .header-logo qgds-logo,
+  .header-coa-logo qgds-logo,
+  .header-brand-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-height: #{tools.remify(40px)};
   }
 
-  .header-secondary {
+  .header-site-name {
     padding-block: tools.remify(24px);
     padding-inline: tools.remify(32px);
   }
 
-  .header-site-name {
+  .header-preheader-url a,
+  .header-site-name a {
     font-size: tools.remify(20px);
     line-height: tools.remify(24px);
+  }
+
+  .header-search {
+    padding-inline: tools.remify(32px);
+    padding-block: tools.remify(32px);
   }
 }
 
@@ -174,60 +201,106 @@ $header-mobile-palettes: default, bold, deep;
 // navigation always visible; the mobile buttons removed.
 // =============================================================================
 @media (min-width: #{bp.$lg}) {
-  .header-preheader {
-    display: block;
-  }
-
   .header-content {
     border-block-end: none;
   }
 
-  .header-mobile-palette {
-    background-color: inherit;
-  }
-
   .header-content-inner {
     grid-template-columns: auto 1fr auto;
-    grid-template-areas: "logo name search";
+    grid-template-areas: "main sub search";
     align-items: center;
     padding-block: tools.remify(24px);
-    column-gap: tools.remify(24px);
+    column-gap: 0;
   }
 
-  .header-logo {
+  .header-coa-logo,
+  .header-brand-logo,
+  .is-mobile-main {
     padding-inline: 0;
   }
 
+  // Swap which coa-logo rendering is visible: mobile-default off,
+  // the real `logo` slot (custom content, or its own fallback) on.
+  .coa-logo-mobile-default {
+    display: none;
+  }
+
+  .header-coa-logo-slot-custom {
+    display: flex;
+  }
+
+  .header-preheader {
+    display: block;
+  }
+
+  // Desktop visibility for brand-logo and site-name is independent of the
+  // mobile-only `is-mobile-main` / `is-mobile-sub` position classes.
+  // `hide-coa-logo` only controls brand-logo placement (main vs sub), not
+  // whether brand-logo exists; existence is controlled by TS conditional render.
+  .header-brand-logo {
+    display: flex;
+  }
+
+  .header-site-name {
+    grid-area: sub;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    padding-inline: 0;
+    padding-block: tools.remify(16px);
+
+    a {
+      font-size: tools.remify(20px);
+      line-height: tools.remify(24px);
+    }
+  }
+
   // Unset the mobile-only colours that were borrowed from attribution-bar's palette.
-  .header-logo,
-  .header-actions {
-    --qgds-color-crest-fill: unset; // drop override by header-mobile-palette-*, re-inherit from :host's palette instead.
+  .header-coa-logo,
+  .header-actions,
+  .header-brand-logo,
+  .is-mobile-main {
+    --qgds-color-crest-fill: unset; // drop override by qgds-palette-#, re-inherit from :host's palette instead.
     --qgds-color-link-default: unset;
     --qgds-color-link-on-action: unset;
     --qgds-color-background: unset;
     --qgds-color-text-default: unset;
     --qgds-icon-color: unset;
+    --qgds-color-site-title: unset;
+    --qgds-color-focus-default: unset;
 
     background-color: inherit; // drop own background-color declaration, re-inherit from parent instead.
     color: inherit; // drop own color declaration, re-inherit from parent instead.
   }
 
-  .header-logo qgds-logo,
+  .header-coa-logo qgds-logo,
+  .header-brand-logo qgds-logo,
   ::slotted(qgds-logo) {
     --logo-color: var(--qgds-color-crest-fill);
     --logo-height: #{tools.remify(56px)};
   }
 
-  .header-secondary {
-    background: transparent;
-    padding-inline-start: tools.remify(24px);
-    padding-block: tools.remify(16px);
-    border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
+  // Always hidden in desktop - since attribution-bar is displayed instead.
+  .header-content-inner .header-preheader-url {
+    display: none;
   }
 
-  .header-site-name {
-    font-size: tools.remify(20px);
-    line-height: tools.remify(24px);
+  // When coa-logo is hidden, brand-logo moves to the main row
+  :host([hide-coa-logo]) .header-brand-logo {
+    grid-area: main;
+  }
+
+  // When coa-logo is showing, brand-logo moves to the sub row
+  :host(:not([hide-coa-logo])) .header-brand-logo {
+    grid-area: sub;
+  }
+
+  .header-brand-logo ~ .header-site-name,
+  .header-coa-logo ~ .header-site-name,
+  :host(:not([hide-coa-logo])) .header-brand-logo {
+    border-inline-start: tools.remify(2px) solid var(--qgds-color-accent-design-accent);
+    padding-inline-start: tools.remify(24px);
+    margin-inline-start: tools.remify(24px);
   }
 
   .header-actions {
@@ -239,7 +312,7 @@ $header-mobile-palettes: default, bold, deep;
     justify-self: end;
     align-items: center;
     inline-size: 416px;
-    margin-inline: 0;
+    margin-inline-start: tools.remify(24px);
     padding: 0;
     background: transparent;
 
