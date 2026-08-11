@@ -14,10 +14,11 @@ import "../qgds-link/qgds-link";
 import "../qgds-icon/qgds-icon";
 import "../qgds-call-to-action/qgds-call-to-action";
 import "../qgds-link-column/qgds-link-column";
-// import { NavigationVariant } from "./qgds-navigation";
+import { NavigationVariant } from "./qgds-navigation";
 import { IconName } from "../qgds-icon/icon-names";
 
 export const tagName = "qgds-navigation-item";
+type NavigationItemVariant = NavigationVariant | "mobile-cta";
 
 /**
  * QGDS Navigation Item – A single item within the primary navigation component.
@@ -25,9 +26,12 @@ export const tagName = "qgds-navigation-item";
  *
  * @tagname qgds-navigation-item
  *
+ * @website https://www.designsystem.qld.gov.au/components/navigation-horizontal
+ * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=5990-97604
+ *
  * @property {string} [href] - Optional destination URL for the item link.
  * @property {string} [label=""] - Visible label for the navigation item.
- * @property {"horizontal" | "vertical" | "mobile-cta" } [variant="horizontal"] - The navigation variant.
+ * @property {NavigationItemVariant } [variant="horizontal"] - The navigation variant.
  * @property {1 | 2} [level=1] - Navigation depth level. Level 1 items may contain nested level 2 items.
  * @property {boolean} [isActive=false] - Marks the current page or active item.
  * @property {boolean} [isOpen=false] - Controls the open state for dropdown or mega-menu content.
@@ -38,7 +42,7 @@ export const tagName = "qgds-navigation-item";
  * @property {string} [viewAllUrl] - Optional destination for the view-all CTA in a nested dropdown.
  * @property {string} [viewAllLabel] - Optional label for the view-all CTA.
  *
- * @slot - Accepts nested `<qgds-navigation-item>` elements for dropdown or mega-menu content.
+ * @slot - Accepts nested `<qgds-navigation-item>` elements for dropdown (vertical variant) or mega-menu (horizontal variant) content.
  *
  * @event qgds-open - Fired when the dropdown opens.
  * @event qgds-close - Fired when the dropdown closes.
@@ -57,7 +61,7 @@ export class QGDSNavigationItem extends LitElement {
 
   @property({ type: String }) href?: string;
   @property({ type: String, reflect: true }) label: string = "";
-  @property({ type: String, reflect: true }) variant: "horizontal" | "vertical" | "mobile-cta" = "horizontal";
+  @property({ type: String, reflect: true }) variant: NavigationItemVariant = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
   @property({ type: Boolean, attribute: "is-active", reflect: true }) isActive = false;
   @property({ type: Boolean, attribute: "is-open", reflect: true }) isOpen = false;

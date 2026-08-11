@@ -34,7 +34,7 @@ export const tagName = "qgds-navigation";
  * @property {string} [navigationLabel="Main"] - Accessible label for the inner `<nav>` landmark.
  *
  * @slot - Accepts `<qgds-navigation-item>` elements for the main navigation list.
- * @slot mobile-links - Optional additional links shown inside the mobile drawer beneath the main navigation list.
+ * @slot mobile-cta - Optional additional links shown inside the mobile drawer beneath the main navigation list.
  *
  * @event qgds-navigation-opened - Fired when the mobile drawer opens.
  * @event qgds-navigation-closed - Fired when the mobile drawer closes.
@@ -55,9 +55,9 @@ export const tagName = "qgds-navigation";
 export class QGDSNavigation extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
-  @property({ type: String, reflect: true, useDefault: true }) palette: NavigationPalette = "default";
-  @property({ type: String, reflect: true, attribute: "palette-mobile" }) paletteMobile?: NavigationMobilePalette;
-  @property({ type: String, reflect: true, useDefault: true }) variant: "horizontal" | "vertical" = "horizontal";
+  @property({ type: String, useDefault: true }) palette: NavigationPalette = "default";
+  @property({ type: String, attribute: "palette-mobile" }) paletteMobile?: NavigationMobilePalette;
+  @property({ type: String, useDefault: true }) variant: "horizontal" | "vertical" = "horizontal";
   @property({ type: String, attribute: "navigation-label", useDefault: true }) navigationLabel = "Main";
 
   // internal orientation also responds to mobile view, independent of public variant property.
@@ -144,13 +144,13 @@ export class QGDSNavigation extends LitElement {
   };
 
   // When the mobile backdrop is clicked, close the menu
-  // Because we use a native HTML dialog, the backdrop is a pseudoelement cannot have event listener directly
+  // Because we use a native HTML dialog, the backdrop is a pseudoelement and cannot have event listener directly
+  // So we listen for a click on main element and check whether the pointer coordinates are outside
+  // A synthetic click event will also be fired when dropdown button is triggered via keypress.
+  // In this case, do not do anything since the pointer coordinates are not relevant.
   private _handleDialogClick = (e: MouseEvent) => {
-    // A synthetic click event will be fired when dropdown button is triggered via keypress.
-    // In this case, do not do anything since the pointer coordinates are not relevant.
     // event.detail = 0 for click events fired via keypress.
     if (e.detail === 0) return;
-
     const rect = this._dialogElement?.getBoundingClientRect();
     const isInDialog =
       rect &&
