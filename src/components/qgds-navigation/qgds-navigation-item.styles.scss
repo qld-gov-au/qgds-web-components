@@ -87,7 +87,8 @@
   }
 
   // .nav-item:hover:not(.is-open)
-  &:hover:not(.is-open, .is-mobile-cta) {
+  &:hover:not(.is-open, .is-mobile-cta),
+  &:has(.dropdown-toggle:hover) {
     background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
   }
 
