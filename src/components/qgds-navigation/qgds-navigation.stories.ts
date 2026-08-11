@@ -161,6 +161,9 @@ export const Horizontal: Story = {
           <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
           <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
         </qgds-navigation-item>
+
+        <qgds-navigation-item label="Login" href="#" slot="mobile-cta" icon-name="profile"></qgds-navigation-item>
+        <qgds-navigation-item label="Contact us" href="#" slot="mobile-cta" icon-name="phone"></qgds-navigation-item>
       `
     )}`;
   },

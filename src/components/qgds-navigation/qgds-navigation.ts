@@ -66,6 +66,7 @@ export class QGDSNavigation extends LitElement {
 
   @query("dialog") private _dialogElement!: HTMLDialogElement | null;
   @queryAssignedElements() private _assignedItems!: HTMLElement[];
+  @queryAssignedElements({ slot: "mobile-cta" }) private _assignedMobileCTAItems!: HTMLElement[];
 
   // private
   private _breakpoint = new BreakpointController(this);
@@ -130,6 +131,14 @@ export class QGDSNavigation extends LitElement {
       if (item instanceof QGDSNavigationItem) {
         item.variant = this._orientation;
         item.setAttribute("role", "listitem");
+      }
+    });
+  };
+
+  private _syncCTAItems = (): void => {
+    this._assignedMobileCTAItems.forEach((item) => {
+      if (item instanceof QGDSNavigationItem) {
+        item.variant = "mobile-cta";
       }
     });
   };
@@ -210,7 +219,7 @@ export class QGDSNavigation extends LitElement {
             ></qgds-tile-button>
           </div>
           ${this._renderNav()}
-          <slot name="mobile-links"></slot>
+          <slot name="mobile-cta" @slotchange=${this._syncCTAItems}></slot>
         </dialog>`
       : this._renderNav();
   }

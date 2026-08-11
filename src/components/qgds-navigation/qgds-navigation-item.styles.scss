@@ -4,7 +4,7 @@
 @forward "../../styles/utilities/sr-only";
 
 :host {
-  display: inline-block;
+  display: block;
 
   // unset isolation so that internal focus styles use z-index so not obscured by the top border removal hack.
   // This means the internal link is in the same stacking context as the .mega-menu-items::after element masking the top border, and z-index comes into play.
@@ -12,15 +12,14 @@
   max-inline-size: 100%;
 }
 
-:host([variant="horizontal"][level="2"]),
-:host([variant="vertical"]) {
-  display: block;
+:host([variant="horizontal"][level="1"]) {
+  display: inline-block;
 }
 
 .nav-item {
-  --color-accent: var(--qgds-color-accent-design-accent, #84d3ff);
-  --qgds-icon-color: var(--qgds-color-action-secondary, #307edb);
-  --qgds-color-link-visited: var(--qgds-color-text-default, #353535);
+  --color-accent: var(--qgds-color-accent-design-accent);
+  --qgds-icon-color: var(--qgds-color-action-secondary);
+  --qgds-color-link-visited: var(--qgds-color-text-default);
   --qgds-color-link-visited-hover: var(--qgds-color-link-default);
   --qgds-color-underline-default: currentColor;
   --qgds-color-underline-visited: currentColor;
@@ -52,6 +51,7 @@
 
     &:hover,
     &:active {
+      --qgds-icon-color: var(--qgds-color-action-secondary-hover);
       --color-accent: var(--qgds-color-action-primary-hover, #003e96);
 
       color: var(--qgds-color-link-hover);
@@ -87,7 +87,7 @@
   }
 
   // .nav-item:hover:not(.is-open)
-  &:hover:not(.is-open) {
+  &:hover:not(.is-open, .is-mobile-cta) {
     background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
   }
 
@@ -120,11 +120,9 @@
       --padding-inline-start: #{f.remify(16px)};
       --qgds-icon-size: 1.25rem;
 
-      position: relative;
-      font-size: f.remify(14px);
-      min-block-size: f.remify(48px);
       padding-inline: var(--padding-inline-start) f.remify(12px);
       padding-block: f.remify(14px);
+      position: relative;
       z-index: 1;
 
       // Use before element instead of border allows 1px negative offset,
@@ -222,32 +220,26 @@
         }
       }
     }
+  }
 
-    &.is-mobile-cta {
-      // stylelint-disable no-descending-specificity
-      .nav-item-link {
-        --size-accent: 0px;
-        --color-accent: transparent;
-        --padding-inline-start: #{f.remify(16px)};
-        --qgds-icon-size: 1.5rem;
+  &.is-mobile-cta {
+    border-block-start: 1px solid var(--qgds-navigation-item-vertical-border);
+    background-color: var(--qgds-color-background);
 
-        padding-block: f.remify(12px);
+    // stylelint-disable no-descending-specificity -- // Following styles are standalone and do not conflict with other variants
+    .nav-item-link {
+      --qgds-icon-size: 1.5rem;
 
-        &::before {
-          content: unset;
-        }
+      padding-inline: f.remify(16px);
+      padding-block: f.remify(12px);
+      min-block-size: f.remify(64px);
+      font-size: f.remify(14px);
 
-        @include m.md-up() {
-          --size-accent: 0px;
-          --padding-inline-start: #{f.remify(16px)};
-
-          font-size: f.remify(14px);
-          min-block-size: f.remify(64px);
-          padding-block: f.remify(20px);
-        }
+      @include m.md-up() {
+        min-block-size: f.remify(64px);
       }
-      // stylelint-enable no-descending-specificity
     }
+    // stylelint-enable no-descending-specificity
   }
 }
 

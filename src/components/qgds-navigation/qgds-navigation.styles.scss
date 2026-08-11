@@ -130,3 +130,10 @@ dialog {
     }
   }
 }
+
+// give the cta block some zindex
+slot[name="mobile-cta"] {
+  display: block;
+  position: relative;
+  z-index: 3;
+}

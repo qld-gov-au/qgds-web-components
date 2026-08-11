@@ -155,7 +155,6 @@ export const MobileCTA: Story = {
   args: {
     label: "Contact information",
     "icon-name": "phone",
-    slot: "mobile-cta",
-    variant: "vertical",
+    variant: "mobile-cta",
   },
 };

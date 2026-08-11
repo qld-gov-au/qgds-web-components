@@ -27,7 +27,7 @@ export const tagName = "qgds-navigation-item";
  *
  * @property {string} [href] - Optional destination URL for the item link.
  * @property {string} [label=""] - Visible label for the navigation item.
- * @property {"horizontal" | "vertical" } [variant="horizontal"] - The navigation variant.
+ * @property {"horizontal" | "vertical" | "mobile-cta" } [variant="horizontal"] - The navigation variant.
  * @property {1 | 2} [level=1] - Navigation depth level. Level 1 items may contain nested level 2 items.
  * @property {boolean} [isActive=false] - Marks the current page or active item.
  * @property {boolean} [isOpen=false] - Controls the open state for dropdown or mega-menu content.
@@ -36,7 +36,7 @@ export const tagName = "qgds-navigation-item";
  * @property {boolean} [hideLabel=false] - Hides the visible label while keeping it accessible to assistive technology.
  * @property {boolean} [isDisabled=false] - Disables the item interaction.
  * @property {string} [viewAllUrl] - Optional destination for the view-all CTA in a nested dropdown.
- * @property {string} [viewAllLabel="View all"] - Optional label for the view-all CTA.
+ * @property {string} [viewAllLabel] - Optional label for the view-all CTA.
  *
  * @slot - Accepts nested `<qgds-navigation-item>` elements for dropdown or mega-menu content.
  *
@@ -57,7 +57,7 @@ export class QGDSNavigationItem extends LitElement {
 
   @property({ type: String }) href?: string;
   @property({ type: String, reflect: true }) label: string = "";
-  @property({ type: String, reflect: true }) variant: "horizontal" | "vertical" = "horizontal";
+  @property({ type: String, reflect: true }) variant: "horizontal" | "vertical" | "mobile-cta" = "horizontal";
   @property({ type: Number, reflect: true }) level: 1 | 2 = 1;
   @property({ type: Boolean, attribute: "is-active", reflect: true }) isActive = false;
   @property({ type: Boolean, attribute: "is-open", reflect: true }) isOpen = false;
@@ -67,7 +67,7 @@ export class QGDSNavigationItem extends LitElement {
   @property({ type: Boolean, attribute: "is-disabled" }) isDisabled = false;
   // columns?
   @property({ type: String, attribute: "view-all-url" }) viewAllUrl?: string;
-  @property({ type: String, attribute: "view-all-label" }) viewAllLabel? = "View all";
+  @property({ type: String, attribute: "view-all-label" }) viewAllLabel?: string;
 
   @state() private _numChildren = 0;
 
@@ -232,7 +232,7 @@ export class QGDSNavigationItem extends LitElement {
               ? html`<div class="mega-menu-footer">
                   <qgds-call-to-action
                     href=${this.viewAllUrl}
-                    label=${ifDefined(this.viewAllLabel)}
+                    label=${this.viewAllLabel ?? "View all"}
                     class="inline-block mega-menu-link"
                     is-view-all
                   ></qgds-call-to-action>
@@ -302,9 +302,10 @@ export class QGDSNavigationItem extends LitElement {
 
   private _renderVerticalLevel2OrMobileCTA = () => {
     const classes = classMap({
-      "nav-item is-vertical": true,
-      "is-level-2": this.level === 2,
-      "is-mobile-cta": this.slot === "mobile-cta",
+      "nav-item": true,
+      "is-vertical": this.variant === "vertical",
+      "is-level-2": this.variant === "vertical" && this.level === 2,
+      "is-mobile-cta": this.variant === "mobile-cta",
       "is-active": this.isActive,
     });
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
@@ -314,7 +315,7 @@ export class QGDSNavigationItem extends LitElement {
   };
 
   render() {
-    return this.slot === "mobile-cta"
+    return this.variant === "mobile-cta"
       ? this._renderVerticalLevel2OrMobileCTA()
       : this.variant === "horizontal"
         ? this.level === 1
