@@ -17,16 +17,14 @@ export type LinkColumnDirection = "vertical" | "horizontal";
  *
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
- * @property {LinkColumnDirection} [direction = "vertical"] - Layout direction: "vertical" (default) or "horizontal".
- * @property {1|2|3} [columns] - Number of columns (1–3). Defaults to 1.
- * @property {string} [role]
- * @property {string} [ariaLabel]
+ * @property {LinkColumnDirection} [direction = "vertical"] - Tabbing direction: "vertical" (default) or "horizontal".
+ * @property {1|2|3} [columns=1] - Number of columns (1–3). Defaults to 1
  *
  * @slot - Accepts `<qgds-link-item>` elements only. Non-conforming children are hidden with a console warning.
  * *
  * @example
  * ```html
- * <qgds-link-column aria-label="Our services" layout="vertical" columns="2" view-all-url="/services">
+ * <qgds-link-column aria-label="Our services" role="navigation" direction="vertical" columns="2" >
  *   <qgds-link-item label="Planning" href="/planning"></qgds-link-item>
  *   <qgds-link-item label="Environment" href="/environment"></qgds-link-item>
  * </qgds-link-column>

@@ -47,17 +47,6 @@
   border-block-end: 1px solid var(--qgds-color-border);
 }
 
-::slotted(qgds-link-item.header) {
-  font-size: 1.125rem;
-  font-weight: 600;
-  grid-column: 1 / -1;
-  column-span: all;
-  max-inline-size: 100%;
-  padding-block-end: 1rem;
-  border-block-end: 2px solid var(--qgds-color-border);
-  margin-block-end: 1rem;
-}
-
 // Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)
 @media (width <= bp.$lg) {
   :host([direction="horizontal"][columns="3"]) .items {
