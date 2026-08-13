@@ -93,8 +93,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="leftToRight"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="rightToLeft"
         href="#"
@@ -103,8 +102,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="rightToLeft"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="topToBottom"
         href="#"
@@ -113,8 +111,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="topToBottom"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="bottomToTop"
         href="#"
@@ -123,8 +120,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="bottomToTop"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="scaleIn"
         href="#"
@@ -133,8 +129,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="scaleIn"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="scaleOut"
         href="#"
@@ -143,8 +138,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="scaleOut"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="rotateIn"
         href="#"
@@ -153,8 +147,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="rotateIn"
-      >
-      </qgds-link>
+      ></qgds-link>
       <qgds-link
         label="rotateOut"
         href="#"
@@ -163,8 +156,7 @@ export const Animated: Story = {
         ?stretch="${args.stretch}"
         ?has-trailing-icon="${args["has-trailing-icon"]}"
         animation="rotateOut"
-      >
-      </qgds-link>
+      ></qgds-link>
     </div>
   `,
 };
