@@ -60,7 +60,7 @@ export class QGDSAccordion extends LitElement {
     window.removeEventListener("hashchange", this._handleHash);
   }
 
-  protected updated(_changedProperties: PropertyValues): void {
+  protected updated(_changedProperties: PropertyValues<this>): void {
     if (this._scrollIntoView) {
       this._scrollIntoView.scrollIntoView();
       this._scrollIntoView = null;

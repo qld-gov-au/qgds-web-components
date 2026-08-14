@@ -64,7 +64,7 @@ export class QGDSRadioGroup extends QGDSFieldGroupBase {
     });
   }
 
-  protected override update(changedProperties: PropertyValues): void {
+  protected override update(changedProperties: PropertyValues<this>): void {
     super.update(changedProperties);
     if (changedProperties.has("size")) {
       this.querySelectorAll<Element & { size?: "sm" | "lg" }>(this.groupItemName).forEach((el) => {

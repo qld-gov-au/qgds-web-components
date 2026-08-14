@@ -31,6 +31,11 @@ a {
     color: var(--qgds-color-underline-default, #3f7ab4);
   }
 
+  &:visited {
+    color: var(--qgds-color-link-visited);
+    text-decoration-color: var(--qgds-color-underline-visited, #8b63b0);
+  }
+
   &:hover {
     color: var(--qgds-color-link-hover);
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
@@ -50,14 +55,5 @@ a {
     text-decoration-line: var(--qgds-link-decoration-hover, underline);
     text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
     text-decoration-color: currentColor;
-  }
-
-  &:visited {
-    color: var(--qgds-color-link-visited);
-    text-decoration-color: var(--qgds-color-underline-visited, #8b63b0);
-
-    &:hover {
-      text-decoration-color: var(--qgds-color-underline-visited-hover, #551a8b);
-    }
   }
 }
