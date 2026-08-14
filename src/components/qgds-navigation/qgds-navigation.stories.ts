@@ -38,6 +38,7 @@ const meta: Meta<Args> = {
       return html`${story()}
         <button
           class="qgds-mt-24"
+          style="margin-bottom:1200px;"
           @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
         >
           Open mobile menu
