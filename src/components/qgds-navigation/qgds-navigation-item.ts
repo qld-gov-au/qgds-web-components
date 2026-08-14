@@ -187,7 +187,14 @@ export class QGDSNavigationItem extends LitElement {
 
     return html`${this._numChildren === 0
       ? // Without dropdown
-        html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>
+        html`<div class=${classes}>
+            <a
+              class="nav-item-link"
+              href=${ifDefined(this.href)}
+              aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+              >${icon}${label}</a
+            >
+          </div>
           <slot @slotchange=${this._handleSlotchange}></slot>`
       : // With dropdown and mega menu
         html`<div class=${classes}>
@@ -259,6 +266,7 @@ export class QGDSNavigationItem extends LitElement {
         animation="leftToRight"
         has-trailing-icon
         stretch
+        aria-current=${ifDefined(this.isActive ? "page" : undefined)}
       ></qgds-link
       >${this.description ? html`<p class="description">${this.description}</p>` : nothing}
     </div>`;
@@ -275,10 +283,22 @@ export class QGDSNavigationItem extends LitElement {
     const label = html`<span class="nav-item-label">${this.label}</span>`;
 
     return this._numChildren === 0
-      ? html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>
+      ? html`<div class=${classes}>
+            <a
+              class="nav-item-link"
+              href=${ifDefined(this.href)}
+              aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+              >${icon}${label}</a
+            >
+          </div>
           <slot @slotchange=${this._handleSlotchange}></slot>`
       : html`<div class=${classes}>
-            <a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a>
+            <a
+              class="nav-item-link"
+              href=${ifDefined(this.href)}
+              aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+              >${icon}${label}</a
+            >
 
             <button
               class=${classMap({
@@ -317,7 +337,14 @@ export class QGDSNavigationItem extends LitElement {
     const icon = this.iconName ? html`<qgds-icon icon-id=${this.iconName} size="md"></qgds-icon>` : nothing;
     const label = html`<span class=${this.hideLabel ? "sr-only" : "nav-item-label"}>${this.label}</span>`;
 
-    return html`<div class=${classes}><a class="nav-item-link" href=${ifDefined(this.href)}>${icon}${label}</a></div>`;
+    return html`<div class=${classes}>
+      <a
+        class="nav-item-link"
+        href=${ifDefined(this.href)}
+        aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+        >${icon}${label}</a
+      >
+    </div>`;
   };
 
   render() {

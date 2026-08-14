@@ -92,6 +92,7 @@ export class QGDSNavigation extends LitElement {
     document.removeEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.removeEventListener("qgds-navigation-open", this._openMobileNav);
     document.removeEventListener("qgds-navigation-close", this._closeMobileNav);
+    document.body.classList.remove("qgds-overflow-hidden");
   }
 
   protected willUpdate(): void {
