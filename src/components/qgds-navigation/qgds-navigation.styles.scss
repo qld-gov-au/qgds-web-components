@@ -42,9 +42,6 @@
 
     .is-vertical & {
       flex-direction: column;
-
-      // border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
-      // margin-inline-start: calc(var(--accent-width) * -1);
     }
   }
 }

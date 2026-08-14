@@ -106,9 +106,11 @@ export class QGDSNavigation extends LitElement {
     if (changed.has("_isMobileOpen")) {
       if (this._isMobileOpen) {
         this._dialogElement?.showModal();
+        document.body.classList.add("qgds-overflow-hidden");
         this._events.dispatch("navigation-opened");
       } else {
         this._dialogElement?.close();
+        document.body.classList.remove("qgds-overflow-hidden");
         this._events.dispatch("navigation-closed");
       }
     }
