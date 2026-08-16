@@ -67,18 +67,6 @@ export const Default: Story = {
   },
 };
 
-/** Link item with a description shown below the label. */
-export const WithDescription: Story = {
-  args: {
-    label: "Transport and infrastructure",
-    href: "/topics/transport",
-    "icon-name": "arrow-right",
-    animation: "leftToRight",
-    description: "Roads, public transport, cycling and walking.",
-    "has-border": true,
-  },
-};
-
 /** Link item with nested sub-items rendered in the default slot. */
 export const WithNestedItems: Story = {
   args: {

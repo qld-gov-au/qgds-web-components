@@ -7,6 +7,10 @@
   --breadcrumbs-item-padding-inline-end: 0;
   --breadcrumbs-item-padding-block-start: #{f.remify(5px)};
   --breadcrumbs-item-padding-block-end: #{f.remify(5px)};
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
+  }
 }
 
 :host([is-last]) {
@@ -28,8 +32,6 @@
   padding-inline: var(--breadcrumbs-item-padding-inline-start) var(--breadcrumbs-item-padding-inline-end);
 
   @media (min-width: qgds-breakpoint.$lg) {
-    --breadcrumbs-item-padding-inline-start: #{f.remify(5px)};
-
     font-size: 1rem;
     display: inline-flex;
   }
@@ -89,21 +91,23 @@
 }
 
 :host(.dropdown) {
-  .breadcrumbs-item {
-    --breadcrumbs-item-padding-block-start: #{f.remify(2px)};
-  }
+  --breadcrumbs-item-padding-block-start: #{f.remify(2px)};
 }
 
 :host(:first-child) {
-  .breadcrumbs-item {
-    --breadcrumbs-item-padding-inline-start: 0;
-  }
+  --breadcrumbs-item-padding-inline-start: 0;
 }
 
 :host(:nth-last-child(2)) {
+  --breadcrumbs-item-padding-inline-end: #{f.remify(5px)};
+
   text-overflow: ellipsis;
   overflow-x: hidden;
   white-space: nowrap;
+
+  @media (min-width: qgds-breakpoint.$lg) {
+    --breadcrumbs-item-padding-inline-end: 0;
+  }
 
   &:has(a:focus) {
     overflow: initial;
@@ -111,8 +115,6 @@
   }
 
   .breadcrumbs-item {
-    --breadcrumbs-item-padding-inline-end: #{f.remify(5px)};
-
     overflow: hidden;
     flex-direction: row-reverse;
     display: inline-flex;
@@ -122,8 +124,6 @@
     }
 
     @media (min-width: qgds-breakpoint.$lg) {
-      --breadcrumbs-item-padding-inline-end: 0;
-
       display: inline-flex;
       flex-direction: row;
     }

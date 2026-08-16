@@ -1,0 +1,478 @@
+@use "../../styles/tools/functions" as f;
+@use "../../styles/tools/mixins" as m;
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+@forward "../../styles/utilities/sr-only";
+
+:host {
+  display: block;
+
+  // unset isolation so that internal focus styles use z-index so not obscured by the top border removal hack.
+  // This means the internal link is in the same stacking context as the .mega-menu-items::after element masking the top border, and z-index comes into play.
+  isolation: unset;
+  max-inline-size: 100%;
+}
+
+:host([variant="horizontal"][level="1"]) {
+  display: inline-block;
+}
+
+.nav-item {
+  --color-accent: var(--qgds-color-accent-design-accent);
+  --qgds-icon-color: var(--qgds-color-action-secondary);
+  --qgds-color-link-visited: var(--qgds-color-text-default);
+  --qgds-color-link-visited-hover: var(--qgds-color-link-default);
+  --qgds-color-underline-default: currentColor;
+  --qgds-color-underline-visited: currentColor;
+  --qgds-color-underline-hover: currentColor;
+  --qgds-color-underline-visited-hover: currentColor;
+
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  background-color: var(--qgds-navigation-item-bg, #f5f5f5);
+  transition-property: background-color, border-color;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing);
+
+  // .nav-item-link
+  &-link {
+    flex: 1 0 auto;
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+    color: var(--qgds-color-text-default, #353535);
+    max-inline-size: 100%;
+    line-height: f.snap-line-height();
+    gap: f.remify(8px);
+    text-decoration: underline solid transparent 0;
+    transition-property: text-decoration, color, background-color, border-color;
+    transition-duration: var(--qgds-transition-duration);
+    transition-timing-function: var(--qgds-transition-easing);
+
+    &:hover,
+    &:active {
+      --qgds-icon-color: var(--qgds-color-action-secondary-hover);
+      --color-accent: var(--qgds-color-action-primary-hover, #003e96);
+
+      color: var(--qgds-color-link-hover);
+      text-decoration-line: var(--qgds-link-decoration-hover, underline);
+      text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
+      text-decoration-color: currentColor;
+    }
+    @include m.focusable($offset-outline: -3px);
+  }
+
+  // .nav-item.is-active
+  &.is-active {
+    --qgds-icon-color: currentColor;
+    --color-accent: var(--qgds-navigation-item-bg);
+
+    font-weight: 600;
+
+    .nav-item-link:where(:not(:hover, :active)) {
+      color: var(--qgds-color-text-heading);
+    }
+  }
+
+  // .nav-item.is-open
+  &.is-open {
+    --color-accent: transparent;
+
+    position: relative;
+    z-index: 2;
+
+    .nav-item-link {
+      background-color: var(--qgds-color-background);
+    }
+  }
+
+  // .nav-item:hover:not(.is-open)
+  &:hover:not(.is-open, .is-mobile-cta),
+  &:has(.dropdown-toggle:hover) {
+    background-color: var(--qgds-navigation-item-bg-hover, #e3e7ea);
+  }
+
+  // try and keep horizontal and vertical properties to size only - colors should theoretically match between variants.
+  // .nav-item.is-horizontal
+  &.is-horizontal {
+    .nav-item-link {
+      font-size: f.remify(14px);
+      block-size: f.remify(60px);
+      border-block-end: f.remify(8px) solid var(--color-accent);
+      padding-inline: f.remify(8px);
+
+      @include m.xl-up() {
+        font-size: f.remify(16px);
+        padding-inline: f.remify(12px);
+      }
+    }
+
+    .nav-item-label {
+      @include m.truncate();
+    }
+  }
+
+  // .nav-item.is-vertical
+  &.is-vertical {
+    border-block-start: 1px solid var(--qgds-navigation-item-vertical-border);
+
+    .nav-item-link {
+      --size-accent: #{f.remify(4px)};
+      --padding-inline-start: #{f.remify(16px)};
+      --qgds-icon-size: 1.25rem;
+
+      padding-inline: var(--padding-inline-start) f.remify(12px);
+      padding-block: f.remify(14px);
+      position: relative;
+      z-index: 1;
+
+      // Use before element instead of border allows 1px negative offset,
+      // to overlay the parent item's border.
+      &::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        inset-block: -1px;
+        inset-inline: 0 auto;
+        inline-size: var(--size-accent);
+        background-color: var(--color-accent);
+        transition-property: background-color;
+        transition-duration: var(--qgds-transition-duration);
+        transition-timing-function: var(--qgds-transition-easing);
+      }
+
+      &:focus::before {
+        inset-block-start: 0;
+      }
+
+      &:hover {
+        z-index: 2;
+      }
+
+      @include m.md-up() {
+        --size-accent: #{f.remify(6px)};
+        --padding-inline-start: #{f.remify(20px)};
+        --qgds-icon-size: 1.5rem;
+
+        font-size: f.remify(16px);
+        min-block-size: f.remify(64px);
+        padding-block: f.remify(20px);
+      }
+    }
+
+    .nav-item-link.is-view-all {
+      font-weight: 600;
+
+      qgds-icon {
+        color: var(--qgds-color-action-secondary);
+
+        // register the transform so it is ready to animate on hover (prevent clunky movement)
+        transform: translateX(0);
+        transition: transform var(--qgds-transition-duration) var(--qgds-transition-easing);
+      }
+
+      &:hover,
+      &:focus {
+        qgds-icon {
+          transform: translateX(50%);
+        }
+      }
+    }
+
+    &.is-active {
+      --color-accent: transparent;
+    }
+
+    &.is-open {
+      --color-accent: var(--qgds-color-accent-design-accent, #84d3ff);
+
+      .nav-item-link {
+        --qgds-color-link-visited: var(--qgds-color-link-default);
+        --qgds-color-link-visited-hover: var(--qgds-color-link-default);
+
+        color: var(--qgds-color-link-default);
+      }
+    }
+
+    &.has-children {
+      .nav-item-link {
+        border-start-end-radius: f.remify(16px);
+      }
+    }
+
+    &.is-level-2 {
+      --color-accent: transparent;
+
+      background-color: var(--qgds-color-background);
+      border-block-start: 1px solid var(--qgds-navigation-item-vertical-level-2-border);
+
+      .nav-item-link {
+        --qgds-color-link-visited: var(--qgds-color-link-default);
+        --qgds-color-link-visited-hover: var(--qgds-color-link-default);
+        --padding-inline-start: #{f.remify(24px)};
+
+        color: var(--qgds-color-link-default);
+
+        &:hover,
+        &:active {
+          --color-accent: var(--qgds-color-action-primary-hover, #003e96);
+
+          background-color: var(--qgds-color-background);
+        }
+      }
+    }
+  }
+
+  &.is-mobile-cta {
+    border-block-start: 1px solid var(--qgds-navigation-item-vertical-border);
+    background-color: var(--qgds-color-background);
+
+    // stylelint-disable no-descending-specificity -- // Following styles are standalone and do not conflict with other variants
+    .nav-item-link {
+      --qgds-icon-size: 1.5rem;
+
+      padding-inline: f.remify(16px);
+      padding-block: f.remify(12px);
+      min-block-size: f.remify(64px);
+      font-size: f.remify(14px);
+
+      @include m.md-up() {
+        min-block-size: f.remify(64px);
+      }
+    }
+    // stylelint-enable no-descending-specificity
+  }
+}
+
+// The vertical menu dropdown button.
+.dropdown-toggle {
+  $block: &;
+
+  inline-size: f.remify(48px);
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  outline: none !important;
+
+  @include m.md-up() {
+    inline-size: f.remify(64px);
+  }
+
+  &-inner {
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+
+    box-shadow: var(--qgds-elevation-1);
+    border-radius: 50%;
+    inline-size: f.remify(28px);
+    block-size: f.remify(28px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--qgds-color-neutral-white, #ffffff);
+    outline: transparent solid 3px;
+    outline-offset: 2px;
+    transition-property: color background-color box-shadow border;
+    transition-duration: var(--qgds-transition-duration);
+    transition-timing-function: var(--qgds-transition-easing);
+
+    @include m.md-up() {
+      inline-size: f.remify(32px);
+      block-size: f.remify(32px);
+    }
+  }
+
+  &:hover .dropdown-toggle-inner {
+    box-shadow: var(--qgds-elevation-3);
+  }
+
+  &:focus {
+    outline: none !important;
+
+    .dropdown-toggle-inner {
+      @include m.focus-styles($inverse: true);
+    }
+  }
+}
+
+.dropdown-icon {
+  transform: rotate(0deg);
+  transition: transform var(--qgds-transition-duration) var(--qgds-transition-easing);
+
+  .is-open & {
+    transform: rotate(180deg);
+  }
+}
+
+// vertical subitems dropdown
+.dropdown {
+  interpolate-size: allow-keywords;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition-property: block-size, visibility;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing);
+
+  &.is-open {
+    visibility: visible;
+    block-size: auto;
+  }
+}
+
+// The mega menu dropdown
+.mega-menu {
+  $block: &;
+
+  --qgds-color-underline-default: transparent;
+  --qgds-link-decoration-thickness: 0;
+
+  position: absolute; // requires position relative on the navigation bar
+  z-index: 1; // one less than open nav-item.is-open;
+  background-color: var(--qgds-color-background);
+  inset-inline: 0;
+  inline-size: 100%;
+
+  // emulates wrapping in a qgds-container
+  max-inline-size: min(#{bp.$xl}, calc(100% - (var(--qgds-grid-padding) * 2)));
+  margin-inline: auto;
+  padding-block: f.remify(32px);
+  padding-inline: f.remify(48px);
+  border-radius: 0 0 f.remify(12px) f.remify(12px);
+  box-shadow: var(--qgds-elevation-2);
+  transform-origin: 50% 0;
+
+  // transition properties
+  display: none;
+  transition-behavior: allow-discrete;
+  transition-property: opacity, display, transform;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing-inverse);
+
+  // for reuse in @starting-style block (see below)
+  @mixin starting-styles {
+    opacity: 0;
+    transform: scale(0.99, 0.95);
+  }
+  @include starting-styles();
+
+  @include m.xl-up() {
+    padding-block: f.remify(48px);
+    padding-inline: f.remify(64px);
+  }
+
+  &.is-open {
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+    transition-timing-function: var(--qgds-transition-easing);
+
+    // required for transitions from display none
+    @starting-style {
+      @include starting-styles();
+    }
+  }
+
+  // mega menu elements
+  &-header {
+    font-size: f.remify(24px);
+    padding-block-end: f.remify(32px);
+    border-block-end: 2px solid var(--qgds-color-border);
+    margin-block-end: f.remify(32px);
+  }
+
+  &-items {
+    position: relative;
+    column-gap: f.remify(32px);
+    column-width: 20rem; // sensible minimum
+
+    @include m.xl-up() {
+      column-gap: f.remify(64px);
+    }
+
+    &.column-count-1 {
+      column-count: 1;
+    }
+
+    &.column-count-2 {
+      column-count: 2;
+    }
+
+    &.column-count-3 {
+      column-count: 3;
+    }
+
+    // offset the description bottom margin.
+    &.has-descriptions {
+      margin-block-end: f.remify(-16px);
+    }
+
+    // hack to remove top border from columns items
+    &::after {
+      content: "";
+      position: absolute;
+      border-block-start: 1px solid var(--qgds-color-background);
+      inset-block-start: 0;
+      inset-inline: 0;
+    }
+  }
+
+  // .mega-menu-item - items inside mega menu dropdown are not .nav-item
+  &-item {
+    break-inside: avoid;
+    border-color: var(--qgds-color-border);
+    @include m.border-padding($border-width: 1px 0 0 0, $padding: 1rem 0);
+  }
+
+  // .mega-menu-link is a qgds-link
+  &-link {
+    --qgds-icon-color: var(--qgds-color-action-secondary);
+
+    font-weight: 600;
+
+    &:hover {
+      --qgds-icon-color: var(--qgds-color-action-secondary-hover);
+    }
+
+    &.is-heading {
+      font-size: f.remify(24px);
+    }
+
+    &.is-sub-item {
+      font-size: f.remify(16px);
+      inline-size: 100%;
+
+      // required properties to make focus state work with the remove top border hack of .qgds-mega-menu-items::before
+      isolation: auto;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  // .mega-menu-footer
+  &-footer {
+    padding-block-start: f.remify(32px);
+    border-block-start: 2px solid var(--qgds-color-border);
+    margin-block-start: f.remify(32px);
+    display: flex; // use flex and justify-content rather than text-align in case call to action changes to display block
+    justify-content: flex-end;
+  }
+}
+
+.description {
+  line-height: f.snap-line-height(1.45);
+  font-size: f.remify(14px);
+  color: var(--qgds-color-text-lighter);
+  margin-block-start: f.remify(16px);
+  @include m.truncate($num-lines: 4);
+
+  .mega-menu-item & {
+    border-color: var(--qgds-color-border);
+    @include m.border-padding($border-width: 1px 0 0 0, $padding: f.remify(20px) 0 0 0);
+  }
+
+  .mega-menu-header & {
+    font-size: f.remify(16px);
+    color: var(--qgds-color-text-default);
+  }
+}

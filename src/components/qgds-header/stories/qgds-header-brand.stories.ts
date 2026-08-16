@@ -15,6 +15,7 @@ import "../../qgds-link/qgds-link";
 import "../../qgds-logo/qgds-logo";
 import "../../qgds-search-input/qgds-search-input";
 import "../../qgds-navigation/qgds-navigation";
+import "../../qgds-navigation/qgds-navigation-item";
 
 import sampleSlottedImage from "../../qgds-logo/assets/breast-screen-qld-logo.svg";
 import sampleSlottedImageHealthOmb from "../../qgds-logo/assets/office-health-ombudsman-logo.svg";
@@ -77,9 +78,10 @@ const headerTemplate = (args: Args, children: TemplateResult) => html`
 `;
 
 const navItems = html`
-  <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
-  <qgds-link-item label="Services" href="#services"></qgds-link-item>
-  <qgds-link-item label="About" href="#about"></qgds-link-item>
+  <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-navigation-item>
+  <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+  <qgds-navigation-item label="About" href="#about"></qgds-navigation-item>
+  <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta" icon-name="phone"></qgds-navigation-item>
 `;
 
 const attributionLinks = html`
