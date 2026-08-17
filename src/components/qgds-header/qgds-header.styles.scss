@@ -10,6 +10,7 @@ Scoped CSS: qgds-header
 
 :host {
   display: block;
+  isolation: initial; //todo - review with team, solves mega-menu z-index issue
 }
 
 .header {

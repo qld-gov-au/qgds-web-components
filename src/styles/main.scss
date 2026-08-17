@@ -26,6 +26,11 @@
   @include meta.load-css("grid");
 }
 
+// Components that are not loaded via the component itself, but are used to support patterns, should be loaded here.
+@layer components {
+  @include meta.load-css("../patterns/qgds-content-footer/qgds-content-footer.styles");
+}
+
 @layer utilities {
   :where(.qgds) {
     @include meta.load-css("utilities", $with: (prefix: "qgds"));
