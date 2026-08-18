@@ -1,27 +1,12 @@
 @use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 :host {
-  --icon-spacing: auto;
   --link-flex-direction: row-reverse;
   --link-width: 100%;
-  --qgds-icon-spacing-start: auto;
-  --qgds-icon-spacing-end: 0;
-  --qgds-icon-margin-start: auto;
   --qgds-icon-color: var(--qgds-color-action-secondary);
   --qgds-link-decoration-init-color: transparent;
 
   display: block;
-}
-
-.items {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.description {
-  padding-block-start: 0.75rem;
-  font-size: 14px;
 }
 
 // Horizontal: always grid, default 1 column
@@ -52,18 +37,6 @@
   column-gap: clamp(2rem, 4vw, 4rem);
 }
 
-qgds-call-to-action {
-  display: block;
-  grid-column: 1 / -1;
-  column-span: all;
-  margin-inline-start: auto;
-  margin-block-start: 2rem;
-  border-block-start: 2px solid var(--qgds-color-border);
-  inline-size: 100%;
-  text-align: end;
-  padding-block-start: 2rem;
-}
-
 ::slotted(qgds-link-item) {
   --text-decoration: none;
   --qgds-link-decoration: none;
@@ -72,17 +45,6 @@ qgds-call-to-action {
 
   max-inline-size: 46rem;
   border-block-end: 1px solid var(--qgds-color-border);
-}
-
-::slotted(qgds-link-item.header) {
-  font-size: 1.125rem;
-  font-weight: 600;
-  grid-column: 1 / -1;
-  column-span: all;
-  max-inline-size: 100%;
-  padding-block-end: 1rem;
-  border-block-end: 2px solid var(--qgds-color-border);
-  margin-block-end: 1rem;
 }
 
 // Responsive: collapse to single column on narrow viewports (WCAG 1.4.10 Reflow)

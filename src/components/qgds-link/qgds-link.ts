@@ -3,12 +3,12 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link.styles.scss?inline";
 import { baseStyles } from "../../styles";
-import { QgdsEvents } from "../../utils";
+import { QgdsEvents, scrubSlotContent } from "../../utils";
 import "../qgds-icon/qgds-icon.js";
 import type { IconSize } from "../qgds-icon/qgds-icon.js";
 import type { IconName } from "../qgds-icon/icon-names";
 
-export type Animations =
+export type Animation =
   | ""
   | "leftToRight"
   | "rightToLeft"
@@ -18,7 +18,6 @@ export type Animations =
   | "scaleOut"
   | "rotateIn"
   | "rotateOut";
-export type { IconSize };
 
 /**
  * A primitive link component that renders either an `<a>` or `<span>` based on the presence of an `href`.
@@ -28,21 +27,25 @@ export type { IconSize };
  *
  * @property {string} [label] - The visible link label text.
  * @property {string} [href] - The destination URL. When provided renders an `<a>`, otherwise a `<span>`.
- * @property {boolean} [is-disabled] - Prevents navigation and click events when true.
- * @property {string} [icon-name] - The icon identifier to display (e.g. "arrow-right", "view-all").
- * @property {IconSize} [icon-size] - Size of the icon ("sm", "md", "lg", "xl"). Defaults to "md".
- * @property {boolean} [has-trailing-icon] - When true, places the icon after the label text.
+ * @property {boolean} [isDisabled] - Prevents navigation and click events when true.
+ * @property {string} [iconName] - The icon identifier to display (e.g. "arrow-right", "view-all").
+ * @property {IconSize} [iconSize="md"] - Tshirt size of the icon.
+ * @property {boolean} [hasTrailingIcon] - When true, places the icon after the label text.
  * @property {boolean} [stretch] - When true, the link expands to fill available width.
- * @property {Animations} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
- * @property {boolean} [only-icon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
+ * @property {Animation} [animation] - Icon animation variant (e.g. "leftToRight", "scaleIn").
+ * @property {boolean} [onlyIcon] - When true, the label is visually hidden (screen-reader only). Has no effect when no `icon-name` is set.
  *
- * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
  * @cssprop {length} --qgds-link-icon-size - Override the icon size.
- * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
+ * @cssprop {length} --qgds-link-icon-spacing - Override the gap between text and icon.
  * @cssprop {string} --qgds-link-justify-content - Override the flex justification.
- * @cssprop {color} --qgds-link-background-colour - Override the link background colour.
  * @cssprop {string} --qgds-link-flex-direction - Override the flex direction (e.g. "row-reverse").
- * @cssprop {length} --qgds-icon-margin-start - Override the icon inline-start margin.
+ * @cssprop {length} --padding-block - Shorthand to apply both padding-block-start and padding-block-end to the internal link element
+ * @cssprop {length} --padding-block-start - Apply padding-block-start to the internal link element.
+ * @cssprop {length} --padding-block-end - Apply padding-block-end to the internal link element.
+ * @cssprop {length} --padding-inline - Shorthand to apply both padding-inline-start and padding-inline-end to the internal link element
+ * @cssprop {length} --padding-inline-start - Apply padding-inline-start to the internal link element.
+ * @cssprop {length} --padding-block-end - Apply padding-inline-end to the internal link element.
+ *
  *
  * @event qgds-click - Emitted when the link is clicked. Event payload includes `{ href: string, label: string }`.
  *
@@ -53,6 +56,10 @@ export type { IconSize };
  */
 @customElement("qgds-link")
 export class QGDSLink extends LitElement {
+  static shadowRootOptions = {
+    ...LitElement.shadowRootOptions,
+    delegatesFocus: true,
+  };
   static styles = [...baseStyles, unsafeCSS(componentCSS)];
 
   @property({ type: String, reflect: true }) label = "";
@@ -63,7 +70,7 @@ export class QGDSLink extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "has-trailing-icon" })
   hasTrailingIcon = false;
   @property({ type: Boolean, reflect: true }) stretch = false;
-  @property({ type: String, reflect: true }) animation?: Animations | null;
+  @property({ type: String, reflect: true }) animation?: Animation;
   @property({ type: Boolean, reflect: true, attribute: "only-icon" }) onlyIcon = false;
 
   private events = new QgdsEvents(this);
@@ -86,6 +93,18 @@ export class QGDSLink extends LitElement {
     this.events.dispatch("click", { href: this.href, label: this.label }, e);
   }
 
+  private _handleSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    const nodes = slot.assignedNodes();
+    for (const node of nodes) {
+      if (node.nodeType === 3 && node.nodeValue?.trim()) {
+        this.label = node.nodeValue.trim();
+        break;
+      }
+    }
+    scrubSlotContent(slot, null, true, true);
+  };
+
   render() {
     const hasHref = !!this.href;
     // Only set aria-label when there is no visible text — visible label text
@@ -94,7 +113,7 @@ export class QGDSLink extends LitElement {
     const labelContent =
       this.iconName && this.onlyIcon
         ? html`<span class="sr-only">${this.label}</span>`
-        : html`<span class="link-label">${this.label}</span>`;
+        : html`<span class="link-label"><slot @slotchange=${this._handleSlotChange}>${this.label}</slot></span>`;
     const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
     const iconTemplate = this.iconName
       ? html`<qgds-icon icon-id=${this.iconName as IconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
