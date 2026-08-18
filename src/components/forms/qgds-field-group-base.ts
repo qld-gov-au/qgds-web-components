@@ -30,11 +30,9 @@ export interface ResolvedInput {
  * `<qgds-radio-group>` instead.
  */
 export abstract class QGDSFieldGroupBase extends QGDSFormField {
-
   // Calls the subclass override — prototype dispatch is dynamic even during
   // class-field initialisation, so the concrete implementation is always used.
   @state() protected _value: FieldGroupValue = this._initialValue();
-
 
   /** Return the starting value for this group type. */
   protected abstract _initialValue(): FieldGroupValue;
@@ -125,7 +123,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * visual state update after every user interaction, not just on `value`
    * attribute changes (which never fire for groups).
    */
-  override updated(changedProperties: PropertyValues): void {
+  override updated(changedProperties: PropertyValues<this>): void {
     super.updated(changedProperties);
   }
 
@@ -144,9 +142,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
    * Returns the actual HTMLInputElement (either native or from custom element's shadow DOM).
    */
   private _getFirstSlottedInputElement(): HTMLElement | undefined {
-    const firstInput = this.querySelector<HTMLInputElement | (Element & { focus(): void })>(
-      this.groupItemName
-    );
+    const firstInput = this.querySelector<HTMLInputElement | (Element & { focus(): void })>(this.groupItemName);
 
     if (!firstInput) return undefined;
 
@@ -157,7 +153,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
     // If it's a custom element with shadow DOM, try to get its internal input
     if (firstInput instanceof HTMLElement && firstInput.shadowRoot) {
-      const shadowInput = firstInput.shadowRoot.querySelector('input');
+      const shadowInput = firstInput.shadowRoot.querySelector("input");
       if (shadowInput) return shadowInput;
     }
 
@@ -190,7 +186,7 @@ export abstract class QGDSFieldGroupBase extends QGDSFormField {
 
   protected requiredErrorMessage = "This field is required.";
 
-  protected update(changedProperties: PropertyValues): void {
+  protected update(changedProperties: PropertyValues<this>): void {
     super.update(changedProperties);
     this.querySelectorAll<Element & { validationState?: FormValidationState; name?: string; disabled?: boolean }>(
       this.groupItemName

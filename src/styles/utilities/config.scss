@@ -185,4 +185,9 @@ $utils: (
     class: "mr",
     values: map.merge($_spacing, $_neg-spacing),
   ),
+  "overflow": (
+    property: overflow,
+    class: "overflow",
+    values: visible hidden clip scroll auto,
+  ),
 );

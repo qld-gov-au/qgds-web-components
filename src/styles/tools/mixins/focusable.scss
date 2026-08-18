@@ -1,14 +1,14 @@
 ///
-/// Default focus styles for use in buttons etc. Resets :focus and uses :focus-visible instead which only appears on keyboard interaction.
-/// @param {Boolean|number} $offset-outline [true] - Offset the focus ring by 2px.
-/// @param {Boolean} $is-focus-within [false] - Optionally apply styles via :focus-within rather than :focus-visible
+/// Apply default focus styles for use in buttons etc. Uses :focus rather than :focus-visible instead which only appears on keyboard interaction.
+/// @param {Boolean|dimension} $offset-outline [true] - Offset the focus ring by 2px.
+/// @param {Boolean} $is-focus-within [false] - Optionally apply styles via :focus-within rather than :focus
 /// @param {String} $outline-width: [3px] The width of the outline.
-/// @param {String} $custom-selector [null] - If passed, will override $is-focus-within and apply focus styles instead to a custom selector string. @see SearchInput
+/// @param {Boolean} $inverse [false] - Apply the inverse focus color rather than default, for use when the focusable element has a different palette context to its parent.
 /// @content
 
-@mixin focusable($offset-outline: true, $is-focus-within: false, $outline-width: 3px, $custom-selector: null) {
+@mixin focusable($offset-outline: true, $is-focus-within: false, $outline-width: 3px, $inverse: false) {
   // outline styles without the pseudo state to allow for transition animations.
-  $initial-offset: 0 - $outline-width;
+  $initial-offset: 0;
   $outline-offset: $offset-outline;
 
   @if $offset-outline == true {
@@ -20,11 +20,27 @@
   outline: transparent solid $outline-width;
   outline-offset: $initial-offset;
 
-  $selector: if($custom-selector, $custom-selector, if($is-focus-within, ":focus-within", ":focus"));
+  $selector: if($is-focus-within, "&:focus-within", "&:focus");
 
-  &#{$selector} {
-    outline: var(--qgds-color-focus-default, #002e85) solid $outline-width;
-    outline-offset: $outline-offset;
+  #{$selector} {
+    @include focus-styles($offset: $outline-offset, $width: $outline-width, $inverse: $inverse);
     @content;
   }
+}
+
+///
+/// Raw focus outline styles. Same as focusable mixin, except does not output any selector eg &:focus {}, so use this within any custom selector at will.
+/// @param {dimension} $offset [2px] Specify the outline-offset
+/// @param {dimension} $width [3px] Specify the outline width
+/// @param {boolean} $inverse [false] Apply the inverse focus color rather than default, for use when the focusable element has a different palette context to its parent.
+@mixin focus-styles($offset: 2px, $width: 3px, $inverse: false) {
+  @if $inverse {
+    outline-color: var(--qgds-color-focus-inverse, #c6ffff);
+  } @else {
+    outline-color: var(--qgds-color-focus-default, #002e85);
+  }
+
+  outline-width: $width;
+  outline-style: solid;
+  outline-offset: $offset;
 }

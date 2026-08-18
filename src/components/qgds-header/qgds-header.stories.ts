@@ -18,6 +18,13 @@ import "../qgds-navigation/qgds-navigation";
 const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
 const { args: navArgs, template: navTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 
+const navItems = html`
+  <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-navigation-item>
+  <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+  <qgds-navigation-item label="About" href="#about"></qgds-navigation-item>
+  <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta" icon-name="phone"></qgds-navigation-item>
+`;
+
 type Args = typeof args;
 type Story = StoryObj<Args>;
 
@@ -74,11 +81,14 @@ export const Default: Story = {
         <qgds-attribution-bar slot="pre-header" palette="bold" url="https://www.qld.gov.au" label="qld.gov.au">
           <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
         </qgds-attribution-bar>
-        <qgds-search-input slot="search"></qgds-search-input> ${navTemplate({
-          ...navArgs,
-          slot: "navigation",
-          id: "mynav",
-        })}`
+        <qgds-search-input slot="search"></qgds-search-input> ${navTemplate(
+          {
+            ...navArgs,
+            slot: "navigation",
+            id: "mynav",
+          },
+          navItems
+        )}`
     ),
   decorators: [
     withEventActions([

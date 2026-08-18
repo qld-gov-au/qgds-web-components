@@ -22,7 +22,7 @@
  *  validateSlotContent(slot, { "qgds-link": 3, "qgds-link-item": -1 });
  *
  *  Allow only text nodes
- *  validateSlotContent(slot, null, null, true);
+ *  validateSlotContent(slot, null, false, true);
  * }
  *
  * render() => html`<slot @slotchange={this._handleSlotChange} ></slot>`
@@ -31,37 +31,33 @@
  */
 export function scrubSlotContent(
   slot: HTMLSlotElement,
-  validElements?: string | string[] | Record<string, number>,
+  validElements?: string | string[] | Record<string, number> | null,
   flatten = false,
   allowTextNodes = false
 ): boolean {
-  let valid: boolean = true;
   const nodes = slot.assignedNodes({ flatten });
+  const nodesToRemove: Node[] = [];
   const counts: Record<string, number> = {};
+  let valid = true;
 
-  nodes.forEach((node) => {
+  for (const node of nodes) {
     if (node.nodeType === 3) {
-      // Text node
       if (!allowTextNodes) {
-        node.parentNode?.removeChild(node);
+        nodesToRemove.push(node);
         valid = false;
       }
-      return;
+      continue;
     }
 
-    if (node.nodeType !== 1) return; // Only process elements
+    if (node.nodeType !== 1) continue;
 
     const tagName = node.nodeName;
     let allowed = false;
 
     if (typeof validElements === "string") {
-      if (tagName.toLowerCase() === validElements.toLowerCase()) {
-        allowed = true;
-      }
+      allowed = tagName.toLowerCase() === validElements.toLowerCase();
     } else if (Array.isArray(validElements)) {
-      if (validElements.some((v) => v.toLowerCase() === tagName.toLowerCase())) {
-        allowed = true;
-      }
+      allowed = validElements.some((v) => v.toLowerCase() === tagName.toLowerCase());
     } else if (typeof validElements === "object" && validElements !== null) {
       const max = validElements[tagName] ?? validElements[tagName.toLowerCase()];
       if (max !== undefined) {
@@ -73,10 +69,15 @@ export function scrubSlotContent(
     }
 
     if (!allowed) {
-      node.parentNode?.removeChild(node);
+      nodesToRemove.push(node);
       valid = false;
     }
-  });
+  }
+
+  // Batch remove in one pass
+  for (const node of nodesToRemove) {
+    node.parentNode?.removeChild(node);
+  }
 
   return valid;
 }

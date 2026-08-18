@@ -3,26 +3,13 @@
 @use "../../styles/tools/mixins" as m;
 
 :host {
-  --nav-bg: var(--qgds-color-background-shade, #f5f5f5);
-  --nav-bg-hover: var(--qgds-color-background-alt, #f5f5f5);
-  --nav-border: var(--qgds-color-accent-design-accent, #ebebeb);
-  --nav-border-hover: var(--qgds-color-action-primary-hover, #c1c1c1);
-  --nav-border-active: var(--qgds-color-background, #005eb8);
-  --nav-link: var(--qgds-color-link-default, #005eb8);
-  --nav-link-hover: var(--qgds-color-link-hover, #005eb8);
-  --nav-accent: var(--qgds-color-action-primary, #005eb8);
-  --nav-sub-bg: var(--qgds-color-background, #ffffff);
-
-  // sub nav objects
-  --qgds-link-padding2: 0;
-
   display: block;
   position: relative;
   z-index: 200;
 }
 
 .navigation {
-  background-color: var(--nav-bg);
+  background-color: var(--qgds-color-background-shade, #f5f5f5);
   position: relative;
 
   &.is-horizontal {
@@ -33,10 +20,9 @@
   }
 
   &.is-vertical {
-    --no-link-padding: 0;
     --accent-width: #{f.remify(4px)};
 
-    border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
+    // border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
 
     @include m.md-up() {
       --accent-width: #{f.remify(6px)};
@@ -47,17 +33,15 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: stretch;
-    block-size: var(--nav-bar-height);
 
     .is-horizontal & {
       // pull the accent border underneath nav items.
       margin-block-end: calc(var(--accent-width) * -1);
+      flex-wrap: wrap;
     }
 
     .is-vertical & {
       flex-direction: column;
-      border-block-start: 1px solid var(--qgds-color-border, #ebebeb);
-      margin-inline-start: calc(var(--accent-width) * -1);
     }
   }
 }
@@ -96,7 +80,7 @@ dialog {
     transition-behavior: allow-discrete;
   }
 
-  // native <dialog> element uses [open] att, is-open class is kept here just as fallback
+  // native <dialog> element uses [open] attr, is-open class is kept here just as fallback
   &.is-open,
   &[open] {
     // ease out as the drawer opens
@@ -119,12 +103,17 @@ dialog {
 
   // drawer-header
   &-header {
-    position: sticky;
     background-color: var(--qgds-color-background, #005eb8);
-    inset-block-start: 0;
     padding-inline-start: f.remify(16px);
     block-size: f.remify(48px);
-    z-index: 1;
+    z-index: 3;
+    margin-block-end: -1px; // pull up the top border of first item.
+    color: var(--qgds-color-text-heading);
+    font-size: f.remify(14px);
+
+    qgds-tile-button {
+      border-inline-start: 1px solid var(--qgds-color-border);
+    }
   }
 
   @include m.md-up() {
@@ -132,6 +121,14 @@ dialog {
 
     &-header {
       block-size: f.remify(72px);
+      font-size: f.remify(16px);
     }
   }
+}
+
+// give the cta block some zindex
+slot[name="mobile-cta"] {
+  display: block;
+  position: relative;
+  z-index: 3;
 }

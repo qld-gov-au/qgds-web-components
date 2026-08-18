@@ -44,7 +44,7 @@ export class QGDSSearchSuggestionGroup extends LitElement {
   @property({ type: String, attribute: "view-more-label" }) viewMoreLabel = "View more";
   @property({ type: String, attribute: "view-more-url" }) viewMoreUrl = "";
 
-  protected updated(changed: PropertyValues): void {
+  protected updated(changed: PropertyValues<this>): void {
     if (changed.has("type")) {
       this._propagateType();
     }
