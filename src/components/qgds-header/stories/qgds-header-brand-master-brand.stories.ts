@@ -1,11 +1,21 @@
-import type { Meta } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components";
 
-import { CoatOfArms, headerBrandParameters } from "./qgds-header-brand.stories";
+import {
+  CoatOfArms as CoatOfArmsStory,
+  CoatOfArmsAndSiteName as CoatOfArmsAndSiteNameStory,
+  headerBrandParameters,
+} from "./qgds-header-brand-story-definitions";
 
-export { CoatOfArms };
+// Declaring it locally triggers Storybook "startCase" formatting engine
+export const CoatOfArms: StoryObj = {
+  ...CoatOfArmsStory,
+};
+export const CoatOfArmsAndSiteName: StoryObj = {
+  ...CoatOfArmsAndSiteNameStory,
+};
 
 export default {
-  title: "Components/Header/Brands/01 MasterBrand",
+  title: "Components/Header/Brands/MasterBrand",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;

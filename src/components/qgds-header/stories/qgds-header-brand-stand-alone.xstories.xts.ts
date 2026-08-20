@@ -41,7 +41,7 @@ export const BrandLogoAndSiteNameOneRowSiteUrlTop: StoryObj = {
 };
 
 export default {
-  title: "Components/Header/Brands/Endorsed",
+  title: "Components/Header/Brands/StandAlone",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;
