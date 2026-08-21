@@ -1,13 +1,14 @@
 import {
   Meta,
   Title,
-  // Description,
+  Description,
   Primary,
-  // Controls,
+  Controls,
   Stories,
   // ArgTypes,
   Canvas,
   Markdown,
+  TableOfContents,
 } from "@storybook/addon-docs/blocks";
 
 import * as GridStories from "./grid.stories";
@@ -15,22 +16,39 @@ import * as GridStories from "./grid.stories";
 <Meta title="Core Styles/Layout/Grid" />
 <Title of={GridStories} />
 
-<Primary of={GridStories} />
+The QGDS Web Components package provides global utility classes for CSS grid-based layouts.
+Use the defaults for an easy 12 column grid with responsive variants, or apply responsive and modifier classes for custom configurations.
 
-<Canvas of={GridStories.Default} withToolbar={true} sourceState="shown" />
+## Default Grid
+
+<Description of={GridStories.Default} />
+<Canvas of={GridStories.Default} sourceState="hidden" />
+
+## Custom Grid
+
+<Description of={GridStories.CustomGrid} />
+<Canvas of={GridStories.CustomGrid} />
+
+## Auto-fill / auto-fit
+
+<Description of={GridStories.AutoGrid} />
+
+<Canvas of={GridStories.AutoGrid} sourceState="hidden" />
+
+<Controls of={GridStories.AutoGrid} />
 
 ## API Reference
 
 <Markdown>
   {`
 
-| CSS Class               | Description                                                                                                                                                         | Responsive? |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| \`qgds-cols\`           | Base class to apply grid system. Required in addition to any additional modifiers. Defaults to 4 columns on small screens, 6 on medium (>700px) and 12 on lg (>992) | n/a         |
-| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                                                             | yes         |
-| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
-| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                  | no          |
-| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                                                                | yes         |
+| CSS Class               | Description                                                                                                                                                                 | Responsive? |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| \`qgds-cols\`           | Base class to apply grid system. Required in addition to any additional modifiers. Defaults to 4 columns on small screens, 6 on medium up (700px) and 12 on lg and up (992) | n/a         |
+| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                                                                     | yes         |
+| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                          | no          |
+| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                          | no          |
+| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                                                                        | yes         |
 
 `}
 
