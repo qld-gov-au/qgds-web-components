@@ -8,6 +8,7 @@
   max-inline-size: 100%;
   margin-inline: auto;
   background-color: var(--qgds-color-background);
+  color: var(--qgds-color-text-default); // Make sure any custom content starts with correct text color
   box-shadow: var(--qgds-elevation-2);
 
   &-container {

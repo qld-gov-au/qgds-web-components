@@ -45,6 +45,7 @@ export { QGDSLinkItem } from "./components/qgds-link-item/qgds-link-item";
 export { QGDSLoadingSpinner } from "./components/qgds-loading-spinner/qgds-loading-spinner";
 export { QGDSLogo } from "./components/qgds-logo/qgds-logo";
 export { QGDSNavigation } from "./components/qgds-navigation/qgds-navigation";
+export { QGDSNavigationItem } from "./components/qgds-navigation/qgds-navigation-item";
 export { QGDSPagination } from "./components/qgds-pagination/qgds-pagination";
 export { QGDSPromotionalPanel } from "./components/qgds-promotional-panel/qgds-promotional-panel";
 export { QGDSRadio } from "./components/forms/qgds-radio/qgds-radio";

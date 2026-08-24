@@ -139,7 +139,7 @@ export abstract class QGDSFormField extends LitElement {
 
   // ── Lifecycle ──────────────────────────────────────────────────────────────
 
-  updated(changedProperties: PropertyValues) {
+  updated(changedProperties: PropertyValues<this>) {
     super.updated(changedProperties);
 
     if (changedProperties.has("id") && !this.id) {

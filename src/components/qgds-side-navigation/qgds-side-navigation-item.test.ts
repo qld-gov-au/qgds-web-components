@@ -51,7 +51,6 @@ describe("qgds-side-navigation-item", () => {
   it("uses slotted text content as the label and detects nested child items", async () => {
     element.innerHTML = `Parent <qgds-side-navigation-item href="/child" label="Child"></qgds-side-navigation-item>`;
     await element.updateComplete;
-    // await new Promise(resolve => requestAnimationFrame(resolve));
     expect(element.label).toBe("Parent");
     expect(element?.level).toBe(1);
 

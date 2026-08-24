@@ -14,10 +14,6 @@ import "../qgds-link/qgds-link.js";
  * @property {string} [href] - The destination URL. Defaults to "#".
  * @property {boolean} [is-view-all] - When true, uses the "view-all" icon at size "lg". Otherwise uses "arrow-right" at size "md".
  *
- * @cssprop {length} --qgds-link-icon-size - Override the icon size (default 2rem).
- * @cssprop {length} --qgds-link-padding - Override the link block-end padding.
- * @cssprop {length|string} --qgds-link-margin-inline-start - Override the inline-start margin.
- *
  * @example
  * ```html
  * <qgds-call-to-action label="View all services" href="/services" is-view-all></qgds-call-to-action>

@@ -5,7 +5,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import componentCSS from "./qgds-link-item.styles.scss?inline";
 import { resetStyles } from "../../styles";
 import "../qgds-link/qgds-link.js";
-import type { Animations, IconSize } from "../qgds-link/qgds-link.js";
+import type { Animation } from "../qgds-link/qgds-link.js";
+import type { IconSize } from "../qgds-icon/qgds-icon.js";
 import "../qgds-icon/qgds-icon.js";
 import { LinkColumnDirection } from "../qgds-link-column/qgds-link-column";
 import { NavigationVariant } from "../qgds-navigation/qgds-navigation";
@@ -36,8 +37,6 @@ import { NavigationVariant } from "../qgds-navigation/qgds-navigation";
  * @slot - Standard mode: nested `<qgds-link-item>` elements. Nav mode: a single `<qgds-link-column>`.
  *
  * @cssprop {length} --qgds-link-item-padding-top - Override block-start padding (default 0.75rem).
- * @cssprop {length} --qgds-link-padding - Override link block-end padding.
- * @cssprop {length|string} --qgds-link-margin-inline-start - Override inline-start margin.
  *
  * @example
  * ```html
@@ -52,7 +51,7 @@ export class QGDSLinkItem extends LitElement {
   @property({ type: String }) href = "";
   @property({ type: String, attribute: "icon-name" }) iconName: "" | "arrow-right" = "";
   @property({ type: String, attribute: "icon-size" }) iconSize: IconSize | "" = "md";
-  @property({ type: String }) animation: Animations = "";
+  @property({ type: String }) animation: Animation = "";
   @property({ type: String }) description?: string = "";
   @property({ type: Boolean, attribute: "is-disabled" }) isDisabled = false;
   @property({ type: Boolean, attribute: "only-icon", reflect: true }) onlyIcon = false;
@@ -189,7 +188,7 @@ export class QGDSLinkItem extends LitElement {
 
     const col = document.createElement("qgds-link-column");
     col.setAttribute("columns", String(this.columns));
-    col.setAttribute("layout", this.columnsDirection);
+    col.setAttribute("direction", this.columnsDirection);
 
     if (this.navigationVariant === "horizontal") {
       if (this.viewAllUrl) col.setAttribute("view-all-url", this.viewAllUrl);
@@ -245,12 +244,12 @@ export class QGDSLinkItem extends LitElement {
           ?is-disabled="${this.isDisabled}"
           icon-size="${isHorizontal && this._hasDropdown ? "sm" : this.iconSize}"
           aria-current="${ifDefined(this.isCurrent ? ("page" as const) : undefined)}"
-          @click="${(e: Event) => {
+          @click=${(e: Event) => {
             if (isHorizontal && this._hasDropdown) {
               e.preventDefault();
               this._toggle();
             }
-          }}"
+          }}
         ></qgds-link>
         ${this.description ? html`<p class="description">${this.description}</p>` : ""}
         ${!isHorizontal && this._hasDropdown
@@ -272,7 +271,7 @@ export class QGDSLinkItem extends LitElement {
       `;
     }
 
-    // ── Standard mode (qgds-link-column, side-navigation, etc.) ─────────────
+    // ── Standard mode (qgds-link-column, etc.) ─────────────
     return html`
       <qgds-link
         label=${this.label}

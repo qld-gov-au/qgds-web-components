@@ -114,7 +114,7 @@ export class QGDSSearchInput extends LitElement {
 
   static styles = [baseStyles, formStyles, unsafeCSS(componentCSS), utilitiesStyles];
 
-  protected willUpdate(changed: PropertyValues): void {
+  protected willUpdate(changed: PropertyValues<this>): void {
     if (changed.has("debounce")) {
       this._dispatchInputDebounced = debounce(() => this._dispatchInput(), Math.max(0, this.debounce));
     }
