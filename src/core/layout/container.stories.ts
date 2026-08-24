@@ -69,15 +69,15 @@ export const Default: StoryObj = {
 };
 
 export const NoPadding: StoryObj = {
-  parameters: {
-    chromatic: {
-      modes: {
-        sm: allModes.SM,
-        md: allModes.MD,
-        lg: allModes.LG,
-        xl: allModes.XL,
-        xxl: allModes.LG,
-      },
-    },
-  },
+  // parameters: {
+  //   chromatic: {
+  //     modes: {
+  //       sm: allModes.SM,
+  //       md: allModes.MD,
+  //       lg: allModes.LG,
+  //       xl: allModes.XL,
+  //       xxl: allModes.LG,
+  //     },
+  //   },
+  // },
 };
