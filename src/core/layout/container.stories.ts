@@ -56,6 +56,7 @@ export default meta;
 export const Default: StoryObj = {
   parameters: {
     chromatic: {
+      delay: 1000,
       modes: {
         sm: allModes.SM,
         md: allModes.MD,
