@@ -15,17 +15,19 @@ const meta = {
   },
   render: (args) => {
     return html`<div class="qgds-container${args.hasNoPadding ? " has-no-padding" : ""}">
-      <div>This is the container content.</div>
+      <div style="background-color: color-mix(#005eb8, transparent 85%); padding: 8px;">
+        This is the container content.
+      </div>
     </div>`;
   },
   decorators: [
     (story) =>
       html` <style>
-          .qgds-container > div {
+          /* .qgds-container > div {
             background-color: color-mix(#005eb8, transparent 85%);
 
             padding: 8px;
-          }
+          } */
 
           .sbdocs-content {
             display: grid;
@@ -69,15 +71,15 @@ export const Default: StoryObj = {
 };
 
 export const NoPadding: StoryObj = {
-  // parameters: {
-  //   chromatic: {
-  //     modes: {
-  //       sm: allModes.SM,
-  //       md: allModes.MD,
-  //       lg: allModes.LG,
-  //       xl: allModes.XL,
-  //       xxl: allModes.LG,
-  //     },
-  //   },
-  // },
+  parameters: {
+    chromatic: {
+      modes: {
+        sm: allModes.SM,
+        md: allModes.MD,
+        lg: allModes.LG,
+        xl: allModes.XL,
+        xxl: allModes.LG,
+      },
+    },
+  },
 };
