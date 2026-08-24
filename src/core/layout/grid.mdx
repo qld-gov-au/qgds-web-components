@@ -22,18 +22,18 @@ Use the defaults for an easy 12 column grid with responsive variants, or apply r
 ## Default Grid
 
 <Description of={GridStories.Default} />
-<Canvas of={GridStories.Default} sourceState="hidden" />
+<Canvas of={GridStories.Default} sourceState="shown" />
 
 ## Custom Grid
 
 <Description of={GridStories.CustomGrid} />
-<Canvas of={GridStories.CustomGrid} />
+<Canvas of={GridStories.CustomGrid} sourceState="shown" />
 
 ## Auto-fill / auto-fit
 
 <Description of={GridStories.AutoGrid} />
 
-<Canvas of={GridStories.AutoGrid} sourceState="hidden" />
+<Canvas of={GridStories.AutoGrid} sourceState="shown" />
 
 <Controls of={GridStories.AutoGrid} />
 
@@ -42,13 +42,33 @@ Use the defaults for an easy 12 column grid with responsive variants, or apply r
 <Markdown>
   {`
 
-| CSS Class               | Description                                                                                                                                                                 | Responsive? |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| \`qgds-cols\`           | Base class to apply grid system. Required in addition to any additional modifiers. Defaults to 4 columns on small screens, 6 on medium up (700px) and 12 on lg and up (992) | n/a         |
-| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                                                                     | yes         |
-| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                          | no          |
-| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                                                          | no          |
-| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                                                                        | yes         |
+| CSS Class               | Description                                                                                                                        | Responsive options? |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| \`qgds-cols\`           | Required Base class to apply grid system. Defaults to 4 columns on small screens, 6 on medium up (700px) and 12 on lg and up (992) | n/a                 |
+| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                            | yes                 |
+| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                 | no                  |
+| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                 | no                  |
+| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                               | yes                 |
+
+<br>
+
+| CSS Custom Property       | Description                                                                                                                  |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| \`--qgds-col-min\`        | Control minimum item width. Default value is \`5rem\`. Only applies if using auto-fill or auto-fit grids.                    |
+| \`--qgds-grid-gutter\`    | Control the space between items. Default is responsive: \`1rem\` / \`1.5rem\` / \`2rem\` at \`sm\` / \`md\` / \`lg\` screens |
+| \` --qgds-grid-gutter-x\` | Affect only the horizontal space betweent items.                                                                             |
+| \` --qgds-grid-gutter-y\` | Affect only the vertical space betweent items.                                                                               |
+
+<br>
+
+| Responsive Classes                                     | Breakpoint value  |
+| ------------------------------------------------------ | ----------------- |
+| \`qgds-cols-{1-12}:xs\` <br> \`qgds-span-{1-12}:xs\`   | XS (from 320px)   |
+| \`qgds-cols-{1-12}:sm\` <br> \`qgds-span-{1-12}:sm\`   | SM (from 400px)   |
+| \`qgds-cols-{1-12}:md\` <br> \`qgds-span-{1-12}:md\`   | MD (from 700px)   |
+| \`qgds-cols-{1-12}:lg\` <br> \`qgds-span-{1-12}:lg\`   | LG (from 992px)   |
+| \`qgds-cols-{1-12}:xl\` <br> \`qgds-span-{1-12}:xl\`   | XL (from 1312px)  |
+| \`qgds-cols-{1-12}:xxl\` <br> \`qgds-span-{1-12}:xxl\` | XXL (from 1599px) |
 
 `}
 

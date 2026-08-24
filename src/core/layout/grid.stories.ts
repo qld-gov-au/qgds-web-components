@@ -2,48 +2,47 @@ import type { StoryObj, Meta } from "@storybook/web-components-vite";
 import { html } from "lit";
 import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
-import { classMap } from "lit/directives/class-map.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { allModes } from "../../../.storybook/modes";
 
 const oneToTwelve = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
-const columnAutoOptions = ["auto-fill", "auto-fit"] as const;
-const columnCountOptions = [0, ...oneToTwelve, ...columnAutoOptions] as const;
+const columnClassesCount = oneToTwelve.map((n) => `qgds-col-${n}`);
+const columnClassesAuto = ["qgds-cols-auto-fill", "qgds-cols-auto-fit"] as const;
+const columnClassesAll = [...columnClassesAuto, ...columnClassesCount] as const;
 
 interface Args {
   itemCount: number;
   itemSpan: (typeof oneToTwelve)[number];
-  columnCount?: (typeof columnCountOptions)[number];
+  columnClasses?: (typeof columnClassesAll)[number];
   columnMin?: number;
-  // gutterWidth?: number;
 }
 
 const meta = {
   title: "Core styles/Layout/Grid",
-  component: "grid",
+  component: "qgds-cols",
   tags: ["!dev"],
-  parameters: {
-    docs: {
-      toc: {
-        disable: false,
-      },
-    },
-  },
   args: {
-    columnCount: undefined,
+    columnClasses: undefined,
     columnMin: 5,
     itemCount: 12,
     itemSpan: 1,
-    // gutterWidth: 32,
   },
   argTypes: {
-    columnCount: {
+    columnClasses: {
       name: "Column count",
-      options: columnCountOptions,
-      table: { category: "Parent options" },
+      options: columnClassesAll,
+      control: "select",
+      table: {
+        category: "Parent options",
+      },
     },
     columnMin: {
       name: "Column min-width",
-      table: { category: "Parent options" },
+      description:
+        "Control minimum item width in rem via CSS custom variable `--qgds-col-min`. Default is 5rem. Only applies if using auto-fill or auto-fit grids.",
+      table: {
+        category: "Parent options",
+      },
     },
     itemCount: {
       name: "Item count",
@@ -51,28 +50,18 @@ const meta = {
       control: "number",
       table: { category: "Child options" },
     },
-    itemSpan: {
-      name: "Item span",
-      control: "number",
-      table: { category: "Child options" },
+  },
+  parameters: {
+    chromatic: {
+      modes: {
+        sm: allModes.SM,
+        md: allModes.MD,
+        lg: allModes.LG,
+        xl: allModes.XL,
+        xxl: allModes.LG,
+      },
     },
   },
-  render: (args) => {
-    const columnMinInlineStyle =
-      args.columnMin && (args.columnCount === "auto-fill" || args.columnCount === "auto-fit")
-        ? `--qgds-col-min: ${args.columnMin}rem;`
-        : undefined;
-    return html`<div
-      class="qgds-cols ${classMap({ [`qgds-cols-${args.columnCount}`]: args.columnCount !== undefined })}"
-      style=${ifDefined(columnMinInlineStyle)}
-    >
-      ${map(range(args.itemCount), (i) => {
-        // prettier-ignore
-        return html`<div class=${ifDefined(args.itemSpan > 1 ? `qgds-span-${args.itemSpan}` : undefined )} >Item ${i + 1}</div>\n      `;
-      })}
-    </div>`;
-  },
-
   decorators: [
     (story) =>
       html` <style>
@@ -140,14 +129,14 @@ export const Default: Story = {
  */
 export const CustomGrid: Story = {
   render: () => {
-    return html`<div class="qgds-cols qgds-cols-2 qgds-cols-2:sm qgds-cols-3:md qgds-cols-6:lg qgds-cols-8:xl">
+    return html`<div class="qgds-cols qgds-cols-2 qgds-cols-3:sm qgds-cols-4:md qgds-cols-6:lg qgds-cols-8:xl">
       <div class="qgds-span-1">span-1</div>
       <div class="qgds-span-5 ">span-5</div>
       <div class="qgds-span-2">span-2</div>
       <div class="qgds-span-4">span-4</div>
-      <div class="qgds-span-1  qgds-span-2:lg">span-1 span-2:lg</div>
-      <div class="qgds-span-1  qgds-span-2:lg">span-1 span-2:lg</div>
-      <div class="qgds-span-1  qgds-span-2:lg">span-1 span-2:lg</div>
+      <div class="qgds-span-1 qgds-span-2:md  qgds-span-4:xl">span-1 span-2:md span-4:xl</div>
+      <div class="qgds-span-1  qgds-span-2:md qgds-span-4:xl">span-1 span-2:md span-4:xl</div>
+      <div class="qgds-span-1  qgds-span-2:md qgds-span-4:xl">span-1 span-2:md span-4:xl</div>
     </div>`;
   },
 };
@@ -157,28 +146,46 @@ export const CustomGrid: Story = {
  * Apply class `qgds-cols-auto-fill` to create empty grid columns to complete a row (generally recommended).
  * Alternatively apply class `qgds-cols-auto-fit` to ensure items stretch to fill an entire row.
  * Responsive span classes for child items also work.
- * - Control minimum column width with CSS custom property `qgds-col-min` Default is 5rem.
+ * - Control minimum column width with CSS custom property `--qgds-col-min` Default is 5rem.
  */
 export const AutoGrid: Story = {
   name: "Auto-fill / auto-fit",
   args: {
     itemCount: 1,
-    itemSpan: 1,
-    columnCount: "auto-fill",
+    columnClasses: "qgds-cols-auto-fill",
   },
-  tags: ["!dev"],
+  argTypes: {
+    columnClasses: {
+      name: "Auto sizing behaviour",
+      description: "Automatic column sizing behaviour CSS class.",
+      control: {
+        type: "inline-radio",
+        labels: {
+          "qgds-cols-auto-fill": "auto-fill",
+          "qgds-cols-auto-fit": "auto-fit",
+        },
+      },
+      table: {
+        type: {
+          summary: columnClassesAuto.join("|"),
+        },
+      },
+      options: columnClassesAuto,
+    },
+    itemSpan: {
+      table: {
+        disable: true,
+      },
+    },
+  },
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
   render: (args) => {
-    const columnMinInlineStyle =
-      args.columnMin && (args.columnCount === "auto-fill" || args.columnCount === "auto-fit")
-        ? `--qgds-col-min: ${args.columnMin}rem;`
-        : undefined;
-    return html`<div
-      class="qgds-cols ${classMap({ [`qgds-cols-${args.columnCount}`]: args.columnCount !== undefined })}"
-      style=${ifDefined(columnMinInlineStyle)}
-    >
-      <div class="qgds-span-1">span-1</div>
-      <div class="qgds-span-2">span-2</div>
-      <div class="qgds-span-3">span-3</div>
+    const columnMinInlineStyle = args.columnMin ? `--qgds-col-min: ${args.columnMin}rem;` : undefined;
+    return html`<div class="qgds-cols ${args.columnClasses}" style=${ifDefined(columnMinInlineStyle)}>
       ${map(range(args.itemCount), (i) => {
         // prettier-ignore
         return html`<div class=${ifDefined(args.itemSpan > 1 ? `qgds-span-${args.itemSpan}` : undefined )} >Item ${i + 1}</div>\n      `;
