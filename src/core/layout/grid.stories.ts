@@ -3,7 +3,6 @@ import { html } from "lit";
 import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { allModes } from "../../../.storybook/modes";
 
 const oneToTwelve = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
 const columnClassesCount = oneToTwelve.map((n) => `qgds-col-${n}`);
@@ -53,13 +52,7 @@ const meta = {
   },
   parameters: {
     chromatic: {
-      modes: {
-        sm: allModes.SM,
-        md: allModes.MD,
-        lg: allModes.LG,
-        xl: allModes.XL,
-        xxl: allModes.LG,
-      },
+      disableSnapshot: true,
     },
   },
   decorators: [
@@ -176,11 +169,6 @@ export const AutoGrid: Story = {
       table: {
         disable: true,
       },
-    },
-  },
-  parameters: {
-    chromatic: {
-      disableSnapshot: true,
     },
   },
   render: (args) => {

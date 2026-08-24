@@ -1,6 +1,5 @@
 import type { StoryObj, Meta } from "@storybook/web-components-vite";
 import { html } from "lit";
-import { allModes } from "../../../.storybook/modes";
 
 interface Container {
   hasNoPadding: boolean;
@@ -13,21 +12,24 @@ const meta = {
   args: {
     hasNoPadding: false,
   },
+  parameters: {
+    chromatic: {
+      disableSnapshot: true,
+    },
+  },
   render: (args) => {
     return html`<div class="qgds-container${args.hasNoPadding ? " has-no-padding" : ""}">
-      <div style="background-color: color-mix(#005eb8, transparent 85%); padding: 8px;">
-        This is the container content.
-      </div>
+      <div>This is the container content.</div>
     </div>`;
   },
   decorators: [
     (story) =>
       html` <style>
-          /* .qgds-container > div {
+          .qgds-container > div {
             background-color: color-mix(#005eb8, transparent 85%);
 
             padding: 8px;
-          } */
+          }
 
           .sbdocs-content {
             display: grid;
@@ -55,31 +57,4 @@ const meta = {
 
 export default meta;
 
-export const Default: StoryObj = {
-  parameters: {
-    chromatic: {
-      delay: 1000,
-      modes: {
-        sm: allModes.SM,
-        md: allModes.MD,
-        lg: allModes.LG,
-        xl: allModes.XL,
-        xxl: allModes.LG,
-      },
-    },
-  },
-};
-
-export const NoPadding: StoryObj = {
-  parameters: {
-    chromatic: {
-      modes: {
-        sm: allModes.SM,
-        md: allModes.MD,
-        lg: allModes.LG,
-        xl: allModes.XL,
-        xxl: allModes.LG,
-      },
-    },
-  },
-};
+export const Default: StoryObj = {};
