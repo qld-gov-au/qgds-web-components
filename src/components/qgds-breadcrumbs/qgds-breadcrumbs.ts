@@ -15,9 +15,9 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
  *
  * @example
  * <qgds-breadcrumbs>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section1">Section 1</qgds-breadcrumbs-item>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section2">Section 2</qgds-breadcrumbs-item>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section3">Section 3</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section1">Section 1</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section2">Section 2</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section3">Section 3</qgds-breadcrumbs-item>
  * </qgds-breadcrumbs>
  *
  * @attribute aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
