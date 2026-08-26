@@ -50,19 +50,10 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: Boolean, attribute: "is-last", reflect: true })
   isLast: boolean = false;
 
-  @property({ type: Boolean, attribute: false })
-  isExpanded = false;
-
   // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute("role", "listitem");
-  }
-
-  updated(changed: Map<string, unknown>) {
-    if (changed.has("isExpanded") || changed.has("isDropdownItem")) {
-      this.tabIndex = this.isDropdownItem === true ? (this.isExpanded ? 0 : -1) : 0;
-    }
   }
 
   render() {

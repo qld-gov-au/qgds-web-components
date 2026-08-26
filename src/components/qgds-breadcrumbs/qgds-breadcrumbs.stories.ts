@@ -12,7 +12,7 @@ const { args, argTypes, template } = getStorybookHelpers<QGDSBreadcrumbs>("qgds-
 
 type Args = typeof args;
 
-const meta: Meta<Args> = {
+const meta = {
   title: "Components/Breadcrumbs",
   component: "qgds-breadcrumbs",
   subcomponents: {
@@ -32,7 +32,7 @@ const meta: Meta<Args> = {
         <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       `
     ),
-};
+} satisfies Meta<Args>;
 export default meta;
 type Story = StoryObj<Args>;
 
@@ -45,6 +45,9 @@ export const Default: Story = {
 export const WithLongText: Story = {
   args: {
     "aria-label": "Breadcrumbs with long text",
+  },
+  globals: {
+    viewport: "LG",
   },
   render: (storyArgs) =>
     template(
@@ -69,3 +72,33 @@ export const WithLongText: Story = {
       `
     ),
 };
+
+export const MenuOpen: Story = {
+  args: {
+    "aria-label": "Breadcrumbs with long text",
+  },
+  globals: {
+    // viewport: "LG",
+  },
+  render: (storyArgs) =>
+    template(
+      { ...storyArgs },
+      html`
+        <qgds-breadcrumbs-item href="/home">Home Page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page1"
+          >Page 1 is having a very long name that is longer than the others</qgds-breadcrumbs-item
+        >
+        <qgds-breadcrumbs-item href="/page2">Page 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page3">Page 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page4">Page 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page5">Page 5</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page6"
+          >Parent page is having a very long name that is longer than the others</qgds-breadcrumbs-item
+        >
+        <qgds-breadcrumbs-item href="/page7"
+          >Current page is having a very long name that is longer than the others</qgds-breadcrumbs-item
+        >
+      `
+    ),
+};
+// When the dropdown menu loses focus ( tabbing or other ) it should close.

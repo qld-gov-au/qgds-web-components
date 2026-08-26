@@ -185,7 +185,6 @@ describe("qgds-breadcrumbs-item", () => {
     await waitForRender(element);
 
     expect(element.getAttribute("role")).toBe("listitem");
-    expect(element.tabIndex).toBe(0);
 
     const anchor = element.shadowRoot?.querySelector("a");
     const slot = anchor?.querySelector("slot");
