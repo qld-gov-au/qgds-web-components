@@ -6,7 +6,8 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import "./qgds-breadcrumbs";
 import "./qgds-breadcrumbs-item";
 
-import type { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
+import { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
+import { expect } from "storybook/test";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSBreadcrumbs>("qgds-breadcrumbs");
 
@@ -47,7 +48,7 @@ export const WithLongText: Story = {
     "aria-label": "Breadcrumbs with long text",
   },
   globals: {
-    viewport: "LG",
+    viewport: "XL",
   },
   render: (storyArgs) =>
     template(
@@ -78,27 +79,32 @@ export const MenuOpen: Story = {
     "aria-label": "Breadcrumbs with long text",
   },
   globals: {
-    // viewport: "LG",
+    viewport: "LG",
   },
-  render: (storyArgs) =>
-    template(
-      { ...storyArgs },
-      html`
-        <qgds-breadcrumbs-item href="/home">Home Page</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item href="/page1"
-          >Page 1 is having a very long name that is longer than the others</qgds-breadcrumbs-item
-        >
-        <qgds-breadcrumbs-item href="/page2">Page 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item href="/page3">Page 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item href="/page4">Page 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item href="/page5">Page 5</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item href="/page6"
-          >Parent page is having a very long name that is longer than the others</qgds-breadcrumbs-item
-        >
-        <qgds-breadcrumbs-item href="/page7"
-          >Current page is having a very long name that is longer than the others</qgds-breadcrumbs-item
-        >
-      `
-    ),
+  render: WithLongText.render,
+  play: async ({ canvasElement, userEvent }) => {
+    // assert the breadcrumbs are in collapsed state
+    const component: QGDSBreadcrumbs | null = canvasElement.querySelector("qgds-breadcrumbs");
+
+    await expect(component).toBeInstanceOf(QGDSBreadcrumbs);
+    await component?.updateComplete;
+
+    const dropdown = component?.shadowRoot?.querySelector("qgds-breadcrumbs-item.dropdown");
+    await expect(dropdown).not.toBeNull();
+
+    const toggle = dropdown?.querySelector(".dropdown-toggle");
+    const controlledElementId = toggle?.getAttribute("aria-controls");
+    const controlledElement = dropdown?.querySelector(`#${controlledElementId}`);
+
+    await expect(dropdown).not.toHaveClass("expanded");
+    await expect(toggle?.getAttribute("aria-expanded")).toBe("false");
+    await expect(controlledElement).not.toBeNull();
+
+    if (toggle) await userEvent.click(toggle);
+
+    await expect(dropdown).toHaveClass("expanded");
+    await expect(toggle?.getAttribute("aria-expanded")).toBe("true");
+
+    // Further interaction test with tabbing need to be done manually - userEvent.tab() cannot focus shadowDOM elements.
+  },
 };
-// When the dropdown menu loses focus ( tabbing or other ) it should close.

@@ -86,6 +86,7 @@ export class QGDSBreadcrumbs extends LitElement {
   // Handle escape key press
   private _handleKeydown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
+      // As long as keydown listener is only active while dropdown is open, it is fine to simply move focus to the toggle button.
       this._dropdownToggle?.focus();
       this._isMenuOpen = false;
     }
