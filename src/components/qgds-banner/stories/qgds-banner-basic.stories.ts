@@ -75,11 +75,11 @@ export const NoBackground: Story = {
       ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       </qgds-breadcrumbs>
       <div>Renew your licence at a customer service centre, government office or police station.</div>
     </qgds-banner>
@@ -121,11 +121,11 @@ export const BackgroundTexture: Story = {
       ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       </qgds-breadcrumbs>
       <div>Renew your licence at a customer service centre, government office or police station.</div>
     </qgds-banner>
@@ -170,11 +170,11 @@ export const BackgroundImage: Story = {
       ?has-shadow=${args["has-shadow"]}
     >
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       </qgds-breadcrumbs>
       <div>Renew your licence at a customer service centre, government office or police station.</div>
     </qgds-banner>

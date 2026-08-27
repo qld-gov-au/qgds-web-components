@@ -39,7 +39,7 @@ describe("qgds-banner", () => {
     element.innerHTML = `
       <div class="slot-abstract">Renew your licence.</div>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item></qgds-breadcrumbs>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item></qgds-breadcrumbs>
       <div slot="cta"><qgds-button target="_self" type="button" aria-label="Primary Action" label="Primary" variant="primary" href="https://www.qld.gov.au" id=""></qgds-button></div>
     `;
 

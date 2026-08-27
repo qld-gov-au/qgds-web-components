@@ -16,8 +16,6 @@ import { classMap } from "lit/directives/class-map.js";
  * <qgds-breadcrumbs-item href="#section1">Section 1</qgds-breadcrumbs-item>
  *
  * @property href - The target URL or anchor for the breadcrumb item
- * @property rel - The relationship of the linked resource to the current document
- * @property target - Specifies whether to open the link in same tab or new tab
  * @property isDropdownItem - Specifies whether the breadcrumb item is inside the vertical dropdown
  * @property isLast - Specifies whether the breadcrumb item is the last item in the sequence
  *
@@ -36,12 +34,6 @@ export class QGDSBreadcrumbsItem extends LitElement {
 
   @property({ type: String })
   href: string = "";
-
-  @property({ type: String })
-  rel?: string;
-
-  @property({ type: String })
-  target?: string;
 
   @property({ type: Boolean, attribute: false })
   isDropdownItem: boolean = false;
@@ -71,8 +63,6 @@ export class QGDSBreadcrumbsItem extends LitElement {
                   "dropdown-item": this.isDropdownItem,
                 })}
                 href=${this.href}
-                rel=${ifDefined(this.rel)}
-                target=${ifDefined(this.target)}
               >
                 <slot></slot>
               </a>
