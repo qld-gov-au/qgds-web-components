@@ -3,7 +3,6 @@ import { html } from "lit";
 
 const meta: Meta = {
   title: "Core styles/Layout/Container",
-  component: "qgds-container",
   args: {
     "Has no padding": false,
   },

@@ -21,44 +21,41 @@
 
 <body class="qgds">
 
-  <qgds-header>
-    <qgds-attribution-bar slot="pre-header" palette="bold">
-      <qgds-link slot="site-name" target="_blank" href="https://www.qld.gov.au" label="qld.gov.au"></qgds-link>
+  <qgds-header site-name="Site name">
+
+    <qgds-attribution-bar label="qld.gov.au" palette="bold" url="https://www.qld.gov.au" slot="pre-header">
       <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
     </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
     <qgds-search-input slot="search"></qgds-search-input>
 
-    <!-- Delivering for QLD logo -->
-    <qgds-logo slot="logo" logo="coa-delivering-for-qld" alt="Queensland Government"></qgds-logo>
+    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="mynav">
+      <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon="" is-current=""></qgds-navigation-item>
+      <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+
+      <qgds-navigation-item label="Full mega menu" href="#" view-all-url="#" icon-name="announcement" is-open=""
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ">
+        <qgds-navigation-item label="Default" href="#"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing"></qgds-navigation-item>
+        <qgds-navigation-item label="Active" href="#" is-active=""
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "></qgds-navigation-item>
+        <qgds-navigation-item href="#"
+          label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q"></qgds-navigation-item>
+        <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut a"></qgds-navigation-item>
+        <qgds-navigation-item label="Active with icon" href="#" icon-name="wheelchair" is-active=""
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "></qgds-navigation-item>
+      </qgds-navigation-item>
+
+      <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta"
+        icon-name="phone"></qgds-navigation-item>
+
+
+    </qgds-navigation>
 
   </qgds-header>
-
-  <qgds-navigation columns="3" columns-direction="vertical" navigation-label="Main" palette="default"
-    variant="horizontal">
-    <qgds-link-item label="Home" href="#" icon-name="home" only-icon="" is-current=""></qgds-link-item>
-
-    <qgds-link-item label="Services" href="#services" view-all-url="#services" view-all-label="View all services">
-      <qgds-link-item label="Visiting someone in hospital" href="#visiting"></qgds-link-item>
-      <qgds-link-item label="Going to hospital" href="#going"></qgds-link-item>
-      <qgds-link-item label="Leaving hospital" href="#leaving"></qgds-link-item>
-      <qgds-link-item label="Aboriginal and Torres Strait Islander support" href="#atsi"></qgds-link-item>
-      <qgds-link-item label="Interpreter services" href="#interpreter"></qgds-link-item>
-      <qgds-link-item label="Your health record" href="#records"></qgds-link-item>
-    </qgds-link-item>
-
-    <qgds-link-item label="Quit smoking" href="#quit" view-all-url="#quit" view-all-label="View all">
-      <qgds-link-item label="Know your habits" href="#habits"
-        description="Learn what makes you feel like smoking, how you can avoid triggers, and change your habits."></qgds-link-item>
-      <qgds-link-item label="What to expect" href="#expect"
-        description="Learn how to manage withdrawal symptoms, stress and possible weight gain."></qgds-link-item>
-      <qgds-link-item label="Use quit tools and apps" href="#tools"
-        description="Keep on track by using digital tools and apps for support, motivation and useful advice while quitting."></qgds-link-item>
-      <qgds-link-item label="Get help from Quitline" href="#quitline"
-        description="Quitline is a telephone service dedicated to helping Queenslanders quit smoking."></qgds-link-item>
-    </qgds-link-item>
-
-    <qgds-link-item label="About" href="#about"></qgds-link-item>
-  </qgds-navigation>
 
 
   <qgds-banner palette="soft" variant="no-banner">

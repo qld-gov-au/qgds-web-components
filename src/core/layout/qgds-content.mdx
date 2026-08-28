@@ -1,0 +1,108 @@
+import {
+  Meta,
+  Title,
+  // Description,
+  Primary,
+  // Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  Controls,
+} from "@storybook/addon-docs/blocks";
+
+import * as ContentStories from "./qgds-content.stories";
+
+<Meta of={ContentStories} />
+<Title />
+
+Add class `qgds-content` to the primary content container of a QGDS page to ensure correct vertical rhythm and spacing between typography and components.
+
+<Primary of={ContentStories} />
+
+<Canvas of={ContentStories.Primary} withToolbar={true} sourceState="shown" />
+<Controls of={ContentStories.Primary} />
+
+## Usage
+
+<div
+  style={{
+    display: "grid",
+    gap: "1rem",
+    padding: "1rem",
+    gridTemplateColumns: "repeat(12, minmax(0, 1fr))",
+    background: "#a6e3f8",
+    borderRadius: "0.5rem",
+  }}
+>
+  <div
+    style={{
+      gridColumn: "1 / -1",
+    }}
+  >
+    .qgds (body or container)
+  </div>
+  <div
+    style={{
+      background: "#f2f2f2",
+      border: "1px solid #d9d9d9",
+      borderRadius: "0.5rem",
+      padding: "1rem",
+      minBlockSize: "5rem",
+      gridColumn: "1 / -1",
+    }}
+  >
+    Header
+  </div>
+  <div
+    style={{
+      background: "#f2f2f2",
+      border: "1px solid #d9d9d9",
+      borderRadius: "0.5rem",
+      minBlockSize: "12rem",
+      padding: "1rem",
+      gridColumn: "span 3",
+    }}
+  >
+    Side Navigation
+  </div>
+  <div
+    style={{
+      background: "#e6f4e6",
+      border: "1px solid #d9d9d9",
+      borderRadius: "0.5rem",
+      minBlockSize: "12rem",
+      padding: "1rem",
+      gridColumn: "span 9",
+    }}
+  >
+    .qgds-content (container)
+  </div>
+  <div
+    style={{
+      background: "#f2f2f2",
+      border: "1px solid #d9d9d9",
+      borderRadius: "0.5rem",
+      minBlockSize: "5rem",
+      gridColumn: "1 / -1",
+      padding: "1rem",
+    }}
+  >
+    Footer
+  </div>
+</div>
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS Class        | Description                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| \`qgds\`         | QGDS styling is applied to any container using the qgds class. This is normally added to the body tag. |
+| \`qgds-content\` | Ensure correct vertical rhythm and spacing between typography and components.                          |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}
