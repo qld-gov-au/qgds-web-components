@@ -74,12 +74,12 @@ export const tagName = "qgds-header";
  * @tagname qgds-header
  *
  * @prop {HeaderPalette} [palette="default"] - Colour palette for the main content of the Header component. Header's colour palette is a subset of the QGDS colour palette.
- * @prop {String} [site-name] - Optional site name displayed besides COA, brand logo, or by its own.
- * @prop {String} [site-url="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
- * @prop {Boolean} [hide-coa-logo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.
- * @prop {Boolean} [hide-mobile-bottom-row=false] - Whether to hide the bottom row on mobile / tablet screens.
- * @prop {MobileContentKey} [mobile-top-content="coa-logo"] - Preferred content for the top row on mobile/tablet. Defaults to `coa-logo` Coat of Arms logo. When the COA logo is set to be hidden, it falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
- * @prop {Boolean} [search-open=false] - Mobile Search button toggle state (drives the button icon only).
+ * @prop {String} [siteName] - Optional site name displayed besides COA, brand logo, or by its own.
+ * @prop {String} [siteUrl="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
+ * @prop {Boolean} [hideCoaLogo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.
+ * @prop {Boolean} [hideMobileBottomRow=false] - Whether to hide the bottom row on mobile / tablet screens.
+ * @prop {MobileContentKey} [mobileTopContent="coa-logo"] - Preferred content for the top row on mobile/tablet. Defaults to `coa-logo` Coat of Arms logo. When the COA logo is set to be hidden, it falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
+ * @prop {Boolean} [searchOpen=false] - Mobile Search button toggle state (drives the button icon only).
  *
  * @slot pre-header - Pre-header content, typically a `<qgds-attribution-bar>`. Hidden below the desktop breakpoint.
  * @slot logo - Coat of Arms logo. Defaults to a stacked coat-of-arms `<qgds-logo>`. On mobile/tablet the default always shows, regardless of slot content — a custom logo here only takes effect at the desktop breakpoint. Mandatory on Master Brand, Sub Brand, and Co-Brand sites.
@@ -90,7 +90,7 @@ export const tagName = "qgds-header";
  * @fires qgds-toggle-search-mobile - Fired when the mobile Search button is pressed.
  * @fires qgds-navigation-open - Fired when the mobile Menu button is pressed.
  *
- * @example Standard usage - for qld.gov.au.
+ * @example Master brand usage - for qld.gov.au.
  * ```html
  * <qgds-header>
  *   <qgds-attribution-bar slot="pre-header" palette="bold"> … </qgds-attribution-bar>
@@ -99,7 +99,7 @@ export const tagName = "qgds-header";
  * </qgds-header>
  * ```
  *
- * @example Standard usage — coat-of-arms logo plus a site name.
+ * @example Sub-Brand usage — Coat of Arms logo plus a site name.
  * ```html
  * <qgds-header site-name="Insert site name">
  *   <qgds-attribution-bar slot="pre-header" palette="bold"> … </qgds-attribution-bar>
