@@ -5,7 +5,7 @@ import { range } from "lit/directives/range.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 const oneToTwelve = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] as const;
-const columnClassesCount = oneToTwelve.map((n) => `qgds-col-${n}`);
+const columnClassesCount = oneToTwelve.map((n) => `qgds-cols-${n}`);
 const columnClassesAuto = ["qgds-cols-auto-fill", "qgds-cols-auto-fit"] as const;
 const columnClassesAll = [...columnClassesAuto, ...columnClassesCount] as const;
 
@@ -60,7 +60,6 @@ const meta = {
       html` <style>
           .qgds-cols > div {
             background-color: color-mix(#005eb8, transparent 85%);
-
             padding: 8px;
             text-align: center;
           }
@@ -136,8 +135,8 @@ export const CustomGrid: Story = {
 
 /**
  * Do away with breakpoints and column counting with a smart grid based on a minimum column width.
- * Apply class `qgds-cols-auto-fill` to create empty grid columns to complete a row (generally recommended).
- * Alternatively apply class `qgds-cols-auto-fit` to ensure items stretch to fill an entire row.
+ * Apply class `qgds-cols-auto-fill` to fill remaining space with empty grid columns to complete a row (generally recommended).
+ * Alternatively apply class `qgds-cols-auto-fit` to stretch items to fit the remaining space of a row.
  * Responsive span classes for child items also work.
  * - Control minimum column width with CSS custom property `--qgds-col-min` Default is 5rem.
  */
