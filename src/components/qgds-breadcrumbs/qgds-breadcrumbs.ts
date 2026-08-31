@@ -1,11 +1,11 @@
-import { LitElement, html, unsafeCSS } from "lit";
-import { customElement, state } from "lit/decorators.js";
-import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
+import { LitElement, PropertyValues, html, unsafeCSS } from "lit";
+import { customElement, query, state } from "lit/decorators.js";
 import { baseStyles } from "../../styles";
 import componentCSS from "./qgds-breadcrumbs.styles.scss?inline";
 import { scrubSlotContent } from "../../utils";
 
-export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
+import type { QGDSBreadcrumbsItem } from "./qgds-breadcrumbs-item";
+import "./qgds-breadcrumbs-item";
 
 /**
  * Breadcrumbs show users where they are in the website hierarchy and how to navigate back or up to previous levels or content. They supports desktop, and mobile/tablet resolutions.
@@ -15,68 +15,85 @@ export type QGDSBreadcrumbsProps = InstanceType<typeof QGDSBreadcrumbs>;
  *
  * @example
  * <qgds-breadcrumbs>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section1">Section 1</qgds-breadcrumbs-item>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section2">Section 2</qgds-breadcrumbs-item>
- *   <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section3">Section 3</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section1">Section 1</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section2">Section 2</qgds-breadcrumbs-item>
+ *   <qgds-breadcrumbs-item href="#section3">Section 3</qgds-breadcrumbs-item>
  * </qgds-breadcrumbs>
  *
  * @attribute aria-label - Accessible label for the breadcrumbs navigation, defaults to "breadcrumbs"
- * @slot - The breadcrumbs items, which should be implemented using {@link qgds-breadcrumbs-item}
+ * @slot - The breadcrumbs items, which should be implemented using `<qgds-breadcrumbs-item>`
  *
  */
+
+// Defined PrivateState types allow better type safety when used within lifecycle methods
+// eg updated(_changeProperties: PropertyValues<this> & PropertyValues<PrivateState>) { ... }
+interface PrivateState {
+  _isCollapsed: boolean;
+  _isMenuOpen: boolean;
+}
 
 @customElement("qgds-breadcrumbs")
 export class QGDSBreadcrumbs extends LitElement {
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
-  @state() private _isCollapsed: boolean = false;
-  @state() private _isMenuOpen: boolean = false;
+  @state() private _isCollapsed: PrivateState["_isCollapsed"] = false;
+  @state() private _isMenuOpen: PrivateState["_isMenuOpen"] = false;
 
-  private _items: Element[] = [];
+  @query(".dropdown") private _dropdown!: Element | null;
+  @query(".dropdown-toggle") private _dropdownToggle!: HTMLButtonElement | null;
+
+  private _items: QGDSBreadcrumbsItem[] = [];
 
   connectedCallback() {
     super.connectedCallback();
     this.role = "navigation";
     this.ariaLabel = this.ariaLabel ?? "breadcrumbs";
-    document.addEventListener("click", this._closeMenu);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    document.removeEventListener("click", this._closeMenu);
+    document.removeEventListener("click", this._handleClickOrFocusOutside);
+    document.removeEventListener("focusin", this._handleClickOrFocusOutside);
   }
 
-  firstUpdated() {
+  protected override firstUpdated() {
     this._initBreadcrumb();
   }
 
-  private _toggleExpand = async (ev: Event) => {
-    ev.stopPropagation();
-    this._isMenuOpen = !this._isMenuOpen;
+  protected override updated(_changeProperties: PropertyValues<this> & PropertyValues<PrivateState>) {
+    // focus the first menu item after menu is opened.
+    if (_changeProperties.has("_isMenuOpen")) {
+      if (this._isMenuOpen) {
+        this._items[1].focus();
+        document.addEventListener("click", this._handleClickOrFocusOutside);
+        document.addEventListener("focusin", this._handleClickOrFocusOutside);
+        this.shadowRoot?.addEventListener("focusin", this._handleClickOrFocusOutside);
+        this.addEventListener("keydown", this._handleKeydown);
+      } else {
+        document.removeEventListener("click", this._handleClickOrFocusOutside);
+        document.removeEventListener("focusin", this._handleClickOrFocusOutside);
+        this.shadowRoot?.removeEventListener("focusin", this._handleClickOrFocusOutside);
+        this.removeEventListener("keydown", this._handleKeydown);
+      }
+    }
+  }
 
-    await this.updateComplete;
+  // Unified click and focusin handler
+  private _handleClickOrFocusOutside = (e: Event) => {
+    if (!e.composedPath().includes(this._dropdown as EventTarget)) this._isMenuOpen = false;
+  };
 
-    this._setExpandedChildren();
-
-    const targetItem = this._items[1] as QGDSBreadcrumbsItem;
-    await targetItem?.updateComplete;
-    if (this._isMenuOpen) {
-      targetItem.focus();
-    } else {
-      document.removeEventListener("click", this._closeMenu);
+  // Handle escape key press
+  private _handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      // As long as keydown listener is only active while dropdown is open, it is fine to simply move focus to the toggle button.
+      this._dropdownToggle?.focus();
+      this._isMenuOpen = false;
     }
   };
 
-  private _setExpandedChildren() {
-    this._items.forEach((item) => {
-      const child = item as QGDSBreadcrumbsItem;
-      child.isExpanded = child.isDropdownItem === true ? this._isMenuOpen : false;
-    });
-  }
-
-  private _closeMenu = () => {
-    this._isMenuOpen = false;
-    this._setExpandedChildren();
+  private _toggleMenu = () => {
+    this._isMenuOpen = !this._isMenuOpen;
   };
 
   private _initBreadcrumb() {
@@ -101,9 +118,9 @@ export class QGDSBreadcrumbs extends LitElement {
     scrubSlotContent(slot, "qgds-breadcrumbs-item");
 
     this._items =
-      slot.assignedElements({
+      (slot.assignedElements({
         flatten: true,
-      }) ?? [];
+      }) as QGDSBreadcrumbsItem[]) ?? [];
 
     // Return when breadcrumbs does not exist.
     if (!this._items?.length) {
@@ -130,21 +147,28 @@ export class QGDSBreadcrumbs extends LitElement {
     const secondLast = this._items[this._items.length - 2];
     const middle = this._items.slice(1, -2);
     middle.forEach((item) => {
-      (item as QGDSBreadcrumbsItem).isDropdownItem = true;
+      item.isDropdownItem = true;
     });
 
-    const lastElement: QGDSBreadcrumbsItem = this._items[this._items.length - 1] as QGDSBreadcrumbsItem;
+    const lastElement = this._items[this._items.length - 1];
     lastElement.isLast = true;
 
     return html`
       ${first}
 
-      <qgds-breadcrumbs-item class="dropdown ${this._isMenuOpen ? "expanded" : ""}" tabindex="0">
-        <button type="button" class="dropdown-toggle" aria-label="Expand breadcrumbs" @click=${this._toggleExpand}>
-          <qgds-icon aria-label="Home icon" icon-id="more-horizontal" size="lg"></qgds-icon>
+      <qgds-breadcrumbs-item class="dropdown ${this._isMenuOpen ? "expanded" : ""}">
+        <button
+          type="button"
+          class="dropdown-toggle"
+          aria-label="Expand breadcrumbs"
+          aria-controls="breadcrumbs-dropdown"
+          aria-expanded=${this._isMenuOpen}
+          @click=${this._toggleMenu}
+        >
+          <qgds-icon aria-label="more-horizontal" icon-id="more-horizontal" size="lg"></qgds-icon>
         </button>
         <qgds-icon aria-hidden="true" size="xs" icon-id="chevron-right" class="chevron-icon"></qgds-icon>
-        <div class="dropdown-menu-wrapper">
+        <div class="dropdown-menu-wrapper" id="breadcrumbs-dropdown">
           <ol class="dropdown-menu">
             ${middle.map((item) => html`${item}`)}
           </ol>

@@ -6,79 +6,105 @@ import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import "./qgds-breadcrumbs";
 import "./qgds-breadcrumbs-item";
 
-import type { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
+import { QGDSBreadcrumbs } from "./qgds-breadcrumbs";
+import { expect } from "storybook/test";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSBreadcrumbs>("qgds-breadcrumbs");
 
 type Args = typeof args;
 
-const meta: Meta<Args> = {
+const meta = {
   title: "Components/Breadcrumbs",
   component: "qgds-breadcrumbs",
   subcomponents: {
     "Breadcrumb Item": "qgds-breadcrumbs-item",
   },
   tags: ["autodocs"],
-  args: args,
-  argTypes: {
-    ...argTypes,
-  },
+  args,
+  argTypes,
   render: (storyArgs) =>
     template(
       storyArgs,
       html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       `
     ),
-};
+} satisfies Meta<Args>;
 export default meta;
 type Story = StoryObj<Args>;
 
 export const Default: Story = {
   args: {
-    "aria-label": "Breadcrumbs",
+    "aria-label": "Breadcrumbs with default items",
   },
-  render: (storyArgs) =>
-    template(
-      { ...storyArgs, ["aria-label"]: "Breadcrumbs with default items" },
-      html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
-      `
-    ),
 };
 
 export const WithLongText: Story = {
   args: {
-    "aria-label": "Breadcrumbs",
+    "aria-label": "Breadcrumbs with long text",
+  },
+  globals: {
+    viewport: "XL",
   },
   render: (storyArgs) =>
     template(
-      { ...storyArgs, ["aria-label"]: "Breadcrumbs with long text" },
+      { ...storyArgs },
       html`
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home Page</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page1"
+        <qgds-breadcrumbs-item href="/home">Home Page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page1"
           >Page 1 is having a very long name that is longer than the others</qgds-breadcrumbs-item
         >
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page2">Page 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page3">Page 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page4">Page 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page5">Page 5</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page6"
+        <qgds-breadcrumbs-item href="/page2">Page 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page3">Page 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page4">Page 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page5">Page 5</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/page6"
           >Parent page is having a very long name that is longer than the others, a very long name that is longer than
           the others</qgds-breadcrumbs-item
         >
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/page7"
+        <qgds-breadcrumbs-item href="/page7"
           >Current page is having a very long name that is longer than the others which is very long name that is longer
           than the others</qgds-breadcrumbs-item
         >
       `
     ),
+};
+
+export const MenuOpen: Story = {
+  args: {
+    "aria-label": "Breadcrumbs with long text",
+  },
+  globals: {
+    viewport: "LG",
+  },
+  render: WithLongText.render,
+  play: async ({ canvasElement, userEvent }) => {
+    // assert the breadcrumbs are in collapsed state
+    const component: QGDSBreadcrumbs | null = canvasElement.querySelector("qgds-breadcrumbs");
+
+    await expect(component).toBeInstanceOf(QGDSBreadcrumbs);
+    await component?.updateComplete;
+
+    const dropdown = component?.shadowRoot?.querySelector("qgds-breadcrumbs-item.dropdown");
+    await expect(dropdown).not.toBeNull();
+
+    const toggle = dropdown?.querySelector(".dropdown-toggle");
+    const controlledElementId = toggle?.getAttribute("aria-controls");
+    const controlledElement = dropdown?.querySelector(`#${controlledElementId}`);
+
+    await expect(dropdown).not.toHaveClass("expanded");
+    await expect(toggle?.getAttribute("aria-expanded")).toBe("false");
+    await expect(controlledElement).not.toBeNull();
+
+    if (toggle) await userEvent.click(toggle);
+
+    await expect(dropdown).toHaveClass("expanded");
+    await expect(toggle?.getAttribute("aria-expanded")).toBe("true");
+
+    // Further interaction test with tabbing need to be done manually - userEvent.tab() cannot focus shadowDOM elements.
+  },
 };
