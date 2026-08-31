@@ -57,11 +57,11 @@ export const DefaultBanner: Story = {
   render: (args) => html`
     <qgds-banner palette=${args.palette} variant="default" heading=${args.heading} ?has-shadow=${args["has-shadow"]}>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       </qgds-breadcrumbs>
     </qgds-banner>
   `,
@@ -84,11 +84,11 @@ export const NoBanner: Story = {
   render: (args) => html`
     <qgds-banner palette=${args.palette} variant=${args.variant} ?has-shadow=${args["has-shadow"]}>
       <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-        <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level2">Level 2</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level3">Level 3</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/level4">Level 4</qgds-breadcrumbs-item>
+        <qgds-breadcrumbs-item href="/current_page">Current page</qgds-breadcrumbs-item>
       </qgds-breadcrumbs>
     </qgds-banner>
   `,

@@ -13,14 +13,10 @@ import { classMap } from "lit/directives/class-map.js";
  * @website https://www.designsystem.qld.gov.au/components/breadcrumbs
  *
  * @example
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section1">Section 1</qgds-breadcrumbs-item>
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section2">Section 2</qgds-breadcrumbs-item>
- * <qgds-breadcrumbs-item target="_blank" rel="bookmark" url="#section3">Section 3</qgds-breadcrumbs-item>
+ * <qgds-breadcrumbs-item href="#section1">Section 1</qgds-breadcrumbs-item>
  *
- * @property url - The target URL or anchor for the breadcrumb item
- * @property rel - The relationship of the linked resource to the current document
- * @property target - Specifies whether to open the link in same tab or new tab
- * @property is-dropdown-item - Specifies whether the breadcrumb item is inside the vertical dropdown
+ * @property href - The target URL or anchor for the breadcrumb item
+ * @property isDropdownItem - Specifies whether the breadcrumb item is inside the vertical dropdown
  * @property isLast - Specifies whether the breadcrumb item is the last item in the sequence
  *
  */
@@ -36,14 +32,8 @@ export class QGDSBreadcrumbsItem extends LitElement {
 
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
-  @property({ type: String, attribute: "url" })
-  url: string = "";
-
-  @property({ type: String, attribute: "rel" })
-  rel: string = "";
-
-  @property({ type: String, attribute: "target" })
-  target: string = "";
+  @property({ type: String })
+  href: string = "";
 
   @property({ type: Boolean, attribute: false })
   isDropdownItem: boolean = false;
@@ -52,19 +42,10 @@ export class QGDSBreadcrumbsItem extends LitElement {
   @property({ type: Boolean, attribute: "is-last", reflect: true })
   isLast: boolean = false;
 
-  @property({ type: Boolean, attribute: false })
-  isExpanded = false;
-
   // This ensures the custom element tag (:host) acts like an <li> in the A11y tree
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute("role", "listitem");
-  }
-
-  updated(changed: Map<string, unknown>) {
-    if (changed.has("isExpanded") || changed.has("isDropdownItem")) {
-      this.tabIndex = this.isDropdownItem === true ? (this.isExpanded ? 0 : -1) : 0;
-    }
   }
 
   render() {
@@ -74,16 +55,14 @@ export class QGDSBreadcrumbsItem extends LitElement {
         class="${classMap({ "breadcrumbs-item": true, active: this.isLast })}"
         aria-current=${ifDefined(ariaCurrent)}
       >
-        ${this.isLast || !this.url
+        ${this.isLast || !this.href
           ? html`<slot></slot>`
           : html`
               <a
                 class=${classMap({
                   "dropdown-item": this.isDropdownItem,
                 })}
-                href=${this.url}
-                rel=${ifDefined(this.rel)}
-                target=${ifDefined(this.target)}
+                href=${this.href}
               >
                 <slot></slot>
               </a>

@@ -39,27 +39,38 @@
 }
 
 .dropdown-menu-wrapper {
-  interpolate-size: allow-keywords;
   position: absolute;
-  margin-block-start: 3rem;
-  block-size: 0;
-  overflow: hidden;
-  pointer-events: none;
-  inline-size: 360px;
-  border-radius: 4px;
-  transition-property: block-size, visibility; // transition visibility on collapse;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in;
+  margin-block-start: f.remify(40px);
+  inline-size: f.remify(360px);
+  border-radius: f.remify(4px);
   box-shadow: var(--qgds-elevation-2);
-  visibility: hidden;
+  transform-origin: 0 0;
+  z-index: 1;
+
+  // transition properties
+  display: none;
+  transition-behavior: allow-discrete;
+  transition-property: opacity, display, transform;
+  transition-duration: var(--qgds-transition-duration);
+  transition-timing-function: var(--qgds-transition-easing-inverse);
+
+  // for reuse in @starting-style block (see below)
+  @mixin starting-styles {
+    opacity: 0;
+    transform: scale(0.99, 0.95);
+  }
+  @include starting-styles();
 
   .expanded & {
-    block-size: auto;
-    pointer-events: all;
-    transition-property: block-size; // do not transtion visibility on expand;
-    transition-timing-function: ease-out;
-    z-index: 1;
-    visibility: visible;
+    display: block;
+    transform: scale(1);
+    opacity: 1;
+    transition-timing-function: var(--qgds-transition-easing);
+
+    // required for transitions from display none
+    @starting-style {
+      @include starting-styles();
+    }
   }
 }
 
