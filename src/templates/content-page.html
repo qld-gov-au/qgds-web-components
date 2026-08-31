@@ -6,14 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QGDS Web Components - Example Content Page </title>
 
-  <!-- CDN source design system resources 
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.4/dist/assets/css/qgds-web-components.min.css">
-  <script
-    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.4/dist/assets/js/qgds-web-components.min.js"
-    defer></script>
-  -->
-
   <!-- Local design system resources from dist-->
   <script type="module" src="/src/index.ts"></script>
 
@@ -80,7 +72,7 @@
       </qgds-side-navigation>
     </div>
 
-    <main class="qgds-span-12 qgds-span-8:lg qgds-ps-32:lg">
+    <main class="qgds-span-12 qgds-span-8:lg">
 
       <!-- Primary block with inpage-nav, content and accordion group -->
       <div class="qgds-content qgds-pt-0:lg">
@@ -180,13 +172,36 @@
 
 
       <div class="qgds-content">
-        <h2>Heading H2</h2>
+        <h2>Heading H2 collapse padding</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
           pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
           Luctus
           diam
           pellentesque ipsum accumsan amet commodo.</p>
+
+        <h3>Heading H3</h3>
+        <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
+          croissant gummies
+          apple pie powder gingerbread cookie tart.</p>
+        <p>
+          Fruitcake sesame snaps sweet cheesecake jelly beans jujubes cheesecake carrot cake. Toffee cake sesame snaps
+          sesame snaps muffin donut donut. Dessert toffee cake muffin cheesecake gummi bears cupcake. Chocolate cake
+          apple pie biscuit tootsie roll macaroon marzipan.</p>
+
+        <h4>Heading H4</h4>
+        <p>Chocolate soufflé macaroon icing oat cake tootsie roll. Marshmallow gummi bears halvah sugar plum biscuit
+          gummi bears caramels jujubes. Soufflé candy pastry candy wafer cake. Bear claw tart macaroon muffin toffee.
+        </p>
+        <ul>
+          <li>List item 1</li>
+          <li>List item 2</li>
+          <li>List item 3</li>
+        </ul>
+
+        <p>Chocolate soufflé macaroon icing oat cake tootsie roll. Marshmallow gummi bears halvah sugar plum biscuit
+          gummi bears caramels jujubes. Soufflé candy pastry candy wafer cake. Bear claw tart macaroon muffin toffee.
+        </p>
 
         <qgds-video aspect-ratio="16x9" caption="Caption text goes here" duration="3:12" source="youtube"
           thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg" video-id="LDU_Txk06tM"></qgds-video>
@@ -195,8 +210,8 @@
 
 
       <!-- block with table -->
-      <div class="qgds-content">
-        <h2 id="getting-started">Heading H2</h2>
+      <section class="qgds-content qgds-palette-deep">
+        <h2 id="getting-started">Heading H2 deep palette</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
           pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
@@ -257,8 +272,12 @@
           </table>
 
         </qgds-table>
-      </div>
+      </section>
 
+      <section class="qgds-content qgds-palette-deep">
+        <h2>Heading H2 deep palette</h2>
+        <p>This section uses the deep palette styling for its content. It's top internal padding should collapse.</p>
+      </section>
 
     </main>
 
@@ -320,11 +339,6 @@
 
   </div>
 
-
 </body>
-
-<style>
-
-</style>
 
 </html>

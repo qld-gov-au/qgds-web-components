@@ -5,11 +5,20 @@
 /* ==========================================================================
    Vertical Rhythm Scoped to Content Blocks
    ========================================================================== */
+// :where(.is-inset) {
+//   @include m.lg-up() {
+//     padding-inline: calc(var(--qgds-grid-padding) + var(--qgds-hspace-content-inner));
+//   }
+// }
+
+:where(.debug .qgds-content) {
+  background: #ff8dd01a;
+  border: 1px solid #f84aaf5c;
+}
 
 :where(.qgds-content) {
   padding-block: var(--qgds-vspace-section-padding);
   padding-inline: var(--qgds-grid-padding);
-  margin-inline: calc(var(--qgds-grid-padding) * -1);
 
   // 1. Catch-all / Component Spacing (The default flow)
   > * + * {
@@ -38,6 +47,7 @@
     margin-block-start: var(--qgds-vspace-paragraph);
   }
 
+  > :is(ul, ol),
   * + :is(ul, ol) {
     margin-block-start: var(--qgds-vspace-list);
     list-style-position: inside;
@@ -55,14 +65,10 @@
   }
 }
 
-// :where(.is-inset) :where(.qgds-content) {
-//   @include m.lg-up() {
-//     padding-inline: calc(var(--qgds-grid-padding) + var(--qgds-hspace-content-inner));
-//   }
-// }
-
-/* Collapse adjacent blocks where neither has a palette class 
-   to avoid excessive whitespace accumulation.
+/* To avoid excessive whitespace accumulation, collapse adjacent blocks where:
+1. neither has a palette class
+2. both have the same palette class
+3. one has a default palette class and the other does not have a palette class
 */
 
 $palettes: ("default", "soft", "muted", "bold", "deep");
@@ -74,5 +80,13 @@ $palettes: ("default", "soft", "muted", "bold", "deep");
 }
 
 :where(.qgds-content):not([class*="qgds-palette-"]) + :where(.qgds-content):not([class*="qgds-palette-"]) {
+  padding-block-start: 0;
+}
+
+:where(.qgds-content).qgds-palette-default + :where(.qgds-content):not([class*="qgds-palette-"]) {
+  padding-block-start: 0;
+}
+
+:where(.qgds-content):not([class*="qgds-palette-"]) + :where(.qgds-content).qgds-palette-default {
   padding-block-start: 0;
 }
