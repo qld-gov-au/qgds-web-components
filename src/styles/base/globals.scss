@@ -3,7 +3,7 @@
 @use "../qgds-tokens/" as *;
 @use "../icons/icons.list" as icons;
 @use "../tools/functions" as f;
-@use "../../styles/qgds-tokens/qgds-breakpoint";
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -31,36 +31,16 @@
   --qgds-line-height-heading: 1.25;
   --qgds-line-height-none: 1;
 
-  // VERTICAL RHYTHM spec (applied within .qgds-content scope in content.scss)
-  // Baselines for calcs
-  --qgds-rhythm-baseline: 0.25rem; // 4px
-  --qgds-rhythm-layout: 0.5rem; // 8px
-
-  // VR: Between text elements
-  --qgds-space-list-item: 0.5rem; // 8px
-  --qgds-space-paragraph: 1rem; // 16px
-  --qgds-space-heading-text: 1.5rem; // 24px
-  --qgds-space-heading-sm: 2rem; // h4-h6, 32px
-  --qgds-space-heading-md: 2.25rem; // h3, 36px
-  --qgds-space-heading-lg: 3rem; // h1-h2, 48px
-
-  // VR: Between components
-  --qgds-space-component: 2rem; // 32px
-
-  // VR: qgds-content-sections
-  --qgds-content-padding: 4rem; // 64px
-  --qgds-content-sibling-padding-block-start: 0;
-
   // grid related
   --qgds-grid-gutter: 1rem;
   --qgds-grid-padding: 1rem;
 
-  @media (min-width: qgds-breakpoint.$md) {
+  @media (min-width: #{bp.$md}) {
     --qgds-grid-gutter: 1.5rem;
     --qgds-grid-padding: 2rem;
   }
 
-  @media (min-width: qgds-breakpoint.$lg) {
+  @media (min-width: #{bp.$lg}) {
     --qgds-grid-gutter: 2rem;
   }
 

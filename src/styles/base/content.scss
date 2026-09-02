@@ -1,30 +1,55 @@
-@use "../../styles/tools/mixins" as m;
+@use "sass:map";
+
+@use "../tools/mixins" as m;
 @use "../../styles/tools/functions" as f;
-@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
+@use "../../styles/qgds-tokens/qgds-vertical-space" as vs;
 
 /* ==========================================================================
    Vertical Rhythm Scoped to Content Blocks
    ========================================================================== */
-// :where(.is-inset) {
-//   @include m.lg-up() {
-//     padding-inline: calc(var(--qgds-grid-padding) + var(--qgds-hspace-content-inner));
-//   }
-// }
-
-:where(.debug .qgds-content) {
-  background: #ff8dd01a;
-  border: 1px solid #f84aaf5c;
-}
 
 :where(.qgds-content) {
-  padding-block: var(--qgds-vspace-section-padding);
-  padding-inline: var(--qgds-grid-padding);
+  // Establish CSS custom properties for Vertical Spacing values within the content block
+  // Refer https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=58167-30446&m=dev
 
-  // 1. Catch-all / Component Spacing (The default flow)
+  // All breakpoints
+  @each $name, $value in vs.$static-tokens {
+    --qgds-#{$name}: #{f.remify($value)};
+  }
+
+  // Small and tablet (mobile/default) breakpoints
+  @each $name, $value in map.get(vs.$responsive-tokens, default) {
+    --qgds-#{$name}: #{f.remify($value)};
+  }
+
+  // Large and above (desktop)
+  @include m.lg-up() {
+    @each $name, $value in map.get(vs.$responsive-tokens, large) {
+      --qgds-#{$name}: #{f.remify($value)};
+    }
+  }
+
+  // Specific rules for .qgds-content blocks
+  padding-block: var(--qgds-vspace-section-padding);
+  padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
+
+  // In mobile first layout, each .qgds-content block has a negative inline margin to compensate for an outer grid gutter
+  // This ensure content blocks are edge-to-edge on smaller viewports, (and their background colours spans the full width).
+  margin-inline: calc(var(--qgds-grid-padding) * -1);
+
+  // Remove the negative inline margin on larger viewports,
+  // .qgds-content blocks will align with the grid and honour grid gutter, they do not need to extend edge-to-edge.
+  @include m.lg-up() {
+    margin-inline: initial;
+  }
+
+  // 1. Catch-all / component spacing using Labotimised Owl technique.
+  // Everything except the first child of .qgds-content will have this spacing applied.
   > * + * {
     margin-block-start: var(--qgds-vspace-component);
   }
 
+  // ... unless a specific rule (below) overrides the catch-all spacing
   // 2. Headings following any element
   * + h1 {
     margin-block-start: var(--qgds-vspace-h1);

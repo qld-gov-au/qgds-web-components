@@ -1,10 +1,5 @@
-@use "sass:map";
-@use "qgds-breakpoint" as bp;
-@use "../../styles/tools/functions" as f;
-
-// QGDS uses "lobotomised owl * + *" technique for vspaceical spacing
-// Most tokens here will target the block-start (vspace) property of an element.
-// We also provide a few tokens for block-end (be) spacing on container, for future use.
+// QGDS Vertical Rhythm variables are defined here, for import into other SCSS files.
+// The primary use of the these variables is content.scss, which defines custom CSS variables within the .qgds-content block.
 
 $responsive-tokens: (
   default: (
@@ -44,19 +39,3 @@ $static-tokens: (
   vspace-label: 8px,
   vspace-form-hint: 8px,
 );
-
-:root {
-  @each $name, $value in $static-tokens {
-    --qgds-#{$name}: #{f.remify($value)};
-  }
-
-  @each $name, $value in map.get($responsive-tokens, default) {
-    --qgds-#{$name}: #{f.remify($value)};
-  }
-
-  @media (min-width: bp.$lg) {
-    @each $name, $value in map.get($responsive-tokens, large) {
-      --qgds-#{$name}: #{f.remify($value)};
-    }
-  }
-}
