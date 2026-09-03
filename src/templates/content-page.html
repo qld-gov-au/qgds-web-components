@@ -13,6 +13,12 @@
 
 <body class="qgds">
 
+  <qgds-skip-links navigation-target="#mynav" content-target="#main-content"></qgds-skip-links>
+
+  <qgds-global-alert variant="info" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
+    This content page is a component integration example for layout, spacing and responsive behaviour.
+  </qgds-global-alert>
+
   <qgds-header site-name="Site name">
 
     <qgds-attribution-bar label="qld.gov.au" palette="bold" url="https://www.qld.gov.au" slot="pre-header">
@@ -49,6 +55,14 @@
 
   </qgds-header>
 
+  <qgds-banner palette="muted" variant="no-banner" has-shadow>
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item href="#">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Templates</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Content page</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+  </qgds-banner>
+
   <div class="qgds-container qgds-cols qgds-py-64">
 
     <div class="qgds-span-12 qgds-span-3:lg">
@@ -72,7 +86,7 @@
       </qgds-side-navigation>
     </div>
 
-    <main class="qgds-span-12 qgds-span-8:lg">
+    <main id="main-content" class="qgds-span-12 qgds-span-8:lg">
 
       <!-- Primary block with inpage-nav, content and accordion group -->
       <div class="qgds-content qgds-pt-0:lg">
