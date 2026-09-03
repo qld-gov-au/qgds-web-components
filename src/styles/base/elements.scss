@@ -1,4 +1,5 @@
 @use "../tools/mixins" as m;
+@use "./typography";
 
 // ALl text based elements, lists, etc. These are the most basic styles for content within the body of the page, and are usually overridden within components. These are not slotted-specific, but they can be overridden by slotted styles if used within a component that includes the reset-slotted mixin.
 p,
@@ -18,7 +19,8 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: var(--qgds-line-height-heading, 1.25);
+  // Inherit the base heading placeholder (color, line-height, font-family, font-weight) from typography
+  @extend %qgds-heading;
 }
 
 a {
