@@ -6,20 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>QGDS Web Components - Example Content Page </title>
 
-  <!-- CDN source design system resources 
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/css/qgds-web-components.min.css">
-  <script
-    src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@0.3.2/dist/assets/js/qgds-web-components.min.js"
-    defer></script>
-  -->
-
   <!-- Local design system resources from dist-->
   <script type="module" src="/src/index.ts"></script>
 
 </head>
 
 <body class="qgds">
+
+  <!-- Todo: // New Skip Links component -->
+
+
+  <qgds-global-alert variant="warning" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
+    This content page is a component integration example for layout, spacing and responsive behaviour.
+  </qgds-global-alert>
+
 
   <qgds-header site-name="Site name">
 
@@ -57,20 +57,17 @@
 
   </qgds-header>
 
-
   <qgds-banner palette="soft" variant="no-banner">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
-      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/home">Home</qgds-breadcrumbs-item>
-      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level2">Level 2</qgds-breadcrumbs-item>
-      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level3">Level 3</qgds-breadcrumbs-item>
-      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/level4">Level 4</qgds-breadcrumbs-item>
-      <qgds-breadcrumbs-item target="_self" rel="bookmark" url="/current_page">Current page</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Templates</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Simple Form Page</qgds-breadcrumbs-item>
     </qgds-breadcrumbs>
   </qgds-banner>
 
   <div class="qgds-container qgds-cols qgds-py-64">
 
-    <aside class="qgds-span-12 qgds-span-3:lg">
+    <div class="qgds-span-12 qgds-span-3:lg">
       <qgds-side-navigation mobile-heading="In this section">
         <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
         <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
@@ -89,9 +86,9 @@
         <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
         <qgds-side-navigation-item href="#" label="Level 1 fourth"></qgds-side-navigation-item>
       </qgds-side-navigation>
-    </aside>
+    </div>
 
-    <main class="qgds-span-12 qgds-span-8:lg is-inset">
+    <main id="main-content" class="qgds-span-12 qgds-span-8:lg">
 
       <div class="qgds-content qgds-pt-0">
 
@@ -101,7 +98,7 @@
           pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
           Luctus diam pellentesque ipsum accumsan amet commodo.</p>
 
-        <h2 id="introduction" class="m-24">Enruiry Form</h2>
+        <h2 id="introduction">Enruiry Form</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
           ut.
@@ -142,18 +139,11 @@
         <qgds-button label="Send enquiry" variant="primary" type="submit"></qgds-button>
       </form>
 
+    </main>
 
-  </div>
+  </div><!-- //qgds-container -->
 
-
-
-
-
-  </main>
-
-  </div>
-
-
+  <!-- Footer -->
   <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
     contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
     copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
@@ -203,15 +193,12 @@
       </p>
     </div>
 
-    <!-- Main Government Link -->
     <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+
   </qgds-footer>
+
   </div>
 
 </body>
-
-<style>
-
-</style>
 
 </html>

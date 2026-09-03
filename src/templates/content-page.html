@@ -13,11 +13,13 @@
 
 <body class="qgds">
 
-  <qgds-skip-links navigation-target="#mynav" content-target="#main-content"></qgds-skip-links>
+  <!-- Todo: // New Skip Links component -->
 
-  <qgds-global-alert variant="info" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
+
+  <qgds-global-alert variant="warning" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
     This content page is a component integration example for layout, spacing and responsive behaviour.
   </qgds-global-alert>
+
 
   <qgds-header site-name="Site name">
 
@@ -55,7 +57,7 @@
 
   </qgds-header>
 
-  <qgds-banner palette="muted" variant="no-banner" has-shadow>
+  <qgds-banner palette="soft" variant="no-banner">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
       <qgds-breadcrumbs-item href="#">Home</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item href="#">Templates</qgds-breadcrumbs-item>
@@ -296,6 +298,26 @@
       <section class="qgds-content qgds-palette-deep">
         <h2>Heading H2 deep palette</h2>
         <p>This section uses the deep palette styling for its content. It's top internal padding should collapse.</p>
+      </section>
+
+      <section class="qgds-content">
+        <h2>Heading H2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut. Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+
+        <qgds-callout variant="info" heading="Callout heading">
+          <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
+            croissant gummies
+            apple pie powder gingerbread cookie tart.</p>
+        </qgds-callout>
+
+        <p>Fruitcake sesame snaps sweet cheesecake jelly beans jujubes cheesecake carrot cake. Toffee cake sesame snaps
+          sesame snaps muffin donut donut.</p>
+        <p>Dessert toffee cake muffin cheesecake gummi bears cupcake. Chocolate cake apple pie biscuit tootsie roll
+          macaroon marzipan.</p>
       </section>
 
     </main>
