@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { palettes } from "../../../utils/palettes";
 
@@ -17,12 +16,18 @@ import "../qgds-card";
 // card-single-action.stories.ts
 // card-multiple-action.stories.ts
 
-const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
+const { args, argTypes, template } = getStorybookHelpers<QGDSCard>("qgds-card");
 
 const demoImageSrc = "https://picsum.photos/id/322/600/400";
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
+
+const renderPaletteCards = (
+  args: Args,
+  overrides: Partial<Args> = {},
+  slotContent: ReturnType<typeof html> = html`${unsafeHTML(String(args["default-slot"] ?? ""))}`
+) => html` ${Object.entries(palettes).map(([palette]) => template({ ...args, ...overrides, palette }, slotContent))} `;
 
 const meta: Meta<Args> = {
   title: "Components/Card",
@@ -32,15 +37,7 @@ const meta: Meta<Args> = {
     ...args,
   },
   argTypes,
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card heading=${ifDefined(args.heading)} variant=${ifDefined(args.variant)} palette=${palette}>
-          ${unsafeHTML(args["default-slot"] as string)}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) => renderPaletteCards(args),
   decorators: [
     withEventActions("qgds-click"),
 
@@ -82,69 +79,103 @@ const noActionArgs: Story["args"] = {
 export const NoAction: Story = {
   name: "Content Only",
   args: noActionArgs,
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
-          ${unsafeHTML(args["default-slot"] as string)}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) => renderPaletteCards(args, { action: "none" }),
 };
 
 export const NoAction_WithFooter: Story = {
   name: "With Footer",
   args: noActionArgs,
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card heading=${ifDefined(args.heading)} action="none" palette=${palette}>
-          ${unsafeHTML(args["default-slot"] as string)}
-          <div slot="footer-text">Footer text</div>
-        </qgds-card>
+  render: (args) =>
+    renderPaletteCards(
+      args,
+      { action: "none" },
+      html`
+        ${unsafeHTML(String(args["default-slot"] ?? ""))}
+        <div slot="footer-text">Footer text</div>
       `
-    )}
-  `,
+    ),
 };
 
 export const NoAction_WithImage: Story = {
   name: "With Image",
   args: noActionArgs,
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action="none"
-          palette=${palette}
-          image-src=${demoImageSrc}
-          image-alt="Placeholder image"
-        >
-          ${unsafeHTML(args["default-slot"] as string)}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) =>
+    renderPaletteCards(args, {
+      action: "none",
+      "image-src": demoImageSrc,
+      "image-alt": "Placeholder image",
+    }),
 };
 
 export const NoAction_WithImageAndFooter: Story = {
   name: "With Image and Footer",
   parameters: { ...chromaticModes },
   args: noActionArgs,
+  render: (args) =>
+    renderPaletteCards(
+      args,
+      {
+        action: "none",
+        "image-src": demoImageSrc,
+        "image-alt": "Placeholder image",
+      },
+      html`
+        ${unsafeHTML(String(args["default-slot"] ?? ""))}
+        <div slot="footer-text">Footer text</div>
+      `
+    ),
+};
+
+export const NoAction_EqualHeightGroup: Story = {
+  name: "Equal Height Group",
+  args: {
+    ...noActionArgs,
+  },
   render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action="none"
-          palette=${palette}
-          image-src=${demoImageSrc}
-          image-alt="Placeholder image"
-        >
-          ${unsafeHTML(args["default-slot"] as string)}
-          <div slot="footer-text">Footer text</div>
-        </qgds-card>
+    ${template(
+      {
+        ...args,
+        action: "none",
+        "is-equal-height": true,
+      },
+      html`
+        Card content introducing the topic or story. Short introductions are easier to scan.
+        <div slot="footer-text">Footer text</div>
+      `
+    )}
+    ${template(
+      {
+        ...args,
+        action: "none",
+        "is-equal-height": true,
+      },
+      html`
+        Card content introducing the topic or story. Short introductions are easier to scan. This card has even more
+        content than the others, so it will be the tallest of the three cards in this group.
+        <div slot="footer-text">Footer text</div>
+      `
+    )}
+    ${template(
+      {
+        ...args,
+        action: "none",
+        "is-equal-height": true,
+      },
+      html`
+        Card content introducing the topic or story. Short introductions are easier to scan. This card has more content
+        than the others, so it will be taller.
+        <div slot="footer-text">Footer text</div>
+      `
+    )}
+    ${template(
+      {
+        ...args,
+        action: "none",
+        "is-equal-height": true,
+      },
+      html`
+        Short card content
+        <div slot="footer-text">Footer text</div>
       `
     )}
   `,

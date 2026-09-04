@@ -45,6 +45,8 @@ Scoped CSS: qgds-card
   border-radius: var(--border-radius);
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto; /* Forces card wrapper to stretch full height */
+  block-size: 100%;
   overflow: hidden;
   position: relative;
 
@@ -78,11 +80,13 @@ Scoped CSS: qgds-card
   }
 
   /* Wraps heading, content and footer area within a card */
+
   .content-wrap {
     display: flex;
     flex-direction: column;
     padding-block: var(--_padding-wrap);
     padding-inline: var(--_padding-wrap);
+    block-size: 100%;
 
     --slotted-content-padding: 0 0 1rem 0;
     --slotted-list-padding: 1rem;
@@ -116,6 +120,7 @@ Scoped CSS: qgds-card
   .content {
     padding-block-end: 0;
     display: flex;
+    block-size: 100%;
     flex-flow: column nowrap;
     gap: 0.75rem;
 

@@ -23,6 +23,7 @@ export { QGDSButton } from "./components/qgds-button/qgds-button";
 export { QGDSCallout } from "./components/qgds-callout/qgds-callout";
 export { QGDSCallToAction } from "./components/qgds-call-to-action/qgds-call-to-action";
 export { QGDSCard } from "./components/qgds-card/qgds-card";
+export { QGDSCardGrid } from "./components/qgds-card-grid/qgds-card-grid";
 export { QGDSCheckbox } from "./components/forms/qgds-checkbox/qgds-checkbox";
 export { QGDSCheckboxGroup } from "./components/forms/qgds-checkbox-group/qgds-checkbox-group";
 export { QGDSDetails } from "./components/qgds-details/qgds-details";
