@@ -59,22 +59,18 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: start;
   min-inline-size: fit-content;
-  max-inline-size: tools.remify(1312px);
   margin-inline: auto;
   padding-block: tools.remify(12px);
-  padding-inline: tools.remify(16px);
   gap: tools.remify(8px) tools.remify(12px);
 
   --qgds-icon-svg: initial;
 
   @media (min-width: qgds-breakpoint.$md) {
     padding-block: tools.remify(16px);
-    padding-inline: tools.remify(32px);
     column-gap: tools.remify(12px);
   }
   @media (min-width: qgds-breakpoint.$lg) {
     padding-block: tools.remify(8px);
-    padding-inline: tools.remify(64px);
     column-gap: tools.remify(16px);
   }
 }

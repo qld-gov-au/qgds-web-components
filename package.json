@@ -25,7 +25,7 @@
     "test:ui": "vitest --config vitest.config.ts --ui",
     "test:coverage": "vitest --config vitest.config.ts --coverage",
     "test:storybook": "vitest --config vite.config.ts --project=storybook",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 --initial-path /?path=/docs/getting-started--docs",
     "build-storybook": "storybook build --stats-json",
     "chromatic": "chromatic --build-script-name build-storybook",
     "chromatic:storybooks": "node scripts/list-chromatic-stories.js",

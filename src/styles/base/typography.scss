@@ -45,7 +45,8 @@ $_headings: (
   xl: "xxxl",
 );
 
-%_qgds-heading {
+/* Public placeholder reused by elements.scss */
+%qgds-heading {
   font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
   font-weight: 600;
   line-height: f.snap-line-height(1.25);
@@ -54,7 +55,7 @@ $_headings: (
 
 @each $key, $size in $_headings {
   .qgds-heading-#{$key} {
-    @extend %_qgds-heading;
+    @extend %qgds-heading;
 
     font-size: f.remify(map.get($_sizes, $size));
   }

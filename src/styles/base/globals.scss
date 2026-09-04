@@ -3,7 +3,7 @@
 @use "../qgds-tokens/" as *;
 @use "../icons/icons.list" as icons;
 @use "../tools/functions" as f;
-@use "../../styles/qgds-tokens/qgds-breakpoint";
+@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -35,12 +35,12 @@
   --qgds-grid-gutter: 1rem;
   --qgds-grid-padding: 1rem;
 
-  @media (min-width: qgds-breakpoint.$md) {
+  @media (min-width: #{bp.$md}) {
     --qgds-grid-gutter: 1.5rem;
     --qgds-grid-padding: 2rem;
   }
 
-  @media (min-width: qgds-breakpoint.$lg) {
+  @media (min-width: #{bp.$lg}) {
     --qgds-grid-gutter: 2rem;
   }
 

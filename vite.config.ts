@@ -111,17 +111,7 @@ export default defineConfig({
   // vite plugins
   plugins: [
     viteStaticCopy({
-      targets: [
-        {
-          src: "src/demo/index-built.html",
-          dest: ".",
-          rename: "demo.html",
-        },
-        {
-          src: "src/demo/demo.css",
-          dest: "assets/css",
-        },
-      ],
+      targets: [],
     }) as any,
     visualizer ? visualizer({ open: false, filename: "_dev/bundle-analysis.html" }) : null,
   ],

@@ -17,6 +17,7 @@
     @include meta.load-css("base/reset");
     @include meta.load-css("base/reset-slotted");
     @include meta.load-css("base/elements");
+    @include meta.load-css("base/content");
   }
 
   @include meta.load-css("base/animations");
@@ -25,6 +26,13 @@
   @include meta.load-css("grid");
 }
 
+// Components that are not loaded via the component itself, but are used to support patterns, should be loaded here.
+@layer components {
+  @include meta.load-css("../patterns/qgds-content-footer/qgds-content-footer.styles");
+}
+
 @layer utilities {
-  @include meta.load-css("utilities", $with: (prefix: "qgds"));
+  :where(.qgds) {
+    @include meta.load-css("utilities", $with: (prefix: "qgds"));
+  }
 }

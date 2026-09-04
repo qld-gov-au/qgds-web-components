@@ -1,0 +1,117 @@
+@use "sass:map";
+
+@use "../tools/mixins" as m;
+@use "../../styles/tools/functions" as f;
+@use "../../styles/qgds-tokens/qgds-vertical-space" as vs;
+
+/* ==========================================================================
+   Vertical Rhythm Scoped to Content Blocks
+   ========================================================================== */
+
+:where(.qgds-content) {
+  // Establish CSS custom properties for Vertical Spacing values within the content block
+  // Refer https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=58167-30446&m=dev
+
+  // All breakpoints
+  @each $name, $value in vs.$static-tokens {
+    --qgds-#{$name}: #{f.remify($value)};
+  }
+
+  // Small and tablet (mobile/default) breakpoints
+  @each $name, $value in map.get(vs.$responsive-tokens, default) {
+    --qgds-#{$name}: #{f.remify($value)};
+  }
+
+  // Large and above (desktop)
+  @include m.lg-up() {
+    @each $name, $value in map.get(vs.$responsive-tokens, large) {
+      --qgds-#{$name}: #{f.remify($value)};
+    }
+  }
+
+  // Specific rules for .qgds-content blocks
+  padding-block: var(--qgds-vspace-section-padding);
+  padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
+
+  // In mobile first layout, each .qgds-content block has a negative inline margin to compensate for an outer grid gutter
+  // This ensure content blocks are edge-to-edge on smaller viewports, (and their background colours spans the full width).
+  margin-inline: calc(var(--qgds-grid-padding) * -1);
+
+  // Remove the negative inline margin on larger viewports,
+  // .qgds-content blocks will align with the grid and honour grid gutter, they do not need to extend edge-to-edge.
+  @include m.lg-up() {
+    margin-inline: initial;
+  }
+
+  // 1. Catch-all / component spacing using Labotimised Owl technique.
+  // Everything except the first child of .qgds-content will have this spacing applied.
+  > * + * {
+    margin-block-start: var(--qgds-vspace-component);
+  }
+
+  // ... unless a specific rule (below) overrides the catch-all spacing
+  // 2. Headings following any element
+  * + h1 {
+    margin-block-start: var(--qgds-vspace-h1);
+  }
+
+  * + h2 {
+    margin-block-start: var(--qgds-vspace-h2);
+  }
+
+  * + h3 {
+    margin-block-start: var(--qgds-vspace-h3);
+  }
+
+  * + :is(h4, h5, h6) {
+    margin-block-start: var(--qgds-vspace-h4);
+  }
+
+  // 3. Text and Lists following any element
+  * + p {
+    margin-block-start: var(--qgds-vspace-paragraph);
+  }
+
+  > :is(ul, ol),
+  * + :is(ul, ol) {
+    margin-block-start: var(--qgds-vspace-list);
+    list-style-position: inside;
+  }
+
+  // 4. Strict Contextual Exceptions (e.g., Heading directly followed by body text)
+  :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
+    margin-block-start: var(--qgds-vspace-heading-text);
+  }
+
+  // 5. List Items & Sub-lists
+  li + li,
+  li :is(ul, ol) {
+    margin-block-start: var(--qgds-vspace-list-item);
+  }
+}
+
+/* To avoid excessive whitespace accumulation, collapse adjacent blocks where:
+1. neither has a palette class
+2. both have the same palette class
+3. one has a default palette class and the other does not have a palette class
+*/
+
+$palettes: ("default", "soft", "muted", "bold", "deep");
+
+@each $palette in $palettes {
+  :where(.qgds-content).qgds-palette-#{$palette} + :where(.qgds-content).qgds-palette-#{$palette} {
+    padding-block-start: 0;
+  }
+}
+
+:where(.qgds-content):not([class*="qgds-palette-"]) + :where(.qgds-content):not([class*="qgds-palette-"]) {
+  padding-block-start: 0;
+}
+
+:where(.qgds-content).qgds-palette-default + :where(.qgds-content):not([class*="qgds-palette-"]) {
+  padding-block-start: 0;
+}
+
+:where(.qgds-content):not([class*="qgds-palette-"]) + :where(.qgds-content).qgds-palette-default {
+  padding-block-start: 0;
+}

@@ -1,0 +1,41 @@
+// QGDS Vertical Rhythm variables are defined here, for import into other SCSS files.
+// The primary use of the these variables is content.scss, which defines custom CSS variables within the .qgds-content block.
+
+$responsive-tokens: (
+  default: (
+    // Structural layout flow
+    vspace-section-margin: 40px,
+    vspace-section-padding: 40px,
+    vspace-component: 24px,
+
+    // Horizontal/inline padding for .qgds-content blocks
+    hspace-content-inner: 0,
+
+    // Typography hierarchy flow
+    vspace-h1: 32px,
+    vspace-h2: 32px,
+    vspace-h3: 24px,
+    vspace-h4: 20px,
+    vspace-heading-text: 16px,
+  ),
+  large: (
+    vspace-section-margin: 64px,
+    vspace-section-padding: 64px,
+    vspace-component: 32px,
+    hspace-content-inner: 32px,
+
+    vspace-h1: 56px,
+    vspace-h2: 48px,
+    vspace-h3: 36px,
+    vspace-h4: 32px,
+    vspace-heading-text: 24px,
+  ),
+);
+$static-tokens: (
+  vspace-paragraph: 16px,
+  vspace-list: 16px,
+  vspace-list-item: 8px,
+  vspace-list-item-wide: 12px,
+  vspace-label: 8px,
+  vspace-form-hint: 8px,
+);

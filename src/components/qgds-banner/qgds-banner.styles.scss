@@ -19,8 +19,10 @@
   --image-cols: 1 / span 4;
   --contained-banner-radius: 3rem;
 
+  display: flex;
   background-color: var(--qgds-color-background);
   position: relative;
+  justify-content: center;
 
   &.contained {
     @media (min-width: qgds-breakpoint.$xxl) {

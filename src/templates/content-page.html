@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGDS Web Components - Example Content Page </title>
+
+  <!-- Local design system resources from dist-->
+  <script type="module" src="/src/index.ts"></script>
+
+</head>
+
+<body class="qgds">
+
+  <!-- Todo: // New Skip Links component -->
+
+
+  <qgds-global-alert variant="warning" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
+    This content page is a component integration example for layout, spacing and responsive behaviour.
+  </qgds-global-alert>
+
+
+  <qgds-header site-name="Site name">
+
+    <qgds-attribution-bar label="qld.gov.au" palette="bold" url="https://www.qld.gov.au" slot="pre-header">
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+    <qgds-search-input slot="search"></qgds-search-input>
+
+    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="mynav">
+      <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon="" is-current=""></qgds-navigation-item>
+      <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+
+      <qgds-navigation-item label="Full mega menu" href="#" view-all-url="#" icon-name="announcement" is-open=""
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. ">
+        <qgds-navigation-item label="Default" href="#"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing"></qgds-navigation-item>
+        <qgds-navigation-item label="Active" href="#" is-active=""
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "></qgds-navigation-item>
+        <qgds-navigation-item href="#"
+          label="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q"></qgds-navigation-item>
+        <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut a"></qgds-navigation-item>
+        <qgds-navigation-item label="Active with icon" href="#" icon-name="wheelchair" is-active=""
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. "></qgds-navigation-item>
+      </qgds-navigation-item>
+
+      <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta"
+        icon-name="phone"></qgds-navigation-item>
+
+
+    </qgds-navigation>
+
+  </qgds-header>
+
+  <qgds-banner palette="soft" variant="no-banner">
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item href="#">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Templates</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="#">Content page</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+  </qgds-banner>
+
+  <div class="qgds-container qgds-cols qgds-py-64">
+
+    <div class="qgds-span-12 qgds-span-3:lg">
+      <qgds-side-navigation mobile-heading="In this section">
+        <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 second">
+          <qgds-side-navigation-item href="#" label="Level 2 first"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#" label="Level 2 second">
+            <qgds-side-navigation-item href="#" is-active=""
+              label="Level 3 first is active"></qgds-side-navigation-item>
+            <qgds-side-navigation-item href="#"
+              label="Level 3 second, with a longer title that wraps"></qgds-side-navigation-item>
+            <qgds-side-navigation-item label="Level 3 third, no link"></qgds-side-navigation-item>
+          </qgds-side-navigation-item>
+          <qgds-side-navigation-item label="Level 2 third, no link"></qgds-side-navigation-item>
+          <qgds-side-navigation-item href="#"
+            label="Level 2 fourth"></qgds-side-navigation-item></qgds-side-navigation-item>
+        <qgds-side-navigation-item label="Level 1 third, non link"></qgds-side-navigation-item>
+        <qgds-side-navigation-item href="#" label="Level 1 fourth"></qgds-side-navigation-item>
+      </qgds-side-navigation>
+    </div>
+
+    <main id="main-content" class="qgds-span-12 qgds-span-8:lg">
+
+      <!-- Primary block with inpage-nav, content and accordion group -->
+      <div class="qgds-content qgds-pt-0:lg">
+
+        <qgds-inpage-alert type="info" heading="Important information">
+          <p>This is an important in-page alert.</p>
+        </qgds-inpage-alert>
+
+        <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="In page navigation">
+          <qgds-inpage-nav-item href="#introduction">Introduction</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#overview">Overview</qgds-inpage-nav-item>
+          <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
+        </qgds-inpage-nav>
+
+        <h2 id="introduction" class="m-24">Introduction</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+          Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+        <p>
+          Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae
+          amet
+          ornare
+          donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+
+        <h3>I am a subheading H3</h3>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat</p>
+
+        <qgds-accordion-group show-controls="auto">
+          <qgds-accordion is-open="" title="This accordion is initially open.">
+            <p>This is the <strong>content</strong> in accordion 1.</p>
+          </qgds-accordion>
+
+
+          <qgds-accordion title="This accordion is initially closed.">
+            <p>This is the <strong>content</strong> in accordion 2. It also contains <a href="#">a link</a>.</p>
+          </qgds-accordion>
+
+
+          <qgds-accordion title="This accordion is initially closed.">
+            <p>This is the <strong>content</strong> in accordion 3. Find this text.</p>
+          </qgds-accordion>
+
+        </qgds-accordion-group>
+
+      </div>
+
+
+      <!-- Different colour block -->
+      <div class="qgds-content qgds-palette-muted">
+        <h2>Section Heading</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          libero ut.
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+      </div>
+
+      <!-- block with cards using sub-grid cols -->
+      <div class="qgds-content qgds-palette-default">
+        <h2 id="overview">Discover more</h2>
+        <div class="qgds-cols qgds-cols-1 qgds-cols-lg-2">
+          <qgds-card action="single" target="_blank" heading="Card title"
+            href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
+            palette="default">
+            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+          </qgds-card>
+
+          <qgds-card action="single" target="_blank" heading="Card title"
+            href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
+            palette="soft">
+            <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
+          </qgds-card>
+        </div>
+      </div>
+
+      <!-- block with list and blockquote -->
+      <div class="qgds-content">
+        <h2>Heading H2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+          ut.
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+        <ul>
+          <li>List item 1</li>
+          <li>List item 2</li>
+          <li>List item 3</li>
+        </ul>
+
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+          ut.
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+        <qgds-blockquote cite-label="Sir Tim Berners-Lee" cite-url="https://example.com/source">
+          <p>The goal of the Web is to serve humanity. We build it now so that those who come to it later will be able
+            to create
+            things we cannot ourselves imagine.</p>
+        </qgds-blockquote>
+
+      </div>
+
+
+      <div class="qgds-content">
+        <h2>Heading H2 collapse padding</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+          Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+
+        <h3>Heading H3</h3>
+        <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
+          croissant gummies
+          apple pie powder gingerbread cookie tart.</p>
+        <p>
+          Fruitcake sesame snaps sweet cheesecake jelly beans jujubes cheesecake carrot cake. Toffee cake sesame snaps
+          sesame snaps muffin donut donut. Dessert toffee cake muffin cheesecake gummi bears cupcake. Chocolate cake
+          apple pie biscuit tootsie roll macaroon marzipan.</p>
+
+        <h4>Heading H4</h4>
+        <p>Chocolate soufflé macaroon icing oat cake tootsie roll. Marshmallow gummi bears halvah sugar plum biscuit
+          gummi bears caramels jujubes. Soufflé candy pastry candy wafer cake. Bear claw tart macaroon muffin toffee.
+        </p>
+        <ul>
+          <li>List item 1</li>
+          <li>List item 2</li>
+          <li>List item 3</li>
+        </ul>
+
+        <p>Chocolate soufflé macaroon icing oat cake tootsie roll. Marshmallow gummi bears halvah sugar plum biscuit
+          gummi bears caramels jujubes. Soufflé candy pastry candy wafer cake. Bear claw tart macaroon muffin toffee.
+        </p>
+
+        <qgds-video aspect-ratio="16x9" caption="Caption text goes here" duration="3:12" source="youtube"
+          thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg" video-id="LDU_Txk06tM"></qgds-video>
+
+      </div>
+
+
+      <!-- block with table -->
+      <section class="qgds-content qgds-palette-deep">
+        <h2 id="getting-started">Heading H2 deep palette</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+          Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+
+        <qgds-table is-striped has-border responsive="scroll">
+
+          <table>
+            <caption>
+              Table caption
+              <span class="caption-subtitle">Table is ordered by</span>
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Header 1</th>
+                <th scope="col">Header 2</th>
+                <th scope="col">Header 3</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td>Cell item 01</td>
+                <td>Cell item 02</td>
+                <td>Cell item 03</td>
+              </tr>
+              <tr>
+                <td>Cell item 04</td>
+                <td>Cell item 05</td>
+                <td>Cell item 06</td>
+              </tr>
+              <tr>
+                <td>Cell item 07</td>
+                <td>Cell item 08</td>
+                <td>Cell item 09</td>
+              </tr>
+              <tr>
+                <td>Cell item 10</td>
+                <td>Cell item 11</td>
+                <td>Cell item 12</td>
+              </tr>
+              <tr>
+                <td>Cell item 13</td>
+                <td>Cell item 14</td>
+                <td>Cell item 15</td>
+              </tr>
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <td>Footer 1</td>
+                <td>Footer 2</td>
+                <td>Footer 3</td>
+              </tr>
+            </tfoot>
+          </table>
+
+        </qgds-table>
+      </section>
+
+      <section class="qgds-content qgds-palette-deep">
+        <h2>Heading H2 deep palette</h2>
+        <p>This section uses the deep palette styling for its content. It's top internal padding should collapse.</p>
+      </section>
+
+      <section class="qgds-content">
+        <h2>Heading H2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut. Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
+
+        <qgds-callout variant="info" heading="Callout heading">
+          <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
+            croissant gummies
+            apple pie powder gingerbread cookie tart.</p>
+        </qgds-callout>
+
+        <p>Fruitcake sesame snaps sweet cheesecake jelly beans jujubes cheesecake carrot cake. Toffee cake sesame snaps
+          sesame snaps muffin donut donut.</p>
+        <p>Dessert toffee cake muffin cheesecake gummi bears cupcake. Chocolate cake apple pie biscuit tootsie roll
+          macaroon marzipan.</p>
+      </section>
+
+    </main>
+
+  </div><!-- //qgds-container -->
+
+  <!-- Footer -->
+  <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
+    contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
+    copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
+    footer-heading="Queensland Government" heading-level="2" palette="bold" social-heading="Follow us">
+    <!-- Contact Links -->
+    <qgds-footer-contact-item icon-id="phone" label="Phone" href="tel:137468"
+      value="13 QGOV (13 74 68)"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="email" label="Email" href="mailto:email@qld.gov.au"
+      value="email@qld.gov.au"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="facebook" href="https://www.facebook.com/QueenslandGovernment"
+      value="/QueenslandGovernment"></qgds-footer-contact-item>
+
+    <!-- Contact Buttons via contact-cta slot -->
+    <qgds-button href="https://qld.gov.au/contact" slot="contact-cta" label="Contact us" variant="secondary"
+      target="_blank"></qgds-button>
+
+    <!-- Site Links -->
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/disclaimer" label="Disclaimer"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
+      label="Right to information"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/accessibility"
+      label="Accessibility"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://smartjobs.qld.gov.au/"
+      label="Jobs in Queensland Government"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/languages" label="Other languages"></qgds-link>
+
+    <!-- Social Links -->
+    <qgds-link slot="footer-social-link" href="https://www.facebook.com/QueenslandGovernment" icon-name="facebook"
+      label="Facebook"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.linkedin.com/company/queensland-government"
+      icon-name="linkedin" label="LinkedIn"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.youtube.com/user/QueenslandGovt" icon-name="youtube"
+      label="Youtube"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.instagram.com/Queensland/" icon-name="instagram"
+      label="Instagram"></qgds-link>
+
+    <!-- Acknowledgement of Country -->
+    <div slot="aoc">
+      <p>
+        We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
+        their legacy. The foundations laid by these ancestors — our First Nations peoples — give
+        strength, inspiration and courage to current and future generations towards creating a better Queensland.
+      </p>
+    </div>
+
+    <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+
+  </qgds-footer>
+
+  </div>
+
+</body>
+
+</html>
