@@ -3,6 +3,29 @@
     "target": "ES2017", // Good balance for modern browsers and bundlers
     "module": "ESNext", // Lets bundlers optimize modules
     "moduleResolution": "bundler",
+    "paths": {
+      "~/utils": [
+        "./src/utils"
+      ],
+      "~/styles": [
+        "./src/styles"
+      ],
+      "~/components": [
+        "./src/components"
+      ],
+      "~/functions": [
+        "./src/styles/tools/functions"
+      ],
+      "~/mixins": [
+        "./src/styles/tools/mixins"
+      ],
+      "@/": [
+        "./src"
+      ],
+      "~": [
+        "./src"
+      ]
+    },
     "outDir": "dist",
     "rootDirs": [
       "src",
@@ -15,6 +38,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
+    "ignoreDeprecations": "6.0",
     "downlevelIteration": true, // Ensures correct transpilation of iterators/for..of
     "experimentalDecorators": true,
     "useDefineForClassFields": false,

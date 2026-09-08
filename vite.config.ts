@@ -126,8 +126,6 @@ export default defineConfig({
     visualizer ? visualizer({ open: false, filename: "_dev/bundle-analysis.html" }) : null,
   ],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src"),
-    },
+    tsconfigPaths: true,
   },
 });
