@@ -46,7 +46,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // Using modern Sass API
+        loadPaths: [path.resolve(__dirname, "src")],
       },
     },
   },
@@ -127,5 +127,14 @@ export default defineConfig({
   ],
   resolve: {
     tsconfigPaths: true,
+    // alias: {
+    //   "~/components": path.resolve(__dirname, "./src/components"),
+    //   "~/styles": path.resolve(__dirname, "./src/styles"),
+    //   "~/utils": path.resolve(__dirname, "./src/utils"),
+    //   "~/mixins": path.resolve(__dirname, "./src/styles/tools/mixins/_index.scss"),
+    //   "~/functions": path.resolve(__dirname, "./src/styles/tools/functions/_index.scss"),
+    //   "@/": path.resolve(__dirname, "src"),
+    //   "~/": path.resolve(__dirname, "src"),
+    // },
   },
 });

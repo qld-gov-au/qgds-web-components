@@ -4,14 +4,20 @@
     "module": "ESNext", // Lets bundlers optimize modules
     "moduleResolution": "bundler",
     "paths": {
-      "~/utils": [
-        "./src/utils"
+      "~/": [
+        "./src"
       ],
-      "~/styles": [
-        "./src/styles"
+      "@/": [
+        "./src"
       ],
-      "~/components": [
-        "./src/components"
+      "~/components/*": [
+        "./src/components/*"
+      ],
+      "~/styles/*": [
+        "./src/styles/*"
+      ],
+      "~/utils/*": [
+        "./src/utils/*"
       ],
       "~/functions": [
         "./src/styles/tools/functions"
@@ -19,12 +25,9 @@
       "~/mixins": [
         "./src/styles/tools/mixins"
       ],
-      "@/": [
-        "./src"
+      "~/tools": [
+        "./src/styles/tools"
       ],
-      "~": [
-        "./src"
-      ]
     },
     "outDir": "dist",
     "rootDirs": [
