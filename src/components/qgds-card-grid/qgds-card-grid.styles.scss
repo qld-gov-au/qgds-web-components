@@ -1,0 +1,17 @@
+:host {
+  // Public API props
+  --card-grid-gap: var(--qgds-spacing-md, 1rem);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: var(--card-grid-gap, 1rem);
+  grid-gap: var(--card-grid-gap, 1rem);
+
+  qgds-card {
+    display: flex;
+    block-size: 100%;
+  }
+}
