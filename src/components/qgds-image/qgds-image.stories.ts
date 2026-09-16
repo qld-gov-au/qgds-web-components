@@ -6,6 +6,7 @@ import "./qgds-image.js";
 import type { QGDSImage } from "./qgds-image.js";
 
 import "../qgds-callout/qgds-callout.js";
+import { imageHelper } from "../../../.storybook/image-helpers";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSImage>("qgds-image");
 
@@ -18,7 +19,7 @@ const meta: Meta<Args> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    src: "https://picsum.photos/seed/qgds-beach/600/400",
+    src: imageHelper.getByID(4),
     alt: "Placeholder image",
   },
   argTypes,
@@ -52,30 +53,13 @@ export const WithCaption: Story = {
 };
 
 export const WithRatios: Story = {
-  decorators: [
-    (story) => {
-      return html`
-        <style>
-          .image-grid {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-            align-items: baseline;
-            margin-bottom: 2rem;
-          }
-        </style>
-
-        ${story()}
-      `;
-    },
-  ],
   render: (args: Args) => {
     // Define this based on your component's allowed values
     const horizontalRatios = ["16:9", "2:1", "3:2", "4:3", "1:1"] as const;
     const verticalRatios = ["2:3", "3:4", "9:16"] as const;
 
     return html`
-      <div class="image-grid">
+      <div class="qgds-cols qgds-cols-2 qgds-cols-5:lg">
         ${horizontalRatios.map((ratio, i: number) => {
           return template({
             ...args,
@@ -87,7 +71,7 @@ export const WithRatios: Story = {
         })}
       </div>
 
-      <div class="image-grid">
+      <div class="qgds-cols qgds-cols-2 qgds-cols-3:lg qgds-py-32">
         ${verticalRatios.map((ratio, i: number) => {
           return template({
             ...args,
@@ -108,6 +92,7 @@ export const WithHotspot: Story = {
     aspect: "9:16",
     caption: "Image with hotspot positioning (focal point: 90%, 90%)",
     width: 400,
+    src: imageHelper.getByID(9),
   },
 };
 
@@ -122,7 +107,7 @@ export const NaturalDimensions: Story = {
 export const DecorativeImage: Story = {
   name: "Decorative Image",
   args: {
-    src: "https://fastly.picsum.photos/id/56/2880/1920.jpg?hmac=BIplhYgNZ9bsjPXYhD0xx6M1yPgmg4HtthKkCeJp6Fk",
+    src: imageHelper.getByName("decorative"),
     width: 600,
     decorative: true,
     aspect: "16:9",
@@ -149,6 +134,7 @@ export const WithAriaLabel: Story = {
     ariaLabel: "Queensland Government building exterior with native gardens",
     aspect: "16:9",
     caption: "Using aria-label for context-specific description",
+    src: imageHelper.getByID(7),
   },
 };
 
@@ -183,7 +169,8 @@ export const WithLongDescription: Story = {
 export const ResponsiveImage: Story = {
   name: "Responsive Image (srcset)",
   args: {
-    srcset: "https://picsum.photos/seed/qgds-beach/600/400 1x, https://picsum.photos/seed/qgds-beach/1200/800 2x",
+    src: imageHelper.getByName("vet"),
+    srcset: imageHelper.getByName("vet") + " 1x, " + imageHelper.getByName("vet") + " 2x",
     sizes: "(max-width: 600px) 100vw, 600px",
     aspect: "3:2",
     caption: "Responsive image with srcset and sizes for different screen densities",
@@ -198,6 +185,7 @@ export const PerformanceOptimized: Story = {
     loading: "eager",
     aspect: "16:9",
     caption: "Hero image with fetchpriority='high' for LCP optimization",
+    src: imageHelper.getByID(8),
   },
 };
 
@@ -225,7 +213,7 @@ export const LazyLoading: Story = {
           ...args,
           aspect: "16:9",
           loading: "lazy",
-          src: `https://picsum.photos/seed/qgds-lazy-${i}/600/338`,
+          src: imageHelper.getByID(i + 1),
           caption: `Lazy-loaded image ${i}`,
         })}
       `
@@ -244,6 +232,7 @@ export const WithAlignment: Story = {
           aspect: "4:3",
           width: 300,
           caption: "Image aligned to the left",
+          src: imageHelper.getByID(3),
         })}
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -254,11 +243,12 @@ export const WithAlignment: Story = {
       <p>
         ${template({
           ...args,
-          src: "https://picsum.photos/seed/qgds-right/600/450",
+          src: imageHelper.getByID(7),
           align: "right",
           aspect: "4:3",
           width: 300,
           caption: "Image aligned to the right",
+          src: imageHelper.getByID(2),
         })}
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -292,7 +282,7 @@ export const ComplexAccessibility: Story = {
   render: (args: Args) =>
     html` ${template({
       ...args,
-      src: "https://www.ottsworld.com/wp-content/uploads/2014/06/GoldCoastBeach-3.jpg",
+      src: imageHelper.getByID(5),
       alt: "Gold Coast beachfront with high-rise buildings and sandy beach",
       ariaLabel:
         "Aerial photograph of Gold Coast showing pristine beach, turquoise ocean, and coastal high-rise developments",

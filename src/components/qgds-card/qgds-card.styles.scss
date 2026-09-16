@@ -45,6 +45,8 @@ Scoped CSS: qgds-card
   border-radius: var(--border-radius);
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto; /* Forces card wrapper to stretch full height */
+  block-size: 100%;
   overflow: hidden;
   position: relative;
 
@@ -58,7 +60,6 @@ Scoped CSS: qgds-card
     margin-block-start: -1px;
     margin-inline: -1px;
     display: none;
-    overflow: hidden;
 
     qgds-image {
       display: block;
@@ -78,11 +79,13 @@ Scoped CSS: qgds-card
   }
 
   /* Wraps heading, content and footer area within a card */
+
   .content-wrap {
     display: flex;
     flex-direction: column;
     padding-block: var(--_padding-wrap);
     padding-inline: var(--_padding-wrap);
+    block-size: 100%;
 
     --slotted-content-padding: 0 0 1rem 0;
     --slotted-list-padding: 1rem;
@@ -116,8 +119,13 @@ Scoped CSS: qgds-card
   .content {
     padding-block-end: 0;
     display: flex;
+    block-size: 100%;
     flex-flow: column nowrap;
     gap: 0.75rem;
+
+    slot {
+      display: inline-block;
+    }
 
     a,
     a:visited {
@@ -266,8 +274,8 @@ Scoped CSS: qgds-card
       }
 
       qgds-image {
-        --image-block-size: 100%; // host variable on qgds-image
-        --image-inline-size: 100%; // host variable on qgds-image
+        --image-block-size: calc(100% + 2px); // host variable on qgds-image
+        --image-inline-size: calc(100% + 2px); // host variable on qgds-image
         --_image-border-radius: 0 0 1.875rem 0; // Internal variable on cards compenent, allows API override
       }
 
