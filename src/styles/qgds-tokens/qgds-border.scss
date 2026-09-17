@@ -1,5 +1,11 @@
-// Stub file only
-:root {
-  --qgds-border-radius: 0.25rem;
-  --qgds-border-width-wide: 3px;
-}
+// Border related tokens
+@use "../tools/functions" as f;
+
+$border-tokens: (
+  "xs": f.remify(4px),
+  "sm": f.remify(12px),
+  "md": f.remify(16px),
+  "lg": f.remify(32px),
+  "xl": f.remify(40px),
+  "xxl": f.remify(64px),
+);

@@ -1,5 +1,6 @@
-@use "../tools/functions" as f;
 @use "sass:map";
+@use "../tools/functions" as f;
+@use "../qgds-tokens/qgds-border" as border;
 
 $_spacing: (
   0: 0,
@@ -21,6 +22,16 @@ $_neg-spacing: ();
   @if $value != 0 {
     $_neg-spacing: map.merge($_neg-spacing, (n#{$key}: #{calc($value * -1)}));
   }
+}
+
+$_border-radius: ();
+@each $key, $value in border.$border-tokens {
+  $_border-radius: map.merge(
+    $_border-radius,
+    (
+      $key: var(--qgds-border-radius-#{$key}),
+    )
+  );
 }
 
 ///
@@ -243,5 +254,10 @@ $utils: (
     property: overflow,
     class: "overflow",
     values: visible hidden clip scroll auto,
+  ),
+  "border-radius": (
+    property: border-radius,
+    class: "border-radius",
+    values: $_border-radius,
   ),
 );

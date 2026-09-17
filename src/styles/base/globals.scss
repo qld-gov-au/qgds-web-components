@@ -26,10 +26,37 @@
   --qgds-breakpoint-xl: #{$breakpoint-xl};
   --qgds-breakpoint-xxl: #{$breakpoint-xxl};
 
+  // font sizes
+  --qgds-type-size-xs: 14px;
+  --qgds-type-size-sm: 16px;
+  --qgds-type-size-md: 20px;
+  --qgds-type-size-lg: 24px;
+  --qgds-type-size-xl: 32px;
+  --qgds-type-size-xxl: 40px;
+  --qgds-type-size-xxxl: 48px;
+
   // Line heights
-  --qgds-line-height-default: 1.45;
+  --qgds-line-height-default: 1.5;
   --qgds-line-height-heading: 1.25;
   --qgds-line-height-none: 1;
+
+  // Line heights relative to font size
+  --qgds-line-height-xs: 1.4;
+  --qgds-line-height-sm: 1.45;
+  --qgds-line-height-md: 1.4;
+  --qgds-line-height-lg: 1.33;
+  --qgds-line-height-xl: 1.25;
+  --qgds-line-height-xxl: 1.2;
+  --qgds-line-height-xxxl: 1.15;
+
+  // Global border radius
+  @each $name, $value in $border-tokens {
+    --qgds-border-radius-#{$name}: #{$value};
+  }
+
+  // Used by skip link and button. Todo replace with component specific tokens
+  --qgds-border-radius: var(--qgds-border-radius-xs);
+  --qgds-border-width-wide: 3px;
 
   // grid related
   --qgds-grid-gutter: 1rem;
@@ -68,7 +95,7 @@ body {
   margin: 0;
   font-size: 1rem;
   font-family: var(--qgds-font-family);
-  line-height: var(--qgds-line-height-default);
+  line-height: f.snap-line-height(var(--qgds-line-height-default));
   color: var(--qgds-color-text-default);
   -webkit-font-smoothing: antialiased;
   text-underline-offset: var(--qgds-link-underline-offset, 30%);
