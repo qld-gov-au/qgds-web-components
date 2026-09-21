@@ -69,9 +69,10 @@ const logSearchToggle = action("qgds-toggle-search-mobile");
 const onSearchToggle = () => logSearchToggle();
 
 const navigationItems = html`
-  <qgds-link-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-link-item>
-  <qgds-link-item label="Services" href="#services"></qgds-link-item>
-  <qgds-link-item label="About" href="#about"></qgds-link-item>
+  <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-navigation-item>
+  <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+  <qgds-navigation-item label="About" href="#about"></qgds-navigation-item>
+  <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta" icon-name="phone"></qgds-navigation-item>
 `;
 
 const attributionLinks = html`
