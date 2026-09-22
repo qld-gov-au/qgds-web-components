@@ -103,16 +103,13 @@
     margin-block-start: var(--qgds-vspace-component);
   }
 
-  /*  A section block uses padding to vertically seperate from sibling containers (use on block level div's and section's) 
-      We assume a direct child of .qgds-content container, that also preceeds a .qgds-section-block, assumes .section-block behaviour
-  */
-  .qgds-section-block {
+  .qgds-section {
     margin-block: 0;
     margin-inline: calc(var(--qgds-grid-padding) * -1);
     padding-block: 0 var(--qgds-vspace-section-padding);
     padding-inline: max(var(--qgds-hspace-content-inner), var(--qgds-grid-padding));
 
-    /* Zero margin on the first element in a section-block */
+    /* Zero margin on the first element in a qgds-section */
     > :first-child {
       margin-block-start: unset;
     }
@@ -127,7 +124,7 @@
 
 $palettes: ("soft", "muted", "bold", "deep");
 
-:where(.qgds-section-block) {
+:where(.qgds-section) {
   @each $palette in $palettes {
     /* Every section scoped with a NON-DEFAULT palette class will have a top padding applied */
     &.qgds-palette-#{$palette} {
