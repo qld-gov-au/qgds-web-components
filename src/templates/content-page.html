@@ -16,7 +16,7 @@
   <!-- Todo: // New Skip Links component -->
 
 
-  <qgds-global-alert variant="warning" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
+  <qgds-global-alert variant="general" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
     This content page is a component integration example for layout, spacing and responsive behaviour.
   </qgds-global-alert>
 
@@ -57,7 +57,7 @@
 
   </qgds-header>
 
-  <qgds-banner palette="soft" variant="no-banner">
+  <qgds-banner palette="muted" variant="no-banner">
     <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
       <qgds-breadcrumbs-item href="#">Home</qgds-breadcrumbs-item>
       <qgds-breadcrumbs-item href="#">Templates</qgds-breadcrumbs-item>
@@ -65,9 +65,9 @@
     </qgds-breadcrumbs>
   </qgds-banner>
 
-  <div class="qgds-container qgds-cols qgds-py-64">
+  <div class="qgds-container qgds-cols qgds-cols-12 qgds-pb-40 qgds-py-64:lg">
 
-    <div class="qgds-span-12 qgds-span-3:lg">
+    <div class="qgds-span-12 qgds-span-3:lg qgds-py-40 qgds-py-0:lg">
       <qgds-side-navigation mobile-heading="In this section">
         <qgds-side-navigation-item href="#" label="Here is the heading" slot="heading"></qgds-side-navigation-item>
         <qgds-side-navigation-item href="#" label="Level 1 first"></qgds-side-navigation-item>
@@ -88,11 +88,9 @@
       </qgds-side-navigation>
     </div>
 
-    <main id="main-content" class="qgds-span-12 qgds-span-8:lg">
+    <main id="main-content" class="qgds-content qgds-span-12 qgds-span-8:lg qgds-pl-32:lg">
 
-      <!-- Primary block with inpage-nav, content and accordion group -->
-      <div class="qgds-content qgds-pt-0:lg">
-
+      <div class="qgds-section-block">
         <qgds-inpage-alert type="info" heading="Important information">
           <p>This is an important in-page alert.</p>
         </qgds-inpage-alert>
@@ -103,18 +101,15 @@
           <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
         </qgds-inpage-nav>
 
-        <h2 id="introduction" class="m-24">Introduction</h2>
+        <h2 id="introduction">Introduction H2</h2>
+
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
-          feugiat
-          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
-          Luctus
-          diam
-          pellentesque ipsum accumsan amet commodo.</p>
+          feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+          ut.
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
         <p>
           Convallis et ullamcorper ac nisi ornare sed facilisis sem. Scelerisque malesuada vivamus tellus mi vitae
-          amet
-          ornare
-          donec malesuada. Nascetur senectus aenean fames id turpis.</p>
+          amet ornare donec malesuada. Nascetur senectus aenean fames id turpis.</p>
 
         <h3>I am a subheading H3</h3>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat</p>
@@ -127,46 +122,72 @@
 
           <qgds-accordion title="This accordion is initially closed.">
             <p>This is the <strong>content</strong> in accordion 2. It also contains <a href="#">a link</a>.</p>
+            <p>Accordions usually have several paragraphs with additional information.</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit necessitatibus dolore, animi aliquid
+              dolorem explicabo impedit facilis odio voluptatem voluptatum rerum accusamus consectetur rem atque alias,
+              ut
+              mollitia, optio ipsam!</p>
           </qgds-accordion>
 
 
           <qgds-accordion title="This accordion is initially closed.">
-            <p>This is the <strong>content</strong> in accordion 3. Find this text.</p>
+            <ul>
+              <li>List item</li>
+              <li>List item</li>
+              <li>List item</li>
+            </ul>
+            <p>This accordion starts with a list element. It includes a <strong>strong tag</strong>, and it's content
+              can
+              be found with inpage search.</p>
           </qgds-accordion>
 
         </qgds-accordion-group>
 
+        <qgds-callout variant="info" heading="Callout heading">
+          <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
+            croissant gummies
+            apple pie powder gingerbread cookie tart.</p>
+        </qgds-callout>
       </div>
-
+      <!-- // End qgds-section-block #1 -->
 
       <!-- Different colour block -->
-      <div class="qgds-content qgds-palette-muted">
-        <h2>Section Heading</h2>
+      <div class="qgds-section-block qgds-palette-bold">
+        <h2>Section Heading Section Bold</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           libero ut.
           Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
+        <div class="qgds-component-block">
+          <qgds-button icon-name="arrow-right" icon-position="trailing" label="Place order" type="submit"
+            id="place-order" variant="primary"></qgds-button>
+
+          <qgds-button label="Save progress" type="button" id="save-progress" variant="secondary"></qgds-button>
+
+          <qgds-button label="Start again" type="reset" id="start-again" variant="tertiary"></qgds-button>
+        </div>
       </div>
 
       <!-- block with cards using sub-grid cols -->
-      <div class="qgds-content qgds-palette-default">
+      <div class="qgds-section-block qgds-palette-default">
         <h2 id="overview">Discover more</h2>
-        <div class="qgds-cols qgds-cols-1 qgds-cols-lg-2">
+        <div class="qgds-cols qgds-component-block">
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
-            palette="default">
+            palette="default" class="qgds-span-12 qgds-span-6:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
-            palette="soft">
+            palette="soft" class="qgds-span-12 qgds-span-6:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
         </div>
       </div>
 
       <!-- block with list and blockquote -->
-      <div class="qgds-content">
+      <div class="qgds-section-block">
         <h2>Heading H2</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
@@ -192,7 +213,7 @@
       </div>
 
 
-      <div class="qgds-content">
+      <div class="qgds-section-block">
         <h2>Heading H2 collapse padding</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
@@ -224,6 +245,13 @@
           gummi bears caramels jujubes. Soufflé candy pastry candy wafer cake. Bear claw tart macaroon muffin toffee.
         </p>
 
+        <h2>Heading 2</h2>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat
+          pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
+          Luctus
+          diam
+          pellentesque ipsum accumsan amet commodo.</p>
         <qgds-video aspect-ratio="16x9" caption="Caption text goes here" duration="3:12" source="youtube"
           thumbnail="https://img.youtube.com/vi/LDU_Txk06tM/sddefault.jpg" video-id="LDU_Txk06tM"></qgds-video>
 
@@ -231,7 +259,8 @@
 
 
       <!-- block with table -->
-      <section class="qgds-content qgds-palette-deep">
+      <section class="qgds-section-block qgds-palette-deep">
+
         <h2 id="getting-started">Heading H2 deep palette</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
@@ -241,7 +270,6 @@
           pellentesque ipsum accumsan amet commodo.</p>
 
         <qgds-table is-striped has-border responsive="scroll">
-
           <table>
             <caption>
               Table caption
@@ -295,12 +323,13 @@
         </qgds-table>
       </section>
 
-      <section class="qgds-content qgds-palette-deep">
-        <h2>Heading H2 deep palette</h2>
+      <section class="qgds-section-block qgds-palette-deep">
+        <h2>Heading H2 deep palette, top internal padding should collapse to join the pevious matching palette content
+          (deep)</h2>
         <p>This section uses the deep palette styling for its content. It's top internal padding should collapse.</p>
       </section>
 
-      <section class="qgds-content">
+      <section class="qgds-section-block">
         <h2>Heading H2</h2>
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
@@ -312,6 +341,13 @@
           <p>Cupcake ipsum dolor sit amet. Chocolate pastry jelly muffin pie lollipop gingerbread. Topping brownie
             croissant gummies
             apple pie powder gingerbread cookie tart.</p>
+          <h3>I am a heading 3</h3>
+          <p>This is a paragraph following a heading 3 inside the callout.</p>
+          <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+            <li>List item 3</li>
+          </ul>
         </qgds-callout>
 
         <p>Fruitcake sesame snaps sweet cheesecake jelly beans jujubes cheesecake carrot cake. Toffee cake sesame snaps
@@ -320,7 +356,16 @@
           macaroon marzipan.</p>
       </section>
 
+      <qgds-tag label="Content Template" variant="default"></qgds-tag>
+      <qgds-tag label="Design System" variant="default"></qgds-tag>
+
     </main>
+
+    <div class="qgds-content-footer qgds-span-12">
+      <p><strong>Last updated:</strong> September 2035</p>
+      <qgds-direction-link direction="up" label="Back to top" href="#top"></qgds-direction-link>
+    </div>
+
 
   </div><!-- //qgds-container -->
 
