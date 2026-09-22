@@ -48,7 +48,7 @@ $_headings: (
 /* Public placeholder reused by elements.scss */
 %qgds-heading {
   font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
-  font-weight: 600;
+  font-weight: var(--qgds-font-weight-semibold);
   line-height: f.snap-line-height(1.25);
   color: var(--qgds-color-text-heading);
 }
@@ -63,7 +63,21 @@ $_headings: (
 
 .qgds-caption {
   font-size: f.remify(14px);
-  font-weight: 400;
-  line-height: f.snap-line-height(var(--qgds-line-height-default, 1.45));
-  color: var(--qgds-color-text-lighter, #636363);
+  font-weight: var(--qgds-font-weight, 400);
+  line-height: f.snap-line-height(1.45);
+  color: var(--qgds-color-text-default);
+}
+
+.qgds-quote {
+  font-size: f.remify(20px);
+  font-weight: var(--qgds-font-weight-semibold, 600);
+  line-height: f.snap-line-height(1.4); // 20 x 1.4 = 28px
+  color: var(--qgds-color-text-default);
+}
+
+.qgds-abstract {
+  font-size: f.remify(24px);
+  font-weight: var(--qgds-font-weight, 400);
+  line-height: f.snap-line-height(1.33); // 24 x 1.33 = 32px
+  color: var(--qgds-color-text-default);
 }

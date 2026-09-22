@@ -49,6 +49,11 @@
   --qgds-line-height-xxl: 1.2;
   --qgds-line-height-xxxl: 1.15;
 
+  // Font weights
+  --qgds-font-weight: 400;
+  --qgds-font-weight-semibold: 600;
+  --qgds-font-weight-bold: 700;
+
   // Global border radius
   @each $name, $value in $border-tokens {
     --qgds-border-radius-#{$name}: #{$value};
