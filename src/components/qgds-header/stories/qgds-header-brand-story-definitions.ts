@@ -17,7 +17,8 @@ import "../../qgds-search-input/qgds-search-input";
 import "../../qgds-navigation/qgds-navigation";
 
 import coBrandLogo from "../../qgds-logo/assets/breast-screen-qld-logo.svg";
-import standAloneLogo from "../../qgds-logo/assets/office-health-ombudsman-logo.svg";
+import standAloneLogoOho from "../../qgds-logo/assets/office-health-ombudsman-logo.svg";
+import standAloneLogoCcc from "../../qgds-logo/assets/ccc-logo.svg";
 
 const { args: defaultArgs } = getStorybookHelpers<QGDSHeader>("qgds-header");
 const { args: navigationArgs, template: navigationTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
@@ -56,6 +57,10 @@ const attributionSites = {
   oho: {
     url: "https://oho.qld.gov.au",
     label: "oho.qld.gov.au",
+  },
+  ccc: {
+    url: "https://www.ccc.qld.gov.au",
+    label: "ccc.qld.gov.au",
   },
 } as const;
 
@@ -228,7 +233,7 @@ const createBrandLogoAndSiteNameStory = (
     },
     content: {
       attribution: "oho",
-      brandLogo: standAloneLogo,
+      brandLogo: standAloneLogoOho,
     },
     description: {
       brands: "Endorsed and Stand Alone",
@@ -358,7 +363,7 @@ export const BrandLogoAndSiteName: HeaderStory = {
               },
               {
                 attribution: "oho",
-                brandLogo: standAloneLogo,
+                brandLogo: standAloneLogoOho,
                 navigationId: `brand-logo-site-name-navigation-${index + 1}`,
               }
             )}
@@ -376,6 +381,10 @@ export const BrandLogoAndSiteName: HeaderStory = {
   },
 };
 
+/**
+ * Brand logo only Stories
+ */
+
 type BrandLogoOnlyMobileTopContent = Exclude<BrandLogoMobileTopContent, "site-name">;
 
 const createBrandLogoOnlyStory = (
@@ -390,8 +399,8 @@ const createBrandLogoOnlyStory = (
       "hide-mobile-bottom-row": hideMobileBottomRow,
     },
     content: {
-      attribution: "oho",
-      brandLogo: standAloneLogo,
+      attribution: "ccc",
+      brandLogo: standAloneLogoCcc,
     },
     description: {
       brands: "Endorsed and Stand Alone",
@@ -408,6 +417,7 @@ const createBrandLogoOnlyStory = (
 
 export const BrandLogoOnlyDesktop = createBrandLogoOnlyStory("brand-logo", false, false);
 
+// Used by Endorsed stories only
 export const BrandLogoOnly = createBrandLogoOnlyStory("brand-logo", true);
 
 const brandLogoOnlyMobileVariations = [
@@ -447,8 +457,8 @@ export const BrandLogoOnlyMobile: HeaderStory = {
                 "hide-mobile-bottom-row": variation.hideMobileBottomRow,
               },
               {
-                attribution: "oho",
-                brandLogo: standAloneLogo,
+                attribution: "ccc",
+                brandLogo: standAloneLogoCcc,
                 navigationId: `brand-logo-only-navigation-${index + 1}`,
               }
             )}
@@ -466,21 +476,11 @@ export const BrandLogoOnlyMobile: HeaderStory = {
   },
 };
 
-const siteNameOnly = "Office of the Health Ombudsman";
+/**
+ * Site name only Stories
+ */
 
-export const SiteNameOnlyDesktop = createBrandStory({
-  args: {
-    "hide-coa-logo": true,
-    "site-name": siteNameOnly,
-  },
-  content: {
-    attribution: "oho",
-  },
-  description: {
-    brands: "Endorsed and Stand Alone",
-    summary: "Site Name Only",
-  },
-});
+const siteNameOnly = "Office of the Health Ombudsman";
 
 const siteNameOnlyMobileVariations = [
   {
@@ -499,6 +499,20 @@ const siteNameOnlyMobileVariations = [
     hideMobileBottomRow: true,
   },
 ] as const;
+
+export const SiteNameOnlyDesktop = createBrandStory({
+  args: {
+    "hide-coa-logo": true,
+    "site-name": siteNameOnly,
+  },
+  content: {
+    attribution: "oho",
+  },
+  description: {
+    brands: "Endorsed and Stand Alone",
+    summary: "Site Name Only",
+  },
+});
 
 export const SiteNameOnlyMobile: HeaderStory = {
   args: defaultArgs,
@@ -539,58 +553,3 @@ export const SiteNameOnlyMobile: HeaderStory = {
     },
   },
 };
-
-export const BrandNameTwoMobileRows = createBrandStory({
-  args: {
-    "hide-coa-logo": true,
-    "mobile-top-content": "preheader-url",
-    "site-name": "Site name",
-  },
-  content: {
-    attribution: "oho",
-  },
-  description: {
-    brands: "Endorsed and Stand Alone",
-    summary: "Brand Name only - No Coat of Arms",
-    settings: ["hide-coa-logo", 'mobile-top-content="preheader-url"', 'site-name="Site name"'],
-  },
-});
-
-export const BrandNameMobileTopRowSiteName = createBrandStory({
-  args: {
-    "hide-coa-logo": true,
-    "mobile-top-content": "site-name",
-    "hide-mobile-bottom-row": true,
-    "site-name": "Site name",
-  },
-  content: {
-    attribution: "oho",
-  },
-  description: {
-    brands: "Endorsed and Stand Alone",
-    summary: "Brand Name - No Coat of Arms",
-    settings: ["hide-coa-logo", 'mobile-top-content="site-name"', "hide-mobile-bottom-row", 'site-name="Site name"'],
-  },
-});
-
-export const BrandNameMobileTopRowUrl = createBrandStory({
-  args: {
-    "hide-coa-logo": true,
-    "mobile-top-content": "preheader-url",
-    "hide-mobile-bottom-row": true,
-    "site-name": "Site name",
-  },
-  content: {
-    attribution: "oho",
-  },
-  description: {
-    brands: "Endorsed and Stand Alone",
-    summary: "Brand Name - No Coat of Arms",
-    settings: [
-      "hide-coa-logo",
-      'mobile-top-content="preheader-url"',
-      "hide-mobile-bottom-row",
-      'site-name="Site name"',
-    ],
-  },
-});
