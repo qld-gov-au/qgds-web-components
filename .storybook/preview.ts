@@ -33,7 +33,15 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ["Banner", ["Docs", "No Banner", "Default Banner", "Basic", "Advanced"]],
+        order: [
+          "Components",
+          [
+            "Banner",
+            ["Docs", "Default Banner", "Basic", "Advanced", "No Banner"],
+            "Header",
+            ["Brands", ["MasterBrand", "Sub-Brand", "Co-Brand", "Endorsed", "StandAlone"]],
+          ],
+        ],
       },
     },
 

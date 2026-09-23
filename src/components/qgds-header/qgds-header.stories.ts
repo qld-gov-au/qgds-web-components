@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { html, TemplateResult } from "lit";
+import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
@@ -7,7 +7,6 @@ import { action } from "storybook/actions";
 import { chromaticModes } from "../../../.storybook/modes";
 import { withEventActions } from "../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "./qgds-header";
-import type { QGDSNavigation } from "../qgds-navigation/qgds-navigation";
 import "./qgds-header";
 import "../qgds-attribution-bar/qgds-attribution-bar";
 import "../qgds-link/qgds-link";
@@ -15,27 +14,16 @@ import "../qgds-logo/qgds-logo";
 import "../qgds-search-input/qgds-search-input";
 import "../qgds-navigation/qgds-navigation";
 
-const { args, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
-const { args: navArgs, template: navTemplate } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
+const { args: defaultArgs, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
 
-const navItems = html`
-  <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-navigation-item>
-  <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
-  <qgds-navigation-item label="About" href="#about"></qgds-navigation-item>
-  <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta" icon-name="phone"></qgds-navigation-item>
-`;
-
-type Args = typeof args;
+type Args = typeof defaultArgs;
 type Story = StoryObj<Args>;
 
 const meta: Meta<Args> = {
   title: "Components/Header",
   component: "qgds-header",
   tags: ["autodocs"],
-  args: {
-    ...args,
-    "site-name": "Site name",
-  },
+  args: defaultArgs,
   argTypes,
   parameters: {
     controls: {
@@ -47,49 +35,50 @@ const meta: Meta<Args> = {
 
 export default meta;
 
-// The mobile buttons only fire payload-less events; the slotted components own what
-// happens next. Search has no mobile design yet, so it just logs to the Actions
-// panel. Menu toggles the demo nav's `open` attribute, standing in for a real
-// mega-menu component that would manage its own open state.
-const logSearchToggle = action("qgds-toggle-search-mobile");
-// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-const onSearchToggle = () => logSearchToggle();
+const omitDefault = <T>(value: T, defaultValue: T): T | undefined => (value === defaultValue ? undefined : value);
 
-const headerTemplate = (args: Args, children: TemplateResult) => html`
+const logSearchToggle = action("qgds-toggle-search-mobile");
+
+const onSearchToggle = (): void => {
+  logSearchToggle();
+};
+
+const headerTemplate = (args: Args) => html`
   <qgds-header
-    palette=${ifDefined(args.palette ?? undefined)}
-    site-name=${ifDefined(args["site-name"] ?? undefined)}
-    site-url=${ifDefined(args["site-url"] ?? undefined)}
-    mobile-top-content=${ifDefined(args["mobile-top-content"] ?? undefined)}
+    palette=${ifDefined(omitDefault(args.palette, defaultArgs.palette))}
+    site-name=${ifDefined(omitDefault(args["site-name"], defaultArgs["site-name"]))}
+    site-url=${ifDefined(omitDefault(args["site-url"], defaultArgs["site-url"]))}
+    mobile-top-content=${ifDefined(omitDefault(args["mobile-top-content"], defaultArgs["mobile-top-content"]))}
     ?hide-coa-logo=${args["hide-coa-logo"]}
     ?hide-mobile-bottom-row=${args["hide-mobile-bottom-row"]}
     @qgds-toggle-search-mobile=${onSearchToggle}
   >
-    ${children}
+    <qgds-attribution-bar slot="pre-header" palette="bold" url="https://www.qld.gov.au" label="qld.gov.au">
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+
+    <qgds-search-input slot="search"></qgds-search-input>
+
+    <qgds-navigation slot="navigation" id="mynav">
+      <qgds-link-item label="Home" href="/" only-icon icon-name="home" is-current></qgds-link-item>
+      <qgds-link-item label="About" href="/about"></qgds-link-item>
+      <qgds-link-item label="Services" href="/services"></qgds-link-item>
+      <qgds-link-item label="Contact" href="/contact"></qgds-link-item>
+    </qgds-navigation>
   </qgds-header>
 `;
 
 export const Default: Story = {
-  args: meta.args,
+  args: {
+    ...meta.args,
+    "site-name": "Site Name",
+  },
   parameters: {
     ...chromaticModes,
   },
-  render: (args) =>
-    headerTemplate(
-      args,
-      html`<qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
-        <qgds-attribution-bar slot="pre-header" palette="bold" url="https://www.qld.gov.au" label="qld.gov.au">
-          <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
-        </qgds-attribution-bar>
-        <qgds-search-input slot="search"></qgds-search-input> ${navTemplate(
-          {
-            ...navArgs,
-            slot: "navigation",
-            id: "mynav",
-          },
-          navItems
-        )}`
-    ),
+  render: (args) => headerTemplate(args),
   decorators: [
     withEventActions([
       "qgds-navigation-open",
