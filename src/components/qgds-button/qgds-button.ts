@@ -50,13 +50,6 @@ export type QGDSButtonProps = InstanceType<typeof QGDSButton>;
 
 @customElement("qgds-button")
 export class QGDSButton extends LitElement {
-  constructor() {
-    super();
-
-    // Initialize events controller
-    this._events = new QgdsEvents(this, { prefix: "qgds" });
-  }
-
   @property({ type: String }) label: string = "";
   @property({ type: String, useDefault: true }) variant: ButtonVariant = "primary";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
@@ -74,23 +67,36 @@ export class QGDSButton extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "is-loading" })
   isLoading = false;
 
-  // Internal state management for interaction states
-  @state() private _isHovered: boolean = false;
-  @state() private _isActive: boolean = false;
-  @state() private _isFocused: boolean = false;
-
   static styles = [resetStyles, animationsStyles, unsafeCSS(componentCSS)];
 
-  render() {
-    const labelContent = this.label.trim().length > 0 ? this.label : html`<slot></slot>`;
+  private _events: QgdsEvents;
 
-    // Check if it's a link or button
-    if (this.href !== undefined) {
-      return this.renderLink(labelContent);
-    } else {
-      return this.renderButton(labelContent);
-    }
+  constructor() {
+    super();
+
+    // Initialize events controller
+    this._events = new QgdsEvents(this, { prefix: "qgds" });
   }
+
+  private _handleClick = (e: PointerEvent) => {
+    if (this.disabled || this.isLoading) {
+      e.preventDefault();
+      return;
+    }
+
+    const dispatchEvent = this._events.dispatch("click", {
+      id: this.uniqueID ?? null,
+      href: this.href,
+      label: this.label,
+      variant: this.variant,
+      type: this.type,
+    });
+
+    //Handle the case where the event was canceled by a listener
+    if (!dispatchEvent) {
+      e.preventDefault();
+    }
+  };
 
   // Render link version of the button (anchor tag with href)
   private renderLink(labelContent: string | TemplateResult) {
@@ -146,35 +152,16 @@ export class QGDSButton extends LitElement {
     `;
   }
 
-  // Getter for combined button state
-  get buttonState() {
-    return {
-      isDisabled: this.disabled,
-      isLoading: this.isLoading,
-    };
+  render() {
+    const labelContent = this.label.trim().length > 0 ? this.label : html`<slot></slot>`;
+
+    // Check if it's a link or button
+    if (this.href !== undefined) {
+      return this.renderLink(labelContent);
+    } else {
+      return this.renderButton(labelContent);
+    }
   }
-
-  private _events: QgdsEvents;
-
-  private _handleClick = (e: PointerEvent) => {
-    if (this.disabled || this.isLoading) {
-      e.preventDefault();
-      return;
-    }
-
-    const dispatchEvent = this._events.dispatch("click", {
-      id: this.uniqueID ?? null,
-      href: this.href,
-      label: this.label,
-      variant: this.variant,
-      type: this.type,
-    });
-
-    //Handle the case where the event was canceled by a listener
-    if (!dispatchEvent) {
-      e.preventDefault();
-    }
-  };
 }
 
 declare global {
