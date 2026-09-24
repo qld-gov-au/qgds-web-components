@@ -1,4 +1,36 @@
-type FileType = "word" | "pdf" | "image" | "video" | "audio" | "spreadsheet" | "text";
+const fileTypes = ["word", "pdf", "image", "video", "audio", "spreadsheet", "text"] as const;
+type FileType = (typeof fileTypes)[number];
+function isFileType(value: string): value is FileType {
+  return fileTypes.includes(value as FileType);
+}
+
+const fileExtensionPattern = /^\.[^./\s,]+$/;
+const mimeTypePattern = /^(?!\*)[a-z][a-z0-9!#$&^_.+-]*\/(?:[a-z0-9!#$&^_.+-]+|\*)$/i;
+const bareFileExtensionPattern = /^[a-z0-9][a-z0-9_-]*$/i;
+
+/**
+ * Normalize and filter values for a file input's accept attribute.
+ * Bare extensions are accepted as a convenience and normalized with a leading dot.
+ */
+export function normalizeAccept(value: string): string[] {
+  return value
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .flatMap((item) => {
+      if (fileExtensionPattern.test(item) || mimeTypePattern.test(item)) {
+        return [item];
+      }
+
+      if (bareFileExtensionPattern.test(item)) {
+        const dottedValue = `.${item}`;
+        console.warn(`qgds-file-upload: file extension "${item}" is missing a leading dot; using "${dottedValue}".`);
+        return [dottedValue];
+      }
+
+      console.warn(`qgds-file-upload: invalid file type specifier "${item}" was ignored.`);
+      return [];
+    });
+}
 
 const spreadsheetMime = new Set([
   "text/csv",
@@ -125,6 +157,8 @@ const mimeToExtMap: Record<string, string> = {
 /**
  * Determine a simplified file type for a `File` object.
  * Returns one of: "word", "pdf", "image", "video", "audio", "spreadsheet", "text" or `null`.
+ * This is used in qgds-file-upload-item to determine which icon to display
+ *
  */
 export function getFileType(file: File): FileType | null {
   if (!file) return null;
@@ -132,23 +166,24 @@ export function getFileType(file: File): FileType | null {
 
   // Check mime-based rules first by asking mimeToExtension for an extension or category.
   if (mime) {
-    const extOrCategory = mimeToExtension(mime);
-
-    // If it matches a known extension, map to FileType via extensionMap
-    const byExt = extensionMap[extOrCategory];
-    if (byExt) return byExt;
+    const extOrCategory = mimeToFileType(mime);
 
     // If it's already a FileType-like category, return it
-    if (
-      extOrCategory === "pdf" ||
-      extOrCategory === "word" ||
-      extOrCategory === "spreadsheet" ||
-      extOrCategory === "image" ||
-      extOrCategory === "video" ||
-      extOrCategory === "audio" ||
-      extOrCategory === "text"
-    ) {
-      return extOrCategory as FileType;
+    if (isFileType(extOrCategory)) {
+      return extOrCategory;
+    }
+
+    // Handle the wildcards
+    if (extOrCategory.startsWith("any ")) {
+      const trimmed = extOrCategory.slice("any ".length);
+      if (isFileType(trimmed)) return trimmed;
+    }
+
+    // If it matches a known extension, map to FileType via extensionMap
+    // If extOrCategory begins with dot, it is extension
+    if (extOrCategory.startsWith(".")) {
+      const byExt = extensionMap[extOrCategory.slice(1)];
+      if (byExt) return byExt;
     }
   }
 
@@ -163,14 +198,14 @@ export function getFileType(file: File): FileType | null {
 /**
  * Resolve a mime type to a preferred file extension or generic file category.
  *
- * Known mime types return a canonical extension like `png`, `pdf`, or `xlsx`.
+ * Known mime types return a canonical extension like `.png`, `.pdf`, or `.xlsx`.
  * If the mime is only a broad type, it returns a generic category like `image`.
  * If the type is unrecognized, it returns the cleaned mime string and logs a warning.
  *
  * @param mimeType - The mime type to resolve, optionally with a charset suffix.
  * @returns A file extension, generic category, or the normalized mime string.
  */
-export function mimeToExtension(mimeType: string): string {
+export function mimeToFileType(mimeType: string): string {
   if (!mimeType) {
     console.warn("mimeToExtension: empty mimeType");
     return mimeType;
@@ -179,11 +214,16 @@ export function mimeToExtension(mimeType: string): string {
   //
   const mime = mimeType.split(";")[0].toLowerCase().trim();
 
-  if (mimeToExtMap[mime]) return mimeToExtMap[mime];
+  if (mimeToExtMap[mime]) return `.${mimeToExtMap[mime]}`;
 
   // Handle +xml / +json suffixes
-  if (mime.endsWith("+xml")) return "xml";
-  if (mime.endsWith("+json")) return "json";
+  if (mime.endsWith("+xml")) return ".xml";
+  if (mime.endsWith("+json")) return ".json";
+
+  // Wildcards
+  if (mime === "image/*") return "any image";
+  if (mime === "video/*") return "any video";
+  if (mime === "audio/*") return "any audio";
 
   // Category fallbacks
   if (mime.startsWith("image/")) return "image";
@@ -192,7 +232,7 @@ export function mimeToExtension(mimeType: string): string {
   if (mime.startsWith("text/")) return "text";
 
   // Known sets
-  if (mime === pdfMime) return "pdf";
+  if (mime === pdfMime) return ".pdf";
   if (wordMime.has(mime)) return "word";
   if (spreadsheetMime.has(mime)) return "spreadsheet";
 

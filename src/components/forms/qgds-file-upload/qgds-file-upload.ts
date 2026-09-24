@@ -3,7 +3,14 @@ import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
 import { customElement, property, state, query } from "lit/decorators.js";
 import componentStyles from "./qgds-file-upload.styles.scss?inline";
-import { QgdsEvents, readableFileSize, mimeToExtension, BreakpointController, generateUUID } from "../../../utils";
+import {
+  QgdsEvents,
+  readableFileSize,
+  mimeToFileType,
+  BreakpointController,
+  generateUUID,
+  normalizeAccept,
+} from "../../../utils";
 import { QGDSFormField } from "../qgds-form-field";
 import { Status, type QGDSFileUploadItem } from "./qgds-file-upload-item";
 import "./qgds-file-upload-item";
@@ -39,7 +46,7 @@ export interface MetaFile extends Meta {
  * @prop {number} [maxFiles=1] - Maximum number of files that can be selected.
  * @prop {number} [maxSize=100] - Maximum allowed file size in MB.
  * @prop {boolean} [multiple=false] - Whether more than one file may be selected.
- * @prop {string} [accept=""] - Comma-separated list of accepted file types or extensions.
+ * @prop {string} [accept=""] - Comma-separated list of accepted file types or extensions. All options should be a [unique file type specifier](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/accept#unique_file_type_specifiers).
  *
  * @slot details - Place any markup to be rendered within additional details.
  *
@@ -80,7 +87,24 @@ export class QGDSFileUpload extends QGDSFormField {
   }
   @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
   @property({ type: Boolean }) multiple?: boolean = false;
-  @property({ type: String }) accept?: string = "";
+  @property({ type: String, reflect: true })
+  get accept() {
+    return this._accept.join(", ");
+  }
+  set accept(newVal) {
+    if (typeof newVal !== "string") return;
+    const oldVal = this._accept.join(", ");
+    if (!newVal.trim()) {
+      this._accept = [];
+      this.requestUpdate("accept", oldVal);
+      return;
+    }
+
+    const newVals = normalizeAccept(newVal);
+
+    this._accept = newVals;
+    this.requestUpdate("accept", oldVal);
+  }
 
   override get value(): string {
     return this._input?.value ?? "";
@@ -116,7 +140,8 @@ export class QGDSFileUpload extends QGDSFormField {
   @query(".file-upload-dropzone") private _dropzone!: HTMLDivElement | null;
 
   private _maxFiles: number = 1;
-  private _events: QgdsEvents;
+  private _accept: string[] = [];
+  private _events = new QgdsEvents(this);
   private _breakpoint = new BreakpointController(this);
   private get _isMobile() {
     return qgdsBreakpoint[this._breakpoint.current] < qgdsBreakpoint.LG;
@@ -132,11 +157,6 @@ export class QGDSFileUpload extends QGDSFormField {
 
   private get _hasValidationErrors(): boolean {
     return this._metaFiles.some((item) => item.status === "error");
-  }
-
-  constructor() {
-    super();
-    this._events = new QgdsEvents(this);
   }
 
   override connectedCallback(): void {
@@ -316,13 +336,13 @@ export class QGDSFileUpload extends QGDSFormField {
             return true;
           }
 
-          return fileType ? mimeToExtension(token) === mimeToExtension(fileType) : mimeToExtension(token) === fileExt;
+          return fileType ? mimeToFileType(token) === mimeToFileType(fileType) : mimeToFileType(token) === fileExt;
         });
 
       if (!accepted) {
         return {
           status: "error",
-          message: `File type not accepted. Acceptable types: ${acceptValue}.`,
+          message: `File type not accepted. Acceptable types: ${this._validFilesString}.`,
           uuid,
         };
       }
@@ -346,6 +366,20 @@ export class QGDSFileUpload extends QGDSFormField {
       message: `File ready for upload - ${readableFileSize(file.size)}`,
       uuid,
     };
+  }
+
+  private get _validFilesString() {
+    return !this.accept
+      ? "any file type."
+      : this.accept
+          .split(",")
+          .map((item) => {
+            const trimmed = item.trim();
+            // if item start with "." it is a file extension
+            // else it is a mimetype string, evaluate for its file type
+            return trimmed.startsWith(".") ? trimmed : mimeToFileType(trimmed);
+          })
+          .join(", ") + " files";
   }
 
   private _renderFiles = () => {
@@ -399,19 +433,6 @@ export class QGDSFileUpload extends QGDSFormField {
 
     const multiple = this.multiple && maxFiles > 1;
 
-    const validFileTypes =
-      !this.accept || this.accept === "*"
-        ? "any"
-        : this.accept
-            .split(",")
-            .map((item) => {
-              const trimmed = item.trim();
-              // if item start with "." it is a file extension, return without the dot
-              // else it is a mimetype string, evalaute for its file type
-              return trimmed.startsWith(".") ? trimmed.slice(1) : mimeToExtension(trimmed);
-            })
-            .join(", ");
-
     const fileOrFiles = multiple ? "files" : "file";
     const showMaxFiles = (maxFiles ?? 0) > 1 && maxFiles !== Infinity;
 
@@ -438,7 +459,7 @@ export class QGDSFileUpload extends QGDSFormField {
                   <p class="qgds-display-md mb-16">
                     Drag and drop ${fileOrFiles} here or select ${fileOrFiles} to upload
                   </p> `}
-            <p class="qgds-caption">You can upload ${validFileTypes} files.</p>
+            <p class="qgds-caption">You can upload ${this._validFilesString}.</p>
             <p class="qgds-caption">${multiple ? "Files" : "File"} can’t be larger than ${maxSize} MB.</p>
             ${showMaxFiles ? html`<p class="qgds-caption">You can upload up to ${maxFiles} files.</p>` : nothing}
             <qgds-button

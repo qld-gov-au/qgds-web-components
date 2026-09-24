@@ -1,5 +1,5 @@
 import { LitElement, html, unsafeCSS, TemplateResult } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
 import componentCSS from "./qgds-button.styles.scss?inline";
