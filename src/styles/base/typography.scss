@@ -1,69 +1,71 @@
-/* 
-Devnote: 
-Type elements (H1, H2, P, LI etc.) are styled in the elements.scss file, not typography.scss. 
-The typography file is for utility classes that can be applied to any element.
-*/
+// Typography primitives and utility classes.
+// Semantic element defaults are defined in elements.scss.
 
 @use "sass:map";
+@use "sass:meta";
+@use "../qgds-tokens" as *;
 @use "../tools/functions" as f;
 
-$_sizes: (
-  xs: 14px,
-  sm: 16px,
-  md: 20px,
-  lg: 24px,
-  xl: 32px,
-  xxl: 40px,
-  xxxl: 48px,
-);
-
-%_qgds-display {
-  font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
-  font-weight: 600;
-  line-height: f.snap-line-height(1.4);
-  color: var(--qgds-color-text-heading);
-}
-
-@each $key, $value in $_sizes {
-  .qgds-display-#{$key} {
-    @extend %_qgds-display;
-
-    font-size: f.remify($value);
-  }
-}
-
-/* 
-Headings map 
---qgds-heading-xs maps to md in font $_sizes array
-*/
-
-$_headings: (
-  xs: "md",
-  sm: "lg",
-  md: "xl",
-  lg: "xxl",
-  xl: "xxxl",
-);
-
-/* Public placeholder reused by elements.scss */
 %qgds-heading {
   font-family: var(--qgds-font-family, "Noto Sans", "Helvetica Neue", helvetica, arial, sans-serif);
   font-weight: 600;
-  line-height: f.snap-line-height(1.25);
+  line-height: f.snap-line-height(var(--qgds-line-height-heading, 1.25));
   color: var(--qgds-color-text-heading);
 }
 
-@each $key, $size in $_headings {
-  .qgds-heading-#{$key} {
-    @extend %qgds-heading;
+[class*="qgds-display-"] {
+  @extend %qgds-heading;
+}
 
-    font-size: f.remify(map.get($_sizes, $size));
-  }
+/* prettier-ignore */
+.qgds-display {
+  &-xs { font-size: var(--qgds-font-size-xs, #{$typography-font-size-xs}); }
+  &-sm { font-size: var(--qgds-font-size-sm, #{$typography-font-size-sm}); }
+  &-md { font-size: var(--qgds-font-size-md, #{$typography-font-size-md}); }
+  &-lg { font-size: var(--qgds-font-size-lg, #{$typography-font-size-lg}); }
+  &-xl { font-size: var(--qgds-font-size-xl, #{$typography-font-size-xl}); }
+  &-xxl { font-size: var(--qgds-font-size-xxl, #{$typography-font-size-xxl}); }
+  &-xxxl { font-size: var(--qgds-font-size-xxxl, #{$typography-font-size-xxxl}); }
+}
+
+/* Font weight utilities */
+
+/* prettier-ignore */
+.qgds-fw {
+  &-default { font-weight: var(--qgds-font-weight-default); }
+  &-semibold { font-weight: var(--qgds-font-weight-semibold); }
+  &-bold { font-weight: var(--qgds-font-weight-bold); }
+}
+
+/* Line-height utilities (with -space alias to match UI kit) */
+.qgds-lh-heading,
+.qgds-heading-space {
+  line-height: f.snap-line-height(var(--qgds-line-height-heading, #{$typography-line-height-heading}));
+}
+
+.qgds-lh-none,
+.qgds-no-space {
+  line-height: f.snap-line-height(var(--qgds-line-height-default, #{$typography-line-height-default}));
+}
+
+/* Paragraph Utilities */
+
+.qgds-abstract {
+  font-size: var(--qgds-font-size-lg, #{$typography-font-size-lg});
+  line-height: f.snap-line-height(var(--qgds-line-height-heading, 1.33));
+  color: var(--qgds-color-text-default, #353535);
+}
+
+.qgds-quote {
+  font-size: var(--qgds-font-size-md, #{$typography-font-size-md});
+  font-weight: var(--qgdsfont-weight-semibold, 600);
+  line-height: f.snap-line-height(1.4);
+  color: var(--qgds-color-text-default, #353535);
 }
 
 .qgds-caption {
-  font-size: f.remify(14px);
-  font-weight: 400;
-  line-height: f.snap-line-height(var(--qgds-line-height-default, 1.45));
+  font-size: var(--qgds-font-size-xs, #{$typography-font-size-xs});
+  font-weight: var(--qgdsfont-weight-semibold, #{$typography-font-weight-semibold});
+  line-height: f.snap-line-height(var(--qgds-line-height-default, #{$typography-line-height-default}));
   color: var(--qgds-color-text-lighter, #636363);
 }

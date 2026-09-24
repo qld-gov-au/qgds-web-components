@@ -1,8 +1,11 @@
+// SASS Variables
 @forward "qgds-breakpoint" as breakpoint-*;
-@forward "qgds-border";
-@forward "qgds-color-stub"; //temporary stub until tokens are ready
-@forward "qgds-elevation";
-@forward "qgds-typography";
-@forward "qgds-size";
-@forward "qgds-space";
-@forward "qgds-vertical-space";
+@forward "qgds-border" as border-*;
+@forward "qgds-typography" as typography-*;
+@forward "qgds-size" as size-*;
+@forward "qgds-space" as space-*;
+@forward "qgds-vertical-space" as vertical-space-*;
+
+// CSS Variables
+@forward "qgds-color-stub" as color-*;
+@forward "qgds-elevation" as elevation-*;

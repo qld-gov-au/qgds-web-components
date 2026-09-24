@@ -2,8 +2,8 @@
 @use "sass:meta";
 @use "../qgds-tokens/" as *;
 @use "../icons/icons.list" as icons;
+@use "../tools/mixins" as m;
 @use "../tools/functions" as f;
-@use "../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
 // Below are global styles applied to the entire document
 // These are just placeholder styles, can be customized as needed;
@@ -26,21 +26,45 @@
   --qgds-breakpoint-xl: #{$breakpoint-xl};
   --qgds-breakpoint-xxl: #{$breakpoint-xxl};
 
+  // Font sizes
+  // XL and XXL have responsive sizes, so we set the default to mobile size, and then override for larger screens below.
+  --qgds-font-size-xs: #{f.remify($typography-font-size-xs)};
+  --qgds-font-size-sm: #{f.remify($typography-font-size-sm)};
+  --qgds-font-size-md: #{f.remify($typography-font-size-md)};
+  --qgds-font-size-lg: #{f.remify($typography-font-size-lg)};
+  --qgds-font-size-xl: #{f.remify($typography-font-size-xl)};
+  --qgds-font-size-xxl: #{f.remify($typography-font-size-xxl)};
+  --qgds-font-size-xxxl: #{f.remify($typography-font-size-xxxl)};
+
+  // Font sizes (for larger screens)
+  @include m.lg-up() {
+    --qgds-font-size-xl: #{f.remify($typography-font-size-xl)};
+    --qgds-font-size-xxl: #{f.remify($typography-font-size-xxl)};
+  }
+
   // Line heights
-  --qgds-line-height-default: 1.45;
-  --qgds-line-height-heading: 1.25;
-  --qgds-line-height-none: 1;
+  --qgds-line-height-default: #{$typography-line-height-default};
+  --qgds-line-height-heading: #{$typography-line-height-heading};
+  --qgds-line-height-none: #{$typography-line-height-none};
+
+  // Font weights
+  --qgds-font-weight-default: #{$typography-font-weight-default};
+  --qgds-font-weight-semibold: #{$typography-font-weight-semibold};
+  --qgds-font-weight-bold: #{$typography-font-weight-bold};
+
+  // (qgds-content) region
+  --qgds-content-max-width: 80ch;
 
   // grid related
   --qgds-grid-gutter: 1rem;
   --qgds-grid-padding: 1rem;
 
-  @media (min-width: #{bp.$md}) {
+  @include m.md-up() {
     --qgds-grid-gutter: 1.5rem;
     --qgds-grid-padding: 2rem;
   }
 
-  @media (min-width: #{bp.$lg}) {
+  @include m.lg-up() {
     --qgds-grid-gutter: 2rem;
   }
 
@@ -66,7 +90,7 @@ html {
 
 body {
   margin: 0;
-  font-size: 1rem;
+  font-size: var(--qgds-font-size-sm, 1rem);
   font-family: var(--qgds-font-family);
   line-height: var(--qgds-line-height-default);
   color: var(--qgds-color-text-default);
