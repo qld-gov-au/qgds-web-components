@@ -1,5 +1,9 @@
-@use "sass:map";
+/*  Content flow and vertical rhythm. 
 
+    Typography and element styles are defined in their own modules. 
+*/
+
+@use "sass:map";
 @use "../tools/mixins" as m;
 @use "../../styles/tools/functions" as f;
 @use "../../styles/qgds-tokens/qgds-vertical-space" as vs;
@@ -9,9 +13,6 @@
    ========================================================================== */
 
 :where(.qgds-content) {
-  // Establish CSS custom properties for Vertical Spacing values within the content block
-  // Refer https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-Kit?node-id=58167-30446&m=dev
-
   // All breakpoints
   @each $name, $value in vs.$static-tokens {
     --qgds-#{$name}: #{f.remify($value)};
@@ -29,9 +30,16 @@
     }
   }
 
-  // Specific rules for .qgds-content blocks
+  // Specific rules for .qgds-content
   padding-block: var(--qgds-vspace-section-padding);
   padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
+
+  // Max content block size
+  &.is-limit-width {
+    :is(p, li, blockquote) {
+      max-inline-size: var(--qgds-content-max-width, 80ch);
+    }
+  }
 
   // In mobile first layout, each .qgds-content block has a negative inline margin to compensate for an outer grid gutter
   // This ensure content blocks are edge-to-edge on smaller viewports, (and their background colours spans the full width).
