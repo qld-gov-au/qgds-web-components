@@ -16,7 +16,12 @@ import * as TypographyStories from "./typography.stories";
 <Meta title="Core Styles/Typography" />
 <Title of={TypographyStories} />
 
-QGDS offers typography utility classes to present content independently of its semantic structure.
+QGDS has typography utilities to present text content independently of its semantic structure.
+
+## Headings
+
+<Description of={TypographyStories.Heading} />
+<Canvas of={TypographyStories.Heading} sourceState="shown" />
 
 ## Display
 
@@ -28,21 +33,6 @@ QGDS offers typography utility classes to present content independently of its s
 <Description of={TypographyStories.Paragraph} />
 <Canvas of={TypographyStories.Paragraph} sourceState="shown" />
 
-## Abstract
-
-<Description of={TypographyStories.Abstract} />
-<Canvas of={TypographyStories.Abstract} sourceState="shown" />
-
-## Quote
-
-<Description of={TypographyStories.Quote} />
-<Canvas of={TypographyStories.Quote} sourceState="shown" />
-
-## Caption
-
-<Description of={TypographyStories.Caption} />
-<Canvas of={TypographyStories.Caption} sourceState="shown" />
-
 ## Lists
 
 <Description of={TypographyStories.Lists} />
@@ -51,40 +41,56 @@ QGDS offers typography utility classes to present content independently of its s
 ## Inline Elements
 
 <Description of={TypographyStories.Inline} />
-<Canvas of={TypographyStories.Inline} sourceState="shown" />
+<Canvas of={TypographyStories.Inline} sourceState="hidden" />
 
 ## API Reference
 
 <Markdown>
   {`
 
-| CSS Class               | Description                                                                                                                        | Responsive options? |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| \`qgds-cols\`           | Required Base class to apply grid system. Defaults to 4 columns on small screens, 6 on medium up (700px) and 12 on lg and up (992) | n/a                 |
-| \`qgds-cols-{1-12}\`    | Customise the number of columns in the grid, from 1-12.                                                                            | yes                 |
-| \`qgds-cols-auto-fill\` | Base class to apply grid system. Required in addition to any additional modifiers.                                                 | no                  |
-| \`qgds-cols-auto-fit\`  | Base class to apply grid system. Required in addition to any additional modifiers.                                                 | no                  |
-| \`qgds-span-{1-12}\`    | Make a child item span a specific number of columns.                                                                               | yes                 |
+<br>
+#### Common Elements
+
+| Element                     | Size                 | Colour                       | Line height                | Responsive |
+| --------------------------- | -------------------- | ---------------------------- | -------------------------- | ---------- |
+| \`h1\`                      | --qgds-font-size-xxl | --qgds-color-heading-default | --qgds-line-height-heading | Yes        |
+| \`h2\`                      | --qgds-font-size-xl  | --qgds-color-heading-default | --qgds-line-height-heading | Yes        |
+| \`h3\`                      | --qgds-font-size-lg  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h4\`                      | --qgds-font-size-md  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h5\`                      | --qgds-font-size-sm  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h6\`                      | --qgds-font-size-xs  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`body\` \`p\` \`li\` \`a\` | --qgds-font-size-sm  | --qgds-color-text-default    | --qgds-line-height-default | No         |
 
 <br>
-
-| CSS Custom Property       | Description                                                                                                                  |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| \`--qgds-col-min\`        | Control minimum item width. Default value is \`5rem\`. Only applies if using auto-fill or auto-fit grids.                    |
-| \`--qgds-grid-gutter\`    | Control the space between items. Default is responsive: \`1rem\` / \`1.5rem\` / \`2rem\` at \`sm\` / \`md\` / \`lg\` screens |
-| \` --qgds-grid-gutter-x\` | Affect only the horizontal space betweent items.                                                                             |
-| \` --qgds-grid-gutter-y\` | Affect only the vertical space betweent items.                                                                               |
+<br>
+#### Font Size reference
+| Variable                    | Mobile/Tablet (XS, SM, MD)  | Desktop (LG, XL)    | CSS Utility            |
+| --------------------------- | ----------------------------| --------------------| -----------------------|
+| \`--qgds-font-size-xxxl\`   | 48px (3rem)                | 48px (3rem)        | \`.qgds-display-xxxl\` |
+| \`--qgds-font-size-xxl\`    | 32px (2rem)                 | 40px (2.5rem)      | \`.qgds-display-xxl\`  |  
+| \`--qgds-font-size-xl\`     | 28px (1.75rem)              | 32px (2rem)        | \`.qgds-display-xl\`   |
+| \`--qgds-font-size-lg\`     | 24px (1.5rem)              | 24px (1.5rem)      | \`.qgds-display-lg\`   |
+| \`--qgds-font-size-md\`     | 20px (1.25rem)             | 20px (1.25rem)     | \`.qgds-display-md\`   |
+| \`--qgds-font-size-sm\`     | 16px (1rem)                | 16px (1rem)        | \`.qgds-display-sm\`   |
+| \`--qgds-font-size-xs\`     | 14px (0.875rem)            | 14px (0.875rem)    | \`.qgds-display-xs\`   |
 
 <br>
+<br>
+### Font Weights
+| Variable                       | Value  | CSS Utility           |
+| ------------------------------ | ------ | --------------------- |
+| \`--qgds-font-weight-default\` | 400    | \`.qgds-fw-default\`  |
+| \`--qgds-font-weight-semibold\`| 600    | \`.qgds-fw-semibold\` |
+| \`--qgds-line-height-bold\`    | 700    | \`.qgds-fw-bold\`     |
 
-| Responsive Classes                                     | Breakpoint value  |
-| ------------------------------------------------------ | ----------------- |
-| \`qgds-cols-{1-12}:xs\` <br> \`qgds-span-{1-12}:xs\`   | XS (from 320px)   |
-| \`qgds-cols-{1-12}:sm\` <br> \`qgds-span-{1-12}:sm\`   | SM (from 400px)   |
-| \`qgds-cols-{1-12}:md\` <br> \`qgds-span-{1-12}:md\`   | MD (from 700px)   |
-| \`qgds-cols-{1-12}:lg\` <br> \`qgds-span-{1-12}:lg\`   | LG (from 992px)   |
-| \`qgds-cols-{1-12}:xl\` <br> \`qgds-span-{1-12}:xl\`   | XL (from 1312px)  |
-| \`qgds-cols-{1-12}:xxl\` <br> \`qgds-span-{1-12}:xxl\` | XXL (from 1599px) |
+<br>
+<br>
+### Line heights
+| Variable                       | Value  | CSS Utility           |
+| ------------------------------ | ------ | --------------------- |
+| \`--qgds-line-height-default\` | 1.5    | \`.qgds-lh-default\`  |
+| \`--qgds-line-height-heading\` | 1.25   | \`.qgds-lh-heading\`  |
+| \`--qgds-line-height-none\`    | 1.0    | \`.qgds-lh-none\`     |
 
 `}
 
