@@ -1,0 +1,38 @@
+import {
+  Meta,
+  Title,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  TableOfContents,
+} from "@storybook/addon-docs/blocks";
+
+import * as TypographyStories from "./typography.stories";
+
+<Meta title="Core Styles/Typography/Headings" />
+<Title of={TypographyStories} />
+
+## Headings
+
+<Description of={TypographyStories.Heading} />
+<Canvas of={TypographyStories.Heading} sourceState="hide" />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| Element | Font Size                                                                          | Colour | Line height | Responsive options? |
+| ------- | ---------------------------------------------------------------------------------- | ------ | ----------- | ------------------- |
+| \`h1\`  | --qgds-font-size-lg                                                                |        |
+| \`h2\`  | Customise the number of columns in the grid, from 1-12.                            | yes    |
+| \`h3\`  | Base class to apply grid system. Required in addition to any additional modifiers. | no     |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}
