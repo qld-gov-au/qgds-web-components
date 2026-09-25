@@ -1,27 +1,33 @@
 import { describe, it, expect, vi } from "vitest";
-import { mimeToExtension, readableFileSize } from "../file-type-helpers";
+import { mimeToFileType, readableFileSize } from "../file-type-helpers";
 
-describe("mimeToExtension", () => {
+describe("mimeToFileType", () => {
   it("returns extension for known mime types", () => {
-    expect(mimeToExtension("image/png")).toBe("png");
-    expect(mimeToExtension("application/pdf")).toBe("pdf");
-    expect(mimeToExtension("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")).toBe("xlsx");
+    expect(mimeToFileType("image/png")).toBe(".png");
+    expect(mimeToFileType("application/pdf")).toBe(".pdf");
+    expect(mimeToFileType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")).toBe(".xlsx");
   });
 
   it("handles +json and +xml suffixes", () => {
-    expect(mimeToExtension("application/ld+json")).toBe("json");
-    expect(mimeToExtension("application/custom+xml")).toBe("xml");
+    expect(mimeToFileType("application/ld+json")).toBe(".json");
+    expect(mimeToFileType("application/custom+xml")).toBe(".xml");
   });
 
   it("returns category fallback for video types", () => {
-    expect(mimeToExtension("video/unknown")).toBe("video");
+    expect(mimeToFileType("video/unknown")).toBe("video");
+  });
+
+  it("returns an any string for video, audio or image wildcards", () => {
+    expect(mimeToFileType("video/*")).toBe("any video");
+    expect(mimeToFileType("audio/*")).toBe("any audio");
+    expect(mimeToFileType("image/*")).toBe("any image");
   });
 
   it("returns cleaned mime and logs a warning for unknown types", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {
       /* empty */
     });
-    const res = mimeToExtension("application/x-unknown; charset=utf-8");
+    const res = mimeToFileType("application/x-unknown; charset=utf-8");
     expect(res).toBe("application/x-unknown");
     expect(warn).toHaveBeenCalled();
     warn.mockRestore();
@@ -31,7 +37,7 @@ describe("mimeToExtension", () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {
       /* empty */
     });
-    const res = mimeToExtension("");
+    const res = mimeToFileType("");
     expect(res).toBe("");
     expect(warn).toHaveBeenCalled();
     warn.mockRestore();

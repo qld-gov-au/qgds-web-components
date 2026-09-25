@@ -219,9 +219,8 @@ describe("qgds-button", () => {
     it("should track interaction states", async () => {
       await element.updateComplete;
 
-      const initialState = element.buttonState;
-      expect(initialState.isDisabled).toBe(false);
-      expect(initialState.isLoading).toBe(false);
+      expect(element.disabled).toBe(false);
+      expect(element.isLoading).toBe(false);
     });
   });
 

@@ -62,10 +62,11 @@ export class QGDSFileUploadItem extends LitElement {
     const classNames = classMap({
       "is-loading": status === "loading",
       "is-ready": status === "ready",
-      "is-success": status === "success",
-      "is-error": status === "error",
+      "is-success qgds-palette-default": status === "success",
+      "is-error qgds-palette-default": status === "error",
     });
     const captionClassNames = classMap({
+      "mb-0:lg": true,
       "qgds-caption": status === "loading",
       "qgds-validation-message is-error": status === "error",
       "qgds-validation-message is-success": status === "success" || status === "ready",

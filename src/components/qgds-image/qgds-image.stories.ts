@@ -243,7 +243,6 @@ export const WithAlignment: Story = {
       <p>
         ${template({
           ...args,
-          src: imageHelper.getByID(7),
           align: "right",
           aspect: "4:3",
           width: 300,

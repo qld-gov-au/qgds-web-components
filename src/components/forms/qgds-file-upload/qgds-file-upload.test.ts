@@ -108,8 +108,8 @@ describe("qgds-file-upload", () => {
   });
 
   it("should display acceptable file types from the accept attribute", async () => {
-    const expectedAccept = "image/*,.pdf";
-    const expectedCaption = "You can upload image, pdf files.";
+    const expectedAccept = "image/*, .pdf";
+    const expectedCaption = "You can upload any image, .pdf files.";
 
     element.accept = expectedAccept;
     await element.updateComplete;
@@ -119,6 +119,30 @@ describe("qgds-file-upload", () => {
 
     const caption = element.shadowRoot?.querySelector(".qgds-caption")?.textContent?.trim();
     expect(caption).toBe(expectedCaption);
+  });
+
+  it("should prepend a dot to bare file extensions", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    element.accept = "pdf, image/*";
+
+    expect(element.accept).toBe(".pdf, image/*");
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('file extension "pdf" is missing a leading dot'));
+
+    warn.mockRestore();
+  });
+
+  it("should ignore invalid file type specifiers", () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+
+    element.accept = ".pdf, image/, */pdf";
+
+    expect(element.accept).toBe(".pdf");
+    expect(warn).toHaveBeenCalledTimes(2);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('invalid file type specifier "image/"'));
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('invalid file type specifier "*/pdf"'));
+
+    warn.mockRestore();
   });
 
   it("should display text describing the maximum number of files", async () => {
