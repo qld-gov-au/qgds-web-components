@@ -1,4 +1,4 @@
-@use "../../../styles/tools";
+@use "../../../styles/tools" as tools;
 @use "../../../styles/qgds-tokens/qgds-color-stub";
 @use "../../../styles/qgds-tokens/qgds-breakpoint" as bp;
 
@@ -36,6 +36,10 @@
         pointer-events: none;
       }
     }
+  }
+
+  &-dropzone-heading {
+    line-height: tools.snap-line-height(1.25);
   }
 
   &-input {
@@ -115,8 +119,6 @@
   }
 
   &.is-error {
-    @extend %qgds-color-palette-default;
-
     --qgds-icon-color: var(--qgds-color-status-error-default, #e22339);
 
     background: var(--qgds-color-status-error-lightest, #fff6f6);
@@ -124,9 +126,12 @@
   }
 
   &.is-success {
-    @extend %qgds-color-palette-default;
-
     background: var(--qgds-color-status-success-lightest, #f7fbf8);
     border-color: var(--qgds-color-status-success-default, #339d37);
+  }
+
+  // Override the validation message text color
+  .qgds-validation-message.is-success {
+    color: var(--qgds-color-text-lighter, #636363);
   }
 }

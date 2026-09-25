@@ -243,22 +243,22 @@ export function mimeToFileType(mimeType: string): string {
 /**
  * Converts number of bytes to a human-readable string with the filesize in bytes, kB, MB, or GB
  * Uses binary system so 1MB = 1024kB rather than 1000kB
- * @param {number} size the file size in bytes
+ * @param {number} bytes the file size in bytes
  * @returns string
  */
-export const readableFileSize = (size: number): string => {
+export const readableFileSize = (bytes: number): string => {
   const units = ["kB", "MB", "GB"];
   const threshold = 1024;
 
-  if (!Number.isFinite(size) || size <= 0) {
+  if (!Number.isFinite(bytes) || bytes <= 0) {
     return "0 bytes";
   }
 
-  if (size < threshold) {
-    return `${size} bytes`;
+  if (bytes < threshold) {
+    return `${bytes} bytes`;
   }
 
-  let value = size;
+  let value = bytes;
   let unitIndex = -1;
 
   while (value >= threshold && unitIndex < units.length - 1) {

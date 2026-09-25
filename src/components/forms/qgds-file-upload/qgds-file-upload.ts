@@ -85,7 +85,7 @@ export class QGDSFileUpload extends QGDSFormField {
 
     this.requestUpdate("maxFiles", oldVal);
   }
-  @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize?: number = 100; // Default 100MB???
+  @property({ type: Number, attribute: "max-size", useDefault: true }) maxSize: number = 100;
   @property({ type: Boolean }) multiple?: boolean = false;
   @property({ type: String, reflect: true })
   get accept() {
@@ -370,7 +370,7 @@ export class QGDSFileUpload extends QGDSFormField {
 
   private get _validFilesString() {
     return !this.accept
-      ? "any file type."
+      ? "any file type"
       : this.accept
           .split(",")
           .map((item) => {
@@ -433,7 +433,8 @@ export class QGDSFileUpload extends QGDSFormField {
 
     const multiple = this.multiple && maxFiles > 1;
 
-    const fileOrFiles = multiple ? "files" : "file";
+    const fileOrFilesUppercase = maxFiles > 1 ? "Files" : "File";
+    const fileOrFiles = fileOrFilesUppercase.toLowerCase();
     const showMaxFiles = (maxFiles ?? 0) > 1 && maxFiles !== Infinity;
 
     return html`<div
@@ -454,18 +455,20 @@ export class QGDSFileUpload extends QGDSFormField {
             @drop=${_handleDrop}
           >
             ${this._isMobile
-              ? html`<p class="qgds-display-sm mb-16">Select ${fileOrFiles} to upload</p>`
-              : html`<qgds-feature-icon icon-name="upload" size="sm" class="mb-16"></qgds-feature-icon>
-                  <p class="qgds-display-md mb-16">
+              ? html`<p class="qgds-display-sm file-upload-dropzone-heading mb-16">Select ${fileOrFiles} to upload</p>`
+              : html`<qgds-feature-icon icon-name="upload" size="sm" class="mb-24"></qgds-feature-icon>
+                  <p class="qgds-display-md file-upload-dropzone-heading mb-16">
                     Drag and drop ${fileOrFiles} here or select ${fileOrFiles} to upload
                   </p> `}
             <p class="qgds-caption">You can upload ${this._validFilesString}.</p>
-            <p class="qgds-caption">${multiple ? "Files" : "File"} can’t be larger than ${maxSize} MB.</p>
+            <p class="qgds-caption">
+              ${fileOrFilesUppercase} can’t be larger than ${readableFileSize(maxSize * 1024 * 1024)}.
+            </p>
             ${showMaxFiles ? html`<p class="qgds-caption">You can upload up to ${maxFiles} files.</p>` : nothing}
             <qgds-button
               class="mt-24"
               variant="secondary"
-              label="Select ${fileOrFiles}"
+              label="Select file${multiple ? "s" : ""}"
               ?disabled=${disabled}
               @qgds-click=${_selectFiles}
             ></qgds-button>
