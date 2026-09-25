@@ -72,16 +72,13 @@
     <div>Renew your licence at a customer service centre, government office or police station.</div>
   </qgds-banner>
 
-  <main class="qgds-py-64">
+  <main class="qgds-py-64 qgds-content">
+    <div class="qgds-container qgds-cols qgds-cols-12">
 
-    <div class="qgds-container qgds-cols">
+      <div class="qgds-span-12 qgds-span-7:lg">
 
-      <div class="qgds-content qgds-span-12 qgds-span-8:lg qgds-px-0:lg qgds-pt-0">
-
-        <h1>Content page (basic banner) H1</h1>
-
-        <h2 id="introduction">Introduction</h2>
-        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+        <h2 class="qgds-mt-0" id="introduction">Introduction</h2>
+        <p class>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat
           pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero ut.
           Luctus
@@ -95,7 +92,8 @@
 
       </div>
 
-      <div class="qgds-content qgds-span-12 qgds-px-0:lg">
+
+      <div class="qgds-section qgds-span-12">
         <h2>Discover</h2>
         <qgds-link-column columns="3" direction="vertical" view-all-label="View all" view-all-url="#view-all"
           layout="vertical">
@@ -116,53 +114,55 @@
 
     </div>
 
+    <div class="qgds-container">
+      <div class="qgds-palette-soft qgds-section">
 
-    <div class="qgds-palette-deep">
-      <div class="qgds-container qgds-content">
-        <h2>Content Section</h2>
+        <h2 class="qgds-mt-0">Content Section</h2>
 
-        <div class="qgds-cols qgds-cols-1 qgds-cols-2:md qgds-cols-3:lg">
+        <div class="qgds-component-block qgds-cols qgds-cols-12">
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="chart"
-            palette="default">
+            palette="default" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="settings"
-            palette="soft">
+            palette="bold" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon"
-            icon-name="manage-accounts" palette="muted">
+            icon-name="manage-accounts" palette="muted" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="download"
-            palette="bold">
+            palette="bold" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
           <qgds-card action="single" target="_blank" heading="Card title"
             href="https://www.designsystem.qld.gov.au/components/card" variant="leading-icon" icon-name="download"
-            palette="deep">
+            palette="deep" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
             <p>Card content introducing the topic or story. Short introductions are easier to scan.</p>
           </qgds-card>
 
         </div>
       </div>
+
     </div>
 
+    <!-- Manual padding-top and margin-top zero classes added to Promo Panel -->
     <qgds-promotional-panel variant="contained"
       image-url="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-bootstrap5@2.1.8/dist/assets/img/image-example-couple-beach-md.jpg"
       image-description="Promotional image" content-alignment="content-start" icon-name="home"
       heading="Title goes here and has a maximum of 65 character limit" heading-level="h2"
       abstract="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis."
-      palette="">
+      palette="" class="qgds-py-0 qgds-my-0">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor, leo vulputate ut odio mattis. Vel
         suspendisse mi quisque consequat aliquet egestas.
@@ -176,8 +176,6 @@
         variant="secondary" href="https://www.qld.gov.au" id="">
       </qgds-button>
     </qgds-promotional-panel>
-
-
 
   </main>
 
