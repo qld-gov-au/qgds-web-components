@@ -6,7 +6,7 @@
 @use "sass:map";
 @use "../tools/mixins" as m;
 @use "../../styles/tools/functions" as f;
-@use "../../styles/qgds-tokens/qgds-vertical-space" as vs;
+@use "../../styles/qgds-tokens" as *;
 
 /* ==========================================================================
    Vertical Rhythm Scoped to Content Blocks
@@ -14,25 +14,21 @@
 
 :where(.qgds-content) {
   // All breakpoints
-  @each $name, $value in vs.$static-tokens {
+  @each $name, $value in $vertical-space-static-tokens {
     --qgds-#{$name}: #{f.remify($value)};
   }
 
   // Small and tablet (mobile/default) breakpoints
-  @each $name, $value in map.get(vs.$responsive-tokens, default) {
+  @each $name, $value in map.get($vertical-space-responsive-tokens, default) {
     --qgds-#{$name}: #{f.remify($value)};
   }
 
   // Large and above (desktop)
   @include m.lg-up() {
-    @each $name, $value in map.get(vs.$responsive-tokens, large) {
+    @each $name, $value in map.get($vertical-space-responsive-tokens, large) {
       --qgds-#{$name}: #{f.remify($value)};
     }
   }
-
-  // Specific rules for .qgds-content
-  padding-block: var(--qgds-vspace-section-padding);
-  padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
 
   // Max content block size
   &.is-limit-width {
@@ -51,51 +47,100 @@
     margin-inline: initial;
   }
 
-  // 1. Catch-all / component spacing using Labotimised Owl technique.
-  // Everything except the first child of .qgds-content will have this spacing applied.
-  > * + * {
-    margin-block-start: var(--qgds-vspace-component);
+  /* Zero top margin on the first in-flow child of a .qgds-content container */
+  > :is(*):first-child {
+    margin-block-start: 0;
   }
 
-  // ... unless a specific rule (below) overrides the catch-all spacing
-  // 2. Headings following any element
-  * + h1 {
-    margin-block-start: var(--qgds-vspace-h1);
-  }
-
-  * + h2 {
+  /* Headings & Paragraph Spacing */
+  h2 {
     margin-block-start: var(--qgds-vspace-h2);
   }
 
-  * + h3 {
+  h3 {
     margin-block-start: var(--qgds-vspace-h3);
   }
 
-  * + :is(h4, h5, h6) {
+  :is(h4, h5, h6) {
     margin-block-start: var(--qgds-vspace-h4);
   }
 
-  // 3. Text and Lists following any element
-  * + p {
+  p {
     margin-block-start: var(--qgds-vspace-paragraph);
+
+    &:first-child {
+      margin-block-start: 0;
+    }
   }
 
-  > :is(ul, ol),
+  /* Heading followed by body text contextual override */
+  :where(h1, h2, h3, h4, h5, h6) + :where(p, ul, ol) {
+    margin-block-start: var(--qgds-vspace-heading-text);
+  }
+
+  /* Lists */
   * + :is(ul, ol) {
     margin-block-start: var(--qgds-vspace-list);
     list-style-position: inside;
   }
 
-  // 4. Strict Contextual Exceptions (e.g., Heading directly followed by body text)
-  :is(h1, h2, h3, h4, h5, h6) + :is(p, ul, ol) {
-    margin-block-start: var(--qgds-vspace-heading-text);
+  dl,
+  dt {
+    margin-block-start: var(--qgds-vspace-paragraph);
   }
 
-  // 5. List Items & Sub-lists
-  li + li,
-  li :is(ul, ol) {
-    margin-block-start: var(--qgds-vspace-list-item);
+  /* Block-level components and forms (adjacent sibling spacing) */
+  *
+    + :is(
+      form,
+      blockquote,
+      figure,
+      table,
+      qgds-blockquote,
+      qgds-accordion-group,
+      qgds-callout,
+      qgds-inpage-alert,
+      qgds-inpage-nav,
+      qgds-link-column,
+      qgds-pagination,
+      qgds-promotional-panel,
+      qgds-table,
+      qgds-tabs,
+      qgds-video,
+      qgds-radio-group,
+      qgds-checkbox-group,
+      qgds-text-input,
+      qgds-select
+    ) {
+    margin-block-start: var(--qgds-vspace-component);
   }
+
+  /* Helper utilities to wrap around a group of components, for example multiple <qgds-card>'s or <qgds-button>'s */
+
+  .qgds-component-block {
+    margin-block-start: var(--qgds-vspace-component);
+  }
+}
+
+.qgds-section {
+  margin-block: 0;
+  margin-inline: calc(var(--qgds-grid-padding) * -1);
+  padding-block: 0 var(--qgds-vspace-section-padding);
+  padding-inline: max(var(--qgds-hspace-content-inner), var(--qgds-grid-padding));
+
+  /* Zero margin on the first element in a qgds-section */
+  > :first-child {
+    margin-block-start: unset;
+  }
+}
+
+// Variables as utilites
+.qgds-pt-section {
+  padding-block-start: var(--qgds-vspace-section-padding);
+}
+
+.qgds-pb-section {
+  padding-block-end: var(--qgds-vspace-section-padding);
 }
 
 /* To avoid excessive whitespace accumulation, collapse adjacent blocks where:
@@ -106,20 +151,25 @@
 
 $palettes: ("default", "soft", "muted", "bold", "deep");
 
-@each $palette in $palettes {
-  :where(.qgds-content.qgds-palette-#{$palette} + .qgds-content.qgds-palette-#{$palette}) {
+:where(.qgds-section) {
+  @each $palette in $palettes {
+    /* Every section scoped with a NON-DEFAULT palette class will have a top padding applied */
+    &.qgds-palette-#{$palette} {
+      padding-block-start: var(--qgds-vspace-section-padding);
+    }
+
+    /* Sibling containers with matching palettes remove the padding (collapse the space) */
+    &.qgds-palette-#{$palette} + .qgds-palette-#{$palette} {
+      padding-block-start: 0;
+    }
+
+    /* Every container following a palette container, and has a different palette, needs a top padding */
+    &.qgds-palette-#{$palette} + :not([class*="qgds-palette-#{$palette}"]) {
+      padding-block-start: var(--qgds-vspace-section-padding);
+    }
+  }
+
+  &.qgds-palette-default + :not([class*="qgds-palette-"]) {
     padding-block-start: 0;
   }
-}
-
-:where(.qgds-content:not([class*="qgds-palette-"]) + .qgds-content:not([class*="qgds-palette-"])) {
-  padding-block-start: 0;
-}
-
-:where(.qgds-content.qgds-palette-default + .qgds-content:not([class*="qgds-palette-"])) {
-  padding-block-start: 0;
-}
-
-:where(.qgds-content:not([class*="qgds-palette-"]) + .qgds-content.qgds-palette-default) {
-  padding-block-start: 0;
 }
