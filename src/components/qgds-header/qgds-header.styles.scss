@@ -123,6 +123,7 @@ Scoped CSS: qgds-header
   background-color: var(--qgds-color-background);
   line-height: 1rem;
   min-inline-size: 0;
+  text-wrap: balance;
 
   a {
     text-decoration: none;
