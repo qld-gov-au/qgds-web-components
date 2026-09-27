@@ -30,18 +30,18 @@
   }
 
   // Specific rules for .qgds-content blocks
-  padding-block: var(--qgds-vspace-section-padding);
-  padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
+  // padding-block: var(--qgds-vspace-section-padding);
+  // padding-inline: calc(var(--qgds-hspace-content-inner) + var(--qgds-grid-padding));
 
   // In mobile first layout, each .qgds-content block has a negative inline margin to compensate for an outer grid gutter
   // This ensure content blocks are edge-to-edge on smaller viewports, (and their background colours spans the full width).
-  margin-inline: calc(var(--qgds-grid-padding) * -1);
+  // margin-inline: calc(var(--qgds-grid-padding) * -1);
 
   // Remove the negative inline margin on larger viewports,
   // .qgds-content blocks will align with the grid and honour grid gutter, they do not need to extend edge-to-edge.
-  @include m.lg-up() {
-    margin-inline: initial;
-  }
+  // @include m.lg-up() {
+  //   margin-inline: initial;
+  // }
 
   // 1. Catch-all / component spacing using Labotimised Owl technique.
   // Everything except the first child of .qgds-content will have this spacing applied.

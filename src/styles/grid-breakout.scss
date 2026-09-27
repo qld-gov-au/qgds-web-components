@@ -1,0 +1,76 @@
+@use "./qgds-tokens/qgds-breakpoint.scss" as bp;
+@use "./tools/functions/" as f;
+@use "./tools/mixins/" as m;
+
+.qgds-grid {
+  // Default horizontal spacing between the outer page edge and the main content region.
+  --gap: var(--qgds-grid-padding, 1rem);
+
+  // Full-bleed edge columns for backgrounds or banner-style content.
+  --full: minmax(var(--gap), 1fr);
+
+  // Central content column. This stays constrained to the max page width
+  // while still shrinking on smaller screens.
+  --main: min(#{bp.$xl}, 100% - var(--gap) * 2);
+
+  // Reserved side columns for feature content that sits adjacent to the main column.
+  --feature: minmax(0, 5rem);
+
+  display: grid;
+  grid-template-columns:
+    [full-start] var(--full)
+    [feature-start] var(--feature)
+    [main-start] var(--main) [main-end]
+    var(--feature) [feature-end]
+    var(--full) [full-end];
+
+  // Default: any direct child sits in the main content track.
+  > * {
+    grid-column: main;
+  }
+
+  // Track-occupying element helpers.
+  &-main {
+    grid-column: main;
+  }
+
+  &-feature {
+    grid-column: feature;
+  }
+
+  &-full {
+    grid-column: full;
+    display: grid;
+    grid-template-columns: subgrid;
+
+    // To support CMS all restricted HTML environments, all immediate children (the content) of .qgds-grid-full adopt the main track.
+    // Children can opt-out/revert to the full track with a resetting qgds-grid-align-full class
+    & > * {
+      grid-column: main;
+    }
+  }
+
+  // Alignment helpers for wrapper elements that contain content in a single block.
+  // Useful for CMS/layout systems that cannot create clean nested elements.
+  &-align-main,
+  &-align-full,
+  &-align-feature {
+    grid-column: full;
+    display: grid;
+    grid-template-columns: subgrid;
+    box-sizing: border-box;
+    padding-inline: var(--gap);
+  }
+
+  &-align-main > * {
+    grid-column: main;
+  }
+
+  &-align-feature > * {
+    grid-column: feature;
+  }
+
+  &-align-full > * {
+    grid-column: full;
+  }
+}

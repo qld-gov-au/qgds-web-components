@@ -1,0 +1,52 @@
+@use "../functions/" as f;
+@use "../mixins/media-query.scss" as mq;
+
+@mixin cols($count: null) {
+  $_grid-gutter-xs: f.remify(16px);
+  $_grid-gutter-md: f.remify(24px);
+  $_grid-gutter-lg: f.remify(32px);
+  $_grid-padding-xs: f.remify(16px);
+  $_grid-padding-md: f.remify(32px);
+  $_grid-padding-lg: f.remify(32px);
+
+  @if not $count {
+    --qgds-cols-count: 4;
+  } @else {
+    --qgds-cols-count: #{$count};
+  }
+
+  --qgds-col-min: 80px;
+  --qgds-grid-gutter: #{$_grid-gutter-xs};
+  --qgds-grid-gutter-x: var(--qgds-grid-gutter);
+  --qgds-grid-gutter-y: var(--qgds-grid-gutter);
+
+  display: grid;
+  gap: var(--qgds-grid-gutter-y) var(--qgds-grid-gutter-x);
+  grid-template-columns: repeat(var(--qgds-cols-count), 1fr);
+
+  @include mq.md-up() {
+    @if not $count {
+      --qgds-cols-count: 6;
+    }
+
+    --qgds-grid-gutter-x: #{$_grid-gutter-md};
+    --qgds-grid-gutter-y: #{$_grid-gutter-md};
+  }
+
+  @include mq.lg-up() {
+    @if not $count {
+      --qgds-cols-count: 12;
+    }
+
+    --qgds-grid-gutter-x: #{$_grid-gutter-lg};
+    --qgds-grid-gutter-y: #{$_grid-gutter-lg};
+  }
+
+  > :where(*) {
+    grid-column-end: span min(var(--qgds-span-count, 1), var(--qgds-cols-count));
+  }
+}
+
+@mixin span($count) {
+  --qgds-span-count: #{$count};
+}

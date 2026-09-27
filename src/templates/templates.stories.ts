@@ -8,6 +8,7 @@ import "../index";
 import sourceContentPage from "./content-page.html?raw";
 import sourceLandingPage from "./landing-page.html?raw";
 import sourceFormPage from "./form-page.html?raw";
+import sourceGridBreakoutPage from "./grid-breakout-page.html?raw";
 
 const extractTemplateBodyHtml = (templateSource: string): string => {
   const bodyMatch = /<body[^>]*>([\s\S]*?)<\/body>/i.exec(templateSource);
@@ -64,4 +65,17 @@ export const LandingPage: StoryObj = {
   },
   render: () =>
     html`<div class="qgds-template-landing-page">${unsafeHTML(extractTemplateBodyHtml(sourceLandingPage))}</div>`,
+};
+
+export const GridBreakoutPage: StoryObj = {
+  parameters: {
+    docs: {
+      source: {
+        code: sourceGridBreakoutPage,
+        language: "html",
+      },
+    },
+  },
+  render: () =>
+    html`<div class="qgds-grid-breakout-example">${unsafeHTML(extractTemplateBodyHtml(sourceGridBreakoutPage))}</div>`,
 };

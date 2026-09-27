@@ -24,6 +24,7 @@
   @include meta.load-css("base/globals");
   @include meta.load-css("base/palettes");
   @include meta.load-css("grid");
+  @include meta.load-css("grid-breakout");
 }
 
 // Components that are not loaded via the component itself, but are used to support patterns, should be loaded here.
