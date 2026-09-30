@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGDS Web Components - Example Content Page </title>
+
+  <!-- Local design system resources from dist-->
+  <script type="module" src="/src/index.ts"></script>
+
+</head>
+
+<body class="qgds">
+
+  <!-- Todo: // New Skip Links component -->
+
+  <qgds-header>
+
+    <qgds-attribution-bar label="qld.gov.au" palette="bold" url="https://www.qld.gov.au" slot="pre-header">
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+    <qgds-search-input slot="search"></qgds-search-input>
+
+    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="mynav">
+
+      <qgds-navigation-item label="Home" href="#" icon-name="home" hide-label is-current=""></qgds-navigation-item>
+      <qgds-navigation-item label="Menu">
+
+        <qgds-navigation-item label="Aboriginal and Torres Strait Islander peoples"
+          href="https://www.qld.gov.au/firstnations"></qgds-navigation-item>
+
+        <qgds-navigation-item label="Business" href="https://www.qld.gov.au/business"></qgds-navigation-item>
+        <qgds-navigation-item label="Community" href="https://www.qld.gov.au/community"></qgds-navigation-item>
+        <qgds-navigation-item label="Education" href="https://www.qld.gov.au/education"></qgds-navigation-item>
+        <qgds-navigation-item label="Environment" href="https://www.qld.gov.au/environment"></qgds-navigation-item>
+        <qgds-navigation-item label="Health" href="https://www.qld.gov.au/health"></qgds-navigation-item>
+        <qgds-navigation-item label="Housing" href="https://www.qld.gov.au/housing"></qgds-navigation-item>
+        <qgds-navigation-item label="Seniors" href="https://www.qld.gov.au/seniors"></qgds-navigation-item>
+        <qgds-navigation-item label="Transport" href="https://www.qld.gov.au/transport"></qgds-navigation-item>
+        <qgds-navigation-item label="Youth" href="https://www.qld.gov.au/youth"></qgds-navigation-item>
+
+        <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta"
+          icon-name="phone"></qgds-navigation-item>
+      </qgds-navigation-item>
+
+
+    </qgds-navigation>
+
+  </qgds-header>
+
+
+  <qgds-banner variant="no-banner">
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="/category">Category</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="/subject">Subject</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item href="/marraige">Marriage</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item>Service summary</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+  </qgds-banner>
+
+  <div class="qgds-container qgds-content">
+
+    <!-- Main content area -->
+    <main class="qgds-cols qgds-cols-12">
+
+      <!-- Open grid column-->
+      <div class="qgds-span-12 qgds-span-7:lg">
+
+        <!-- Service Summary Header -->
+        <div class="qgds-flex qgds-flex-column qgds-gap-24">
+          <qgds-tag label="Service" variant="default"></qgds-tag>
+
+          <h1>Get a marriage certificate</h1>
+          <small class="qgds-mt-0">Part of the <a href="#">Marriage</a> topic</small>
+
+          <p class="qgds-abstract qgds-mt-0">You can get an official certificate for a marriage registered in
+            Queensland. Apply to
+            the Registry of Births, Deaths and
+            Marriages and pay a fee.</p>
+
+        </div>
+
+        <hr class="qgds-mt-section">
+
+
+        <div class="qgds-section qgds-span-12 qgds-pt-section">
+          <qgds-inpage-nav heading="On this page" heading-level="h2" aria-label="On this page">
+            <qgds-inpage-nav-item href="#what-you-should-know">What you should know</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#who-can-use-this-service">Who can use this service</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#how-to">How to [job to be done]</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#how-long-it-takes">How long it takes</qgds-inpage-nav-item>
+            <qgds-inpage-nav-item href="#how-much-it-costs">How much it costs</qgds-inpage-nav-item>
+          </qgds-inpage-nav>
+        </div>
+
+        <!-- In short -->
+        <section class="qgds-span-12" aria-labelledby="in-short">
+          <div class="qgds-p-24 qgds-span-12 qgds-span-7:lg qgds-mb-section qgds-palette-soft qgds-rounded-sm">
+            <h2 id="in-short" class="qgds-mt-0 qgds-display-lg">In short</h2>
+            <p>You can use this service to:</p>
+            <ul>
+              <li>get a certificate for a Queensland marriage</li>
+              <li>replace a lost or damaged marriage certificate</li>
+            </ul>
+
+            <qgds-button class="qgds-mt-24" label="Start the online form" href="#"></qgds-button>
+
+            <p class="qgds-mt-24">See <a href="#how-to">How to get a marriage certificate</a> for the full application
+              process.</p>
+          </div>
+        </section>
+
+        <section class="qgds-section qgds-span-12" aria-labelledby="what-you-should-know">
+          <h2 id="what-you-should-know">What you should know</h2>
+
+          <p>
+            A marriage certificate is a record of a marriage. Only the official marriage certificate can be used for
+            official purposes.
+          </p>
+          <p>
+            We do not send an official certificate when a new marriage is registered. To get an official marriage
+            certificate you need to apply for one and pay a fee.
+          </p>
+          <p>There are 3 types of marriage certificate:</p>
+          <ul>
+            <li>official marriage certificate can be used to:
+              <ul>
+                <li>prove your relationship</li>
+                <li>change your family name through marriage</li>
+              </ul>
+            </li>
+            <li>commemorative marriage certificate package includes an official marriage certificate</li>
+            <li>ceremonial marriage certificate given to you by your celebrate is not official. You can't use it to
+              prove your relationship.</li>
+          </ul>
+
+        </section>
+
+        <section class="qgds-section qgds-span-12" aria-labelledby="who-can-apply">
+          <h2 id="who-can-apply">Who can use this service</h2>
+          //Todo
+        </section>
+
+        <section class="qgds-section qgds-span-12" aria-labelledby="how-to-get-a-marriage-certificate">
+          <h2 id="how-to-get-a-marriage-certificate">How to get a marriage certificate</h2>
+          <p>Choose how to submit your application form and follow the steps</p>
+          <qgds-accordion-group show-controls="auto">
+            <qgds-accordion title="Submit by post">
+              <p>//Mockup Todo</p>
+            </qgds-accordion>
+            <qgds-accordion title="Submit in person" is-open>
+              <h3 class="qgds-display-md">Step 1: Choose how to complete the application form</h3>
+
+              <h4 class="qgds-display-sm">Online form</h4>
+              <p>Complete the online application form and pay the fee. You will need to print the online order receipt.
+              </p>
+              <qgds-button class="qgds-mt-24" label="Start the online form" href="#"></qgds-button>
+
+              <h4 class="qgds-display-sm">PDF form</h4>
+              <p>Download, print and complete the application form by hand.</p>
+              <p>You will need to provide a method of payment for the fee.</p>
+              <qgds-button class="qgds-mt-24" label="Download the PDF form" variant="secondary" href="#"></qgds-button>
+
+
+              <h3 class="qgds-display-md">Step 2: Gather your documents</h3>
+              <p>You need to provide 3 forms of proof of identification (ID) documents including proof of home address.
+              </p>
+              <p><a href="#">See proof of identity and supporting documents</a></p>
+
+              <h3 class="qgds-display-md">Step 3: Certify copies of your ID documents</h3>
+              <p>You must get copies of your ID document certified by a authorised person before you send them by post.
+              </p>
+              <p><a href="#">Find out who can certify documents</a></p>
+
+              <h3 class="qgds-display-md">Step 4: Submit your application by post</h3>
+
+              <h4 class="qgds-display-sm qgds-mt-24">Send your application to</h4>
+              <p>Registry of Births, Deaths and Marriages<br>
+                PO Box 15188<br>
+                CITY EAST QLD 4002</p>
+
+              <p>Include:</p>
+              <ul>
+                <li>your online order receipt or the completed paper form</li>
+                <li>certified copies of your proof of ID and supporting documents</li>
+              </ul>
+
+              <h3 class="qgds-display-md">Step 5: Receive your certificate</h3>
+              <h4 class="qgds-display-sm qgds-mt-24">Receive your certificate</h4>
+              <p>Your application will be reviewed and, if approved, the certificate will be printed for you.</p>
+              <p>You will receive the certificate by post.</p>
+            </qgds-accordion>
+
+          </qgds-accordion-group>
+        </section>
+
+        <section class="qgds-section qgds-span-12" aria-labelledby="how-long-it-takes">
+          <h2 id="how-long-it-takes">How long it takes</h2>
+
+          <p>Processing time apply to applications submitted by post or in person at a Queensland Magistrates Court or
+            QGAP office.</p>
+          <p><strong>Standard applications:</strong> up to 10 business days</p>
+          <p><strong>Urgent applications:</strong> within 2 business days (extra fee applies)</p>
+          <p>Processing times start from when we receive all required documents.</p>
+          <p>Applications missing any information or documents will take longer.</p>
+          <p>Allow extra time for public holidays and postage.</p>
+        </section>
+
+        <section class="qgds-section qgds-span-12" aria-labelledby="how-much-it-costs">
+          <h2 id="how-much-it-costs">How much it costs</h2>
+
+          <p>The fee includes processing and certificate costs.</p>
+          <ul>
+            <li>Official marriage certificate: <strong>$56.20</strong></li>
+            <li>Commemorative marriage certificate package (includes 1 official certificate): <strong>$73.10</strong>
+            </li>
+            <li>Urgent application: <strong>$33.30</strong></li>
+          </ul>
+
+          <p>Regular postage is free. You can choose other delivery types:</p>
+          <ul>
+            <li>Express post: <strong>$8.55</strong></li>
+            <li>International registered mail: <strong>$18.55</strong></li>
+          </ul>
+          </ul>
+        </section>
+
+
+
+        <!-- Help Centre box pattern -->
+        <section class="qgds-span-12" aria-labelledby="goto-help-centre">
+
+          <div class="qgds-p-24 qgds-span-12 qgds-span-7:lg qgds-mb-section qgds-palette-soft qgds-rounded-sm">
+
+            <h2 id="goto-help-centre" class="qgds-mt-0 qgds-display-md">Help with Marriage</h2>
+
+            <p>Find answers to frequently asked questions about services, including:</p>
+
+            <qgds-link-column columns="1" direction="vertical" aria-label="Help with Marriage resources"
+              aria-role="navigation" class="qgds-mt-32">
+              <qgds-link-item label="Help centre item 1" href="#"></qgds-link-item>
+              <qgds-link-item label="Help centre item 2" href="#"></qgds-link-item>
+            </qgds-link-column>
+
+            <div class="qgds-flex qgds-justify-content-end qgds-pt-24">
+              <qgds-call-to-action href="#" label="Find more in the help centre" is-view-all></qgds-call-to-action>
+            </div>
+
+          </div>
+        </section>
+
+      </div><!-- // Close main grid column -->
+
+
+      <div class="qgds-span-12 qgds-content-footer qgds-pb-section">
+        <span><strong>Managed by:</strong> <a href="#">[Department]</a></span>
+        <qgds-direction-link direction="up" label="Back to top" href="#top"></qgds-direction-link>
+      </div>
+
+    </main>
+
+  </div><!-- //qgds-container -->
+
+  <!-- Footer -->
+  <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
+    contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
+    copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
+    footer-heading="Queensland Government" heading-level="2" palette="bold" social-heading="Follow us">
+    <!-- Contact Links -->
+    <qgds-footer-contact-item icon-id="phone" label="Phone" href="tel:137468"
+      value="13 QGOV (13 74 68)"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="email" label="Email" href="mailto:email@qld.gov.au"
+      value="email@qld.gov.au"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="facebook" href="https://www.facebook.com/QueenslandGovernment"
+      value="/QueenslandGovernment"></qgds-footer-contact-item>
+
+    <!-- Contact Buttons via contact-cta slot -->
+    <qgds-button href="https://qld.gov.au/contact" slot="contact-cta" label="Contact us" variant="secondary"
+      target="_blank"></qgds-button>
+
+    <!-- Site Links -->
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/disclaimer" label="Disclaimer"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
+      label="Right to information"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/accessibility"
+      label="Accessibility"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://smartjobs.qld.gov.au/"
+      label="Jobs in Queensland Government"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/languages" label="Other languages"></qgds-link>
+
+    <!-- Social Links -->
+    <qgds-link slot="footer-social-link" href="https://www.facebook.com/QueenslandGovernment" icon-name="facebook"
+      label="Facebook"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.linkedin.com/company/queensland-government"
+      icon-name="linkedin" label="LinkedIn"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.youtube.com/user/QueenslandGovt" icon-name="youtube"
+      label="Youtube"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.instagram.com/Queensland/" icon-name="instagram"
+      label="Instagram"></qgds-link>
+
+    <!-- Acknowledgement of Country -->
+    <div slot="aoc">
+      <p>
+        We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
+        their legacy. The foundations laid by these ancestors — our First Nations peoples — give
+        strength, inspiration and courage to current and future generations towards creating a better Queensland.
+      </p>
+    </div>
+
+    <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+
+  </qgds-footer>
+
+  </div>
+
+</body>
+
+</html>

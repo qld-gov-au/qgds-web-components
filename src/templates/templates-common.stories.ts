@@ -15,7 +15,7 @@ const extractTemplateBodyHtml = (templateSource: string): string => {
 };
 
 const meta: Meta = {
-  title: "Templates/Examples",
+  title: "Templates/Common",
   component: "qgds-template-content-page",
   //Negate a global decorator with 2rem padding in preview.js
   decorators: [(Story) => html`<div style="margin: -2rem">${Story()}</div>`],
@@ -42,6 +42,7 @@ export const Default: StoryObj = {
 };
 
 export const SimpleFormPage: StoryObj = {
+  name: "Simple Form",
   parameters: {
     docs: {
       source: {
@@ -54,6 +55,7 @@ export const SimpleFormPage: StoryObj = {
 };
 
 export const LandingPage: StoryObj = {
+  name: "Landing Page",
   parameters: {
     docs: {
       source: {

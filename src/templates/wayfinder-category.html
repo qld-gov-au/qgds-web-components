@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QGDS Web Components - Example Content Page </title>
+
+  <!-- Local design system resources from dist-->
+  <script type="module" src="/src/index.ts"></script>
+
+</head>
+
+<body class="qgds">
+
+  <!-- Todo: // New Skip Links component -->
+
+  <qgds-header>
+
+    <qgds-attribution-bar label="qld.gov.au" palette="bold" url="https://www.qld.gov.au" slot="pre-header">
+      <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
+    </qgds-attribution-bar>
+
+    <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
+    <qgds-search-input slot="search"></qgds-search-input>
+
+    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="mynav">
+
+      <qgds-navigation-item label="Home" href="#" icon-name="home" hide-label is-current=""></qgds-navigation-item>
+      <qgds-navigation-item label="Menu">
+
+        <qgds-navigation-item label="Aboriginal and Torres Strait Islander peoples"
+          href="https://www.qld.gov.au/firstnations"></qgds-navigation-item>
+
+        <qgds-navigation-item label="Business" href="https://www.qld.gov.au/business"></qgds-navigation-item>
+        <qgds-navigation-item label="Community" href="https://www.qld.gov.au/community"></qgds-navigation-item>
+        <qgds-navigation-item label="Education" href="https://www.qld.gov.au/education"></qgds-navigation-item>
+        <qgds-navigation-item label="Environment" href="https://www.qld.gov.au/environment"></qgds-navigation-item>
+        <qgds-navigation-item label="Health" href="https://www.qld.gov.au/health"></qgds-navigation-item>
+        <qgds-navigation-item label="Housing" href="https://www.qld.gov.au/housing"></qgds-navigation-item>
+        <qgds-navigation-item label="Seniors" href="https://www.qld.gov.au/seniors"></qgds-navigation-item>
+        <qgds-navigation-item label="Transport" href="https://www.qld.gov.au/transport"></qgds-navigation-item>
+        <qgds-navigation-item label="Youth" href="https://www.qld.gov.au/youth"></qgds-navigation-item>
+
+        <qgds-navigation-item label="Contact us" href="#contact" slot="mobile-cta"
+          icon-name="phone"></qgds-navigation-item>
+      </qgds-navigation-item>
+
+
+    </qgds-navigation>
+
+  </qgds-header>
+
+
+  <qgds-banner palette="soft" variant="advanced" heading="Family, relationships, births and deaths"
+    background-option="none">
+    <qgds-breadcrumbs slot="breadcrumbs" aria-label="Breadcrumbs">
+      <qgds-breadcrumbs-item href="/home">Home</qgds-breadcrumbs-item>
+      <qgds-breadcrumbs-item>Family, relationships, births and deaths</qgds-breadcrumbs-item>
+    </qgds-breadcrumbs>
+    <div>Find information about registering a life event, ordering a certificate and managing family records. Access
+      services for
+      births, relationships, name changes and deaths.</div>
+  </qgds-banner>
+
+  <div class="qgds-container qgds-content">
+
+    <!-- Main content area -->
+    <main>
+
+      <div class="qgds-section qgds-cols qgds-cols-12 qgds-pt-section">
+
+        <!-- Cards -->
+        <qgds-card action="single" heading="Births" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Register a birth, apply for or amend a birth certificate. Learn about miscarriage and surrogacy.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Marriage and civil partnerships" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Get a marriage certificate or register a civil partnership. Learn about Brisbane registry weddings and how
+            to make your relationship official.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Name changes" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Change your name and update your official proof of identity record.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Record of sex changes" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Apply to update the record of sex on a birth certificate.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Adoption records" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Access and search adoption records.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Deaths" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Register a death and apply for a death certificate.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Family history research" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Search and order historical birth, death and marriage records.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Help centre for Brisbane registry services" heading-level="h2" href="#"
+          target="_blank" class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Find answers to frequently asked questions about our services.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Family and parents" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Access information for families and parents. Find support and guidance on raising a family and managing
+            responsibilities.</p>
+        </qgds-card>
+      </div>
+
+      <!-- For Organisations -->
+      <div class="qgds-section qgds-cols qgds-cols-12">
+        <h2 class="qgds-span-12">For organisations</h2>
+
+        <qgds-card action="single" heading="Data and statistics" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>View official data and statistics on births, deaths, marriages and civil partnerships.</p>
+        </qgds-card>
+
+        <qgds-card action="single" heading="Service providers" heading-level="h2" href="#" target="_blank"
+          class="qgds-span-12 qgds-span-6:md qgds-span-4:lg">
+          <p>Information for celebrants, midwives, funeral directors and other service providers. Access the service
+            providers portal to lodge records.</p>
+        </qgds-card>
+
+      </div>
+
+      <!-- Help Centre box -->
+      <section class="qgds-cols qgds-cols-12" aria-labelledby="goto-help-centre">
+        <div class="qgds-p-24 qgds-span-12 qgds-span-7:lg qgds-mb-section qgds-palette-soft qgds-rounded-sm">
+          <h2 id="goto-help-centre" class="qgds-mt-0 qgds-display-md">Help with Family, relationships, births and deaths
+          </h2>
+          <p>Get help with queries or issues related to Family, relationships, births and deaths</p>
+          <div class="qgds-pt-24">
+            <qgds-call-to-action href="#" label="Go to the help centre" is-view-all></qgds-call-to-action>
+          </div>
+        </div>
+      </section>
+
+      <div class="qgds-content-footer qgds-pb-section">
+        <span><strong>Managed by:</strong> <a href="#">[Department]</a></span>
+        <qgds-direction-link direction="up" label="Back to top" href="#top"></qgds-direction-link>
+      </div>
+
+    </main>
+
+  </div><!-- //qgds-container -->
+
+  <!-- Footer -->
+  <qgds-footer aoc-heading="Acknowledgement of Country" contact-heading="Contact us"
+    contact-statement="Get in touch for enquiries, feedback, complaints and compliments."
+    copyright-label="© The State of Queensland 2026" custom-links-heading="About us"
+    footer-heading="Queensland Government" heading-level="2" palette="bold" social-heading="Follow us">
+    <!-- Contact Links -->
+    <qgds-footer-contact-item icon-id="phone" label="Phone" href="tel:137468"
+      value="13 QGOV (13 74 68)"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="email" label="Email" href="mailto:email@qld.gov.au"
+      value="email@qld.gov.au"></qgds-footer-contact-item>
+    <qgds-footer-contact-item icon-id="facebook" href="https://www.facebook.com/QueenslandGovernment"
+      value="/QueenslandGovernment"></qgds-footer-contact-item>
+
+    <!-- Contact Buttons via contact-cta slot -->
+    <qgds-button href="https://qld.gov.au/contact" slot="contact-cta" label="Contact us" variant="secondary"
+      target="_blank"></qgds-button>
+
+    <!-- Site Links -->
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/disclaimer" label="Disclaimer"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
+      label="Right to information"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/accessibility"
+      label="Accessibility"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://smartjobs.qld.gov.au/"
+      label="Jobs in Queensland Government"></qgds-link>
+    <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help/languages" label="Other languages"></qgds-link>
+
+    <!-- Social Links -->
+    <qgds-link slot="footer-social-link" href="https://www.facebook.com/QueenslandGovernment" icon-name="facebook"
+      label="Facebook"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.linkedin.com/company/queensland-government"
+      icon-name="linkedin" label="LinkedIn"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.youtube.com/user/QueenslandGovt" icon-name="youtube"
+      label="Youtube"></qgds-link>
+    <qgds-link slot="footer-social-link" href="https://www.instagram.com/Queensland/" icon-name="instagram"
+      label="Instagram"></qgds-link>
+
+    <!-- Acknowledgement of Country -->
+    <div slot="aoc">
+      <p>
+        We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
+        their legacy. The foundations laid by these ancestors — our First Nations peoples — give
+        strength, inspiration and courage to current and future generations towards creating a better Queensland.
+      </p>
+    </div>
+
+    <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
+
+  </qgds-footer>
+
+  </div>
+
+</body>
+
+</html>
