@@ -4,7 +4,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
-// import { chromaticModes } from "../../../modes";
 import { chromaticModes } from "../../../../.storybook/modes";
 import { withEventActions } from "../../../storybook-helpers";
 import type { QGDSHeader } from "../qgds-header";
