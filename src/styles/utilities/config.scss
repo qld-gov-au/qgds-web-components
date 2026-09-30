@@ -1,5 +1,8 @@
-@use "../tools/functions" as f;
 @use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+@use "../tools/functions" as f;
+@use "../qgds-tokens/qgds-border" as border;
 
 $_spacing: (
   0: 0,
@@ -23,7 +26,13 @@ $_neg-spacing: ();
   }
 }
 
-///
+// Extract border radius values from the border module
+// String slice to remove the "border-" prefix from the variable name leave on "sm", "md", "lg", etc.
+$_border-radius: ();
+@each $name, $value in meta.module-variables("border") {
+  $_border-radius: map.set($_border-radius, string.slice($name, 8), $value);
+}
+
 /// Each entry in this map represents a set of utility classes. The class names created are a combination of `class` and `values` keys.
 /// The styles are a combination of `property` and `values` values.
 /// Values may a simple list of property values, or a map where $key is the class modifier and $value is the property value
@@ -243,5 +252,10 @@ $utils: (
     property: overflow,
     class: "overflow",
     values: visible hidden clip scroll auto,
+  ),
+  "border-radius": (
+    property: border-radius,
+    class: "rounded",
+    values: $_border-radius,
   ),
 );

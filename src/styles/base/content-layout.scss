@@ -31,11 +31,6 @@
   }
 
   // Max content block size
-  &.is-limit-width {
-    :is(p, li, blockquote) {
-      max-inline-size: var(--qgds-content-max-width, 80ch);
-    }
-  }
 
   // In mobile first layout, each .qgds-content block has a negative inline margin to compensate for an outer grid gutter
   // This ensure content blocks are edge-to-edge on smaller viewports, (and their background colours spans the full width).
@@ -70,6 +65,11 @@
 
     &:first-child {
       margin-block-start: 0;
+    }
+
+    // Limit paragraph widths to 80ch
+    &:not(.is-full-width) {
+      max-inline-size: var(--qgds-content-max-width, 80ch);
     }
   }
 
@@ -117,7 +117,8 @@
 
   /* Helper utilities to wrap around a group of components, for example multiple <qgds-card>'s or <qgds-button>'s */
 
-  .qgds-component-block {
+  .qgds-component-block,
+  .qgds-mt-component {
     margin-block-start: var(--qgds-vspace-component);
   }
 }
@@ -141,6 +142,14 @@
 
 .qgds-pb-section {
   padding-block-end: var(--qgds-vspace-section-padding);
+}
+
+.qgds-mt-section {
+  margin-block-start: var(--qgds-vspace-section-padding);
+}
+
+.qgds-mb-section {
+  margin-block-end: var(--qgds-vspace-section-padding);
 }
 
 /* To avoid excessive whitespace accumulation, collapse adjacent blocks where:
