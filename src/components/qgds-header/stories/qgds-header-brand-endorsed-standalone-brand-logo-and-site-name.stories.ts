@@ -1,27 +1,27 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 import {
-  BrandLogoOnlyDesktop as BrandLogoOnlyDesktopStory,
-  BrandLogoOnlyMobile as BrandLogoOnlyMobileStory,
+  BrandLogoAndSiteName as BrandLogoAndSiteNameStory,
+  BrandLogoAndSiteNameDesktop as BrandLogoAndSiteNameDesktopStory,
   headerBrandParameters,
-} from "./qgds-header-brand-story-definitions";
+} from "./qgds-header-story-definitions";
 
 export const Desktop: StoryObj = {
-  ...BrandLogoOnlyDesktopStory,
+  ...BrandLogoAndSiteNameDesktopStory,
   globals: {
     viewport: "LG",
   },
 };
 
 export const Mobile: StoryObj = {
-  ...BrandLogoOnlyMobileStory,
+  ...BrandLogoAndSiteNameStory,
   globals: {
     viewport: "MD",
   },
 };
 
 export default {
-  title: "Components/Header/Brands/Stand Alone/Brand Logo Only",
+  title: "Components/Header/Brands/Endorsed and Standalone brands/Brand Logo And Site Name",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;

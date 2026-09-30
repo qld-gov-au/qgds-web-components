@@ -61,7 +61,7 @@ export const tagName = "qgds-header";
  * logo always shows, regardless of any content provided in the `logo` slot —
  * a custom `logo` slot only takes effect at the desktop breakpoint. The optional
  * `site-name` is shown beside it.
- * Optional `brand-logo` slot is available for Endorsed and Stand Alone brand sites.
+ * Optional `brand-logo` slot is available for Endorsed and Standalone brand sites.
  * `brand-logo` can render with or without the COA logo, depending on layout and viewport rules.
  *
  * On mobile, the header shows Search and Menu buttons. Each button only toggles its
@@ -76,7 +76,7 @@ export const tagName = "qgds-header";
  * @prop {HeaderPalette} [palette="default"] - Colour palette for the main content of the Header component. Header's colour palette is a subset of the QGDS colour palette.
  * @prop {String} [siteName] - Optional site name displayed besides COA, brand logo, or by its own.
  * @prop {String} [siteUrl="https://www.qld.gov.au"] - Site URL for linking the content in the header content (COA logo, brand logo, and site name). This is different from the Pre-header URL, which is set via the slotted `<qgds-attribution-bar>`.
- * @prop {Boolean} [hideCoaLogo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Stand Alone brand sites where the Coat of Arms logo is not mandatory.
+ * @prop {Boolean} [hideCoaLogo=false] - Whether to hide the Coat of Arms logo. False by default. This can be used in Endorsed and Standalone brand sites where the Coat of Arms logo is not mandatory.
  * @prop {Boolean} [hideMobileBottomRow=false] - Whether to hide the bottom row on mobile / tablet screens.
  * @prop {MobileContentKey} [mobileTopContent="coa-logo"] - Preferred content for the top row on mobile/tablet. Defaults to `coa-logo` Coat of Arms logo. When the COA logo is set to be hidden, it falls back to available optional content (`brand-logo`, `preheader-url`, `site-name`).
  * @prop {Boolean} [searchOpen=false] - Mobile Search button toggle state (drives the button icon only).

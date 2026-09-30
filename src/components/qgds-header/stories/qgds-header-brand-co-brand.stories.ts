@@ -4,7 +4,7 @@ import {
   CoatOfArmsAndBrandLogo as CoatOfArmsAndBrandLogoStory,
   CoatOfArmsAndSiteName as CoatOfArmsAndSiteNameStory,
   headerBrandParameters,
-} from "./qgds-header-brand-story-definitions";
+} from "./qgds-header-story-definitions";
 
 export const CoatOfArmsAndBrandLogo: StoryObj = {
   ...CoatOfArmsAndBrandLogoStory,
@@ -15,7 +15,7 @@ export const CoatOfArmsAndSiteName: StoryObj = {
 };
 
 export default {
-  title: "Components/Header/Brands/Co-Brand",
+  title: "Components/Header/Brands/Co-brand",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;

@@ -4,7 +4,7 @@ import {
   SiteNameOnlyDesktop as SiteNameOnlyDesktopStory,
   SiteNameOnlyMobile as SiteNameOnlyMobileStory,
   headerBrandParameters,
-} from "./qgds-header-brand-story-definitions";
+} from "./qgds-header-story-definitions";
 
 export const Desktop: StoryObj = {
   ...SiteNameOnlyDesktopStory,
@@ -21,7 +21,7 @@ export const Mobile: StoryObj = {
 };
 
 export default {
-  title: "Components/Header/Brands/Stand Alone/Site Name Only",
+  title: "Components/Header/Brands/Endorsed and Standalone brands/Site Name Only",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;

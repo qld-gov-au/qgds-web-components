@@ -4,15 +4,16 @@ import { ifDefined } from "lit/directives/if-defined.js";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
-import { chromaticModes } from "../../../.storybook/modes";
-import { withEventActions } from "../../../.storybook/storybook-helpers";
-import type { QGDSHeader } from "./qgds-header";
-import "./qgds-header";
-import "../qgds-attribution-bar/qgds-attribution-bar";
-import "../qgds-link/qgds-link";
-import "../qgds-logo/qgds-logo";
-import "../qgds-search-input/qgds-search-input";
-import "../qgds-navigation/qgds-navigation";
+// import { chromaticModes } from "../../../modes";
+import { chromaticModes } from "../../../../.storybook/modes";
+import { withEventActions } from "../../../storybook-helpers";
+import type { QGDSHeader } from "../qgds-header";
+import "../qgds-header";
+import "../../qgds-attribution-bar/qgds-attribution-bar";
+import "../../qgds-link/qgds-link";
+import "../../qgds-logo/qgds-logo";
+import "../../qgds-search-input/qgds-search-input";
+import "../../qgds-navigation/qgds-navigation";
 
 const { args: defaultArgs, argTypes, template } = getStorybookHelpers<QGDSHeader>("qgds-header");
 

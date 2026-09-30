@@ -4,7 +4,7 @@ import {
   CoatOfArms as CoatOfArmsStory,
   CoatOfArmsAndSiteName as CoatOfArmsAndSiteNameStory,
   headerBrandParameters,
-} from "./qgds-header-brand-story-definitions";
+} from "./qgds-header-story-definitions";
 
 // Declaring it locally triggers Storybook "startCase" formatting engine
 export const CoatOfArms: StoryObj = {
@@ -15,7 +15,7 @@ export const CoatOfArmsAndSiteName: StoryObj = {
 };
 
 export default {
-  title: "Components/Header/Brands/MasterBrand",
+  title: "Components/Header/Brands/Master brand",
   component: "qgds-header",
   parameters: headerBrandParameters,
 } satisfies Meta;

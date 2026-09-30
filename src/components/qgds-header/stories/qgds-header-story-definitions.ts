@@ -236,7 +236,7 @@ const createBrandLogoAndSiteNameStory = (
       brandLogo: standAloneLogoOho,
     },
     description: {
-      brands: "Endorsed and Stand Alone",
+      brands: "Endorsed and Standalone",
       summary: "Brand Logo and Site Name - No Coat of Arms",
       settings: showSettings
         ? [
@@ -321,6 +321,12 @@ export const BrandLogoAndSiteNameOneRowSiteUrlTop = createBrandLogoAndSiteNameSt
 const brandLogoAndSiteNameVariations = [
   {
     label: "Two mobile rows",
+    mobileTopContent: "site-name",
+    hideMobileBottomRow: false,
+    settings: ["hide-coa-logo", 'mobile-top-content="site-name"'],
+  },
+  {
+    label: "Two mobile rows",
     mobileTopContent: "brand-logo",
     hideMobileBottomRow: false,
     settings: ["hide-coa-logo", 'mobile-top-content="brand-logo"'],
@@ -403,7 +409,7 @@ const createBrandLogoOnlyStory = (
       brandLogo: standAloneLogoCcc,
     },
     description: {
-      brands: "Endorsed and Stand Alone",
+      brands: "Endorsed and Standalone",
       summary: "Brand Logo Only - No Coat of Arms",
       settings: showSettings
         ? [
@@ -509,7 +515,7 @@ export const SiteNameOnlyDesktop = createBrandStory({
     attribution: "oho",
   },
   description: {
-    brands: "Endorsed and Stand Alone",
+    brands: "Endorsed and Standalone",
     summary: "Site Name Only",
   },
 });
