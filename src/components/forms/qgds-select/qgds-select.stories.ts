@@ -19,11 +19,25 @@ const meta: Meta<QGDSSelectStoryArgs> = {
   tags: ["autodocs"],
   args: {
     ...args,
-    id: "my-select",
     label: "Form label",
   },
-  argTypes,
-  render: (storyArgs) => template(storyArgs),
+  argTypes: {
+    ...argTypes,
+    id: { control: false },
+  },
+  render: (storyArgs, context) =>
+    template(
+      { ...storyArgs, id: context.name },
+      // prettier-ignore
+      html`
+  <qgds-select-option value="dog" label="Dog"></qgds-select-option>
+  <qgds-select-option value="cat" label="Cat"></qgds-select-option>
+  <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
+  <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
+  <qgds-select-option value="spider" label="Spider"></qgds-select-option>
+  <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
+`
+    ),
 };
 
 export default meta;
@@ -31,153 +45,48 @@ type Story = StoryObj<QGDSSelectStoryArgs>;
 
 export const Default: Story = {
   args: {
-    label: "Form label",
     hint: "Hint text",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?filled=${args.filled} hint=${args.hint}>
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const Filled: Story = {
   args: {
-    label: "Form label",
-    filled: true,
-    hint: "Hint text",
+    variant: "filled",
+    hint: 'Filled variant with variant="filled"',
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} variant="filled" hint=${args.hint}>
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const Disabled: Story = {
   args: {
-    label: "Form label",
     disabled: true,
     hint: "Hint text",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?disabled=${args.disabled} hint=${args.hint}>
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const Required: Story = {
   args: {
-    label: "Form label",
     required: true,
     hint: "Hint text",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?required=${args.required} hint=${args.hint} indicate-if="required">
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const Invalid: Story = {
   args: {
-    label: "Form label",
-    validationState: "error",
+    ["validation-state"]: "error",
     required: true,
     hint: "Hint text",
-    validationMessage: "Please select a valid option",
+    ["validation-message"]: "Please select a valid option",
   },
-  render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?required=${args.required}
-      validation-state=${args.validationState}
-      validation-message=${args.validationMessage}
-      hint=${args.hint}
-    >
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
-export const Valid: Story = {
+export const Success: Story = {
   args: {
     label: "Form label",
-    validationState: "success",
+    ["validation-state"]: "success",
     required: true,
     hint: "Hint text",
-    validationMessage: "Great choice!",
+    ["validation-message"]: "Great choice!",
   },
-  render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?required=${args.required}
-      hint=${args.hint}
-      validation-state=${args.validationState}
-      validation-message=${args.validationMessage}
-    >
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
-};
-
-export const Multiple: Story = {
-  args: {
-    label: "Select your favorite pets",
-    multiple: true,
-    size: 6,
-    hint: "You can select multiple options",
-  },
-  render: (args) => html`
-    <qgds-select
-      id=${args.id}
-      label=${args.label}
-      ?required=${args.required}
-      ?multiple=${args.multiple}
-      size=${args.size}
-      hint=${args.hint}
-    >
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const Autofocus: Story = {
@@ -186,33 +95,6 @@ export const Autofocus: Story = {
     autofocus: true,
     hint: "This select will automatically receive focus when the page loads",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} ?autofocus=${args.autofocus} hint=${args.hint}>
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
-};
-
-export const WithCustomOptions: Story = {
-  args: {
-    label: "Select your favorite pet",
-    hint: "Using qgds-select-option custom elements",
-  },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} hint=${args.hint}>
-      <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-      <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-      <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-      <qgds-select-option value="spider" label="Spider (unavailable)" disabled></qgds-select-option>
-      <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
-    </qgds-select>
-  `,
 };
 
 export const WithOptgroup: Story = {
@@ -220,23 +102,26 @@ export const WithOptgroup: Story = {
     label: "Select an animal",
     hint: "Options are grouped using qgds-select-optgroup",
   },
-  render: (args) => html`
-    <qgds-select id=${args.id} label=${args.label} hint=${args.hint}>
-      <qgds-select-optgroup label="Common Pets">
-        <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-        <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-        <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-      </qgds-select-optgroup>
-      <qgds-select-optgroup label="Birds">
-        <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-        <qgds-select-option value="canary" label="Canary"></qgds-select-option>
-        <qgds-select-option value="budgie" label="Budgie"></qgds-select-option>
-      </qgds-select-optgroup>
-      <qgds-select-optgroup label="Exotic Pets">
-        <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-        <qgds-select-option value="snake" label="Snake"></qgds-select-option>
-        <qgds-select-option value="iguana" label="Iguana"></qgds-select-option>
-      </qgds-select-optgroup>
-    </qgds-select>
-  `,
+  render: (args) =>
+    template(
+      args,
+      // prettier-ignore
+      html`
+  <qgds-select-optgroup label="Common Pets">
+    <qgds-select-option value="dog" label="Dog"></qgds-select-option>
+    <qgds-select-option value="cat" label="Cat"></qgds-select-option>
+    <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
+  </qgds-select-optgroup>
+  <qgds-select-optgroup label="Birds">
+    <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
+    <qgds-select-option value="canary" label="Canary"></qgds-select-option>
+    <qgds-select-option value="budgie" label="Budgie"></qgds-select-option>
+  </qgds-select-optgroup>
+    <qgds-select-optgroup label="Exotic Pets">
+    <qgds-select-option value="spider" label="Spider"></qgds-select-option>
+    <qgds-select-option value="snake" label="Snake"></qgds-select-option>
+    <qgds-select-option value="iguana" label="Iguana"></qgds-select-option>
+  </qgds-select-optgroup>
+`
+    ),
 };
