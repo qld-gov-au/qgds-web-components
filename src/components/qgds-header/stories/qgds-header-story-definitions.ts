@@ -84,7 +84,16 @@ const attributionLinks = html`
   <qgds-link icon-name="phone" href="https://www.qld.gov.au/contact-us" label="Contact us"></qgds-link>
 `;
 
-const storyStyles = html`
+const eventActionDecorators = [
+  withEventActions([
+    "qgds-navigation-open",
+    "qgds-navigation-opened",
+    "qgds-navigation-close",
+    "qgds-navigation-closed",
+  ]),
+];
+
+const withStoryStyles: Decorator = (story) => html`
   <style>
     .story-heading {
       margin-block-end: 2rem;
@@ -111,29 +120,19 @@ const storyStyles = html`
       margin-inline-start: 1rem;
     }
   </style>
+  ${story()}
 `;
 
-const eventActionDecorators = [
-  withEventActions([
-    "qgds-navigation-open",
-    "qgds-navigation-opened",
-    "qgds-navigation-close",
-    "qgds-navigation-closed",
-  ]),
-];
-
-const withStoryStyles: Decorator = (story) => html`${storyStyles}${story()}`;
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - silences lit-plugin for the following css block
 const withBrandVariationStyles: Decorator = (story) => html`
   <style>
     .brand-variations {
       display: grid;
-      gap: 4rem;
-      @supports (row-rule: 1px solid #eee) {
-        row-rule: 1px solid #eee;
-      }
+      gap: 2rem;
+    }
+
+    .brand-variation + .brand-variation {
+      border-block-start: 1px solid #eee;
+      padding-block-start: 2rem;
     }
 
     .brand-variation h3 {
@@ -143,8 +142,13 @@ const withBrandVariationStyles: Decorator = (story) => html`
   ${story()}
 `;
 
-const renderBrandLogo = (customLogo: string) => html`
-  <qgds-logo slot="brand-logo" logo="" custom-logo=${customLogo} custom-logo-alt="Partner Organisation"></qgds-logo>
+const renderBrandLogo = (customLogo: string, args: HeaderArgs) => html`
+  <qgds-logo
+    slot="brand-logo"
+    logo=""
+    custom-logo=${customLogo}
+    custom-logo-alt=${ifDefined(omitDefault(args["site-name"], defaultArgs["site-name"]))}
+  ></qgds-logo>
 `;
 
 const renderHeader = (args: HeaderArgs, options: HeaderContentOptions) => {
@@ -172,7 +176,7 @@ const renderHeader = (args: HeaderArgs, options: HeaderContentOptions) => {
       ${options.includeCoatOfArms
         ? html`<qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>`
         : undefined}
-      ${options.brandLogo ? renderBrandLogo(options.brandLogo) : undefined}
+      ${options.brandLogo ? renderBrandLogo(options.brandLogo, args) : undefined}
       <qgds-search-input slot="search"></qgds-search-input>
       ${navigationTemplate(
         {
@@ -318,7 +322,7 @@ export const BrandLogoAndSiteNameOneRowBrandLogoTop = createBrandLogoAndSiteName
 
 export const BrandLogoAndSiteNameOneRowSiteUrlTop = createBrandLogoAndSiteNameStory("preheader-url", true);
 
-const brandLogoAndSiteNameVariations = [
+const brandLogoAndSiteNameMobileVariations = [
   {
     label: "Two mobile rows",
     mobileTopContent: "site-name",
@@ -355,7 +359,7 @@ export const BrandLogoAndSiteName: HeaderStory = {
   args: defaultArgs,
   render: () => html`
     <div class="brand-variations">
-      ${brandLogoAndSiteNameVariations.map(
+      ${brandLogoAndSiteNameMobileVariations.map(
         (variation, index) => html`
           <section class="brand-variation">
             <h3>${variation.label}</h3>
@@ -422,9 +426,6 @@ const createBrandLogoOnlyStory = (
   });
 
 export const BrandLogoOnlyDesktop = createBrandLogoOnlyStory("brand-logo", false, false);
-
-// Used by Endorsed stories only
-export const BrandLogoOnly = createBrandLogoOnlyStory("brand-logo", true);
 
 const brandLogoOnlyMobileVariations = [
   {

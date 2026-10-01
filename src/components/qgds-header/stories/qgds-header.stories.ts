@@ -5,7 +5,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { action } from "storybook/actions";
 import { chromaticModes } from "../../../../.storybook/modes";
-import { withEventActions } from "../../../storybook-helpers";
+import { withEventActions } from "../../../../.storybook/storybook-helpers";
 import type { QGDSHeader } from "../qgds-header";
 import "../qgds-header";
 import "../../qgds-attribution-bar/qgds-attribution-bar";
@@ -62,10 +62,15 @@ const headerTemplate = (args: Args) => html`
     <qgds-search-input slot="search"></qgds-search-input>
 
     <qgds-navigation slot="navigation" id="mynav">
-      <qgds-link-item label="Home" href="/" only-icon icon-name="home" is-current></qgds-link-item>
-      <qgds-link-item label="About" href="/about"></qgds-link-item>
-      <qgds-link-item label="Services" href="/services"></qgds-link-item>
-      <qgds-link-item label="Contact" href="/contact"></qgds-link-item>
+      <qgds-navigation-item label="Home" href="#" icon-name="home" only-icon is-current></qgds-navigation-item>
+      <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
+      <qgds-navigation-item label="About" href="#about"></qgds-navigation-item>
+      <qgds-navigation-item
+        label="Contact us"
+        href="#contact"
+        slot="mobile-cta"
+        icon-name="phone"
+      ></qgds-navigation-item>
     </qgds-navigation>
   </qgds-header>
 `;
