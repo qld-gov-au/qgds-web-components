@@ -26,8 +26,26 @@ describe("qgds-footer", () => {
     expect(element.contactHeading).toBe("Contact us");
     expect(element.socialHeading).toBe("Follow us");
     expect(element.aocHeading).toBe("Acknowledgement of Country");
-    expect(element.headingLevel).toBe(2);
+    expect(element.siteNameLevel).toBe(2);
+    expect(element.headingLevel).toBe(3);
     expect(element.palette).toBe("default");
+  });
+
+  it("sets and reacts to heading level attributes", async () => {
+    element.setAttribute("site-name-level", "4");
+    element.setAttribute("heading-level", "5");
+    await element.updateComplete;
+
+    expect(element.siteNameLevel).toBe(4);
+    expect(element.headingLevel).toBe(5);
+    expect(element.shadowRoot?.querySelector(".footer-site-name")?.tagName).toBe("H4");
+    expect(element.shadowRoot?.querySelector(".section-contact .footer-heading")?.tagName).toBe("H5");
+
+    element.setAttribute("heading-level", "6");
+    await element.updateComplete;
+
+    expect(element.headingLevel).toBe(6);
+    expect(element.shadowRoot?.querySelector(".section-contact .footer-heading")?.tagName).toBe("H6");
   });
 
   it("renders custom headings and custom labels", async () => {
