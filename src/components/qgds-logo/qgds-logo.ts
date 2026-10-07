@@ -64,23 +64,6 @@ export class QGDSLogo extends LitElement {
     if (changedProperties.has("customLogo")) void this.loadCustomLogoSvg();
   }
 
-  // ─── Root render ─────────────────────────────────────────────────────────
-
-  render() {
-    return html`
-      <div
-        part="base"
-        class=${classMap({
-          "qgds-logo": true,
-          "is-delivering": this.logo === "coa-delivering-for-qld",
-          "is-custom": this.customLogo,
-        })}
-      >
-        ${this.renderPresetLogo()} ${this.renderCustomLogo()}
-      </div>
-    `;
-  }
-
   // ─── Helpers ──────────────────────────────────────────────────────────────────
 
   private isPreset(value: string): value is LogoPreset {
@@ -157,6 +140,23 @@ export class QGDSLogo extends LitElement {
         ${this.href
           ? html`<a href="${this.href}" class="logo-link" aria-label=${ifDefined(this.label || undefined)}>${image}</a>`
           : image}
+      </div>
+    `;
+  }
+
+  // ─── Root render ─────────────────────────────────────────────────────────
+
+  render() {
+    return html`
+      <div
+        part="base"
+        class=${classMap({
+          "qgds-logo": true,
+          "is-delivering": this.logo === "coa-delivering-for-qld",
+          "is-custom": this.customLogo,
+        })}
+      >
+        ${this.renderPresetLogo()} ${this.renderCustomLogo()}
       </div>
     `;
   }

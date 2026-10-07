@@ -98,6 +98,9 @@ Scoped CSS: qgds-header
 .is-mobile-main {
   background: var(--qgds-color-background);
   color: var(--qgds-color-text-default);
+  box-shadow: var(--qgds-elevation-1);
+  position: relative;
+  z-index: 1;
 }
 
 .header-coa-logo qgds-logo,
@@ -120,6 +123,7 @@ Scoped CSS: qgds-header
   background-color: var(--qgds-color-background);
   line-height: 1rem;
   min-inline-size: 0;
+  text-wrap: balance;
 
   a {
     text-decoration: none;
@@ -127,6 +131,10 @@ Scoped CSS: qgds-header
     font-weight: var(--qgds-font-weight-bold, 700);
     font-size: tools.remify(16px);
     line-height: tools.remify(20px);
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -138,16 +146,8 @@ Scoped CSS: qgds-header
 }
 
 .header-action {
-  display: flex;
-  flex-direction: column;
-  border: 0;
-  border-inline-start: tools.remify(1px) solid rgb(255 255 255 / 0.25);
+  border-inline-start: tools.remify(1px) solid var(--qgds-color-border);
   cursor: pointer;
-
-  &:hover,
-  &:focus-visible {
-    background-color: var(--qgds-color-action-primary-hover);
-  }
 }
 
 // 3. On mobile the in-bar search slot is hidden The mobile Search/Menu buttons only emit events — the slotted search
@@ -191,6 +191,10 @@ Scoped CSS: qgds-header
     line-height: tools.remify(24px);
   }
 
+  .header-action {
+    border-inline-start-width: tools.remify(2px);
+  }
+
   .header-search {
     padding-inline: tools.remify(32px);
     padding-block: tools.remify(32px);
@@ -210,7 +214,7 @@ Scoped CSS: qgds-header
     grid-template-columns: auto 1fr auto;
     grid-template-areas: "main sub search";
     align-items: center;
-    padding-block: tools.remify(24px);
+    padding-block: tools.remify(32px);
     column-gap: 0;
   }
 
@@ -218,6 +222,7 @@ Scoped CSS: qgds-header
   .header-brand-logo,
   .is-mobile-main {
     padding-inline: 0;
+    padding-block: 0;
   }
 
   // Swap which coa-logo rendering is visible: mobile-default off,
@@ -272,6 +277,7 @@ Scoped CSS: qgds-header
 
     background-color: inherit; // drop own background-color declaration, re-inherit from parent instead.
     color: inherit; // drop own color declaration, re-inherit from parent instead.
+    box-shadow: none; // drop own box-shadow declaration, re-inherit from parent instead.
   }
 
   .header-coa-logo qgds-logo,
@@ -312,7 +318,7 @@ Scoped CSS: qgds-header
     display: flex;
     justify-self: end;
     align-items: center;
-    inline-size: 416px;
+    inline-size: 360px;
     margin-inline-start: tools.remify(24px);
     padding: 0;
     background: transparent;

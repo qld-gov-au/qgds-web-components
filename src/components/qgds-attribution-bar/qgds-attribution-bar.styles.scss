@@ -9,14 +9,12 @@
   margin-inline: auto;
   background-color: var(--qgds-color-background);
   color: var(--qgds-color-text-default); // Make sure any custom content starts with correct text color
-  box-shadow: var(--qgds-elevation-2);
+  box-shadow: var(--qgds-elevation-1);
+  font-size: tools.remify(14px);
+  line-height: tools.remify(20px);
 
   &-container {
     padding-block: tools.remify(6px);
-  }
-
-  ::slotted(*) {
-    line-height: tools.remify(24px);
   }
 
   qgds-link,
@@ -26,10 +24,18 @@
     --qgds-color-link-visited: var(--qgds-color-link-default); // No visited colour change
     --qgds-color-underline-visited: var(--qgds-color-underline-default); // No visited colour change
     --qgds-color-underline-visited-hover: var(--qgds-color-underline-default-hover); // No visited colour change
+
+    line-height: tools.remify(20px);
+  }
+
+  &-collection {
+    display: flex;
+    align-items: center;
   }
 
   &-links {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
     min-inline-size: fit-content;
     gap: tools.remify(16px);
