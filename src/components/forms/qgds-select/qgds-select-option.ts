@@ -17,7 +17,6 @@ import { customElement, property } from "lit/decorators.js";
  * ```
  *
  * @attribute {string} value - The value submitted when this option is selected.
- * @attribute {string} label - Optional label text (defaults to value if not specified).
  * @attribute {boolean} disabled - Whether this option is disabled.
  * @attribute {boolean} selected - Whether this option is initially selected.
  */
@@ -33,27 +32,17 @@ export class QGDSSelectOption extends LitElement {
   `;
 
   @property({ type: String }) value: string = "";
-  @property({ type: String }) label?: string = "";
   @property({ type: Boolean, reflect: true }) disabled: boolean = false;
   @property({ type: Boolean, reflect: true }) selected: boolean = false;
-
-  /**
-   * Get the text content of the option
-   */
-  getTextContent(): string {
-    // Use label if provided and not empty, otherwise use value
-    // Using || instead of ?? because we want empty string to be falsy
-    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-    return this.label || this.value;
-  }
 
   /**
    * Convert this custom element to a native HTMLOptionElement
    */
   toNativeOption(): HTMLOptionElement {
+    // console.log("creating option " + this.value);
     const option = document.createElement("option");
     option.value = this.value;
-    option.textContent = this.getTextContent();
+    option.textContent = this.textContent.trim() || this.value;
     option.disabled = this.disabled;
     option.selected = this.selected;
     return option;
@@ -64,11 +53,7 @@ export class QGDSSelectOption extends LitElement {
     // Display label if provided, otherwise use value
     return html`
       <option .value=${this.value} ?disabled=${this.disabled} ?selected=${this.selected}>
-        ${
-          // Using || instead of ?? because we want empty string to be falsy
-          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-          this.label || this.value
-        }
+        ${this.textContent.trim() || this.value}
       </option>
     `;
   }

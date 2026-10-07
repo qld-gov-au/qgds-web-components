@@ -30,12 +30,12 @@ const meta: Meta<QGDSSelectStoryArgs> = {
       { ...storyArgs, id: context.name },
       // prettier-ignore
       html`
-  <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-  <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-  <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
-  <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-  <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-  <qgds-select-option value="goldfish" label="Goldfish"></qgds-select-option>
+  <qgds-select-option value="dog" >Dog</qgds-select-option>
+  <qgds-select-option value="cat" >Cat</qgds-select-option>
+  <qgds-select-option value="hamster" >Hamster</qgds-select-option>
+  <qgds-select-option value="parrot" >Parrot</qgds-select-option>
+  <qgds-select-option value="spider" >Spider</qgds-select-option>
+  <qgds-select-option value="goldfish" >Goldfish</qgds-select-option>
 `
     ),
 };
@@ -70,6 +70,14 @@ export const Required: Story = {
   },
 };
 
+export const Optional: Story = {
+  args: {
+    required: false,
+    ["indicate-if"]: "optional",
+    hint: "Hint text",
+  },
+};
+
 export const Invalid: Story = {
   args: {
     ["validation-state"]: "error",
@@ -97,6 +105,14 @@ export const Autofocus: Story = {
   },
 };
 
+export const Multiple: Story = {
+  args: {
+    label: "Multiple",
+    hint: "Multi select",
+    multiple: true,
+  },
+};
+
 export const WithOptgroup: Story = {
   args: {
     label: "Select an animal",
@@ -108,19 +124,19 @@ export const WithOptgroup: Story = {
       // prettier-ignore
       html`
   <qgds-select-optgroup label="Common Pets">
-    <qgds-select-option value="dog" label="Dog"></qgds-select-option>
-    <qgds-select-option value="cat" label="Cat"></qgds-select-option>
-    <qgds-select-option value="hamster" label="Hamster"></qgds-select-option>
+    <qgds-select-option value="dog" >Dog</qgds-select-option>
+    <qgds-select-option value="cat" >Cat</qgds-select-option>
+    <qgds-select-option value="hamster" >Hamster</qgds-select-option>
   </qgds-select-optgroup>
   <qgds-select-optgroup label="Birds">
-    <qgds-select-option value="parrot" label="Parrot"></qgds-select-option>
-    <qgds-select-option value="canary" label="Canary"></qgds-select-option>
-    <qgds-select-option value="budgie" label="Budgie"></qgds-select-option>
+    <qgds-select-option value="parrot" >Parrot</qgds-select-option>
+    <qgds-select-option value="canary" >Canary</qgds-select-option>
+    <qgds-select-option value="budgie" >Budgie</qgds-select-option>
   </qgds-select-optgroup>
     <qgds-select-optgroup label="Exotic Pets">
-    <qgds-select-option value="spider" label="Spider"></qgds-select-option>
-    <qgds-select-option value="snake" label="Snake"></qgds-select-option>
-    <qgds-select-option value="iguana" label="Iguana"></qgds-select-option>
+    <qgds-select-option value="spider" >Spider</qgds-select-option>
+    <qgds-select-option value="snake" >Snake</qgds-select-option>
+    <qgds-select-option value="iguana" >Iguana</qgds-select-option>
   </qgds-select-optgroup>
 `
     ),

@@ -160,7 +160,7 @@ export class QGDSFileUpload extends QGDSFormField {
   }
 
   override connectedCallback(): void {
-    super.connectedCallback?.();
+    super.connectedCallback();
     this._syncFormValue();
   }
 

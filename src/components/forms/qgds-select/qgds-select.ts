@@ -1,4 +1,4 @@
-import { html, TemplateResult, unsafeCSS } from "lit";
+import { html, PropertyValues, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { classMap } from "lit/directives/class-map.js";
@@ -20,7 +20,6 @@ import { FormVariant, IFormControl } from "../../../types/forms";
  * @prop {String} [placeholder] - Placeholder text shown as the first (unselectable) option.
  * @prop {Boolean} [multiple] - Whether multiple selections are allowed.
  * @prop {Number} [size] - Number of visible options when multiple is enabled.
- * @prop {Boolean} [autofocus] - Whether the select should automatically receive focus.
  *
  * @slot - Accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as options.
  *
@@ -34,19 +33,30 @@ import { FormVariant, IFormControl } from "../../../types/forms";
  */
 @customElement("qgds-select")
 export class QGDSSelect extends QGDSFormField implements IFormControl {
-  // Re-declare value as a plain string (base type is string | string[] | undefined)
   @property({ type: String }) variant?: FormVariant;
-  @property({ type: String }) placeholder: string = "Please select";
-  @property({ type: Boolean, reflect: true }) multiple: boolean = false;
+  @property({ type: String }) placeholder: string = "Select";
+  @property({ type: Boolean }) multiple: boolean = false;
   @property({ type: Number }) size?: number;
-  // @property({ type: Boolean, reflect: true }) autofocus: boolean = false;
+  @property({ type: Array, attribute: false }) selectedValues: string[] = [];
+  @property({ type: String })
+  override get value(): string {
+    return this.selectedValues[0] || "";
+  }
+  override set value(value: string) {
+    this.selectedValues = [value];
+  }
 
   private _mutationObserver?: MutationObserver;
 
   static styles = [...super.styles, unsafeCSS(componentCSS)];
 
-  connectedCallback(): void {
-    super.connectedCallback?.();
+  // override get value to return the first item in selectedValues
+  // set value also updates selectedValues
+
+  // Public methods
+
+  override connectedCallback(): void {
+    super.connectedCallback();
 
     // Set up mutation observer to watch for attribute changes on child options
     this._mutationObserver = new MutationObserver((mutations) => {
@@ -68,8 +78,9 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     // Observe attribute changes on all descendants
     this._mutationObserver.observe(this, {
       attributes: true,
+      characterData: true,
       subtree: true,
-      attributeFilter: ["disabled", "selected", "label", "value"],
+      attributeFilter: ["disabled", "selected", "value", "label"],
     });
 
     // Set form value when element is connected to DOM (important for form participation)
@@ -77,50 +88,25 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     this._internals.setFormValue(this.disabled ? null : (this.value ?? ""));
   }
 
-  disconnectedCallback(): void {
-    super.disconnectedCallback?.();
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
     this._mutationObserver?.disconnect();
   }
 
-  /**
-   * Set initial form value when component first renders
-   */
   firstUpdated(): void {
     // Guarantee id is always set so the base's render guard never triggers
     if (!this.id) this.id = `qgds-select-${Math.random().toString(36).substr(2, 9)}`;
   }
 
   /**
-   * Get the current value as an array
-   * Useful for multiple select handling
+   * Update form value and validity whens value or multiple change
    */
-  get valueAsArray(): string[] {
-    if (!this.value) return [];
-    return this.multiple ? this.value.split(",") : [this.value];
-  }
-
-  /**
-   * Set value from an array
-   * Useful for multiple select handling
-   */
-  set valueAsArray(values: string[]) {
-    this.value = values.join(",");
-  }
-
-  /** Get value array or string depending on multiple select */
-  protected override get _currentValue(): string | string[] | undefined {
-    return this.multiple ? this.valueAsArray : this.value;
-  }
-
-  /**
-   * Update form value and validity when value or multiple changes
-   */
-  updated(changedProperties: Map<string, unknown>): void {
+  updated(changedProperties: PropertyValues<this>): void {
     super.updated(changedProperties); // handles _syncFormValue for value/disabled
 
     // Sync select element with value property for multiple select
-    if (changedProperties.has("value") && this.multiple) {
-      this._syncMultipleSelectValue();
+    if (changedProperties.has("selectedValues")) {
+      this._syncSelectedValueToOptions();
     }
   }
 
@@ -131,7 +117,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   protected override _computeIsValid(): boolean {
     if (!this.required) return true;
     if (this.multiple) {
-      const values = this.valueAsArray;
+      const values = this.selectedValues;
       return values.length > 0 && values.some((v) => v !== "");
     }
     return !!this.value;
@@ -142,35 +128,34 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     return this._computeIsValid();
   }
 
+  /** Get value array or string depending on multiple select */
+  protected override get _currentValue(): string | string[] | undefined {
+    return this.multiple ? this.selectedValues : this.value;
+  }
+
   /**
-   * Handle change events with auto-validation and multiple select support
+   * Updates the component value to the event's value
+   * syncs the value into element internals
+   * validates and updates validitystate
+   * dispatches custom change event
+   * @param {Event} e
    */
-  private _handleChange = (e: Event): void => {
-    if (this.multiple) {
-      // Get all selected options for multiple select
-      const selectElement = e.target as HTMLSelectElement;
-      const selectedOptions = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
-      this.value = selectedOptions.join(",");
-      this._syncFormValue();
-      if (this._internalValidate) {
-        this._validateAndUpdateValidityState();
-      }
-      // Dispatch typed custom event with proper value type
-      this.events.dispatch(
-        "change",
-        { name: this.name ?? this.id, value: this._currentValue, multiple: this.multiple },
-        e
-      );
-    } else {
-      // Single select
-      this.handleChange(e); // Call base class handler for single select to dispatch event and validate
+  protected override handleChange = (e: Event): void => {
+    const selectElement = e.target as HTMLSelectElement;
+    this.selectedValues = Array.from(selectElement.selectedOptions).map((opt) => opt.value);
+    this._syncFormValue();
+    if (this._internalValidate) {
+      this._validateAndUpdateValidityState();
     }
+
+    this.events.dispatch("change", { name: this.name ?? this.id, value: this._currentValue }, e);
   };
 
   /**
    * Rebuild native options from slotted custom elements
    */
   private _rebuildNativeOptions(): void {
+    // console.log("rebuild native options");
     // Select the unnamed slot — the base class renders <slot name="details"> first,
     // so querySelector("slot") would find that one instead of the options slot.
     const slot = this.shadowRoot?.querySelector<HTMLSlotElement>("slot:not([name])");
@@ -231,7 +216,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     if (this.value) {
       if (this.multiple) {
         // For multiple select, check each value
-        this._syncMultipleSelectValue();
+        this._syncSelectedValueToOptions();
       } else {
         // For single select
         const optionExists = Array.from(select.options).some((opt) => opt.value === this.value);
@@ -254,16 +239,21 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   };
 
   /**
-   * Sync multiple select element with comma-separated value
+   * Sync selectedOptions with the DOM options elements
    */
-  private _syncMultipleSelectValue(): void {
+  private _syncSelectedValueToOptions(): void {
     const select = this.shadowRoot?.querySelector("select");
-    if (!select || !this.multiple) return;
+    if (!select) return;
 
-    const values = this.valueAsArray;
-    Array.from(select.options).forEach((option) => {
-      option.selected = values.includes(option.value);
-    });
+    const values = this.selectedValues;
+    if (this.multiple) {
+      Array.from(select.options).forEach((option) => {
+        option.selected = values.includes(option.value);
+      });
+    } else {
+      const option = Array.from(select.options).find((opt) => opt.value === this.value);
+      if (option) option.selected = true;
+    }
   }
 
   /**
@@ -293,27 +283,11 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
     select?.focus();
   }
 
-  /**
-   * Get all selected values as an array
-   * Convenience method for multiple select
-   */
-  getSelectedValues(): string[] {
-    return this.valueAsArray;
-  }
-
-  /**
-   * Set selected values from an array
-   * Convenience method for multiple select
-   */
-  setSelectedValues(values: string[]): void {
-    this.valueAsArray = values;
-  }
-
   protected renderInput(): TemplateResult {
     return html`
       <div class="select-wrapper">
         <select
-          name="${this.name}"
+          name="${ifDefined(this.name)}"
           id="${this.id}"
           class=${classMap({
             "qgds-form-control is-full-width": true,
@@ -321,13 +295,13 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
             "is-valid": this.validationState === "success",
             "is-invalid": this.validationState === "error",
           })}
-          .value=${this.value}
-          @change=${this._handleChange}
+          .value=${this.selectedValues[0] ?? ""}
+          @change=${this.handleChange}
           ?disabled=${this.disabled}
           ?required=${this.required}
           ?multiple=${this.multiple}
           ?autofocus=${this.autofocus}
-          size="${this.multiple && this.size ? this.size : undefined}"
+          size="${ifDefined(this.multiple && this.size ? this.size : undefined)}"
           aria-describedby="${ifDefined(this._ariaDescribedBy)}"
           aria-invalid="${this.validationState === "error" ? "true" : "false"}"
         >

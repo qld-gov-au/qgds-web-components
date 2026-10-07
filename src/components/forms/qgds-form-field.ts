@@ -58,8 +58,8 @@ export abstract class QGDSFormField extends LitElement {
   @property({ type: String })
   label?: string;
 
-  @property({ type: String })
   private _value?: string | undefined = "";
+  @property({ type: String })
   public get value(): string | undefined {
     return this._value;
   }
@@ -181,6 +181,13 @@ export abstract class QGDSFormField extends LitElement {
 
   // ── Private API ──────────────────────────────────────────────────────────────
 
+  /**
+   * Updates the component value to the event's value
+   * syncs the value into element internals
+   * validates and updates validitystate
+   * dispatches custom change event
+   * @param {Event} e
+   */
   protected handleChange = (e: Event): void => {
     this.value = (e.target as HTMLInputElement).value;
     this._syncFormValue();
