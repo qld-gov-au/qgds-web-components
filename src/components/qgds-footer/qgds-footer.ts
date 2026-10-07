@@ -250,7 +250,7 @@ export class QGDSFooter extends LitElement {
     const aocColumnSpanLG = this._hasCustomLinks && this._hasSiteLinks ? "qgds-span-3:lg" : "qgds-span-5:lg";
 
     return html`
-        <footer class="qgds-footer py-64:lg qgds-cols qgds-cols-12  ${footerClassList} ">
+        <footer class="qgds-footer py-64:lg qgds-cols ${footerClassList} ">
           <!-- Footer Block Title (Site Name) -->
 
           <!-- Compensate for the negative margin on the parent div with equivalent padding, so that the heading is aligned with the content below -->
@@ -264,7 +264,7 @@ export class QGDSFooter extends LitElement {
           
           <hr class="qgds-span-12">
 
-          <section class="section-contact qgds-span-12 qgds-span-3:lg py-24 py-0:lg has-border">
+          <section class="section-contact qgds-span-12 qgds-span-4:lg qgds-span-3:xl py-24 py-0:lg has-border">
             <div>
               ${semanticHeading(this.contactHeading, this.headingLevel, "footer-heading")}
               ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
