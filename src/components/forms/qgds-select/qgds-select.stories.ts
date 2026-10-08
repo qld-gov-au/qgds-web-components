@@ -8,12 +8,18 @@ import "./qgds-select";
 // Get auto-generated args, argTypes, and template from Custom Elements Manifest
 const { args, argTypes, template } = getStorybookHelpers<QGDSSelect>("qgds-select");
 
-/**
- * Storybook args interface using kebab-case attribute names from CEM.
- */
-type QGDSSelectStoryArgs = typeof args;
+type Args = typeof args;
 
-const meta: Meta<QGDSSelectStoryArgs> = {
+const defaultChildren = html`
+  <qgds-select-option value="dog">Dog</qgds-select-option>
+  <qgds-select-option value="cat">Cat</qgds-select-option>
+  <qgds-select-option value="hamster">Hamster</qgds-select-option>
+  <qgds-select-option value="parrot">Parrot</qgds-select-option>
+  <qgds-select-option value="spider">Spider</qgds-select-option>
+  <qgds-select-option value="goldfish">Goldfish</qgds-select-option>
+`;
+
+const meta: Meta<Args> = {
   title: "Components/Forms/Select",
   component: "qgds-select",
   tags: ["autodocs"],
@@ -25,23 +31,11 @@ const meta: Meta<QGDSSelectStoryArgs> = {
     ...argTypes,
     id: { control: false },
   },
-  render: (storyArgs, context) =>
-    template(
-      { ...storyArgs, id: context.name },
-      // prettier-ignore
-      html`
-  <qgds-select-option value="dog" >Dog</qgds-select-option>
-  <qgds-select-option value="cat" >Cat</qgds-select-option>
-  <qgds-select-option value="hamster" >Hamster</qgds-select-option>
-  <qgds-select-option value="parrot" >Parrot</qgds-select-option>
-  <qgds-select-option value="spider" >Spider</qgds-select-option>
-  <qgds-select-option value="goldfish" >Goldfish</qgds-select-option>
-`
-    ),
+  render: (storyArgs, context) => template({ ...storyArgs, id: context.name }, defaultChildren),
 };
 
 export default meta;
-type Story = StoryObj<QGDSSelectStoryArgs>;
+type Story = StoryObj<Args>;
 
 export const Default: Story = {
   args: {
@@ -53,13 +47,6 @@ export const Filled: Story = {
   args: {
     variant: "filled",
     hint: 'Filled variant with variant="filled"',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    hint: "Hint text",
   },
 };
 
@@ -75,41 +62,6 @@ export const Optional: Story = {
     required: false,
     ["indicate-if"]: "optional",
     hint: "Hint text",
-  },
-};
-
-export const Invalid: Story = {
-  args: {
-    ["validation-state"]: "error",
-    required: true,
-    hint: "Hint text",
-    ["validation-message"]: "Please select a valid option",
-  },
-};
-
-export const Success: Story = {
-  args: {
-    label: "Form label",
-    ["validation-state"]: "success",
-    required: true,
-    hint: "Hint text",
-    ["validation-message"]: "Great choice!",
-  },
-};
-
-export const Autofocus: Story = {
-  args: {
-    label: "Form label",
-    autofocus: true,
-    hint: "This select will automatically receive focus when the page loads",
-  },
-};
-
-export const Multiple: Story = {
-  args: {
-    label: "Multiple",
-    hint: "Multi select",
-    multiple: true,
   },
 };
 
@@ -140,4 +92,43 @@ export const WithOptgroup: Story = {
   </qgds-select-optgroup>
 `
     ),
+};
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    hint: "Hint text",
+  },
+  render: (storyArgs, context) =>
+    html` ${template({ ...storyArgs, id: context.name, class: "qgds-mb-24" }, defaultChildren)}
+    ${template({ ...storyArgs, variant: "filled", id: context.name }, defaultChildren)}`,
+};
+
+export const Success: Story = {
+  args: {
+    label: "Form label",
+    ["validation-state"]: "success",
+    required: true,
+    hint: "Hint text",
+    ["validation-message"]: "Great choice!",
+  },
+  render: Disabled.render, // Just borrow the previous
+};
+
+export const Error: Story = {
+  args: {
+    ["validation-state"]: "error",
+    required: true,
+    hint: "Hint text",
+    ["validation-message"]: "Please select a valid option",
+  },
+  render: Disabled.render, // Just borrow the previous
+};
+
+export const Multiple: Story = {
+  args: {
+    label: "Multiple",
+    hint: "Multi select",
+    multiple: true,
+  },
 };

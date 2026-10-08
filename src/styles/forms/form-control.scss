@@ -40,6 +40,7 @@
   transition: none; // no transitions until a holistic decision at design system level
 
   &::placeholder {
+    // This styles the placeholder value. Explanation - :checked pseudoclass targets the selected <option> If the selected <option> has value="" then the placeholder text displaying in the the select itself.
     color: var(--placeholder-fg);
   }
 
@@ -54,10 +55,28 @@
   &:is(select) {
     cursor: pointer;
 
+    &[multiple] {
+      block-size: auto;
+      min-block-size: f.remify(48px);
+    }
+
     &:not([multiple]) {
       --icon-size: inherit; // see qgds-select
 
       padding-inline-end: calc(var(--padding-x) - var(--border-right-width) + var(--icon-size) + var(--padding-x));
+    }
+
+    &:has(option[value=""]:where(:checked)) {
+      // This styles the placeholder value. Explanation - :checked pseudoclass targets the selected <option> If the selected <option> has value="" then the placeholder text displaying in the the select itself.
+      color: var(--placeholder-fg);
+    }
+
+    > option {
+      color: var(--fg);
+
+      &[value=""] {
+        color: var(--placeholder-fg);
+      }
     }
   }
 
@@ -120,9 +139,15 @@
   }
 
   @include m.focusable() {
+    @extend %qgds-color-palette-default;
+
     --fg: var(--fg-focus);
+    --fg-hover: var(--fg-focus);
     --bg: var(--bg-focus);
+    --bg-hover: var(--bg-focus);
     --border: var(--border-focus);
+    --border-hover: var(--border-focus);
     --placeholder-fg: var(--placeholder-fg-focus);
+    --placeholder-fg-hover: var(--placeholder-fg-focus);
   }
 }

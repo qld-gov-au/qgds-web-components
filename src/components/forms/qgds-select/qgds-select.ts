@@ -20,6 +20,7 @@ import { FormVariant, IFormControl } from "../../../types/forms";
  * @prop {String} [placeholder] - Placeholder text shown as the first (unselectable) option.
  * @prop {Boolean} [multiple] - Whether multiple selections are allowed.
  * @prop {Number} [size] - Number of visible options when multiple is enabled.
+ * @prop {Array} [selectedValues] - An array of currently selected values, useful for multiple variant
  *
  * @slot - Accepts {@link QGDSSelectOption} and {@link QGDSSelectOptgroup} elements as options.
  *
@@ -38,7 +39,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
   @property({ type: Boolean }) multiple: boolean = false;
   @property({ type: Number }) size?: number;
   @property({ type: Array, attribute: false }) selectedValues: string[] = [];
-  @property({ type: String })
+  // @property({ type: String })
   override get value(): string {
     return this.selectedValues[0] || "";
   }
@@ -294,6 +295,7 @@ export class QGDSSelect extends QGDSFormField implements IFormControl {
             "is-filled": this.variant === "filled",
             "is-valid": this.validationState === "success",
             "is-invalid": this.validationState === "error",
+            "is-multiple": this.multiple,
           })}
           .value=${this.selectedValues[0] ?? ""}
           @change=${this.handleChange}
