@@ -27,7 +27,7 @@ describe("qgds-select", () => {
       expect(element.variant).toBeUndefined();
       expect(element.multiple).toBe(false);
       expect(element.autofocus).toBe(false);
-      expect(element.placeholder).toBe("Please select");
+      expect(element.placeholder).toBe("Select");
       expect(element.value).toBe("");
 
       const select = element.shadowRoot?.querySelector("select");
@@ -148,15 +148,15 @@ describe("qgds-select", () => {
     beforeEach(async () => {
       const option1 = document.createElement("qgds-select-option");
       option1.value = "dog";
-      option1.label = "Dog";
+      option1.textContent = "Dog";
 
       const option2 = document.createElement("qgds-select-option");
       option2.value = "cat";
-      option2.label = "Cat";
+      option2.textContent = "Cat";
 
       const option3 = document.createElement("qgds-select-option");
       option3.value = "hamster";
-      option3.label = "Hamster";
+      option3.textContent = "Hamster";
 
       element.appendChild(option1);
       element.appendChild(option2);
@@ -247,15 +247,15 @@ describe("qgds-select", () => {
 
       const option1 = document.createElement("qgds-select-option");
       option1.value = "dog";
-      option1.label = "Dog";
+      option1.textContent = "Dog";
 
       const option2 = document.createElement("qgds-select-option");
       option2.value = "cat";
-      option2.label = "Cat";
+      option2.textContent = "Cat";
 
       const option3 = document.createElement("qgds-select-option");
       option3.value = "hamster";
-      option3.label = "Hamster";
+      option3.textContent = "Hamster";
 
       element.appendChild(option1);
       element.appendChild(option2);
@@ -270,18 +270,7 @@ describe("qgds-select", () => {
       expect(select?.multiple).toBe(true);
     });
 
-    // it("should handle multiple value selection with comma-separated values", async () => {
-    //   element.value = "dog,cat";
-    //   await element.updateComplete;
-
-    //   const select = element.shadowRoot?.querySelector<HTMLSelectElement>("select");
-    //   if (!select) throw new Error("Select element not found");
-
-    //   const selectedValues = Array.from(select.selectedOptions).map((opt) => opt.value);
-    //   expect(selectedValues).toEqual(["dog", "cat"]);
-    // });
-
-    it("should update value when multiple options are selected", async () => {
+    it("should update value with only first selected value when multiple options are slected", async () => {
       const select = element.shadowRoot?.querySelector<HTMLSelectElement>("select");
       if (!select) throw new Error("Select element not found");
 
@@ -293,7 +282,22 @@ describe("qgds-select", () => {
       select.dispatchEvent(new Event("change", { bubbles: true }));
       await element.updateComplete;
 
-      expect(element.value).toBe("dog,hamster");
+      expect(element.value).toBe("dog");
+    });
+
+    it("should update selectedValues when multiple options are selected", async () => {
+      const select = element.shadowRoot?.querySelector<HTMLSelectElement>("select");
+      if (!select) throw new Error("Select element not found");
+
+      // Select multiple options
+      const options = Array.from(select.options);
+      options[0].selected = true;
+      options[2].selected = true;
+
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      await element.updateComplete;
+
+      expect(element.selectedValues).toEqual(["dog", "hamster"]);
     });
 
     // it("should emit change event with array value for multiple select", async () => {
@@ -326,16 +330,20 @@ describe("qgds-select", () => {
       expect(select?.getAttribute("size")).toBe("5");
     });
 
-    it("should work with getSelectedValues and setSelectedValues methods", () => {
-      element.setSelectedValues(["cat", "hamster"]);
-      expect(element.getSelectedValues()).toEqual(["cat", "hamster"]);
-      expect(element.value).toBe("cat,hamster");
-    });
+    it("should handle selectedValues getter and setter", async () => {
+      element.selectedValues = ["dog", "hamster"];
+      await element.updateComplete;
 
-    it("should handle valueAsArray getter and setter", () => {
-      element.valueAsArray = ["dog", "hamster"];
-      expect(element.valueAsArray).toEqual(["dog", "hamster"]);
-      expect(element.value).toBe("dog,hamster");
+      const select = element.shadowRoot?.querySelector("select");
+      const selectedOptions = select?.selectedOptions;
+      let selectedValues: string[] = [];
+      if (selectedOptions) {
+        selectedValues = Array.from(selectedOptions).map((option) => option.value);
+      }
+
+      expect(selectedValues).toEqual(["dog", "hamster"]);
+      expect(element.value).toBe("dog");
+      expect(element.selectedValues).toEqual(["dog", "hamster"]);
     });
   });
 
@@ -378,7 +386,7 @@ describe("qgds-select", () => {
 
       const option = document.createElement("qgds-select-option");
       option.value = "cat";
-      option.label = "Cat";
+      option.textContent = "Cat";
       element.appendChild(option);
       await element.updateComplete;
       await new Promise((resolve) => setTimeout(resolve, 0));
@@ -398,25 +406,11 @@ describe("qgds-select", () => {
 
       expect(element.checkValidity()).toBe(false);
 
-      element.value = "dog,cat";
+      element.selectedValues = ["dog", "cat"];
       await element.updateComplete;
 
       expect(element.checkValidity()).toBe(true);
     });
-
-    // it("should focus select on reportValidity failure", async () => {
-    //   element.required = true;
-    //   await element.updateComplete;
-
-    //   const select = element.shadowRoot?.querySelector<HTMLSelectElement>("select");
-    //   if (!select) throw new Error("Select element not found");
-
-    //   const focusSpy = vi.spyOn(select, "focus");
-
-    //   element.reportValidity();
-
-    //   expect(focusSpy).toHaveBeenCalled();
-    // });
   });
 
   describe("Slot validation and filtering", () => {
@@ -441,7 +435,7 @@ describe("qgds-select", () => {
     it("should only process valid qgds-select-option elements", async () => {
       const option = document.createElement("qgds-select-option");
       option.value = "cat";
-      option.label = "Cat";
+      option.textContent = "Cat";
 
       const invalidSpan = document.createElement("span");
       invalidSpan.textContent = "Invalid";
@@ -464,11 +458,11 @@ describe("qgds-select", () => {
 
       const option1 = document.createElement("qgds-select-option");
       option1.value = "dog";
-      option1.label = "Dog";
+      option1.textContent = "Dog";
 
       const option2 = document.createElement("qgds-select-option");
       option2.value = "cat";
-      option2.label = "Cat";
+      option2.textContent = "Cat";
 
       optgroup.appendChild(option1);
       optgroup.appendChild(option2);
@@ -559,17 +553,6 @@ describe("qgds-select", () => {
     });
   });
 
-  // describe("Autofocus", () => {
-  //   it("should focus native select", async () => {
-  //     document.body.removeChild(element);
-  //     element.autofocus = true;
-  //     document.body.appendChild(element);
-  //     await element.updateComplete;
-  //     const select = element.shadowRoot?.querySelector("select");
-  //     expect(document.activeElement).toBe(select);
-  //   });
-  // });
-
   describe("Public methods", () => {
     it("should focus the select element", async () => {
       await element.updateComplete;
@@ -584,19 +567,21 @@ describe("qgds-select", () => {
       expect(focusSpy).toHaveBeenCalled();
     });
 
-    it("should get selected values as array", () => {
+    it("should get selected values as array", async () => {
       element.value = "cat";
-      expect(element.getSelectedValues()).toEqual(["cat"]);
+      expect(element.selectedValues).toEqual(["cat"]);
 
       element.multiple = true;
-      element.value = "dog,cat,hamster";
-      expect(element.getSelectedValues()).toEqual(["dog", "cat", "hamster"]);
+      element.selectedValues = ["dog", "cat", "hamster"];
+      await element.updateComplete;
+      expect(element.selectedValues).toEqual(["dog", "cat", "hamster"]);
     });
 
     it("should set selected values from array", () => {
       element.multiple = true;
-      element.setSelectedValues(["dog", "hamster"]);
-      expect(element.value).toBe("dog,hamster");
+      element.selectedValues = ["dog", "hamster"];
+      expect(element.value).toBe("dog");
+      expect(element.selectedValues).toEqual(["dog", "hamster"]);
     });
   });
 
@@ -604,7 +589,7 @@ describe("qgds-select", () => {
     it("should update native options when custom options are modified", async () => {
       const option1 = document.createElement("qgds-select-option");
       option1.value = "dog";
-      option1.label = "Dog";
+      option1.textContent = "Dog";
       element.appendChild(option1);
 
       await element.updateComplete;
@@ -617,7 +602,7 @@ describe("qgds-select", () => {
       // Add another option
       const option2 = document.createElement("qgds-select-option");
       option2.value = "cat";
-      option2.label = "Cat";
+      option2.textContent = "Cat";
       element.appendChild(option2);
 
       await element.updateComplete;
@@ -631,7 +616,7 @@ describe("qgds-select", () => {
     it("should reset value when options no longer contain current value", async () => {
       const option = document.createElement("qgds-select-option");
       option.value = "cat";
-      option.label = "Cat";
+      option.textContent = "Cat";
       element.appendChild(option);
       element.value = "cat";
 
@@ -655,7 +640,7 @@ describe("qgds-select", () => {
       await option.updateComplete;
 
       expect(option.value).toBe("");
-      expect(option.label).toBe("");
+      expect(option.textContent).toBe("");
       expect(option.disabled).toBe(false);
       expect(option.selected).toBe(false);
 
@@ -668,29 +653,14 @@ describe("qgds-select", () => {
       document.body.appendChild(option);
       await option.updateComplete;
 
-      expect(option.getTextContent()).toBe("dog");
+      expect(option.shadowRoot?.textContent.trim()).toBe("dog");
 
-      option.label = "Dog";
+      option.textContent = "Dog";
       await option.updateComplete;
 
-      expect(option.getTextContent()).toBe("Dog");
+      expect(option.textContent).toBe("Dog");
 
       option.remove();
-    });
-
-    it("should convert to native option element", () => {
-      const option = document.createElement("qgds-select-option");
-      option.value = "cat";
-      option.label = "Cat";
-      option.disabled = true;
-      option.selected = true;
-
-      const nativeOption = option.toNativeOption();
-
-      expect(nativeOption.value).toBe("cat");
-      expect(nativeOption.textContent).toBe("Cat");
-      expect(nativeOption.disabled).toBe(true);
-      expect(nativeOption.selected).toBe(true);
     });
   });
 
@@ -712,11 +682,11 @@ describe("qgds-select", () => {
 
       const option1 = document.createElement("qgds-select-option");
       option1.value = "dog";
-      option1.label = "Dog";
+      option1.textContent = "Dog";
 
       const option2 = document.createElement("qgds-select-option");
       option2.value = "cat";
-      option2.label = "Cat";
+      option2.textContent = "Cat";
 
       optgroup.appendChild(option1);
       optgroup.appendChild(option2);
