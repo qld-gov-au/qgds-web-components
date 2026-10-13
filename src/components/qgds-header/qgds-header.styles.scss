@@ -10,6 +10,7 @@ Scoped CSS: qgds-header
 
 :host {
   display: block;
+  isolation: auto;
 }
 
 .header {

@@ -35,6 +35,10 @@ $component: ".promo-panel";
 
   .is-indent-image &,
   .is-indent-text & {
+    @media (min-width: qgds-breakpoint.$lg) {
+      filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.3));
+    }
+
     &.content-start {
       @media (min-width: qgds-breakpoint.$xxl) {
         padding-block: 4rem;
@@ -110,7 +114,6 @@ $component: ".promo-panel";
   }
 
   @media (min-width: qgds-breakpoint.$md) {
-    box-shadow: var(--qgds-elevation-2);
     padding-block: 2.5rem;
     padding-inline: 2rem;
   }
@@ -134,13 +137,11 @@ $component: ".promo-panel";
 
   .is-contained & {
     border-radius: 0;
-    box-shadow: none;
     padding: 0;
   }
 
   .is-promo & {
     border-radius: 2rem;
-    box-shadow: none;
     padding-inline: 2rem;
     padding-block: 2.5rem;
 
@@ -232,9 +233,6 @@ $component: ".promo-panel";
 
     .is-contained & {
       border-radius: 1.25rem;
-    }
-    @media (min-width: qgds-breakpoint.$md) {
-      box-shadow: var(--qgds-elevation-2);
     }
   }
 }

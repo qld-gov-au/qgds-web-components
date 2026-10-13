@@ -1,0 +1,108 @@
+import { Meta, Title, Primary, Canvas, Markdown } from "@storybook/addon-docs/blocks";
+
+import * as UtilitiesStories from "./utilities.stories";
+
+export const paddingUtilities = [
+  ["p", "padding"],
+  ["px", "padding-inline"],
+  ["py", "padding-block"],
+  ["pt", "padding-block-start"],
+  ["pb", "padding-block-end"],
+  ["ps", "padding-inline-start"],
+  ["pe", "padding-inline-end"],
+];
+
+export const marginUtilities = [
+  ["m", "margin"],
+  ["mx", "margin-inline"],
+  ["my", "margin-block"],
+  ["mt", "margin-block-start"],
+  ["mb", "margin-block-end"],
+  ["ml", "margin-inline-start"],
+  ["mr", "margin-inline-end"],
+];
+
+export const breakpoints = [
+  ["xs", "320px"],
+  ["sm", "400px"],
+  ["md", "700px"],
+  ["lg", "992px"],
+  ["xl", "1312px"],
+  ["xxl", "1599px"],
+];
+
+export const spacingValues = ["0", "2", "4", "6", "8", "12", "16", "24"];
+export const negativeSpacingValues = ["n2", "n4", "n6", "n8", "n12", "n16", "n24"];
+
+export const buildTable = (headers, rows) => {
+  const header = `| ${headers.join(" | ")} |`;
+  const separator = `| ${headers.map(() => "---").join(" | ")} |`;
+  const body = rows.map((row) => `| ${row.join(" | ")} |`).join("\n");
+
+return [header, separator, body].join("\n");
+};
+
+export const utilityRows = [...paddingUtilities, ...marginUtilities];
+
+export const spacingRows = spacingValues.map((value) => [value, `qgds-p-${value}`, `qgds-m-${value}`]);
+
+export const negativeSpacingRows = negativeSpacingValues.map((value) => [value, "Margin only", `qgds-m-${value}`]);
+
+export const breakpointRows = breakpoints.map(([breakpoint, minWidth]) => [
+  breakpoint,
+  minWidth,
+  `qgds-p-16:${breakpoint}`,
+]);
+
+<Meta of={UtilitiesStories} />
+<Title of={UtilitiesStories} />
+
+<Primary of={UtilitiesStories} />
+<Canvas of={UtilitiesStories.Overview} withToolbar={true} sourceState="shown" />
+
+## Utility Format
+
+<Markdown>
+  {`
+| Part | Description | Example |
+| --- | --- | --- |
+| Prefix | Library namespace | qgds |
+| Utility | Spacing utility key | p |
+| Breakpoint | Optional responsive token | md |
+| Value | Spacing token | 16 |
+
+Patterns:
+
+- Base: qgds-{utility}-{value}
+- Responsive: qgds-{utility}-{value}:{breakpoint}
+- Negative margin: qgds-{margin-utility}-{n-value}:{breakpoint}
+  `}
+  </Markdown>
+
+## Utility Keys
+
+<Markdown>{buildTable(["Utility", "Property"], utilityRows)}</Markdown>
+
+## Breakpoints
+
+<Markdown>{buildTable(["Token", "Min width", "Example"], breakpointRows)}</Markdown>
+
+## Spacing Values
+
+<Markdown>{buildTable(["Token", "Padding example", "Margin example"], spacingRows)}</Markdown>
+
+## Negative Spacing Values
+
+<Markdown>{buildTable(["Token", "Applies to", "Example"], negativeSpacingRows)}</Markdown>
+
+## Example Patterns
+
+<Markdown>
+  {`
+- Base padding: qgds-p-16
+- Responsive padding: qgds-p-16:md
+- Base margin: qgds-my-12
+- Responsive margin: qgds-my-12:lg
+- Responsive negative margin: qgds-mt-n8:xl
+  `}
+</Markdown>

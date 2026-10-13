@@ -104,50 +104,31 @@ export class QGDSGlobalAlert extends LitElement {
     const ariaRole = QGDSGlobalAlert.ariaRoles[this.variant];
 
     return html`
-      <section 
-        role="${ariaRole}" 
-        aria-label="${ariaLabel}" 
-        class="global-alert is-${this.variant}"
-      >
-        <qgds-icon 
-          aria-hidden="true" 
-          icon-id="${QGDSGlobalAlert.icons[this.variant]}" 
+      <section role="${ariaRole}" aria-label="${ariaLabel}" class="qgds-container global-alert is-${this.variant}">
+        <qgds-icon
+          aria-hidden="true"
+          icon-id="${QGDSGlobalAlert.icons[this.variant]}"
           size="sm"
           class="global-alert-icon"
         ></qgds-icon>
 
-        <div class="content">          
+        <div class="content">
           <div class="message">
-            ${this.heading
-              ? html`<strong class="heading">${this.heading}:</strong>`
-              : nothing}
+            ${this.heading ? html`<strong class="heading">${this.heading}:</strong>` : nothing}
 
             <slot></slot>
           </div>
 
           ${this.actionLabel && this.actionHref
-            ? html`
-                <qgds-call-to-action 
-                  label="${this.actionLabel}" 
-                  href="${this.actionHref}" 
-                ></qgds-call-to-action>
-              `
+            ? html` <qgds-call-to-action label="${this.actionLabel}" href="${this.actionHref}"></qgds-call-to-action> `
             : nothing}
         </div>
 
         ${this.isDismissible
           ? html`
-                <button 
-                  class="close"
-                  aria-label="Close alert" 
-                  type="button"
-                  @click="${this._handleDismiss}"
-                >
-                  <qgds-icon 
-                    aria-hidden="true" 
-                    icon-id="close" 
-                  ></qgds-icon>
-                </button>
+              <button class="close" aria-label="Close alert" type="button" @click="${this._handleDismiss}">
+                <qgds-icon aria-hidden="true" icon-id="close"></qgds-icon>
+              </button>
             `
           : nothing}
       </section>

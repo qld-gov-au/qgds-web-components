@@ -50,13 +50,20 @@ export class QGDSIcon extends LitElement {
   @property({ type: String, useDefault: true })
   size: IconSize = "md";
 
-  @property({ type: String, attribute: "aria-label" })
+  @property({ type: String, attribute: "aria-label", reflect: true })
   ariaLabel: string = "";
 
   static styles = [resetStyles, unsafeCSS(componentCSS)];
 
   private get isMulticolour(): boolean {
     return this.iconId ? isMulticolourIcon(this.iconId) : false;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+
+    this.role ??= this.ariaLabel ? "img" : null;
+    this.ariaHidden ??= this.ariaLabel ? null : "true";
   }
 
   render() {
@@ -67,10 +74,10 @@ export class QGDSIcon extends LitElement {
 
     return html`
       <span
-        style="--qgds-icon-svg: var(--qgds-icon-${this
-          .iconId}); --_qgds-icon-size: var(--qgds-icon-size, var(--qgds-icon-size-${this.size}))"
+        style="
+          --qgds-icon-svg: var(--qgds-icon-${this.iconId}); 
+          --_qgds-icon-size: var(--qgds-icon-size, var(--qgds-icon-size-${this.size}))"
         class="${classMap(classes)}"
-        aria-label="${this.ariaLabel || "icon"}"
       ></span>
     `;
   }

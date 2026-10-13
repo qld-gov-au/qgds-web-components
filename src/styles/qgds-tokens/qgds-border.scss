@@ -1,5 +1,9 @@
-// Stub file only
-:root {
-  --qgds-border-radius: 0.25rem;
-  --qgds-border-width-wide: 3px;
-}
+// border-radius tokens
+@use "../tools/functions" as f;
+
+$radius-xs: 4px;
+$radius-sm: 12px;
+$radius-md: 16px;
+$radius-lg: 32px;
+$radius-xl: 40px;
+$radius-xxl: 64px;

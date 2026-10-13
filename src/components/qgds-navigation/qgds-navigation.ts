@@ -77,6 +77,7 @@ export class QGDSNavigation extends LitElement {
   private get _paletteMobile(): NavigationMobilePalette {
     return this.paletteMobile ?? (this.palette === "default" ? "bold" : "default");
   }
+  private _bodyOverflowStyle?: string;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -92,7 +93,7 @@ export class QGDSNavigation extends LitElement {
     document.removeEventListener("qgds-navigation-toggle", this._toggleMobileNav);
     document.removeEventListener("qgds-navigation-open", this._openMobileNav);
     document.removeEventListener("qgds-navigation-close", this._closeMobileNav);
-    document.body.classList.remove("qgds-overflow-hidden");
+    if (this._bodyOverflowStyle) document.body.style.overflowY = this._bodyOverflowStyle;
   }
 
   protected willUpdate(): void {
@@ -107,11 +108,12 @@ export class QGDSNavigation extends LitElement {
     if (changed.has("_isMobileOpen")) {
       if (this._isMobileOpen) {
         this._dialogElement?.showModal();
-        document.body.classList.add("qgds-overflow-hidden");
+        this._bodyOverflowStyle = getComputedStyle(document.body).overflowY;
+        document.body.style.overflowY = "hidden";
         this._events.dispatch("navigation-opened");
       } else {
         this._dialogElement?.close();
-        document.body.classList.remove("qgds-overflow-hidden");
+        if (this._bodyOverflowStyle) document.body.style.overflowY = this._bodyOverflowStyle;
         this._events.dispatch("navigation-closed");
       }
     }

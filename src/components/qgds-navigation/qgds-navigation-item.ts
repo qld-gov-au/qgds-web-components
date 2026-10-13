@@ -162,9 +162,9 @@ export class QGDSNavigationItem extends LitElement {
       } else if (node instanceof QGDSNavigationItem) {
         node.level = 2;
         node.role = "listitem";
-        if (node.isActive) {
+        if (node.isActive && this.variant === "vertical") {
           // Need to wait for parent to sync before checking variant
-          requestAnimationFrame(() => (this.isOpen = this.variant === "vertical"));
+          requestAnimationFrame(() => (this.isOpen = true));
         }
 
         this._numChildren++;
@@ -209,23 +209,27 @@ export class QGDSNavigationItem extends LitElement {
           </div>
 
           <div class=${classMap({ "mega-menu qgds-container": true, "is-open": this.isOpen })} id="mega-menu">
-            <!-- Header -->
-            <div class="mega-menu-header">
-              <qgds-link
-                class="mega-menu-link is-heading"
-                label=${this.label}
-                href=${ifDefined(this.href)}
-                icon-name="arrow-right"
-                icon-size="lg"
-                animation="leftToRight"
-                has-trailing-icon
-                aria-current=${ifDefined(this.isActive ? "page" : undefined)}
-                aria-describedby=${ifDefined(this.description ? "header-description" : undefined)}
-              ></qgds-link>
-              ${this.description
-                ? html`<p class="description" id="header-description">${this.description}</p>`
-                : nothing}
-            </div>
+            ${this.href || this.description
+              ? html`<!-- Header -->
+                  <div class="mega-menu-header">
+                    ${this.href
+                      ? html`<qgds-link
+                          class="mega-menu-link is-heading"
+                          label=${this.label}
+                          href=${ifDefined(this.href)}
+                          icon-name="arrow-right"
+                          icon-size="lg"
+                          animation="leftToRight"
+                          has-trailing-icon
+                          aria-current=${ifDefined(this.isActive ? "page" : undefined)}
+                          aria-describedby=${ifDefined(this.description ? "header-description" : undefined)}
+                        ></qgds-link>`
+                      : nothing}
+                    ${this.description
+                      ? html`<p class="description" id="header-description">${this.description}</p>`
+                      : nothing}
+                  </div>`
+              : nothing}
 
             <!-- Columns -->
             <div

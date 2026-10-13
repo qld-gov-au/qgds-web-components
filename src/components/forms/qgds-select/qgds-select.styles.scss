@@ -27,8 +27,12 @@
     mask-position: center center;
     mask-repeat: no-repeat;
     mask-size: contain;
-    background-color: var(--dropdown-fg);
     pointer-events: none;
+    background-color: var(--dropdown-fg);
+
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
   }
 
   &:has(.is-valid) {

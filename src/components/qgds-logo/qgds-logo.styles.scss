@@ -72,6 +72,19 @@
   display: flex;
   align-items: center;
   block-size: var(--logo-height);
+
+  .custom-logo-svg {
+    block-size: 100%;
+    max-inline-size: 100%;
+  }
+
+  svg {
+    display: block;
+    block-size: 100%;
+    max-inline-size: 100%;
+    inline-size: auto;
+    color: var(--logo-color);
+  }
 }
 
 .is-custom {

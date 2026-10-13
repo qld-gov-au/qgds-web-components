@@ -27,6 +27,12 @@
   mask-image: var(--qgds-icon-svg);
   color: var(--qgds-icon-color, inherit);
   background-color: currentColor;
+
+  // When forced colors mode is active, use CanvasText for icon's background color
+  // Example: on Windows High Contrast mode
+  @media (forced-colors: active) {
+    background-color: CanvasText;
+  }
 }
 
 /* Multicolour icons use background-image instead of mask-image */

@@ -24,13 +24,6 @@ figure {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-
-  // Resets our slotted content
-  // Defined by reset-slotted.scss, customised for blockquote content
-  --slotted-list-padding: 1rem;
-  --slotted-content-padding: 0;
-  --slotted-content-margin: 0;
-  --slotted-content-line-height: 1.5;
 }
 
 blockquote {

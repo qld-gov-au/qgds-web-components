@@ -1,63 +1,111 @@
-import { Meta, Title, Subtitle, Description } from "@storybook/addon-docs/blocks";
+import { Meta } from "@storybook/addon-docs/blocks";
 
 <Meta title="Getting Started" parameters={{ docs: { page: null } }} />
 
 # QGDS Web Components
 
-Start here to install, register, and use QGDS Web Components in your app.
+### Development
 
-## Install
+Use the CDN examples for a static HTML page with no build tool.
 
-```bash
-npm install @qld-gov-au/qgds-web-components
-```
+Use the npm examples when your project has a JavaScript bundler or framework.
 
-## Import Styles
+## Frontend-only HTML (No build tool)
 
-QGDS Web Components require a global stylesheet to render with correct typography, spacing, and colours. Import the stylesheet in your app entrypoint:
-
-```ts
-import "@qld-gov-au/qgds-web-components/styles";
-```
-
-## Import Components
-
-Components are self-registering, they'll be available for use as soon as you import them.
-
-```js
-// import all components
-import "@qld-gov-au/qgds-web-components";
-
-// or, import just the components you need
-import "@qld-gov-au/qgds-web-components/button";
-import "@qld-gov-au/qgds-web-components/callout";
-import "@qld-gov-au/qgds-web-components/inpage-nav";
-```
-
-## Use a Component
+- During Alpha testing, load the published CSS and browser-ready JavaScript from jsDelivr. Production ready JS and CSS resources will be made available on Queensland Government CDN in due course.
+- The main JavaScript bundle registers all components with the browser as custom HTML tags, for example `<qgds-callout>`.
+- Add the `qgds` class to the body tag so the global styles are applied
+- Add a `qgds-content` class to main content area for typography styles and spacing
 
 ```html
-<qgds-button label="Continue"></qgds-button>
-```
-
-## Hello world
-
-```html
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <script type="module">
-      import "@qld-gov-au/qgds-web-components/styles";
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QGDS Web Components</title>
 
-      import "@qld-gov-au/qgds-web-components/button";
-      import "@qld-gov-au/qgds-web-components/callout";
-    </script>
+    <!-- Use JSdelivr during alpha testing. Production assets will be made available on Queensland Government CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/css/qgds-web-components.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/js/qgds-web-components.js"
+    ></script>
   </head>
   <body class="qgds">
-    <h1>Hello world</h1>
-    <qgds-callout heading="Notice">This is the QGDS Callout component.</qgds-callout>
-    <qgds-button label="Continue"></qgds-button>
+    <!-- Minimum layout config -->
+    <div class="qgds-container">
+      <main class="qgds-content">
+        <h1>Hello world</h1>
+
+        <!-- Basic callout component -->
+        <qgds-callout heading="Callout heading">
+          <p>This is a QGDS callout component.</p>
+        </qgds-callout>
+
+        <qgds-button label="Continue"></qgds-button>
+      </main>
+    </div>
   </body>
 </html>
+```
+
+To load only selected components, replace the main bundle with imports for the component files you use:
+
+```html
+<script type="module">
+  import "https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/js/components/button.js";
+  import "https://cdn.jsdelivr.net/npm/@qld-gov-au/qgds-web-components@alpha/dist/assets/js/components/callout.js";
+</script>
+```
+
+### Layout and templates
+
+This library provides grid and layout utilites, and several full page example templates including all components (Header, Footer, Navigation etc). Explore the library using the Storybook menu.
+
+## Node and bundler projects
+
+Install the package from npm:
+
+```bash
+npm install @qld-gov-au/qgds-web-components@alpha
+```
+
+The package root import registers all components and includes the global stylesheet:
+
+```js
+import "@qld-gov-au/qgds-web-components";
+```
+
+For a smaller bundle, import only the components you use and import the global stylesheet separately:
+
+```js
+import "@qld-gov-au/qgds-web-components/styles";
+
+// Components
+import "@qld-gov-au/qgds-web-components/button";
+import "@qld-gov-au/qgds-web-components/callout";
+```
+
+Use the custom elements in your HTML:
+
+```html
+<body class="qgds">
+  <div class="qgds-container">
+    <main class="qgds-content">
+      <h1>Hello world</h1>
+
+      <qgds-callout heading="Callout heading">
+        <p>This is a QGDS callout component.</p>
+      </qgds-callout>
+
+      <qgds-button label="Continue"></qgds-button>
+    </main>
+  </div>
+</body>
 ```
 
 ## Accessibility

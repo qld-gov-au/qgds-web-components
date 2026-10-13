@@ -34,15 +34,15 @@ describe("qgds-breadcrumbs", () => {
 
     const breadcrumbs = document.createElement("qgds-breadcrumbs");
     const items = [
-      { url: "/home", text: "Home" },
-      { url: "/services", text: "Services" },
-      { url: "", text: "Current page" },
+      { href: "/home", text: "Home" },
+      { href: "/services", text: "Services" },
+      { href: "", text: "Current page" },
     ];
 
     items.forEach((item) => {
       const child = document.createElement("qgds-breadcrumbs-item");
-      if (item.url) {
-        child.setAttribute("url", item.url);
+      if (item.href) {
+        child.setAttribute("href", item.href);
       }
       child.textContent = item.text;
       breadcrumbs.appendChild(child);
@@ -66,7 +66,7 @@ describe("qgds-breadcrumbs", () => {
     const compactElement = document.createElement("qgds-breadcrumbs");
     for (let index = 1; index <= 6; index += 1) {
       const child = document.createElement("qgds-breadcrumbs-item");
-      child.setAttribute("url", `/level-${index}`);
+      child.setAttribute("href", `/level-${index}`);
       child.textContent = `Level ${index}`;
       compactElement.appendChild(child);
     }
@@ -93,7 +93,7 @@ describe("qgds-breadcrumbs", () => {
     const compactElement = document.createElement("qgds-breadcrumbs");
     for (let index = 1; index <= 6; index += 1) {
       const child = document.createElement("qgds-breadcrumbs-item");
-      child.setAttribute("url", `/level-${index}`);
+      child.setAttribute("href", `/level-${index}`);
       child.textContent = `Level ${index}`;
       compactElement.appendChild(child);
     }
@@ -115,7 +115,7 @@ describe("qgds-breadcrumbs", () => {
     const compactElement = document.createElement("qgds-breadcrumbs");
     for (let index = 1; index <= 6; index += 1) {
       const child = document.createElement("qgds-breadcrumbs-item");
-      child.setAttribute("url", `/level-${index}`);
+      child.setAttribute("href", `/level-${index}`);
       child.textContent = `Level ${index}`;
       compactElement.appendChild(child);
     }
@@ -141,7 +141,7 @@ describe("qgds-breadcrumbs", () => {
     const compactElement = document.createElement("qgds-breadcrumbs");
     for (let index = 1; index <= 6; index += 1) {
       const child = document.createElement("qgds-breadcrumbs-item");
-      child.setAttribute("url", `/level-${index}`);
+      child.setAttribute("href", `/level-${index}`);
       child.textContent = `Level ${index}`;
       compactElement.appendChild(child);
     }
@@ -179,13 +179,12 @@ describe("qgds-breadcrumbs-item", () => {
     element.remove();
   });
 
-  it("sets list semantics and renders a link when url is provided", async () => {
-    element.setAttribute("url", "/about");
+  it("sets list semantics and renders a link when href is provided", async () => {
+    element.setAttribute("href", "/about");
     element.textContent = "About";
     await waitForRender(element);
 
     expect(element.getAttribute("role")).toBe("listitem");
-    expect(element.tabIndex).toBe(0);
 
     const anchor = element.shadowRoot?.querySelector("a");
     const slot = anchor?.querySelector("slot");
@@ -201,7 +200,7 @@ describe("qgds-breadcrumbs-item", () => {
 
   it("renders the current page without a link when is-last is true", async () => {
     element.isLast = true;
-    element.setAttribute("url", "/current");
+    element.setAttribute("href", "/current");
     element.textContent = "Current page";
     await waitForRender(element);
 

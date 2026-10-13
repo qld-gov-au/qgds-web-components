@@ -11,6 +11,7 @@ const { args, argTypes } = getStorybookHelpers<QGDSLogo>("qgds-logo");
 type Args = typeof args;
 
 import sampleSlottedImage from "./assets/breast-screen-qld-logo.svg";
+import sampleSlottedImageCcc from "./assets/ccc-logo.svg";
 
 const meta: Meta<Args> = {
   title: "Components/Site Logo",
@@ -95,6 +96,11 @@ export const AllVariantsStatic: Story = {
 
     <!-- Custom Logos (Endorsed, Standalone) -->
     <qgds-logo logo="none" custom-logo="${sampleSlottedImage}" custom-logo-alt="Agency Name"></qgds-logo>
+    <qgds-logo
+      logo="none"
+      custom-logo="${sampleSlottedImageCcc}"
+      custom-logo-alt="Crime and Corruption Commission"
+    ></qgds-logo>
   `,
   decorators: [
     (Story) => html` <div style="padding: 1rem; display: flex; flex-direction: column; gap: 2rem;">${Story()}</div> `,

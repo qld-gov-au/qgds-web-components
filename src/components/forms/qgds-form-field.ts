@@ -14,13 +14,13 @@ import { QgdsEvents } from "../../utils";
  * @prop {string} [name] - Required name attribute for form submission.
  * @prop {string} [label] - The form field's label text.
  * @prop {string} [value] - The current value of the field.
- * @prop {boolean} [required=false] - Indicates whether the field is required.
- * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none".
+ * @prop {boolean} [required=false] - Whether the field is required for validation purposes. Works in tandem with indicate-if for visual indication.
+ * @prop {FormIndicateIf} [indicateIf] - Display indicator for "required", "optional", or "none". Works in tandem with required for visual indication.
  * @prop {string} [hint] - Hint text to guide the user.
- * @prop {FormValidationState} [validationState] - The validation state, either "success" or "error".
+ * @prop {FormValidationState} [validationState] - The visual validation state, either "success" or "error".
  * @prop {string} [validationMessage] - Validation feedback message displayed with the state.
- * @prop {boolean} [disabled=false] - Disables the field when true.
- * @prop {boolean} [readOnly=false] - Makes the field read-only when true.
+ * @prop {boolean} [disabled=false] - Disable the input. Disabled inputs are not focusable and not submitted.
+ * @prop {boolean} [readOnly=false] - Make the input read-only. Readonly inputs are focusable and submitted.
  * @prop {boolean} [nativeValidate=false] - opt in to HTML5 client side validation styles, which will render native browser validation popovers and messages rather than component defined and controlled via props. This is not recommended.
 
  *

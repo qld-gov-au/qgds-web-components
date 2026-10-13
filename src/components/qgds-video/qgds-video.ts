@@ -25,14 +25,15 @@ export type VideoAspect = "16x9" | "4x3" | "1x1" | "21x9";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit
  *
  * @property {VideoSource} [source] - Embed provider: "youtube", "vimeo", "custom", or "" (empty placeholder).
- * @property {string} [video-id] - YouTube / Vimeo video ID, or the full iframe URL when `source="custom"`.
+ * @property {string} [videoTitle] - An accessible title which maps to the iframe's title attribute. Will default to a generic title based on video source.
+ * @property {string} [videoId] - YouTube / Vimeo video ID, or the full iframe URL when `source="custom"`.
  * @property {string} [thumbnail] - URL of the thumbnail image shown before play.
  * @property {string} [duration] - Display duration string (e.g. "3:12") shown on the play nav.
  * @property {VideoAspect} [aspect-ratio] - Aspect ratio of the player. Defaults to "16x9".
  * @property {boolean} [autoplay] - When true, sets `autoplay=1` in the iframe URL on initial render.
- * @property {boolean} [hide-controls] - When true, hides native provider controls (`controls=0` in the iframe URL).
+ * @property {boolean} [hideControls] - When true, hides native provider controls (`controls=0` in the iframe URL).
  * @property {string} [caption] - Plain-text caption rendered below the player. Ignored when `is-trimmed`.
- * @property {boolean} [is-trimmed] - When true, renders only the player surface (no card, caption, or transcript).
+ * @property {boolean} [isTrimmed] - When true, renders only the player surface (no card, caption, or transcript).
  *
  * @slot caption - Rich-HTML caption shown below the player. Overrides the `caption` attribute. Ignored when `is-trimmed`.
  * @slot transcript - Transcript content. When non-empty, the disclosure header ("Show/Hide transcript") is shown. Ignored when `is-trimmed`.
@@ -58,6 +59,7 @@ export class QGDSVideo extends LitElement {
 
   @property({ type: String }) source: VideoSource = "";
   @property({ type: String, attribute: "video-id" }) videoId = "";
+  @property({ type: String, attribute: "video-title" }) videoTitle?: string;
   @property({ type: String }) thumbnail = "";
   @property({ type: String }) duration = "";
   @property({ type: String, attribute: "aspect-ratio", reflect: true })
@@ -121,7 +123,12 @@ export class QGDSVideo extends LitElement {
       return html`<p class="video-no-source">A video has not been provided.</p>`;
     }
     const title =
-      this.source === "youtube" ? "YouTube video" : this.source === "vimeo" ? "Vimeo video" : "Embedded video";
+      this.videoTitle || this.source === "youtube"
+        ? "YouTube video"
+        : this.source === "vimeo"
+          ? "Vimeo video"
+          : "Embedded video";
+
     return html`
       <iframe
         class="video-iframe video-${this.source}"

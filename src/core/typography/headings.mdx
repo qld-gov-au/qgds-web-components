@@ -1,0 +1,41 @@
+import {
+  Meta,
+  Title,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  TableOfContents,
+} from "@storybook/addon-docs/blocks";
+
+import * as TypographyStories from "./typography.stories";
+
+<Meta title="Core Styles/Typography/Headings" />
+<Title of={TypographyStories} />
+
+## Headings
+
+<Description of={TypographyStories.Heading} />
+<Canvas of={TypographyStories.Heading} sourceState="hide" />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| Element | Size                 | Colour                       | Line height                | Responsive |
+| ------- | -------------------- | ---------------------------- | -------------------------- | ---------- |
+| \`h1\`  | --qgds-font-size-xxl | --qgds-color-heading-default | --qgds-line-height-heading | Yes        |
+| \`h2\`  | --qgds-font-size-xl  | --qgds-color-heading-default | --qgds-line-height-heading | Yes        |
+| \`h3\`  | --qgds-font-size-lg  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h4\`  | --qgds-font-size-md  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h5\`  | --qgds-font-size-sm  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+| \`h6\`  | --qgds-font-size-xs  | --qgds-color-heading-default | --qgds-line-height-heading | No         |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

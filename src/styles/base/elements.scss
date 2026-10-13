@@ -1,6 +1,14 @@
 @use "../tools/mixins" as m;
+@use "../tools/functions" as f;
+@use "../qgds-tokens" as *;
+@use "./typography";
 
-// ALl text based elements, lists, etc. These are the most basic styles for content within the body of the page, and are usually overridden within components. These are not slotted-specific, but they can be overridden by slotted styles if used within a component that includes the reset-slotted mixin.
+// Most text based elements, lists, etc.
+// These are the most basic styles for content within the body of the page, and are usually overridden within components.
+
+// See typography.scss for additional typography utilities
+// See content.scss for additional element spacing rules
+
 p,
 ul,
 ol,
@@ -9,7 +17,7 @@ blockquote,
 pre,
 code,
 summary {
-  line-height: var(--qgds-line-height-default, 1.45);
+  line-height: var(--qgds-line-height-default, #{$typography-line-height-default});
 }
 
 h1,
@@ -18,7 +26,68 @@ h3,
 h4,
 h5,
 h6 {
-  line-height: var(--qgds-line-height-heading, 1.25);
+  // Inherit the base heading styles (color, line-height, font-family, font-weight) from typography
+  @extend %qgds-heading;
+}
+
+h1 {
+  font-size: var(--qgds-font-size-xxl, #{$typography-font-size-xxl});
+}
+
+h2 {
+  font-size: var(--qgds-font-size-xl, #{$typography-font-size-xl});
+}
+
+h3 {
+  font-size: var(--qgds-font-size-lg, #{$typography-font-size-lg});
+}
+
+h4 {
+  font-size: var(--qgds-font-size-md, #{$typography-font-size-md});
+}
+
+h5 {
+  font-size: var(--qgds-font-size-sm, #{$typography-font-size-sm});
+}
+
+h6 {
+  font-size: var(--qgds-font-size-xs, #{$typography-font-size-xs});
+}
+
+ul,
+ol {
+  padding-inline-start: 1rem;
+
+  & > li,
+  & li {
+    margin-block-start: var(--qgds-vspace-list-item);
+  }
+
+  & > li:first-child,
+  & li:first-child {
+    margin-block-start: 0;
+  }
+
+  /* stylelint-disable */
+  & > li * li:first-child {
+    margin-block-start: var(--qgds-vspace-list-item);
+  }
+}
+
+dl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--qgds-vspace-list-item);
+
+  dt {
+    font-weight: var(--qgds-font-weight-semibold, 600);
+  }
+
+  dd {
+    margin-inline-start: 0;
+    padding-inline-start: 0.5rem;
+    border-inline-start: 1px solid var(--qgds-color-border-alt);
+  }
 }
 
 a {
@@ -56,4 +125,14 @@ a {
     text-decoration-thickness: var(--qgds-link-decoration-thickness-hover, 2px);
     text-decoration-color: currentColor;
   }
+}
+
+kbd,
+code,
+pre {
+  background: var(--qgds-color-background-shade, #f5f5f5);
+  font-family: monospace;
+  display: inline-block;
+  font-size: var(--qgds-font-size-xs, #{f.remify($typography-font-size-xs)});
+  padding: 0.25rem;
 }

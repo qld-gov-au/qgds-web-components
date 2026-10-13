@@ -236,7 +236,7 @@ export class QGDSFooter extends LitElement {
       <footer class="qgds-footer ${footerClassList} ">
         <div class="block block-title">
           ${this.footerHeading
-            ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name")} `
+            ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name qgds-display-md")} `
             : ""}
         </div>
 

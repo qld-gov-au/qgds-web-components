@@ -3,6 +3,7 @@ import { html } from "lit";
 import "./qgds-navigation-item";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { type QGDSNavigationItem, tagName } from "./qgds-navigation-item";
+import { expect, within } from "storybook/test";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigationItem>(tagName);
 type Args = typeof args;
@@ -124,6 +125,7 @@ export const With4Children: Story = {
   args: {
     label: "I have 4 children",
     href: "#",
+    ["is-open"]: true,
   },
   render: (args) => {
     return html`${template(
@@ -140,6 +142,7 @@ export const With5ChildrenAndDescription: Story = {
     "view-all-url": "#",
     description: loremIpsum,
     href: "#",
+    ["is-open"]: true,
   },
   render: (args) => {
     return html`${template(
@@ -148,6 +151,30 @@ export const With5ChildrenAndDescription: Story = {
       ${template({ ...args, ...LongLabel.args })} ${template({ ...args, ...ActiveWithIcon.args })}
       ${template({ ...args, ...IconOnly.args })}`
     )}`;
+  },
+};
+
+export const NoHrefWithChildren: Story = {
+  args: {
+    label: "With children and no href",
+    href: undefined,
+    ["is-open"]: true,
+  },
+  render: (args) => {
+    return html`${template(
+      { ...args, ["data-testid"]: "component" },
+      html`${template({ ...Default.args })} ${template({ ...Active.args })} ${template({ ...LongLabel.args })}
+      ${template({ ...ActiveWithIcon.args })} ${template({ ...IconOnly.args })}`
+    )}`;
+  },
+  play: async ({ canvasElement }) => {
+    const component = within(canvasElement).getByTestId("component");
+
+    await expect(component.getAttribute("href"), "href attribute").toBeNull();
+    const megaMenu = component.shadowRoot?.querySelector(".mega-menu");
+    await expect(megaMenu?.querySelector(".mega-menu-header"), "Mega menu header element").toBeNull();
+    await expect(megaMenu?.children.length, "Number of element children in mega menu").toEqual(1);
+    await expect(megaMenu?.children.item(0), "The only child of mega menu element").toHaveClass("mega-menu-items");
   },
 };
 

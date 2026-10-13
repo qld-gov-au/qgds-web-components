@@ -42,6 +42,7 @@
     border-radius: 0;
     color: var(--qgds-color-text-default, #353535);
     max-inline-size: 100%;
+    font-size: f.remify(14px);
     line-height: f.snap-line-height();
     gap: f.remify(8px);
     text-decoration: underline solid transparent 0;
@@ -96,7 +97,6 @@
   // .nav-item.is-horizontal
   &.is-horizontal {
     .nav-item-link {
-      font-size: f.remify(14px);
       block-size: f.remify(60px);
       border-block-end: f.remify(8px) solid var(--color-accent);
       padding-inline: f.remify(8px);
@@ -155,7 +155,6 @@
         --qgds-icon-size: 1.5rem;
 
         font-size: f.remify(16px);
-        min-block-size: f.remify(64px);
         padding-block: f.remify(20px);
       }
     }
@@ -233,8 +232,6 @@
 
       padding-inline: f.remify(16px);
       padding-block: f.remify(12px);
-      min-block-size: f.remify(64px);
-      font-size: f.remify(14px);
 
       @include m.md-up() {
         min-block-size: f.remify(64px);
@@ -290,7 +287,9 @@
     outline: none !important;
 
     .dropdown-toggle-inner {
-      @include m.focus-styles($inverse: true);
+      --qgds-color-focus-default: inherit;
+
+      @include m.focus-styles();
     }
   }
 }
@@ -407,21 +406,24 @@
       margin-block-end: f.remify(-16px);
     }
 
-    // hack to remove top border from columns items
-    &::after {
-      content: "";
-      position: absolute;
-      border-block-start: 1px solid var(--qgds-color-background);
-      inset-block-start: 0;
-      inset-inline: 0;
-    }
+    // hack to remove top border from columns items. Unused - keep commented in case this method returns.
+    // &::after {
+    //   content: "";
+    //   position: absolute;
+    //   border-block-start: 1px solid var(--qgds-color-background);
+    //   inset-block-start: 0;
+    //   inset-inline: 0;
+    // }
   }
 
   // .mega-menu-item - items inside mega menu dropdown are not .nav-item
   &-item {
     break-inside: avoid;
-    border-color: var(--qgds-color-border);
-    @include m.border-padding($border-width: 1px 0 0 0, $padding: 1rem 0);
+
+    &:has(.description) {
+      padding-block-end: f.remify(16px);
+      margin-block-end: f.remify(16px);
+    }
   }
 
   // .mega-menu-link is a qgds-link
@@ -441,11 +443,13 @@
     &.is-sub-item {
       font-size: f.remify(16px);
       inline-size: 100%;
+      border-color: var(--qgds-color-border);
+      @include m.border-padding($border-width: 0 0 1px 0, $padding: 1rem 0);
 
       // required properties to make focus state work with the remove top border hack of .qgds-mega-menu-items::before
-      isolation: auto;
-      position: relative;
-      z-index: 1;
+      // isolation: auto;
+      // position: relative;
+      // z-index: 1;
     }
   }
 
@@ -463,16 +467,19 @@
   line-height: f.snap-line-height(1.45);
   font-size: f.remify(14px);
   color: var(--qgds-color-text-lighter);
-  margin-block-start: f.remify(16px);
+
   @include m.truncate($num-lines: 4);
 
   .mega-menu-item & {
-    border-color: var(--qgds-color-border);
-    @include m.border-padding($border-width: 1px 0 0 0, $padding: f.remify(20px) 0 0 0);
+    margin-block-start: f.remify(20px);
   }
 
   .mega-menu-header & {
     font-size: f.remify(16px);
     color: var(--qgds-color-text-default);
+  }
+
+  .mega-menu-link.is-heading + & {
+    margin-block-start: f.remify(16px);
   }
 }

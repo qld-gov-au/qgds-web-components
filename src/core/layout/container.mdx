@@ -1,0 +1,47 @@
+import { Meta, Title, Primary, Stories, Canvas, Markdown, Controls } from "@storybook/addon-docs/blocks";
+
+import * as ContainerStories from "./container.stories";
+
+<Meta of={ContainerStories} />
+<Title />
+
+A Container element is a fundamental layout element.
+Add class `qgds-container` to centre content horizontally and provide consistent,responsive padding for all content blocks across all screen sizes.
+
+A `qgds-container`'s max-width is equal to 1312px plus responsive horizontal padding value. This means that content width is consistent on large screens if the padding is removed, for instance in cases when container elements become nested.
+
+## Responsive padding
+
+Horizontal padding is controlled via CSS custom property `--qgds-grid-padding`. Its default values are shown below.
+
+<Markdown>
+  {`
+
+| Responsive padding      | SM (below 700px) | MD (from 700px) | LG ( from 992px) |
+| ----------------------- | ---------------- | --------------- | ---------------- |
+| \`--qgds-grid-padding\` | \`1rem\`         | \`1.5rem\`      | \`2rem\`         |
+
+`}
+
+</Markdown>
+
+<Primary of={ContainerStories} />
+
+<Canvas of={ContainerStories.Default} withToolbar={false} sourceState="shown" />
+<Controls of={ContainerStories.Default} />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS                     | Type            | Description                                                                                                                                   |
+| ----------------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| \`qgds-container\`      | Class           | Centre content horizontally and provide consistent padding for smaller screens.                                                               |
+| \`has-no-padding\`      | Class           | In some cases you may wish to remove the outer padding.                                                                                       |
+| \`--qgds-grid-padding\` | Custom property | Override the default horizontal padding. If you need to remove padding altogether, it is recommended to use class \`has-no-padding\` instead. |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

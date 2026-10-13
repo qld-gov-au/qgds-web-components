@@ -8,6 +8,10 @@
   z-index: 200;
 }
 
+:host([variant="vertical"]) {
+  block-size: 100%;
+}
+
 .navigation {
   background-color: var(--qgds-color-background-shade, #f5f5f5);
   position: relative;
@@ -22,7 +26,8 @@
   &.is-vertical {
     --accent-width: #{f.remify(4px)};
 
-    // border-inline-start: 6px solid var(--qgds-color-accent-design-accent);
+    block-size: 100%;
+    border-inline-end: 2px solid var(--qgds-color-border, #ebebeb); // see .drawer .navigation for height and border width reset.
 
     @include m.md-up() {
       --accent-width: #{f.remify(6px)};
@@ -42,6 +47,7 @@
 
     .is-vertical & {
       flex-direction: column;
+      border-block-end: var(--qgds-navigation-item-vertical-border, #ebebeb) solid 1px;
     }
   }
 }
@@ -122,6 +128,16 @@ dialog {
     &-header {
       block-size: f.remify(72px);
       font-size: f.remify(16px);
+    }
+  }
+
+  // Some vertical styles resets
+  .navigation.is-vertical {
+    block-size: auto;
+    border-inline-end: none;
+
+    .navigation-list {
+      border-block-end: none;
     }
   }
 }

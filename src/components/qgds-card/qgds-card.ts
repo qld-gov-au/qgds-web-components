@@ -70,6 +70,7 @@ type FooterType = "none" | "text" | "links" | "tags";
  * @prop {CardAction} [action="none"] - Card's primary behaviour: "none" (non-clickable), "single" (whole card is a link), "multiple" (independent footer links).
  * @prop {CardLayout} [layout="default"] - Spatial layout of the card: "default" (standard stacked layout) or "feature" (side-by-side image/content layout at larger viewports).
  * @prop {CardVariant} [variant="none"] - Alternate card variants: "arrow", "leading-icon", or "stacked-icon".
+ * @prop {boolean} [isEqualHeight] - Whether the card should stretch to equal height with other cards in the same row.
  * @prop {string} [palette="default"] - Colour palette applied to the card.
  * @prop {string} heading - The card's heading text.
  * @prop {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6).
@@ -120,13 +121,16 @@ export class QGDSCard extends LitElement {
   @property({ type: String, reflect: true, useDefault: true })
   variant: CardVariant = "none";
 
+  @property({ type: Boolean, reflect: true, attribute: "is-equal-height" })
+  isEqualHeight: boolean = false;
+
   @property({ type: String, reflect: true, useDefault: true })
   palette: string = "default";
 
   @property({ type: String })
   heading: string = "";
 
-  @property({ type: String, attribute: "heading-level", useDefault: true })
+  @property({ type: String, attribute: "heading-level", reflect: true, useDefault: true })
   headingLevel: HeadingLevel = "h3";
 
   @property({ type: String })
@@ -256,6 +260,7 @@ export class QGDSCard extends LitElement {
     const cardClasses = {
       "is-single": isSingle,
       "is-feature": this.layout === "feature",
+      "is-equal-height": this.isEqualHeight,
       "has-image": showImage,
       "image-end": this.imagePosition === "end",
       "has-footer": effectiveFooterType !== "none",

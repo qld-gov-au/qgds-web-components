@@ -1,0 +1,141 @@
+import {
+  Meta,
+  Title,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  TableOfContents,
+} from "@storybook/addon-docs/blocks";
+
+import * as TypographyStories from "./typography.stories";
+
+<Meta title="Core Styles/Typography/Spacing" />
+
+<Markdown>
+{`
+<div className="qgds sb-unstyled">
+<div className="qgds-content">
+# Heading H1
+
+<p className="qgds-abstract">
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque,
+  aut nam nisi ab quia aliquam alias expedita cupiditate laborum facere, voluptate perspiciatis quos?
+</p>
+
+<p>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque,
+  aut nam nisi ab quia aliquam alias expedita cupiditate laborum facere, voluptate perspiciatis
+</p>
+
+## Heading 2
+
+<p>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque,
+  aut nam nisi ab quia aliquam alias expedita cupiditate laborum facere, voluptate perspiciatis
+</p>
+
+<p>
+  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque,
+  aut nam nisi ab quia aliquam alias expedita cupiditate.
+</p>
+
+### Heading 3
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+
+<ul>
+  <li>Sint ducimus fuga explicabo enim</li>
+  <li>Lorem ipsum dolor sit amet consectetur adipisicing elit</li>
+</ul>
+
+### Heading 3
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+
+#### Heading 4
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+
+#### Heading 4
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+
+<ul>
+  <li>Sint ducimus fuga explicabo enim</li>
+  <li>Lorem ipsum dolor sit amet consectetur elit</li>
+  <li>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit
+    <ul>
+      <li>Consectetur cupiditate, sint ducimus fuga</li>
+      <li>Consectetur perspiciatis, sint ducimus fuga</li>
+    </ul>
+  </li>
+  <li>Lorem ipsum dolor sit amet consectetur elit</li>
+</ul>
+
+<p>Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus.</p>
+
+##### Heading 5
+
+<p>Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus.</p>
+
+###### Heading 6
+
+<p>
+  Lorem ipsum dolor adipisicing elit. Consectetur deleniti, sint ducimus fuga explicabo enim eaque, aut cupiditate
+  laborum facere, voluptate perspiciatis
+</p>
+<br><br>
+<hr>
+
+</div>
+</div>
+
+<br>
+<br>
+
+### Vertical Spacing
+
+We use a wrapping \`.qgds-content\` container for main content regions. This class provides a vertical spacing rhythm for common typography elements within the container.
+
+The following vertical spacing tokens are used:
+
+| Variable                          | Mobile/Tablet (XS, SM, MD) | Desktop (LG, XL) | Description               |
+| --------------------------------- | -------------------------- | ---------------- | ------------------------- |
+| \`--qgds-vspace-h1\`              | 32px                       | 56px             | Margin above H1           |
+| \`--qgds-vspace-h2\`              | 32px                       | 48px             | Margin above H2           |
+| \`--qgds-vspace-h3\`              | 24px                       | 36px             | Margin above H3           |
+| \`--qgds-vspace-h4\`              | 20px                       | 32px             | Margin above H4           |
+| \`--qgds-vspace-heading-text\`    | 20px                       | 24px             | Margin between H and P    |
+| \`--qgds-vspace-paragraph\`       | 16px                       | 16px             | Margin between P          |
+| \`--qgds-vspace-list-item\`       | 8px                        | 8px              | Margin between LI         |
+| \`--qgds-vspace-component\`       | 24px                       | 32px             | Margin between Components |
+| \`--qgds-vspace-section-padding\` | 40px                       | 64px             | Padding on Page Sections  |
+
+If you are unable to use the .qgds-content wrapping class, you can achieve similar vertical spacing on elements by applying utlity classes for \`margin\` and \`padding\`. See the layout section for guidance.
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

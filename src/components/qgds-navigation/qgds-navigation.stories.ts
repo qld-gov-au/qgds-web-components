@@ -7,6 +7,8 @@ import { QGDSNavigation } from "./qgds-navigation";
 import { withEventActions } from "../../../.storybook/storybook-helpers";
 import { QGDSNavigationItem } from "./qgds-navigation-item";
 import "./qgds-navigation-item";
+import { LG } from "../../styles/qgds-tokens/qgds-breakpoint";
+import { allModes } from "../../modes";
 
 const { args, argTypes, template } = getStorybookHelpers<QGDSNavigation>("qgds-navigation");
 const { args: _itemArgs, template: _itemTemplate } = getStorybookHelpers<QGDSNavigationItem>("qgds-navigation-item");
@@ -26,6 +28,11 @@ const meta: Meta<Args> = {
   argTypes,
   parameters: {
     layout: "fullscreen",
+    chromatic: {
+      modes: {
+        mobile: allModes.XXL,
+      },
+    },
   },
   decorators: [
     withEventActions([
@@ -34,15 +41,43 @@ const meta: Meta<Args> = {
       "qgds-navigation-close",
       "qgds-navigation-closed",
     ]),
-    (story) => {
-      return html`${story()}
-        <button
-          class="qgds-mt-24"
-          style="margin-bottom:1200px;"
-          @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
-        >
-          Open mobile menu
-        </button>`;
+    (story, context) => {
+      const isVertical = context.args.variant === "vertical";
+      if (isVertical)
+        return html`
+          <style>
+            .menu-wrapper {
+              flex: none;
+              width: 0px;
+            }
+            @media (min-width: ${LG}px) {
+              .menu-wrapper {
+                width: 320px;
+              }
+            }
+          </style>
+          <div style="display: flex; height: 100%; gap: 32px">
+            <div class="menu-wrapper">${story()}</div>
+            <div style="width: 100%; flex: 1;">
+              <button
+                class="qgds-mt-24"
+                style="margin-bottom:1200px;"
+                @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
+              >
+                Open mobile menu
+              </button>
+            </div>
+          </div>
+        `;
+      else
+        return html`${story()}
+          <button
+            class="qgds-mt-24"
+            style="margin-bottom:1200px;"
+            @click=${() => document.dispatchEvent(new CustomEvent("qgds-navigation-open", { bubbles: true }))}
+          >
+            Open mobile menu
+          </button>`;
     },
   ],
 };
@@ -83,6 +118,8 @@ export const Horizontal: Story = {
             is-active
             description="${loremIpsum.substring(0, 100)}"
           ></qgds-navigation-item>
+          <qgds-navigation-item label="No description" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="No description" href="#"></qgds-navigation-item>
           <qgds-navigation-item
             label="${loremIpsum}"
             href="#"
@@ -94,6 +131,8 @@ export const Horizontal: Story = {
             icon-name="wheelchair"
             description="${loremIpsum.substring(0, 200)}"
           ></qgds-navigation-item>
+          <qgds-navigation-item label="No description" href="#"></qgds-navigation-item>
+          <qgds-navigation-item label="No description" href="#"></qgds-navigation-item>
           <qgds-navigation-item
             label="Active with icon"
             href="#"
@@ -103,16 +142,12 @@ export const Horizontal: Story = {
           ></qgds-navigation-item>
         </qgds-navigation-item>
 
-        <qgds-navigation-item label="I have 1 child" href="#">
-          <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-        </qgds-navigation-item>
-
         <qgds-navigation-item label="I have 2 children" href="#">
           <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
-          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}" href="#"></qgds-navigation-item>
         </qgds-navigation-item>
 
-        <qgds-navigation-item label="I have 3 children" href="#">
+        <qgds-navigation-item label="I have 3 children and more" href="#" view-all-url="#">
           <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
           <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
           <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
@@ -121,7 +156,7 @@ export const Horizontal: Story = {
         <qgds-navigation-item label="I have 4 children" href="#">
           <qgds-navigation-item label="Default" href="#"></qgds-navigation-item>
           <qgds-navigation-item label="Active" href="#" is-active></qgds-navigation-item>
-          <qgds-navigation-item label="${loremIpsum}"></qgds-navigation-item>
+          <qgds-navigation-item label="${loremIpsum}" href="#"></qgds-navigation-item>
           <qgds-navigation-item label="With icon" href="#" icon-name="wheelchair"></qgds-navigation-item>
         </qgds-navigation-item>
 

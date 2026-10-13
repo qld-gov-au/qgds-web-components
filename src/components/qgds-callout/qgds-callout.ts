@@ -1,4 +1,4 @@
-import { LitElement, html, unsafeCSS } from "lit";
+import { LitElement, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { semanticHeading } from "../../utils";
 
@@ -14,7 +14,7 @@ export type HeadingSize = "xs" | "sm" | "md";
  * @uikit https://www.figma.com/design/qKsxl3ogIlBp7dafgxXuCA/QGDS-UI-kit?node-id=120360-73541&m=dev
  * @website https://www.designsystem.qld.gov.au/components/callout
  *
- * @property {string} heading - Callout heading text
+ * @property {string} [heading] - Callout heading text
  * @property {HeadingLevel} [headingLevel="h3"] - Semantic heading level (h2-h6)
  * @property {HeadingSize} [headingSize] - Heading size provides additional control over the visual size of the heading, independent of the semantic level.
  *
@@ -28,8 +28,8 @@ export type HeadingSize = "xs" | "sm" | "md";
 
 @customElement("qgds-callout")
 export class QGDSCallout extends LitElement {
-  @property({ type: String, useDefault: true })
-  heading: string = "Callout heading";
+  @property({ type: String })
+  heading?: string;
 
   @property({ type: String, reflect: true, attribute: "heading-level", useDefault: true })
   headingLevel: HeadingLevel = "h3";
@@ -39,18 +39,24 @@ export class QGDSCallout extends LitElement {
 
   static styles = [baseStyles, unsafeCSS(componentCSS)];
 
+  override connectedCallback() {
+    super.connectedCallback();
+    this.role = this.role ?? "note";
+    this.ariaLabel = this.ariaLabel ?? this.heading ?? null;
+  }
+
   private static readonly headingClasses: Record<HeadingSize, string> = {
-    xs: "qgds-heading-xs",
-    sm: "qgds-heading-sm",
-    md: "qgds-heading-md",
+    xs: "qgds-display-xs",
+    sm: "qgds-display-sm",
+    md: "qgds-display-md",
   };
 
   private static readonly headingDefaults: Record<HeadingLevel, string> = {
-    h2: "qgds-heading-md",
-    h3: "qgds-heading-sm",
-    h4: "qgds-heading-xs",
-    h5: "qgds-heading-xs",
-    h6: "qgds-heading-xs",
+    h2: "qgds-display-md",
+    h3: "qgds-display-sm",
+    h4: "qgds-display-xs",
+    h5: "qgds-display-xs",
+    h6: "qgds-display-xs",
   };
 
   render() {
@@ -61,8 +67,9 @@ export class QGDSCallout extends LitElement {
 
     return html`
       <div class="callout">
-        ${semanticHeading(this.heading, this.headingLevel, `heading ${headingSizeClass || "qgds-heading-sm"}`)}
-
+        ${this.heading
+          ? semanticHeading(this.heading, this.headingLevel, `heading ${headingSizeClass || "qgds-display-md"}`)
+          : nothing}
         <div class="content">
           <slot></slot>
         </div>

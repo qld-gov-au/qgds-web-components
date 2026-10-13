@@ -126,14 +126,16 @@ const meta: Meta<Args> = {
     _onSlotChange: { table: { disable: true } },
   },
   render: (args) => html`
-    <qgds-table
-      responsive=${args.responsive}
-      ?is-striped=${args["is-striped"]}
-      ?has-border=${args["has-border"]}
-      ?has-sticky-header=${args["has-sticky-header"]}
-    >
-      ${sampleTable}
-    </qgds-table>
+    <div class="qgds-content">
+      <qgds-table
+        responsive=${args.responsive}
+        ?is-striped=${args["is-striped"]}
+        ?has-border=${args["has-border"]}
+        ?has-sticky-header=${args["has-sticky-header"]}
+      >
+        ${sampleTable}
+      </qgds-table>
+    </div>
   `,
 };
 

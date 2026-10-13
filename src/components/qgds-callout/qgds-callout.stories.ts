@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
+import { html } from "lit";
 
 import type { QGDSCallout } from "./qgds-callout";
 import "./qgds-callout";
@@ -24,6 +25,7 @@ const meta: Meta<Args> = {
       },
     },
   },
+  decorators: [(story) => html`<div class="qgds-content">${story()}</div>`],
 
   render: (args) => template(args),
 };
@@ -31,6 +33,7 @@ export default meta;
 
 export const Default: Story = {
   args: {
+    heading: "Callout heading",
     "default-slot": "<p>This is an important callout message.</p>",
   },
 };

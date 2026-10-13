@@ -3,6 +3,8 @@ import { html } from "lit";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 import { chromaticModes } from "../../../.storybook/modes";
+import { imageHelper } from "../../../.storybook/image-helpers";
+
 import type { QGDSPromotionalPanel } from "./qgds-promotional-panel";
 import "./qgds-promotional-panel";
 import "../qgds-button/qgds-button";
@@ -31,7 +33,7 @@ const meta: Meta<Args> = {
   args: {
     ...args,
     variant: "indent-text",
-    "image-url": "https://picsum.photos/seed/qgds-beach/600/400",
+    "image-url": imageHelper.getByID(7),
     "image-description": "Promotional image",
     "content-alignment": "content-start",
     "icon-name": "home",

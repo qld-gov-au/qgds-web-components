@@ -1,22 +1,20 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
-import { palettes } from "../../../utils/palettes";
+import { palettes } from "../../../utils";
 import { chromaticModes } from "../../../../.storybook/modes";
 import { withEventActions } from "../../../../.storybook/storybook-helpers";
+import { imageHelper } from "../../../../.storybook/image-helpers";
 
 import { getStorybookHelpers } from "@wc-toolkit/storybook-helpers";
 
 import type { ImagePosition, QGDSCard } from "../qgds-card";
 import "../qgds-card";
 
-const { args, argTypes } = getStorybookHelpers<QGDSCard>("qgds-card");
+const { args, argTypes, template } = getStorybookHelpers<QGDSCard>("qgds-card");
 
 type Args = typeof args;
 type Story = StoryObj<Args>;
-
-const demoImageSrc = "https://picsum.photos/id/206/600/400";
 
 const meta: Meta<Args> = {
   title: "Components/Card/Multiple Action Links",
@@ -32,14 +30,10 @@ const meta: Meta<Args> = {
   argTypes,
   decorators: [
     withEventActions("qgds-click"),
-    (Story) =>
-      html` <style>
-          qgds-card {
-            inline-size: clamp(320px, 100%, 440px);
-          }
-        </style>
-
-        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">${Story()}</div>`,
+    // Story-level `parameters.gridClass` overrides this wrapper's class; set it to `false` to suppress the wrapper entirely.
+    (Story) => {
+      return html` <div class="qgds-cols qgds-cols-12">${Story()}</div>`;
+    },
   ],
 
   parameters: {
@@ -68,26 +62,29 @@ const footerTagsActionHTML = html`
   <qgds-tag slot="footer-tags" label="Action" variant="action"></qgds-tag>
 `;
 
+const defaultSlotContent = (args: Args) => html`${unsafeHTML(String(args["default-slot"] ?? ""))}`;
+
+const renderPaletteCards = (
+  args: Args,
+  overrides: Partial<Args> = {},
+  slotContent: ReturnType<typeof html> = html`${unsafeHTML(String(args["default-slot"] ?? ""))}`
+) => {
+  const DEFAULT_CARD_CLASS = "qgds-span-12 qgds-span-6:md qgds-span-4:lg";
+  const baseArgs = { class: DEFAULT_CARD_CLASS, ...args, ...overrides };
+  return html` ${Object.entries(palettes).map(([palette]) => template({ ...baseArgs, palette }, slotContent))} `;
+};
+
 export const MultipleAction: Story = {
   name: "With Footer Tags",
   args: {
     ...multiActionArgs,
   },
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action=${ifDefined(args.action)}
-          href=${ifDefined(args.href)}
-          palette=${palette}
-          target="_blank"
-        >
-          ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) =>
+    renderPaletteCards(
+      args,
+      { action: "multiple", target: "_blank" },
+      html`${defaultSlotContent(args)} ${footerTagsActionHTML}`
+    ),
 };
 
 export const MultipleAction_WithFooterLinks: Story = {
@@ -95,20 +92,12 @@ export const MultipleAction_WithFooterLinks: Story = {
   args: {
     ...multiActionArgs,
   },
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action="${ifDefined(args.action)}"
-          palette=${palette}
-          target="_blank"
-        >
-          ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) =>
+    renderPaletteCards(
+      args,
+      { action: "multiple", target: "_blank" },
+      html`${defaultSlotContent(args)} ${footerLinksHTML}`
+    ),
 };
 
 export const MultipleAction_WithImage: Story = {
@@ -116,28 +105,22 @@ export const MultipleAction_WithImage: Story = {
   args: {
     ...multiActionArgs,
   },
-  render: (args) => html`
-    ${Object.entries(palettes).map(
-      ([palette]) => html`
-        <qgds-card
-          heading=${ifDefined(args.heading)}
-          action=${ifDefined(args.action)}
-          href=${ifDefined(args.href)}
-          palette=${palette}
-          target="_blank"
-          image-src=${demoImageSrc}
-          image-alt="Placeholder image"
-        >
-          ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-        </qgds-card>
-      `
-    )}
-  `,
+  render: (args) =>
+    renderPaletteCards(
+      args,
+      {
+        action: "multiple",
+        target: "_blank",
+        "image-src": imageHelper.getByID(4),
+        "image-alt": "Placeholder image",
+      },
+      html`${defaultSlotContent(args)} ${footerTagsActionHTML}`
+    ),
 };
 
 export const MultipleAction_FeatureCard: Story = {
   name: "Feature Card (Palettes)",
-  parameters: { ...chromaticModes },
+  parameters: { ...chromaticModes, gridClass: false },
   args: {
     ...multiActionArgs,
     "image-position": "start",
@@ -152,52 +135,21 @@ export const MultipleAction_FeatureCard: Story = {
     const imagePosition = args["image-position"] as ImagePosition | undefined;
 
     return html`
-      ${Object.entries(palettes).map(([palette]) => {
-        return html`
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action="${ifDefined(args.action)}"
-            layout="feature"
-            image-position=${ifDefined(imagePosition)}
-            palette=${palette}
-            target="_blank"
-            image-src=${demoImageSrc}
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-          </qgds-card>
-        `;
-      })}
-      ${Object.entries(palettes).map(([palette]) => {
-        return html`
-          <qgds-card
-            heading=${ifDefined(args.heading)}
-            action="${ifDefined(args.action)}"
-            layout="feature"
-            image-position=${ifDefined(imagePosition)}
-            palette=${palette}
-            target="_blank"
-            image-src=${demoImageSrc}
-            image-alt="Placeholder image"
-          >
-            ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-          </qgds-card>
-        `;
-      })}
+      ${renderPaletteCards(
+        {
+          ...args,
+          class: "qgds-span-12",
+          action: "multiple",
+          target: "_blank",
+          layout: "feature",
+          "image-position": imagePosition,
+          "image-src": imageHelper.getByID(3),
+          "image-alt": "Placeholder image",
+        },
+        html`${defaultSlotContent(args)} ${footerTagsActionHTML}`
+      )}
     `;
   },
-
-  decorators: [
-    (Story) => html`
-      <style>
-        qgds-card {
-          inline-size: 100%;
-        }
-      </style>
-
-      <div style="display: flex; flex-flow: column nowrap; gap: 1rem;">${Story()}</div>
-    `,
-  ],
 };
 
 export const MultipleAction_FeatureCard_AllPositions: Story = {
@@ -206,65 +158,57 @@ export const MultipleAction_FeatureCard_AllPositions: Story = {
     ...multiActionArgs,
   },
   render: (args) => html`
-    <div style="display: grid; gap: 1rem; inline-size: min(100%, 1140px);">
-      <qgds-card
-        heading=${ifDefined(args.heading)}
-        action=${ifDefined(args.action)}
-        layout="feature"
-        image-position="start"
-        target="_blank"
-        image-src=${demoImageSrc}
-        image-alt="Placeholder image"
-      >
-        ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-      </qgds-card>
-      <qgds-card
-        heading=${ifDefined(args.heading)}
-        action=${ifDefined(args.action)}
-        layout="feature"
-        image-position="end"
-        target="_blank"
-        image-src=${demoImageSrc}
-        image-alt="Placeholder image"
-      >
-        ${unsafeHTML(args["default-slot"] as string)} ${footerTagsActionHTML}
-      </qgds-card>
-    </div>
-
-    <div style="display: grid; gap: 1rem; inline-size: min(100%, 1140px);">
-      <qgds-card
-        heading=${ifDefined(args.heading)}
-        action=${ifDefined(args.action)}
-        layout="feature"
-        image-position="start"
-        target="_blank"
-        image-src=${demoImageSrc}
-        image-alt="Placeholder image"
-      >
-        ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-      </qgds-card>
-      <qgds-card
-        heading=${ifDefined(args.heading)}
-        action=${ifDefined(args.action)}
-        layout="feature"
-        image-position="end"
-        target="_blank"
-        image-src=${demoImageSrc}
-        image-alt="Placeholder image"
-      >
-        ${unsafeHTML(args["default-slot"] as string)} ${footerLinksHTML}
-      </qgds-card>
-    </div>
+    ${template(
+      {
+        ...args,
+        class: "qgds-span-12",
+        action: "multiple",
+        target: "_blank",
+        layout: "feature",
+        "image-position": "start",
+        "image-src": imageHelper.getByID(7),
+        "image-alt": "Placeholder image",
+      },
+      html`${defaultSlotContent(args)} ${footerTagsActionHTML}`
+    )}
+    ${template(
+      {
+        ...args,
+        class: "qgds-span-12",
+        action: "multiple",
+        target: "_blank",
+        layout: "feature",
+        "image-position": "end",
+        "image-src": imageHelper.getByID(8),
+        "image-alt": "Placeholder image",
+      },
+      html`${defaultSlotContent(args)} ${footerTagsActionHTML}`
+    )}
+    ${template(
+      {
+        ...args,
+        class: "qgds-span-12",
+        action: "multiple",
+        target: "_blank",
+        layout: "feature",
+        "image-position": "start",
+        "image-src": imageHelper.getByID(4),
+        "image-alt": "Placeholder image",
+      },
+      html`${defaultSlotContent(args)} ${footerLinksHTML}`
+    )}
+    ${template(
+      {
+        ...args,
+        class: "qgds-span-12",
+        action: "multiple",
+        target: "_blank",
+        layout: "feature",
+        "image-position": "end",
+        "image-src": imageHelper.getByID(5),
+        "image-alt": "Placeholder image",
+      },
+      html`${defaultSlotContent(args)} ${footerLinksHTML}`
+    )}
   `,
-  decorators: [
-    (Story) => html`
-      <style>
-        qgds-card {
-          inline-size: 100%;
-        }
-      </style>
-
-      <div style="display: flex; flex-flow: column nowrap; gap: 1rem; inline-size: min(100%, 1140px);">${Story()}</div>
-    `,
-  ],
 };

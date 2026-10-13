@@ -1,0 +1,38 @@
+import {
+  Meta,
+  Title,
+  Description,
+  Primary,
+  Controls,
+  Stories,
+  // ArgTypes,
+  Canvas,
+  Markdown,
+  TableOfContents,
+} from "@storybook/addon-docs/blocks";
+
+import * as TypographyStories from "./typography.stories";
+
+<Meta title="Core Styles/Typography/Paragraphs" />
+<Title of={TypographyStories} />
+
+## Paragraphs
+
+<Description of={TypographyStories.Paragraph} />
+<Canvas of={TypographyStories.Paragraph} sourceState="shown" />
+
+## API Reference
+
+<Markdown>
+  {`
+
+| CSS Class         | Description                                                                                                                                                                                                            | Responsive? |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| \`qgds-abstract\` | The abstract also known as lead text is useful as a high level introduction used at the top of the page to briefly describe the content. This style of text should only be used once per page if possible.             | no          |
+| \`qgds-quote\`    | Quote text is a utility class to display quoted or cited text and distinguish it from regular content. However we recommend that you use a full <qgds-blockquote> component available in this library for this purpose | no          |
+| \`qgds-caption\`  | This is a text style for copy used alongside informational images, hint text, footnotes and references.                                                                                                                | no          |
+
+`}
+
+</Markdown>
+{/* <ArgTypes /> */}

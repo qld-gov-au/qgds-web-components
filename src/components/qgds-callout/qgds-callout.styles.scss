@@ -21,18 +21,10 @@
   color: var(--callout-text);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-
-  // Resets our slotted content
-  // Defined by reset-slotted.scss, customised for callout content
-  --slotted-list-padding: 1rem;
-  --slotted-content-padding: 0;
-  --slotted-content-margin: 0;
-  --slotted-content-line-height: 1.5;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  margin-block-start: var(--qgds-vspace-paragraph);
 }
