@@ -36,7 +36,7 @@ export class QGDSBlockquote extends LitElement {
   render() {
     return html`
       <figure>
-        <blockquote cite="${ifDefined(this.citeUrl)}"><slot></slot></blockquote>
+        <blockquote class="qgds-quote" cite="${ifDefined(this.citeUrl)}"><slot></slot></blockquote>
         ${this.citeLabel
           ? html`<figcaption>
               <cite>

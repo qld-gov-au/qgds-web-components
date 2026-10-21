@@ -176,7 +176,6 @@ $component: ".promo-panel";
 
   ::slotted(*) {
     color: var(--qgds-color-text-default);
-    line-height: tools.snap-line-height(1.25);
   }
 
   .footer-ctalinks-container,

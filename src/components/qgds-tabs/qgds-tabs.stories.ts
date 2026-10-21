@@ -51,7 +51,7 @@ export const Default: Story = {
     <div class="qgds-content">
       <qgds-tabs palette=${args.palette}>
         <qgds-tabs-item label="Tab label 1" icon-name="home">
-          <h2>Section Heading (H2)</h2>
+          <h3>Heading (H3)</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique
@@ -61,7 +61,7 @@ export const Default: Story = {
           ${ctaButton}
         </qgds-tabs-item>
         <qgds-tabs-item label="Tab label 2" icon-name="design">
-          <h2>Section Heading Item 2</h2>
+          <h3>Section Heading Item 2</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique
@@ -70,7 +70,7 @@ export const Default: Story = {
           </p>
         </qgds-tabs-item>
         <qgds-tabs-item label="Tab label 3" icon-name="settings">
-          <h2>Section Heading Item 3</h2>
+          <h3>Section Heading Item 3</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique
@@ -85,7 +85,7 @@ export const Default: Story = {
           </p>
         </qgds-tabs-item>
         <qgds-tabs-item label="Tab label 4">
-          <h2>Section Heading Item 4</h2>
+          <h3>Section Heading Item 4</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique
@@ -100,7 +100,7 @@ export const Default: Story = {
           </p>
         </qgds-tabs-item>
         <qgds-tabs-item label="Tab label 5">
-          <h2>Section Heading Item 5</h2>
+          <h3>Section Heading Item 5</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique
@@ -115,7 +115,7 @@ export const Default: Story = {
           </p>
         </qgds-tabs-item>
         <qgds-tabs-item label="Tab label 6">
-          <h2>Section Heading Item 6</h2>
+          <h3>Section Heading Item 6</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur. Viverra eu pulvinar a eu mauris ac at ultricies est. Tincidunt
             ultrices commodo vestibulum non netus. Mauris maecenas lacus hendrerit urna ultricies auctor. Sed tristique

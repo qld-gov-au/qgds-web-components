@@ -26,8 +26,26 @@ describe("qgds-footer", () => {
     expect(element.contactHeading).toBe("Contact us");
     expect(element.socialHeading).toBe("Follow us");
     expect(element.aocHeading).toBe("Acknowledgement of Country");
-    expect(element.headingLevel).toBe(2);
+    expect(element.siteNameLevel).toBe(2);
+    expect(element.headingLevel).toBe(3);
     expect(element.palette).toBe("default");
+  });
+
+  it("sets and reacts to heading level attributes", async () => {
+    element.setAttribute("site-name-level", "4");
+    element.setAttribute("heading-level", "5");
+    await element.updateComplete;
+
+    expect(element.siteNameLevel).toBe(4);
+    expect(element.headingLevel).toBe(5);
+    expect(element.shadowRoot?.querySelector(".footer-site-name")?.tagName).toBe("H4");
+    expect(element.shadowRoot?.querySelector(".section-contact .footer-heading")?.tagName).toBe("H5");
+
+    element.setAttribute("heading-level", "6");
+    await element.updateComplete;
+
+    expect(element.headingLevel).toBe(6);
+    expect(element.shadowRoot?.querySelector(".section-contact .footer-heading")?.tagName).toBe("H6");
   });
 
   it("renders custom headings and custom labels", async () => {
@@ -100,6 +118,41 @@ describe("qgds-footer", () => {
     const aocSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="aoc"]');
     expect(aocSlot?.assignedElements().length).toBe(1);
     expect(aocSlot?.assignedElements()[0].textContent?.trim()).toContain("Custom Acknowledgement of Country statement");
+  });
+
+  it("AOC column spans increase when fewer columns are present (LG viewport)", async () => {
+    element.innerHTML = `
+      <qgds-link slot="footer-custom-link" href="/about">About</qgds-link>
+      <qgds-link slot="footer-site-link" href="/privacy">Privacy</qgds-link>
+      <qgds-link slot="footer-social-link" href="https://example.com">Social</qgds-link>
+    `;
+
+    // Initially, all columns are present, so AOC column span should be 3
+    await element.updateComplete;
+    await element.updateComplete;
+    const aocSection = element.shadowRoot?.querySelector(".section-aoc");
+
+    expect(aocSection?.classList.contains("qgds-span-3:lg")).toBe(true);
+
+    // Remove custom links and social links to reduce the number of columns
+    const customSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-custom-link"]');
+    const socialSlot = element.shadowRoot?.querySelector<HTMLSlotElement>('slot[name="footer-social-link"]');
+    const slotChanges = Promise.all(
+      [customSlot, socialSlot].map(
+        (slot) =>
+          new Promise<void>((resolve) => {
+            slot?.addEventListener("slotchange", () => resolve(), { once: true });
+          })
+      )
+    );
+
+    element.querySelector('[slot="footer-custom-link"]')?.remove();
+    element.querySelector('[slot="footer-social-link"]')?.remove();
+    await slotChanges;
+    await element.updateComplete;
+
+    // With custom and social links gone, AOC uses the wider span
+    expect(aocSection?.classList.contains("qgds-span-6:lg")).toBe(true);
   });
 });
 

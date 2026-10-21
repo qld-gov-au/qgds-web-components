@@ -58,7 +58,7 @@
 
 .qgds-quote {
   font-size: var(--qgds-font-size-md, #{$typography-font-size-md});
-  font-weight: var(--qgdsfont-weight-semibold, 600);
+  font-weight: var(--qgds-font-weight-semibold, 600);
   line-height: f.snap-line-height(1.4);
   color: var(--qgds-color-text-default, #353535);
 }

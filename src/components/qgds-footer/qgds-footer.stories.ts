@@ -17,6 +17,84 @@ import type { QGDSFooter } from "./qgds-footer";
 const { args, argTypes, template } = getStorybookHelpers<QGDSFooter>("qgds-footer");
 type QGDSFooterStoryArgs = typeof args;
 
+const contactLinks = html`
+  <qgds-footer-contact-item
+    icon-id="phone"
+    label="Phone"
+    href="tel:137468"
+    value="13 QGOV (13 74 68)"
+  ></qgds-footer-contact-item>
+  <qgds-footer-contact-item
+    icon-id="email"
+    label="Email"
+    href="mailto:email@qld.gov.au"
+    value="email@qld.gov.au"
+  ></qgds-footer-contact-item>
+`;
+
+const customLinks = html`
+  <qgds-link slot="footer-custom-link" href="/link-1" label="Custom Link"></qgds-link>
+  <qgds-link slot="footer-custom-link" href="/link-2" label="Custom Link"></qgds-link>
+  <qgds-link slot="footer-custom-link" href="/link-3" label="Custom Link wraps lines"></qgds-link>
+  <qgds-link slot="footer-custom-link" href="/link-4" label="Custom Link"></qgds-link>
+  <qgds-link slot="footer-custom-link" href="/link-5" label="Custom Link"></qgds-link>
+`;
+
+const siteLinks = html`
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/copyright" label="Copyright"></qgds-link>
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/disclaimer" label="Disclaimer"></qgds-link>
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/privacy" label="Privacy"></qgds-link>
+  <qgds-link
+    slot="footer-site-link"
+    href="https://www.qld.gov.au/right-to-information"
+    label="Right to information"
+  ></qgds-link>
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/accessibility" label="Accessibility"></qgds-link>
+  <qgds-link
+    slot="footer-site-link"
+    href="https://smartjobs.qld.gov.au/"
+    label="Jobs in Queensland Government"
+  ></qgds-link>
+  <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/languages" label="Other languages"></qgds-link>
+`;
+
+const socialLinks = html`
+  <qgds-link
+    slot="footer-social-link"
+    href="https://www.facebook.com/QueenslandGovernment"
+    icon-name="facebook"
+    label="Facebook"
+  ></qgds-link>
+  <qgds-link
+    slot="footer-social-link"
+    href="https://www.linkedin.com/company/queensland-government"
+    icon-name="linkedin"
+    label="LinkedIn"
+  ></qgds-link>
+  <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
+  <qgds-link
+    slot="footer-social-link"
+    href="https://www.youtube.com/user/QueenslandGovt"
+    icon-name="youtube"
+    label="Youtube"
+  ></qgds-link>
+  <qgds-link
+    slot="footer-social-link"
+    href="https://www.instagram.com/Queensland/"
+    icon-name="instagram"
+    label="Instagram"
+  ></qgds-link>
+`;
+
+const aocText = html`
+  <p>
+    We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and their
+    legacy. The foundations laid by these ancestors &mdash; our First Nations peoples &mdash; give strength, inspiration
+    and courage to current and future generations towards creating a better Queensland.
+  </p>
+`;
+
 const meta: Meta<QGDSFooterStoryArgs> = {
   title: "Components/Footer",
   component: "qgds-footer",
@@ -30,7 +108,8 @@ const meta: Meta<QGDSFooterStoryArgs> = {
     "social-heading": "Follow us",
     "aoc-heading": "Acknowledgement of Country",
     "copyright-label": "© The State of Queensland 2026",
-    "heading-level": 2,
+    "site-name-level": 2,
+    "heading-level": 3,
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
     palette: "default",
   },
@@ -39,6 +118,21 @@ const meta: Meta<QGDSFooterStoryArgs> = {
     palette: {
       control: { type: "select" },
       options: Object.keys(palettes),
+    },
+  },
+  decorators: [
+    (Story, context) => html`
+      <div style="margin-inline: -2rem; margin-block-start: 2rem;">
+        <div class="qgds-palette-${ifDefined(context.args.palette)}">${Story()}</div>
+      </div>
+    `,
+  ],
+  parameters: {
+    chromatic: {
+      modes: {
+        mobile: allModes.SM,
+        tablet: allModes.MD,
+      },
     },
   },
 };
@@ -61,23 +155,7 @@ export const Default: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <qgds-footer-contact-item
-          icon-id="phone"
-          label="Phone"
-          href="tel:137468"
-          value="13 QGOV (13 74 68)"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="email"
-          label="Email"
-          href="mailto:email@qld.gov.au"
-          value="email@qld.gov.au"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="facebook"
-          href="https://www.facebook.com/QueenslandGovernment"
-          value="/QueenslandGovernment"
-        ></qgds-footer-contact-item>
+        ${contactLinks}
 
         <!-- Contact Buttons via contact-cta slot -->
         <qgds-button
@@ -89,70 +167,13 @@ export const Default: Story = {
         ></qgds-button>
 
         <!-- Site Links -->
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/legal/disclaimer"
-          label="Disclaimer"
-        ></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
-          label="Right to information"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/accessibility"
-          label="Accessibility"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://smartjobs.qld.gov.au/"
-          label="Jobs in Queensland Government"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/languages"
-          label="Other languages"
-        ></qgds-link>
+        ${siteLinks}
 
         <!-- Social Links -->
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.facebook.com/QueenslandGovernment"
-          icon-name="facebook"
-          label="Facebook"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.linkedin.com/company/queensland-government"
-          icon-name="linkedin"
-          label="LinkedIn"
-        ></qgds-link>
-        <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.youtube.com/user/QueenslandGovt"
-          icon-name="youtube"
-          label="Youtube"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.instagram.com/Queensland/"
-          icon-name="instagram"
-          label="Instagram"
-        ></qgds-link>
+        ${socialLinks}
 
         <!-- Acknowledgement of Country -->
-        <div slot="aoc">
-          <p>
-            We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
-            their legacy. The foundations laid by these ancestors &mdash; our First Nations peoples &mdash; give
-            strength, inspiration and courage to current and future generations towards creating a better Queensland.
-          </p>
-        </div>
+        <div slot="aoc">${aocText}</div>
 
         <!-- Main Government Link -->
         <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
@@ -163,14 +184,6 @@ export const Default: Story = {
     ...chromaticModes,
     allModes,
   },
-
-  decorators: [
-    (Story, context) => html`
-      <div style="margin-inline: -2rem; margin-block-start: 2rem;" palette=${ifDefined(context.args.palette)}>
-        <div style="margin-inline: auto">${Story()}</div>
-      </div>
-    `,
-  ],
 };
 
 export const Minimal: Story = {
@@ -187,62 +200,13 @@ export const Minimal: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <qgds-footer-contact-item
-          icon-id="phone"
-          label="Phone"
-          href="tel:137468"
-          value="13 QGOV (13 74 68)"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="email"
-          label="Email"
-          href="mailto:email@qld.gov.au"
-          value="email@qld.gov.au"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="facebook"
-          href="https://www.facebook.com/QueenslandGovernment"
-          value="/QueenslandGovernment"
-        ></qgds-footer-contact-item>
+        ${contactLinks}
 
         <!-- Site Links -->
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/legal/disclaimer"
-          label="Disclaimer"
-        ></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
-          label="Right to information"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/accessibility"
-          label="Accessibility"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://smartjobs.qld.gov.au/"
-          label="Jobs in Queensland Government"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/languages"
-          label="Other languages"
-        ></qgds-link>
+        ${siteLinks}
 
         <!-- Acknowledgement of Country -->
-        <div slot="aoc">
-          <p>
-            We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
-            their legacy. The foundations laid by these ancestors &mdash; our First Nations peoples &mdash; give
-            strength, inspiration and courage to current and future generations towards creating a better Queensland.
-          </p>
-        </div>
+        <div slot="aoc">${aocText}</div>
 
         <!-- Main Government Link -->
         <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>
@@ -254,6 +218,7 @@ export const WithCustomLinks: Story = {
   args: {
     "contact-heading": "Contact us",
     "contact-statement": "Get in touch for enquiries, feedback, complaints and compliments.",
+    "custom-links-heading": "Custom Links",
     "aoc-heading": "Acknowledgement of Country",
     "copyright-label": "© The State of Queensland 2026",
     palette: "deep",
@@ -264,100 +229,22 @@ export const WithCustomLinks: Story = {
       storyArgs,
       html`
         <!-- Contact Links -->
-        <qgds-footer-contact-item
-          icon-id="phone"
-          label="Phone"
-          href="tel:137468"
-          value="13 QGOV (13 74 68)"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="email"
-          label="Email"
-          href="mailto:email@qld.gov.au"
-          value="email@qld.gov.au"
-        ></qgds-footer-contact-item>
-        <qgds-footer-contact-item
-          icon-id="facebook"
-          label="Facebook"
-          href="https://www.facebook.com/QueenslandGovernment"
-          value="/QueenslandGovernment"
-        ></qgds-footer-contact-item>
+        ${contactLinks}
 
         <!-- Custom Links -->
-        <qgds-link slot="footer-custom-link" href="/link-1" label="Custom Link 1"></qgds-link>
-        <qgds-link slot="footer-custom-link" href="/link-2" label="Custom Link 2"></qgds-link>
-        <qgds-link slot="footer-custom-link" href="/link-3" label="Custom Link 3"></qgds-link>
-        <qgds-link slot="footer-custom-link" href="/link-4" label="Custom Link 4"></qgds-link>
-        <qgds-link slot="footer-custom-link" href="/link-5" label="Custom Link 5"></qgds-link>
+        ${customLinks}
 
         <!-- Site Links -->
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/help" label="Help"></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/copyright" label="Copyright"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/legal/disclaimer"
-          label="Disclaimer"
-        ></qgds-link>
-        <qgds-link slot="footer-site-link" href="https://www.qld.gov.au/legal/privacy" label="Privacy"></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/about/rights-accountability/right-to-information"
-          label="Right to information"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/accessibility"
-          label="Accessibility"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://smartjobs.qld.gov.au/"
-          label="Jobs in Queensland Government"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-site-link"
-          href="https://www.qld.gov.au/help/languages"
-          label="Other languages"
-        ></qgds-link>
+        ${siteLinks}
 
         <!-- Social Links -->
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.facebook.com/QueenslandGovernment"
-          icon-name="facebook"
-          label="Facebook"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.linkedin.com/company/queensland-government"
-          icon-name="linkedin"
-          label="LinkedIn"
-        ></qgds-link>
-        <qgds-link slot="footer-social-link" href="https://twitter.com/qldgov" icon-name="x" label="X page"></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.youtube.com/user/QueenslandGovt"
-          icon-name="youtube"
-          label="Youtube"
-        ></qgds-link>
-        <qgds-link
-          slot="footer-social-link"
-          href="https://www.instagram.com/Queensland/"
-          icon-name="instagram"
-          label="Instagram"
-        ></qgds-link>
+        ${socialLinks}
 
-        <!-- Contact Buttons via contact-cta slot -->
+        <!-- Contact Buttons via contact-cta slot. -->
         <qgds-button slot="contact-cta" label="Contact us" variant="secondary"></qgds-button>
 
         <!-- Acknowledgement of Country -->
-        <div slot="aoc">
-          <p>
-            We pay our respects to the Aboriginal and Torres Strait Islander ancestors of this land, their spirits and
-            their legacy. The foundations laid by these ancestors &mdash; our First Nations peoples &mdash; give
-            strength, inspiration and courage to current and future generations towards creating a better Queensland.
-          </p>
-        </div>
+        <div slot="aoc">${aocText}</div>
 
         <!-- Main Government Link -->
         <qgds-link slot="site-main-link" href="https://www.qld.gov.au/" label="Queensland Government"></qgds-link>

@@ -2,7 +2,7 @@ import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { classMap } from "lit/directives/class-map.js";
-import { baseStyles } from "../../styles";
+import { baseStyles, utilitiesStyles } from "../../styles";
 import { semanticHeading } from "../../utils";
 import componentCSS from "./qgds-footer.styles.scss?inline";
 
@@ -27,7 +27,8 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  * @property {string} [socialHeading="Follow us"] - Heading for the social media section.
  * @property {string} [aocHeading="Acknowledgement of Country"] - Heading for the Acknowledgement section.
  * @property {string} copyrightLabel - Copyright text (required, e.g., "© The State of Queensland 2026").
- * @property {number} [headingLevel=2] - Semantic heading level for all section headings (2-6).
+ * @property {number} [siteNameLevel=2] - Semantic heading level for the site name (2-6).
+ * @property {number} [headingLevel=3] - Semantic heading level for all section headings (2-6).
  * @property {string} [palette="bold"] - Color palette applied to the footer.
  * @property {boolean} [hideFooterLogo=false] - Option to hide the footer logo.
  *
@@ -62,7 +63,7 @@ export type QGDSFooterProps = InstanceType<typeof QGDSFooter>;
  */
 @customElement("qgds-footer")
 export class QGDSFooter extends LitElement {
-  static styles = [baseStyles, unsafeCSS(componentCSS)];
+  static styles = [baseStyles, utilitiesStyles, unsafeCSS(componentCSS)];
 
   // ==========================================================================
   // PROPERTIES
@@ -94,17 +95,29 @@ export class QGDSFooter extends LitElement {
 
   @property({
     type: Number,
-    attribute: "heading-level",
+    attribute: "site-name-level",
     converter: {
       fromAttribute: (value: string | null): number => {
-        if (!value) return 2;
-        const num = parseInt(value.replace(/\D/g, ""), 10);
+        const num = value ? parseInt(value.replace(/\D/g, ""), 10) : 2;
         return num >= 2 && num <= 6 ? num : 2;
       },
       toAttribute: (value: number): string => String(value),
     },
   })
-  headingLevel: number = 2;
+  siteNameLevel: number = 2;
+
+  @property({
+    type: Number,
+    attribute: "heading-level",
+    converter: {
+      fromAttribute: (value: string | null): number => {
+        const num = value ? parseInt(value.replace(/\D/g, ""), 10) : 3;
+        return num >= 2 && num <= 6 ? num : 3;
+      },
+      toAttribute: (value: number): string => String(value),
+    },
+  })
+  headingLevel: number = 3;
 
   @property({ type: String, reflect: true })
   palette = "default";
@@ -118,6 +131,7 @@ export class QGDSFooter extends LitElement {
 
   @state() private _hasContact = false; // Whether any contact info is provided (either links or phone/email)
   @state() private _hasContactLinks = false;
+  @state() private _hasContactCta = false;
   @state() private _hasCustomLinks = false;
   @state() private _hasSiteLinks = false;
   @state() private _hasSocialLinks = false;
@@ -132,6 +146,12 @@ export class QGDSFooter extends LitElement {
   private _onContactLinkSlotChange = (e: Event) => {
     const slot = e.target as HTMLSlotElement;
     this._hasContactLinks = slot.assignedElements().length > 0;
+  };
+
+  private _onContactCtaSlotChange = (e: Event) => {
+    const slot = e.target as HTMLSlotElement;
+    this._hasContactCta =
+      slot.assignedElements().length > 0 || slot.assignedNodes().some((node) => node.textContent?.trim());
   };
 
   private _onCustomLinkSlotChange = (e: Event) => {
@@ -232,17 +252,54 @@ export class QGDSFooter extends LitElement {
       "is-crowded": isCrowded,
     });
 
-    return html`
-      <footer class="qgds-footer ${footerClassList} ">
-        <div class="block block-title">
-          ${this.footerHeading
-            ? html` ${semanticHeading(this.footerHeading, this.headingLevel, "footer-site-name qgds-display-md")} `
-            : ""}
-        </div>
+    /* 
+    Footer Column possible configs and span pattern
+    
+    Mandatory: Contact Links, Site Links, Acknowledgement of Country (XL: 3, 2, 7, LG: 3, 3, 6) 
+    Mandatory + social links: Contact Links, Site Links, Social Links, Acknowledgement of Country (3, 2, 2, 5)
+    Mandatory + custom links: Contact Links, Site Links, Custom Links, Acknowledgement of Country (3, 2, 2, 5)
+    All columns: Contact Links, Custom Links, Site Links, Social Links, Acknowledgement of Country (3, 2, 2, 2, 3)
+    */
 
-        <div class="block is-linkgroup">
-          <!-- Column 1: Contact Us -->
-          <section class="section-contact ${this._hasCustomLinks ? "no-border-end" : ""}">
+    /* Default spans classes for mandatory footer columns */
+    const spanClasses = {
+      contact: `qgds-span-12 qgds-span-3:lg`,
+      sitelinks: `qgds-span-12 qgds-span-3:lg qgds-span-2:xl`,
+      sociallinks: `qgds-span-12 qgds-span-2:lg`, //optional column
+      customlinks: `qgds-span-12 qgds-span-2:lg`, //optional column
+      aoc: `qgds-span-12 qgds-span-6:lg qgds-span-7:xl`,
+    };
+
+    // Adjust span defaults based on footer configuration [column pattern]
+
+    // 4th column needed (either custom links or social links) [3, 2, 2, 5]
+    if (this._hasCustomLinks || this._hasSocialLinks) {
+      spanClasses.sitelinks = `qgds-span-12 qgds-span-2:lg`;
+      spanClasses.aoc = `qgds-span-12 qgds-span-5:lg`;
+    }
+
+    //5th column needed (both custom links and social links) [3, 2, 2, 2, 3]
+    if (this._hasCustomLinks && this._hasSocialLinks) {
+      spanClasses.sitelinks = `qgds-span-12 qgds-span-2:lg`;
+      spanClasses.aoc = `qgds-span-12 qgds-span-3:lg`;
+    }
+
+    return html`
+        <footer class="qgds-footer pb-16 py-64:lg qgds-cols ${footerClassList} ">
+          <!-- Footer Block Title (Site Name) -->
+
+          <!-- Compensate for the negative margin on the parent div with equivalent padding, so that the heading is aligned with the content below -->
+          <div class="qgds-span-12 py-24 pb-32:lg pt-0:lg">
+          ${
+            this.footerHeading
+              ? html` ${semanticHeading(this.footerHeading, this.siteNameLevel, "footer-site-name")} `
+              : ""
+          }
+          </div>
+          
+          <hr class="qgds-span-12">
+
+          <section class="section-contact ${spanClasses.contact} py-24 py-0:lg has-border">
             <div>
               ${semanticHeading(this.contactHeading, this.headingLevel, "footer-heading")}
               ${this.contactStatement ? html`<p class="contact-statement">${this.contactStatement}</p>` : nothing}
@@ -252,39 +309,42 @@ export class QGDSFooter extends LitElement {
               </div>
             </div>
 
-            <div class="contact-cta-wrapper">
-              <slot name="contact-cta"></slot>
+            <div class=${classMap({ "contact-cta-wrapper": true, "has-content": this._hasContactCta })}>
+              <slot name="contact-cta" @slotchange=${this._onContactCtaSlotChange}></slot>
             </div>
           </section>
 
+          
+
           <!-- Column 2: Custom Links -->
-          <section class="section-custom-links">
+          <section class="section-custom-links ${spanClasses.customlinks} py-24 py-0:lg flex-column has-border">
             ${semanticHeading(this.customLinksHeading, this.headingLevel, "footer-heading")}
-            <nav class="custom-links-wrapper" aria-labelledby="footer-custom-heading">
+            <nav class="custom-links-wrapper is-grid-list" aria-label=${this.customLinksHeading}>
               <slot name="footer-custom-link" @slotchange=${this._onCustomLinkSlotChange}></slot>
             </nav>
           </section>
 
           <!-- Column 3: Site Links -->
-          <section class="section-site-links">
+          <section class="section-site-links ${spanClasses.sitelinks} py-24 py-0:lg has-border">
             ${semanticHeading(this.siteLinksHeading, this.headingLevel, "footer-heading")}
-            <nav class="site-links-wrapper" aria-label="${this.siteLinksHeading}">
+            <nav class="site-links-wrapper is-grid-list" aria-label="${this.siteLinksHeading}">
               <slot name="footer-site-link" @slotchange=${this._onSiteLinkSlotChange}></slot>
             </nav>
           </section>
+          
 
           <!-- Column 4: Social Links -->
-          <section class="section-social-links">
+          <section class="section-social-links ${spanClasses.sociallinks} py-24 py-0:lg has-border">
             ${semanticHeading(this.socialHeading, this.headingLevel, "footer-heading")}
             <nav class="social-links-wrapper" aria-label="${this.socialHeading}">
               <slot name="footer-social-link" @slotchange=${this._onSocialLinkSlotChange}></slot>
             </nav>
           </section>
-        </div>
-
-        <div class="block is-aoc">
+          
+          <hr class="qgds-span-12">
+          
           <!-- Column 5: Acknowledgement of Country -->
-          <section class="section-aoc">
+          <section class="section-aoc qgds-span-12 py-24 py-0:lg ${spanClasses.aoc} is-aoc">
             ${semanticHeading(this.aocHeading, this.headingLevel, "footer-heading")}
 
             <div class="${classMap({ "aoc-content": true, empty: !this._hasAocContent })}">
@@ -304,8 +364,9 @@ export class QGDSFooter extends LitElement {
               <slot name="site-main-link" @slotchange=${this._onMainLinkSlotChange}></slot>
             </div>
           </section>
-        </div>
-      </footer>
+
+          </footer>
+      </div>
     `;
   }
 }

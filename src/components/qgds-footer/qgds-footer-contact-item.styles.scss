@@ -7,7 +7,8 @@
 
 .contact-item {
   --item-label-gap: 0.25rem;
-  @media (min-width: bp.$md) {
+
+  @include m.xl-up() {
     --item-label-gap: 0.5rem;
   }
 
@@ -27,4 +28,5 @@
 
 .value-link:visited {
   color: var(--qgds-color-link-default);
+  text-decoration-color: var(--qgds-color-underline-default);
 }

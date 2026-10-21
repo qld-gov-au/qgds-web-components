@@ -9,17 +9,6 @@
 // See typography.scss for additional typography utilities
 // See content.scss for additional element spacing rules
 
-p,
-ul,
-ol,
-li,
-blockquote,
-pre,
-code,
-summary {
-  line-height: var(--qgds-line-height-default, #{$typography-line-height-default});
-}
-
 h1,
 h2,
 h3,
