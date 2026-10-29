@@ -28,7 +28,7 @@ export type Animation =
  * @property {string} [label] - The visible link label text.
  * @property {string} [href] - The destination URL. When provided renders an `<a>`, otherwise a `<span>`.
  * @property {boolean} [isDisabled] - Prevents navigation and click events when true.
- * @property {string} [iconName] - The icon identifier to display (e.g. "arrow-right", "view-all").
+ * @property {IconName} [iconName] - The icon identifier to display (e.g. "arrow-right", "view-all").
  * @property {IconSize} [iconSize="md"] - Tshirt size of the icon.
  * @property {boolean} [hasTrailingIcon] - When true, places the icon after the label text.
  * @property {boolean} [stretch] - When true, the link expands to fill available width.
@@ -65,7 +65,7 @@ export class QGDSLink extends LitElement {
   @property({ type: String, reflect: true }) label = "";
   @property({ type: String, reflect: true }) href? = "";
   @property({ type: Boolean, reflect: true, attribute: "is-disabled" }) isDisabled = false;
-  @property({ type: String, reflect: true, attribute: "icon-name" }) iconName = "";
+  @property({ type: String, reflect: true, attribute: "icon-name" }) iconName?: IconName;
   @property({ type: String, reflect: true, attribute: "icon-size" }) iconSize: IconSize = "md";
   @property({ type: Boolean, reflect: true, attribute: "has-trailing-icon" })
   hasTrailingIcon = false;
@@ -109,14 +109,14 @@ export class QGDSLink extends LitElement {
     const hasHref = !!this.href;
     // Only set aria-label when there is no visible text — visible label text
     // is already the accessible name and aria-label would override it.
-    const ariaLabel = this.label ? undefined : this.iconName || undefined;
+    const ariaLabel = this.label || this.iconName;
     const labelContent =
       this.iconName && this.onlyIcon
         ? html`<span class="sr-only">${this.label}</span>`
         : html`<span class="link-label"><slot @slotchange=${this._handleSlotChange}>${this.label}</slot></span>`;
     const iconStyle = this.iconName ? `--qgds-icon-svg: var(--qgds-icon-${this.iconName})` : "";
     const iconTemplate = this.iconName
-      ? html`<qgds-icon icon-id=${this.iconName as IconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
+      ? html`<qgds-icon icon-id=${this.iconName} size=${this.iconSize} aria-hidden="true"></qgds-icon>`
       : "";
 
     return hasHref
