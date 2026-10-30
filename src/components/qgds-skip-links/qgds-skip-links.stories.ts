@@ -33,9 +33,21 @@ export const Default: Story = {
           To show 'Skip Links' component, click on this text to focus it, then press the Tab key to see the skip links
           appear.
         </p>
-        <p>Alternatively, to view Skip Links component in a page, visit the Templates section in Storybook.</p>
+        <p class="qgds-mb-32">
+          Alternatively, to view Skip Links component in a page, visit the Templates section in Storybook.
+        </p>
         ${story()}
       `;
     },
   ],
+};
+
+/* Focus first link in a play function for Chromatic snapshot */
+export const Focused: Story = {
+  decorators: Default.decorators,
+  play: async ({ canvasElement }) => {
+    const skipLinks = canvasElement.querySelector("qgds-skip-links");
+    await skipLinks?.updateComplete;
+    skipLinks?.shadowRoot?.querySelector<HTMLAnchorElement>(".qgds-skip-links__link")?.focus();
+  },
 };
