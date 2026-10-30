@@ -53,7 +53,7 @@
     "@vitest/coverage-v8": "^4.1.9",
     "@wc-toolkit/cem-utilities": "^1.5.4",
     "@wc-toolkit/jsdoc-tags": "^1.1.0",
-    "@wc-toolkit/storybook-helpers": "^10.0.0",
+    "@wc-toolkit/storybook-helpers": "10.0.0",
     "@wc-toolkit/type-parser": "1.2.0",
     "chromatic": "^17.5.0",
     "custom-element-vs-code-integration": "^1.5.0",
