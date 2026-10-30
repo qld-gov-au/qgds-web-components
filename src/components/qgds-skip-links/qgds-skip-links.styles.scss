@@ -1,47 +1,34 @@
 @use "../../styles/qgds-tokens/qgds-color-stub";
+@use "../../styles/tools/mixins" as m;
 
 :host {
-  @extend %qgds-color-palette-bold;
+  display: block;
+  inline-size: 100%;
+  background-color: var(--qgds-color-background-shade, #003e96);
 }
 
-:host([palette="default"]) {
-  @extend %qgds-color-palette-default;
-}
-
-:host([palette="soft"]) {
-  @extend %qgds-color-palette-soft;
-}
-
-:host([palette="muted"]) {
-  @extend %qgds-color-palette-muted;
-}
-
-:host([palette="bold"]) {
-  @extend %qgds-color-palette-bold;
-}
-
-:host([palette="deep"]) {
-  @extend %qgds-color-palette-deep;
+:host(:focus-within) {
+  padding-block: 1.25rem;
 }
 
 .qgds-skip-links {
+  inline-size: 100%;
   line-height: 1;
 
   &__link {
+    display: inline-block;
     position: absolute;
     inset-inline-start: -9999px;
     inline-size: max-content;
-    background-color: var(--qgds-color-background-shade, #003e96);
-    padding: 1.5rem;
+    block-size: max-content;
+    line-height: 1.5rem;
 
-    &:focus,
-    &:focus-within {
+    @include m.focusable($offset-outline: 2px, $outline-width: 3px) {
       position: static;
       inset-inline-start: auto;
-      outline: var(--qgds-outline-width, 3px) solid var(--qgds-color-focus-default, #c6ffff);
-      outline-offset: -6px;
+      border-radius: 4px;
       text-decoration-thickness: var(--qgds-link-decoration-thickness, 0.5px);
-      text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+      text-decoration-color: var(--qgds-color-underline-default, #b5cce2);
     }
 
     &:hover {
@@ -51,7 +38,7 @@
 
     &:visited {
       color: var(--qgds-color-link-hover, #ffffff);
-      text-decoration-color: var(--qgds-color-underline-default, #3f7ab4);
+      text-decoration-color: var(--qgds-color-underline-default, #c6ffff);
 
       &:hover {
         text-decoration-color: var(--qgds-color-underline-hover, #ffffff);

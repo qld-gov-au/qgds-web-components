@@ -13,8 +13,11 @@
 
 <body class="qgds">
 
-  <!-- Todo: // New Skip Links component -->
+  <qgds-global-alert variant="critical" heading="Severe weather" action-label="Read more" action-href="#" is-dismissible>
+    Severe weather: Cyclone XYZ is expected to impact the coast area. Prepare your home and businesses or check for available support.
+  </qgds-global-alert>
 
+  <qgds-skip-links></qgds-skip-links>
 
   <qgds-global-alert variant="general" heading="Site notice" action-label="Learn more" action-href="#" is-dismissible>
     This content page is a component integration example for layout, spacing and responsive behaviour.
@@ -30,7 +33,7 @@
     <qgds-logo slot="logo" logo="coa-stacked" alt="Queensland Government"></qgds-logo>
     <qgds-search-input slot="search"></qgds-search-input>
 
-    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="mynav">
+    <qgds-navigation navigation-label="Main" palette="default" variant="horizontal" slot="navigation" id="main-nav">
       <qgds-navigation-item label="Home" href="#" icon-name="home" hide-label is-active></qgds-navigation-item>
       <qgds-navigation-item label="Services" href="#services"></qgds-navigation-item>
 
@@ -91,6 +94,13 @@
     <main id="main-content" class="qgds-content qgds-span-12 qgds-span-8:lg qgds-pl-32:lg">
 
       <div class="qgds-section">
+
+        <h1>Content page heading H1</h1>
+        <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
+          feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
+          ut.
+          Luctus diam pellentesque ipsum accumsan amet commodo.</p>
+
         <qgds-inpage-alert type="info" heading="Important information">
           <p>This is an important in-page alert.</p>
         </qgds-inpage-alert>
@@ -101,7 +111,7 @@
           <qgds-inpage-nav-item href="#getting-started">Getting started</qgds-inpage-nav-item>
         </qgds-inpage-nav>
 
-        <h2 id="introduction">Introduction H2</h2>
+        <h2 id="introduction">Section heading H2</h2>
 
         <p>Lorem ipsum dolor sit amet consectetur. Sed facilisis purus eu convallis ut. Morbi condimentum volutpat
           feugiat pellentesque. Auctor amet auctor dolor metus eget diam. Facilisis vitae venenatis vestibulum libero
