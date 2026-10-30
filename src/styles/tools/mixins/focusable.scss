@@ -20,7 +20,7 @@
   outline: transparent solid $outline-width;
   outline-offset: $initial-offset;
 
-  $selector: if($is-focus-within, "&:focus-within", "&:focus");
+  $selector: if(sass($is-focus-within): "&:focus-within"; else: "&:focus");
 
   #{$selector} {
     @include focus-styles($offset: $outline-offset, $width: $outline-width, $inverse: $inverse);

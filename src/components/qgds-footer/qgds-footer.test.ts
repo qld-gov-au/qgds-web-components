@@ -178,7 +178,7 @@ describe("qgds-footer-contact-item", () => {
 
     await element.updateComplete;
 
-    expect(element.iconId).toBe("");
+    expect(element.iconId).toBeUndefined();
     expect(element.shadowRoot?.querySelector("qgds-icon")).toBeNull();
   });
 
@@ -188,7 +188,7 @@ describe("qgds-footer-contact-item", () => {
 
     await element.updateComplete;
 
-    expect(element.iconId).toBe("");
+    expect(element.iconId).toBeUndefined();
     expect(element.shadowRoot?.querySelector("qgds-icon")).toBeNull();
     expect(element.label).toBe("Contact us");
     expect(element.href).toBe("tel:137468");

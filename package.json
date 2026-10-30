@@ -1,6 +1,6 @@
 {
   "name": "@qld-gov-au/qgds-web-components",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Queensland Government Design System (QGDS) - Web Components",
   "repository": {
     "type": "git",
@@ -53,8 +53,8 @@
     "@vitest/coverage-v8": "^4.1.9",
     "@wc-toolkit/cem-utilities": "^1.5.4",
     "@wc-toolkit/jsdoc-tags": "^1.1.0",
-    "@wc-toolkit/storybook-helpers": "^10.0.0",
-    "@wc-toolkit/type-parser": "^1.2.0",
+    "@wc-toolkit/storybook-helpers": "10.0.0",
+    "@wc-toolkit/type-parser": "1.2.0",
     "chromatic": "^17.5.0",
     "custom-element-vs-code-integration": "^1.5.0",
     "eslint": "^9.39.1",
