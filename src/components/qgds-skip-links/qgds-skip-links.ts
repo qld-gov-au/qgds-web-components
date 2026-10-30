@@ -26,16 +26,16 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
  *
  * @example
  * ```html
- * <qgds-skip-links 
- *  content-target=“#main-content” content-target-label=“Skip to main content” 
- *  navigation-target=“#main-nav” navigation-target-label=“Skip to main navigation” 
+ * <qgds-skip-links
+ *  content-target=“#main-content” content-target-label=“Skip to main content”
+ *  navigation-target=“#main-nav” navigation-target-label=“Skip to main navigation”
  * ></qgds-skip-links>
  * ```
- * 
+ *
  * ```html
  * <qgds-skip-links palette="soft" content-target=“#main-content” navigation-target=“#main-nav”></qgds-skip-links>
  * ```
- * 
+ *
  * ```html
  * <qgds-skip-links></qgds-skip-links>
  * ```
@@ -43,7 +43,7 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
 
 @customElement(tagName)
 export class QGDSSkipLinks extends LitElement {
-  @property({ type: String, attribute: "aria-label" }) 
+  @property({ type: String, attribute: "aria-label" })
   ariaLabel: string = "Skip to content links";
 
   @property({ type: String, attribute: "content-target" })
@@ -51,7 +51,7 @@ export class QGDSSkipLinks extends LitElement {
 
   @property({ type: String, attribute: "navigation-target" })
   navigationTarget: string = "#main-nav";
-  
+
   @property({ type: String, attribute: "content-target-label" })
   contentTargetLabel: string = "Skip to main content";
 
@@ -61,19 +61,13 @@ export class QGDSSkipLinks extends LitElement {
   @property({ type: String, reflect: true })
   palette: SkipLinksPalette = "bold";
 
-  static styles = [
-    baseStyles, unsafeCSS(componentCSS)
-  ];
+  static styles = [baseStyles, unsafeCSS(componentCSS)];
 
   render() {
     return html`
-      <nav class="qgds-skip-links" aria-label="${this.ariaLabel}"> 
-        <a class="qgds-skip-links__link" href="${this.contentTarget}">
-          ${this.contentTargetLabel}
-        </a>
-        <a class="qgds-skip-links__link" href="${this.navigationTarget}">
-          ${this.navigationTargetLabel}
-        </a>
+      <nav class="qgds-skip-links qgds-container" aria-label="${this.ariaLabel}">
+        <a class="qgds-skip-links__link" href="${this.contentTarget}"> ${this.contentTargetLabel} </a>
+        <a class="qgds-skip-links__link" href="${this.navigationTarget}"> ${this.navigationTargetLabel} </a>
       </nav>
     `;
   }
