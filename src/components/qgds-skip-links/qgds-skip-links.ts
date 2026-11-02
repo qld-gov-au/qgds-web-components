@@ -18,7 +18,6 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
  * @tagname qgds-skip-links
  *
  * @property {SkipLinksPalette} palette - The visual palette variant to apply to the skip links, defaults to "bold".
- * @property {string} ariaLabel - The accessible label for the skip link navigation, defaults to "Skip to content links".
  * @property {string} contentTarget - The CSS selector for the main content target, defaults to "#main-content".
  * @property {string} navigationTarget - The CSS selector for the main navigation target, defaults to "#main-nav".
  * @property {string} contentTargetLabel - The label for the content skip link, defaults to "Skip to main content".
@@ -43,9 +42,6 @@ export type SkipLinksPalette = "default" | "soft" | "muted" | "bold" | "deep";
 
 @customElement(tagName)
 export class QGDSSkipLinks extends LitElement {
-  @property({ type: String, attribute: "aria-label" })
-  ariaLabel: string = "Skip to content links";
-
   @property({ type: String, attribute: "content-target" })
   contentTarget: string = "#main-content";
 
@@ -65,10 +61,12 @@ export class QGDSSkipLinks extends LitElement {
 
   render() {
     return html`
-      <nav class="qgds-skip-links qgds-container" aria-label="${this.ariaLabel}">
-        <a class="qgds-skip-links__link" href="${this.contentTarget}"> ${this.contentTargetLabel} </a>
-        <a class="qgds-skip-links__link" href="${this.navigationTarget}"> ${this.navigationTargetLabel} </a>
-      </nav>
+      <div class="qgds-skip-links">
+        <div class="qgds-container">
+          <a href="${this.contentTarget}"> ${this.contentTargetLabel} </a>
+          <a href="${this.navigationTarget}"> ${this.navigationTargetLabel} </a>
+        </div>
+      </div>
     `;
   }
 }

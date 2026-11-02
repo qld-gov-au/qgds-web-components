@@ -12,13 +12,8 @@ const meta: Meta<Args> = {
   title: "Components/Skip Links",
   component: "qgds-skip-links",
   tags: ["autodocs"],
-  args: {
-    ...args,
-  },
-  argTypes: {
-    ...argTypes,
-    ariaLabel: { control: "text" },
-  },
+  args,
+  argTypes,
   render: (args) => template(args),
 };
 

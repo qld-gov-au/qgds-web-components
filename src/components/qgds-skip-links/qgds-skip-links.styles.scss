@@ -4,18 +4,18 @@
 :host {
   display: block;
   inline-size: 100%;
-  background-color: var(--qgds-color-background-shade, #003e96);
-}
-
-:host(:focus-within) {
-  padding-block: 1.25rem;
 }
 
 .qgds-skip-links {
   inline-size: 100%;
   line-height: 1;
+  background-color: var(--qgds-color-background-shade, #003e96);
 
-  &__link {
+  &:focus-within {
+    padding-block: 1.25rem;
+  }
+
+  a {
     display: inline-block;
     position: absolute;
     inset-inline-start: -9999px;
