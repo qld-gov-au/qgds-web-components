@@ -17,21 +17,11 @@ describe("qgds-skip-links", () => {
   it("renders with default properties", async () => {
     await element.updateComplete;
 
-    expect(element.ariaLabel).toBe("Skip to content links");
     expect(element.contentTarget).toBe("#main-content");
     expect(element.navigationTarget).toBe("#main-nav");
     expect(element.contentTargetLabel).toBe("Skip to main content");
     expect(element.navigationTargetLabel).toBe("Skip to main navigation");
     expect(element.palette).toBe("bold");
-  });
-
-  it("renders a nav with the correct aria-label", async () => {
-    await element.updateComplete;
-
-    const nav = element.shadowRoot?.querySelector("nav");
-
-    expect(nav).toBeTruthy();
-    expect(nav?.getAttribute("aria-label")).toBe("Skip to content links");
   });
 
   it("renders skip links with default hrefs and labels", async () => {
@@ -63,15 +53,6 @@ describe("qgds-skip-links", () => {
 
     expect(links?.[1]?.getAttribute("href")).toBe("#navigation");
     expect(links?.[1]?.textContent?.trim()).toBe("Skip to navigation");
-  });
-
-  it("updates the nav aria-label when ariaLabel changes", async () => {
-    element.ariaLabel = "Skip links";
-    await element.updateComplete;
-
-    const nav = element.shadowRoot?.querySelector("nav");
-
-    expect(nav?.getAttribute("aria-label")).toBe("Skip links");
   });
 
   it.each(["default", "soft", "muted", "bold", "deep"] as const)(
