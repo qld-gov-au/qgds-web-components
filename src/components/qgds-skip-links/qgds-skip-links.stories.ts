@@ -43,6 +43,6 @@ export const Focused: Story = {
   play: async ({ canvasElement }) => {
     const skipLinks = canvasElement.querySelector("qgds-skip-links");
     await skipLinks?.updateComplete;
-    skipLinks?.shadowRoot?.querySelector<HTMLAnchorElement>(".qgds-skip-links__link")?.focus();
+    skipLinks?.shadowRoot?.querySelector<HTMLAnchorElement>("a")?.focus();
   },
 };
