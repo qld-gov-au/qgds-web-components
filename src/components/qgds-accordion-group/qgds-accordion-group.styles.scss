@@ -20,6 +20,9 @@
   display: inline-flex;
   align-items: center;
   gap: tools.remify(8px);
+  padding-inline: tools.remify(8px);
+  min-block-size: 2.75rem;
+  min-inline-size: 2.75rem;
   color: var(--qgds-color-link-default);
   font-weight: 400;
   font-size: tools.remify(14px);

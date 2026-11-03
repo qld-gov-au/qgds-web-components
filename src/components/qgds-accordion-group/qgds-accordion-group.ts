@@ -95,18 +95,26 @@ export class QGDSAccordionGroup extends LitElement {
     });
   };
 
+  private get _getAccordionIds() {
+    return this._accordions.map((accordion) => accordion.id).join(" ");
+  }
+
   render() {
     return html`<div class="qgds-accordion-group" @qgds-toggle=${this._handleToggle}>
-      ${this._showControls
-        ? html`<button
-            type="button"
-            class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
-            @click=${this._openOrCloseAll}
-          >
-            ${this._openAllLabel}
-            <qgds-icon class="controls-icon" icon-id="chevron-down" size="xs" aria-hidden="true"></qgds-icon>
-          </button>`
-        : nothing}
+      ${
+        this._showControls
+          ? html`<button
+              type="button"
+              class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
+              @click=${this._openOrCloseAll}
+              aria-expanded="${this._openAllLabel === "Close all"}"
+              aria-controls="${this._getAccordionIds}"
+            >
+              ${this._openAllLabel}
+              <qgds-icon class="controls-icon" icon-id="chevron-down" size="xs" aria-hidden="true"></qgds-icon>
+            </button>`
+          : nothing
+      }
       <div class="accordions">
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>

@@ -21,7 +21,9 @@ const meta: Meta<Args> = {
   render: (args) =>
     template(
       args,
-      html`${childTemplate({ ...Open.args })} ${childTemplate({ ...Closed.args })} ${childTemplate({ ...Closed.args })}`
+      html`${childTemplate({ ...Open.args, id: "my-accordion-1" })}
+      ${childTemplate({ ...Closed.args, id: "my-accordion-2" })}
+      ${childTemplate({ ...Closed.args, id: "my-accordion-3" })}`
     ),
 };
 
