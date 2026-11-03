@@ -31,10 +31,10 @@ export class QGDSFooterContactItem extends LitElement {
     attribute: "icon-id",
     converter: (value) => {
       const normalised = String(value ?? "").trim();
-      return (ICON_NAMES as readonly string[]).includes(normalised) ? (normalised as IconName) : "";
+      return (ICON_NAMES as readonly string[]).includes(normalised) ? normalised : undefined;
     },
   })
-  iconId: IconName | "" = "";
+  iconId?: IconName;
 
   @property({ type: String })
   label = "";

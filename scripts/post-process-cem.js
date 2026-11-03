@@ -1,4 +1,3 @@
-/* eslint-env node */
 /**
  * Post-process Custom Elements Manifest
  *
