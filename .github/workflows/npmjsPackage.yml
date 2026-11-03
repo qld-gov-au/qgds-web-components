@@ -15,9 +15,9 @@ on:
         type: choice
         description: Publish to NPM
         options:
-          - No (Dry run only)
-          - Yes
-        default: No (Dry run only)
+          - "No (Dry run only)"
+          - "Yes"
+        default: "No (Dry run only)"
       release_tag:
         type: choice
         description: NPM dist-tag to publish under
