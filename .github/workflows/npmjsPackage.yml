@@ -11,12 +11,13 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      force:
+      publish:
         type: choice
-        description: Manually Publish Version
+        description: Publish to NPM
         options:
-          - No
-          - Yes
+          - "No (Dry run only)"
+          - "Yes"
+        default: "No (Dry run only)"
       release_tag:
         type: choice
         description: NPM dist-tag to publish under
@@ -78,9 +79,8 @@ jobs:
     needs: build
     env:
       HAVE_DEPLOY_KEY: ${{ github.repository == 'qld-gov-au/qgds-web-components' }}
-      #When run on push tags, force is '', default for workflow_dispatch is No so you can't trigger without a double action
-      WORKFLOW_DEPLOYMENT: ${{ github.event_name != 'workflow_dispatch'  || github.event.inputs.force == 'Yes' }}
-      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && (github.event.inputs.force == 'Yes' || github.event.inputs.force == true || github.event.inputs.force == 'true') && github.event.inputs.release_tag == 'alpha' }}
+      # Publish only from the upstream repo and when explicitly chosen; otherwise a dry run is performed
+      DO_DEPLOYMENT: ${{ github.repository == 'qld-gov-au/qgds-web-components' && inputs.publish == 'Yes' && inputs.release_tag == 'alpha' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -131,43 +131,23 @@ jobs:
         run: | # build the files
           npm run build
 
-      #      - name: "Update package scope, export package name"
-      #        id: package_details
-      #        run: |
-      #          echo "replacing npm scope to repo owner GITHUB_REPOSITORY_OWNER = $GITHUB_REPOSITORY_OWNER"
-      #          temp_file=$(mktemp)
-      #          package=${GITHUB_REPOSITORY_OWNER,,}
-      #          awk -v scope="$package" '{
-      #                if ($0 ~ /"name": "@[a-zA-Z0-9_-]+\//) {
-      #                    sub(/@[a-zA-Z0-9_-]+\//, "@" scope "/")
-      #              }
-      #                print
-      #            }'  package.json > "$temp_file" && mv "$temp_file" package.json
-      #          echo "package.json updated"
-      #          cat package.json
-      #          echo "package=`npm pkg get name`" >> $GITHUB_STATE
-      #
-      #      - uses: tobysmith568/npm-publish-latest-tag@v1
-      #        id: latest_tag
-      #        with:
-      #          package-json: ./package.json
-
       - name: Publish
         if: ${{ env.DO_DEPLOYMENT == 'true' }}
         run: |
-          npm publish --tag ${{ github.event.inputs.release_tag }} --provenance --access=public
+          npm publish --tag ${{ inputs.release_tag }} --provenance --access=public
 
-      - name: NPM Publish - Is Skipped
-        if: ${{ env.HAVE_DEPLOY_KEY != 'true' }}
-        run: |
-          echo "## This is a fork" >> $GITHUB_STEP_SUMMARY
-          echo "If you wish to publish to npmjs.org. Please change package prefix name and update this file to new repo location."  >> $GITHUB_STEP_SUMMARY
-
-      - name: Publish - Skipped
+      - name: Publish - Dry Run
         if: ${{ env.DO_DEPLOYMENT != 'true' }}
         run: |
-          echo "### Publish skipped" >> $GITHUB_STEP_SUMMARY
-          echo "DO_DEPLOYMENT: github.event_name: ${{ github.event_name != 'workflow_dispatch'}} || github.event.inputs.force: ${{ github.event.inputs.force == 'Yes' }}"  >> $GITHUB_STEP_SUMMARY
-          echo "Event name: ${{ github.event_name }}"  >> $GITHUB_STEP_SUMMARY
-          echo "Force: ${{ github.event.inputs.force }}"  >> $GITHUB_STEP_SUMMARY
-          echo "Release Tag: ${{ github.event.inputs.release_tag }}"  >> $GITHUB_STEP_SUMMARY
+          npm publish --tag ${{ inputs.release_tag }} --access=public --dry-run
+
+      - name: Summary
+        run: |
+          if [ "$DO_DEPLOYMENT" = "true" ]; then
+            echo "### Published to npm with tag ${{ inputs.release_tag }}" >> $GITHUB_STEP_SUMMARY
+          elif [ "$HAVE_DEPLOY_KEY" != "true" ]; then
+            echo "### Dry run only: this is a fork" >> $GITHUB_STEP_SUMMARY
+            echo "To publish to npmjs.org, change the package scope and update this file to the new repo location." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### Dry run only: Publish was not set to Yes" >> $GITHUB_STEP_SUMMARY
+          fi
