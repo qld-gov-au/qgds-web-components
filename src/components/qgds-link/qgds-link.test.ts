@@ -20,7 +20,7 @@ describe("qgds-link", () => {
     expect(element.label).toBe("");
     expect(element.href).toBe("");
     expect(element.isDisabled).toBe(false);
-    expect(element.iconName).toBe("");
+    expect(element.iconName).toBeUndefined();
     expect(element.iconSize).toBe("md");
     expect(element.hasTrailingIcon).toBe(false);
     expect(element.stretch).toBe(false);
