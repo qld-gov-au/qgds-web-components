@@ -1,41 +1,37 @@
 @use "../qgds-tokens/qgds-color-stub";
+@use "../qgds-tokens/qgds-breakpoint";
+@use "../tools/mixins" as m;
+@use "sass:meta";
 
+$qgds-palettes: default, soft, muted, bold, deep;
+
+@mixin qgds-palette($palette) {
+  @include meta.apply(meta.get-mixin("qgds-color-palette-#{$palette}", $module: "qgds-color-stub"));
+}
+
+// Default palette is applied to the root element
 :where(.qgds),
 [data-qgds-theme="light"] {
   @extend %qgds-color-palette-global;
   @extend %qgds-color-palette-default;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-default);
 }
 
-.qgds-palette-default {
-  @extend %qgds-color-palette-default;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-default);
+// Build palette utility classes for each palette
+@each $palette in $qgds-palettes {
+  .qgds-palette-#{$palette} {
+    @include qgds-palette($palette);
+  }
 }
 
-.qgds-palette-soft {
-  @extend %qgds-color-palette-soft !optional;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-default);
-}
-
-.qgds-palette-muted {
-  @extend %qgds-color-palette-muted !optional;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-default);
-}
-
-.qgds-palette-bold {
-  @extend %qgds-color-palette-bold !optional;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
-}
-
-.qgds-palette-deep {
-  @extend %qgds-color-palette-deep !optional;
-
-  --qgds-fg-critical: var(--qgds-color-status-error-lighter);
+// Build responsive qgds-palette-<palette>:<breakpoint> classes
+@each $breakpoint, $value in meta.module-variables("qgds-breakpoint") {
+  @include m.from($value) {
+    @each $palette in $qgds-palettes {
+      .qgds-palette-#{$palette}\:#{$breakpoint} {
+        @include qgds-palette($palette);
+      }
+    }
+  }
 }
 
 // Some baseline defaults for background and text colors. These are usually redefined within each component
