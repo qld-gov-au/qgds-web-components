@@ -20,6 +20,7 @@
   display: inline-flex;
   align-items: center;
   gap: tools.remify(8px);
+  padding-inline: tools.remify(16px);
   color: var(--qgds-color-link-default);
   font-weight: 400;
   font-size: tools.remify(14px);
@@ -33,6 +34,10 @@
 
   text-underline-offset: var(--qgds-link-underline-offset, 0.3em);
   border-radius: 1px;
+
+  // WCAG 2.2 SC 2.5.5 minimum target size (Level AAA)
+  min-block-size: tools.remify(44px);
+  min-inline-size: tools.remify(44px);
 
   &:hover {
     color: var(--qgds-color-link-default);

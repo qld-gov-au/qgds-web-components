@@ -1,6 +1,7 @@
 import { LitElement, html, unsafeCSS, nothing } from "lit";
 import { customElement, property, state, queryAssignedElements } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "../qgds-icon/qgds-icon";
 import { resetStyles } from "../../styles";
 import componentCSS from "./qgds-accordion-group.styles.scss?inline";
@@ -47,6 +48,9 @@ export class QGDSAccordionGroup extends LitElement {
   // Used to calculate private _showControls, set in connectedCallback();
   private _numAccordions: number = 0;
 
+  // The IDs of slotted accordions, separated with spaces. For aria-controls, set in _handleSlotChange().
+  private _accordionIds: string = "";
+
   // Private version of showControls is a derived boolean, where "auto" must take into account number of accordions.
   private get _showControls() {
     return typeof this.showControls === "boolean" ? this.showControls : this._numAccordions > 2;
@@ -72,8 +76,14 @@ export class QGDSAccordionGroup extends LitElement {
       }
     });
 
-    if (this._accordions.length !== this._numAccordions) {
+    // Re-render when accordion count (for controls button) or ids (for aria-controls) change.
+    const accordionIds = this._accordions
+      .map((accordion) => accordion.id)
+      .filter(Boolean)
+      .join(" ");
+    if (this._accordions.length !== this._numAccordions || accordionIds !== this._accordionIds) {
       this._numAccordions = this._accordions.length;
+      this._accordionIds = accordionIds;
       this.requestUpdate();
     }
   };
@@ -97,16 +107,20 @@ export class QGDSAccordionGroup extends LitElement {
 
   render() {
     return html`<div class="qgds-accordion-group" @qgds-toggle=${this._handleToggle}>
-      ${this._showControls
-        ? html`<button
-            type="button"
-            class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
-            @click=${this._openOrCloseAll}
-          >
-            ${this._openAllLabel}
-            <qgds-icon class="controls-icon" icon-id="chevron-down" size="xs" aria-hidden="true"></qgds-icon>
-          </button>`
-        : nothing}
+      ${
+        this._showControls
+          ? html`<button
+              type="button"
+              class="${classMap({ controls: true, "is-close-all": this._openAllLabel === "Close all" })}"
+              @click=${this._openOrCloseAll}
+              aria-expanded="${this._openAllLabel === "Close all"}"
+              aria-controls=${ifDefined(this._accordionIds || undefined)}
+            >
+              ${this._openAllLabel}
+              <qgds-icon class="controls-icon" icon-id="chevron-down" size="xs" aria-hidden="true"></qgds-icon>
+            </button>`
+          : nothing
+      }
       <div class="accordions">
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
